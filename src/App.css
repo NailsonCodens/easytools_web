@@ -1,22 +1,25 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+*:focus {
+  border-color: inherit !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  border: 2px solid #d8d8d8 !important;
+}
+.input {
+  -webkit-border-top-right-radius: 50px;
+  -webkit-border-bottom-right-radius: 50px;
+  -moz-border-radius-topright: 50px;
+  -moz-border-radius-bottomright: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
 }
 
-.App-logo {
-  height: 40vmin;
+.modal-content{
+  background: #fff;
+  padding: 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #09d3ac;
+.modal-background {
+  background-color: rgba(10, 10, 10, 0.75);
 }
