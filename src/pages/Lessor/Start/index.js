@@ -12,9 +12,9 @@ export default function Start({history}) {
 
   return (
     <>
-      { location === '/lessor/auth' ? '' : <MenuLessor/>}
+      { location === '/lessor/signin' ? '' : <MenuLessor/>}
       <Route path={`${path}/`} exact component={() => <h1>Pai</h1>}/>
-      <Route path={`${path}/auth`} exact component={Auth}/>
+      <Route path={`${path}/signin`} exact component={Auth}/>
       <Route path={`${path}/neighbor`} component={Neighbor}/>
       <Route path={`${path}/ad`} component={() => <h1>Adwords</h1>}/>
     </>

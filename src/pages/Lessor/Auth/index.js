@@ -4,7 +4,7 @@ import { Form, Field, Label } from '../../../components/Form/Form';
 
 import './style.css';
 
-export default function Auth() {
+export default function Signin() {
   return (
     <>
       <div className="columns is-desktop">
@@ -12,8 +12,8 @@ export default function Auth() {
           <div className="hero-body">
             <div className="container">
               <div className="column is-5-tablet is-4-desktop is-3-widescreen">
-                <Form style={'box'}>
-                  <Field style={'field'}>
+                <Form class={'box'}>
+                  <Field classe={'field'}>
                     <Label for={'Email'}>
                       teste
                     </Label>

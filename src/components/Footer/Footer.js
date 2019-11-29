@@ -14,7 +14,7 @@ const Footer = () => {
 	return (
 		<>
 			{ 
-				location === '/lessor/auth' 
+				location === '/lessor/signin' 
 				? 
 				'' 
 				: 

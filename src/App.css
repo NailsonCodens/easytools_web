@@ -1,18 +1,46 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap');
 
 *:focus {
   border-color: inherit !important;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
-  border: 2px solid #d8d8d8 !important;
+  border: none !important;
+  border: 1px solid #d8d8d8 !important;
 }
-.input {
-  -webkit-border-top-right-radius: 50px;
-  -webkit-border-bottom-right-radius: 50px;
-  -moz-border-radius-topright: 50px;
-  -moz-border-radius-bottomright: 50px;
-  border-top-right-radius: 50px;
-  border-bottom-right-radius: 50px;
+
+.input, .button{
+  -webkit-border-radius: 2px !important;
+  -moz-border-radius: 2px !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  margin-bottom: 9px;
+  font-family: 'Open Sans', sans-serif;
+  color: rgb(90, 90, 90);
+}
+
+.button:active, .button:hover{
+  color:#000 !important;
+  border:none !important;
+}
+
+::placeholder {
+  color: rgb(131, 131, 131) !important;
+  font-family: 'Open Sans', sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 1.0em;
+}
+
+.color-logo{
+  background: #FFD237;
+  color: #000;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+.color-logo:hover{
+  background: #ffc300 !important;
 }
 
 .modal-content{
@@ -22,4 +50,12 @@
 
 .modal-background {
   background-color: rgba(10, 10, 10, 0.75);
+}
+
+.warning-text{
+  color: #000000;
+  text-align: left;
+  font-family: 'Open Sans', sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 0.8em;
 }
