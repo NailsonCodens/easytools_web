@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import queryString from 'query-string'
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
 
 import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../components/Form/Form';
 import { Button } from '../../components/Form/Button';
 import { Warningtext } from '../../components/Warningtext';
+import { Span } from '../../components/Span';
 
 import logo_blue from '../../assets/images/logo_blue.png';
 import logo_yellow from '../../assets/images/logo.png';
@@ -15,12 +18,33 @@ import './style.css';
 export default function Singup() {  
   let type = queryString.parse(useLocation().search).type;
   let logo = logo_yellow;
+  let typeuser = 'Renter';
 
   logo = type === 'lessor' ? logo_blue : logo;
+  typeuser = type === 'lessor' ? 'Lessor' : 'Renter';
 
-  function handleSubmit(data) {
-    console.log(data);
-  }
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      name: '',
+      lastname: '',
+      password: '',
+      type: typeuser,
+      terms: '',
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email('Insira um e-mail válido.')
+        .required('E-mail é obrigatório.'),
+
+      name: Yup.string()
+      .required('Nome é obrigatório.'),
+    }),
+    onSubmit: values => {
+      console.log(values)
+    },
+  });
+
   return (
     <>
       <div className="has-text-centered container-sign-up">
@@ -34,25 +58,74 @@ export default function Singup() {
           <div>
             <div className="container">
               <div className="column">
-                <Form onSubmit={handleSubmit}>
+                <Form 
+                  onSubmit={formik.handleSubmit} 
+                  noValidate
+                >
                   <Field class={'field'}>
                     <Label for={'email'}>
-                      <Input name="email" type="email" placeholder="E-mail" className="input"/>
+                      <Input 
+                        name="email" 
+                        type="email" 
+                        placeholder="E-mail" 
+                        className={formik.touched.email && formik.errors.email ? 'input border-warning' : 'input'}
+                        onChange={formik.handleChange}
+                        value={formik.values.email}
+                      />
+                      <Span class={'validation-warning'}>
+                        {
+                          formik.touched.email && formik.errors.email 
+                        ? 
+                          (<div>{formik.errors.email}</div>) 
+                        : 
+                          null
+                        }
+                      </Span>
                     </Label>
                   </Field>
                   <Field class={'field'}>
                     <Label for={'name'}>
-                      <Input name="name" type="text" placeholder="Nome" className="input"/>
+                      <Input 
+                        name="name" 
+                        type="text" 
+                        placeholder="Nome" 
+                        className={formik.touched.name && formik.errors.name ? 'input border-warning' : 'input'}
+                        onChange={formik.handleChange}
+                        value={formik.values.name}
+                      />
+                      <Span class={'validation-warning'}>
+                        {
+                          formik.touched.name && formik.errors.name 
+                        ? 
+                          (<div>{formik.errors.name}</div>) 
+                        : 
+                          null
+                        }
+                      </Span>
                     </Label>
                   </Field>
                   <Field class={'field'}>
                     <Label for={'lastname'}>
-                      <Input name="lastname" type="text" placeholder="Sobrenome" className="input"/>
+                      <Input 
+                        name="lastname" 
+                        type="text" 
+                        placeholder="Sobrenome" 
+                        className="input"
+                        onChange={formik.handleChange}
+                        value={formik.values.lastname}
+                      />
                     </Label>
                   </Field>
                   <Field class={'field'}>
                     <Label for={'password'}>
-                      <Input name="password" type="password" placeholder="Crie sua senha" className="input"/>
+                      <Input 
+                        name="password" 
+                        type="password" 
+                        placeholder="Crie sua senha" 
+                        className="input"
+                        onChange={formik.handleChange}
+                        value={formik.values.password}
+                      />
                     </Label>
                   </Field>
                   <div className="container">
@@ -64,7 +137,11 @@ export default function Singup() {
                   <br/>
                   <Field class={'field'}>
                     <Label for={'save'}>
-                      <Button class={'button is-fullwidth color-logo'} text={'Cadastre-se'}/>
+                      <Button
+                        type={'submit'}
+                        class={'button is-fullwidth color-logo'} 
+                        text={'Cadastre-se'}
+                      />
                     </Label>
                   </Field>
                 </Form>
