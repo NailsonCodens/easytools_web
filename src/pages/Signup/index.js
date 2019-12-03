@@ -5,12 +5,13 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
 import { Form, Input } from '@rocketseat/unform';
-//import { Select } from '../../components/Form/Inputs/index';
 import Select from 'react-select';
 import { Field, Label } from '../../components/Form/Form';
 import { Button } from '../../components/Form/Button';
 import { Warningtext } from '../../components/Warningtext';
 import { Span } from '../../components/Span';
+
+import api from '../../services/api';
 
 import years from '../../utils/years';
 import days from '../../utils/days';
@@ -28,19 +29,27 @@ export default function Singup() {
 
   logo = type === 'lessor' ? logo_blue : logo;
   typeuser = type === 'lessor' ? 'Lessor' : 'Renter';
+  
+  // eslint-disable-next-line
+  const [month, setSelectedMonth] = useState("")
+  // eslint-disable-next-line
+  const [day, setSelectedDays] = useState("")
+  // eslint-disable-next-line
+  const [year, setSelectedYears] = useState("")
 
-  const [month, setSelectedMonth] = useState("");
-
-  const options = [
-    { value: '', label: 'Mês' },
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ];
+  const handleYearChange = selectedYear=> {
+    formik.values.year = selectedYear.value;
+    setSelectedYears(selectedYear);
+  };
 
   const handleMonthChange = selectedMonth => {
     formik.values.month = selectedMonth.value;
     setSelectedMonth(selectedMonth);
+  };
+
+  const handleDayChange = selectedDay => {
+    formik.values.day = selectedDay.value;
+    setSelectedDays(selectedDay);
   };
 
   const formik = useFormik({
@@ -49,13 +58,13 @@ export default function Singup() {
       name: '',
       lastname: '',
       password: '',
-//      type: typeuser,
+      type: typeuser,
       terms: '',
-      month: { value: '', label: 'Mês' },
-      day: { value: 'default' },
-      year: { value: 'default' },
+      month: '',
+      day: '',
+      year: '',
     },
-
+    /*
     validationSchema: Yup.object({
       email: Yup.string()
         .email('Insira um e-mail válido.')
@@ -70,16 +79,27 @@ export default function Singup() {
       password: Yup.string()
         .required('Adicione uma senha.'),
 
-      /*month: Yup.string().test('compare', 'Selecione sua data de nascimento para prosseguir', (value) => {
-        var hack = JSON.stringify(value);
-        //eslint
-        return value !== 'default' && hack !== '"' + '[object Object]' + '"';
-      })*/
-    }),
-      onSubmit: values => {
-      console.log(values)
-    },
+      day: Yup.string()
+      .required('Por favor, adicione sua data de nascimento para prosseguir'),
+
+      month: Yup.string()
+      .required('Por favor, adicione sua data de nascimento para prosseguir'),
+
+      year: Yup.string()
+      .required('Por favor, adicione sua data de nascimento para prosseguir'),
+    }),*/
+    onSubmit: values => {  
+      handSubmit(values)
+    }
   });
+ 
+  async function handSubmit(values) {
+    var birth_date = values.year + "-" + values.month + "-" + values.day;
+    
+    //fazer verificação se o cadatro é maios de 18
+
+    //const response = await api.post('user/create/', {values}); 
+  }
 
   return (
     <>
@@ -193,25 +213,53 @@ export default function Singup() {
                     <div className="columns">
                       <div className="column">
                         <Field class={'field'}>
+                          <Label for={'day'}>
+                            <Select
+                              className={!day && formik.errors.day ? 'border-warning' : ''}
+                              value={day}
+                              onChange={selectedOption => {
+                                handleDayChange(selectedOption);
+                                formik.handleChange("day");
+                              }}
+                              options={days}
+                              isSearchable={false}
+                              placeholder={'Dia'}
+                            />
+                          </Label>
+                        </Field>
+                      </div> 
+                      <div className="column">
+                        <Field class={'field'}>
                           <Label for={'month'}>
                             <Select
-                              className=""
-                              value={formik.values.month}
+                              className={!month && formik.errors.month ? 'border-warning' : ''}
+                              value={month}
                               onChange={selectedOption => {
                                 handleMonthChange(selectedOption);
                                 formik.handleChange("month");
                               }}
-                              options={options}
+                              options={months}
                               isSearchable={false}
+                              placeholder={'Mês'}
                             />
                           </Label>
                         </Field>
-                      </div>
+                      </div>                     
                       <div className="column">
                         <Field class={'field'}>
-                          <Label for={'days'}>
-                            <div className="select">
-                           
+                          <Label for={'year'}>
+                            <div className="">
+                              <Select
+                                className={!year && formik.errors.year ? 'border-warning' : ''}
+                                value={year}
+                                onChange={selectedOption => {
+                                  handleYearChange(selectedOption);
+                                  formik.handleChange("year");
+                                }}
+                                options={years}
+                                isSearchable={false}
+                                placeholder={'Ano'}
+                              />
                             </div>
                           </Label>
                         </Field>
@@ -219,9 +267,10 @@ export default function Singup() {
                     </div>
                     <Span class={'validation-warning'}>
                         {
-                          formik.touched.month && formik.errors.month 
+                        // eslint-disable-next-line
+                        month === '' && formik.errors.month || day === '' && formik.errors.day || year === '' && formik.errors.year
                         ? 
-                          (<div>{formik.errors.month}</div>) 
+                          (<div>Por favor, adicione sua data de nascimento para prosseguirmos</div>) 
                         : 
                           null
                         }

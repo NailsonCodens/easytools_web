@@ -1,7 +1,7 @@
 var minOffset = 0, maxOffset = 60; // Change to whatever you want
 var thisYear = (new Date()).getFullYear();
 
-const years = [{ value: 'default', label: 'Ano' }];
+const years = [];
 
 for (var i = minOffset; i <= maxOffset; i++) {
   var year = thisYear - i;

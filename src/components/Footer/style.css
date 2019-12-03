@@ -1,5 +1,27 @@
 .footer{
   background: #fff !important;
-  display: flex;
-  justify-content: space-around;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.footer ul li {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+.logo-footer{
+  width: 100%;
+}
+
+.mini-logo-footer{
+  width: 30px;
+}
+
+.text-footer{
+  z-index:9 !important;
+  position:relative !important;
+  top:-10px;
+  margin-left:8px;
 }
