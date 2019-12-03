@@ -9,7 +9,7 @@
   border: 1px solid #d8d8d8 !important;
 }
 
-.input, .button{
+.input, .button .select{
   -webkit-border-radius: 2px !important;
   -moz-border-radius: 2px !important;
   border-radius: 2px !important;
@@ -70,4 +70,12 @@
   font-family: 'Open Sans', sans-serif !important;
   font-weight: 400 !important;
   font-size: 0.8em;
+}
+
+.month{
+  width: 80px
+}
+
+.year{
+  width: 79px;
 }
