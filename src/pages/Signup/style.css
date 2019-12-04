@@ -9,7 +9,7 @@
   margin: 20px !important;
   padding: 4px;
   padding-bottom: 30px !important;
-  width: 330px !important;
+  width: 380px !important;
   border: 1px solid rgb(207, 207, 207) !important;
 }
 
@@ -24,4 +24,8 @@
 .logo-sing-up{
   margin-top: 10px;
   width: 70px;
+}
+
+.offer{
+  margin-top: -20px;
 }

@@ -68,6 +68,18 @@
   background: #ffc300 !important;
 }
 
+.color-logo-lessor{
+  background: #60a8f1;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+.color-logo-lessor:hover{
+  color:#fff;
+}
+
 .modal-content{
   background: #fff;
   padding: 20px;
@@ -87,4 +99,12 @@
 
 .border-warning .css-yk16xz-control{
   border: none !important;
+}
+
+.marketing{
+  text-align: left !important;
+}
+
+.button-enter{
+  padding: 0px 10px !important;  
 }

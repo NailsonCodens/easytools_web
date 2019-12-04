@@ -31,22 +31,24 @@ const Footer = () => {
 						</div>
 						<div className="column">
 							<Ul>
+								<li className="title-footer">EasyTools</li>
+								<li>EasyTools</li>
 								<li>EasyTools</li>
 							</Ul>
 					</div>
 						<div className="column">
 							<Ul>
-								<li>footer2</li>
+								<li className="title-footer">footer2</li>
 							</Ul>						
 						</div>
 						<div className="column">
 							<Ul>
-								<li>footer2</li>
+								<li className="title-footer">footer2</li>
 							</Ul>					
 						</div>
 						<div className="column">
 							<Ul>
-								<li>footer2</li>
+								<li className="title-footer">footer2</li>
 							</Ul>					
 						</div>
 					</div>

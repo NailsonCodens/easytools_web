@@ -7,9 +7,10 @@ import { useFormik } from 'formik';
 import { Form, Input } from '@rocketseat/unform';
 import Select from 'react-select';
 import { Field, Label } from '../../components/Form/Form';
-import { Button } from '../../components/Form/Button';
+import { Button, CheckboxIOS } from '../../components/Form/Button';
 import { Warningtext } from '../../components/Warningtext';
 import { Span } from '../../components/Span';
+import { Hr } from '../../components/Hr';
 
 import api from '../../services/api';
 
@@ -52,6 +53,13 @@ export default function Singup() {
     setSelectedDays(selectedDay);
   };
 
+  const handleCheckIOS = event => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const marketing = value ? 'Y' : 'N'
+    formik.values.marketing = marketing
+  };
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -59,12 +67,13 @@ export default function Singup() {
       lastname: '',
       password: '',
       type: typeuser,
-      terms: '',
+      terms: 'Y',
+      marketing: 'Y',
       month: '',
       day: '',
       year: '',
     },
-    /*
+
     validationSchema: Yup.object({
       email: Yup.string()
         .email('Insira um e-mail válido.')
@@ -87,18 +96,26 @@ export default function Singup() {
 
       year: Yup.string()
       .required('Por favor, adicione sua data de nascimento para prosseguir'),
-    }),*/
+    }),
+
     onSubmit: values => {  
       handSubmit(values)
     }
   });
  
   async function handSubmit(values) {
-    var birth_date = values.year + "-" + values.month + "-" + values.day;
-    
-    //fazer verificação se o cadatro é maios de 18
+    let { year, month, day } = values
+    let birth_date = year + "-" + month + "-" + day;
 
-    //const response = await api.post('user/create/', {values}); 
+    values['birth_date'] = birth_date;
+
+    await api.post('user/create/', values, {})
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((error) => {
+      console.log(error.response.data.errors)
+    })
   }
 
   return (
@@ -215,7 +232,7 @@ export default function Singup() {
                         <Field class={'field'}>
                           <Label for={'day'}>
                             <Select
-                              className={!day && formik.errors.day ? 'border-warning' : ''}
+                              className={formik.touched.day && formik.errors.day ? 'border-warning' : ''}
                               value={day}
                               onChange={selectedOption => {
                                 handleDayChange(selectedOption);
@@ -232,7 +249,7 @@ export default function Singup() {
                         <Field class={'field'}>
                           <Label for={'month'}>
                             <Select
-                              className={!month && formik.errors.month ? 'border-warning' : ''}
+                              className={formik.touched.month && formik.errors.month ? 'border-warning' : ''}
                               value={month}
                               onChange={selectedOption => {
                                 handleMonthChange(selectedOption);
@@ -250,7 +267,7 @@ export default function Singup() {
                           <Label for={'year'}>
                             <div className="">
                               <Select
-                                className={!year && formik.errors.year ? 'border-warning' : ''}
+                                className={formik.touched.year && formik.errors.year ? 'border-warning' : ''}
                                 value={year}
                                 onChange={selectedOption => {
                                   handleYearChange(selectedOption);
@@ -268,13 +285,31 @@ export default function Singup() {
                     <Span class={'validation-warning'}>
                         {
                         // eslint-disable-next-line
-                        month === '' && formik.errors.month || day === '' && formik.errors.day || year === '' && formik.errors.year
+                        formik.touched.month && formik.errors.month || formik.touched.day && formik.errors.day || formik.touched.year && formik.errors.year
                         ? 
                           (<div>Por favor, adicione sua data de nascimento para prosseguirmos</div>) 
                         : 
                           null
                         }
                       </Span>
+                  </Field>
+                  <Field>
+                    <Label>
+                      <Warningtext>
+                        A EasyTools enviará a você emails, ofertas e marketing. Você desabilitar esta opção quando quiser.
+                        Basta acessar nas configurações de sua conta.
+                      </Warningtext>
+                      <div className="offer">
+                        <CheckboxIOS 
+                          onChange={handleCheckIOS}
+                          name="marketing"
+                          value={formik.values.marketing} 
+                          id="checkios" 
+                          off="" 
+                          on="Sim"
+                        />
+                      </div>
+                    </Label>
                   </Field>
                   <Field class={'field'}>
                     <Label for={'save'}>
@@ -286,6 +321,14 @@ export default function Singup() {
                     </Label>
                   </Field>
                 </Form>
+              </div>
+              <Hr/>
+              <div className="button-enter">
+                <Button
+                  type={'submit'}
+                  class={'button is-fullwidth color-logo-lessor'} 
+                  text={'Entrar'}
+                />
               </div>
             </div>
           </div>
