@@ -21,11 +21,12 @@
   font-size: 0.9em;
 }
 
-.logo-sing-up{
-  margin-top: 10px;
-  width: 70px;
-}
-
 .offer{
   margin-top: -20px;
+}
+
+.button-enter{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: #60a8f1;
 }

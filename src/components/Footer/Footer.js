@@ -32,23 +32,25 @@ const Footer = () => {
 						<div className="column">
 							<Ul>
 								<li className="title-footer">EasyTools</li>
-								<li>EasyTools</li>
-								<li>EasyTools</li>
+								<li>Alugue ferramentas</li>
+								<li>Seja um locador EasyTools</li>
+								<li>Politica de uso</li>
+								<li>Sobre a EasyTools</li>
 							</Ul>
 					</div>
 						<div className="column">
 							<Ul>
-								<li className="title-footer">footer2</li>
+								<li className="title-footer">EasyTools Blog</li>
+								<li>Últimos posts</li>
+								<li>Notícias</li>
 							</Ul>						
 						</div>
 						<div className="column">
 							<Ul>
-								<li className="title-footer">footer2</li>
-							</Ul>					
-						</div>
-						<div className="column">
-							<Ul>
-								<li className="title-footer">footer2</li>
+								<li className="title-footer">Face, Insta</li>
+								<li>Condições</li>
+								<li>Termos de uso</li>
+								<li>Politica de privacidade</li>
 							</Ul>					
 						</div>
 					</div>

@@ -1,17 +1,24 @@
 .footer{
   background: #fff !important;
-  font-size: 0.9em;
+  font-size: 1.0em;
   text-align: center;
 }
 
 .footer ul li {
+  height: 26px;
   font-family: 'Opens', sans-serif;
-  font-weight: 400;
+  font-weight: 500;
+  text-align: left !important;
+}
+
+.footer ul li img {
+  width: 75%;
 }
 
 .title-footer{
   font-family: 'Poppins', sans-serif !important;
   font-weight: 600 !important;
+  color: #000;
 }
 
 .logo-footer{

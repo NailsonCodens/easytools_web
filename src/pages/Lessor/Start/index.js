@@ -4,7 +4,8 @@ import { Route, useLocation, useRouteMatch } from 'react-router-dom';
 import MenuLessor from '../../../components/Menu/MenuLessor/index';
 
 import Auth from '../Auth/index';
-import Neighbor from '../Neighbor/index';
+import Dashboard from '../Dashboard/index';
+
 
 export default function Start({history}) {
   let { path } = useRouteMatch();
@@ -15,7 +16,7 @@ export default function Start({history}) {
       { location === '/lessor/signin' ? '' : <MenuLessor/>}
       <Route path={`${path}/`} exact component={() => <h1>Pai</h1>}/>
       <Route path={`${path}/signin`} exact component={Auth}/>
-      <Route path={`${path}/neighbor`} component={Neighbor}/>
+      <Route path={`${path}/dashboard`} component={Dashboard}/>
       <Route path={`${path}/ad`} component={() => <h1>Adwords</h1>}/>
     </>
   )

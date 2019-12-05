@@ -12,6 +12,8 @@ import { Warningtext } from '../../components/Warningtext';
 import { Span } from '../../components/Span';
 import { Hr } from '../../components/Hr';
 
+import Scrool from '../../utils/scrool';
+
 import api from '../../services/api';
 
 import years from '../../utils/years';
@@ -98,7 +100,7 @@ export default function Singup() {
       .required('Por favor, adicione sua data de nascimento para prosseguir'),
     }),
 
-    onSubmit: values => {  
+    onSubmit: values => {
       handSubmit(values)
     }
   });
@@ -114,7 +116,7 @@ export default function Singup() {
       console.log(res)
     })
     .catch((error) => {
-      console.log(error.response.data.errors)
+      console.log(error.response.data.errmsg)
     })
   }
 
@@ -124,7 +126,7 @@ export default function Singup() {
         <div className="sign-up">
           <Link to={'/'}>
             <img src={logo} alt="EasyTools Logo" className="logo-sing-up"/>
-          </Link>          
+          </Link>     
           <h3 className="title-singup">
             Cadastre-se no Easytools!
           </h3>
@@ -132,7 +134,10 @@ export default function Singup() {
             <div className="container">
               <div className="column">
                 <Form 
-                  onSubmit={formik.handleSubmit} 
+                  onSubmit={ values => {
+                    Scrool();
+                    formik.handleSubmit(values);
+                  }} 
                   noValidate
                 >
                   <Field class={'field'}>
@@ -323,12 +328,9 @@ export default function Singup() {
                 </Form>
               </div>
               <Hr/>
-              <div className="button-enter">
-                <Button
-                  type={'submit'}
-                  class={'button is-fullwidth color-logo-lessor'} 
-                  text={'Entrar'}
-                />
+              <div className="">
+                <Span>Já tem conta da EasyTools? </Span>
+                <Link to="lessor/signin"><Span class="button-enter">Entrar</Span></Link>
               </div>
             </div>
           </div>

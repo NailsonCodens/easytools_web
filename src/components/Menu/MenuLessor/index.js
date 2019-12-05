@@ -10,7 +10,7 @@ const MenuLessor = () => {
   return (  
 		<nav className="navbar">
       <div className="navbar-brand">
-        <Link to={'/lessor'} className="navbar-item">
+        <Link to={'/lessor/dashboard'} className="navbar-item">
           <img src={logo} alt="EasyTools Logo" className=""/>
         </Link>
         <span role="button" href="a" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
