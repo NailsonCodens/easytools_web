@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
+import { Button } from '../../../components/Form/Button';
+
 import './styleLessor.css'
 
 import logo from '../../../assets/images/logo_blue.png'
@@ -25,7 +27,7 @@ const MenuLessor = () => {
           <Link to={'/lessor'} className="navbar-item">
             Início
           </Link>
-          <Link to={'/lessor'} className="navbar-item">
+          <Link to={'/lessor/ad'} className="navbar-item">
             Anúncios
           </Link>
           <Link to={'/lessor'} className="navbar-item">
@@ -44,8 +46,12 @@ const MenuLessor = () => {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <Link to={'/lessor'} className="button is-info">
-                <strong>Cadastrar Anúncio</strong>
+              <Link to={'/lessor/ad/create'} className="is-info create-ad">
+                <Button
+                  type={'submit'}
+                  class={'button is-info color-logo-lessor'} 
+                  text={'Cadastrar Anúncio'}
+                />
               </Link>
               <p className="hello-user">
                 Olá Usuário!

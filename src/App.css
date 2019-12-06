@@ -113,3 +113,32 @@
   margin-top: 10px;
   width: 70px;
 }
+
+.background-intern{
+  background: #f4f4f4;
+}
+
+.container-page{
+  padding-top:30px !important;
+  padding-bottom: 100px !important;
+}
+
+.box-inter{
+  margin: 20px; 
+  background: #fff;
+}
+
+.title-pages{
+  font-size: 20em;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.1em;
+  margin-left: 10px;
+}
+
+.sub-title-pages{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.2em;
+  color: #60A8F1;
+}

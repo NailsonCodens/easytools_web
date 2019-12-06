@@ -108,8 +108,16 @@ export default function Singup() {
   async function handSubmit(values) {
     let { year, month, day } = values
     let birth_date = year + "-" + month + "-" + day;
-
     values['birth_date'] = birth_date;
+
+    let after18 = new Date(year + 18, month - 1, day);
+    let now = new Date();
+        
+    after18 <= now 
+    ? 
+    console.log('maior') 
+    : 
+    console.log('menor');
 
     await api.post('user/create/', values, {})
     .then((res) => {
