@@ -9,7 +9,7 @@ import logo from '../../../assets/images/logo_blue.png'
 
 const MenuLessor = () => {
 
-  return (  
+  return ( 
 		<nav className="navbar">
       <div className="navbar-brand">
         <Link to={'/lessor/dashboard'} className="navbar-item">

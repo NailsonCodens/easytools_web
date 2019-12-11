@@ -1,7 +1,7 @@
 import React from 'react';
+import { useDispatch, useSelector } from "react-redux";
 
 import {Auth} from '../../../store/actions/auth';
-import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from 'react-router-dom';
 
@@ -9,7 +9,6 @@ import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../components/Form/Form';
 import { Button } from '../../../components/Form/Button';
 import { Span } from '../../../components/Span';
-import { Hr } from '../../../components/Hr';
 
 import api from '../../../services/api';
 import { login } from '../../../services/auth';

@@ -1,8 +1,14 @@
 import React, { useState} from 'react';
+import { useDispatch, useSelector } from "react-redux";
+
 import { Link, useLocation } from 'react-router-dom';
 import queryString from 'query-string'
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+
+import {Auth} from '../../store/actions/auth';
+
+import { login } from '../../services/auth';
 
 import { Form, Input } from '@rocketseat/unform';
 import Select from 'react-select';
@@ -25,10 +31,11 @@ import months from '../../utils/months';
 import logo_blue from '../../assets/images/logo_blue.png';
 import logo_yellow from '../../assets/images/logo.png';
 import baby from '../../assets/images/baby.svg';
+import man from '../../assets/images/man.svg';
 
 import './style.css';
 
-const Singup = () => {
+const Singup = ({ history }) => {
   
   let type = queryString.parse(useLocation().search).type;
   let logo = logo_yellow;
@@ -46,7 +53,11 @@ const Singup = () => {
   
   const [modal, setModal] = useState(false);
   const [terms, setTerms] = useState(false);
-  const [acepted, setAcepted] = useState(false);
+  const [modify, setModify] = useState('morethan18');
+  const [usernew, setUsernew] = useState({});
+
+  const dispatch = useDispatch();
+  useSelector(state => state.auth);
 
   const handleYearChange = selectedYear=> {
     formik.values.year = selectedYear.value;
@@ -74,7 +85,7 @@ const Singup = () => {
     initialValues: {
       email: '',
       name: '',
-      lastname: '',
+      last_name: '',
       password: '',
       type: typeuser,
       terms: 'Y',
@@ -91,7 +102,7 @@ const Singup = () => {
       name: Yup.string()
         .required('Nome é obrigatório.'),
 
-      lastname: Yup.string()
+      last_name: Yup.string()
         .required('Sobrenome é obrigatório.'),
 
       password: Yup.string()
@@ -121,38 +132,62 @@ const Singup = () => {
     setTerms(false)
     return terms
   }
-
-  const AceptedTerms = () => {
-    
+  
+  const NoAcceptedTerms = () => {
+    setModify('noaccepted');
+    setTerms(false);
+    setModal(true);
   }
   
-  const NoAceptedTerms = () => {
-    setTerms(false)
-    setModal(true)
-  }
-  
-  async function handSubmit(values) {
+  function handSubmit(values) { 
     let { year, month, day } = values
     let birth_date = year + "-" + month + "-" + day;
     values['birth_date'] = birth_date;
 
-    let after18 = new Date(year + 18, month - 1, day);
+    let morethan18 = new Date(year + 18, month - 1, day);
     let now = new Date();
     
-
-    if (after18 <=now) {
+    if (morethan18 <=now) {
+      setModify('morethan18')
       setModal(false);
       setTerms(true);
     } else {
       setModal(true);
     }
-    /*
-    await api.post('user/create/', values, {})
+
+    setUsernew(values);
+  }
+
+  async function AcceptedTerms () {
+    await api.post('user/create/', usernew, {})
     .then((res) => {
+      let user = {
+        email: usernew.email,
+        password: usernew.password,
+      }
+      
+      setTimeout(() => {
+        Authregister(user);
+      }, 1500);      
     })
     .catch((error) => {
-      console.log(error.response.data.errmsg)
-    })*/
+    })
+  }
+
+  async function Authregister (user) {
+    await api.post('auth/token/', user, {})
+    .then((res) => {
+      let { email, name } = res.data.user;
+      let { token } = res.data;
+      dispatch(Auth(email, name, token));
+
+      login(token);
+
+      history.push("/lessor/dashboard");
+    })
+    .catch((error) => {
+      console.log(error.response)
+    })
   }
 
   return (
@@ -218,20 +253,20 @@ const Singup = () => {
                     </Label>
                   </Field>
                   <Field class={'field'}>
-                    <Label for={'lastname'}>
+                    <Label for={'last_name'}>
                       <Input 
-                        name="lastname" 
+                        name="last_name" 
                         type="text" 
                         placeholder="Sobrenome" 
-                        className={formik.touched.lastname && formik.errors.lastname ? 'input border-warning' : 'input'}
+                        className={formik.touched.last_name && formik.errors.last_name ? 'input border-warning' : 'input'}
                         onChange={formik.handleChange}
-                        value={formik.values.lastname}
+                        value={formik.values.last_name}
                       />
                       <Span class={'validation-warning'}>
                         {
-                          formik.touched.lastname && formik.errors.lastname 
+                          formik.touched.last_name && formik.errors.last_name 
                         ? 
-                          (<div>{formik.errors.lastname}</div>) 
+                          (<div>{formik.errors.last_name}</div>) 
                         : 
                           null
                         }
@@ -389,13 +424,13 @@ const Singup = () => {
                   type={'input'}
                   class={'button is-success accepted-bt'} 
                   text={'Aceitar'}
-                  onClick={AceptedTerms}
+                  onClick={AcceptedTerms}
                 />
                 <Button
                   type={'input'}
                   class={'button is-default'} 
                   text={'Não aceitar'}
-                  onClick={NoAceptedTerms}
+                  onClick={NoAcceptedTerms}
                 />
               </div>
             </Modal>
@@ -406,19 +441,38 @@ const Singup = () => {
               closeOnOverlayClick={true}
             >
               { 
-                modal === true (
-                  <>
-                    <h2 className="title has-text-centered title-modal">Ops! Lamentamos muto.</h2>
-                    <br/>
-                    <div className="has-text-centered">
-                      <img src={baby} alt="EasyTools Logo" className="baby-cry"/>
-                    </div>
-                    <br/><br/>
-                    <p className="has-text-centered text-modal">Para se cadastrar você precisa ter 18 anos ou mais.</p>
-                  </>                  
-                )
-              }
+              modify === 'morethan18' ? (
+                <>
+                  <h2 className="title has-text-centered title-modal">Ops! Lamentamos muito.</h2>
+                  <br/>
+                  <div className="has-text-centered">
+                    <img src={baby} alt="Baby Logo" className="baby-cry"/>
+                  </div>
+                  <br/><br/>
+                  <p className="has-text-centered text-modal">Para se cadastrar você precisa ter 18 anos ou mais.</p>
+                </>                  
 
+              ) : (
+              ''
+              )
+            }
+
+            {
+              modify === 'noaccepted' ? (
+                <>
+                  <h2 className="title has-text-centered title-modal">Ops! Desculpa.</h2>
+                  <br/>
+                  <div className="has-text-centered">
+                    <img src={man} alt="Man Logo" className="baby-cry"/>
+                  </div>
+                  <br/><br/>
+                  <p className="has-text-centered text-modal">Para se cadastrar, você precisa aceitar os termos.</p>
+                </>                  
+
+              ) : (
+              ''
+              )              
+            }
             </Modal>
           </div>
         </div>

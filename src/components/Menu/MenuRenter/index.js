@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 
-import Login from '../../../pages/Renter/Auth/index';
-import Register from '../../../pages/Renter/Register';
-
 import './styleRenter.css'
 
 import logo from '../../../assets/images/logo.png'
@@ -13,13 +10,11 @@ const MenuRenter = () => {
 	const [search, setSearch] = useState('');
 
 	return (
-		<nav className="nav">
-			<div className="container-logo">
+		<nav className="navbar">
+      <div className="navbar-brand">
 				<Link to={'/'}>
 					<img src={logo} alt="EasyTools Logo" className="logo"/>
 				</Link>
-			</div>				
-			<div>
 				<input 
 					type="text" 
 					placeholder='Experimente "Furadeira"' 
@@ -27,14 +22,33 @@ const MenuRenter = () => {
 					value={search}
 					onChange={event => setSearch(event.target.value)} 
 					/>
-			</div>
-			<div className="right-menu">
-				<span href="sadsa">Seja um vizinho</span>
-				<span href="asdasd">Ajuda</span>
-				<Register className="nav-link" name="Cadastre-se"/>
-				<Login className="nav-link" name="Entrar"/>
-			</div>
-		</nav>
+        <span role="button" href="a" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </span>
+      </div>
+
+      <div className="navbar-menu">
+        <div className="navbar-start">
+        </div>
+        <div className="navbar-end">
+          <div className="navbar-item">
+            <div className="buttons">
+						<Link to={'/lessor'} className="navbar-item">
+            Progresso
+          </Link>
+          <Link to={'/lessor'} className="navbar-item">
+            Mensagens
+          </Link>
+          <Link to={'/lessor'} className="navbar-item">
+            Notificações
+          </Link>
+            </div>
+          </div>
+        </div> 
+      </div>     
+    </nav>
 	)
 }
 
