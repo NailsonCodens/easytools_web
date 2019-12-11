@@ -12,6 +12,8 @@ import { Warningtext } from '../../components/Warningtext';
 import { Span } from '../../components/Span';
 import { Hr } from '../../components/Hr';
 
+import Modal from '../../components/Modal';
+
 import Scrool from '../../utils/scrool';
 
 import api from '../../services/api';
@@ -22,10 +24,12 @@ import months from '../../utils/months';
 
 import logo_blue from '../../assets/images/logo_blue.png';
 import logo_yellow from '../../assets/images/logo.png';
+import baby from '../../assets/images/baby.svg';
 
 import './style.css';
 
-export default function Singup() {  
+const Singup = () => {
+  
   let type = queryString.parse(useLocation().search).type;
   let logo = logo_yellow;
   let typeuser = 'Renter';
@@ -34,11 +38,13 @@ export default function Singup() {
   typeuser = type === 'lessor' ? 'Lessor' : 'Renter';
   
   // eslint-disable-next-line
-  const [month, setSelectedMonth] = useState("")
+  const [month, setSelectedMonth] = useState("");
   // eslint-disable-next-line
-  const [day, setSelectedDays] = useState("")
+  const [day, setSelectedDays] = useState("");
   // eslint-disable-next-line
-  const [year, setSelectedYears] = useState("")
+  const [year, setSelectedYears] = useState("");
+  
+  const [modal, setModal] = useState(false);
 
   const handleYearChange = selectedYear=> {
     formik.values.year = selectedYear.value;
@@ -75,7 +81,7 @@ export default function Singup() {
       day: '',
       year: '',
     },
-
+    /*
     validationSchema: Yup.object({
       email: Yup.string()
         .email('Insira um e-mail válido.')
@@ -98,13 +104,18 @@ export default function Singup() {
 
       year: Yup.string()
       .required('Por favor, adicione sua data de nascimento para prosseguir'),
-    }),
+    }),*/
 
     onSubmit: values => {
       handSubmit(values)
     }
   });
- 
+
+  const hideModal = () => {
+    setModal(false)
+    return modal
+  }
+
   async function handSubmit(values) {
     let { year, month, day } = values
     let birth_date = year + "-" + month + "-" + day;
@@ -112,20 +123,20 @@ export default function Singup() {
 
     let after18 = new Date(year + 18, month - 1, day);
     let now = new Date();
-        
+    
     after18 <= now 
-    ? 
-    console.log('maior') 
+    ?
+      setModal(false)
     : 
-    console.log('menor');
+      setModal(true)
 
-    await api.post('user/create/', values, {})
+    /*await api.post('user/create/', values, {})
     .then((res) => {
       console.log(res)
     })
     .catch((error) => {
       console.log(error.response.data.errmsg)
-    })
+    })*/
   }
 
   return (
@@ -341,9 +352,14 @@ export default function Singup() {
                 <Link to="lessor/signin"><Span class="button-enter">Entrar</Span></Link>
               </div>
             </div>
+            <Modal show={modal} onCloseModal={hideModal}>
+              <img src={baby} alt="EasyTools Logo" className="logo-sing-up"/>
+            </Modal>
           </div>
         </div>
       </div>
     </>
   )
 }
+
+export default Singup;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Redirect, useLocation, useRouteMatch } from 'react-router-dom';
+import PrivateRoute from '../../../routes/privaterouteLessor.js';
 
 import MenuLessor from '../../../components/Menu/MenuLessor/index';
 
@@ -19,8 +20,8 @@ export default function Start({history}) {
         <Route path={`${path}/`} exact>
           <Redirect to="lessor/dashboard"/>
         </Route>
-        <Route path={`${path}/dashboard`} component={Dashboard}/>
-        <Route path={`${path}/ad`} component={Ad}/>        
+        <PrivateRoute path={`${path}/dashboard`} component={Dashboard}/>
+        <PrivateRoute path={`${path}/ad`} component={Ad}/>        
       </div>
     </>
   )

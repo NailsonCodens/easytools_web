@@ -1,11 +1,15 @@
 import React from 'react';
 
+import {Auth} from '../../../store/actions/auth';
+import { useDispatch, useSelector } from "react-redux";
+
 import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../components/Form/Form';
 import { Button } from '../../../components/Form/Button';
 import { Span } from '../../../components/Span';
 
 import api from '../../../services/api';
+import { login } from '../../../services/auth';
 
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -14,9 +18,11 @@ import Scrool from '../../../utils/scrool';
 
 import './style.css';
 
-import logo_blue from '../../../assets/images/logo_blue.png'
+import logo_blue from '../../../assets/images/logo_blue.png';
 
-export default function Signin() {
+const Signin = ({ history }) => {
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
 
   const formik = useFormik({
     initialValues: {
@@ -41,7 +47,13 @@ export default function Signin() {
   async function handSubmit(values) {
     await api.post('auth/token/', values, {})
     .then((res) => {
-      console.log(res)
+      let { email, name } = res.data.user;
+      let { token } = res.data;
+      dispatch(Auth(email, name, token));
+
+      login(token);
+
+      history.push("/lessor/dashboard");
     })
     .catch((error) => {
       console.log(error.response)
@@ -58,6 +70,12 @@ export default function Signin() {
                 <img src={logo_blue} alt="EasyTools Logo" className="logo-sing-up"/>
               </div>
               <br/>
+              <ul>
+                { /*data.map( todo => (
+<li key={todo.id}>{todo.text}</li>
+                )) */}
+              </ul>
+              
               <Form 
                 onSubmit={ values => {
                   Scrool();
@@ -126,3 +144,5 @@ export default function Signin() {
     </>
   )
 }
+
+export default Signin;
