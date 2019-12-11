@@ -30,3 +30,12 @@
   font-weight: 600;
   color: #60a8f1;
 }
+
+.terms{
+  width: 100%;
+  height: 300px !important;
+  text-align: justify;
+  overflow: auto;    
+  padding:20px;
+  scrollbar-base-color:#ffeaff
+}

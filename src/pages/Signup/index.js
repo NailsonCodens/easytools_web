@@ -45,6 +45,8 @@ const Singup = () => {
   const [year, setSelectedYears] = useState("");
   
   const [modal, setModal] = useState(false);
+  const [terms, setTerms] = useState(false);
+  const [acepted, setAcepted] = useState(false);
 
   const handleYearChange = selectedYear=> {
     formik.values.year = selectedYear.value;
@@ -81,7 +83,6 @@ const Singup = () => {
       day: '',
       year: '',
     },
-    /*
     validationSchema: Yup.object({
       email: Yup.string()
         .email('Insira um e-mail válido.')
@@ -104,7 +105,7 @@ const Singup = () => {
 
       year: Yup.string()
       .required('Por favor, adicione sua data de nascimento para prosseguir'),
-    }),*/
+    }),
 
     onSubmit: values => {
       handSubmit(values)
@@ -116,6 +117,20 @@ const Singup = () => {
     return modal
   }
 
+  const hideTerms = () => {
+    setTerms(false)
+    return terms
+  }
+
+  const AceptedTerms = () => {
+    
+  }
+  
+  const NoAceptedTerms = () => {
+    setTerms(false)
+    setModal(true)
+  }
+  
   async function handSubmit(values) {
     let { year, month, day } = values
     let birth_date = year + "-" + month + "-" + day;
@@ -124,15 +139,16 @@ const Singup = () => {
     let after18 = new Date(year + 18, month - 1, day);
     let now = new Date();
     
-    after18 <= now 
-    ?
-      setModal(false)
-    : 
-      setModal(true)
 
-    /*await api.post('user/create/', values, {})
+    if (after18 <=now) {
+      setModal(false);
+      setTerms(true);
+    } else {
+      setModal(true);
+    }
+    /*
+    await api.post('user/create/', values, {})
     .then((res) => {
-      console.log(res)
     })
     .catch((error) => {
       console.log(error.response.data.errmsg)
@@ -352,8 +368,57 @@ const Singup = () => {
                 <Link to="lessor/signin"><Span class="button-enter">Entrar</Span></Link>
               </div>
             </div>
-            <Modal show={modal} onCloseModal={hideModal}>
-              <img src={baby} alt="EasyTools Logo" className="logo-sing-up"/>
+            <Modal 
+              show={terms} 
+              onCloseModal={hideTerms}
+              closeOnEsc={true} 
+              closeOnOverlayClick={true}
+            >
+              <h2 className="title">Termos e condições de uso</h2>
+              <div className="terms">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                Why do we use it?
+                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                Where does it come from?
+                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+                The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+              </div>
+              <br/>
+              <div className="has-text-centered">
+                <Button
+                  type={'input'}
+                  class={'button is-success accepted-bt'} 
+                  text={'Aceitar'}
+                  onClick={AceptedTerms}
+                />
+                <Button
+                  type={'input'}
+                  class={'button is-default'} 
+                  text={'Não aceitar'}
+                  onClick={NoAceptedTerms}
+                />
+              </div>
+            </Modal>
+            <Modal 
+              show={modal} 
+              onCloseModal={hideModal} 
+              closeOnEsc={true} 
+              closeOnOverlayClick={true}
+            >
+              { 
+                modal === true (
+                  <>
+                    <h2 className="title has-text-centered title-modal">Ops! Lamentamos muto.</h2>
+                    <br/>
+                    <div className="has-text-centered">
+                      <img src={baby} alt="EasyTools Logo" className="baby-cry"/>
+                    </div>
+                    <br/><br/>
+                    <p className="has-text-centered text-modal">Para se cadastrar você precisa ter 18 anos ou mais.</p>
+                  </>                  
+                )
+              }
+
             </Modal>
           </div>
         </div>

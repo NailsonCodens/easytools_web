@@ -80,6 +80,11 @@
   color:#fff !important;
 }
 
+.styles_modalCenter__L9F2w{
+  width: 50% !important;
+  background: #fff;
+}
+
 .modal-content{
   background: #fff;
   padding: 20px;
@@ -88,6 +93,19 @@
 .modal-background {
   background-color: rgba(10, 10, 10, 0.75);
 }
+
+.title-modal{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 1.9em;
+}
+
+.text-modal{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 1.1em;
+}
+
 
 .warning-text{
   color: #000000;
@@ -141,4 +159,8 @@
   font-weight: 600;
   font-size: 1.2em;
   color: #60A8F1;
+}
+
+.baby-cry{
+  width: 110px;
 }

@@ -3,10 +3,13 @@ import React from 'react';
 import {Auth} from '../../../store/actions/auth';
 import { useDispatch, useSelector } from "react-redux";
 
+import { Link } from 'react-router-dom';
+
 import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../components/Form/Form';
 import { Button } from '../../../components/Form/Button';
 import { Span } from '../../../components/Span';
+import { Hr } from '../../../components/Hr';
 
 import api from '../../../services/api';
 import { login } from '../../../services/auth';
@@ -22,7 +25,7 @@ import logo_blue from '../../../assets/images/logo_blue.png';
 
 const Signin = ({ history }) => {
   const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
+  useSelector(state => state.auth);
 
   const formik = useFormik({
     initialValues: {
@@ -70,12 +73,6 @@ const Signin = ({ history }) => {
                 <img src={logo_blue} alt="EasyTools Logo" className="logo-sing-up"/>
               </div>
               <br/>
-              <ul>
-                { /*data.map( todo => (
-<li key={todo.id}>{todo.text}</li>
-                )) */}
-              </ul>
-              
               <Form 
                 onSubmit={ values => {
                   Scrool();
@@ -136,9 +133,13 @@ const Signin = ({ history }) => {
                     />
                   </Label>
                 </Field>
-              </Form>            
+              </Form>
             </div>
           </div>
+          <div className="has-text-centered">
+            <Span>Não tem conta da EasyTools? </Span>
+            <Link to="/signup?type=lessor"><Span class="button-enter">Cadastre-se</Span></Link>
+          </div>            
         </div>
       </div>
     </>
