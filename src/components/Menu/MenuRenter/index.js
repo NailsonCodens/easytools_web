@@ -30,7 +30,7 @@ const MenuRenter = () => {
       </div>
 
       <div className="navbar-menu">
-        <div className="navbar-start">
+        <div className="navbar-start"> 
         </div>
         <div className="navbar-end">
           <div className="navbar-item">
