@@ -9,3 +9,21 @@
 .hello-user{
   margin-right: 15px !important;
 }
+
+.btn-user{
+  cursor: pointer;
+}
+
+.dropdown-user{
+  width: 200px !important;
+  margin-top: 15px;
+  border-radius: 3px !important;
+  right: -11px !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+}
+
+.li-drop{
+  cursor: pointer;
+}
+

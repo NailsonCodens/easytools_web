@@ -1,5 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom';
+
+import { logout } from '../../../services/auth';
 
 import { Button } from '../../../components/Form/Button';
 
@@ -7,7 +9,26 @@ import './styleLessor.css'
 
 import logo from '../../../assets/images/logo_blue.png'
 
+import { Ul } from '../../../components/List/index';
+import { Hr } from '../../../components/Hr';
+
 const MenuLessor = () => {
+  let history = useHistory();
+
+  const [active, setActiveMenu] = useState('');
+
+  const Dropdown = () => {
+    if (active === 'is-active') {
+      setActiveMenu('')
+    } else {
+      setActiveMenu('is-active')
+    }
+  }
+
+  const Logout = () => {
+    logout()
+    history.push("/lessor/signin");
+  }
 
   return ( 
 		<nav className="navbar">
@@ -53,12 +74,27 @@ const MenuLessor = () => {
                   text={'Cadastrar Anúncio'}
                 />
               </Link>
-              <p className="hello-user">
-                Olá Usuário!
-              </p>
-              <Link to={'/lessor'} className="">
-                Log in
-              </Link>
+              <div className={'dropdown is-right ' + active}>
+                <div className="dropdown-trigger btn-user">
+                  <span aria-haspopup="true" aria-controls="dropdown-menu6" onClick={Dropdown}>
+                    <span>Usuário</span>
+                    <span className="icon is-small">
+                      <i className="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                  </span>
+                </div>
+                <div className="dropdown-menu dropdown-user" id="dropdown-menu6" role="menu">
+                  <div className="dropdown-content">
+                    <div className="dropdown-item">
+                      <Ul>
+                        <li className="li-drop">Perfil</li>
+                        <Hr/>
+                        <li className="li-drop"><span onClick={Logout}>Sair</span></li>
+                      </Ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div> 

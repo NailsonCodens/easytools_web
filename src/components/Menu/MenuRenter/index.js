@@ -36,13 +36,13 @@ const MenuRenter = () => {
           <div className="navbar-item">
             <div className="buttons">
 						<Link to={'/lessor'} className="navbar-item">
-            Progresso
+            Seja um locador
           </Link>
           <Link to={'/lessor'} className="navbar-item">
-            Mensagens
+            Cadastre-se
           </Link>
           <Link to={'/lessor'} className="navbar-item">
-            Notificações
+            Entrar
           </Link>
             </div>
           </div>

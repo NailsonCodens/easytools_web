@@ -168,7 +168,7 @@ const Singup = ({ history }) => {
       
       setTimeout(() => {
         Authregister(user);
-      }, 1500);      
+      }, 1000);      
     })
     .catch((error) => {
     })
