@@ -72,7 +72,7 @@ const MenuLessor = () => {
               <Link to={'/lessor/ad/create'} className="is-info create-ad">
                 <Button
                   type={'submit'}
-                  class={'button is-info color-logo-lessor'} 
+                  className={'button is-info color-logo-lessor'} 
                   text={'Cadastrar Anúncio'}
                 />
               </Link>
@@ -93,7 +93,7 @@ const MenuLessor = () => {
                       <Ul>
                         <li className="li-drop">Perfil</li>
                         <Hr/>
-                        <li className="li-drop"><span onClick={Logout}>Sair</span></li>
+                        <li className="li-drop" onClick={Logout}><span>Sair</span></li>
                       </Ul>
                     </div>
                   </div>

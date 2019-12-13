@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 import './styleRenter.css'
 
 import logo from '../../../assets/images/logo.png'
 
 const MenuRenter = () => {
+  const current_user = useSelector(state => state.auth);
+console.log(current_user);
 
 	const [search, setSearch] = useState('');
 
@@ -35,15 +38,45 @@ const MenuRenter = () => {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-						<Link to={'/lessor'} className="navbar-item">
-            Seja um locador
-          </Link>
-          <Link to={'/lessor'} className="navbar-item">
-            Cadastre-se
-          </Link>
-          <Link to={'/lessor'} className="navbar-item">
-            Entrar
-          </Link>
+							{
+								current_user.length === 0 ? 
+								(
+									<Link to={'/signup?type=lessor'} className="navbar-item">
+										Seja um locador
+									</Link>
+								) : 
+								(
+									<Link to={'/'} className="navbar-item">
+										Ajuda
+									</Link>
+								)
+							}
+							{
+								current_user.length === 0 ? 
+								(
+									<Link to={'/signup?type=renter'} className="navbar-item">
+										Cadastre-se
+									</Link>
+								) : 
+								(
+									<Link to={'/'} className="navbar-item">
+										Termos de uso
+									</Link>
+								)
+							}
+							{
+								current_user.length === 0 ? 
+								(
+									<Link to={'/'} className="navbar-item">
+										Entrar
+									</Link>
+								) : 
+								(
+									<Link to={'/lessor'} className="navbar-item">
+										{ current_user.map(user => (user.name)) }
+									</Link>
+								)
+							}
             </div>
           </div>
         </div> 

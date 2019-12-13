@@ -1,3 +1,42 @@
 .tool{
-  background: red;
+  cursor: pointer !important;
+}
+
+.picture-tool{
+  widows: 100%;
+  height: 220px;
+  background: rgb(209, 209, 209);
+  color:#fff;
+  text-align: center;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.category{
+  background: #FFD237;
+  padding: 0px 8px;
+  color:#000;
+  font-size: 12px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+}
+
+.title-tool{
+  margin-top: 6px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+  color: #000;
+  font-size: 1.0em;
+}
+
+.text-price{
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 0.9em;
+}
+
+.price{
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  color: #000;
 }

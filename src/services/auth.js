@@ -28,7 +28,7 @@ api.interceptors.request.use(async config => {
 if (isAuthenticated() === true) {
   api.get('/perfil/').then((res) => {
     res.data.user.map(user => (
-      store.dispatch({type:"auth", email: user.email, name: user.name, token: getToken()})
+      store.dispatch({type:"auth", email: user.email, name: user.name, type_user: user.type, token: getToken()})
     )) 
   })    
 }

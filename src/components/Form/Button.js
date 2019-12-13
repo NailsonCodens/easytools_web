@@ -5,7 +5,7 @@ export const Button = props => (
   <button 
     type={props.type}
     onClick={props.onClick}
-    className={props.class}
+    className={props.className}
   >
     { props.text }
   </button>
@@ -19,7 +19,7 @@ export const CheckboxIOS = (props) => {
           type="checkbox" 
           name={props.name} 
           id="checkbox1" 
-          className={"ios-toggle " + props.class} 
+          className={"ios-toggle " + props.className} 
           onChange={props.onChange} 
           defaultChecked
         />

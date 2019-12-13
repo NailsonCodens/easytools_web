@@ -1,30 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 
-import {Auth} from '../../../store/actions/auth';
+import {Auth} from '../../store/actions/auth';
 
 import { Link } from 'react-router-dom';
 
 import { Form, Input } from '@rocketseat/unform';
-import { Field, Label } from '../../../components/Form/Form';
-import { Button } from '../../../components/Form/Button';
-import { Span } from '../../../components/Span';
+import { Field, Label } from '../../components/Form/Form';
+import { Button } from '../../components/Form/Button';
+import { Span } from '../../components/Span';
+import Modal from '../../components/Modal';
 
-import api from '../../../services/api';
-import { login } from '../../../services/auth';
+import api from '../../services/api';
+import { login } from '../../services/auth';
 
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
-import Scrool from '../../../utils/scrool';
+import Scrool from '../../utils/scrool';
 
 import './style.css';
 
-import logo_blue from '../../../assets/images/logo_blue.png';
+import logo_blue from '../../assets/images/logo_blue.png';
 
 const Signin = ({ history }) => {
   const dispatch = useDispatch();
   useSelector(state => state.auth);
+
+  const [nologin, setNologin] = useState(false);
+
+  const hideNologin = () => {
+    setNologin(false)
+    return nologin
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -55,10 +63,10 @@ const Signin = ({ history }) => {
 
       login(token);
 
-      history.push("/lessor/dashboard");
+      history.push("/");
     })
     .catch((error) => {
-      console.log(error.response)
+      setNologin(true)
     })
   } 
 
@@ -80,7 +88,7 @@ const Signin = ({ history }) => {
                 noValidate
                 className={''}
               >
-                <Field class={'field'}>
+                <Field className={'field'}>
                   <Label for={'Email'}>
                     <Input 
                       type="text" 
@@ -90,7 +98,7 @@ const Signin = ({ history }) => {
                       onChange={formik.handleChange}
                       value={formik.values.email}
                     />
-                    <Span class={'validation-warning'}>
+                    <Span className={'validation-warning'}>
                       {
                         formik.touched.email && formik.errors.email 
                       ? 
@@ -101,7 +109,7 @@ const Signin = ({ history }) => {
                     </Span>
                   </Label>
                 </Field>
-                <Field class={'field'}>
+                <Field className={'field'}>
                   <Label for={'password'}>
                     <Input 
                       type="password" 
@@ -111,7 +119,7 @@ const Signin = ({ history }) => {
                       onChange={formik.handleChange}
                       value={formik.values.password}
                     />
-                    <Span class={'validation-warning'}>
+                    <Span className={'validation-warning'}>
                       {
                         formik.touched.password && formik.errors.password 
                       ? 
@@ -122,12 +130,12 @@ const Signin = ({ history }) => {
                     </Span>
                   </Label>
                 </Field>
-                <Field class={'field'}>
+                <Field className={'field'}>
                   <Label for={'save'}>
                     <br></br>
                     <Button
                       type={'submit'}
-                      class={'button is-fullwidth color-logo-lessor'} 
+                      className={'button is-fullwidth color-logo-lessor'} 
                       text={'Acessar'}
                     />
                   </Label>
@@ -137,9 +145,23 @@ const Signin = ({ history }) => {
           </div>
           <div className="has-text-centered">
             <Span>Não tem conta da EasyTools? </Span>
-            <Link to="/signup?type=lessor"><Span class="button-enter">Cadastre-se</Span></Link>
+            <Link to="/signup?type=lessor"><Span className="button-enter">Cadastre-se</Span></Link>
           </div>            
         </div>
+        <Modal 
+          show={nologin} 
+          onCloseModal={hideNologin}
+          closeOnEsc={true} 
+          closeOnOverlayClick={true}
+        >
+          <h2 className="title has-text-centered">Desculpe, algo está errado.</h2>
+          <div className="has-text-centered">
+
+          </div>
+          <div className="has-text-centered text-modal">
+            Não encontramos nenhum usuário em nossas bases de dados com este email.
+          </div>
+        </Modal>
       </div>
     </>
   )

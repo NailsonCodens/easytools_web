@@ -51,8 +51,11 @@ const Singup = ({ history }) => {
   
   const [modal, setModal] = useState(false);
   const [terms, setTerms] = useState(false);
+  const [redirect, setRedirect] = useState(false);
   const [modify, setModify] = useState('morethan18');
   const [usernew, setUsernew] = useState({});
+
+console.log(redirect)
 
   const dispatch = useDispatch();
   useSelector(state => state.auth);
@@ -131,6 +134,11 @@ const Singup = ({ history }) => {
     return terms
   }
   
+  const hideRedirectlogin = () => {
+    setRedirect(false)
+    return redirect
+  }
+
   const NoAcceptedTerms = () => {
     setModify('noaccepted');
     setTerms(false);
@@ -168,23 +176,25 @@ const Singup = ({ history }) => {
         Authregister(user);
       }, 1000);      
     })
-    .catch((error) => {
+    .catch((err) => {
+      if (err.response.data.fields.email) {
+        setTerms(false);
+        setRedirect(true);
+      }
     })
   }
 
   async function Authregister (user) {
     await api.post('auth/token/', user, {})
     .then((res) => {
-      let { email, name } = res.data.user;
+      let { email, name, type } = res.data.user;
       let { token } = res.data;
-      dispatch(Auth(email, name, token));
+      dispatch(Auth(email, name, token, type));
 
       login(token);
-
-      history.push("/lessor/dashboard");
+      history.push("/");
     })
     .catch((error) => {
-      console.log(error.response)
     })
   }
 
@@ -208,7 +218,7 @@ const Singup = ({ history }) => {
                   }} 
                   noValidate
                 >
-                  <Field class={'field'}>
+                  <Field className={'field'}>
                     <Label for={'email'}>
                       <Input 
                         name="email" 
@@ -218,7 +228,7 @@ const Singup = ({ history }) => {
                         onChange={formik.handleChange}
                         value={formik.values.email}
                       />
-                      <Span class={'validation-warning'}>
+                      <Span className={'validation-warning'}>
                         {
                           formik.touched.email && formik.errors.email 
                         ? 
@@ -229,7 +239,7 @@ const Singup = ({ history }) => {
                       </Span>
                     </Label>
                   </Field>
-                  <Field class={'field'}>
+                  <Field className={'field'}>
                     <Label for={'name'}>
                       <Input 
                         name="name" 
@@ -239,7 +249,7 @@ const Singup = ({ history }) => {
                         onChange={formik.handleChange}
                         value={formik.values.name}
                       />
-                      <Span class={'validation-warning'}>
+                      <Span className={'validation-warning'}>
                         {
                           formik.touched.name && formik.errors.name 
                         ? 
@@ -250,7 +260,7 @@ const Singup = ({ history }) => {
                       </Span>
                     </Label>
                   </Field>
-                  <Field class={'field'}>
+                  <Field className={'field'}>
                     <Label for={'last_name'}>
                       <Input 
                         name="last_name" 
@@ -260,7 +270,7 @@ const Singup = ({ history }) => {
                         onChange={formik.handleChange}
                         value={formik.values.last_name}
                       />
-                      <Span class={'validation-warning'}>
+                      <Span className={'validation-warning'}>
                         {
                           formik.touched.last_name && formik.errors.last_name 
                         ? 
@@ -271,7 +281,7 @@ const Singup = ({ history }) => {
                       </Span>
                     </Label>
                   </Field>
-                  <Field class={'field'}>
+                  <Field className={'field'}>
                     <Label for={'password'}>
                       <Input 
                         name="password" 
@@ -281,7 +291,7 @@ const Singup = ({ history }) => {
                         onChange={formik.handleChange}
                         value={formik.values.password}
                       />
-                      <Span class={'validation-warning'}>
+                      <Span className={'validation-warning'}>
                         {
                           formik.touched.password && formik.errors.password 
                         ? 
@@ -299,10 +309,10 @@ const Singup = ({ history }) => {
                     <Warningtext>Pelo menos 1 caracter maiúsculo</Warningtext>
                   </div>
                   <br/>
-                  <Field class={'field'}>
+                  <Field className={'field'}>
                     <div className="columns">
                       <div className="column">
-                        <Field class={'field'}>
+                        <Field className={'field'}>
                           <Label for={'day'}>
                             <Select
                               className={formik.touched.day && formik.errors.day ? 'border-warning' : ''}
@@ -319,7 +329,7 @@ const Singup = ({ history }) => {
                         </Field>
                       </div> 
                       <div className="column">
-                        <Field class={'field'}>
+                        <Field className={'field'}>
                           <Label for={'month'}>
                             <Select
                               className={formik.touched.month && formik.errors.month ? 'border-warning' : ''}
@@ -336,7 +346,7 @@ const Singup = ({ history }) => {
                         </Field>
                       </div>                     
                       <div className="column">
-                        <Field class={'field'}>
+                        <Field className={'field'}>
                           <Label for={'year'}>
                             <div className="">
                               <Select
@@ -355,7 +365,7 @@ const Singup = ({ history }) => {
                         </Field>
                       </div>
                     </div>
-                    <Span class={'validation-warning'}>
+                    <Span className={'validation-warning'}>
                         {
                         // eslint-disable-next-line
                         formik.touched.month && formik.errors.month || formik.touched.day && formik.errors.day || formik.touched.year && formik.errors.year
@@ -384,11 +394,11 @@ const Singup = ({ history }) => {
                       </div>
                     </Label>
                   </Field>
-                  <Field class={'field'}>
+                  <Field className={'field'}>
                     <Label for={'save'}>
                       <Button
                         type={'submit'}
-                        class={'button is-fullwidth color-logo'} 
+                        className={'button is-fullwidth color-logo'} 
                         text={'Cadastre-se'}
                       />
                     </Label>
@@ -398,9 +408,23 @@ const Singup = ({ history }) => {
               <Hr/>
               <div className="">
                 <Span>Já tem conta da EasyTools? </Span>
-                <Link to="lessor/signin"><Span class="button-enter">Entrar</Span></Link>
+                <Link to="lessor/signin"><Span className="button-enter">Entrar</Span></Link>
               </div>
             </div>
+            <Modal 
+              show={redirect} 
+              onCloseModal={hideRedirectlogin}
+              closeOnEsc={true} 
+              closeOnOverlayClick={true}
+            >
+              <h2 className="title has-text-centered">Parece que você já tem uma conta com este usuário</h2>
+              <div className="has-text-centered">
+                <div className="">
+                  <Span>Já tem conta da EasyTools? </Span>
+                  <Link to="/signin"><Span className="button-enter">Entrar</Span></Link>
+                </div>
+              </div>
+            </Modal>
             <Modal 
               show={terms} 
               onCloseModal={hideTerms}
@@ -420,13 +444,13 @@ const Singup = ({ history }) => {
               <div className="has-text-centered">
                 <Button
                   type={'input'}
-                  class={'button is-success accepted-bt'} 
+                  className={'button is-success accepted-bt'} 
                   text={'Aceitar'}
                   onClick={AcceptedTerms}
                 />
                 <Button
                   type={'input'}
-                  class={'button is-default'} 
+                  className={'button is-default'} 
                   text={'Não aceitar'}
                   onClick={NoAcceptedTerms}
                 />

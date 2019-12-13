@@ -6,8 +6,8 @@ export default function auth(state = [], action){
         {
           email: action.email,
           name: action.name,
+          type_user: action.type_user,
           token: action.token,
-          type: action.type, 
         }]
     default:
       return state;

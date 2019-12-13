@@ -16,7 +16,7 @@ export default function Index({history}) {
             <Link to={'/lessor/ad/create'} className="is-info create-ad">
               <Button
                 type={'submit'}
-                class={'button is-info color-logo-lessor'} 
+                className={'button is-info color-logo-lessor'} 
                 text={'Cadastrar Anúncio'}
               />
             </Link>

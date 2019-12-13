@@ -1,28 +1,33 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom';
 
 import StartRenter from '../pages/Renter/Start';
 import SingUp from '../pages/Signup/index';
 
 import StartLessor from '../pages/Lessor/Start/index';
-
 import Footer from '../components/Footer/Footer';
+import Auth from '../pages/Auth/index';
 
-import PrivateRoute from './privaterouteLessor.js';
+const Routes = () => {
 
-const Routes = () => (
-  <>
-    <BrowserRouter>
-      <Switch>
-        <Route path="/" exact component={StartRenter}/>
-        <Route path="/signup" component={SingUp}/>
-        <PrivateRoute path="/tools" component={() => <h1>tools</h1>}/>
-        <Route path="/lessor" component={StartLessor}/>
-      </Switch>
-      <Footer/>
-    </BrowserRouter>
-  </>
-);
+  return (
+    <>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" exact component={StartRenter}/>
+          <Route path="/signup" component={SingUp}/> 
+          <Route path="/lessor/signin" component={Auth}/>
+          <Route path="/lessor" component={StartLessor}/>
+          <Route path="*">
+            <Redirect to="/" />
+          </Route>
+        </Switch>
+        <Footer/>
+      </BrowserRouter>
+    </>
+  )
+}
+
 
 export default Routes;
 

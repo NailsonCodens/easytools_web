@@ -3,7 +3,7 @@ export function Auth(email, name, token, type_use){
     type: 'auth',
     email: email,
     name: name,
-    token: token,
     type_user: type_use,
+    token: token,
   }
 }
