@@ -16,18 +16,24 @@ const Dashboard = ({history, location}) => {
       const response = await api.get(`/tools?search=${search}`, {
         headers: { search }
       });
-     setTools(response.data)
+     setTools(response.data.tools)
     }
 
     loadTools();
   }, [search]);
 
-  console.log(tools)
-
   return (
     <>
-      <div className="container-fluid">
-        
+      <div className="container">
+        <div className="columns is-desktop is-multiline tool">
+          {
+            tools.map(tool => (
+              <div key={tool.id} className="column is-one-quarter">
+                <p>{tool.title}</p>
+              </div>
+            ))
+          }
+        </div>
       </div>
     </>
   )
