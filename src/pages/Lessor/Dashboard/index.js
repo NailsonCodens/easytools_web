@@ -1,11 +1,10 @@
 import React from 'react';
-
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import {SubTitlepages} from '../../../components/Titles/SubTitlepages';
 
 import './style.css';
 
-export default function Dashboard({history}) {
+const Dashboard = ({history}) => {
   return (
     <>
       <div className="container container-page">
@@ -33,3 +32,5 @@ export default function Dashboard({history}) {
     </>
   )
 }
+
+export default Dashboard;

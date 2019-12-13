@@ -1,8 +1,7 @@
 import React, { useState} from 'react';
 import { useDispatch, useSelector } from "react-redux";
-
 import { Link, useLocation } from 'react-router-dom';
-import queryString from 'query-string'
+import queryString from 'query-string';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
@@ -36,7 +35,6 @@ import man from '../../assets/images/man.svg';
 import './style.css';
 
 const Singup = ({ history }) => {
-  
   let type = queryString.parse(useLocation().search).type;
   let logo = logo_yellow;
   let typeuser = 'Renter';

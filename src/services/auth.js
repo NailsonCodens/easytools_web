@@ -1,9 +1,34 @@
+import store from '../store/index';
+import axios from 'axios';
+
 export const TOKEN_KEY = "@easytoolsweb-Token";
 export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const login = token => {
+
   localStorage.setItem(TOKEN_KEY, token);
 };
 export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);
 };
+
+const api = axios.create({
+  baseURL: 'http://localhost:9090/api/',
+  responseType: 'json',
+});
+
+api.interceptors.request.use(async config => {
+  const token = getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+if (isAuthenticated() === true) {
+  api.get('/perfil/').then((res) => {
+    res.data.user.map(user => (
+      store.dispatch({type:"auth", email: user.email, name: user.name, token: getToken()})
+    )) 
+  })    
+}

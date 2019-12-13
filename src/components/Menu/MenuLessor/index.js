@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 import { logout } from '../../../services/auth';
 
@@ -12,8 +13,9 @@ import logo from '../../../assets/images/logo_blue.png'
 import { Ul } from '../../../components/List/index';
 import { Hr } from '../../../components/Hr';
 
-const MenuLessor = () => {
+const MenuLessor = () => { 
   let history = useHistory();
+  const current_user = useSelector(state => state.auth);
 
   const [active, setActiveMenu] = useState('');
 
@@ -77,7 +79,9 @@ const MenuLessor = () => {
               <div className={'dropdown is-right ' + active}>
                 <div className="dropdown-trigger btn-user">
                   <span aria-haspopup="true" aria-controls="dropdown-menu6" onClick={Dropdown}>
-                    <span>Usuário</span>
+                    <span className="user-dropdown">
+                      { current_user.map(user => (user.name)) }
+                    </span>
                     <span className="icon is-small">
                       <i className="fas fa-angle-down" aria-hidden="true"></i>
                     </span>
