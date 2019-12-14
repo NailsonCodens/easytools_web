@@ -40,3 +40,12 @@
   font-weight: 600 !important;
   color: #000;
 }
+
+.image-index{
+  margin-top: 10px;
+  margin-bottom: 60px;
+  background: #fff url('../../../assets//images/background.jpg') no-repeat;
+  background-size: cover !important;
+  -webkit-font-smoothing: antialiased !important;
+  height: 400px;
+}

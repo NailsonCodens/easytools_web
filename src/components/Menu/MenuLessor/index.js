@@ -29,7 +29,7 @@ const MenuLessor = () => {
 
   const Logout = () => {
     logout()
-    history.push("/lessor/signin");
+    history.push("/");
   }
 
   return ( 
@@ -80,7 +80,7 @@ const MenuLessor = () => {
                 <div className="dropdown-trigger btn-user">
                   <span aria-haspopup="true" aria-controls="dropdown-menu6" onClick={Dropdown}>
                     <span className="user-dropdown">
-                      { current_user.map(user => (user.name)) }
+                      { current_user.name }
                     </span>
                     <span className="icon is-small">
                       <i className="fas fa-angle-down" aria-hidden="true"></i>

@@ -10,6 +10,7 @@ export const login = token => {
 };
 export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);
+  store.dispatch({type:"auth", email: null, name: null, type_user: null, token: null})
 };
 
 const api = axios.create({
@@ -25,10 +26,12 @@ api.interceptors.request.use(async config => {
   return config;
 });
 
-if (isAuthenticated() === true) {
+if (localStorage.getItem(TOKEN_KEY) !== null) {
   api.get('/perfil/').then((res) => {
     res.data.user.map(user => (
       store.dispatch({type:"auth", email: user.email, name: user.name, type_user: user.type, token: getToken()})
     )) 
-  })    
+  })   
+}else {
+  console.log('não logado')
 }

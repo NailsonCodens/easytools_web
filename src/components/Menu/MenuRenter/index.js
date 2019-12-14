@@ -8,10 +8,7 @@ import logo from '../../../assets/images/logo.png'
 
 const MenuRenter = () => {
   const current_user = useSelector(state => state.auth);
-console.log(current_user);
-
 	const [search, setSearch] = useState('');
-
 	return (
 		<nav className="navbar">
       <div className="navbar-brand">
@@ -38,8 +35,8 @@ console.log(current_user);
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-							{
-								current_user.length === 0 ? 
+						{
+								current_user.name === undefined ? 
 								(
 									<Link to={'/signup?type=lessor'} className="navbar-item">
 										Seja um locador
@@ -52,7 +49,7 @@ console.log(current_user);
 								)
 							}
 							{
-								current_user.length === 0 ? 
+								current_user.name === undefined ? 
 								(
 									<Link to={'/signup?type=renter'} className="navbar-item">
 										Cadastre-se
@@ -65,7 +62,7 @@ console.log(current_user);
 								)
 							}
 							{
-								current_user.length === 0 ? 
+								current_user.name === undefined||current_user.name === null ? 
 								(
 									<Link to={'/'} className="navbar-item">
 										Entrar
@@ -73,7 +70,7 @@ console.log(current_user);
 								) : 
 								(
 									<Link to={'/lessor'} className="navbar-item">
-										{ current_user.map(user => (user.name)) }
+										{ current_user.name }
 									</Link>
 								)
 							}
