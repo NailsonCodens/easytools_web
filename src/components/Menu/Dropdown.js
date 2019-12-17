@@ -81,8 +81,6 @@ console.log(classCuston)
           </div>
         )
       }
-
-
     </>
 	)
 }

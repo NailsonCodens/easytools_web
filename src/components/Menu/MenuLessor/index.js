@@ -55,9 +55,22 @@ const MenuLessor = () => {
                   text={'Cadastrar Anúncio'}
                 />
               </Link>
-              <Dropdown>
-								<li className="li-drop">Perfil</li>
-                <Hr/>
+              <Dropdown classCuston=" menu-from-lessor menus">
+                <li className="li-drop">
+                  <Link to={'/'} className="navbar-item">
+                    Perfil
+                  </Link>
+                </li>
+                <li className="li-drop">
+                  <Link to={'/'} className="navbar-item">
+                    Conta
+                  </Link>
+                </li>
+                <li className="li-drop">
+                  <Link to={'/'} className="navbar-item">
+                    Como ser um bom vizinho?
+                  </Link>
+                </li>
               </Dropdown>
             </div>
           </div>
