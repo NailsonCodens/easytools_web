@@ -147,11 +147,10 @@
 }
 
 .title-pages{
-  font-size: 20em;
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
-  font-size: 1.1em;
   margin-left: 10px;
+  font-size: 1.0em;
 }
 
 .sub-title-pages{
@@ -163,4 +162,41 @@
 
 .baby-cry{
   width: 110px;
+}
+
+.dropdown-content{
+  border-radius: 0px !important;
+}
+
+.menus{
+  -webkit-box-shadow: -1px 2px 3px 0px rgba(168,168,168,1);
+  -moz-box-shadow: -1px 2px 3px 0px rgba(168,168,168,1);
+  box-shadow: -1px 2px 3px 0px rgba(168,168,168,1);
+  background: #fff;
+  width: 200px !important;
+}
+
+.menus .dropdown-item{
+  padding: 10px 10px !important;
+}
+.menus .dropdown-item li:not(:first-child) {
+  border-top: 1px solid rgb(233, 233, 233);
+}
+
+.menus .dropdown-item li {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500; 
+  padding: 6px 0px;
+  font-size: 1.0em !important;
+}
+
+.menu-from-lessor{
+  margin-top: 12px !important;
+}
+
+.user-dropdown{
+  color: rgb(126, 126, 126) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+  margin-left: 10px;
 }

@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom';
-import { useSelector } from "react-redux";
-
-import { logout } from '../../../services/auth';
+import React from 'react'
+import { Link } from 'react-router-dom';
+import Dropdown from '../Dropdown';
 
 import { Button } from '../../../components/Form/Button';
 
@@ -10,28 +8,9 @@ import './styleLessor.css'
 
 import logo from '../../../assets/images/logo_blue.png'
 
-import { Ul } from '../../../components/List/index';
 import { Hr } from '../../../components/Hr';
 
-const MenuLessor = () => { 
-  let history = useHistory();
-  const current_user = useSelector(state => state.auth);
-
-  const [active, setActiveMenu] = useState('');
-
-  const Dropdown = () => {
-    if (active === 'is-active') {
-      setActiveMenu('')
-    } else {
-      setActiveMenu('is-active')
-    }
-  }
-
-  const Logout = () => {
-    logout()
-    history.push("/");
-  }
-
+const MenuLessor = () => {
   return ( 
 		<nav className="navbar">
       <div className="navbar-brand">
@@ -76,29 +55,10 @@ const MenuLessor = () => {
                   text={'Cadastrar Anúncio'}
                 />
               </Link>
-              <div className={'dropdown is-right ' + active}>
-                <div className="dropdown-trigger btn-user">
-                  <span aria-haspopup="true" aria-controls="dropdown-menu6" onClick={Dropdown}>
-                    <span className="user-dropdown">
-                      { current_user.name }
-                    </span>
-                    <span className="icon is-small">
-                      <i className="fas fa-angle-down" aria-hidden="true"></i>
-                    </span>
-                  </span>
-                </div>
-                <div className="dropdown-menu dropdown-user" id="dropdown-menu6" role="menu">
-                  <div className="dropdown-content">
-                    <div className="dropdown-item">
-                      <Ul>
-                        <li className="li-drop">Perfil</li>
-                        <Hr/>
-                        <li className="li-drop" onClick={Logout}><span>Sair</span></li>
-                      </Ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <Dropdown>
+								<li className="li-drop">Perfil</li>
+                <Hr/>
+              </Dropdown>
             </div>
           </div>
         </div> 

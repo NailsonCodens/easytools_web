@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Redirect, useRouteMatch } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 import PrivateRoute from '../../../routes/privaterouteLessor.js';
 
@@ -9,7 +10,8 @@ import Ad from '../Ad/index';
 
 export default function Start({history}) {
   let { path } = useRouteMatch();
-
+	const current_user = useSelector(state => state.auth);
+  console.log(current_user)
   return (
     <>
       <MenuLessor/>

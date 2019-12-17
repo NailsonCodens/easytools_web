@@ -42,9 +42,9 @@
 }
 
 .image-index{
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 60px;
-  background: #fff url('../../../assets//images/background.jpg') no-repeat;
+  background: #fff url('../../../assets/images/background.jpg') no-repeat;
   background-size: cover !important;
   -webkit-font-smoothing: antialiased !important;
   height: 400px;

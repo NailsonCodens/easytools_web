@@ -20,10 +20,8 @@ import { useFormik } from 'formik';
 import Scrool from '../../utils/scrool';
 
 import './style.css';
-
-import logo_blue from '../../assets/images/logo_blue.png';
-
-const Signin = ({ history }) => {
+ 
+const Signin = ({ hs, closeModal }) => {
   const dispatch = useDispatch();
   useSelector(state => state.auth);
 
@@ -57,13 +55,15 @@ const Signin = ({ history }) => {
   async function handSubmit(values) {
     await api.post('auth/token/', values, {})
     .then((res) => {
-      let { email, name } = res.data.user;
+
+      let { email, name, type } = res.data.user;
       let { token } = res.data;
-      dispatch(Auth(email, name, token));
+      setNologin(false)
+      dispatch(Auth(email, name, type, token));
 
-      login(token);
-
-      history.push("/");
+      login(token, type);
+      hs.push("/");
+      closeModal();
     })
     .catch((error) => {
       setNologin(true)
@@ -77,7 +77,7 @@ const Signin = ({ history }) => {
           <div className="container">
             <div className="column">
               <div className="has-text-centered">
-                <img src={logo_blue} alt="EasyTools Logo" className="logo-sing-up"/>
+                <h2 className="welcome-easytools">Bem-vindo ao EasyTools</h2>
               </div>
               <br/>
               <Form 
@@ -135,7 +135,7 @@ const Signin = ({ history }) => {
                     <br></br>
                     <Button
                       type={'submit'}
-                      className={'button is-fullwidth color-logo-lessor'} 
+                      className={'button is-fullwidth color-logo'} 
                       text={'Acessar'}
                     />
                   </Label>
