@@ -13,7 +13,7 @@ const Dashboard = ({history, location}) => {
 
   useEffect(() => {
     async function loadTools() { 
-      const response = await api.get(`/tools?search=${search}`, {
+      const response = await api.get(`/tools_site?search=${search}&lat=-25.437958&lng=-49.174358`, {
         headers: { search }
       });
      setTools(response.data.tools)
@@ -25,6 +25,26 @@ const Dashboard = ({history, location}) => {
   return (
     <>
       <div className="container-fluid">
+        <div className="container explorer">
+          <h3>O que você precisa? </h3>
+          <div className="columns">
+            <div className="column">
+              <div className="itens-explorer">
+                Ferramentas pessoais
+              </div>
+            </div>
+            <div className="column">
+              <div className="itens-explorer">
+                Ferramentas de médio porte
+              </div>
+            </div>
+            <div className="column">
+              <div className="itens-explorer">
+                Ferramentas de médio porte
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="image-index">
         </div>
         <div className="container">

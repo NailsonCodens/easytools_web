@@ -8,8 +8,6 @@ import './styleLessor.css'
 
 import logo from '../../../assets/images/logo_blue.png'
 
-import { Hr } from '../../../components/Hr';
-
 const MenuLessor = () => {
   return ( 
 		<nav className="navbar">

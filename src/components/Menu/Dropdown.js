@@ -42,7 +42,7 @@ const MenuRenter = ({ children, classCuston }) => {
     logout()
     history.push("/");
   }
-console.log(classCuston)
+
 	return (
     <>
 
