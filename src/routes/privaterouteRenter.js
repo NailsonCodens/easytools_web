@@ -7,7 +7,7 @@ const PrivateRoute = ({ component: Component, currentuser, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      isAuthenticated() && getLoggedLessor() === 'Lessor' ? (
+      isAuthenticated() && getLoggedLessor() === 'Renter' ? (
         <Component {...props} />
       ) : (
         <Redirect to={{ pathname: "/", state: { from: props.location } }} />

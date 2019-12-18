@@ -56,14 +56,24 @@ const MenuRenter = () => {
 						{
 								current_user.name === undefined ? 
 								(
-									<Link to={'/signup?type=lessor'} className="navbar-item">
-										Seja um locador
-									</Link>
+									<>
+										<Link to={'/signup?type=lessor'} className="navbar-item">
+											Seja um locador
+										</Link>
+									</>
 								) : 
 								(
-									<Link to={'/'} className="navbar-item">
-										Ajuda
-									</Link>
+									<>
+										<Link to={'/signup?type=lessor'} className="navbar-item">
+											Seja um locador
+										</Link>
+										<Link to={'/myrent'} className="navbar-item">
+											Coisas que aluguei
+										</Link>
+										<Link to={'/signup?type=lessor'} className="navbar-item">
+											Mensagens
+										</Link>
+									</>
 								)
 							}
 							{
@@ -74,9 +84,11 @@ const MenuRenter = () => {
 									</Link>
 								) : 
 								(
-									<Link to={'/'} className="navbar-item">
-										Termos de uso
-									</Link>
+									<>
+										<Link to={'/'} className="navbar-item">
+											Ajuda
+										</Link>
+									</>
 								)
 							}
 							{
@@ -118,7 +130,16 @@ const MenuRenter = () => {
 								) : 
 								(
 									<Dropdown classCuston=" menu-from-renter menus">
-											<li className="li-drop">Perfil</li>
+										<li className="li-drop">
+											<Link to={'/'} className="navbar-item">
+												Perfil
+											</Link>
+										</li>
+										<li className="li-drop">
+											<Link to={'/'} className="navbar-item">
+												Conta
+											</Link>
+										</li>
 									</Dropdown>				
 								)
 							}
