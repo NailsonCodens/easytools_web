@@ -17,7 +17,7 @@ export default function Start({history}) {
         <Route path={`${path}/`} exact>
           <Redirect to="lessor/dashboard"/>
         </Route>
-        <PrivateRoute path={`${path}/dashboard`} exact component={Dashboard}/>
+        <PrivateRoute path={`${path}/dashboard`} component={Dashboard}/>
         <PrivateRoute path={`${path}/ad`} component={Ad}/>
       </div>
     </>

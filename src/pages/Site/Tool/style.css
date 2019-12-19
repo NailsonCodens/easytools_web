@@ -1,0 +1,68 @@
+.box-photos .column{
+  background: #c8c8c8 !important;
+  border-left: 1px solid rgb(160, 160, 160) !important;
+  border-right: 1px solid rgb(160, 160, 160) !important;
+  padding: 0 !important;
+  height: 300px !important;
+}
+
+.box-photos .column img{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+}
+
+.box-photos .column img:hover{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+}
+
+.title-tool{
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important;
+}
+
+.title-tool-only{
+  font-size: 35px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important;
+}
+
+.logo-neighbor{
+  widows: 80px;
+  height: 80px;
+  border-radius: 100%;
+  text-align: left !important;
+}
+
+.head-infos-tool{
+  padding-top: 30px !important;
+}
+
+.name-neighbor{
+  margin-left: 15px;
+  z-index: 9;
+  position: relative;
+  top: -30px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important;
+}
+
+.rental-box{
+  border: 1px solid rgb(156, 156, 156);
+}
+
+.title-infos-tool{
+  font-family: 'Open Sans', sans-serif;
+  color: #60A8F1;
+  font-weight: 600;
+  margin: 20px 0px;
+}
+
+.text-simple-info-tool{
+  font-family: 'Open Sans', sans-serif;
+  color: #000;
+  font-weight: 400;
+}

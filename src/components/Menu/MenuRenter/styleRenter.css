@@ -77,6 +77,10 @@
   color: #60a8f1;
 }
 
+.signin{
+  cursor: pointer !important;
+}
+
 @media (max-width: 900px) {
   .input-search {
     width: 85% !important;

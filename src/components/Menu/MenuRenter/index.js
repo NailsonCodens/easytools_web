@@ -94,9 +94,9 @@ const MenuRenter = () => {
 							{
 								current_user.name === undefined||current_user.name === null ? 
 								(
-									<Link to={''} className="navbar-item" onClick={signLink}>
+									<p className="navbar-item signin" onClick={signLink}>
 										Entrar
-									</Link>
+									</p>
 								) : 
 								(
 									''					
