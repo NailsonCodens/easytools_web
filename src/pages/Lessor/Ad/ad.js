@@ -24,6 +24,11 @@ export default function Index({history}) {
     loadTools();
   }, [search]);
 
+  console.log(tools)
+
+  navigator.geolocation.getCurrentPosition(function(position) {
+    console.log(position)
+  });
   return (
     <>
       <div className="container container-page">

@@ -55,8 +55,6 @@ const Singup = ({ history }) => {
   const [modify, setModify] = useState('morethan18');
   const [usernew, setUsernew] = useState({});
 
-console.log(redirect)
-
   const dispatch = useDispatch();
   useSelector(state => state.auth);
 

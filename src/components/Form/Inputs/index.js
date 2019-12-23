@@ -5,7 +5,7 @@ export const Input = props => (
 );
 
 export const TextArea = props => (
-  <textarea></textarea>
+  <textarea className={props.class} placeholder={props.placeholder} rows={props.rows}></textarea>
 );
 
 export const Select = props => (

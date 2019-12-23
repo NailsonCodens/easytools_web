@@ -1,0 +1,23 @@
+.perfil{
+  background: red;
+}
+
+.column-address{
+  margin-bottom:-20px !important;
+}
+
+.title-box-inter{
+  font-family: 'Open Sans', sans-serif;
+  color: #60A8F1;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.box-inter-padding{
+  padding: 30px !important;
+}
+
+.space-bt{
+  margin-top: 7px;
+}

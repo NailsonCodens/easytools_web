@@ -49,6 +49,7 @@
   border:none !important;
 }
 
+
 ::placeholder {
   color: rgb(131, 131, 131) !important;
   font-family: 'Open Sans', sans-serif !important;
@@ -74,6 +75,10 @@
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
   font-size: 0.9em;
+}
+
+.color-logo-lessor:active, .color-logo-lessor:focus{
+  color: #fff !important;
 }
 
 .color-logo-lessor:hover{
@@ -134,6 +139,7 @@
 
 .background-intern{
   background: #f4f4f4;
+  padding-top: 20px;
 }
 
 .container-page{
@@ -208,4 +214,25 @@
 
 .styles_closeIcon__1QwbI{
   cursor: pointer;
+}
+
+
+.title-tips{
+  font-family: 'Poppins', sans-serif !important;
+  color: #000;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 14px; 
+}
+
+.text-tips{
+  font-family: 'Open Sans', sans-serif;
+  color: rgb(144, 144, 144);
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 14px; 
+}
+
+.textarea-multiline{
+  height: 160px !important;
 }

@@ -1,0 +1,16 @@
+.warning-first-access{
+  padding: 20px;
+  background: #fff
+}
+
+.warning-first-access h5 {
+  font-family: 'Open Sans', sans-serif;
+  color: #60A8F1;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.complete-register{
+  margin-left: 5px;
+}
