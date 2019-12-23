@@ -5,25 +5,8 @@ import { useFormik } from 'formik';
 
 const Main = ({history}) => {
   const [step, setStep] = useState(1);
-  const [state, setState] = useState({
-    title: "sadsad",
-    description: "",
-    category: "",
-    type_spec: "",
-    accessory: "",
-    brand: "",
-    follow: "",
-    use_indication: "",
-    power: "",
-    tension: "",
-    prices: "",
-    insurance: "Y",
-    delivery: "Y",
-    contract: "y",
-    location: "",
-    lat: "",
-    lng: "",
-  });
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
   const formik = useFormik({
     initialValues: {
@@ -45,7 +28,6 @@ const Main = ({history}) => {
       lat: "",
       lng: "",
     },
-
     onSubmit: value => {
       console.log(value)
     }
@@ -62,15 +44,33 @@ const Main = ({history}) => {
     setStep(stepnew - 1)
   }
 
+  const handleTitleChange = (title) => {
+    setTitle(title)
+    formik.values.title = title
+  }
+
+  const handleDescriptionChange = (description) => {
+    setDescription(description)
+    formik.values.description = description
+  }
+
   const handleChange = (input, event) => {
-    setState({[input]: event.target.value})
-    formik.values.title = event.target.value
+    switch(input){
+      case 'title': 
+        handleTitleChange(event.target.value)
+        break;
+      case 'description':
+        handleDescriptionChange(event.target.value)
+        break;
+    }
+
+    //formik.values.title = event.target.value
   }
 
   const renderSteps = () => { 
     switch(step) {
       case 1:
-        return <Basic nextStep={nextStep} handleChange={handleChange} values={state}/> 
+        return <Basic nextStep={nextStep} handleChange={handleChange} values={formik.values}/> 
       case 2: 
         return <Brand nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
       default: 
@@ -92,7 +92,12 @@ const Main = ({history}) => {
         )
       case 2: 
         return (
-          'tips2' 
+          <>
+            <h3 className="title-tips">Inseira a marca, a categoria e para que serve.</h3>
+            <p className="text-tips">
+              Exemplo: <b>Marca:</b> Makita, <b>Categoria:</b> Cortante, <b>Uso:</b> Madeiras e Metais finos
+            </p>
+          </>
         )
       default: 
         return ('')

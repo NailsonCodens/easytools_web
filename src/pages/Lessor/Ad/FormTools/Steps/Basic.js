@@ -4,10 +4,10 @@ import { Form, Input, Textarea } from '@rocketseat/unform';
 import { Field, Label } from '../../../../../components/Form/Form';
 import { Button } from '../../../../../components/Form/Button';
 import { Warningtext } from '../../../../../components/Warningtext';
+import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import { Span } from '../../../../../components/Span';
 
 const Basic = ({nextStep, handleChange, values}) => {
-  console.log(values)
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -26,7 +26,8 @@ const Basic = ({nextStep, handleChange, values}) => {
 
   return (
     <>
-      <p>Basic</p>
+      <SubTitlepages>Você está preste a anunciar um equipamento, vamos lá?</SubTitlepages>
+      <br></br>
       <Form noValidate>
         <Field>
           <Label className="label-perfil" for={'title'}>
