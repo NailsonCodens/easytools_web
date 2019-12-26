@@ -385,7 +385,8 @@ const Singup = ({ history }) => {
                           onChange={handleCheckIOS}
                           name="marketing"
                           value={formik.values.marketing} 
-                          id="checkios" 
+                          bind="checksignup"
+                          ch={true}
                           off="" 
                           on="Sim"
                         />

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { Form, Input, Textarea } from '@rocketseat/unform';
+import * as Yup from 'yup';
+import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../../../components/Form/Form';
 import { Button } from '../../../../../components/Form/Button';
 import { Warningtext } from '../../../../../components/Warningtext';
@@ -13,22 +14,49 @@ const Basic = ({nextStep, handleChange, values}) => {
       title: '',
       description: '',
     },
+    validationSchema: Yup.object({
+      title: Yup.string()
+        .required('Título é obrigatório.'),
+      description: Yup.string()
+        .required('Descrição é obrigatório.'),
 
+      }),
     onSubmit: value => {
-      console.log(value)
+      nextStep()
     }
   })
 
-  const saveAndContinue = (e) => {
-    e.preventDefault()
-    nextStep()
+  if (values.title !== '' ) {
+    formik.values.title = values.title
+  }
+
+  if (values.description !== '') {
+    formik.values.description = values.description
+  }
+
+  const handleChangeBasic = (input, event) => {
+    switch(input){
+      case 'title': 
+        formik.values.title = event.target.value
+        break;
+      case 'description':
+          formik.values.description = event.target.value
+        break;
+    }
+
+    handleChange(input, event.target.value)
   }
 
   return (
     <>
       <SubTitlepages>Você está preste a anunciar um equipamento, vamos lá?</SubTitlepages>
       <br></br>
-      <Form noValidate>
+      <Form 
+        onSubmit={ (e, values) => {
+          formik.handleSubmit(values)
+        }} 
+        noValidate
+      >
         <Field>
           <Label className="label-perfil" for={'title'}>
             <b>Título</b>
@@ -36,9 +64,9 @@ const Basic = ({nextStep, handleChange, values}) => {
           <Input
             name="title"
             type="text"
-            placeholder=""
+            placeholder="Furadeira de parede"
             className={formik.touched.title && formik.errors.title ? 'input border-warning' : 'input'}
-            onChange={event => handleChange('title', event)}
+            onChange={event => handleChangeBasic('title', event)}
             value={values.title}
           />
           <Span className={'validation-warning'}>
@@ -59,8 +87,8 @@ const Basic = ({nextStep, handleChange, values}) => {
             name="description"
             type="text"
             placeholder="Descrição da ferramenta ou equipamento que você está alugando"
-            className={formik.touched.description && formik.errors.description ? 'input border-warning' : 'input textarea-multiline'}
-            onChange={event => handleChange('description', event)}
+            className={formik.touched.description && formik.errors.description ? 'input border-warning textarea-multiline' : 'input textarea-multiline'}
+            onChange={event => handleChangeBasic('description', event)}
             value={values.description}
           />
           <Span className={'validation-warning'}>
@@ -75,9 +103,8 @@ const Basic = ({nextStep, handleChange, values}) => {
         </Field>
         <Button
           type={'submit'}
-          className={'button color-logo-lessor'}
+          className={'button color-logo-lessor is-pulled-right'}
           text={'Salvar Alterações pessoais'}
-          onClick={saveAndContinue}
         />
       </Form>
     </>

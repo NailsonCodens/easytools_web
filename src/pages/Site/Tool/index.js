@@ -58,32 +58,84 @@ const Tools = () => {
                 <div className="columns">
                   <div className="column">
                     <Ul>
+                      <li><b>Marca</b></li>
+                      <li>Makita</li>
                       <li><b>Categoria</b></li>
                       <li>Cortante</li>
-                      <li><b>Tipo</b></li>
-                      <li>Tico Tico</li>
-                      <li><b>Acessórios</b></li>
-                      <li>Carregador elétrico</li>
                     </Ul>
                   </div>
                   <div className="column">
                     <Ul>
-                      <li><b>Marca</b></li>
-                      <li>Makita</li>
-                      <li><b>Acompanha</b></li>
-                      <li>2 Serras extras</li>
-                      <li><b>Indicação de uso</b></li>
-                      <li>Madeiras e Metais finos</li>
+                      <li><b>Tipo</b></li>
+                      <li>Tico Tico</li>
                     </Ul>
                   </div>
                 </div>
               </div>
-
+              <Hr/>
             </div>
             <div className="column has-centered-text">
               <div className="rental-box">
                   Espaço para formulário do aluguel
               </div>
+            </div>
+          </div>
+          <div className="columns">
+            <div className="column">
+              <p className="title-infos-tool hack-padding-top">Configurações</p>   
+              <div className="columns">
+                <div className="column">
+                  <Ul>
+                    <li><b>Potência</b></li>
+                    <li>1500W</li>
+                    <li><b>Tensão</b></li>
+                    <li>110V</li>
+                  </Ul>
+                </div>
+                <div>
+                  <Ul>
+                    <li><b>Alimentação</b></li>
+                    <li>Energia Elétrica</li>
+                  </Ul>
+                </div>
+              </div>
+            </div>
+            <div className="column">
+
+            </div>
+          </div>
+          <Hr/>
+          <div className="columns comments">
+            <div className="column">
+              <p className="title-infos-tool hack-padding-top">Comentários e Avaliações</p>
+              <Ul>
+                <li>
+                  <div className="card">
+                    <div className="card-content">
+                      <div className="media">
+                        <div className="media-left">
+                          <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image"/>
+                        </div>
+                        <div className="media-content">
+                          <p className="title is-4">
+                            Maria José
+                          </p>
+                          <p className="subtitle is-6">
+                            @mariajosé
+                          </p>
+                        </div>
+                      </div>
+                      <div className="content">
+                        Os equipamentos estão sempre impecavéis. Alugo sempre com eles, pois sei da procedência. 
+                        Tem um atendimento impecável, presencialmente e aqui na Easyools.
+                      </div>
+                    </div>
+                  </div>  
+                </li>
+              </Ul>
+            </div>
+            <div className="column">
+              
             </div>
           </div>
         </div>

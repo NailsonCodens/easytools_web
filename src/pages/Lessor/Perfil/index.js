@@ -5,12 +5,16 @@ import { useFormik } from 'formik';
 import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../components/Form/Form';
 import { Button } from '../../../components/Form/Button';
+import Select from 'react-select';
 import { Warningtext } from '../../../components/Warningtext';
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import { Span } from '../../../components/Span';
+import InputMask from 'react-input-mask';
 
+import { cpfMask, cnpjMask } from '../../../utils/maskdocument';
 import { toast } from 'react-toastify';
 
+import documents from '../../../utils/documents';
 import api from '../../../services/api';
 
 import './style.css';
@@ -42,12 +46,15 @@ const Perfil = ({history}) => {
   const [location, setLocation] = useState('');
   const [uf, setUf] = useState('');
   const [city, setCity] = useState('');
+  const [documenttype, setSelectedDocument] = useState('cpf');
 
   const formik = useFormik({
     initialValues: {
       name: '',
       last_name: '',
       email: '',
+      cpfcnpj: '',
+      documentt: '',
       address: '',
       number: '',
       complement: '',
@@ -95,18 +102,43 @@ const Perfil = ({history}) => {
         formik.values.last_name = perfil.last_name
         setEmail(perfil.email)
         formik.values.email = perfil.email
-        setCpfcnpj(perfil.cpfcnpj)
-        formik.values.cpfcnpj = perfil.cpfcnpj
+        
+        if (perfil.cpfcnpj === null) {
+          setCpfcnpj('')
+          formik.values.cpfcnpj = ''            
+        } else {
+          setCpfcnpj(perfil.cpfcnpj)
+          formik.values.cpfcnpj = perfil.cpfcnpj  
+        }
         setAddress(perfil.address)
         formik.values.address = perfil.address
         setLocation(perfil.location)
         formik.values.location = perfil.location
-        setNeighboor(perfil.neighboor)
-        formik.values.neighboor = perfil.neighboor
-        setNumber(perfil.number)
-        formik.values.number = perfil.number
-        setComplement(perfil.complement)
-        formik.values.complement = perfil.complement
+        
+        if (perfil.neighboor === null) {
+          setNeighboor('')
+          formik.values.neighboor = ''  
+        } else {
+          setNeighboor(perfil.neighboor)
+          formik.values.neighboor = perfil.neighboor  
+        }
+
+        if (perfil.number === null) {
+          setNumber('')
+          formik.values.number = ''
+        } else {
+          setNumber(perfil.number)
+          formik.values.number = perfil.number  
+        }
+
+        if (perfil.complement === null) {
+          setComplement('')
+          formik.values.complement = ''  
+        } else {
+          setComplement(perfil.complement)
+          formik.values.complement = perfil.complement  
+        }
+
         setUf(perfil.uf)
         formik.values.uf = perfil.uf
         setCity(perfil.city)
@@ -133,9 +165,23 @@ const Perfil = ({history}) => {
     setEmail(email);
   };
 
+  const handleDocumentChange = selectedDocument => {
+    console.log(selectedDocument.value)
+    formik.values.month = selectedDocument.value;
+    setSelectedDocument(selectedDocument);
+  };
+
   const handleCpfcnpjChange = (cpfcnpj) => {
-    formik.values.cpfcnpj = cpfcnpj;
-    setCpfcnpj(cpfcnpj);
+    let documentt = null
+    if (documenttype === 'cpf') {
+      documentt = cpfMask(cpfcnpj)
+      formik.values.cpfcnpj = documentt;
+      setCpfcnpj(documentt);
+    } else {
+      documentt = cnpjMask(cpfcnpj)
+      formik.values.cpfcnpj = documentt;
+      setCpfcnpj(documentt);
+    }
   };
 
   const handleAddressChange = (address) => {
@@ -267,31 +313,53 @@ const Perfil = ({history}) => {
                       }
                     </Span>
                   </Field>
-                  <Field>
-                    <Label className="label-perfil" for={'email'}>
-                      <b>CPF/CNPJ</b>
-                    </Label>
-                    <Input
-                      name="cnpj"
-                      type="text"
-                      placeholder=""
-                      className={formik.touched.cpfcnpj && formik.errors.cpfcnpj ? 'input border-warning' : 'input'}
-                      onChange={event => {
-                        handleCpfcnpjChange(event.target.value);
-                        formik.handleChange("cpfcnpj");
-                      }}
-                      value={cpfcnpj}
-                    />
-                    <Span className={'validation-warning'}>
-                      {
-                        formik.touched.cpfcnpj && formik.errors.cpfcnpj 
-                      ? 
-                        (<div>{formik.errors.cpfcnpj}</div>) 
-                      : 
-                        null
-                      }
-                    </Span>
-                  </Field>
+                  <div className="columns">
+                    <div className="column is-3">
+                    <Field className={'field'}>
+                      <Label for={'documents'}>
+                        <b>Documento</b>
+                      </Label>
+                      <Select
+                        className={formik.touched.documents && formik.errors.documents ? 'border-warning' : ''}
+                        options={documents}
+                        isSearchable={false}
+                        placeholder={'CPF'}
+                        value={documenttype}
+                        onChange={selectedOption => {
+                          handleDocumentChange(selectedOption);
+                          formik.handleChange("document");
+                        }}
+                      />
+                    </Field>
+                    </div>
+                    <div className="column">
+                      <Field>
+                        <Label className="label-perfil" for={'email'}>
+                          <b>-</b>
+                        </Label>
+                        <Input
+                          name="cnpj"
+                          type="text"
+                          placeholder=""
+                          className={formik.touched.cpfcnpj && formik.errors.cpfcnpj ? 'input border-warning' : 'input'}
+                          onChange={event => {
+                            handleCpfcnpjChange(event.target.value);
+                            formik.handleChange("cpfcnpj");
+                          }}
+                          value={cpfcnpj}
+                        />
+                        <Span className={'validation-warning'}>
+                          {
+                            formik.touched.cpfcnpj && formik.errors.cpfcnpj 
+                          ? 
+                            (<div>{formik.errors.cpfcnpj}</div>) 
+                          : 
+                            null
+                          }
+                        </Span>
+                      </Field>
+                    </div>
+                  </div>
                   <Field className="is-pulled-right">
                     <Button
                       type={'submit'}
@@ -301,7 +369,6 @@ const Perfil = ({history}) => {
                   </Field>
                 </div>
                 <div className="column">
-                  Redes sociais, email e telefone verificado
                 </div>
               </div>
               <div className="columns">
@@ -316,10 +383,12 @@ const Perfil = ({history}) => {
                         <Label for={'location'}>
                           <b>CEP</b>
                         </Label>
-                        <Input
+                        <InputMask
                             name="location"
                             type="text"
                             placeholder=""
+                            mask="99.999-999" 
+                            maskChar=" "
                             className={formik.touched.location && formik.errors.location ? 'input border-warning' : 'input'}
                             onChange={event => {
                               handleLocationChange(event.target.value);
@@ -516,7 +585,6 @@ const Perfil = ({history}) => {
                   </Field>
                 </div>
                 <div className="column">
-                  asdds
                 </div>
               </div>
             </Form>

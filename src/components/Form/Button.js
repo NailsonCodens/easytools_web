@@ -18,12 +18,12 @@ export const CheckboxIOS = (props) => {
         <input 
           type="checkbox" 
           name={props.name} 
-          id="checkbox1" 
+          id={props.bind}
           className={"ios-toggle " + props.className} 
           onChange={props.onChange} 
-          defaultChecked
+          defaultChecked={props.ch}
         />
-        <label htmlFor="checkbox1" className="checkbox-label" data-off={props.off} data-on={props.on}></label>
+        <label htmlFor={props.bind} className="checkbox-label" data-off={props.off} data-on={props.on}></label>
       </div>
     </>
   )

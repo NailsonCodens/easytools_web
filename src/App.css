@@ -143,7 +143,7 @@
 }
 
 .container-page{
-  padding-top:30px !important;
+  padding-top:0px !important;
   padding-bottom: 100px !important;
 }
 
@@ -235,4 +235,29 @@
 
 .textarea-multiline{
   height: 160px !important;
+}
+
+.card-content{
+  padding: 0.8rem !important;
+}
+
+.card .media:not(:last-child){
+  margin:0px !important;
+}
+
+.card{
+  border-bottom: 1px solid rgb(218, 218, 218);
+  box-shadow: none !important;
+}
+
+.hack-padding-top{
+  margin-top: -10px;
+}
+
+.css-b8ldur-Input input{
+  border: none !important;
+}
+
+.back-form{
+  margin-right: 20px !important;
 }

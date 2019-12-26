@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Redirect, useRouteMatch, Link } from 'react-router-dom';
-
 import PrivateRoute from '../../../routes/privaterouteLessor.js';
+
+import api from '../../../services/api';
 
 import MenuLessor from '../../../components/Menu/MenuLessor/index';
 import Dashboard from '../Dashboard/index';
@@ -12,6 +13,24 @@ import './style.css';
 
 export default function Start({history}) {
   let { path } = useRouteMatch();
+  const [check, setCheck] = useState(false);
+
+  useEffect(() => {
+    async function loadPerfil() { 
+      const response = await api.get(`/perfil`, {
+      });
+
+      response.data.user.map(function (perfil) {
+        if (perfil.location === "" || perfil.address === "" || perfil.number === "" 
+        && perfil.location === "" || perfil.city === "" || perfil.uf === "") {
+          setCheck(true)
+        } else {
+          setCheck(false)
+        }
+      })
+    }
+    loadPerfil();
+  }, []);
 
   return (
     <>
@@ -23,7 +42,7 @@ export default function Start({history}) {
             ?
             (
               <>
-                <div className="warning-first-access">
+                <div className={check === true ? 'warning-first-access is-block' : 'warning-first-access is-hidden'}>
                   <h5>Um recadinho rápido!</h5>
                   <p>
                     Precisamos saber seu endereço para anunciar seus equipamentos e ferramentas nos lugares adequados. 
