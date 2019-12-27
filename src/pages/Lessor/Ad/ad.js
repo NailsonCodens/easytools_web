@@ -55,7 +55,7 @@ export default function Index({history}) {
                         <p>No picture</p>
                       </div>
                       <p className="title-tool">{tool.title}</p>
-                      <Link to={`s/tool/${tool.id}`}>Ver Detalhes</Link>
+                      <Link to={`ad/detail/${tool.id}`}>Ver Detalhes</Link>
                     </div>
                   </div>
                 ))

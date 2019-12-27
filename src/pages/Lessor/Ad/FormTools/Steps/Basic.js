@@ -4,9 +4,9 @@ import * as Yup from 'yup';
 import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../../../components/Form/Form';
 import { Button } from '../../../../../components/Form/Button';
-import { Warningtext } from '../../../../../components/Warningtext';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import { Span } from '../../../../../components/Span';
+import Scrool from '../../../../../utils/scroll';
 
 const Basic = ({nextStep, handleChange, values}) => {
   const formik = useFormik({
@@ -19,8 +19,7 @@ const Basic = ({nextStep, handleChange, values}) => {
         .required('Título é obrigatório.'),
       description: Yup.string()
         .required('Descrição é obrigatório.'),
-
-      }),
+    }),
     onSubmit: value => {
       nextStep()
     }
@@ -42,6 +41,8 @@ const Basic = ({nextStep, handleChange, values}) => {
       case 'description':
           formik.values.description = event.target.value
         break;
+      default:
+        return '';
     }
 
     handleChange(input, event.target.value)
@@ -53,6 +54,7 @@ const Basic = ({nextStep, handleChange, values}) => {
       <br></br>
       <Form 
         onSubmit={ (e, values) => {
+          Scrool(100, 100);
           formik.handleSubmit(values)
         }} 
         noValidate
@@ -104,7 +106,7 @@ const Basic = ({nextStep, handleChange, values}) => {
         <Button
           type={'submit'}
           className={'button color-logo-lessor is-pulled-right'}
-          text={'Salvar Alterações pessoais'}
+          text={'Salvar e Prosseguir'}
         />
       </Form>
     </>

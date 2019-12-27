@@ -17,7 +17,7 @@ import { login } from '../../services/auth';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
-import Scrool from '../../utils/scrool';
+import Scrool from '../../utils/scroll';
 
 import './style.css';
  

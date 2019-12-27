@@ -14,13 +14,13 @@ const Tools = () => {
       <div className="container-fluid">
         <div className="columns box-photos">
           <div className="column">
-            <img src={image1} alt="EasyTools Logo" className="" />
+            <img src={image1} alt={image1} className="" />
           </div>
           <div className="column is-3">
-            <img src={image2} alt="EasyTools Logo" className="" />
+            <img src={image2} alt={image2} className="" />
           </div>
           <div className="column">
-            <img src={image3} alt="EasyTools Logo" className="" />
+            <img src={image3} alt={image3} className="" />
           </div>
         </div>
         <div className="container">
@@ -34,7 +34,7 @@ const Tools = () => {
             <div className="column">
               <div className="columns">
                 <div className="">
-                  <img src={image3} alt="EasyTools Logo" className="logo-neighbor"/>
+                  <img src={image3} alt={image3} className="logo-neighbor"/>
                   <span className="name-neighbor">Ap Andaimes</span>
                 </div>
               </div>
@@ -114,7 +114,7 @@ const Tools = () => {
                     <div className="card-content">
                       <div className="media">
                         <div className="media-left">
-                          <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image"/>
+                          <img src="https://bulma.io/images/placeholders/96x96.png" alt="asdsad g"/>
                         </div>
                         <div className="media-content">
                           <p className="title is-4">

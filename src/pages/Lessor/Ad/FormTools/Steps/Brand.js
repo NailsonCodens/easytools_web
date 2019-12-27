@@ -6,12 +6,12 @@ import Select from 'react-select';
 import { Button } from '../../../../../components/Form/Button';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import { Span } from '../../../../../components/Span';
+import Scroll from '../../../../../utils/scroll';
 
 import categories from '../../../../../utils/categories';
 import feeds from '../../../../../utils/feeds';
 
-const Branc = ({nextStep, handleChange, prevStep, values}) => {
-  console.log(values)
+const Brand = ({nextStep, handleChange, prevStep, values}) => {
   const formik = useFormik({
     initialValues: {
       brand: '',
@@ -20,6 +20,8 @@ const Branc = ({nextStep, handleChange, prevStep, values}) => {
       feed: '',
       power: '',
       tension: '',
+      follow: '',
+      accessory: '',
     },
 
     onSubmit: value => {
@@ -29,6 +31,7 @@ const Branc = ({nextStep, handleChange, prevStep, values}) => {
 
   const back = (e) => {
     e.preventDefault();
+    Scroll(100, 100);
     prevStep();
   }
 
@@ -43,7 +46,10 @@ const Branc = ({nextStep, handleChange, prevStep, values}) => {
       case 'type_spec': 
         formik.values.type_spec = ev
         break;
-      case 'category': 
+      case 'feed': 
+        formik.values.feed = ev
+        break;
+        case 'category': 
         formik.values.category = ev
         break;
       case 'power': 
@@ -52,7 +58,14 @@ const Branc = ({nextStep, handleChange, prevStep, values}) => {
       case 'tension': 
         formik.values.tension = ev
         break;
-
+      case 'follow': 
+        formik.values.follow = ev
+        break;
+      case 'accessory': 
+        formik.values.accessory = ev
+        break;
+      default:
+        return '';
     }
 
     handleChange(input, ev)
@@ -64,33 +77,38 @@ const Branc = ({nextStep, handleChange, prevStep, values}) => {
       <br></br>
       <Form
         onSubmit={ (e, values) => {
+          Scroll(100, 100);
           formik.handleSubmit(values)
         }} 
         noValidate
-      >
-        <Field>
-          <Label className="label-perfil" for={'brand'}>
-            <b>Marca do equipamento</b>
-          </Label>
-          <Input
-            name="brand"
-            type="text"
-            placeholder=""
-            className={'input'}
-            onChange={event => handleChangeBrand('brand', event)}
-            value={values.brand}
-          />
-          <Span className={'validation-warning'}>
-            {
-              formik.touched.brand && formik.errors.brand 
-            ? 
-              (<div>{formik.errors.brand}</div>) 
-            : 
-              null
-            }
-          </Span>
-        </Field>
-        <div className="columns">
+      > 
+        <div className="columns column-address">
+          <div className="column">
+            <Field>
+              <Label className="label-perfil" for={'brand'}>
+                <b>Marca do equipamento</b>
+              </Label>
+              <Input
+                name="brand"
+                type="text"
+                placeholder=""
+                className={'input'}
+                onChange={event => handleChangeBrand('brand', event)}
+                value={values.brand}
+              />
+              <Span className={'validation-warning'}>
+                {
+                  formik.touched.brand && formik.errors.brand 
+                ? 
+                  (<div>{formik.errors.brand}</div>) 
+                : 
+                  null
+                }
+              </Span>
+            </Field>
+          </div>
+        </div>
+        <div className="columns column-address">
           <div className="column">
             <Field>
               <Label className="label-perfil" for={'type_spec'}>
@@ -133,23 +151,23 @@ const Branc = ({nextStep, handleChange, prevStep, values}) => {
             </Field>
           </div>
         </div>
-        <div className="columns">
-        <div className="column">
-          <Field className={'field'}>
-            <Label for={'feeding'}>
-              <b>Alimentação</b>
-            </Label>
-            <Select
-              className={''}
-              options={feeds}
-              isSearchable={true}
-              placeholder={'Energia elétrica'}
-              onChange={selectedOption => {
-                handleChangeBrand('feed', selectedOption, 'select');
-                formik.handleChange("feed");
-              }}
-            />
-          </Field>
+        <div className="columns column-address">
+          <div className="column">
+            <Field className={'field'}>
+              <Label for={'feeding'}>
+                <b>Alimentação</b>
+              </Label>
+              <Select
+                className={''}
+                options={feeds}
+                isSearchable={true}
+                placeholder={'Energia elétrica'}
+                onChange={selectedOption => {
+                  handleChangeBrand('feed', selectedOption, 'select');
+                  formik.handleChange("feed");
+                }}
+              />
+            </Field>
           </div>
           <div className="column">
             <Field>
@@ -200,6 +218,56 @@ const Branc = ({nextStep, handleChange, prevStep, values}) => {
             </Field>
           </div>
         </div>
+        <div className="columns">
+          <div className="column">
+            <Field>
+              <Label className="label-perfil" for={'accessory'}>
+                <b>Acessórios</b>
+              </Label>
+              <Input
+                name="accessory"
+                type="text"
+                placeholder="Ex: Carregador elétrico"
+                className={'input'}
+                onChange={event => handleChangeBrand('accessory', event)}
+                value={values.accessory}
+              />
+              <Span className={'validation-warning'}>
+                {
+                  formik.touched.accessory && formik.errors.accessory 
+                ? 
+                  (<div>{formik.errors.accessory}</div>) 
+                : 
+                  null
+                }
+              </Span>
+            </Field>
+          </div>
+          <div className="column">
+            <Field>
+              <Label className="label-perfil" for={'follow'}>
+                <b>Vai junto</b>
+              </Label>
+              <Input
+                name="follow"
+                type="text"
+                placeholder="Ex: Serrinhas de corte"
+                className={'input'}
+                onChange={event => handleChangeBrand('follow', event)}
+                value={values.follow}
+              />
+              <Span className={'validation-warning'}>
+                {
+                  formik.touched.follow && formik.errors.follow 
+                ? 
+                  (<div>{formik.errors.follow}</div>) 
+                : 
+                  null
+                }
+              </Span>
+            </Field>
+          </div>
+        </div>
         <Button
           type={'button'}
           className={'button color-logo-lessor is-pulled-right'}
@@ -209,11 +277,11 @@ const Branc = ({nextStep, handleChange, prevStep, values}) => {
         <Button
           type={'submit'}
           className={'button color-logo-lessor back-form is-pulled-right'}
-          text={'Salvar Alterações da marca'}
+          text={'Salvar e Prosseguir'}
         />
       </Form>
     </>
   )
 }
 
-export default Branc;
+export default Brand;

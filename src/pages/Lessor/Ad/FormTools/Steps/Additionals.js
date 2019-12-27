@@ -5,9 +5,9 @@ import { Field, Label } from '../../../../../components/Form/Form';
 import { Button, CheckboxIOS } from '../../../../../components/Form/Button';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import { Hr } from '../../../../../components/Hr';
+import Scroll from '../../../../../utils/scroll';
 
 const Additionals = ({nextStep, handleChange, prevStep, values}) => {
-  console.log(values.devolution)
   const formik = useFormik({
     initialValues: {
       use_indication: '',
@@ -27,6 +27,7 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
 
   const back = (e) => {
     e.preventDefault();
+    Scroll(100, 100);
     prevStep();
   }
 
@@ -68,6 +69,8 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
       case 'devolution': 
         formik.values.devolution = ev
         break;
+      default:
+        return '';
     }
     handleChange(input, ev)
   }
@@ -78,31 +81,36 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
       <br></br>
       <Form
         onSubmit={ (e, values) => {
+          Scroll(100, 100)
           formik.handleSubmit(values)
         }} 
         noValidate
       >
-        <Field>
-          <Label className="label-perfil" for={'use_indication'}>
-            <b>Indicação de uso</b>
-          </Label>
-          <Input
-            name="use_indicate"
-            type="text"
-            placeholder="Ex: Uso para madeiras e chapadas finas de alumínio"
-            className={formik.touched.use_indication && formik.errors.use_indication ? 'input border-warning' : 'input'}
-            onChange={event => handleChangeAdditionals('use_indication', event)}
-            value={values.use_indication}
-          />
-        </Field>
-        <div className="columns margin-title-price">
+        <div className="columns columns-address">
+          <div className="column">
+            <Field>
+              <Label className="label-perfil" for={'use_indication'}>
+                <b>Indicação de uso</b>
+              </Label>
+              <Input
+                name="use_indicate"
+                type="text"
+                placeholder="Ex: Uso para madeiras e chapadas finas de alumínio"
+                className={formik.touched.use_indication && formik.errors.use_indication ? 'input border-warning' : 'input'}
+                onChange={event => handleChangeAdditionals('use_indication', event)}
+                value={values.use_indication}
+              />
+            </Field>
+          </div>
+        </div>
+        <div className="columns margin-title-price column-address">
           <div className="column">
             <Label className="label-perfil" for={'price1'}>
               <SubTitlepages>Preço R$</SubTitlepages>
             </Label>
           </div>
         </div>
-        <div className="columns">
+        <div className="columns column-address">
           <div className="column">
             <Field>
               <Label className="label-perfil" for={'price1'}>
@@ -152,7 +160,7 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
         <Hr/>
         <b>Informações o aluguel do equipamento ou ferramenta</b>
         <br/><br/>
-        <div className="columns">
+        <div className="columns column-address">
           <div className="column">
             <div className="offer">  
               <Label className="label-perfil" for={'contract'}>
@@ -188,11 +196,12 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
             </div>
           </div>
         </div>
+        <br/>
         <div className="columns">
           <div className="column">
             <div className="offer">  
               <Label className="label-perfil" for={'delivery'}>
-                <p>Delivery</p>
+                <p>Entrega</p>
               </Label> 
               <CheckboxIOS 
                 onChange={event => handleChangeAdditionals('delivery', event, 'checkbox')}
@@ -233,7 +242,7 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
         <Button
           type={'submit'}
           className={'button color-logo-lessor back-form is-pulled-right'}
-          text={'Salvar Alterações da marca'}
+          text={'Salvar e Prosseguir'}
         />
       </Form>
     </>

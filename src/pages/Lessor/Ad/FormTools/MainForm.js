@@ -3,61 +3,103 @@ import Basic from '../FormTools/Steps/Basic';
 import Brand from '../FormTools/Steps/Brand';
 import Address from '../FormTools/Steps/Address';
 import Additionals from '../FormTools/Steps/Additionals';
+import Finish from '../FormTools/Steps/Finish';
 
 import { useFormik } from 'formik';
 
 import './Steps/style.css';
 
 const Main = ({history}) => {
-  const [step, setStep] = useState(3);
+  // eslint-disable-next-line
+  const [step, setStep] = useState(5);
+  // eslint-disable-next-line
   const [title, setTitle] = useState('');
+  // eslint-disable-next-line
   const [description, setDescription] = useState('');
+  // eslint-disable-next-line
   const [brand, setBrand] = useState('');
+  // eslint-disable-next-line
   const [type_spec, setTypespec] = useState('');
+  // eslint-disable-next-line
   const [category, setCategory] = useState('');
+  // eslint-disable-next-line
   const [feed, setFeed] = useState('');
+  // eslint-disable-next-line
   const [tension, setTension] = useState('');
+  // eslint-disable-next-line
   const [power, setPower] = useState('');
+  // eslint-disable-next-line
   const [use_indication, setUseindication] = useState('');
+  // eslint-disable-next-line
   const [prices, setPrices] = useState('');
+  // eslint-disable-next-line
   const [insurance, setInsurance] = useState('');
+  // eslint-disable-next-line
   const [delivery, setDelivery] = useState('');
+  // eslint-disable-next-line
   const [contract, setContract] = useState('');
+  // eslint-disable-next-line
   const [devolution, setDevolution] = useState('');
+  // eslint-disable-next-line
   const [price1, setPrice1] = useState('');
+  // eslint-disable-next-line
   const [price2, setPrice2] = useState('');
+  // eslint-disable-next-line
   const [price3, setPrice3] = useState('');
+  // eslint-disable-next-line
+  const [location, setLocation] = useState('');
+  // eslint-disable-next-line
+  const [neighboor, setNeighboor] = useState('');
+  // eslint-disable-next-line
+  const [address, setAddress] = useState('');
+  // eslint-disable-next-line
+  const [number, setNumber] = useState('');
+  // eslint-disable-next-line
+  const [complement, setComplement] = useState('');
+  // eslint-disable-next-line
+  const [uf, setUf] = useState('');
+  // eslint-disable-next-line
+  const [city, setCity] = useState('');
+  // eslint-disable-next-line
+  const [follow, setFollow] = useState('');
+  // eslint-disable-next-line
+  const [accessory, setAccessory] = useState('');
+  // eslint-disable-next-line
 
   const formik = useFormik({
     initialValues: {
-      title: "",
-      description: "",
-      category: "",
-      type_spec: "",
-      feed: "",
-      accessory: "",
-      brand: "",
-      follow: "",
-      use_indication: "",
-      power: "",
-      tension: "",
+      title: "sadasdsad",
+      description: "wewqewqe",
+      category: "weqe",
+      type_spec: "wqewqe",
+      feed: "wqewqe",
+      accessory: "wqewqe",
+      brand: "wqewqe",
+      follow: "qwewqe",
+      use_indication: "qweqwe",
+      power: "qwewqe",
+      tension: "23",
       prices: "",
-      price1: "",
-      price2: "",
-      price3: "",
+      price1: "34",
+      price2: "34",
+      price3: "45",
       insurance: "Y",
       delivery: "Y",
       contract: "Y",
       devolution: "Y",
-      location: "",
+      location: "81.250-300",
+      neighboor: "asdas",
+      address: "asdasdsadsadasdasd asdas",
+      number: "233",
+      complement: "dasdasdas",
+      uf: "Paraná",
+      city: "Curitiba ",
       lat: "",
       lng: "",
     },
     onSubmit: value => {
-      console.log(value)
     }
   })
-
 
   const nextStep = () => {
     const stepnew  = step
@@ -95,6 +137,7 @@ const Main = ({history}) => {
   }
 
   const handleFeedChange = (feed) => {
+    console.log(feed)
     setFeed(feed)
     formik.values.feed = feed
   }
@@ -161,6 +204,51 @@ const Main = ({history}) => {
     formik.values.devolution = dvnew
   }
 
+  const handleLocationChange = (location) => {
+    setLocation(location)
+    formik.values.location = location
+  }
+
+  const handleNeighboorChange = (neighboor) => {
+    setNeighboor(neighboor)
+    formik.values.neighboor = neighboor
+  }
+
+  const handleAddressChange = (address) => {
+    setAddress(address)
+    formik.values.address = address
+  }
+
+  const handleNumberChange = (number) => {
+    setNumber(number)
+    formik.values.number = number
+  }
+
+  const handleComplementChange = (complement) => {
+    setComplement(complement)
+    formik.values.complement = complement
+  }
+
+  const handleCityChange = (city) => {
+    setCity(city)
+    formik.values.city = city
+  }
+
+  const handleUfChange = (uf) => {
+    setUf(uf)
+    formik.values.uf = uf
+  }
+
+  const handleFollowChange = (follow) => {
+    setFollow(follow)
+    formik.values.follow = follow
+  }
+
+  const handleAccessoryChange = (accessory) => {
+    setAccessory(accessory)
+    formik.values.accessory = accessory
+  }
+
   const handleChange = (input, event) => {
     switch(input){
       case 'title': 
@@ -211,14 +299,39 @@ const Main = ({history}) => {
       case 'devolution':
         handleDevolutionChange(event)
         break;
+      case 'location':
+        handleLocationChange(event)
+        break;
+      case 'neighboor':
+        handleNeighboorChange(event)
+        break;
+      case 'address':
+        handleAddressChange(event)
+        break;
+      case 'number':
+        handleNumberChange(event)
+        break;
+      case 'complement':
+        handleComplementChange(event)
+        break;
+      case 'city':
+          handleCityChange(event)
+          break;
+      case 'uf':
+          handleUfChange(event)
+          break;
+      case 'follow':
+          handleFollowChange(event)
+          break;
+      case 'accessory':
+          handleAccessoryChange(event)
+          break;
+      default: 
+        return ''
+    }
   }
 
-    //formik.values.title = event.target.value
-  }
-
-  const handleSubmit = (teste) => {
-    console.log(teste)
-  }
+  console.log(formik.values)
 
   const renderSteps = () => { 
     switch(step) {
@@ -230,7 +343,9 @@ const Main = ({history}) => {
         return <Additionals nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
       case 4: 
         return <Address nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
-        default: 
+      case 5: 
+        return <Finish handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
+      default: 
         return <Basic nextStep={nextStep} values={formik.values}/>
     }
   }
@@ -269,7 +384,26 @@ const Main = ({history}) => {
             </p>
           </>
         )
-      default: 
+        case 3: 
+          return (
+            <>
+              <h3 className="title-tips">Adicione mais informações para facilitar a vida dos seus clientes!</h3>
+              <p className="text-tips">
+
+              </p>
+            </>
+          )
+        case 4: 
+          return (
+            <>
+              <h3 className="title-tips">Adicione o endereço de onde sua ferramenta está. Isso vai ajudar na pesquisa dos locatários. </h3>
+              <p className="text-tips">
+                Você pode usar seu endereço padrão para tudo que você deseja alugar. 
+                Caso não queira usar outro, não tem problema. Destive o botão de endereço padrão e use o endereço que desejar.
+              </p>
+            </>
+          )
+        default: 
       return (
         <>
           <h3 className="title-tips">Dicas para chamar atenção!</h3>

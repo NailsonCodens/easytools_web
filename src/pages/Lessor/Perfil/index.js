@@ -386,7 +386,7 @@ const Perfil = ({history}) => {
                         <InputMask
                             name="location"
                             type="text"
-                            placeholder=""
+                            placeholder="00.000-000"
                             mask="99.999-999" 
                             maskChar=" "
                             className={formik.touched.location && formik.errors.location ? 'input border-warning' : 'input'}

@@ -19,14 +19,16 @@ export default function Start({history}) {
     async function loadPerfil() { 
       const response = await api.get(`/perfil`, {
       });
-
+      
+      // eslint-disable-next-line
       response.data.user.map(function (perfil) {
-        if (perfil.location === "" || perfil.address === "" || perfil.number === "" 
-        && perfil.location === "" || perfil.city === "" || perfil.uf === "") {
+        // eslint-disable-next-line
+        if (perfil.location === "" || perfil.address === "" || perfil.number === "" && perfil.location === "" || perfil.city === "" || perfil.uf === "") {
           setCheck(true)
         } else {
           setCheck(false)
         }
+
       })
     }
     loadPerfil();
