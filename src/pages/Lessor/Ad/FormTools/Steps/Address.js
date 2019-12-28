@@ -56,7 +56,6 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
       lat: '',
       lng: '',
     },
-
     validationSchema: Yup.object({
       location: Yup.string()
         .required('CEP é obrigatório.'),
@@ -108,23 +107,25 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
   }
 
   const setDatadefault = () => {
-    if(showad === true) {
-      values.location = address.location
-      formik.values.location = address.location
-      values.neighboor = address.neighboor
-      formik.values.neighboor = address.neighboor
-      values.address = address.address
-      formik.values.address = address.address
-      values.number = address.number
-      formik.values.number = address.number
-      values.complement = address.complement
-      formik.values.complement = address.complement
-      values.uf = address.uf
-      formik.values.uf = address.uf
-      values.city = address.city
-      formik.values.city = address.city
-    }
+    values.location = address.location
+    formik.values.location = address.location
+    values.neighboor = address.neighboor
+    formik.values.neighboor = address.neighboor
+    values.address = address.address
+    formik.values.address = address.address
+    values.number = address.number
+    formik.values.number = address.number
+    values.complement = address.complement
+    formik.values.complement = address.complement
+    values.uf = address.uf
+    formik.values.uf = address.uf
+    values.city = address.city
+    formik.values.city = address.city
   };
+
+
+    console.log(formik.values)
+
 
   const back = (e) => {
     e.preventDefault();
@@ -190,8 +191,8 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
       </div>
       <Form
         onSubmit={ (e, values) => {
-          Scroll(100, 100)
           setDatadefault()
+          Scroll(100, 100)
           formik.handleSubmit(values)
         }} 
         noValidate
