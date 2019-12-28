@@ -10,20 +10,40 @@ import { Warningtext } from '../../../../../components/Warningtext';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import Scroll from '../../../../../utils/scroll';
 import { Span } from '../../../../../components/Span';
+import { toast } from 'react-toastify';
+
+import { getCordinates } from '../../../../../utils/mapbox';
 
 import api from '../../../../../services/api';
 
-const token = "pk.eyJ1IjoibmFpbHNvbiIsImEiOiJjazRrYmRyMnUwNHdoM2RvanpkM2t3Z2ZkIn0.8KBTYMBwH5sb0OIhnk5icg";
-
 const Address = ({nextStep, handleChange, prevStep, values}) => {
-  const response = api.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/Rua alvares de azevedo 298 Curitiba Paraná.json?access_token=${token}`, {
+  toast.configure({
+    autoClose: 3000,
+    draggable: false,
+  })
+
+  const info = () => toast.info('Só um momento, verificando endereço.', {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: false,
+    pauseOnHover: true,
+    draggable: true,
   });
 
-  response.then(console.log)
+  const warning = () => toast.warning('Não encontramos este endereço, verifique por favor.', {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: false,
+    pauseOnHover: true,
+    draggable: true,
+  });
 
   const [address, setAddress] = useState('');
   const [showad, setShowad] = useState(true);
   const [showsg, showMsg] = useState(false);
+  const [dataaddress, setDataaddress] = useState([]);
 
   useEffect(() => {
     async function loadPerfil() { 
@@ -38,21 +58,20 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
           showMsg(true)
         }
       }) 
-      
       setAddress(response.data.user[0]);
     }
-    loadPerfil();
+    loadPerfil()
   }, [showad, values]);
 
   const formik = useFormik({
     initialValues: {
-      location: '',
-      neighboor: '',
-      address: '',
-      number: '',
-      complement: '',
-      uf: '',
-      city: '',
+      location: values.location,
+      neighboor: values.neighboor,
+      address: values.address,
+      number: values.number,
+      complement: values.complement,
+      uf: values.uf,
+      city: values.city,
       lat: '',
       lng: '',
     },
@@ -67,11 +86,31 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
         .required('O estado é obrigatório.'),
       city: Yup.string()
         .required('O cidade é obrigatório.'),
-
-      }),
+    }),
 
     onSubmit: value => {
-      nextStep()
+      let query = `${values.address} ${values.number} ${values.uf} ${values.city} ${values.location}`
+      
+      info()     
+      setTimeout(function(){
+        getCordinates(query).then(res => {
+          console.log(res.data.features)
+        
+          console.log(res.data.features.length)
+        
+          if (res.data.features.length != '') {
+            let cordinates =  res.data.features[0].center
+            values.lat = cordinates[1]
+            values.lng = cordinates[0]
+            formik.values.lat = cordinates[1]
+            formik.values.lng = cordinates[0]
+  
+            nextStep()
+          } else {
+            warning()
+          }
+        })
+      }, 2000);
     }
   })
 
@@ -106,7 +145,16 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
     handleChange(input, ev)
   }
 
-  const setDatadefault = () => {
+  const back = (e) => {
+    e.preventDefault();
+    Scroll(100, 100);
+    prevStep();
+  }
+
+  const handleCheckIOS = event => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    setShowad(value)
     values.location = address.location
     formik.values.location = address.location
     values.neighboor = address.neighboor
@@ -121,23 +169,7 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
     formik.values.uf = address.uf
     values.city = address.city
     formik.values.city = address.city
-  };
-
-
-    console.log(formik.values)
-
-
-  const back = (e) => {
-    e.preventDefault();
-    Scroll(100, 100);
-    prevStep();
-  }
-
-  const handleCheckIOS = event => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    setShowad(value)
-};  
+  };  
 
   return (
     <>
@@ -191,7 +223,6 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
       </div>
       <Form
         onSubmit={ (e, values) => {
-          setDatadefault()
           Scroll(100, 100)
           formik.handleSubmit(values)
         }} 

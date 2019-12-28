@@ -19,7 +19,7 @@ import { Hr } from '../../components/Hr';
 
 import Modal from '../../components/Modal';
 
-import Scrool from '../../utils/scrool';
+import Scrool from '../../utils/scroll';
 
 import api from '../../services/api';
 
