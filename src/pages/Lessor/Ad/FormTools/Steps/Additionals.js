@@ -6,6 +6,7 @@ import { Button, CheckboxIOS } from '../../../../../components/Form/Button';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import { Hr } from '../../../../../components/Hr';
 import Scroll from '../../../../../utils/scroll';
+import CurrencyInput from 'react-currency-input';
 
 const Additionals = ({nextStep, handleChange, prevStep, values}) => {
   const formik = useFormik({
@@ -116,9 +117,10 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
               <Label className="label-perfil" for={'price1'}>
                 <b>Diária</b>
               </Label>
-              <Input
+              <CurrencyInput
                 name="price1"
                 type="text"
+                decimalSeparator="," thousandSeparator="."
                 placeholder="R$ 50,00"
                 className={formik.touched.price1 && formik.errors.price1 ? 'input border-warning' : 'input'}
                 onChange={event => handleChangeAdditionals('price1', event)}
@@ -131,9 +133,10 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
               <Label className="label-perfil" for={'price2'}>
                 <b>Quinzenal</b>
               </Label>
-              <Input
+              <CurrencyInput
                 name="price2"
                 type="text"
+                decimalSeparator="," thousandSeparator="."
                 placeholder="R$ 100,00"
                 className={formik.touched.price2 && formik.errors.price2 ? 'input border-warning' : 'input'}
                 onChange={event => handleChangeAdditionals('price2', event)}
@@ -146,9 +149,10 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
               <Label className="label-perfil" for={'price3'}>
                 <b>Mensal</b>
               </Label>
-              <Input
+              <CurrencyInput
                 name="price3"
                 type="text"
+                decimalSeparator="," thousandSeparator="."
                 placeholder="R$ 150,00"
                 className={formik.touched.use_indication && formik.errors.price3 ? 'input border-warning' : 'input'}
                 onChange={event => handleChangeAdditionals('price3', event)}

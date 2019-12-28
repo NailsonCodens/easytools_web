@@ -4,11 +4,18 @@ import { Form } from '@rocketseat/unform';
 import { Button } from '../../../../../components/Form/Button';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import Scroll from '../../../../../utils/scroll';
-import { Span } from '../../../../../components/Span';
 import { Hr } from '../../../../../components/Hr';
+import {IntlProvider, FormattedNumber} from 'react-intl';
+
+import api from '../../../../../services/api';
 
 const Finish = ({handleChange, prevStep, values}) => {
-  console.log(values)
+  values.prices =  `${values.price1}; ${values.price2}; ${values.price3}`
+  
+  let contract = values.contract === 'Y' ? 'SIM' : 'NÃO'
+  let insurance = values.insurance === 'Y' ? 'SIM' : 'NÃO'
+  let delivery = values.delivery === 'Y' ? 'SIM' : 'NÃO'
+  let devolution = values.devolution === 'Y' ? 'SIM' : 'NÃO'
   const formik = useFormik({
     initialValues: {
       follow: '',
@@ -16,8 +23,16 @@ const Finish = ({handleChange, prevStep, values}) => {
     },
 
     onSubmit: value => {
+      saveTools(values)      
     }
   })
+
+  async function saveTools (values) {
+    await api.post('tools/add/', values, {})
+    .then((res) => {
+      console.log(res)
+    })
+  }
 
   const back = (e) => {
     e.preventDefault();
@@ -51,6 +66,36 @@ const Finish = ({handleChange, prevStep, values}) => {
               <p><b>Acessórios: </b>{ values.accessory !== '' ? values.accessory : 'Não informado' }</p>
               <p><b>Vai junto: </b>{ values.follow !== '' ? values.follow : 'Não informado' }</p>
               <Hr/>
+              <p><b>Indicação de uso: </b>{ values.use_indication !== '' ? values.use_indication : 'Não informado' }</p>
+              <Hr/>
+              <p><b>Contrato: </b>{ values.contract !== '' ? contract : 'Não informado' }</p>
+              <p><b>Seguro: </b>{ values.insurance !== '' ? insurance : 'Não informado' }</p>
+              <p><b>Entrega: </b>{ values.delivery !== '' ? delivery : 'Não informado' }</p>
+              <p><b>Devolução: </b>{ values.devolution !== '' ? devolution : 'Não informado' }</p>
+              <Hr/>
+              <p>
+                <b>Preços: </b>
+                  <br/>
+                  <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                    <b>
+                      {
+                        values.price2 !== '' ?  (<>Diária - <FormattedNumber value={values.price1} style="currency" currency="BRL" /></>)  : 'Não informado'
+                      }
+                    </b>
+                    <br/>
+                    <b>
+                      {
+                        values.price2 !== '' ?  (<>Quinzenal - <FormattedNumber value={values.price2} style="currency" currency="BRL" /></>)  : 'Não informado'
+                      }
+                    </b>
+                    <br/>
+                    <b>
+                      {
+                        values.price3 !== '' ?  (<>Mensal - <FormattedNumber value={values.price3} style="currency" currency="BRL" /></>)  : 'Não informado'
+                      }
+                    </b>
+                  </IntlProvider>
+                </p>
             </div>
             <div className="column">
             </div>

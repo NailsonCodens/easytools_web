@@ -16,23 +16,27 @@ import { toast } from 'react-toastify';
 
 import documents from '../../../utils/documents';
 import api from '../../../services/api';
+import Notification from '../../../utils/notification';
 
 import './style.css';
 
 const Perfil = ({history}) => {
-  toast.configure({
-    autoClose: 3000,
-    draggable: false,
-  })
-
-  const success = () => toast.success('Perfil atualizado com sucesso!', {
-    position: "top-center",
-    autoClose: 1500,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-  });
+  const success = () => Notification(
+    'success',
+    'Perfil atualizado com sucesso!', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
 
   const [id, setId] = useState('');
   const [name, setName] = useState('');

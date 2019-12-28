@@ -11,3 +11,10 @@ export const getAddress = () => {
   return 'address';
 }
 
+export const getGeolocalization = () => {
+  const geo = navigator.geolocation.getCurrentPosition(function(position) {
+    return position
+  });
+
+}
+

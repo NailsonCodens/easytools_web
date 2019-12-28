@@ -11,7 +11,7 @@ import './Steps/style.css';
 
 const Main = ({history}) => {
   // eslint-disable-next-line
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(5);
   // eslint-disable-next-line
   const [title, setTitle] = useState('');
   // eslint-disable-next-line

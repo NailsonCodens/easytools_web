@@ -1,12 +1,6 @@
-const scrollTop = function (first, secound){
-  let m = '';
-  let s = '';
-  if (first !== '' || first !== undefined) {
-    m = first
-  }
-  if (secound !== '' || secound !== undefined) {
-    s = secound
-  }
+const scrollTop = function (first = 0, secound = 0){
+  let m = first;
+  let s = secound;
 
   window.scrollTo(m, s)
 } 

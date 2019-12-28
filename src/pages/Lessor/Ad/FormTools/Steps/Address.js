@@ -10,35 +10,47 @@ import { Warningtext } from '../../../../../components/Warningtext';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import Scroll from '../../../../../utils/scroll';
 import { Span } from '../../../../../components/Span';
-import { toast } from 'react-toastify';
 
-import { getCordinates } from '../../../../../utils/mapbox';
+import Notification from '../../../../../utils/notification';
+
+import { getCordinates, getGeolocalization } from '../../../../../utils/mapbox';
 
 import api from '../../../../../services/api';
 
 const Address = ({nextStep, handleChange, prevStep, values}) => {
-  toast.configure({
-    autoClose: 3000,
-    draggable: false,
-  })
-
-  const info = () => toast.info('Só um momento, verificando endereço.', {
-    position: "top-center",
-    autoClose: 2000,
-    hideProgressBar: true,
-    closeOnClick: false,
-    pauseOnHover: true,
-    draggable: true,
-  });
-
-  const warning = () => toast.warning('Não encontramos este endereço, verifique por favor.', {
-    position: "top-center",
-    autoClose: 3000,
-    hideProgressBar: true,
-    closeOnClick: false,
-    pauseOnHover: true,
-    draggable: true,
-  });
+  const info = () => Notification(
+    'info',
+    'Só um momento, verificando endereço.', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+  
+  const warning = () => Notification(
+    'warning',
+    'Não encontramos este endereço, verifique por favor.', 
+    {
+      autoClose: 1500,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 1500,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
 
   const [address, setAddress] = useState('');
   const [showad, setShowad] = useState(true);
@@ -89,26 +101,22 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
     }),
 
     onSubmit: value => {
-      let query = `${values.address} ${values.number} ${values.uf} ${values.city} ${values.location}`
-      
+      let query = `${values.address} ${values.number} ${values.uf} ${values.city}`
       info()     
       setTimeout(function(){
         getCordinates(query).then(res => {
-          console.log(res.data.features)
-        
-          console.log(res.data.features.length)
-        
           if (res.data.features.length != '') {
             let cordinates =  res.data.features[0].center
             values.lat = cordinates[1]
             values.lng = cordinates[0]
             formik.values.lat = cordinates[1]
             formik.values.lng = cordinates[0]
-  
             nextStep()
           } else {
             warning()
           }
+        }).catch(err => {
+          console.log(err)
         })
       }, 2000);
     }
@@ -149,6 +157,23 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
     e.preventDefault();
     Scroll(100, 100);
     prevStep();
+  }
+
+  const setFormik = () => {
+    values.location = address.location
+    formik.values.location = address.location
+    values.neighboor = address.neighboor
+    formik.values.neighboor = address.neighboor
+    values.address = address.address
+    formik.values.address = address.address
+    values.number = address.number
+    formik.values.number = address.number
+    values.complement = address.complement
+    formik.values.complement = address.complement
+    values.uf = address.uf
+    formik.values.uf = address.uf
+    values.city = address.city
+    formik.values.city = address.city        
   }
 
   const handleCheckIOS = event => {
@@ -223,6 +248,7 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
       </div>
       <Form
         onSubmit={ (e, values) => {
+          setFormik()
           Scroll(100, 100)
           formik.handleSubmit(values)
         }} 
