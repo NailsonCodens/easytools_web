@@ -38,6 +38,8 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
       ev = event.value
     } else if (type === 'checkbox') {
       ev = event.target
+    } else if (type === 'price') {
+      ev = event
     } else {
       ev = event.target.value
     }
@@ -123,7 +125,7 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
                 decimalSeparator="," thousandSeparator="."
                 placeholder="R$ 50,00"
                 className={formik.touched.price1 && formik.errors.price1 ? 'input border-warning' : 'input'}
-                onChange={event => handleChangeAdditionals('price1', event)}
+                onChange={event => handleChangeAdditionals('price1', event, 'price')}
                 value={values.price1}
               />
             </Field>
@@ -139,7 +141,7 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
                 decimalSeparator="," thousandSeparator="."
                 placeholder="R$ 100,00"
                 className={formik.touched.price2 && formik.errors.price2 ? 'input border-warning' : 'input'}
-                onChange={event => handleChangeAdditionals('price2', event)}
+                onChange={event => handleChangeAdditionals('price2', event, 'price')}
                 value={values.price2}
               />
             </Field>           
@@ -155,7 +157,7 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
                 decimalSeparator="," thousandSeparator="."
                 placeholder="R$ 150,00"
                 className={formik.touched.use_indication && formik.errors.price3 ? 'input border-warning' : 'input'}
-                onChange={event => handleChangeAdditionals('price3', event)}
+                onChange={event => handleChangeAdditionals('price3', event, 'price')}
                 value={values.price3}
               />
             </Field>

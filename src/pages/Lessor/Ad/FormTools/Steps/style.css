@@ -7,3 +7,9 @@
 .margin-title-price{
   margin-bottom: 0px !important;
 }
+
+.money{
+  font-size: 20px !important;
+  color: #60A8F1;
+  font-weight: 500;
+}

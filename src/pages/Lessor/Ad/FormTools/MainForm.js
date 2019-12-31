@@ -11,7 +11,7 @@ import './Steps/style.css';
 
 const Main = ({history}) => {
   // eslint-disable-next-line
-  const [step, setStep] = useState(5);
+  const [step, setStep] = useState(1);
   // eslint-disable-next-line
   const [title, setTitle] = useState('');
   // eslint-disable-next-line
@@ -68,34 +68,34 @@ const Main = ({history}) => {
 
   const formik = useFormik({
     initialValues: {
-      title: "sadasdsad",
-      description: "wewqewqe",
-      category: "weqe",
-      type_spec: "wqewqe",
-      feed: "wqewqe",
-      accessory: "wqewqe",
-      brand: "wqewqe",
-      follow: "qwewqe",
-      use_indication: "qweqwe",
-      power: "qwewqe",
-      tension: "23",
+      title: "",
+      description: "",
+      category: "",
+      type_spec: "",
+      feed: "",
+      accessory: "",
+      brand: "",
+      follow: "",
+      use_indication: "",
+      power: "",
+      tension: "",
       prices: "",
-      price1: "34",
-      price2: "34",
-      price3: "45",
+      price1: "60,00",
+      price2: "50,00",
+      price3: "30,00",
       insurance: "Y",
       delivery: "Y",
       contract: "Y",
       devolution: "Y",
-      location: "81.250-300",
-      neighboor: "asdas",
-      address: "asdasdsadsadasdasd asdas",
-      number: "233",
-      complement: "dasdasdas",
-      uf: "Paraná",
-      city: "Curitiba ",
-      lat: "",
-      lng: "",
+      location: "",
+      neighboor: "",
+      address: "",
+      number: "",
+      complement: "",
+      uf: "",
+      city: "",
+      lat: 0,
+      lng: 0,
     },
     onSubmit: value => {
     }
@@ -381,6 +381,10 @@ const Main = ({history}) => {
               <b>Potência:</b> 150W
               <br/>
               <b>Tensão:</b> 110V
+              <br/>
+              <b>Acompanha:</b> Carregador
+              <br/>
+              <b>Vai junto(Brindes):</b> Serras
             </p>
           </>
         )
@@ -389,7 +393,21 @@ const Main = ({history}) => {
             <>
               <h3 className="title-tips">Adicione mais informações para facilitar a vida dos seus clientes!</h3>
               <p className="text-tips">
-
+                <b>Indicação de uso:</b> Madeiras e chapas de ferro finas.
+                <br/><br/>
+                <b>Preços - </b> Adicione os preços que você utiliza para este equipamento
+                <br/><br/>
+                E por fim, informe se sua ferramenta tem contrato, seguro, entrega e devolução. 
+                Estas informações são importantes para proteger seus equipamentos. 
+                <br/>
+                <br/>
+                <b>Contrato:</b> Seu equipamento só pode ser alugado mediante contrato no ato da entrega;
+                <br/>
+                <b>Seguro:</b> Seu equipamento tem seguro contra avarias e roubos;
+                <br/>
+                <b>Entrega:</b> Você faz a entrega do equipamento para o locatário;
+                <br/>
+                <b>Devolução:</b> Você busca o equipamento com o locatários ao fim do aluguel;
               </p>
             </>
           )
@@ -400,6 +418,15 @@ const Main = ({history}) => {
               <p className="text-tips">
                 Você pode usar seu endereço padrão para tudo que você deseja alugar. 
                 Caso não queira usar outro, não tem problema. Destive o botão de endereço padrão e use o endereço que desejar.
+              </p>
+            </>
+          )
+        case 5: 
+          return (
+            <>
+              <h3 className="title-tips">Pronto, basta confirmar as informações. </h3>
+              <p className="text-tips">
+                Confirme as informações do seu anúncio, se quiser corrigir algo, basta voltar na seção desejada.
               </p>
             </>
           )
@@ -432,7 +459,6 @@ const Main = ({history}) => {
           }
         </div>
       </div>
-
     </>
   )
 }

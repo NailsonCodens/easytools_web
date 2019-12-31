@@ -4,8 +4,8 @@ import { Form } from '@rocketseat/unform';
 import { Button } from '../../../../../components/Form/Button';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import Scroll from '../../../../../utils/scroll';
-import { Hr } from '../../../../../components/Hr';
 import {IntlProvider, FormattedNumber} from 'react-intl';
+import Notification from '../../../../../utils/notification';
 
 import api from '../../../../../services/api';
 
@@ -30,7 +30,9 @@ const Finish = ({handleChange, prevStep, values}) => {
   async function saveTools (values) {
     await api.post('tools/add/', values, {})
     .then((res) => {
-      console.log(res)
+      success()
+    }).catch((err) => {
+      console.log(err.response)
     })
   }
 
@@ -39,6 +41,23 @@ const Finish = ({handleChange, prevStep, values}) => {
     Scroll(100, 100);
     prevStep();
   }
+
+  const success = () => Notification(
+    'success',
+    'Anúncio criado com sucesso.', 
+    {
+      autoClose: 1500,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 1500,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
 
   return (
     <>
@@ -56,50 +75,65 @@ const Finish = ({handleChange, prevStep, values}) => {
             <div className="column">
               <p><b>Título: </b>{ values.title !== '' ? values.title : 'Não informado' }</p>
               <p><b>Descrição: </b>{ values.description !== '' ? values.description : 'Não informado' }</p>
-              <Hr/>
+            </div>
+            <div className="column">
+              <p><b>Indicação de uso: </b>{ values.use_indication !== '' ? values.use_indication : 'Não informado' }</p>
+            </div>
+          </div>
+          <div className="columns">
+            <div className="column">
               <p><b>Marca: </b>{ values.brand !== '' ? values.brand : 'Não informado' }</p>
               <p><b>Tipo: </b>{ values.type_spec !== '' ? values.type_spec : 'Não informado' }</p>
               <p><b>Categoria: </b>{ values.category !== '' ? values.category : 'Não informado' }</p>
               <p><b>Alimentação: </b>{ values.feed !== '' ? values.feed : 'Não informado' }</p>
               <p><b>Potência: </b>{ values.power !== '' ? values.power : 'Não informado' }</p>
               <p><b>Tensão: </b>{ values.tension !== '' ? values.tension : 'Não informado' }</p>
-              <p><b>Acessórios: </b>{ values.accessory !== '' ? values.accessory : 'Não informado' }</p>
-              <p><b>Vai junto: </b>{ values.follow !== '' ? values.follow : 'Não informado' }</p>
-              <Hr/>
-              <p><b>Indicação de uso: </b>{ values.use_indication !== '' ? values.use_indication : 'Não informado' }</p>
-              <Hr/>
+            </div>
+            <div className="column">
               <p><b>Contrato: </b>{ values.contract !== '' ? contract : 'Não informado' }</p>
               <p><b>Seguro: </b>{ values.insurance !== '' ? insurance : 'Não informado' }</p>
               <p><b>Entrega: </b>{ values.delivery !== '' ? delivery : 'Não informado' }</p>
               <p><b>Devolução: </b>{ values.devolution !== '' ? devolution : 'Não informado' }</p>
-              <Hr/>
-              <p>
-                <b>Preços: </b>
-                  <br/>
-                  <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                    <b>
-                      {
-                        values.price2 !== '' ?  (<>Diária - <FormattedNumber value={values.price1} style="currency" currency="BRL" /></>)  : 'Não informado'
-                      }
-                    </b>
-                    <br/>
-                    <b>
-                      {
-                        values.price2 !== '' ?  (<>Quinzenal - <FormattedNumber value={values.price2} style="currency" currency="BRL" /></>)  : 'Não informado'
-                      }
-                    </b>
-                    <br/>
-                    <b>
-                      {
-                        values.price3 !== '' ?  (<>Mensal - <FormattedNumber value={values.price3} style="currency" currency="BRL" /></>)  : 'Não informado'
-                      }
-                    </b>
-                  </IntlProvider>
-                </p>
-            </div>
-            <div className="column">
             </div>
           </div>
+          <div className="columns">
+            <div className="column">
+              <p><b>Acessórios: </b>{ values.accessory !== '' ? values.accessory : 'Não informado' }</p>
+              <p><b>Vai junto: </b>{ values.follow !== '' ? values.follow : 'Não informado' }</p>
+              <br/><br/>
+              <div>
+                <p><b>CEP: </b>{ values.location !== '' ? values.location : 'Não informado' }</p>                
+                <p><b>Bairro: </b>{ values.neighboor !== '' ? values.neighboor : 'Não informado' }</p>                
+                <p><b>Endereço: </b>
+                  { values.address !== '' ? values.address : 'Não informado' } 
+                  { values.number !== '' ? values.number : 'Não informado' }
+                  { values.complement !== '' ? values.complement : 'Não informado' }
+                </p>                
+                <p><b>Estado: </b>{ values.uf !== '' ? values.uf : 'Não informado' }</p>                
+                <p><b>Cidade e Região: </b>{ values.city !== '' ? values.city : 'Não informado' }</p>                
+              </div>
+            </div>
+            <div className="column">
+              <p>
+                <b>Preços: </b>
+                <br/>
+                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                  {
+                    values.price2 !== '' ?  (<><b>Diária - </b><span className="money"> R$ {values.price1}</span></>)  : 'Não informado'
+                  }
+                  <br/>
+                  {
+                    values.price2 !== '' ?  (<><b>Quinzenal - </b> <span className="money"> R$ {values.price2}</span></>)  : 'Não informado'
+                  }
+                  <br/>
+                  {
+                    values.price3 !== '' ?  (<><b>Mensal - </b> <span className="money"> R$ {values.price3}</span></>)  : 'Não informado'
+                  }
+                </IntlProvider>
+              </p>
+            </div>
+          </div>
+          <br/><br/>
         </div>
         <Button
           type={'button'}
