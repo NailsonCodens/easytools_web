@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../../services/api';
 import { Link, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
+import Scroll from '../../../utils/scroll';
 
 import { Button } from '../../../components/Form/Button';
 import {Titlepage} from '../../../components/Titles/Titlepages';
@@ -19,6 +20,7 @@ export default function Index({history}) {
       const response = await api.get(`/tools?search=${search}`, {
         headers: { search }
       });
+
      setTools(response.data.tools)
     }
     loadTools();
@@ -27,6 +29,12 @@ export default function Index({history}) {
   navigator.geolocation.getCurrentPosition(function(position) {
     console.log(position)
   });
+
+  const clickGo = (event, id) => {
+    Scroll()
+    history.push(`ad/detail/${id}`);
+  }
+
   return (
     <>
       <div className="container container-page">
@@ -51,11 +59,30 @@ export default function Index({history}) {
                 tools.map(tool => (
                   <div key={tool.id} className="column is-one-third">
                     <div className="tool">
-                      <div className="picture-tool"> 
-                        <p>No picture</p>
+                      <div className="picture-tool">
+                        {
+                          tool.picture.map(picture => (
+                            <span key={ picture.url } >
+                              {
+                                picture.main === '1' ?
+                                (
+                                  <img src={ picture.url } alt="EasyTools Logo" className="image-list ad-img"/>
+                                ):
+                                ('')
+                              }
+                            </span>
+                          ))
+                        }
                       </div>
-                      <p className="title-tool">{tool.title}</p>
-                      <Link to={`ad/detail/${tool.id}`}>Ver Detalhes</Link>
+                      <div className="title-ad-box">
+                        <p className="title-tool">{tool.title}</p>
+                      </div>
+                      <Button
+                        onClick={event => clickGo(event, tool.id)}
+                        type={'button'}
+                        className={'button is-info color-logo-lessor is-small is-fullwidth is-pulled-right'}
+                        text={'Ver Detalhes'}
+                      />
                     </div>
                   </div>
                 ))

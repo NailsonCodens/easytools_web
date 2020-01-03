@@ -21,7 +21,6 @@ const MenuLessor = () => {
           <span aria-hidden="true"></span>
         </span>
       </div>
-
       <div className="navbar-menu">
         <div className="navbar-start">
           <Link to={'/lessor'} className="navbar-item">
