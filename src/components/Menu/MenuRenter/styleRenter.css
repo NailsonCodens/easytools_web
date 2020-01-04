@@ -87,6 +87,10 @@
   width: 100% !important;
 }
 
+.back-nav{
+  padding-bottom: 85px;
+}
+
 @media (max-width: 900px) {
   .input-search {
     width: 85% !important;

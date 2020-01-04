@@ -72,7 +72,7 @@ const Dashboard = ({history, location}) => {
                           ))
                         }
                       </div>
-                      <b className="category">{tool.category}</b>
+                      <b className="Eff">{tool.category}</b>
                       <p className="title-tool">{tool.title}</p>
                       <p className="text-price">Diária a partir de <span className="price">R$ { tool.prices.split(';')[0] }</span></p>
                     </div>

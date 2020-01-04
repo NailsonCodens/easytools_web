@@ -35,7 +35,7 @@ const MenuLessor = () => {
           <Link to={'/lessor'} className="navbar-item">
             Progresso
           </Link>
-          <Link to={'/lessor'} className="navbar-item">
+          <Link to={'/lessor/messages'} className="navbar-item">
             Mensagens
           </Link>
           <Link to={'/lessor'} className="navbar-item">
