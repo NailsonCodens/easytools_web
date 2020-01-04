@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import {Pictures} from '../../../store/actions/picture';
 
 import {useDropzone} from 'react-dropzone'
-import { firebaseStorage } from '../../../services/firebase';
 import { Button } from '../../../components/Form/Button';
 import { Form } from '@rocketseat/unform';
 import Notification from '../../../utils/notification';
@@ -12,9 +9,9 @@ import api from '../../../services/api';
 
 import {Titlepage} from '../../../components/Titles/Titlepages';
 
+import { getAddress } from '../../../services/mapbox';
+
 const Detail = (receive) => {
-  const dispatch = useDispatch();
-  useSelector(state => state.picture);
 
   let { id } = useParams();
   const [tool, setTool] = useState({});
@@ -23,6 +20,11 @@ const Detail = (receive) => {
   const [isactive, setActive] = useState([]);
   const [idu, setIdu] = useState('');
   const [imgtool, setImgtool] = useState([]);
+  const [showaddress, showLocation] = useState(false);
+  const [add, setAdd] = useState('');
+  const [neighboor, setNeighboor] = useState('');
+  const [city, setCity] = useState('');
+  const [uf, setUf] = useState('');
 
   const success = () => Notification(
     'success',
@@ -115,9 +117,21 @@ const Detail = (receive) => {
     })
   }
 
+  const showAddress = () => {
+    getAddress(tool.lng, tool.lat).then(address => {
+      setAdd(address.data.features[0].text)
+      setNeighboor(address.data.features[1].text)
+      setCity(address.data.features[3].text)
+      setUf(address.data.features[4].text)
+    })
 
-	const pictures = useSelector(state => state.picture);
-
+    if (showaddress === true) {
+        showLocation(false)
+    } else {
+      showLocation(true)
+    }
+  }
+  
   return (
     <>
       <div className="container container-page">
@@ -165,6 +179,22 @@ const Detail = (receive) => {
                   <b> Seguro: </b> { tool.insurance === 'Y' ? 'SIM' : 'NÃO' }
                   <b> Entraga: </b> { tool.delivery === 'Y' ? 'SIM' : 'NÃO' }
                   <b> Devolução: </b> { tool.devolution === 'Y' ? 'SIM' : 'NÃO' }
+                </p>
+                <Button
+                  type={'button'}
+                  className={'button is-info color-logo-lessor is-pulled-left'}
+                  text={showaddress === true ? 'Esconder localização' : 'Mostrar localização'  }
+                  onClick={event => showAddress()}
+                />
+                <br/><br/>
+                <p className={ showaddress === true ? 'block' : 'is-hidden' }>
+                  <b>CEP: </b> { tool.location }
+                  <b> Bairro: </b> { neighboor }
+                  <br/>
+                  <b> Endereço: </b> { add }
+                  <br/>
+                  <b> Cidade: </b> { city }
+                  <b> Estado: </b> { uf }
                 </p>
               </div>
             </div>
@@ -252,16 +282,6 @@ const Detail = (receive) => {
                   }
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="columns is-desktop ">
-            <div className="column is-three-fifths box-inter">
-              <div className="container">
-                  
-              </div>
-            </div>
-            <div className="column box-inter">
-
             </div>
           </div>
       </div>

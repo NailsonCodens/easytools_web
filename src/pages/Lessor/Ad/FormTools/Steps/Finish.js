@@ -10,8 +10,7 @@ import Notification from '../../../../../utils/notification';
 import api from '../../../../../services/api';
 
 const Finish = ({handleChange, prevStep, values}) => {
-  values.prices =  `${values.price1}; ${values.price2}; ${values.price3}`
-  
+  values.prices =  `${values.price1}; ${values.price2}; ${values.price3}; ${values.price4}`
   let contract = values.contract === 'Y' ? 'SIM' : 'NÃO'
   let insurance = values.insurance === 'Y' ? 'SIM' : 'NÃO'
   let delivery = values.delivery === 'Y' ? 'SIM' : 'NÃO'

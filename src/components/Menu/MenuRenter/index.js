@@ -28,7 +28,7 @@ const MenuRenter = () => {
   }
 
 	return (
-		<nav className="navbar">
+		<nav className="navbar nav-fixed">
       <div className="navbar-brand">
 				<Link to={'/'}>
 					<img src={logo} alt="EasyTools Logo" className="logo"/>

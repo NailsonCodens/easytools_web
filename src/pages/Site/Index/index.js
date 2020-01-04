@@ -14,7 +14,7 @@ const Dashboard = ({history, location}) => {
 
   useEffect(() => {
     async function loadTools() { 
-      const response = await api.get(`/tools_site?search=${search}&lat=-25.437958&lng=-49.174358`, {
+      const response = await api.get(`/tools_site?search=${search}&lat=-25.481090&lng=-49.345604`, {
         headers: { search }
       });
      setTools(response.data.tools)
@@ -22,6 +22,8 @@ const Dashboard = ({history, location}) => {
 
     loadTools();
   }, [search]);
+
+  console.log(tools)
 
   return (
     <>
@@ -56,11 +58,23 @@ const Dashboard = ({history, location}) => {
                   <Link to={`s/tool/${tool.id}?ctg=${tool.category}`}>
                     <div className="tool">
                       <div className="picture-tool"> 
-                        <p>No picture</p>
+                        {
+                          tool.picture.map(picture => (
+                            <span key={ picture.url } >
+                              {
+                                picture.main === '1' ?
+                                (
+                                  <img src={ picture.url } alt="EasyTools Logo" className="image-list ad-img"/>
+                                ):
+                                ('')
+                              }
+                            </span>
+                          ))
+                        }
                       </div>
                       <b className="category">{tool.category}</b>
                       <p className="title-tool">{tool.title}</p>
-                      <p className="text-price">Diária a partir de <span className="price">R$ 30,00</span></p>
+                      <p className="text-price">Diária a partir de <span className="price">R$ { tool.prices.split(';')[0] }</span></p>
                     </div>
                   </Link>
                 </div>

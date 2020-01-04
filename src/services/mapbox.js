@@ -7,8 +7,10 @@ export const getCordinates = (query) => {
   return response
 }
 
-export const getAddress = () => {
-  return 'address';
+export const getAddress = (longitude, latitude) => {
+  const response = api.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${token}`, {
+  });
+  return response
 }
 
 export const getGeolocalization = () => {

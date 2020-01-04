@@ -11,7 +11,7 @@ import './Steps/style.css';
 
 const Main = ({history}) => {
   // eslint-disable-next-line
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
   // eslint-disable-next-line
   const [title, setTitle] = useState('');
   // eslint-disable-next-line
@@ -47,6 +47,8 @@ const Main = ({history}) => {
   // eslint-disable-next-line
   const [price3, setPrice3] = useState('');
   // eslint-disable-next-line
+  const [price4, setPrice4] = useState('');
+  // eslint-disable-next-line
   const [location, setLocation] = useState('');
   // eslint-disable-next-line
   const [neighboor, setNeighboor] = useState('');
@@ -80,9 +82,10 @@ const Main = ({history}) => {
       power: "",
       tension: "",
       prices: "",
-      price1: "60,00",
-      price2: "50,00",
-      price3: "30,00",
+      price1: "0",
+      price2: "0",
+      price3: "0",
+      price4: "0",
       insurance: "Y",
       delivery: "Y",
       contract: "Y",
@@ -170,6 +173,11 @@ const Main = ({history}) => {
   const handlePrice3Change = (price3) => {
     setPrice1(price3)
     formik.values.price3 = price3
+  }
+
+  const handlePrice4Change = (price4) => {
+    setPrice4(price4)
+    formik.values.price4 = price4
   }
 
   const handleContractChange = (contract) => {
@@ -286,6 +294,9 @@ const Main = ({history}) => {
         break;
       case 'price3':
         handlePrice3Change(event)
+        break;
+      case 'price4':
+        handlePrice4Change(event)
         break;
       case 'contract':
         handleContractChange(event)

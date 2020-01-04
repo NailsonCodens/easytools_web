@@ -15,6 +15,7 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
       prices1: '',
       prices2: '',
       prices3: '',
+      prices4: '',
       insurance: '',
       delivery: '',
       contract: '',
@@ -59,6 +60,9 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
         break;
       case 'price3': 
         formik.values.price3 = ev
+        break;
+      case 'price4': 
+        formik.values.price4 = ev
         break;
       case 'contract':
         formik.values.contract = ev
@@ -133,32 +137,48 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
           <div className="column">
             <Field>
               <Label className="label-perfil" for={'price2'}>
-                <b>Quinzenal</b>
+                <b>Semanal</b>
               </Label>
               <CurrencyInput
                 name="price2"
                 type="text"
                 decimalSeparator="," thousandSeparator="."
-                placeholder="R$ 100,00"
+                placeholder="R$ 150,00"
                 className={formik.touched.price2 && formik.errors.price2 ? 'input border-warning' : 'input'}
                 onChange={event => handleChangeAdditionals('price2', event, 'price')}
                 value={values.price2}
               />
-            </Field>           
+            </Field>
           </div>
           <div className="column">
             <Field>
               <Label className="label-perfil" for={'price3'}>
-                <b>Mensal</b>
+                <b>Quinzenal</b>
               </Label>
               <CurrencyInput
                 name="price3"
                 type="text"
                 decimalSeparator="," thousandSeparator="."
-                placeholder="R$ 150,00"
-                className={formik.touched.use_indication && formik.errors.price3 ? 'input border-warning' : 'input'}
+                placeholder="R$ 100,00"
+                className={formik.touched.price3 && formik.errors.price3 ? 'input border-warning' : 'input'}
                 onChange={event => handleChangeAdditionals('price3', event, 'price')}
                 value={values.price3}
+              />
+            </Field>           
+          </div>
+          <div className="column">
+            <Field>
+              <Label className="label-perfil" for={'price4'}>
+                <b>Mensal</b>
+              </Label>
+              <CurrencyInput
+                name="price4"
+                type="text"
+                decimalSeparator="," thousandSeparator="."
+                placeholder="R$ 150,00"
+                className={formik.touched.price4 && formik.errors.price4 ? 'input border-warning' : 'input'}
+                onChange={event => handleChangeAdditionals('price4', event, 'price')}
+                value={values.price4}
               />
             </Field>
           </div>

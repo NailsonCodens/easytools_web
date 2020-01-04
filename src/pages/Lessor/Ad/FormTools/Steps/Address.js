@@ -13,7 +13,7 @@ import { Span } from '../../../../../components/Span';
 
 import Notification from '../../../../../utils/notification';
 
-import { getCordinates, getGeolocalization } from '../../../../../services/mapbox';
+import { getCordinates } from '../../../../../services/mapbox';
 
 import api from '../../../../../services/api';
 

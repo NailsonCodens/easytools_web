@@ -81,6 +81,12 @@
   cursor: pointer !important;
 }
 
+.nav-fixed{
+  z-index: 999 !important;
+  position: fixed !important;
+  width: 100% !important;
+}
+
 @media (max-width: 900px) {
   .input-search {
     width: 85% !important;

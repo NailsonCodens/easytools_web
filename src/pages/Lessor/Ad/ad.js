@@ -58,7 +58,7 @@ export default function Index({history}) {
               {
                 tools.map(tool => (
                   <div key={tool.id} className="column is-one-third">
-                    <div className="tool">
+                    <div className="tool-ad">
                       <div className="picture-tool">
                         {
                           tool.picture.map(picture => (
