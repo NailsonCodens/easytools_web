@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
+import api from '../../../services/api';
 
 import image1 from '../../../assets/images/4350FCT-Makita-1.jpg';
 import image2 from '../../../assets/images/4350FCT-Makita-2.jpg';
@@ -8,27 +10,43 @@ import './style.css';
 import { Ul } from '../../../components/List';
 import { Hr } from '../../../components/Hr';
 
-const Tools = () => {
+const Tool = () => {
+
+  const [tool, setTool] = useState({});
+  const [pictures, setPictures] = useState([]);
+  let {id} = useParams();
+  
+  useEffect(() => {
+    async function loadTool() { 
+      const response = await api.get(`/tools_site/tool/${id}`, {
+      });
+      setTool(response.data.tool[0])
+      setPictures(response.data.tool[0].picture)
+    }
+
+    loadTool();
+  }, [id]);
+
   return (
     <>
       <div className="container-fluid">
         <div className="columns box-photos">
-          <div className="column">
-            <img src={image1} alt={image1} className="" />
-          </div>
-          <div className="column is-3">
-            <img src={image2} alt={image2} className="" />
-          </div>
-          <div className="column">
-            <img src={image3} alt={image3} className="" />
-          </div>
+          {
+            pictures.map((picture, index) => (
+              <div key={index}>
+                <div className="column">
+                  <img src={picture.url} alt={picture.url} className="" />
+                </div>  
+              </div>
+            ))
+          }
         </div>
         <div className="container">
           <div className="columns head-infos-tool">
             <div className="column is-two-thirds">
               <div>
-                <h3 className="title-tool-only">SERRA TICO TICO - Industrial 4350FCT 220V Makita.</h3>
-                <b className="category">Cortantes</b>
+                <h3 className="title-tool-only">{tool.title}</h3>
+                <b className="category">{ tool.category }</b>
               </div>
             </div>
             <div className="column">
@@ -46,28 +64,26 @@ const Tools = () => {
                 <p className="title-infos-tool">
                   Descrição
                 </p>
-                <p class="text-simple-info-tool">
-                  Descrição da ferramenta, makita industrial, excelente para cortes 
-                  de madeira, feita para a industria, pode trabalhar por horas 
-                  sem desgastes. Baixo consumo de energia, e muita produtividades.
-                  </p>
+                <p className="text-simple-info-tool">
+                  { tool.description }
+                </p>
               </div>
               <Hr/>
               <div className="specification">
-                <p className="title-infos-tool">Espeficiações</p>
+                <p className="title-infos-tool">Especificações</p>
                 <div className="columns">
                   <div className="column">
                     <Ul>
                       <li><b>Marca</b></li>
-                      <li>Makita</li>
+                      <li>{ tool.brand }</li>
                       <li><b>Categoria</b></li>
-                      <li>Cortante</li>
+                      <li>{ tool.category }</li>
                     </Ul>
                   </div>
                   <div className="column">
                     <Ul>
                       <li><b>Tipo</b></li>
-                      <li>Tico Tico</li>
+                      <li>{ tool.type_spec }</li>
                     </Ul>
                   </div>
                 </div>
@@ -87,9 +103,9 @@ const Tools = () => {
                 <div className="column">
                   <Ul>
                     <li><b>Potência</b></li>
-                    <li>1500W</li>
+                    <li>{ tool.power }</li>
                     <li><b>Tensão</b></li>
-                    <li>110V</li>
+                    <li>{ tool.tension }</li>
                   </Ul>
                 </div>
                 <div>
@@ -144,4 +160,4 @@ const Tools = () => {
   )
 }
 
-export default Tools;
+export default Tool;

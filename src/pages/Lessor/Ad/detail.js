@@ -8,12 +8,15 @@ import { useParams } from "react-router-dom";
 import api from '../../../services/api';
 
 import {Titlepage} from '../../../components/Titles/Titlepages';
-
+import Title from '../../../utils/title';
 import { getAddress } from '../../../services/mapbox';
 
 const Detail = (receive) => {
 
   let { id } = useParams();
+
+  console.log(id)
+
   const [tool, setTool] = useState({});
   const [prices, setPrices] = useState({});
   const [listphoto, setListphoto] = useState([]);
@@ -43,10 +46,28 @@ const Detail = (receive) => {
     }
   )
 
+  const success2 = () => Notification(
+    'success',
+    'Imagens atualizadas com sucesso!', 
+    {
+      autoClose: 1500,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 1500,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+
   useEffect(() => {
     async function loadTool() { 
       const response = await api.get(`/tools/tool/${id}`, {
       });
+      document.title = Title(response.data.tool[0].title);
       setTool(response.data.tool[0])
       setPrices(response.data.tool[0].prices.split(';'))
     }
@@ -67,6 +88,7 @@ const Detail = (receive) => {
     loadImages();
   }, [id]);
 
+
   const onDrop = useCallback(acceptedFiles => {
     const arrPreview = []
 
@@ -84,7 +106,6 @@ const Detail = (receive) => {
     setActive(newarray);
     const list = newarray.map(file => {
       const preview = URL.createObjectURL(file)
-
       arrPreview.push(preview)
       setListphoto(arrPreview)
     })
@@ -104,17 +125,31 @@ const Detail = (receive) => {
 
   async function savedb (pictures) {
 
-    await api.post(`tools/images/add/`, pictures, {
-      headers: { 
-        tool_id: id,
-      }
-    })
-    .then((res) => {
-      success()
-    })
-    .catch((err) =>  {
-      console.log(err.response)
-    })
+    if (imgtool.length > 0) {
+      await api.put(`tools/images/update/`, pictures, {
+        headers: { 
+          tool_id: id,
+        }
+      })
+      .then((res) => {
+        success2()
+      })
+      .catch((err) =>  {
+        console.log(err.response)
+      }) 
+    } else {
+      await api.post(`tools/images/add/`, pictures, {
+        headers: { 
+          tool_id: id,
+        }
+      })
+      .then((res) => {
+        success()
+      })
+      .catch((err) =>  {
+        console.log(err.response)
+      }) 
+    }
   }
 
   const showAddress = () => {

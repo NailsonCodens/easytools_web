@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
+import { useHistory } from 'react-router-dom';
 import { Form } from '@rocketseat/unform';
 import { Button } from '../../../../../components/Form/Button';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
@@ -10,6 +11,9 @@ import Notification from '../../../../../utils/notification';
 import api from '../../../../../services/api';
 
 const Finish = ({handleChange, prevStep, values}) => {
+
+  let history = useHistory();
+
   values.prices =  `${values.price1}; ${values.price2}; ${values.price3}; ${values.price4}`
   let contract = values.contract === 'Y' ? 'SIM' : 'NÃO'
   let insurance = values.insurance === 'Y' ? 'SIM' : 'NÃO'
@@ -30,6 +34,7 @@ const Finish = ({handleChange, prevStep, values}) => {
     await api.post('tools/add/', values, {})
     .then((res) => {
       success()
+      history.push(`detail/${res.data.tool.id}`);
     }).catch((err) => {
       console.log(err.response)
     })

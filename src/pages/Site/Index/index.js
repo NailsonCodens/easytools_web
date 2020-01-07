@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../../services/api';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
 import queryString from 'query-string';
+import Scroll from '../../../utils/scroll';
 
 import './style.css';
 
 const Dashboard = ({history, location}) => {
 
+  const dispatch = useDispatch();	
   const paramsearch = queryString.parse(useLocation().search).search;
   const [tools, setTools] = useState([]);
-
-  const search = paramsearch === undefined ? '' : paramsearch
+	const search =   useSelector(state => state.search);
 
   useEffect(() => {
     async function loadTools() { 
@@ -23,7 +25,10 @@ const Dashboard = ({history, location}) => {
     loadTools();
   }, [search]);
 
-  console.log(tools)
+  const goTool = (id,category) => {
+    Scroll()
+    history.push(`s/tool/${id}?ctg=${category}`);
+  }
 
   return (
     <>
@@ -55,7 +60,7 @@ const Dashboard = ({history, location}) => {
             {
               tools.map(tool => (
                 <div key={tool.id} className="column is-one-quarter">
-                  <Link to={`s/tool/${tool.id}?ctg=${tool.category}`}>
+                  <span onClick={event => goTool(tool.id, tool.category)}>
                     <div className="tool">
                       <div className="picture-tool"> 
                         {
@@ -72,11 +77,11 @@ const Dashboard = ({history, location}) => {
                           ))
                         }
                       </div>
-                      <b className="Eff">{tool.category}</b>
+                      <b className="category">{tool.category}</b>
                       <p className="title-tool">{tool.title}</p>
                       <p className="text-price">Diária a partir de <span className="price">R$ { tool.prices.split(';')[0] }</span></p>
                     </div>
-                  </Link>
+                  </span>
                 </div>
               ))
             }

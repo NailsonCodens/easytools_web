@@ -3,9 +3,13 @@ import React from 'react';
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import {SubTitlepages} from '../../../components/Titles/SubTitlepages';
 
+import Title from '../../../utils/title';
+
 import './style.css';
 
 const Dashboard = ({history}) => {
+  document.title = Title('Dashboard');
+
   return (
     <>
       <div className="container container-page">

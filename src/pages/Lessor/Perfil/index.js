@@ -10,6 +10,7 @@ import { Warningtext } from '../../../components/Warningtext';
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import { Span } from '../../../components/Span';
 import InputMask from 'react-input-mask';
+import Title from '../../../utils/title';
 
 import { cpfMask, cnpjMask } from '../../../utils/maskdocument';
 import { toast } from 'react-toastify';
@@ -21,6 +22,8 @@ import Notification from '../../../utils/notification';
 import './style.css';
 
 const Perfil = ({history}) => {
+  document.title = Title('Perfil');
+
   const success = () => Notification(
     'success',
     'Perfil atualizado com sucesso!', 

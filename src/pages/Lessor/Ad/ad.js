@@ -6,10 +6,13 @@ import Scroll from '../../../utils/scroll';
 
 import { Button } from '../../../components/Form/Button';
 import {Titlepage} from '../../../components/Titles/Titlepages';
+import Title from '../../../utils/title';
 
 import './style.css';
 
 export default function Index({history}) {
+  document.title = Title('Anúncios');
+
   const paramsearch = queryString.parse(useLocation().search).search;
   const [tools, setTools] = useState([]);
 
@@ -26,10 +29,6 @@ export default function Index({history}) {
     loadTools();
   }, [search]);
 
-  navigator.geolocation.getCurrentPosition(function(position) {
-    console.log(position)
-  });
-
   const clickGo = (event, id) => {
     Scroll()
     history.push(`ad/detail/${id}`);
@@ -40,7 +39,7 @@ export default function Index({history}) {
       <div className="container container-page">
         <div className="columns">
           <div className="column has-text-left">
-            <Titlepage>Menus Anúncios</Titlepage>
+            <Titlepage>Meus Anúncios</Titlepage>
           </div>
           <div className="column has-text-right">
             <Link to={'/lessor/ad/create'} className="is-info create-ad">

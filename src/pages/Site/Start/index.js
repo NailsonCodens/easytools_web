@@ -13,7 +13,7 @@ export default function Start({history}) {
     <>
       <MenuRenter/>
       <Route path={`${path}/`} exact component={Index}/>
-      <Route path={`${path}/tool`} component={Tool}/>
+      <Route path={`${path}/tool/:id`} component={Tool}/>
 
       <PrivateRenter path={`${path}/messages`} component={teste => ('asdsd')}/>
       <PrivateRenter path={`${path}/rented`} component={teste => ('asdsd')}/>

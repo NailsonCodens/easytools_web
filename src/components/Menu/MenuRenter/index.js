@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {Search} from '../../../store/actions/search';
 
 import Auth from '../../../pages/Auth/index';
 import Modal from '../../../components/Modal';
@@ -10,11 +11,11 @@ import './styleRenter.css'
 import logo from '../../../assets/images/logo.png'
 
 const MenuRenter = () => {
-	
-	const [search, setSearch] = useState('');
+  const dispatch = useDispatch();	
 	const [modal, setModal] = useState(false);
 	
 	const current_user = useSelector(state => state.auth);
+	const search =   useSelector(state => state.search);
 
 	let history = useHistory();
 
@@ -25,7 +26,11 @@ const MenuRenter = () => {
   const hideModal = () => {
     setModal(false)
     return modal
-  }
+	}
+
+  navigator.geolocation.getCurrentPosition(function(position) {
+    console.log(position)
+  });
 
 	return (
 		<div className="back-nav">
@@ -39,7 +44,7 @@ const MenuRenter = () => {
 						placeholder='Experimente "Furadeira"' 
 						className="input input-search" 
 						value={search}
-						onChange={event => setSearch(event.target.value)} 
+						onChange={event => dispatch(Search(event.target.value))} 
 						/>
 					<span role="button" href="a" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
 						<span aria-hidden="true"></span>
