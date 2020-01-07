@@ -147,6 +147,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
                   handleChangeBrand('category', selectedOption, 'select');
                   formik.handleChange("category");
                 }}
+                value={values.category}
               />
             </Field>
           </div>

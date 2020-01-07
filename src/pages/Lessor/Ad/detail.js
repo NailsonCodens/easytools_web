@@ -11,11 +11,8 @@ import {Titlepage} from '../../../components/Titles/Titlepages';
 import Title from '../../../utils/title';
 import { getAddress } from '../../../services/mapbox';
 
-const Detail = (receive) => {
-
+const Detail = ({history}) => {
   let { id } = useParams();
-
-  console.log(id)
 
   const [tool, setTool] = useState({});
   const [prices, setPrices] = useState({});
@@ -166,11 +163,23 @@ const Detail = (receive) => {
       showLocation(true)
     }
   }
+
+  const redirectForm = () => {
+   history.push(`/lessor/ad/edit/${id}`)
+  }
   
   return (
     <>
       <div className="container container-page">
-        <Titlepage>ANÚNICIO: { tool.title }</Titlepage>
+        <Titlepage>
+          ANÚNICIO: { tool.title } 
+          <Button
+            type={'button'}
+            className={'button is-info color-logo-lessor button-edit'}
+            text={'Alterar'}
+            onClick={event => redirectForm()}
+          />
+        </Titlepage>
           <div className="columns is-desktop ">
             <div className="column is-three-fifths box-inter">
               <div className="container">

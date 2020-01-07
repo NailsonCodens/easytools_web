@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Basic from '../FormTools/Steps/Basic';
 import Brand from '../FormTools/Steps/Brand';
 import Address from '../FormTools/Steps/Address';
 import Additionals from '../FormTools/Steps/Additionals';
 import Finish from '../FormTools/Steps/Finish';
-
+import { useParams } from "react-router-dom";
+import api from '../../../../services/api';
 import { useFormik } from 'formik';
 
 import './Steps/style.css';
 
-const Main = ({history}) => {
+const Main = ({history, tool}) => {
+  let { id } = useParams();
+
+  const [toolupdate, setToolupdate] = useState();
   // eslint-disable-next-line
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   // eslint-disable-next-line
   const [title, setTitle] = useState('');
   // eslint-disable-next-line
@@ -67,6 +71,7 @@ const Main = ({history}) => {
   // eslint-disable-next-line
   const [accessory, setAccessory] = useState('');
   // eslint-disable-next-line
+  const [edit, setEdit] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -104,6 +109,59 @@ const Main = ({history}) => {
     }
   })
 
+  useEffect(() => {
+    if (id !== undefined) {
+      async function loadTool() { 
+        const response = await api.get(`/tools/tool/${id}`, {
+        });
+        response.data.tool.map(function (tool) {
+          formik.values.title = tool.title
+          formik.values.description = tool.description
+          formik.values.brand = tool.brand
+          formik.values.type_spec = tool.type_spec
+          formik.values.category = { value: 'cortantes', label: tool.category }
+          formik.values.feed = tool.feed
+          formik.values.power = tool.power
+          formik.values.tension = tool.tension
+          formik.values.accessory = tool.accessory
+          formik.values.follow = tool.follow
+          formik.values.use_indication = tool.use_indication
+          tool.prices.split(';').map((price, index) => {
+            if (index === 0) {
+              formik.values.price1 = price
+            }
+            if (index === 1) {
+              formik.values.price2 = price
+            }
+            if (index === 2) {
+              formik.values.price3 = price
+            }
+            if (index === 3) {
+              formik.values.price4 = price
+            }
+          })
+          formik.values.contract = tool.contract
+          formik.values.insurance = tool.insurance
+          formik.values.delivery = tool.delivery
+          formik.values.devolution = tool.devolution
+          formik.values.location = tool.location
+          formik.values.address = tool.address
+          formik.values.number = tool.number
+          formik.values.complement = tool.complement
+          formik.values.uf = tool.uf
+          formik.values.city = tool.city
+          formik.values.neighboor = tool.neighboor
+          formik.values.lat = tool.lat
+          formik.values.lng = tool.lng
+          setEdit(true)
+        })
+      }
+      loadTool();
+    }
+  }, [formik.values, id]);
+  
+  console.log(formik.values)
+
   const nextStep = () => {
     const stepnew  = step
     setStep(stepnew + 1)
@@ -140,7 +198,6 @@ const Main = ({history}) => {
   }
 
   const handleFeedChange = (feed) => {
-    console.log(feed)
     setFeed(feed)
     formik.values.feed = feed
   }
@@ -342,22 +399,39 @@ const Main = ({history}) => {
     }
   }
 
-  console.log(formik.values)
-
   const renderSteps = () => { 
-    switch(step) {
-      case 1:
-        return <Basic nextStep={nextStep} handleChange={handleChange} values={formik.values}/> 
-      case 2: 
-        return <Brand nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
-      case 3: 
-        return <Additionals nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
-      case 4: 
-        return <Address nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
-      case 5: 
-        return <Finish handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
-      default: 
-        return <Basic nextStep={nextStep} values={formik.values}/>
+    if (edit === true) {
+      switch(step) {
+        //update
+        case 1:
+          return <Basic nextStep={nextStep} handleChange={handleChange} values={formik.values}/> 
+        case 2: 
+          return <Brand nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
+        case 3: 
+          return <Additionals nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
+        case 4: 
+          return <Address nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
+        case 5: 
+          return <Finish handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
+        default: 
+          return <Basic nextStep={nextStep} values={formik.values}/>
+      }
+    } else {
+      //create
+      switch(step) {
+        case 1:
+          return <Basic nextStep={nextStep} handleChange={handleChange} values={formik.values}/> 
+        case 2: 
+          return <Brand nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
+        case 3: 
+          return <Additionals nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
+        case 4: 
+          return <Address nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
+        case 5: 
+          return <Finish handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
+        default: 
+          return <Basic nextStep={nextStep} values={formik.values}/>
+      }
     }
   }
 
