@@ -1,5 +1,5 @@
 const category = [
-  {value: 'cortantes', label: 'Contantes' }, {value: 'furante', label: 'Furante' }
+  {value: 'Cortantes', label: 'Contantes' }, {value: 'Furante', label: 'Furante' }
 ];
 
 export default category;

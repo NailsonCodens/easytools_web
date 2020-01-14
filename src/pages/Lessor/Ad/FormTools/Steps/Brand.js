@@ -167,6 +167,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
                   handleChangeBrand('feed', selectedOption, 'select');
                   formik.handleChange("feed");
                 }}
+                value={values.feed}
               />
             </Field>
           </div>

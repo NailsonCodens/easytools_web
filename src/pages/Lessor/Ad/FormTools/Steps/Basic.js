@@ -9,7 +9,6 @@ import { Span } from '../../../../../components/Span';
 import Scrool from '../../../../../utils/scroll';
 
 const Basic = ({nextStep, handleChange, values}) => {
-  console.log(values)
   const formik = useFormik({
     initialValues: {
       title: '',

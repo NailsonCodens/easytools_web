@@ -1,6 +1,6 @@
 const feeds = [
-  {value: 'energia', label: 'Energia Elétrica' }, {value: 'gasolina', label: 'Gasolina' },
-  {value: 'manual', label: 'Manual'}
+  {value: 'Energia Elétrica', label: 'Energia Elétrica' }, {value: 'Golina', label: 'Gasolina' },
+  {value: 'Manual', label: 'Manual'}
 ];
 
 export default feeds;

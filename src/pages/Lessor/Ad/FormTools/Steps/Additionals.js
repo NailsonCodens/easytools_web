@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../../../components/Form/Form';
 import { Button, CheckboxIOS } from '../../../../../components/Form/Button';
@@ -7,21 +8,25 @@ import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import { Hr } from '../../../../../components/Hr';
 import Scroll from '../../../../../utils/scroll';
 import CurrencyInput from 'react-currency-input';
+import { Span } from '../../../../../components/Span';
 
 const Additionals = ({nextStep, handleChange, prevStep, values}) => {
+
   const formik = useFormik({
     initialValues: {
       use_indication: '',
-      prices1: '',
-      prices2: '',
-      prices3: '',
-      prices4: '',
+      price1: '',
+      price2: '',
+      price3: '',
+      price4: '',
       insurance: '',
       delivery: '',
       contract: '',
       devolution: '',
     },
-
+    validationSchema: Yup.object({
+      price1: Yup.string().required('Adicione o valor da diária por favor.')
+    }),
     onSubmit: value => {
       nextStep()
     }
@@ -82,6 +87,10 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
     handleChange(input, ev)
   }
 
+  if (values.price1 !== '' ) {
+    formik.values.price1 = values.price1
+  }
+
   return (
     <>
       <SubTitlepages>Estamos quase terminando. Adicione as informações o aluguel do equipamento.</SubTitlepages>
@@ -132,6 +141,15 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
                 onChange={event => handleChangeAdditionals('price1', event, 'price')}
                 value={values.price1}
               />
+              <Span className={'validation-warning'}>
+                {
+                  formik.touched.price1 && formik.errors.price1 
+                ? 
+                  (<div>{formik.errors.price1}</div>) 
+                : 
+                  null
+                }
+              </Span>
             </Field>
           </div>
           <div className="column">

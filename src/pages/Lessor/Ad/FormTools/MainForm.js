@@ -15,7 +15,7 @@ const Main = ({history, tool}) => {
 
   const [toolupdate, setToolupdate] = useState();
   // eslint-disable-next-line
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(3);
   // eslint-disable-next-line
   const [title, setTitle] = useState('');
   // eslint-disable-next-line
@@ -119,8 +119,8 @@ const Main = ({history, tool}) => {
           formik.values.description = tool.description
           formik.values.brand = tool.brand
           formik.values.type_spec = tool.type_spec
-          formik.values.category = { value: 'cortantes', label: tool.category }
-          formik.values.feed = tool.feed
+          formik.values.category = { value: tool.category, label: tool.category }
+          formik.values.feed = { value: tool.feed, label: tool.feed }
           formik.values.power = tool.power
           formik.values.tension = tool.tension
           formik.values.accessory = tool.accessory
@@ -194,12 +194,12 @@ const Main = ({history, tool}) => {
 
   const handleCategoryChange = (category) => {
     setCategory(category)
-    formik.values.category = category
+    formik.values.category = { value: category, label: category }
   }
 
   const handleFeedChange = (feed) => {
     setFeed(feed)
-    formik.values.feed = feed
+    formik.values.feed = { value: feed, label: feed }
   }
 
   const handlePowerChange = (power) => {

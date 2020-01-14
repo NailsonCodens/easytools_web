@@ -51,7 +51,8 @@
 }
 
 .rental-box{
-  border: 1px solid rgb(156, 156, 156);
+  border: 1px solid rgb(219, 219, 219);
+  padding: 13px;
 }
 
 .title-infos-tool{
@@ -65,4 +66,49 @@
   font-family: 'Open Sans', sans-serif;
   color: #000;
   font-weight: 400;
+}
+
+.box-price-rent{
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  width: 160px;
+  color: rgb(37, 37, 37) !important;
+  font-size: 14px !important;
+}
+
+.price-rent{
+  font-size: 20px !important;
+  color: rgb(37, 37, 37) !important;
+  font-weight: 700;
+}
+
+.message-rent{
+  text-align: center !important;
+}
+
+.dt-range-picker-tool{
+  background:transparent;
+}
+
+.DateInput_1{
+  width: 46%;
+}
+
+.DateInput_input:focus{
+  border: none !important;
+}
+
+.price-others{
+  font-size: 14px !important;
+  color: rgb(110, 110, 110) !important;
+}
+
+.price-others-legend{
+  font-size: 12px !important;
+  color: rgb(110, 110, 110) !important;
+}
+
+.button-p{
+  cursor: pointer;
+  color: rgb(0, 68, 255);
 }

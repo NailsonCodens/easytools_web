@@ -168,6 +168,18 @@ const Detail = ({history}) => {
    history.push(`/lessor/ad/edit/${id}`)
   }
   
+  async function deleteTool () {
+    await api.delete(`tools/delete/${id}`, {
+    })
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((err) =>  {
+      console.log(err.response)
+    })
+    history.push(`/lessor/ad`)
+  }
+
   return (
     <>
       <div className="container container-page">
@@ -178,6 +190,12 @@ const Detail = ({history}) => {
             className={'button is-info color-logo-lessor button-edit'}
             text={'Alterar'}
             onClick={event => redirectForm()}
+          />
+          <Button
+            type={'button'}
+            className={'button is-info color-logo-lessor button-edit'}
+            text={'Excluir'}
+            onClick={event => deleteTool()}
           />
         </Titlepage>
           <div className="columns is-desktop ">

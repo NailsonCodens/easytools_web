@@ -7,11 +7,12 @@ import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import Scroll from '../../../../../utils/scroll';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import Notification from '../../../../../utils/notification';
+import { useParams } from "react-router-dom";
 
 import api from '../../../../../services/api';
 
 const Finish = ({handleChange, prevStep, values}) => {
-
+  let { id } = useParams();
   let history = useHistory();
 
   values.prices =  `${values.price1}; ${values.price2}; ${values.price3}; ${values.price4}`
@@ -31,13 +32,28 @@ const Finish = ({handleChange, prevStep, values}) => {
   })
 
   async function saveTools (values) {
-    await api.post('tools/add/', values, {})
-    .then((res) => {
-      success()
-      history.push(`detail/${res.data.tool.id}`);
-    }).catch((err) => {
-      console.log(err.response)
-    })
+    values.category = values.category.value
+    values.feed = values.feed.value
+
+    if (id !== undefined) {
+      await api.put(`tools/update/${id}`, values, {})
+      .then((res) => {
+        console.log(res)
+        success2()
+        history.push(`/lessor/ad`);
+      }).catch((err) => {
+        console.log(err.response)
+      })
+  
+    } else {
+      await api.post('tools/add/', values, {})
+      .then((res) => {
+        success()
+        history.push(`detail/${res.data.tool.id}`);
+      }).catch((err) => {
+        console.log(err.response)
+      })  
+    }
   }
 
   const back = (e) => {
@@ -45,6 +61,23 @@ const Finish = ({handleChange, prevStep, values}) => {
     Scroll(100, 100);
     prevStep();
   }
+
+  const success2 = () => Notification(
+    'success',
+    'Anúncio editado com sucesso.', 
+    {
+      autoClose: 1500,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 1500,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
 
   const success = () => Notification(
     'success',
@@ -88,8 +121,8 @@ const Finish = ({handleChange, prevStep, values}) => {
             <div className="column">
               <p><b>Marca: </b>{ values.brand !== '' ? values.brand : 'Não informado' }</p>
               <p><b>Tipo: </b>{ values.type_spec !== '' ? values.type_spec : 'Não informado' }</p>
-              <p><b>Categoria: </b>{ values.category !== '' ? values.category : 'Não informado' }</p>
-              <p><b>Alimentação: </b>{ values.feed !== '' ? values.feed : 'Não informado' }</p>
+              <p><b>Categoria: </b>{ values.category.value !== '' ? values.category.value : 'Não informado' }</p>
+              <p><b>Alimentação: </b>{ values.feed.value !== '' ? values.feed.value : 'Não informado' }</p>
               <p><b>Potência: </b>{ values.power !== '' ? values.power : 'Não informado' }</p>
               <p><b>Tensão: </b>{ values.tension !== '' ? values.tension : 'Não informado' }</p>
             </div>
@@ -123,15 +156,19 @@ const Finish = ({handleChange, prevStep, values}) => {
                 <br/>
                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                   {
-                    values.price2 !== '' ?  (<><b>Diária - </b><span className="money"> R$ {values.price1}</span></>)  : 'Não informado'
+                    values.price1 !== '' ?  (<><b>Diária - </b><span className="money"> R$ {values.price1}</span></>)  : 'Não informado'
                   }
                   <br/>
                   {
-                    values.price2 !== '' ?  (<><b>Quinzenal - </b> <span className="money"> R$ {values.price2}</span></>)  : 'Não informado'
+                    values.price2 !== '' ?  (<><b>Semanal - </b><span className="money"> R$ {values.price2}</span></>)  : 'Não informado'
                   }
                   <br/>
                   {
-                    values.price3 !== '' ?  (<><b>Mensal - </b> <span className="money"> R$ {values.price3}</span></>)  : 'Não informado'
+                    values.price3 !== '' ?  (<><b>Quinzenal - </b> <span className="money"> R$ {values.price3}</span></>)  : 'Não informado'
+                  }
+                  <br/>
+                  {
+                    values.price4 !== '' ?  (<><b>Mensal - </b> <span className="money"> R$ {values.price4}</span></>)  : 'Não informado'
                   }
                 </IntlProvider>
               </p>

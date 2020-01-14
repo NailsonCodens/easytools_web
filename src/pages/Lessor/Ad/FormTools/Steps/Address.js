@@ -10,6 +10,7 @@ import { Warningtext } from '../../../../../components/Warningtext';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import Scroll from '../../../../../utils/scroll';
 import { Span } from '../../../../../components/Span';
+import { useParams } from "react-router-dom";
 
 import Notification from '../../../../../utils/notification';
 
@@ -18,6 +19,8 @@ import { getCordinates } from '../../../../../services/mapbox';
 import api from '../../../../../services/api';
 
 const Address = ({nextStep, handleChange, prevStep, values}) => {
+  let { id } = useParams();
+  
   const info = () => Notification(
     'info',
     'Só um momento, verificando endereço.', 
@@ -63,14 +66,18 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
       });
       
       // eslint-disable-next-line
-      response.data.user.map(function (perfil) {
-        // eslint-disable-next-line
-        if (perfil.location === "" || perfil.address === "" || perfil.number === "" && perfil.location === "" || perfil.complement === "" || perfil.city === "" || perfil.uf === "") {
-          setShowad(true)
-          showMsg(true)
-        }
-      }) 
-      setAddress(response.data.user[0]);
+      if (id === undefined) {
+        response.data.user.map(function (perfil) {
+          // eslint-disable-next-line
+          if (perfil.location === "" || perfil.address === "" || perfil.number === "" && perfil.location === "" || perfil.complement === "" || perfil.city === "" || perfil.uf === "") {
+            setShowad(true)
+            showMsg(true)
+          }
+        }) 
+        setAddress(response.data.user[0]);
+      } else {
+        setShowad(false)
+      }
     }
     loadPerfil()
   }, [showad, values]);
@@ -160,40 +167,61 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
   }
 
   const setFormik = () => {
-    values.location = address.location
-    formik.values.location = address.location
-    values.neighboor = address.neighboor
-    formik.values.neighboor = address.neighboor
-    values.address = address.address
-    formik.values.address = address.address
-    values.number = address.number
-    formik.values.number = address.number
-    values.complement = address.complement
-    formik.values.complement = address.complement
-    values.uf = address.uf
-    formik.values.uf = address.uf
-    values.city = address.city
-    formik.values.city = address.city        
+    if (id === undefined) {
+      values.location = address.location
+      formik.values.location = address.location
+      values.neighboor = address.neighboor
+      formik.values.neighboor = address.neighboor
+      values.address = address.address
+      formik.values.address = address.address
+      values.number = address.number
+      formik.values.number = address.number
+      values.complement = address.complement
+      formik.values.complement = address.complement
+      values.uf = address.uf
+      formik.values.uf = address.uf
+      values.city = address.city
+      formik.values.city = address.city
+    } else {
+      formik.values.location = values.location
+      formik.values.neighboor = values.neighboor
+      formik.values.address = values.address
+      formik.values.number = values.number
+      formik.values.complement = values.complement
+      formik.values.uf = values.uf
+      formik.values.city = values.city
+    }
   }
 
   const handleCheckIOS = event => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     setShowad(value)
-    values.location = address.location
-    formik.values.location = address.location
-    values.neighboor = address.neighboor
-    formik.values.neighboor = address.neighboor
-    values.address = address.address
-    formik.values.address = address.address
-    values.number = address.number
-    formik.values.number = address.number
-    values.complement = address.complement
-    formik.values.complement = address.complement
-    values.uf = address.uf
-    formik.values.uf = address.uf
-    values.city = address.city
-    formik.values.city = address.city
+    if (id === undefined) {
+      values.location = address.location
+      formik.values.location = address.location
+      values.neighboor = address.neighboor
+      formik.values.neighboor = address.neighboor
+      values.address = address.address
+      formik.values.address = address.address
+      values.number = address.number
+      formik.values.number = address.number
+      values.complement = address.complement
+      formik.values.complement = address.complement
+      values.uf = address.uf
+      formik.values.uf = address.uf
+      values.city = address.city
+      formik.values.city = address.city
+    }else {
+      formik.values.location = values.location
+      formik.values.neighboor = values.neighboor
+      formik.values.address = values.address
+      formik.values.number = values.number
+      formik.values.complement = values.complement
+      formik.values.uf = values.uf
+      formik.values.city = values.city
+
+    }
   };  
 
   return (
