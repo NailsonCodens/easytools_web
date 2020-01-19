@@ -112,3 +112,43 @@
   cursor: pointer;
   color: rgb(0, 68, 255);
 }
+
+.title-politics{
+  color: #000 !important;
+  font-size: 14px !important;
+}
+
+.box-date-rules{
+  background: #60A8F1;
+  width: 70px !important;
+  height: 70px !important;
+  text-align: center !important;
+  padding: 5px;
+  color: #fff;
+  font-size: 19px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+}
+
+.name-data-rules{
+  padding: 21px 20px !important;
+  height: 70px !important;
+  width: 200px !important;
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  background: rgb(233, 233, 233);
+  text-align: left !important;
+}
+
+.tension-rules{
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+}
+
+.title-tool-rules{
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+}

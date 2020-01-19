@@ -18,16 +18,10 @@ import image3 from '../../../assets/images/4350FCT-Makita-3.jpg';
 import './style.css';
 import { Ul } from '../../../components/List';
 import { Hr } from '../../../components/Hr';
+import * as Yup from 'yup';
+import { Span } from '../../../components/Span';
 
-const Tool = () => {
-  const formik = useFormik({
-    initialValues: {
-      dateinit: '',
-    },
-
-    onSubmit: value => {
-    }
-  })
+  const Tool = ({history}) => {
 
   const [tool, setTool] = useState({});
   const [pictures, setPictures] = useState([]);
@@ -37,14 +31,53 @@ const Tool = () => {
   const [endDate, setEnddate] = useState(null);
   const [price, setPrice] = useState({});
   const [showprices, setShowprices] = useState(false);
+  const [tension, setTension] = useState('');
+  const [tensionshow, setTensionshow] = useState([]);
 
   let {id} = useParams();
+
+  const formik = useFormik({
+    initialValues: {
+      startDate: null,
+      endDate: null,
+    },
+    validationSchema: Yup.object({
+      startDate: Yup.string()
+        .required('Adicione a data do aluguel.'),
+        endDate: Yup.string()
+        .required('Adicione a data da devolução.'),
+    }),
+    onSubmit: value => {
+      var tensionChoose = ''
+      if (tool.tension.split('/')[1] === undefined){
+        tensionChoose = tool.tension
+      } else {
+        tensionChoose = tension 
+      }
+
+      var rentData = {
+        start: moment(value.startDate).format('YYYY-MM-DD'),
+        end: moment(value.endDate).format('YYYY-MM-DD'),
+        tension: tension,
+      }
+
+      console.log(rentData)
+
+      //next(rentData)
+    }
+  })
+
+  const next = (rentData) => {
+    Scrool()
+    history.push(`/s/renter-rules?tool=${id}&booking=${'123'}&init=${rentData.start}&finish=${rentData.end}&tension=${rentData.tension}`)
+  }
 
   useEffect(() => {
     async function loadTool() { 
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
       setTool(response.data.tool[0])
+      setTensionshow(response.data.tool[0].tension.split('/'))
       setPictures(response.data.tool[0].picture)
       setPrices(response.data.tool[0].prices.split(';'))
     }
@@ -53,6 +86,9 @@ const Tool = () => {
   }, [id]);
 
   const setDates = (dates) => {
+    formik.values.startDate = dates.startDate
+    formik.values.endDate = dates.endDate
+
     setStartdate(dates.startDate)
     setEnddate(dates.endDate)
 
@@ -61,32 +97,43 @@ const Tool = () => {
 
     if (dates.endDate !== null) {
       var period = moment.preciseDiff(startdate, enddate, true);
-    
+      var days = period.days;
+      var months = period.months;
+
       if (period.months !== 0) {
-        console.log('em mes')
+        setPrice({type: 'month', amount: days, amountmonth: months, price: parseInt(prices[3]), pricefull: months * parseInt(prices[3])})
       } else if (period.days !== 0) {
-        var days = period.days
-        console.log(days)
-        if (days < 4) 
+        if (days < 5) 
           setPrice({type: 'days', amount: days, price: parseInt(prices[0]), pricefull: days * parseInt(prices[0])})
-        else if (days <= 5)
-          console.log("semana")
+        else if (days > 7)
+          setPrice({type: 'weekend', amount: days, price: parseInt(prices[1]), pricefull: 1 * parseInt(prices[1])})
         else if (days === 15)
-          console.log("quinzenal")
-        else if (days > 15 && days < 31)
-          console.log("usa a diaria")
+          setPrice({type: 'biweekly', amount: days, price: parseInt(prices[2]), pricefull: 1 * parseInt(prices[2])})
+        else if (days > 15)
+          setPrice({type: 'month', amount: days, amountmonth: 1, price: parseInt(prices[3]), pricefull: 1 * parseInt(prices[3])})
       }
     }
   }
 
-  const next = () => {
-
-  }
-
   const renderPrice = () => {
-    var text = '';
+    var text = ''
+    var days = price.amount
+    var months = price.amountmonth
+
     if (price.type === 'days') {
-      text = ' x 3 Diárias'
+      text = ` x ${days} Dia(s)`
+    }
+
+    if (price.type === 'weekend') {
+      text = ` x ${days} Dias`
+    }
+    
+    if (price.type === 'biweekly') {
+      text = ` x ${days} Dias`
+    }
+
+    if (price.type === 'month') {
+      text = ` x ${months} Mêses`
     }
     return (
       <>
@@ -186,7 +233,6 @@ const Tool = () => {
               <div className="rental-box">
                 <Form 
                   onSubmit={ (e, values) => {
-                    Scrool(100, 100);
                     formik.handleSubmit(values)
                   }} 
                   noValidate
@@ -286,16 +332,14 @@ const Tool = () => {
                   <Field>
                     <Label className="label" for={'title'}>
                       Período de uso
-                    </Label>  
-                  </Field>
-                  <Field>
+                    </Label> 
                     <div className="dt-range-picker-tool">
                       <DateRangePicker
                         anchorDirection="left"
                         displayFormat={'DD/MM/YYYY'}
-                        startDate={startDate} // momentPropTypes.momentObj or null,
+                        startDate={formik.values.startDate} // momentPropTypes.momentObj or null,
                         startDateId={'start'} // PropTypes.string.isRequired,
-                        endDate={endDate} // momentPropTypes.momentObj or null,
+                        endDate={formik.values.endDate} // momentPropTypes.momentObj or null,
                         endDateId={'end'} // PropTypes.string.isRequired,
                         onDatesChange={({ startDate, endDate }) => setDates({ startDate, endDate })} // PropTypes.func.isRequired,
                         focusedInput={focus.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
@@ -303,27 +347,66 @@ const Tool = () => {
                         startDatePlaceholderText="Aluguel"
                         endDatePlaceholderText="Devolução"
                       />
-                    </div>
-                    {
-                      Object.entries(price).length > 0 ? 
-                      (
-                        <div className="container">
-                          {renderPrice()}
-                        </div>
-                      ) : 
-                      ('')
-                    }
-                    <br/>
-                    <Button
-                      type={'button'}
-                      className={'button is-fullwidth color-logo'}
-                      text={'Alugar'}
-                      onClick={event => next()}
-                    />
-                    <div>
-                      <Warningtext class="has-text-centered message-rent">Você ainda não será cobrado.</Warningtext>
+                      <Span className={'validation-warning'}>
+                        {
+                          formik.touched.startDate && formik.errors.startDate 
+                        ? 
+                          (<div>Por favor insira as datas de aluguel e devolução.</div>) 
+                        : 
+                          null
+                        }
+                      </Span>
                     </div>
                   </Field>
+                  { console.log() }
+                  {
+                    tensionshow[1] !== undefined ? 
+                    (
+                      <>
+                        <Field>
+                          <Label  className="label" for={'tension'}>Tensão</Label>
+                          <div className="columns">
+                            <div className="column has-text-centered">
+                              <Button
+                                type={'button'}
+                                className={'button'}
+                                text={'127V'}
+                                onClick={event => setTension('127V')}
+                              />
+                            </div>
+                            <div className="column has-text-centered">
+                              <Button
+                                type={'button'}
+                                className={'button'}
+                                text={'220V'}
+                                onClick={event => setTension('220V')}
+                              />
+                            </div>
+                          </div>
+                        </Field>                    
+                      </>
+                    ) 
+                    :
+                    ('')
+                  }
+                  {
+                    Object.entries(price).length > 0 ? 
+                    (
+                      <div className="container">
+                        {renderPrice()}
+                      </div>
+                    ) : 
+                    ('')
+                  }
+                  <br/>
+                  <Button
+                    type={'submit'}
+                    className={'button is-fullwidth color-logo'}
+                    text={'Alugar'}
+                  />
+                  <div>
+                    <Warningtext class="has-text-centered message-rent">Você ainda não será cobrado.</Warningtext>
+                  </div>
                 </Form>
               </div>
             </div>
@@ -343,13 +426,35 @@ const Tool = () => {
                 <div>
                   <Ul>
                     <li><b>Alimentação</b></li>
-                    <li>Energia Elétrica</li>
+                    <li>{ tool.feed }</li>
                   </Ul>
                 </div>
               </div>
             </div>
             <div className="column">
 
+            </div>
+          </div>
+          <Hr/>
+          <div className="columns">
+            <div className="column">
+              <p className="title-infos-tool hack-padding-top">Acessórios e Acompanhamentos</p>   
+              <div className="columns">
+                <div className="column">
+                  <Ul>
+                    <li><b>Acessórios</b></li>
+                    <li>{ tool.accessory }</li>
+                  </Ul>
+                </div>
+                <div>
+                  <Ul>
+                    <li><b>Acompanhamento</b></li>
+                  <li>{ tool.follow }</li>
+                  </Ul>
+                </div>
+              </div>
+            </div>
+            <div className="column">
             </div>
           </div>
           <Hr/>

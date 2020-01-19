@@ -16,6 +16,7 @@ const Finish = ({handleChange, prevStep, values}) => {
   let history = useHistory();
 
   values.prices =  `${values.price1}; ${values.price2}; ${values.price3}; ${values.price4}`
+  values.tension = `${values.tension1}/${values.tension2}`
   let contract = values.contract === 'Y' ? 'SIM' : 'NÃO'
   let insurance = values.insurance === 'Y' ? 'SIM' : 'NÃO'
   let delivery = values.delivery === 'Y' ? 'SIM' : 'NÃO'
@@ -124,7 +125,7 @@ const Finish = ({handleChange, prevStep, values}) => {
               <p><b>Categoria: </b>{ values.category.value !== '' ? values.category.value : 'Não informado' }</p>
               <p><b>Alimentação: </b>{ values.feed.value !== '' ? values.feed.value : 'Não informado' }</p>
               <p><b>Potência: </b>{ values.power !== '' ? values.power : 'Não informado' }</p>
-              <p><b>Tensão: </b>{ values.tension !== '' ? values.tension : 'Não informado' }</p>
+              <p><b>Tensão: </b>{ values.tension1 !== '' ? values.tension1 : 'Não informado' } { values.tension2 !== '' ? values.tension2 : 'Não informado' }</p>
             </div>
             <div className="column">
               <p><b>Contrato: </b>{ values.contract !== '' ? contract : 'Não informado' }</p>

@@ -13,3 +13,11 @@
   color: #60A8F1;
   font-weight: 500;
 }
+
+.padding-checkbox{
+  margin: 10px !important;
+}
+
+.check{
+  margin: 5px;
+}

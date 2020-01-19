@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../../../components/Form/Form';
@@ -12,6 +12,7 @@ import categories from '../../../../../utils/categories';
 import feeds from '../../../../../utils/feeds';
 
 const Brand = ({nextStep, handleChange, prevStep, values}) => {
+
   const formik = useFormik({
     initialValues: {
       brand: '',
@@ -19,7 +20,8 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
       type_spec: '',
       feed: '',
       power: '',
-      tension: '',
+      tension1: '',
+      tension2: '',
       follow: '',
       accessory: '',
     },
@@ -37,7 +39,15 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
 
   const handleChangeBrand = (input, event, type) => {
     let ev = ''
-    type === 'select' ? ev = event.value : ev = event.target.value
+
+      if (type === 'checkbox') {
+        if (input === 'tension1') {
+          ev = event.target.checked === true ? '110V' : ''
+        } else if (input === 'tension2') {
+          ev = event.target.checked === true ? '220V' : ''        }
+      } else {
+        type === 'select' ? ev = event.value : ev = event.target.value
+      }
 
     switch(input){
       case 'brand': 
@@ -55,8 +65,11 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
       case 'power': 
         formik.values.power = ev
         break;
-      case 'tension': 
-        formik.values.tension = ev
+      case 'tension1': 
+        formik.values.tension1 = ev
+        break;
+        case 'tension2': 
+        formik.values.tension2 = ev
         break;
       case 'follow': 
         formik.values.follow = ev
@@ -67,7 +80,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
       default:
         return '';
     }
-
+    console.log(ev)
     handleChange(input, ev)
   }
 
@@ -200,14 +213,29 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
               <Label className="label-perfil" for={'tension'}>
                 <b>Tensão</b>
               </Label>
-              <Input
-                name="tension"
-                type="text"
-                placeholder=""
-                className={'input'}
-                onChange={event => handleChangeBrand('tension', event)}
-                value={values.tension}
-              />
+              <br/>
+              <Label className="checkbox padding-checkbox">
+                <Input
+                  name="tension1"
+                  type="checkbox"
+                  placeholder=""
+                  defaultChecked={values.tension1 === '127V' ? true : false}
+                  className={'checkbox check'}
+                  onChange={event => handleChangeBrand('tension1', event, 'checkbox')}
+                />
+                <span>110V/127V </span> 
+              </Label>
+              <Label className="checkbox padding-checkbox">
+                <Input
+                  name="tension2"
+                  type="checkbox"
+                  placeholder=""
+                  defaultChecked={values.tension2 === '220V' ? true : false}
+                  className={'checkbox check'}
+                  onChange={event => handleChangeBrand('tension2', event, 'checkbox')}
+                />
+                <span>220V </span> 
+              </Label>
               <Span className={'validation-warning'}>
                 {
                   formik.touched.tension && formik.errors.tension 

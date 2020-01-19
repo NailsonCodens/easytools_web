@@ -15,7 +15,7 @@ const Main = ({history, tool}) => {
 
   const [toolupdate, setToolupdate] = useState();
   // eslint-disable-next-line
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
   // eslint-disable-next-line
   const [title, setTitle] = useState('');
   // eslint-disable-next-line
@@ -30,6 +30,7 @@ const Main = ({history, tool}) => {
   const [feed, setFeed] = useState('');
   // eslint-disable-next-line
   const [tension, setTension] = useState('');
+  const [tension2, setTension2] = useState('');
   // eslint-disable-next-line
   const [power, setPower] = useState('');
   // eslint-disable-next-line
@@ -85,7 +86,8 @@ const Main = ({history, tool}) => {
       follow: "",
       use_indication: "",
       power: "",
-      tension: "",
+      tension1: "",
+      tension2: "",
       prices: "",
       price1: "0",
       price2: "0",
@@ -122,7 +124,15 @@ const Main = ({history, tool}) => {
           formik.values.category = { value: tool.category, label: tool.category }
           formik.values.feed = { value: tool.feed, label: tool.feed }
           formik.values.power = tool.power
-          formik.values.tension = tool.tension
+          tool.tension.split('/').map((tension, index) => {
+            if (index === 0 ) {
+              console.log(tension)
+              formik.values.tension1 = tension
+            }
+            if (index === 1 ) {
+              formik.values.tension2 = tension
+            }
+          })
           formik.values.accessory = tool.accessory
           formik.values.follow = tool.follow
           formik.values.use_indication = tool.use_indication
@@ -209,8 +219,14 @@ const Main = ({history, tool}) => {
 
   const handleTensionChange = (tension) => {
     setTension(tension)
-    formik.values.tension = tension
+    formik.values.tension1 = tension
   }
+
+  const handleTensionChange2 = (tension) => {
+    setTension2(tension)
+    formik.values.tension2 = tension
+  }
+
 
   const handleUseindicationChange = (use_indication) => {
     setUseindication(use_indication)
@@ -315,6 +331,7 @@ const Main = ({history, tool}) => {
   }
 
   const handleChange = (input, event) => {
+    console.log(input, event)
     switch(input){
       case 'title': 
         handleTitleChange(event)
@@ -337,8 +354,11 @@ const Main = ({history, tool}) => {
       case 'power':
         handlePowerChange(event)
         break;
-      case 'tension':
+      case 'tension1':
         handleTensionChange(event)
+        break;
+      case 'tension2':
+        handleTensionChange2(event)
         break;
       case 'use_indication':
         handleUseindicationChange(event)
