@@ -45,6 +45,8 @@ import Modal from '../../../components/Modal';
 	const [modal, setModal] = useState(false);
   const [url, setUrl] = useState('');
   const [isSticky, setSticky] = useState(false);
+  const [dataLessor, setDatalessor] = useState([]);
+
   const ref = useRef(null);
 
   let {id} = useParams();
@@ -106,8 +108,16 @@ import Modal from '../../../components/Modal';
       setTensionshow(response.data.tool[0].tension.split('/'))
       setPictures(response.data.tool[0].picture)
       setPrices(response.data.tool[0].prices.split(';'))
+      loadLessor(response.data.tool[0].UserId)
     }
     loadTool();
+
+    async function loadLessor(id) {
+      const response = await api.get(`/lessordata/${id}`, {
+      });
+      setDatalessor(response.data.user)
+    }
+
 
     window.addEventListener('scroll', handleScroll);
 
@@ -115,6 +125,8 @@ import Modal from '../../../components/Modal';
       window.removeEventListener('scroll', () => handleScroll);
     };
   }, [id]);
+
+  console.log(dataLessor)
 
   const setDates = (dates) => {
     formik.values.startDate = dates.startDate
@@ -228,8 +240,16 @@ import Modal from '../../../components/Modal';
             <div className="column">
               <div className="columns">
                 <div className="">
-                  <img src={image3} alt={image3} className="logo-neighbor"/>
-                  <span className="name-neighbor">Nome do locador</span>
+                  {
+                    dataLessor.map((lessor, index) => (
+                      <>
+                        <div key={index}>
+                          <img src={lessor.url} alt={lessor.url} className="logo-neighbor"/>
+                          <span className="name-neighbor">{ lessor.name }</span>                     
+                        </div>
+                      </>
+                    ))
+                  }
                 </div>
               </div>
             </div>

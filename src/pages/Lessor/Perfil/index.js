@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import {useDropzone} from 'react-dropzone'
 
 import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../components/Form/Form';
@@ -40,6 +41,26 @@ const Perfil = ({history}) => {
     }
   )
 
+
+  const success2 = () => Notification(
+    'success',
+    'Avatar alterado com sucesso!', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+
+  const [imgtool, setImgtool] = useState([]);
+  const [isactive, setActive] = useState([]);
   const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [last_name, setLastname] = useState('');
@@ -54,6 +75,7 @@ const Perfil = ({history}) => {
   const [city, setCity] = useState('');
   const [documenttype, setSelectedDocument] = useState('cpf');
   const [avatar, setAvatar] = useState('');
+  const [image, setImage] = useState('');
 
   const formik = useFormik({
     initialValues: {
@@ -94,6 +116,22 @@ const Perfil = ({history}) => {
     }
   })
 
+  const updateAvatar = () => {
+    const data = new FormData();
+    data.append('avatar', image[0]);
+    saveAvatar(data)
+  }
+
+  async function saveAvatar (avatar) {
+    await api.put(`perfil/avatar/update/${id}`, avatar, {})
+    .then((res) => {
+      success2()
+    })
+    .catch((err) =>  {
+      console.log(err.response)
+    })
+  }
+  
   useEffect(() => {
     async function loadPerfil() { 
       const response = await api.get(`/perfil`, {
@@ -174,7 +212,6 @@ const Perfil = ({history}) => {
   };
 
   const handleDocumentChange = selectedDocument => {
-    console.log(selectedDocument.value)
     formik.values.month = selectedDocument.value;
     setSelectedDocument(selectedDocument);
   };
@@ -226,6 +263,15 @@ const Perfil = ({history}) => {
     formik.values.city = city
     setCity(city);
   }
+
+  const onDrop = useCallback(acceptedFiles => {    
+    const preview = URL.createObjectURL(acceptedFiles[0])
+    setImage(acceptedFiles);
+    setAvatar(preview)
+    setActive(true)
+  }, [])
+  
+  const {getRootProps, getInputProps} = useDropzone({onDrop})
 
   return (
     <>
@@ -382,6 +428,26 @@ const Perfil = ({history}) => {
                   <div className="avatar-perfil" >
                     <img src={avatar} alt={avatar}/>
                   </div>
+                  <div className="column box-inter">
+                    <div {...getRootProps()} className="drag-photo">
+                      <input {...getInputProps()} />
+                        Altarar avatar
+                    </div>
+                  </div>
+                  {
+                      isactive === true ?
+                      (
+                        <>
+                          <Button
+                            type={'button'}
+                            className={'button is-info color-logo-lessor is-pulled-right'}
+                            text={'Salvar'}
+                            onClick={event => updateAvatar() }
+                            />
+                        </>
+                      ) :
+                      ('')
+                    }
                 </div>
               </div>
               <div className="columns">
@@ -597,7 +663,8 @@ const Perfil = ({history}) => {
                     />
                   </Field>
                 </div>
-                <div className="column">
+                <div className="column box-inter box-inter-padding">
+                  -
                 </div>
               </div>
             </Form>

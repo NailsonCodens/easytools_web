@@ -119,7 +119,6 @@ const Detail = ({history}) => {
       data.append('pictures', image);
       return ''
     })
-
     savedb(data)
   }
 
