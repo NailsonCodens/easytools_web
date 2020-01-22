@@ -5,7 +5,7 @@ import { Form } from '@rocketseat/unform';
 import { Button } from '../../../../../components/Form/Button';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import Scroll from '../../../../../utils/scroll';
-import {IntlProvider, FormattedNumber} from 'react-intl';
+import {IntlProvider } from 'react-intl';
 import Notification from '../../../../../utils/notification';
 import { useParams } from "react-router-dom";
 

@@ -21,3 +21,19 @@
 .space-bt{
   margin-top: 7px;
 }
+
+.avatar-perfil{
+  widows: 120px;
+  height: 120px;
+
+}
+
+.avatar-perfil img{
+  border-radius: 100px !important;
+  widows: 120px;
+  height: 120px;
+  object-fit:cover;
+  -webkit-box-shadow: 0px 2px 3px 0px rgba(156,156,156,1);
+  -moz-box-shadow: 0px 2px 3px 0px rgba(156,156,156,1);
+  box-shadow: 0px 2px 3px 0px rgba(156,156,156,1);
+}

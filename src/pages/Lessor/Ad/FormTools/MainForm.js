@@ -12,8 +12,6 @@ import './Steps/style.css';
 
 const Main = ({history, tool}) => {
   let { id } = useParams();
-
-  const [toolupdate, setToolupdate] = useState();
   // eslint-disable-next-line
   const [step, setStep] = useState(1);
   // eslint-disable-next-line
@@ -30,6 +28,7 @@ const Main = ({history, tool}) => {
   const [feed, setFeed] = useState('');
   // eslint-disable-next-line
   const [tension, setTension] = useState('');
+  // eslint-disable-next-line
   const [tension2, setTension2] = useState('');
   // eslint-disable-next-line
   const [power, setPower] = useState('');
@@ -132,6 +131,7 @@ const Main = ({history, tool}) => {
             if (index === 1 ) {
               formik.values.tension2 = tension
             }
+            return ''
           })
           formik.values.accessory = tool.accessory
           formik.values.follow = tool.follow
@@ -149,6 +149,7 @@ const Main = ({history, tool}) => {
             if (index === 3) {
               formik.values.price4 = price
             }
+            return ''
           })
           formik.values.contract = tool.contract
           formik.values.insurance = tool.insurance
@@ -164,6 +165,7 @@ const Main = ({history, tool}) => {
           formik.values.lat = tool.lat
           formik.values.lng = tool.lng
           setEdit(true)
+          return ''
         })
       }
       loadTool();

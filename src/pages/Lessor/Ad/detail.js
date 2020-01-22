@@ -5,8 +5,8 @@ import { Button } from '../../../components/Form/Button';
 import { Form } from '@rocketseat/unform';
 import Notification from '../../../utils/notification';
 import { useParams } from "react-router-dom";
+import { Warningtext } from '../../../components/Warningtext';
 import api from '../../../services/api';
-
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import Title from '../../../utils/title';
 import { getAddress } from '../../../services/mapbox';
@@ -18,6 +18,7 @@ const Detail = ({history}) => {
   const [prices, setPrices] = useState({});
   const [listphoto, setListphoto] = useState([]);
   const [isactive, setActive] = useState([]);
+  // eslint-disable-next-line
   const [idu, setIdu] = useState('');
   const [imgtool, setImgtool] = useState([]);
   const [showaddress, showLocation] = useState(false);
@@ -101,10 +102,11 @@ const Detail = ({history}) => {
     }
 
     setActive(newarray);
-    const list = newarray.map(file => {
+    newarray.map(file => {
       const preview = URL.createObjectURL(file)
       arrPreview.push(preview)
       setListphoto(arrPreview)
+      return ''
     })
   }, [])
   
@@ -115,6 +117,7 @@ const Detail = ({history}) => {
   
     isactive.map(image => {
       data.append('pictures', image);
+      return ''
     })
 
     savedb(data)
@@ -319,6 +322,8 @@ const Detail = ({history}) => {
                   )
                 }
               </div>
+              <br></br>
+              <Warningtext>* A EasyTools aceita apenas imagem JPG ou JPEG</Warningtext>
               <div className="columns">
                 <div className="column">
                   {

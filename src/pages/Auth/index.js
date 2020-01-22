@@ -21,7 +21,7 @@ import Scrool from '../../utils/scroll';
 
 import './style.css';
  
-const Signin = ({ hs, closeModal }) => {
+const Signin = ({ hs, url, closeModal }) => {
   const dispatch = useDispatch();
   useSelector(state => state.auth);
 
@@ -62,7 +62,15 @@ const Signin = ({ hs, closeModal }) => {
       dispatch(Auth(email, name, type, token));
 
       login(token, type);
-      hs.push("/");
+
+      if (url !== undefined) {
+        Scrool()
+        hs.push(url);
+      } else {
+        Scrool()
+        hs.push("/");
+      }
+
       closeModal();
     })
     .catch((error) => {

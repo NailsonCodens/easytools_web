@@ -13,7 +13,6 @@ import InputMask from 'react-input-mask';
 import Title from '../../../utils/title';
 
 import { cpfMask, cnpjMask } from '../../../utils/maskdocument';
-import { toast } from 'react-toastify';
 
 import documents from '../../../utils/documents';
 import api from '../../../services/api';
@@ -54,6 +53,7 @@ const Perfil = ({history}) => {
   const [uf, setUf] = useState('');
   const [city, setCity] = useState('');
   const [documenttype, setSelectedDocument] = useState('cpf');
+  const [avatar, setAvatar] = useState('');
 
   const formik = useFormik({
     initialValues: {
@@ -90,7 +90,6 @@ const Perfil = ({history}) => {
         success()
       })
       .catch((err) => {
-        console.log(err.response)
       })
     }
   })
@@ -150,6 +149,8 @@ const Perfil = ({history}) => {
         formik.values.uf = perfil.uf
         setCity(perfil.city)
         formik.values.city = perfil.city
+
+        setAvatar(perfil.url)
         return ''
       })
 
@@ -375,7 +376,12 @@ const Perfil = ({history}) => {
                     />
                   </Field>
                 </div>
-                <div className="column">
+                <div className="column has-text-centered box-inter box-inter-padding">
+                  <b>{ name }</b>
+                  <br/>
+                  <div className="avatar-perfil" >
+                    <img src={avatar} alt={avatar}/>
+                  </div>
                 </div>
               </div>
               <div className="columns">

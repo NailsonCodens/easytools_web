@@ -8,8 +8,9 @@ import Scroll from '../../../utils/scroll';
 import './style.css';
 
 const Dashboard = ({history, location}) => {
-
-  const dispatch = useDispatch();	
+  // eslint-disable-next-line
+  const dispatch = useDispatch();
+  // eslint-disable-next-line	
   const paramsearch = queryString.parse(useLocation().search).search;
   const [tools, setTools] = useState([]);
 	const search =   useSelector(state => state.search);

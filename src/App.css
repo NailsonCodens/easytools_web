@@ -267,3 +267,7 @@
 .back-form{
   margin-right: 20px !important;
 }
+
+.no-margin-top{
+  margin-top: -60px;
+}

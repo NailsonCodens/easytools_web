@@ -53,6 +53,7 @@
 .rental-box{
   border: 1px solid rgb(219, 219, 219);
   padding: 13px;
+  background: #fff !important;
 }
 
 .title-infos-tool{
@@ -151,4 +152,34 @@
   font-size: 15px;
   font-family: 'Poppins', sans-serif !important;
   font-weight: 600 !important;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 100; /* this is optional and should be different for every project */
+}
+
+.sticky-wrapper {
+  position: relative;
+  height: 3rem; /* We need to change this value */
+}
+
+.sticky .sticky-inner {
+  width: 100% !important;
+  position: fixed !important;
+  top: 100px;
+}
+
+.box-rent .rental-box{
+  width: 27% !important;
+  z-index: 999;
+  position: fixed;
+  right: 6% !important;
+}
+
+.sub-title{
+  font-size: 20px !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
 }

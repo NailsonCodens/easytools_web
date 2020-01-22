@@ -58,7 +58,6 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
   const [address, setAddress] = useState('');
   const [showad, setShowad] = useState(true);
   const [showsg, showMsg] = useState(false);
-  const [dataaddress, setDataaddress] = useState([]);
 
   useEffect(() => {
     async function loadPerfil() { 
@@ -73,6 +72,7 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
             setShowad(true)
             showMsg(true)
           }
+          return ''
         }) 
         setAddress(response.data.user[0]);
       } else {
@@ -80,7 +80,7 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
       }
     }
     loadPerfil()
-  }, [showad, values]);
+  }, [showad, values, id]);
 
   const formik = useFormik({
     initialValues: {
@@ -112,7 +112,7 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
       info()     
       setTimeout(function(){
         getCordinates(query).then(res => {
-          if (res.data.features.length != '') {
+          if (res.data.features.length !== '') {
             let cordinates =  res.data.features[0].center
             values.lat = cordinates[1]
             values.lng = cordinates[0]

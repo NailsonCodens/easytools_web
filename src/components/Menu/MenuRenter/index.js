@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import {Search} from '../../../store/actions/search';
-
+import Scrool from '../../../utils/scroll';
 import Auth from '../../../pages/Auth/index';
 import Modal from '../../../components/Modal';
 import Dropdown from '../Dropdown';
@@ -123,7 +123,7 @@ const MenuRenter = () => {
 												</Link>
 											</li>
 											<li className="li-drop">
-												<Link to={'/lessor/dashboard'} className="navbar-item">
+												<Link to={'/lessor/dashboard'} onClick={event => Scrool() } className="navbar-item">
 													Ver meus alugueis
 												</Link>
 											</li>

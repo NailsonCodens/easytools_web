@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState, useRef } from 'react';
+import { useParams, useLocation } from "react-router-dom";
+import queryString from 'query-string';
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import './calendar.css'
 import moment from 'moment';
+import 'moment/locale/pt-br';
+  // eslint-disable-next-line
 import preciseDiff from 'moment-precise-range-plugin';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import { useFormik } from 'formik';
@@ -20,21 +23,33 @@ import { Ul } from '../../../components/List';
 import { Hr } from '../../../components/Hr';
 import * as Yup from 'yup';
 import { Span } from '../../../components/Span';
+import { isAuthenticated } from "../../../services/auth";
+import Auth from '../../../pages/Auth/index';
+import Modal from '../../../components/Modal';
 
   const Tool = ({history}) => {
 
+    
   const [tool, setTool] = useState({});
   const [pictures, setPictures] = useState([]);
   const [prices, setPrices] = useState([]);
   const [focus, setFocus] = useState('');
+  // eslint-disable-next-line
   const [startDate, setStartdate] = useState(null);
+  // eslint-disable-next-line
   const [endDate, setEnddate] = useState(null);
   const [price, setPrice] = useState({});
   const [showprices, setShowprices] = useState(false);
   const [tension, setTension] = useState('');
   const [tensionshow, setTensionshow] = useState([]);
+	const [modal, setModal] = useState(false);
+  const [url, setUrl] = useState('');
+  const [isSticky, setSticky] = useState(false);
+  const ref = useRef(null);
 
   let {id} = useParams();
+
+  let values = queryString.parse(useLocation().search);
 
   const formik = useFormik({
     initialValues: {
@@ -58,19 +73,30 @@ import { Span } from '../../../components/Span';
       var rentData = {
         start: moment(value.startDate).format('YYYY-MM-DD'),
         end: moment(value.endDate).format('YYYY-MM-DD'),
-        tension: tension,
+        tension: tensionChoose,
       }
-
-      console.log(rentData)
-
-      //next(rentData)
+      next(rentData)
     }
   })
 
   const next = (rentData) => {
-    Scrool()
-    history.push(`/s/renter-rules?tool=${id}&booking=${'123'}&init=${rentData.start}&finish=${rentData.end}&tension=${rentData.tension}`)
+    setUrl(`/s/renter-rules?tool=${id}&booking=${'123'}&init=${rentData.start}&finish=${rentData.end}&tension=${rentData.tension}`)
+
+    if (isAuthenticated()) {
+      Scrool()
+      history.push(`/s/renter-rules?tool=${id}&booking=${'123'}&init=${rentData.start}&finish=${rentData.end}&tension=${rentData.tension}`)
+    } else {
+      Scrool()
+      history.push(`/s/tool/${id}?ctg=${values.ctg}&rdt=${Math.random()}`)
+      setModal(true)
+    }    
   }
+
+  const handleScroll = () => {
+    if (ref.current !== null ) {
+      setSticky(ref.current.getBoundingClientRect().top <= 50);
+    }
+  };
 
   useEffect(() => {
     async function loadTool() { 
@@ -81,8 +107,13 @@ import { Span } from '../../../components/Span';
       setPictures(response.data.tool[0].picture)
       setPrices(response.data.tool[0].prices.split(';'))
     }
-
     loadTool();
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', () => handleScroll);
+    };
   }, [id]);
 
   const setDates = (dates) => {
@@ -114,6 +145,12 @@ import { Span } from '../../../components/Span';
       }
     }
   }
+
+
+  const hideModal = () => {
+    setModal(false)
+    return modal
+	}
 
   const renderPrice = () => {
     var text = ''
@@ -198,7 +235,7 @@ import { Span } from '../../../components/Span';
             </div>
           </div>
           <div className="columns">
-            <div className="column is-two-thirds teste">
+            <div className="column is-two-thirds">
               <div className="description">
                 <p className="title-infos-tool">
                   Descrição
@@ -229,185 +266,184 @@ import { Span } from '../../../components/Span';
               </div>
               <Hr/>
             </div>
-            <div className="column has-centered-text">
-              <div className="rental-box">
-                <Form 
-                  onSubmit={ (e, values) => {
-                    formik.handleSubmit(values)
-                  }} 
-                  noValidate
-                >
-                  {
-                    prices.map((price, index) => (
-                      <div class="" key={index}>
-                        {
-                          index === 0 ? 
-                          (
-                            <>
-                              <span className="price-rent">
-                                {`R$ ${price.trim()} `}
-                              </span>
-                              <span >Diária </span>
-                              { 
-                                index === 0 ? (
-                                  <>
-                                    <Button 
-                                        type={'button'}
-                                        className={'button is-link is-light is-small is-pulled-right'}
-                                        text={'Valores períodos'}                                    
-                                      onClick={event => setShowprices(!showprices)}
-                                    />
-                                  </>
-                                ) : 
-                                (
-                                  ''
-                                )
-                              }
-                            </>
-                          ) : 
-                          (
-                            <div className={showprices === true ? 'is-block' : 'is-hidden'}>
-                              <div>
-                                {
-                                  price.trim() !== 0 && index === 1 ? 
-                                  (
+            <div>
+              <div  className={`column has-centered-text ${isSticky ? 'sticky box-rent' : ''}`} ref={ref}>
+                <div className="rental-box sticky-inner">
+                  <Form
+                    onSubmit={ (e, values) => {
+                      formik.handleSubmit(values)
+                    }} 
+                    noValidate
+                  >
+                    {
+                      prices.map((price, index) => (
+                        <div key={index}>
+                          {
+                            index === 0 ? 
+                            (
+                              <>
+                                <span className="price-rent">
+                                  {`R$ ${price.trim()} `}
+                                </span>
+                                <span >Diária </span>
+                                { 
+                                  index === 0 ? (
                                     <>
-                                      <span className="price-rent price-others">
-                                        {`R$ ${price.trim()} `}
-                                      </span>
-                                      <span className="price-others-legend">
-                                        Semanal
-                                      </span>
+                                      <Button 
+                                          type={'button'}
+                                          className={'button is-link is-light is-small is-pulled-right'}
+                                          text={'Valores períodos'}                                    
+                                        onClick={event => setShowprices(!showprices)}
+                                      />
                                     </>
-                                  ) 
-                                  :
+                                  ) : 
                                   (
                                     ''
                                   )
-                                  }
+                                }
+                              </>
+                            ) : 
+                            (
+                              <div className={showprices === true ? 'is-block' : 'is-hidden'}>
+                                <div>
                                   {
-                                  price.trim() !== 0 && index === 2 ? 
-                                  (
-                                    <>
-                                      <span className="price-rent price-others">
-                                        {`R$ ${price.trim()} `}
-                                      </span>
-                                      <span className="price-others-legend">
-                                        Quinzenal
-                                      </span>
-                                    </>
-                                  ) 
-                                  :
-                                  (
-                                    ''
-                                  )
-                                  }
-                                  {
-                                  price.trim() !== '0' && index === 3 ? 
-                                  (
-                                    <>
-                                      <span className="price-rent price-others">
-                                        {`R$ ${price.trim()} `}
-                                      </span>
-                                      <span className="price-others-legend">
-                                        Mensal
-                                      </span>
-                                    </>
-                                  ) 
-                                  :
-                                  (
-                                    ''
-                                  )
-                                }                       
+                                    price.trim() !== 0 && index === 1 ? 
+                                    (
+                                      <>
+                                        <span className="price-rent price-others">
+                                          {`R$ ${price.trim()} `}
+                                        </span>
+                                        <span className="price-others-legend">
+                                          Semanal
+                                        </span>
+                                      </>
+                                    ) 
+                                    :
+                                    (
+                                      ''
+                                    )
+                                    }
+                                    {
+                                    price.trim() !== 0 && index === 2 ? 
+                                    (
+                                      <>
+                                        <span className="price-rent price-others">
+                                          {`R$ ${price.trim()} `}
+                                        </span>
+                                        <span className="price-others-legend">
+                                          Quinzenal
+                                        </span>
+                                      </>
+                                    ) 
+                                    :
+                                    (
+                                      ''
+                                    )
+                                    }
+                                    {
+                                    price.trim() !== '0' && index === 3 ? 
+                                    (
+                                      <>
+                                        <span className="price-rent price-others">
+                                          {`R$ ${price.trim()} `}
+                                        </span>
+                                        <span className="price-others-legend">
+                                          Mensal
+                                        </span>
+                                      </>
+                                    ) 
+                                    :
+                                    (
+                                      ''
+                                    )
+                                  }                       
+                                </div>
+                              </div>
+                            )
+                          }
+                        </div>
+                      ))
+                    }
+                    <Warningtext>* O preço final pode mudar de acordo com o período escolhido. Diária, Semanal, Quizenal e Mensal tem valores diferentes.</Warningtext>
+                    <Field>
+                      <Label className="label" for={'title'}>
+                        Período de uso
+                      </Label> 
+                      <div className="dt-range-picker-tool">
+                        <DateRangePicker
+                          anchorDirection="left"
+                          displayFormat={'DD/MM/YYYY'}
+                          startDate={formik.values.startDate} // momentPropTypes.momentObj or null,
+                          startDateId={'start'} // PropTypes.string.isRequired,
+                          endDate={formik.values.endDate} // momentPropTypes.momentObj or null,
+                          endDateId={'end'} // PropTypes.string.isRequired,
+                          onDatesChange={({ startDate, endDate }) => setDates({ startDate, endDate })} // PropTypes.func.isRequired,
+                          focusedInput={focus.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
+                          onFocusChange={focusedInput => setFocus({ focusedInput })} // PropTypes.func.isRequired,
+                          startDatePlaceholderText="Aluguel"
+                          endDatePlaceholderText="Devolução"
+                        />
+                        <Span className={'validation-warning'}>
+                          {
+                            formik.touched.startDate && formik.errors.startDate 
+                          ? 
+                            (<div>Por favor insira as datas de aluguel e devolução.</div>) 
+                          : 
+                            null
+                          }
+                        </Span>
+                      </div>
+                    </Field>
+                    {
+                      tensionshow[1] !== undefined ? 
+                      (
+                        <>
+                          <Field>
+                            <Label  className="label" for={'tension'}>Tensão</Label>
+                            <div className="columns">
+                              <div className="column has-text-centered">
+                                <Button
+                                  type={'button'}
+                                  className={'button'}
+                                  text={'127V'}
+                                  onClick={event => setTension('127V')}
+                                />
+                              </div>
+                              <div className="column has-text-centered">
+                                <Button
+                                  type={'button'}
+                                  className={'button'}
+                                  text={'220V'}
+                                  onClick={event => setTension('220V')}
+                                />
                               </div>
                             </div>
-                          )
-                        }
-                      </div>
-                    ))
-                  }
-                  <br/>
-                  <Warningtext>* O preço final pode mudar de acordo com o período escolhido. Diária, Semanal, Quizenal e Mensal tem valores diferentes.</Warningtext>
-                  <br/>
-                  <Field>
-                    <Label className="label" for={'title'}>
-                      Período de uso
-                    </Label> 
-                    <div className="dt-range-picker-tool">
-                      <DateRangePicker
-                        anchorDirection="left"
-                        displayFormat={'DD/MM/YYYY'}
-                        startDate={formik.values.startDate} // momentPropTypes.momentObj or null,
-                        startDateId={'start'} // PropTypes.string.isRequired,
-                        endDate={formik.values.endDate} // momentPropTypes.momentObj or null,
-                        endDateId={'end'} // PropTypes.string.isRequired,
-                        onDatesChange={({ startDate, endDate }) => setDates({ startDate, endDate })} // PropTypes.func.isRequired,
-                        focusedInput={focus.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-                        onFocusChange={focusedInput => setFocus({ focusedInput })} // PropTypes.func.isRequired,
-                        startDatePlaceholderText="Aluguel"
-                        endDatePlaceholderText="Devolução"
-                      />
-                      <Span className={'validation-warning'}>
-                        {
-                          formik.touched.startDate && formik.errors.startDate 
-                        ? 
-                          (<div>Por favor insira as datas de aluguel e devolução.</div>) 
-                        : 
-                          null
-                        }
-                      </Span>
+                          </Field>                    
+                        </>
+                      ) 
+                      :
+                      ('')
+                    }
+                    {
+                      Object.entries(price).length > 0 ? 
+                      (
+                        <div className="container">
+                          {renderPrice()}
+                        </div>
+                      ) : 
+                      ('')
+                    }
+                    <br/>
+                    <Button
+                      type={'submit'}
+                      className={'button is-fullwidth color-logo'}
+                      text={'Alugar'}
+                    />
+                    <div>
+                      <Warningtext class="has-text-centered message-rent">Você ainda não será cobrado.</Warningtext>
                     </div>
-                  </Field>
-                  { console.log() }
-                  {
-                    tensionshow[1] !== undefined ? 
-                    (
-                      <>
-                        <Field>
-                          <Label  className="label" for={'tension'}>Tensão</Label>
-                          <div className="columns">
-                            <div className="column has-text-centered">
-                              <Button
-                                type={'button'}
-                                className={'button'}
-                                text={'127V'}
-                                onClick={event => setTension('127V')}
-                              />
-                            </div>
-                            <div className="column has-text-centered">
-                              <Button
-                                type={'button'}
-                                className={'button'}
-                                text={'220V'}
-                                onClick={event => setTension('220V')}
-                              />
-                            </div>
-                          </div>
-                        </Field>                    
-                      </>
-                    ) 
-                    :
-                    ('')
-                  }
-                  {
-                    Object.entries(price).length > 0 ? 
-                    (
-                      <div className="container">
-                        {renderPrice()}
-                      </div>
-                    ) : 
-                    ('')
-                  }
-                  <br/>
-                  <Button
-                    type={'submit'}
-                    className={'button is-fullwidth color-logo'}
-                    text={'Alugar'}
-                  />
-                  <div>
-                    <Warningtext class="has-text-centered message-rent">Você ainda não será cobrado.</Warningtext>
-                  </div>
-                </Form>
+                  </Form>
+                </div>
               </div>
             </div>
           </div>
@@ -492,6 +528,14 @@ import { Span } from '../../../components/Span';
             </div>
           </div>
         </div>
+        <Modal
+          show={modal} 
+          onCloseModal={hideModal} 
+          closeOnEsc={true} 
+          closeOnOverlayClick={true}
+        > 
+          <Auth hs={history} url={url} closeModal={event => setModal(false)}></Auth>
+        </Modal>
       </div>
     </>
   )

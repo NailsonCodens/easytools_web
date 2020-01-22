@@ -14,7 +14,7 @@ export const getAddress = (longitude, latitude) => {
 }
 
 export const getGeolocalization = () => {
-  const geo = navigator.geolocation.getCurrentPosition(function(position) {
+  navigator.geolocation.getCurrentPosition(function(position) {
     return position
   });
 
