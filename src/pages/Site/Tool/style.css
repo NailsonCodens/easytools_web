@@ -187,3 +187,23 @@
   font-family: 'Poppins', sans-serif !important;
   font-weight: 500 !important;
 }
+
+.orange{
+  color: rgb(0, 132, 255) !important;
+}
+
+
+.no-padding-text{
+  padding:0px 10px !important;
+  margin-top: -16px;
+  margin-bottom: -10px;
+}
+
+.pricefinal{
+  margin: 8px 0px;
+}
+
+.label-period{
+  margin-top: 5px;
+  margin-bottom: -10px !important;
+}

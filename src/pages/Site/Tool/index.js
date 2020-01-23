@@ -126,8 +126,6 @@ import Modal from '../../../components/Modal';
     };
   }, [id]);
 
-  console.log(dataLessor)
-
   const setDates = (dates) => {
     formik.values.startDate = dates.startDate
     formik.values.endDate = dates.endDate
@@ -140,18 +138,23 @@ import Modal from '../../../components/Modal';
 
     if (dates.endDate !== null) {
       var period = moment.preciseDiff(startdate, enddate, true);
+
+      console.log(period)
+      
       var days = period.days;
       var months = period.months;
 
       if (period.months !== 0) {
         setPrice({type: 'month', amount: days, amountmonth: months, price: parseInt(prices[3]), pricefull: months * parseInt(prices[3])})
       } else if (period.days !== 0) {
-        if (days < 5) 
+        if (days < 7)
           setPrice({type: 'days', amount: days, price: parseInt(prices[0]), pricefull: days * parseInt(prices[0])})
-        else if (days > 7)
+        else if (days === 7)
           setPrice({type: 'weekend', amount: days, price: parseInt(prices[1]), pricefull: 1 * parseInt(prices[1])})
-        else if (days === 15)
+        else if (days > 7 && days < 15)
           setPrice({type: 'biweekly', amount: days, price: parseInt(prices[2]), pricefull: 1 * parseInt(prices[2])})
+        else if (days === 15)
+        setPrice({type: 'biweekly', amount: days, price: parseInt(prices[2]), pricefull: 1 * parseInt(prices[2])})
         else if (days > 15)
           setPrice({type: 'month', amount: days, amountmonth: 1, price: parseInt(prices[3]), pricefull: 1 * parseInt(prices[3])})
       }
@@ -166,23 +169,39 @@ import Modal from '../../../components/Modal';
 
   const renderPrice = () => {
     var text = ''
+    var text2 = ''
     var days = price.amount
+    var weekend = 1
+    var biweekly = 1
+
     var months = price.amountmonth
 
     if (price.type === 'days') {
       text = ` x ${days} Dia(s)`
+      text2 = '* Custo diário'
     }
 
     if (price.type === 'weekend') {
-      text = ` x ${days} Dias`
+      text = ` por ${weekend} Semana`
+      text2 = `* Custo semanal`
     }
     
     if (price.type === 'biweekly') {
-      text = ` x ${days} Dias`
+      text = ` por ${days} Dias`
+
+      if (days !== 15) {
+        text2 = `* Custo quinzenal, com este valor você pode alugar por mais ${ 15 - days } dias!`
+      }
     }
 
     if (price.type === 'month') {
-      text = ` x ${months} Mêses`
+      if (months === 1) {
+        text = ` por ${months} Mês`
+        text2 = `* Custo mensal, com este valor você pode alugar por mais ${ 30 - days } dias!`
+      } else {
+        text = ` x ${months} Mêses`
+        text2 = '* Custo mensal, com este valor você pode alugar por mais dias para fechar o mês!'
+      }
     }
     return (
       <>
@@ -193,12 +212,17 @@ import Modal from '../../../components/Modal';
               { text }
             </IntlProvider>
           </div>
-          <div className="column">
+          <div className="column is-3">
             <p className="is-pulled-right">
               <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                 <FormattedNumber value={price.pricefull} style="currency" currency="BRL" />
               </IntlProvider>            
             </p>
+          </div>
+        </div>
+        <div className="columns">
+          <div className="no-padding-text">
+            <Warningtext class="orange">{ text2 }</Warningtext>
           </div>
         </div>
         <div className="columns">
@@ -242,12 +266,10 @@ import Modal from '../../../components/Modal';
                 <div className="">
                   {
                     dataLessor.map((lessor, index) => (
-                      <>
-                        <div key={index}>
-                          <img src={lessor.url} alt={lessor.url} className="logo-neighbor"/>
-                          <span className="name-neighbor">{ lessor.name }</span>                     
-                        </div>
-                      </>
+                      <div key={index}>
+                        <img src={lessor.url} alt={lessor.url} className="logo-neighbor"/>
+                        <span className="name-neighbor">Locador { lessor.name }</span>                     
+                      </div>
                     ))
                   }
                 </div>
@@ -384,11 +406,11 @@ import Modal from '../../../components/Modal';
                         </div>
                       ))
                     }
-                    <Warningtext>* O preço final pode mudar de acordo com o período escolhido. Diária, Semanal, Quizenal e Mensal tem valores diferentes.</Warningtext>
                     <Field>
-                      <Label className="label" for={'title'}>
+                      <Label className="label label-period" for={'title'}>
                         Período de uso
                       </Label> 
+                      <br/>
                       <div className="dt-range-picker-tool">
                         <DateRangePicker
                           anchorDirection="left"
@@ -453,7 +475,9 @@ import Modal from '../../../components/Modal';
                       ) : 
                       ('')
                     }
-                    <br/>
+                    <div className="pricefinal">
+                      <Warningtext>* O preço final pode mudar de acordo com o período escolhido. Diária, Semanal, Quizenal e Mensal tem valores diferentes.</Warningtext>
+                    </div>
                     <Button
                       type={'submit'}
                       className={'button is-fullwidth color-logo'}
@@ -514,7 +538,8 @@ import Modal from '../../../components/Modal';
             </div>
           </div>
           <Hr/>
-          <div className="columns comments">
+          {
+            /*<div className="columns comments">
             <div className="column">
               <p className="title-infos-tool hack-padding-top">Comentários e Avaliações</p>
               <Ul>
@@ -544,9 +569,9 @@ import Modal from '../../../components/Modal';
               </Ul>
             </div>
             <div className="column">
-              
             </div>
-          </div>
+          </div>*/
+          }
         </div>
         <Modal
           show={modal} 

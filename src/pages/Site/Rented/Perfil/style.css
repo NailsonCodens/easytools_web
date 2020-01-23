@@ -1,0 +1,22 @@
+.box-user{
+  border: 1px solid rgb(218, 218, 218) !important;
+  padding: 20px;
+}
+
+.name-renter{
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 22px;
+}
+
+.name-renter-left{
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 33px;
+}
+
+.email-renter{
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 19px;
+}

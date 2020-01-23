@@ -9,6 +9,7 @@ import MenuProcess from '../../../components/Menu/MenuProcess/index';
 import Index from '../Index/index';
 import Tool from '../../Site/Tool/index';
 import Renterrules from '../../Site/Tool/Renterrules';
+import Rented from '../../Site/Rented/index';
 
 export default function Start({history}) {
   let { path } = useRouteMatch();
@@ -35,7 +36,7 @@ export default function Start({history}) {
       <Route path={`${path}/renter-rules`} component={Renterrules}/>
 
       <PrivateRenter path={`${path}/messages`} component={teste => ('asdsd')}/>
-      <PrivateRenter path={`${path}/rented`} component={teste => ('asdsd')}/>
+      <PrivateRenter path={`${path}/renter`} component={Rented}/>
     </>
   )
 }

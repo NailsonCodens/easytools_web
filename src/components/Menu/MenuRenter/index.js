@@ -113,7 +113,7 @@ const MenuRenter = () => {
 									(
 										<Dropdown classCuston=" menu-from-lessor menus">
 											<li className="li-drop">
-												<Link to={'/'} className="navbar-item">
+												<Link to={'/lessor/perfil'} className="navbar-item">
 													Perfil
 												</Link>
 											</li>
