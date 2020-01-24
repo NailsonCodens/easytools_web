@@ -3,10 +3,10 @@ import api from '../../../services/api';
 import { Link, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import Scroll from '../../../utils/scroll';
-
 import { Button } from '../../../components/Form/Button';
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import Title from '../../../utils/title';
+import Availability from './btAvailability';
 
 import './style.css';
 
@@ -82,6 +82,7 @@ export default function Index({history}) {
                         className={'button is-info color-logo-lessor is-small is-fullwidth is-pulled-right'}
                         text={'Ver Detalhes'}
                       />
+                      <Availability idtool={tool.id} availability={tool.availability}/>
                     </div>
                   </div>
                 ))

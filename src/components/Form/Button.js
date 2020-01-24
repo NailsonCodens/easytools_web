@@ -6,6 +6,7 @@ export const Button = props => (
     type={props.type}
     onClick={props.onClick}
     className={props.className}
+    disabled={props.disabled}
   >
     { props.text }
   </button>

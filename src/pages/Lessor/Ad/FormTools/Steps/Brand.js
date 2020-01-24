@@ -80,7 +80,6 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
       default:
         return '';
     }
-    console.log(ev)
     handleChange(input, ev)
   }
 
@@ -95,6 +94,16 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
         }} 
         noValidate
       > 
+        <div className="columns">
+          <div className="column">
+            <Field>
+              <Input class="is-checkradio" id="exampleRadioInline1" type="radio" name="exampleRadioInline1" checked="checked"/>
+              <Label>Elétricos</Label>
+              <Input class="is-checkradio" id="exampleRadioInline2" type="radio" name="exampleRadioInline2"/>
+              <Label>Manuais</Label>
+            </Field>
+          </div>
+        </div>
         <div className="columns column-address">
           <div className="column">
             <Field>

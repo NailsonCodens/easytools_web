@@ -10,6 +10,7 @@ import api from '../../../services/api';
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import Title from '../../../utils/title';
 import { getAddress } from '../../../services/mapbox';
+import Availability from './btAvailability';
 
 const Detail = ({history}) => {
   let { id } = useParams();
@@ -199,6 +200,7 @@ const Detail = ({history}) => {
             text={'Excluir'}
             onClick={event => deleteTool()}
           />
+          <Availability idtool={tool.id} availability={tool.availability}/>
         </Titlepage>
           <div className="columns is-desktop ">
             <div className="column is-three-fifths box-inter">

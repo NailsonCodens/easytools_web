@@ -13,7 +13,7 @@ import './Steps/style.css';
 const Main = ({history, tool}) => {
   let { id } = useParams();
   // eslint-disable-next-line
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   // eslint-disable-next-line
   const [title, setTitle] = useState('');
   // eslint-disable-next-line
@@ -333,7 +333,6 @@ const Main = ({history, tool}) => {
   }
 
   const handleChange = (input, event) => {
-    console.log(input, event)
     switch(input){
       case 'title': 
         handleTitleChange(event)

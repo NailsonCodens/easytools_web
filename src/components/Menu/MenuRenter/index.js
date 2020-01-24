@@ -38,14 +38,23 @@ const MenuRenter = () => {
 				<div className="navbar-brand">
 					<Link to={'/'}>
 						<img src={logo} alt="EasyTools Logo" className="logo"/>
-					</Link>
-					<input 
-						type="text" 
-						placeholder='Experimente "Furadeira"' 
-						className="input input-search" 
-						value={search}
-						onChange={event => dispatch(Search(event.target.value))} 
-						/>
+					</Link>	
+					{
+						history.location.pathname === '/s/renter/perfil' ? 
+						('') 
+						:
+						(
+							<>
+								<input 
+									type="text" 
+									placeholder='Experimente "Furadeira"' 
+									className="input input-search" 
+									value={search}
+									onChange={event => dispatch(Search(event.target.value))} 
+									/>
+							</>
+						)
+					}
 					<span role="button" href="a" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
@@ -63,20 +72,20 @@ const MenuRenter = () => {
 									current_user.name === undefined ? 
 									(
 										<>
-											<Link to={'/signup?type=lessor'} className="navbar-item">
-												Seja um locador
+											<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
+												Seja um vizinho
 											</Link>
 										</>
 									) : 
 									(
 										<>
-											<Link to={'/signup?type=lessor'} className="navbar-item">
-												Seja um locador
+											<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
+												Seja um vizinho
 											</Link>
-											<Link to={'/myrent'} className="navbar-item">
+											<Link to={'/myrent'} onClick={event => Scrool() } className="navbar-item">
 												Coisas que aluguei
 											</Link>
-											<Link to={'/signup?type=lessor'} className="navbar-item">
+											<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
 												Mensagens
 											</Link>
 										</>
@@ -85,13 +94,13 @@ const MenuRenter = () => {
 								{
 									current_user.name === undefined ? 
 									(
-										<Link to={'/signup?type=renter'} className="navbar-item">
+										<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item">
 											Cadastre-se
 										</Link>
 									) : 
 									(
 										<>
-											<Link to={'/'} className="navbar-item">
+											<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
 												Ajuda
 											</Link>
 										</>
@@ -113,12 +122,12 @@ const MenuRenter = () => {
 									(
 										<Dropdown classCuston=" menu-from-lessor menus">
 											<li className="li-drop">
-												<Link to={'/lessor/perfil'} className="navbar-item">
+												<Link to={'/lessor/perfil'} onClick={event => Scrool() } className="navbar-item">
 													Perfil
 												</Link>
 											</li>
 											<li className="li-drop">
-												<Link to={'/'} className="navbar-item">
+												<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
 													Conta
 												</Link>
 											</li>
@@ -128,7 +137,7 @@ const MenuRenter = () => {
 												</Link>
 											</li>
 											<li className="li-drop">
-												<Link to={'/'} className="navbar-item">
+												<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
 													Como ser um bom vizinho?
 												</Link>
 											</li>
@@ -137,12 +146,12 @@ const MenuRenter = () => {
 									(
 										<Dropdown classCuston=" menu-from-renter menus">
 											<li className="li-drop">
-												<Link to={'/'} className="navbar-item">
+												<Link to={'/s/renter/perfil'} onClick={event => Scrool() } className="navbar-item">
 													Perfil
 												</Link>
 											</li>
 											<li className="li-drop">
-												<Link to={'/'} className="navbar-item">
+												<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
 													Conta
 												</Link>
 											</li>

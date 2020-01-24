@@ -6,6 +6,7 @@ import store from './store/index';
 import 'react-toastify/dist/ReactToastify.css';
 
 import 'bulma/css/bulma.css'
+import 'bulma-checkradio/dist/css/bulma-checkradio.min.css'
 import './App.css';
 
 function App() {
