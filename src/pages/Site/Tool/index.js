@@ -13,7 +13,7 @@ import 'moment/locale/pt-br';
 import preciseDiff from 'moment-precise-range-plugin';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import { useFormik } from 'formik';
-import { Form } from '@rocketseat/unform';
+import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../components/Form/Form';
 import { Button } from '../../../components/Form/Button';
 import { Warningtext } from '../../../components/Warningtext';
@@ -50,7 +50,8 @@ const Tool = ({history}) => {
   const [url, setUrl] = useState('');
   const [isSticky, setSticky] = useState(false);
   const [dataLessor, setDatalessor] = useState([]);
-  const [datefix, setDatefix] = useState(useSelector(state => state.rentaltool));
+  const [datefix] = useState(useSelector(state => state.rentaltool));
+  const [amount, setAmount] = useState(useSelector(state => state.rentaltool.amount));
 
   const ref = useRef(null);
 
@@ -62,6 +63,7 @@ const Tool = ({history}) => {
     initialValues: {
       startDate:null,
       endDate: null,
+      amount: amount !== undefined ? amount : 1,
     },
     validationSchema: Yup.object({
       startDate: Yup.string()
@@ -71,23 +73,26 @@ const Tool = ({history}) => {
     }),
     onSubmit: value => {
       var tensionChoose = ''
-      if (tool.tension.split('/')[1] === undefined){
-        tensionChoose = tool.tension
+
+      if (tension !== '') {
+        tensionChoose = tension
       } else {
-        tensionChoose = tension 
+        tensionChoose = tool.tension.split('/')[0]
       }
 
       var rentData = {
         start: moment(value.startDate).format('YYYY-MM-DD'),
         end: moment(value.endDate).format('YYYY-MM-DD'),
         tension: tensionChoose,
+        amount: amount
       }
       dispatch(
         Rentaltool(
           moment(value.startDate).format('YYYY-MM-DD'), 
           moment(value.endDate).format('YYYY-MM-DD'),
           tool.prices.split(';'),
-          tensionChoose
+          tensionChoose,
+          formik.values.amount
         )
       );
 
@@ -97,7 +102,9 @@ const Tool = ({history}) => {
         startDate: moment(value.startDate).format('YYYY-MM-DD'),  
         endDate: moment(value.endDate).format('YYYY-MM-DD'),
         price: tool.prices.split(';'),
-        tension: tensionChoose
+        tension: tensionChoose,
+        amount: formik.values.amount
+
       }).then(function () {
       })
 
@@ -116,6 +123,10 @@ const Tool = ({history}) => {
       history.push(`/s/tool/${id}?ctg=${values.ctg}&rdt=${Math.random()}`)
       setModal(true)
     }
+  }
+
+  const handleTension = (event) => {
+    setTension(event.target.value)
   }
 
   const handleScroll = () => {
@@ -145,7 +156,7 @@ const Tool = ({history}) => {
     async function loadValues(){
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
-      setDatesback(datefix, response.data.tool[0])
+      setDatesback(datefix, response.data.tool[0], amount)
     }
     loadValues()
 
@@ -176,23 +187,63 @@ const Tool = ({history}) => {
       var months = period.months;
 
       if (period.months !== 0) {
-        setPrice({type: 'month', amount: days, amountmonth: months, price: parseInt(priceback[3]), pricefull: months * parseInt(priceback[3])})
+        setPrice({
+          type: 'month', 
+          amount: days, 
+          amountmonth: months, 
+          price: parseInt(priceback[3]), 
+          pricefull: (months * parseInt(priceback[3]) * amount)
+        })
       } else if (period.days !== 0) {
         if (days < 7)
-          setPrice({type: 'days', amount: days, price: parseInt(priceback[0]), pricefull: days * parseInt(priceback[0])})
+          setPrice({
+            type: 'days', 
+            amount: days, 
+            price: parseInt(priceback[0]),
+            priceNoamount: days * parseInt(priceback[0]), 
+            pricefull: (days * parseInt(priceback[0]) * amount)
+          })
         else if (days === 7)
-          setPrice({type: 'weekend', amount: days, price: parseInt(priceback[1]), pricefull: 1 * parseInt(priceback[1])})
+          setPrice({
+            type: 'weekend', 
+            amount: days, 
+            price: parseInt(priceback[1]), 
+            priceNoamount: 1 * parseInt(priceback[1]),
+            pricefull: (1 * parseInt(priceback[1]) * amount)
+          })
         else if (days > 7 && days < 15)
-          setPrice({type: 'biweekly', amount: days, price: parseInt(priceback[2]), pricefull: 1 * parseInt(priceback[2])})
+          setPrice({
+            type: 'biweekly', 
+            amount: days, 
+            price: parseInt(priceback[2]), 
+            priceNoamount: 1 * parseInt(priceback[2]),
+            pricefull: (1 * parseInt(priceback[2])) * amount
+          })
         else if (days === 15)
-        setPrice({type: 'biweekly', amount: days, price: parseInt(priceback[2]), pricefull: 1 * parseInt(priceback[2])})
+        setPrice({
+          type: 'biweekly', 
+          amount: days, 
+          price: parseInt(priceback[2]), 
+          priceNoamount: 1 * parseInt(priceback[2]),
+          pricefull: (1 * parseInt(priceback[2])) * amount
+        })
         else if (days > 15)
-          setPrice({type: 'month', amount: days, amountmonth: 1, price: parseInt(priceback[3]), pricefull: 1 * parseInt(priceback[3])})
+          setPrice({
+            type: 'month', 
+            amount: days, 
+            amountmonth: 1, 
+            price: parseInt(priceback[3]), 
+            priceNoamount: 1 * parseInt(priceback[3]),
+            pricefull: (1 * parseInt(priceback[3])) * amount
+          })
       }
     }
   }
 
-  const setDates = (dates) => {
+  const setDates = (dates, amountreceive) => {
+    var amounttool = 1
+    amounttool = amountreceive !== undefined ? amountreceive : formik.values.amount  
+
     formik.values.startDate = dates.startDate
     formik.values.endDate = dates.endDate
 
@@ -209,18 +260,56 @@ const Tool = ({history}) => {
       var months = period.months;
 
       if (period.months !== 0) {
-        setPrice({type: 'month', amount: days, amountmonth: months, price: parseInt(prices[3]), pricefull: months * parseInt(prices[3])})
+        setPrice({
+          type: 'month', 
+          amount: days, 
+          amountmonth: months, 
+          price: parseInt(prices[3]),
+          priceNoamount: months * parseInt(prices[3]),
+          pricefull: (months * parseInt(prices[3]) * amounttool)
+        })
       } else if (period.days !== 0) {
         if (days < 7)
-          setPrice({type: 'days', amount: days, price: parseInt(prices[0]), pricefull: days * parseInt(prices[0])})
+          setPrice({
+            type: 'days', 
+            amount: days, 
+            price: parseInt(prices[0]), 
+            priceNoamount: days * parseInt(prices[0]),
+            pricefull: (days * parseInt(prices[0]) * amounttool)
+          })
         else if (days === 7)
-          setPrice({type: 'weekend', amount: days, price: parseInt(prices[1]), pricefull: 1 * parseInt(prices[1])})
+          setPrice({
+            type: 'weekend', 
+            amount: days, 
+            price: parseInt(prices[1]), 
+            priceNoamount: 1 * parseInt(prices[1]),
+            pricefull: (1 * parseInt(prices[1]) * amounttool)
+          })
         else if (days > 7 && days < 15)
-          setPrice({type: 'biweekly', amount: days, price: parseInt(prices[2]), pricefull: 1 * parseInt(prices[2])})
+          setPrice({
+            type: 'biweekly', 
+            amount: days, 
+            price: parseInt(prices[2]), 
+            priceNoamount: 1 * parseInt(prices[2]),
+            pricefull: (1 * parseInt(prices[2])) * amounttool
+          })
         else if (days === 15)
-        setPrice({type: 'biweekly', amount: days, price: parseInt(prices[2]), pricefull: 1 * parseInt(prices[2])})
+        setPrice({
+          type: 'biweekly', 
+          amount: days, 
+          price: parseInt(prices[2]), 
+          priceNoamount: 1 * parseInt(prices[2]),
+          pricefull: (1 * parseInt(prices[2])) * amounttool
+        })
         else if (days > 15)
-          setPrice({type: 'month', amount: days, amountmonth: 1, price: parseInt(prices[3]), pricefull: 1 * parseInt(prices[3])})
+          setPrice({
+            type: 'month', 
+            amount: days, 
+            amountmonth: 1, 
+            price: parseInt(prices[3]), 
+            priceNoamount: 1 * parseInt(prices[3]),
+            pricefull: (1 * parseInt(prices[3])) * amounttool
+        })
       }
     }
   }
@@ -266,17 +355,20 @@ const Tool = ({history}) => {
     }
   return (
     <>
-      <div className="columns">
+      <div className="columns no-margin-top-columns2">
         <div className="column">
           <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
             <FormattedNumber value={price.price} style="currency" currency="BRL" />
             { text }
           </IntlProvider>
         </div>
-        <div className="column is-3">
+        <div className="column is-5">
           <p className="is-pulled-right">
             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-              <FormattedNumber value={price.pricefull} style="currency" currency="BRL" />
+              <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
+              { 
+                amount === undefined ? 'x 1 PÇ' : `x ${amount} PÇ` 
+              }
             </IntlProvider>            
           </p>
         </div>
@@ -300,7 +392,13 @@ const Tool = ({history}) => {
       </div>
     </>
   )
-}
+  }
+
+  const handleAmount = (event) => {
+    formik.values.amount = parseInt(event.target.value)
+    setAmount(parseInt(event.target.value))
+    setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, event.target.value)
+  }
 
 return (
   <>
@@ -472,7 +570,7 @@ return (
                       Período de uso
                     </Label> 
                     <br/>
-                    <div className="dt-range-picker-tool">
+                    <div className="dt-range-picker-tool no-margin-top-columns2">
                       <DateRangePicker
                         anchorDirection="left"
                         displayFormat={'DD/MM/YYYY'}
@@ -497,36 +595,61 @@ return (
                       </Span>
                     </div>
                   </Field>
-                  {
-                    tensionshow[1] !== undefined ? 
-                    (
-                      <>
-                        <Field>
-                          <Label  className="label" for={'tension'}>Tensão</Label>
-                          <div className="columns">
-                            <div className="column has-text-centered">
-                              <Button
-                                type={'button'}
-                                className={'button'}
-                                text={'127V'}
-                                onClick={event => setTension('127V')}
-                              />
-                            </div>
-                            <div className="column has-text-centered">
-                              <Button
-                                type={'button'}
-                                className={'button'}
-                                text={'220V'}
-                                onClick={event => setTension('220V')}
-                              />
-                            </div>
-                          </div>
-                        </Field>                    
-                      </>
-                    ) 
-                    :
-                    ('')
-                  }
+                  <div className="columns">
+                    <div className="column">
+                      {
+                        tensionshow[1] !== undefined ? 
+                        (
+                          <>
+                            <Field>
+                              <Label  className="label" for={'tension'}>Tensão</Label>
+                              <div className="columns">
+                                <div className="column has-text-centered">
+                                  <Field>
+                                    <input 
+                                      className="is-checkradio"
+                                      type="radio"
+                                      id={'127v'}
+                                      name="tension" 
+                                      value="127V"
+                                      defaultChecked={true}
+                                      onChange={event => handleTension(event)}
+                                  />
+                                    <Label for={'127v'}>127V</Label>
+                                    <input 
+                                      className="is-checkradio"
+                                      id="220v"
+                                      type="radio" 
+                                      name="tension"
+                                      value="220V"
+                                      onChange={event => handleTension(event)}
+                                    />
+                                    <Label for={'220v'}>220V</Label>
+                                  </Field>
+                                </div>
+                              </div>
+                            </Field>                    
+                          </>
+                        ) 
+                        :
+                        ('')
+                      }
+                    </div>
+                    <div className="column is-4">
+                      <Field>
+                        <Label className="label" for={'amount'}>Quantide</Label>
+                        <Input
+                          className="input"
+                          name="amount"
+                          type="number"
+                          placeholder=""
+                          min="1"
+                          onChange={event => handleAmount(event)}
+                          value={formik.values.amount}
+                        />
+                      </Field>
+                    </div>
+                  </div>
                   {
                     Object.entries(price).length > 0 ? 
                     (

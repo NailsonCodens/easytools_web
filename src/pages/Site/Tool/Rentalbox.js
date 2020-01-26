@@ -13,7 +13,6 @@ const Rentalbox = ({startDate, endDate}) => {
   const infochoose = useSelector(state => state.rentaltool);
   const [infoChoose, setInfochoose] = useState({});
   const [price, setPrice] = useState({});
-
   useEffect(() => {
     async function loadInfochoose() {
       if (infochoose.startDate !== undefined) {
@@ -32,6 +31,7 @@ const Rentalbox = ({startDate, endDate}) => {
 
   const formatPrice = (info) => {
     const priceback = info.price
+    const amount = info.amount
 
     if (info.endDate !== null) {
 
@@ -43,19 +43,57 @@ const Rentalbox = ({startDate, endDate}) => {
       var days = period.days;
       var months = period.months;
 
+  
       if (period.months !== 0) {
-        setPrice({type: 'month', amount: days, amountmonth: months, price: parseInt(priceback[3]), pricefull: months * parseInt(priceback[3])})
+        setPrice({
+          type: 'month', 
+          amount: days, 
+          amountmonth: months, 
+          price: parseInt(priceback[3]), 
+          pricefull: (months * parseInt(priceback[3]) * amount)
+        })
       } else if (period.days !== 0) {
         if (days < 7)
-          setPrice({type: 'days', amount: days, price: parseInt(priceback[0]), pricefull: days * parseInt(priceback[0])})
+          setPrice({
+            type: 'days', 
+            amount: days, 
+            price: parseInt(priceback[0]),
+            priceNoamount: days * parseInt(priceback[0]), 
+            pricefull: (days * parseInt(priceback[0]) * amount)
+          })
         else if (days === 7)
-          setPrice({type: 'weekend', amount: days, price: parseInt(priceback[1]), pricefull: 1 * parseInt(priceback[1])})
+          setPrice({
+            type: 'weekend', 
+            amount: days, 
+            price: parseInt(priceback[1]), 
+            priceNoamount: 1 * parseInt(priceback[1]),
+            pricefull: (1 * parseInt(priceback[1]) * amount)
+          })
         else if (days > 7 && days < 15)
-          setPrice({type: 'biweekly', amount: days, price: parseInt(priceback[2]), pricefull: 1 * parseInt(priceback[2])})
+          setPrice({
+            type: 'biweekly', 
+            amount: days, 
+            price: parseInt(priceback[2]), 
+            priceNoamount: 1 * parseInt(priceback[2]),
+            pricefull: (1 * parseInt(priceback[2])) * amount
+          })
         else if (days === 15)
-        setPrice({type: 'biweekly', amount: days, price: parseInt(priceback[2]), pricefull: 1 * parseInt(priceback[2])})
+        setPrice({
+          type: 'biweekly', 
+          amount: days, 
+          price: parseInt(priceback[2]), 
+          priceNoamount: 1 * parseInt(priceback[2]),
+          pricefull: (1 * parseInt(priceback[2])) * amount
+        })
         else if (days > 15)
-          setPrice({type: 'month', amount: days, amountmonth: 1, price: parseInt(priceback[3]), pricefull: 1 * parseInt(priceback[3])})
+          setPrice({
+            type: 'month', 
+            amount: days, 
+            amountmonth: 1, 
+            price: parseInt(priceback[3]), 
+            priceNoamount: 1 * parseInt(priceback[3]),
+            pricefull: (1 * parseInt(priceback[3])) * amount
+          })
       }
     }
   }
@@ -103,10 +141,13 @@ const Rentalbox = ({startDate, endDate}) => {
               { text }
             </IntlProvider>
           </div>
-          <div className="column is-3">
+          <div className="column is-6">
             <p className="is-pulled-right">
               <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                <FormattedNumber value={price.pricefull} style="currency" currency="BRL" />
+                <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
+                { 
+                  infochoose.amount === undefined ? 'x 1 PÇ' : `x ${infochoose.amount} PÇ` 
+                }
               </IntlProvider>            
             </p>
           </div>
@@ -118,7 +159,17 @@ const Rentalbox = ({startDate, endDate}) => {
             </div>
           </div>*/
         }
-        <div className="columns">
+        <div className="columns no-margin-top-columns">
+          <div className="column">
+            Tensão equip
+          </div>
+          <div className="column">
+            <div className="is-pulled-right">
+              { infoChoose.tension }
+            </div>
+          </div>
+        </div>
+        <div className="columns no-margin-top-columns">
           <div className="column">
             <b>Total</b>
           </div>

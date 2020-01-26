@@ -271,3 +271,11 @@
 .no-margin-top{
   margin-top: -60px;
 }
+
+.no-margin-top-columns{
+  margin-top: -30px !important;
+}
+
+.no-margin-top-columns2{
+  margin-top: -10px !important;
+}

@@ -9,6 +9,7 @@ import api from '../../../services/api';
 import moment from 'moment';
 import Rentalbox from './Rentalbox';
 import Rentruesblock from '../../Warnings/Rentrulesblock';
+import localForage from "localforage";
   // eslint-disable-next-line
 import preciseDiff from 'moment-precise-range-plugin';
 import 'moment/locale/pt-br';
@@ -16,6 +17,7 @@ moment.locale('pt-BR');
 
 const Renterules = ({history}) => {
   const dispatch = useDispatch();
+  const infochoose = useSelector(state => state.rentaltool);
 
   let values = queryString.parse(useLocation().search);
 
@@ -32,7 +34,7 @@ const Renterules = ({history}) => {
   // eslint-disable-next-line  
   const [daynumberFinish, setnumberFinish] = useState(moment(values.finish).format('DD'));
   // eslint-disable-next-line  
-  const [tension, setTension] = useState(values.tension);
+  const [tension, setTension] = useState();
   const [tool, setTool] = useState([]);
 
   const [ok, setOk] = useState(true);
@@ -52,6 +54,16 @@ const Renterules = ({history}) => {
     }
     loadTool();
 
+    async function loadInfochoose() {
+      if (infochoose.startDate !== undefined) {
+        setTension(infochoose.tension)
+      } else {
+        localForage.getItem('infochoose').then(info => {
+          setTension(info.tension)
+        })
+      }
+    }
+    loadInfochoose()
 
   }, [dispatch, values.tool]);
 

@@ -1,11 +1,11 @@
 import React from 'react';
 
 export const Input = props => (
-  <input type={props.type} className="input"  placeholder={props.placeholder}/>
+  <input type={props.type} min={props.min} className="input"  placeholder={props.placeholder}/>
 );
 
 export const TextArea = props => (
-  <textarea className={props.class} placeholder={props.placeholder} rows={props.rows}></textarea>
+  <textarea className={props.class} aceholder={props.placeholder} rows={props.rows}></textarea>
 );
 
 export const Select = props => (
