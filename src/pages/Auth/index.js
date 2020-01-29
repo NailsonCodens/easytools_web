@@ -122,7 +122,7 @@ const Signin = ({ hs, url, closeModal }) => {
                     <Input 
                       type="password" 
                       name="password" 
-                      className={formik.touched.email && formik.errors.email ? 'input border-warning' : 'input input-singin'} 
+                      className={formik.touched.password && formik.errors.password ? 'input border-warning' : 'input input-singin'} 
                       placeholder="Senha"
                       onChange={formik.handleChange}
                       value={formik.values.password}

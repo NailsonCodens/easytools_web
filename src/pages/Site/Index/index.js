@@ -20,6 +20,7 @@ const Dashboard = ({history, location}) => {
       const response = await api.get(`/tools_site?search=${search}&lat=-25.481090&lng=-49.345604`, {
         headers: { search }
       });
+
      setTools(response.data.tools)
     }
 
@@ -54,8 +55,12 @@ const Dashboard = ({history, location}) => {
             </div>
           </div>
         </div>
-        <div className="image-index">
-        </div>
+        {
+          /*
+                <div className="image-index">
+              </div>
+          */
+        }
         <div className="container">
           <div className="columns is-desktop is-multiline">
             {

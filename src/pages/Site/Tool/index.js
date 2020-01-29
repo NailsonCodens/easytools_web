@@ -28,6 +28,8 @@ import { isAuthenticated } from "../../../services/auth";
 import Auth from '../../../pages/Auth/index';
 import Modal from '../../../components/Modal';
 import localForage from "localforage";
+import Mapbox from '../../../components/Map/Mapbox';
+
 
 const Tool = ({history}) => {
   const dispatch = useDispatch();
@@ -73,11 +75,10 @@ const Tool = ({history}) => {
     }),
     onSubmit: value => {
       var tensionChoose = ''
-
       if (tension !== '') {
         tensionChoose = tension
       } else {
-        tensionChoose = tool.tension.split('/')[0]
+        tensionChoose = tool.tension.split('/')[1]
       }
 
       var rentData = {
@@ -113,11 +114,11 @@ const Tool = ({history}) => {
   })
 
   const next = (rentData) => {
-    setUrl(`/s/renter-rules?tool=${id}&booking=${'123'}&init=${rentData.start}&finish=${rentData.end}`)
+    setUrl(`/s/resume?tool=${id}&booking=${'123'}&init=${rentData.start}&finish=${rentData.end}`)
 
     if (isAuthenticated()) {
       Scrool()
-      history.push(`/s/renter-rules?tool=${id}&booking=${'123'}&init=${rentData.start}&finish=${rentData.end}`)
+      history.push(`/s/resume?tool=${id}&booking=${'123'}&init=${rentData.start}&finish=${rentData.end}`)
     } else {
       Scrool()
       history.push(`/s/tool/${id}?ctg=${values.ctg}&rdt=${Math.random()}`)
@@ -126,6 +127,7 @@ const Tool = ({history}) => {
   }
 
   const handleTension = (event) => {
+    console.log(event.target.value)
     setTension(event.target.value)
   }
 
@@ -140,7 +142,7 @@ const Tool = ({history}) => {
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
       setTool(response.data.tool[0])
-      setTensionshow(response.data.tool[0].tension.split('/'))
+      setTensionshow(response.data.tool[0].tension)
       setPictures(response.data.tool[0].picture)
       setPrices(response.data.tool[0].prices.split(';'))
       loadLessor(response.data.tool[0].UserId)
@@ -148,18 +150,19 @@ const Tool = ({history}) => {
     loadTool();
 
     async function loadLessor(iduser) {
+      
       const response = await api.get(`/lessordata/${iduser}`, {
       });
       setDatalessor(response.data.user)
     }
 
     async function loadValues(){
+      
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
       setDatesback(datefix, response.data.tool[0], amount)
     }
     loadValues()
-
 
     window.addEventListener('scroll', handleScroll);
 
@@ -447,7 +450,14 @@ return (
             </div>
             <Hr/>
             <div className="specification">
-              <p className="title-infos-tool">Especificações</p>
+              <div className="columns">
+                <div className="column">
+                  <p className="title-infos-tool hack-padding-top">Especificações</p>
+                </div>
+                <div className="column">
+                  <p className="title-infos-tool hack-padding-top">Configurações</p>
+                </div>
+              </div>
               <div className="columns">
                 <div className="column">
                   <Ul>
@@ -455,17 +465,57 @@ return (
                     <li>{ tool.brand }</li>
                     <li><b>Categoria</b></li>
                     <li>{ tool.category }</li>
-                  </Ul>
-                </div>
-                <div className="column">
-                  <Ul>
                     <li><b>Tipo</b></li>
                     <li>{ tool.type_spec }</li>
                   </Ul>
                 </div>
+                <div className="column">
+                  <Ul>
+                    <li><b>Potência</b></li>
+                    <li>{ tool.power }</li>
+                    <li><b>Tensão</b></li>
+                    <li>{ tool.tension }</li>
+                    <li><b>Alimentação</b></li>
+                    <li>{ tool.feed }</li>
+                  </Ul>
+                </div>
+              </div>
+              <div className="columns">
+                <div className="column">
+                  <p className="title-infos-tool hack-padding-top">Acessórios e Acompanhamentos</p>   
+                  <div className="columns">
+                    <div className="column">
+                      <Ul>
+                        <li><b>Acessórios</b></li>
+                        <li>{ tool.accessory }</li>
+                      </Ul>
+                    </div>
+                    <div className="column">
+                      <Ul>
+                        <li><b>Acompanhamento</b></li>
+                      <li>{ tool.follow }</li>
+                      </Ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <Hr/>
+            <div className="columns">
+              <div className="column">
+              <p className="title-infos-tool hack-padding-top">Localização do equipamento ({ tool.title })</p>
+                {
+                 tool.lat !== undefined && tool.lng !== undefined ? 
+                 (
+                  <Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture[0].url} title={tool.title}/>                   
+                 )
+                 : 
+                 (
+                   ''
+                 )
+                }
+              </div>
+            </div>
           </div>
           <div>
             <div  className={`column has-centered-text ${isSticky ? 'sticky box-rent' : ''}`} ref={ref}>
@@ -598,7 +648,7 @@ return (
                   <div className="columns">
                     <div className="column">
                       {
-                        tensionshow[1] !== undefined ? 
+                        tensionshow === '127V/220V' ? 
                         (
                           <>
                             <Field>
@@ -634,6 +684,91 @@ return (
                         :
                         ('')
                       }
+                      {
+                        tensionshow === '/Tri' ? 
+                        (
+                          <>
+                            <Field>
+                              <Label  className="label" for={'tension'}>Tensão</Label>
+                              <div className="columns">
+                                <div className="column has-text-centered">
+                                  <Field>
+                                    <input 
+                                      className="is-checkradio"
+                                      type="radio"
+                                      id={'Tri'}
+                                      name="tension" 
+                                      value="Tri"
+                                      defaultChecked={true}
+                                      onChange={event => handleTension(event)}
+                                  />
+                                    <Label for={'Tri'}>Trifásico</Label>
+                                  </Field>
+                                </div>
+                              </div>
+                            </Field>                    
+                          </>
+                        ) 
+                        :
+                        ('')
+                      }
+                      {
+                        tensionshow === '/220V' ? 
+                        (
+                          <>
+                            <Field>
+                              <Label  className="label" for={'tension'}>Tensão</Label>
+                              <div className="columns">
+                                <div className="column has-text-centered">
+                                  <Field>
+                                    <input 
+                                      className="is-checkradio"
+                                      type="radio"
+                                      id={'220v'}
+                                      name="tension" 
+                                      value="220V"
+                                      defaultChecked={true}
+                                      onChange={event => handleTension(event)}
+                                  />
+                                    <Label for={'220v'}>220V</Label>
+                                  </Field>
+                                </div>
+                              </div>
+                            </Field>                    
+                          </>
+                        ) 
+                        :
+                        ('')
+                      }
+                      {
+                        tensionshow === '127V' ? 
+                        (
+                          <>
+                            <Field>
+                              <Label  className="label" for={'tension'}>Tensão</Label>
+                              <div className="columns">
+                                <div className="column has-text-centered">
+                                  <Field>
+                                    <input 
+                                      className="is-checkradio"
+                                      type="radio"
+                                      id={'127v'}
+                                      name="tension" 
+                                      value="127V"
+                                      defaultChecked={true}
+                                      onChange={event => handleTension(event)}
+                                  />
+                                    <Label for={'127v'}>127V</Label>
+                                  </Field>
+                                </div>
+                              </div>
+                            </Field>                    
+                          </>
+                        ) 
+                        :
+                        ('')
+                      }
+
                     </div>
                     <div className="column is-4">
                       <Field>
@@ -676,53 +811,6 @@ return (
             </div>
           </div>
         </div>
-        <div className="columns">
-          <div className="column">
-            <p className="title-infos-tool hack-padding-top">Configurações</p>   
-            <div className="columns">
-              <div className="column">
-                <Ul>
-                  <li><b>Potência</b></li>
-                  <li>{ tool.power }</li>
-                  <li><b>Tensão</b></li>
-                  <li>{ tool.tension }</li>
-                </Ul>
-              </div>
-              <div>
-                <Ul>
-                  <li><b>Alimentação</b></li>
-                  <li>{ tool.feed }</li>
-                </Ul>
-              </div>
-            </div>
-          </div>
-          <div className="column">
-
-          </div>
-        </div>
-        <Hr/>
-        <div className="columns">
-          <div className="column">
-            <p className="title-infos-tool hack-padding-top">Acessórios e Acompanhamentos</p>   
-            <div className="columns">
-              <div className="column">
-                <Ul>
-                  <li><b>Acessórios</b></li>
-                  <li>{ tool.accessory }</li>
-                </Ul>
-              </div>
-              <div>
-                <Ul>
-                  <li><b>Acompanhamento</b></li>
-                <li>{ tool.follow }</li>
-                </Ul>
-              </div>
-            </div>
-          </div>
-          <div className="column">
-          </div>
-        </div>
-        <Hr/>
         {
           /*<div className="columns comments">
           <div className="column">

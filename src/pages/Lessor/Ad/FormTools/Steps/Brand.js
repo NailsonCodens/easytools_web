@@ -17,6 +17,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
     initialValues: {
       brand: '',
       category: '',
+      
       type_spec: '',
       feed: '',
       power: '',
@@ -40,15 +41,18 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
   const handleChangeBrand = (input, event, type) => {
     let ev = ''
 
-      if (type === 'checkbox') {
-        if (input === 'tension1') {
-          ev = event.target.checked === true ? '110V' : ''
-        } else if (input === 'tension2') {
-          ev = event.target.checked === true ? '220V' : ''        }
-      } else {
-        type === 'select' ? ev = event.value : ev = event.target.value
+    if (type === 'checkbox') {
+      if (input === 'tension1') {
+        ev = event.target.checked === true ? '127V' : ''
+      } else if (input === 'tension2') {
+        ev = event.target.checked === true ? '220V' : ''
       }
-
+    } else if (type === 'radio') {
+      ev = event.target.checked === true ? 'Tri' : ''
+    }
+      else {
+      type === 'select' ? ev = event.value : ev = event.target.value
+    }
     switch(input){
       case 'brand': 
         formik.values.brand = ev
@@ -68,8 +72,11 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
       case 'tension1': 
         formik.values.tension1 = ev
         break;
-        case 'tension2': 
+      case 'tension2': 
         formik.values.tension2 = ev
+        break;
+      case 'tension3': 
+        formik.values.tension3 = ev
         break;
       case 'follow': 
         formik.values.follow = ev
@@ -97,10 +104,31 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
         <div className="columns">
           <div className="column">
             <Field>
-              <Input class="is-checkradio" id="exampleRadioInline1" type="radio" name="exampleRadioInline1" checked="checked"/>
-              <Label>Elétricos</Label>
-              <Input class="is-checkradio" id="exampleRadioInline2" type="radio" name="exampleRadioInline2"/>
-              <Label>Manuais</Label>
+              {
+                /*
+                  <Input class="is-checkradio" id="exampleRadioInline1" type="radio" name="exampleRadioInline1" checked="checked"/>
+                  <Label>Equipamentos e ferramentas em geral</Label>
+                */
+              }
+              {
+                /*
+                  <Input class="is-checkradio" id="exampleRadioInline2" type="radio" name="exampleRadioInline2"/>
+                  <Label>Manuais</Label>
+                */  
+              }
+
+              {
+                /*
+                  <Input class="is-checkradio" id="exampleRadioInline2" type="radio" name="exampleRadioInline2"/>
+                  <Label>Estrutura</Label> 
+                */
+              }
+              {
+                /*
+                <Input class="is-checkradio" id="exampleRadioInline2" type="radio" name="exampleRadioInline2"/>
+                <Label>Logistica</Label>
+                */
+              }
             </Field>
           </div>
         </div>
@@ -175,7 +203,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
           </div>
         </div>
         <div className="columns column-address">
-          <div className="column">
+          <div className="column is-3">
             <Field className={'field'}>
               <Label for={'feeding'}>
                 <b>Alimentação</b>
@@ -193,7 +221,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
               />
             </Field>
           </div>
-          <div className="column">
+          <div className="column is-3">
             <Field>
               <Label className="label-perfil" for={'power'}>
                 <b>Potência</b>
@@ -228,7 +256,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
                   name="tension1"
                   type="checkbox"
                   placeholder=""
-                  defaultChecked={values.tension1 === '127V' ? true : false}
+                  checked={values.tension1 === '127V' ? true : false}
                   className={'checkbox check'}
                   onChange={event => handleChangeBrand('tension1', event, 'checkbox')}
                 />
@@ -239,11 +267,22 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
                   name="tension2"
                   type="checkbox"
                   placeholder=""
-                  defaultChecked={values.tension2 === '220V' ? true : false}
+                  checked={values.tension2 === '220V' ? true : false}
                   className={'checkbox check'}
                   onChange={event => handleChangeBrand('tension2', event, 'checkbox')}
                 />
                 <span>220V </span> 
+              </Label>
+              <Label className="checkbox padding-checkbox">
+                <Input
+                  name="tension3"
+                  type="radio"
+                  placeholder=""
+                  checked={values.tension3 === 'Tri' ? true : false}
+                  className={'checkbox check'}
+                  onChange={event => handleChangeBrand('tension3', event, 'radio')}
+                />
+                <span>ou Trifásico </span> 
               </Label>
               <Span className={'validation-warning'}>
                 {

@@ -36,11 +36,11 @@ const MenuRenter = () => {
 		<div className="back-nav">
 			<nav className="navbar nav-fixed">
 				<div className="navbar-brand">
-					<Link to={'/'}>
+					<Link to={'/'} onClick={Scrool(0,0)}>
 						<img src={logo} alt="EasyTools Logo" className="logo"/>
 					</Link>	
 					{
-						history.location.pathname === '/s/renter/perfil' ? 
+						history.location.pathname === '/s/renter/perfil' || history.location.pathname === '/s/rent-rules' ? 
 						('') 
 						:
 						(
@@ -127,7 +127,7 @@ const MenuRenter = () => {
 												</Link>
 											</li>
 											<li className="li-drop">
-												<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
+												<Link to={'/lessor/account'} onClick={event => Scrool() } className="navbar-item">
 													Conta
 												</Link>
 											</li>
@@ -151,7 +151,7 @@ const MenuRenter = () => {
 												</Link>
 											</li>
 											<li className="li-drop">
-												<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
+												<Link to={'/s/renter/account'} onClick={event => Scrool() } className="navbar-item">
 													Conta
 												</Link>
 											</li>

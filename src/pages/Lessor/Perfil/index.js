@@ -59,7 +59,6 @@ const Perfil = ({history}) => {
     }
   )
 
-  const [imgtool, setImgtool] = useState([]);
   const [isactive, setActive] = useState([]);
   const [id, setId] = useState('');
   const [name, setName] = useState('');
@@ -73,7 +72,7 @@ const Perfil = ({history}) => {
   const [location, setLocation] = useState('');
   const [uf, setUf] = useState('');
   const [city, setCity] = useState('');
-  const [documenttype, setSelectedDocument] = useState('cpf');
+  const [documenttype, setSelectedDocument] = useState({value: 'cnpj', label: 'CNPJ' });
   const [avatar, setAvatar] = useState('');
   const [image, setImage] = useState('');
 
@@ -154,6 +153,9 @@ const Perfil = ({history}) => {
           setCpfcnpj(perfil.cpfcnpj)
           formik.values.cpfcnpj = perfil.cpfcnpj  
         }
+
+        perfil.cpfcnpj.length > 14 ? setSelectedDocument({value: 'cnpj', label: 'CNPJ' }) : setSelectedDocument({value: 'cpf', label: 'CPF' })
+
         setAddress(perfil.address)
         formik.values.address = perfil.address
         setLocation(perfil.location)
@@ -218,7 +220,8 @@ const Perfil = ({history}) => {
 
   const handleCpfcnpjChange = (cpfcnpj) => {
     let documentt = null
-    if (documenttype === 'cpf') {
+
+    if (documenttype.value === 'cpf') {
       documentt = cpfMask(cpfcnpj)
       formik.values.cpfcnpj = documentt;
       setCpfcnpj(documentt);

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Rentinfo } from '../../../store/actions/rentinfo';
-import { Ul } from '../../../components/List';
 import { Warningtext } from '../../../components/Warningtext';
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
@@ -10,12 +9,14 @@ import moment from 'moment';
 import Rentalbox from './Rentalbox';
 import Rentruesblock from '../../Warnings/Rentrulesblock';
 import localForage from "localforage";
+import { Button } from '../../../components/Form/Button';
+import Scrool from '../../../utils/scroll';
   // eslint-disable-next-line
 import preciseDiff from 'moment-precise-range-plugin';
 import 'moment/locale/pt-br';
 moment.locale('pt-BR');
 
-const Renterules = ({history}) => {
+const Resume = ({history}) => {
   const dispatch = useDispatch();
   const infochoose = useSelector(state => state.rentaltool);
 
@@ -67,6 +68,12 @@ const Renterules = ({history}) => {
 
   }, [dispatch, values.tool]);
 
+  const goRules = () =>{
+    //corrgiri e fazer salvar no banco os dados da tentiva de aluguel
+    Scrool(0,0)
+    history.push(`/s/rent-rules?rent-attempt=31231232324343&init=${values.init}&finish=${values.finish}&tool=${values.tool}`)
+  }
+
   return (
     <div className="container no-margin-top">
       {
@@ -84,6 +91,7 @@ const Renterules = ({history}) => {
               (
               <>
                 <div>
+                  <br/><br/><br/><br/>
                   <p className="title-tool-only">Aluguel de { tool.title }</p>
                   <br/>
                   <Warningtext>* Confirmar o produto que você está prestes a alugar.</Warningtext>
@@ -118,35 +126,21 @@ const Renterules = ({history}) => {
                         </div>
                         <div className="columns">
                           <div className="column">
-                            <b className="tension-rules">Você está alugando um equipamento de tensão { tension }.</b>    
+                            <b className="tension-rules">Você está alugando um equipamento de tensão { tension === 'Tri' ? 'Trifásico' : tension }.</b>    
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div className="columns">
-                      <div className="column">
-                        <p className="title-infos-tool hack-padding-top">Política de locação</p>
-                        <Ul>
-                          <b className="title-politics">Prazos e períodos</b>
-                          <li> - O prazo para o locatário aceitar sua solicitação é de 1 hora;</li>
-                          <li> - O período escolhido para usar o equipamento dejado começa a contar em D+1, ou seja, pediu dia 14, a contagem dos dias começa dia 15; </li>
-                          <b className="title-politics">Devolução</b>
-                          <li> - É muito importante devolver a ferramenta no dia previsto, caso isto não seja feito, a plataforma continuará contabilizando os dias a mais; </li>
-                          <b className="title-politics">Cancelamentos</b>
-                          <li> - Cancelamento gratuíto em até 24 horas Depois disto, recolheremos uma taxa de 10% do valor do equipamento;</li>
-                        </Ul>
-                        <br/>
-                        <p className="title-infos-tool hack-padding-top">Contrato de locação</p>
-                        <Ul>
-                          <b className="title-politics">Prazos e períodos</b>
-                          <li> - O prazo para o locatário aceitar sua solicitação é de 1 hora;</li>
-                          <li> - O período escolhido para usar o equipamento dejado começa a contar em D+1, ou seja, pediu dia 14, a contagem dos dias começa dia 15; </li>
-                          <b className="title-politics">Devolução</b>
-                          <li> - É muito importante devolver a ferramenta no dia previsto, caso isto não seja feito, a plataforma continuará contabilizando os dias a mais; </li>
-                          <b className="title-politics">Cancelamentos</b>
-                          <li> - Cancelamento gratuíto em até 24 horas Depois disto, recolheremos uma taxa de 10% do valor do equipamento;</li>
-                        </Ul>
-
+                        <div className="columns">
+                          <div className="column">
+                            <p><b>Marca</b>: { tool.brand }</p>
+                            <p><b>Categoria</b>: { tool.category }</p>
+                            <p><b>Tipo</b>: { tool.type_spec }</p>
+                          </div>
+                          <div className="column">
+                            <p><b>Potência</b>: { tool.power }</p>
+                            <p><b>Tensão</b>: { tool.category }</p>
+                            <p><b>Alimentação</b>: { tool.type_spec }</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -156,7 +150,18 @@ const Renterules = ({history}) => {
                   </div>
                   </div>
                 </div>
-
+                <div className="columns">
+                  <div className="column is-3">
+                    <Button 
+                      type={'button'}
+                      className={'button is-fullwidth is-pulled-left color-logo'}
+                      text={'Prosseguir'}                                    
+                      onClick={event => goRules()}
+                    />
+                  </div>
+                </div>
+                <br/>
+                <br/>
               </> 
               )
             }
@@ -172,4 +177,4 @@ const Renterules = ({history}) => {
   );
 };
 
-export default Renterules;
+export default Resume;

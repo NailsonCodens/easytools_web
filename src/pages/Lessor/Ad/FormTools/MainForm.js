@@ -13,7 +13,7 @@ import './Steps/style.css';
 const Main = ({history, tool}) => {
   let { id } = useParams();
   // eslint-disable-next-line
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   // eslint-disable-next-line
   const [title, setTitle] = useState('');
   // eslint-disable-next-line
@@ -30,6 +30,8 @@ const Main = ({history, tool}) => {
   const [tension, setTension] = useState('');
   // eslint-disable-next-line
   const [tension2, setTension2] = useState('');
+  // eslint-disable-next-line
+  const [tension3, setTension3] = useState('');
   // eslint-disable-next-line
   const [power, setPower] = useState('');
   // eslint-disable-next-line
@@ -87,6 +89,7 @@ const Main = ({history, tool}) => {
       power: "",
       tension1: "",
       tension2: "",
+      tension3: "",
       prices: "",
       price1: "0",
       price2: "0",
@@ -125,11 +128,14 @@ const Main = ({history, tool}) => {
           formik.values.power = tool.power
           tool.tension.split('/').map((tension, index) => {
             if (index === 0 ) {
-              console.log(tension)
-              formik.values.tension1 = tension
+                formik.values.tension1 = tension
             }
             if (index === 1 ) {
-              formik.values.tension2 = tension
+              if (tension === 'Tri') {
+                formik.values.tension3 = tension
+              } else {
+                formik.values.tension2 = tension
+              }
             }
             return ''
           })
@@ -171,8 +177,6 @@ const Main = ({history, tool}) => {
       loadTool();
     }
   }, [formik.values, id]);
-  
-  console.log(formik.values)
 
   const nextStep = () => {
     const stepnew  = step
@@ -229,6 +233,10 @@ const Main = ({history, tool}) => {
     formik.values.tension2 = tension
   }
 
+  const handleTensionChange3 = (tension) => {
+    setTension3(tension)
+    formik.values.tension3 = tension
+  }
 
   const handleUseindicationChange = (use_indication) => {
     setUseindication(use_indication)
@@ -357,9 +365,16 @@ const Main = ({history, tool}) => {
         break;
       case 'tension1':
         handleTensionChange(event)
+        handleTensionChange3('')
         break;
       case 'tension2':
         handleTensionChange2(event)
+        handleTensionChange3('')
+        break;
+      case 'tension3':
+        handleTensionChange3(event)
+        handleTensionChange2('')
+        handleTensionChange('')
         break;
       case 'use_indication':
         handleUseindicationChange(event)

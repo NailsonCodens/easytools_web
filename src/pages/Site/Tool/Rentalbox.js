@@ -29,6 +29,8 @@ const Rentalbox = ({startDate, endDate}) => {
 
   }, [infochoose]);
 
+  console.log(rentinfo)
+
   const formatPrice = (info) => {
     const priceback = info.price
     const amount = info.amount
@@ -165,7 +167,7 @@ const Rentalbox = ({startDate, endDate}) => {
           </div>
           <div className="column">
             <div className="is-pulled-right">
-              { infoChoose.tension }
+              { infoChoose.tension === 'Tri' ? 'Trifásico' : infoChoose.tension }
             </div>
           </div>
         </div>
