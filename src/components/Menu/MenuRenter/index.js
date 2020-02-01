@@ -13,7 +13,6 @@ import logo from '../../../assets/images/logo.png'
 const MenuRenter = () => {
   const dispatch = useDispatch();	
 	const [modal, setModal] = useState(false);
-	
 	const current_user = useSelector(state => state.auth);
 	const search =   useSelector(state => state.search);
 
@@ -40,7 +39,7 @@ const MenuRenter = () => {
 						<img src={logo} alt="EasyTools Logo" className="logo"/>
 					</Link>	
 					{
-						history.location.pathname === '/s/renter/perfil' || history.location.pathname === '/s/rent-rules' ? 
+						history.location.pathname === '/s/renter/perfil' || history.location.pathname === '/s/payment/resumebook' || history.location.pathname === '/s/payment/rent-rules' ? 
 						('') 
 						:
 						(

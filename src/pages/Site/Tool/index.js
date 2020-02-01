@@ -74,6 +74,7 @@ const Tool = ({history}) => {
         .required('Adicione a data da devolução.'),
     }),
     onSubmit: value => {
+
       var tensionChoose = ''
       if (tension !== '') {
         tensionChoose = tension
@@ -87,6 +88,7 @@ const Tool = ({history}) => {
         tension: tensionChoose,
         amount: amount
       }
+
       dispatch(
         Rentaltool(
           moment(value.startDate).format('YYYY-MM-DD'), 
@@ -96,7 +98,7 @@ const Tool = ({history}) => {
           formik.values.amount
         )
       );
-
+/*
       localForage.setItem('infochoose', {})
 
       localForage.setItem('infochoose', { 
@@ -107,23 +109,55 @@ const Tool = ({history}) => {
         amount: formik.values.amount
 
       }).then(function () {
-      })
+      })*/
 
+    //  console.log(rentData)
       next(rentData)
     }
   })
 
   const next = (rentData) => {
-    setUrl(`/s/resume?tool=${id}&booking=${'123'}&init=${rentData.start}&finish=${rentData.end}`)
-
     if (isAuthenticated()) {
       Scrool()
-      history.push(`/s/resume?tool=${id}&booking=${'123'}&init=${rentData.start}&finish=${rentData.end}`)
+      var attempt = {
+        user_lessor_id: tool.user_id,
+        tool_id: tool.id,
+        startdate: moment(rentData.start).format('YYYY-MM-DD'),
+        enddate: moment(rentData.end).format('YYYY-MM-DD'),
+        tension: rentData.tension,
+        days: price.amount,
+        amount: formik.values.amount,
+        period: price.type,
+        price: price.priceNoamount,
+        cost: price.pricefull,
+        accept: 0,
+      } 
+
+      saveRentattempt(attempt);
+   
+      //    dispatch(Rentattempt(priceat, days, costat, amountat, periodat))
+   
+      /*console.log(        
+        price.priceNoamount, price.amount, price.pricefull, formik.values.amount, price.type
+      )*/
+
+     // history.push(`/s/resume?tool=${id}&booking=${'123'}&init=${rentData.start}&finish=${rentData.end}`)
     } else {
       Scrool()
       history.push(`/s/tool/${id}?ctg=${values.ctg}&rdt=${Math.random()}`)
       setModal(true)
     }
+  }
+
+  async function saveRentattempt (attempt) {
+    await api.post('rent/attempt/add/', attempt, {})
+    .then((res) => {
+      var idbooking = res.data.rentattempt.idf
+      var codeattempt = res.data.rentattempt.codeattempt
+      history.push(`/s/payment/resumebook?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${formik.values.amount}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
+    }).catch((err) => {
+      console.log(err.response)
+    })  
   }
 
   const handleTension = (event) => {
@@ -624,6 +658,7 @@ return (
                       <DateRangePicker
                         anchorDirection="left"
                         displayFormat={'DD/MM/YYYY'}
+                        minimumNights={2}
                         startDate={formik.values.startDate} // momentPropTypes.momentObj or null,
                         startDateId={'start'} // PropTypes.string.isRequired,
                         endDate={formik.values.endDate} // momentPropTypes.momentObj or null,
@@ -852,7 +887,7 @@ return (
         closeOnEsc={true} 
         closeOnOverlayClick={true}
       > 
-        <Auth hs={history} url={url} closeModal={event => setModal(false)}></Auth>
+        <Auth hs={history} url={''} closeModal={event => setModal(false)}></Auth>
       </Modal>
     </div>
   </>

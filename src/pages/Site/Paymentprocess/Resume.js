@@ -11,18 +11,21 @@ import Rentruesblock from '../../Warnings/Rentrulesblock';
 import localForage from "localforage";
 import { Button } from '../../../components/Form/Button';
 import Scrool from '../../../utils/scroll';
-  // eslint-disable-next-line
-import preciseDiff from 'moment-precise-range-plugin';
 import 'moment/locale/pt-br';
 moment.locale('pt-BR');
 
 const Resume = ({history}) => {
   const dispatch = useDispatch();
   const infochoose = useSelector(state => state.rentaltool);
+  const rentattempt = useSelector(state => state.rentattempt);
 
   let values = queryString.parse(useLocation().search);
 
   // eslint-disable-next-line
+  const [startDate, setStartdate] = useState(values.init);
+  // eslint-disable-next-line  
+  const [endDate, setFinishdate] = useState(values.finish);
+  // eslint-disable-next-line  
   const [monthInit, setMonthinit] = useState(moment(values.init).format('MMM'));
   // eslint-disable-next-line
   const [dayInit, setDayinit] = useState(moment(values.init).format('dddd'));
@@ -35,12 +38,28 @@ const Resume = ({history}) => {
   // eslint-disable-next-line  
   const [daynumberFinish, setnumberFinish] = useState(moment(values.finish).format('DD'));
   // eslint-disable-next-line  
-  const [tension, setTension] = useState();
+  const [tension, setTension] = useState(values.tension);
   const [tool, setTool] = useState([]);
 
   const [ok, setOk] = useState(true);
+  const [okattempt, setOkAttempt] = useState(true);
+
+  const [attempt, setAttempt] = useState([]);
 
   useEffect(() => {
+    async function loadRentattempt () {
+      const response = await api.get(`rent/attempt/${values.rent_attempt}/${values.code_attempt}`, {
+      });
+
+      if (response.data.rentattempt.length > 0) {
+        setAttempt(response.data.rentattempt[0]);
+        setOkAttempt(true)
+      } else {
+        setOkAttempt(false)
+      }
+    }
+    loadRentattempt();
+
     async function loadTool() { 
       const response = await api.get(`/tools_site/tool/${values.tool}`, {
       });
@@ -52,32 +71,33 @@ const Resume = ({history}) => {
       } else {
         setOk(false)
       }
+      return 
     }
     loadTool();
-
-    async function loadInfochoose() {
-      if (infochoose.startDate !== undefined) {
-        setTension(infochoose.tension)
-      } else {
-        localForage.getItem('infochoose').then(info => {
-          setTension(info.tension)
-        })
-      }
-    }
-    loadInfochoose()
 
   }, [dispatch, values.tool]);
 
   const goRules = () =>{
     //corrgiri e fazer salvar no banco os dados da tentiva de aluguel
     Scrool(0,0)
-    history.push(`/s/rent-rules?rent-attempt=31231232324343&init=${values.init}&finish=${values.finish}&tool=${values.tool}`)
+   
+    if(!tool.tension.match(values.tension)){
+      history.push('/ops');
+    } else if (isNaN(parseInt(values.am))) {
+      history.push('/ops');
+    } else if (!moment(values.finish).isValid()) {
+      history.push('/ops');
+    } else if (!moment(values.init).isValid()) {
+      history.push('/ops');
+    } else {
+      history.push(`/s/payment/rent-rules?rent_attempt=${values.rent_attempt}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${values.am}&tension=${values.tension}&code_attempt=${values.code_attempt}`)
+    }
   }
 
   return (
     <div className="container no-margin-top">
       {
-        ok === true ? 
+        okattempt === true && ok === true ? 
         (
           <>
             { 
@@ -146,7 +166,7 @@ const Resume = ({history}) => {
                   </div>
                   <div className="column">
                   <div className="column has-centered-text">
-                    <Rentalbox startDate={values.init} endDate={values.finish}></Rentalbox>
+                    <Rentalbox attempt={attempt} startDate={values.init} endDate={values.finish}></Rentalbox>
                   </div>
                   </div>
                 </div>

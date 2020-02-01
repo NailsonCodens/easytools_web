@@ -2,7 +2,7 @@ import React from 'react';
 
 const Rentrulesblock = () => {
   return (
-    <div>
+    <div className="container">
       <p>
         Ops, parece que você se perdeu!
       </p>

@@ -65,7 +65,6 @@ const Signin = ({ hs, url, closeModal }) => {
 
       if (url !== undefined) {
         Scrool()
-        hs.push(url);
       } else {
         Scrool()
         hs.push("/");

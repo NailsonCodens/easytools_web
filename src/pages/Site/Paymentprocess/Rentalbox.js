@@ -1,61 +1,70 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from "react-redux";
-import localForage from "localforage";
+import { useDispatch, useSelector } from "react-redux";
 import moment from 'moment';
 import 'moment/locale/pt-br';
+
   // eslint-disable-next-line
 import preciseDiff from 'moment-precise-range-plugin';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import { Warningtext } from '../../../components/Warningtext';
+import api from '../../../services/api';
+import queryString from 'query-string';
+import { useLocation } from 'react-router-dom';
 
-const Rentalbox = ({startDate, endDate}) => {
+const Rentalbox = ({startDate, endDate, attempt}) => {
   const rentinfo = useSelector(state => state.rentinfo);
-  const infochoose = useSelector(state => state.rentaltool);
-  const [infoChoose, setInfochoose] = useState({});
+  const [tool, setTool] = useState([]);
   const [price, setPrice] = useState({});
+  
+  let values = queryString.parse(useLocation().search);
+
   useEffect(() => {
     async function loadInfochoose() {
-      if (infochoose.startDate !== undefined) {
-        setInfochoose(infochoose)
-        formatPrice(infochoose)
-      } else {
-        localForage.getItem('infochoose').then(info => {
-          setInfochoose(info)
-          formatPrice(info)
-        })
-      }
+      const response = await api.get(`/tools_site/tool/${values.tool}`, {
+      });
+      setTool(response.data.tool[0])
+      formatPrice(response.data.tool[0].prices.split(';'))
     }
     loadInfochoose()
+  }, [attempt, rentinfo]);
 
-  }, [infochoose]);
+  const formatPrice = (price) => {
 
-  console.log(rentinfo)
+    const priceback = price !== null ? price : 0
+    const amount = parseInt(values.am) !== '' || parseInt(values.am) !== null ? parseInt(values.am) : 0
 
-  const formatPrice = (info) => {
-    const priceback = info.price
-    const amount = info.amount
-
-    if (info.endDate !== null) {
+    if (price !== null && values.endDate !== null) {
 
       var startdate = moment(startDate).format('YYYY-MM-DD');
       var enddate = moment(endDate).format('YYYY-MM-DD');
   
       var period = moment.preciseDiff(startdate, enddate, true);
-
       var days = period.days;
       var months = period.months;
-
+      var periodat = '';
+      var priceat = '';
+      var costat = '';
+      var amountat = amount;
   
       if (period.months !== 0) {
+        periodat = 'month'
+        priceat = parseInt(priceback[3])
+        costat = (months * parseInt(priceback[3]) * amount)
+
         setPrice({
           type: 'month', 
           amount: days, 
           amountmonth: months, 
           price: parseInt(priceback[3]), 
+          priceNoamount: months * parseInt(priceback[3]), 
           pricefull: (months * parseInt(priceback[3]) * amount)
         })
       } else if (period.days !== 0) {
-        if (days < 7)
+        if (days < 7) {
+          periodat = 'days'
+          priceat = parseInt(priceback[0])
+          costat = (days * parseInt(priceback[0]) * amount)
+
           setPrice({
             type: 'days', 
             amount: days, 
@@ -63,7 +72,11 @@ const Rentalbox = ({startDate, endDate}) => {
             priceNoamount: days * parseInt(priceback[0]), 
             pricefull: (days * parseInt(priceback[0]) * amount)
           })
-        else if (days === 7)
+        } else if (days === 7) {
+          periodat = 'weekend'
+          priceat = parseInt(priceback[1])
+          costat = (1 * parseInt(priceback[1]) * amount)
+
           setPrice({
             type: 'weekend', 
             amount: days, 
@@ -71,7 +84,11 @@ const Rentalbox = ({startDate, endDate}) => {
             priceNoamount: 1 * parseInt(priceback[1]),
             pricefull: (1 * parseInt(priceback[1]) * amount)
           })
-        else if (days > 7 && days < 15)
+        } else if (days > 7 && days < 15) {
+          periodat = 'biweekly'
+          priceat = parseInt(priceback[2])
+          costat = (1 * parseInt(priceback[2]) * amount)
+
           setPrice({
             type: 'biweekly', 
             amount: days, 
@@ -79,15 +96,23 @@ const Rentalbox = ({startDate, endDate}) => {
             priceNoamount: 1 * parseInt(priceback[2]),
             pricefull: (1 * parseInt(priceback[2])) * amount
           })
-        else if (days === 15)
-        setPrice({
-          type: 'biweekly', 
-          amount: days, 
-          price: parseInt(priceback[2]), 
-          priceNoamount: 1 * parseInt(priceback[2]),
-          pricefull: (1 * parseInt(priceback[2])) * amount
-        })
-        else if (days > 15)
+        } else if (days === 15) {
+          periodat = 'biweekly'
+          priceat = parseInt(priceback[2])
+          costat = (1 * parseInt(priceback[2]) * amount)
+
+          setPrice({
+            type: 'biweekly', 
+            amount: days, 
+            price: parseInt(priceback[2]), 
+            priceNoamount: 1 * parseInt(priceback[2]),
+            pricefull: (1 * parseInt(priceback[2])) * amount
+          })  
+        } else if (days > 15) {
+          periodat = 'month'
+          priceat = parseInt(priceback[3])
+          costat = (1 * parseInt(priceback[3]) * amount)
+
           setPrice({
             type: 'month', 
             amount: days, 
@@ -96,7 +121,10 @@ const Rentalbox = ({startDate, endDate}) => {
             priceNoamount: 1 * parseInt(priceback[3]),
             pricefull: (1 * parseInt(priceback[3])) * amount
           })
+        }
       }
+    }else {
+      //por aqui um redirect para erro 404
     }
   }
 
@@ -148,7 +176,7 @@ const Rentalbox = ({startDate, endDate}) => {
               <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                 <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
                 { 
-                  infochoose.amount === undefined ? 'x 1 PÇ' : `x ${infochoose.amount} PÇ` 
+                  values.am === undefined ? 'x 1 PÇ' : `x ${values.am} PÇ` 
                 }
               </IntlProvider>            
             </p>
@@ -167,7 +195,7 @@ const Rentalbox = ({startDate, endDate}) => {
           </div>
           <div className="column">
             <div className="is-pulled-right">
-              { infoChoose.tension === 'Tri' ? 'Trifásico' : infoChoose.tension }
+              { values.tension === 'Tri' ? 'Trifásico' : values.tension }
             </div>
           </div>
         </div>
@@ -201,7 +229,7 @@ const Rentalbox = ({startDate, endDate}) => {
             <img src={rentinfo.picture3} alt={rentinfo.picture3} className="" />
           </div>
         </div>
-        <p className="title-tool-rules">{ rentinfo.title }</p>
+        <p className="title-tool-rules">{ tool.title }</p>
         <b className="category">{ rentinfo.category }</b>
         {
           Object.entries(price).length > 0 ? 

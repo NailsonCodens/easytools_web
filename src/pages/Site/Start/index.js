@@ -8,9 +8,8 @@ import MenuProcess from '../../../components/Menu/MenuProcess/index';
 
 import Index from '../Index/index';
 import Tool from '../../Site/Tool/index';
-import Resume from '../Tool/Resume';
-import Rules from '../Tool/Rules';
 import Rented from '../../Site/Rented/index';
+import Paymentprocess from '../../Site/Paymentprocess/index';
 
 export default function Start({history}) {
   let { path } = useRouteMatch();
@@ -34,8 +33,7 @@ export default function Start({history}) {
 
       <Route path={`${path}/`} exact component={Index}/>
       <Route path={`${path}/tool/:id`} component={Tool}/>
-      <Route path={`${path}/resume`} component={Resume}/>
-      <Route path={`${path}/rent-rules`} component={Rules}/>
+      <Route path={`${path}/payment`} component={Paymentprocess}/>
       <PrivateRenter path={`${path}/messages`} component={teste => ('asdsd')}/>
       <PrivateRenter path={`${path}/renter`} component={Rented}/>
     </>
