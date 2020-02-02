@@ -6,6 +6,8 @@ import { useFormik } from 'formik';
 import { Form, Input } from '@rocketseat/unform';
 import { Button } from '../../../components/Form/Button';
 import { Field, Label } from '../../../components/Form/Form';
+import * as Yup from 'yup';
+import { Span } from '../../../components/Span';
 
 const Lessor = () => {
   let values = queryString.parse(useLocation().search);
@@ -14,20 +16,15 @@ const Lessor = () => {
 
   const formik = useFormik({
     initialValues: {
-      brand: '',
-      category: '',
-      
-      type_spec: '',
-      feed: '',
-      power: '',
-      tension1: '',
-      tension2: '',
-      follow: '',
-      accessory: '',
+      message: '',
     },
+    validationSchema: Yup.object({
+      message: Yup.string()
+        .required('Por favor, escreva uma mensagem para seu vizinho, mesmo que seja um Olá!'),
+    }),
 
     onSubmit: value => {
-
+      console.log('aa')
     }
   })
   
@@ -51,18 +48,10 @@ const Lessor = () => {
     loadLessor();
   }, []);
 
-  const handleChangeMessage = () => {
-    console.log('asdasd')
-  }
-
-  const sendMessage = () => {
-    console.log('send')
-  }
-
   return (
     <div className="container">
       <br/>
-      <p className="title-infos-tool hack-padding-top">Locador</p>
+      <p className="title-infos-tool hack-padding-top">Vizinho</p>
       <div className="column">
         <div className="is-pulled-left"> 
           <img src={lessor.url} alt={lessor.url} className="logo-neighbor"/>
@@ -85,17 +74,26 @@ const Lessor = () => {
               name="mesage"
               type="text"
               placeholder={`Tire algumas duvidas com ${lessor.name !== undefined ? lessor.name : 'Locatário'}`}
-              className={'input textarea-multiline'}
-              onChange={event => handleChangeMessage('message', event)}
-              value={values.description}
+              className={formik.touched.message && formik.errors.message ? 'input textarea-multiline border-warning' : 'input textarea-multiline'}
+              onChange={event => formik.handleChange(event)}
+              value={values.message}
             />
+            <Span className={'validation-warning'}>
+              {
+                formik.touched.message && formik.errors.message 
+              ? 
+                (<div>{formik.errors.message}</div>) 
+              : 
+                null
+              }
+            </Span>
           </Field>
+          <br/>
           <Field>
             <Button 
-              type={'button'}
+              type={'submit'}
               className={'button is-link is-pulled-left'}
-              text={'Conversar'}                                    
-              onClick={event => sendMessage()}
+              text={'Conversar'}
               />
           </Field>
         </Form>  

@@ -175,11 +175,16 @@ const Tool = ({history}) => {
     async function loadTool() { 
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
-      setTool(response.data.tool[0])
-      setTensionshow(response.data.tool[0].tension)
-      setPictures(response.data.tool[0].picture)
-      setPrices(response.data.tool[0].prices.split(';'))
-      loadLessor(response.data.tool[0].UserId)
+
+      if (response.data.tool.length > 0) {
+        setTool(response.data.tool[0])
+        setTensionshow(response.data.tool[0].tension)
+        setPictures(response.data.tool[0].picture)
+        setPrices(response.data.tool[0].prices.split(';'))
+        loadLessor(response.data.tool[0].UserId)  
+      } else {
+        history.push('/ops?notfound=notools');
+      }
     }
     loadTool();
 
@@ -194,6 +199,7 @@ const Tool = ({history}) => {
       
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
+
       setDatesback(datefix, response.data.tool[0], amount)
     }
     loadValues()
@@ -211,7 +217,13 @@ const Tool = ({history}) => {
       formik.values.endDate = moment(datefix.endDate)  
     }
 
-    const priceback = tool.prices.split(';')
+    var priceback = ''
+
+    if (tool !== undefined) {
+      priceback = tool.prices.split(';')
+    } else {
+      priceback = []
+    }
 
     if (dates.endDate !== null) {
 
@@ -464,7 +476,7 @@ return (
                   dataLessor.map((lessor, index) => (
                     <div key={index}>
                       <img src={lessor.url} alt={lessor.url} className="logo-neighbor"/>
-                      <span className="name-neighbor">Locador { lessor.name }</span>                     
+                      <span className="name-neighbor">Vizinho { lessor.name }</span>                     
                     </div>
                   ))
                 }

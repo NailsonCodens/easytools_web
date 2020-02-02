@@ -299,7 +299,7 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
                       mask="99.999-999" 
                       maskChar=" "
                       placeholder="00.000-000"
-                      className={formik.touched.cep && formik.errors.cep ? 'input border-warning' : 'input'}
+                      className={formik.touched.location && formik.errors.location ? 'input border-warning' : 'input'}
                       onChange={event => handleChangeAddress('location', event)}
                       value={values.location}
                     />
