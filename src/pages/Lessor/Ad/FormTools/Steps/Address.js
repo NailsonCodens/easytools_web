@@ -402,7 +402,7 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
                       <b>Estado</b>
                     </Label>
                     <Input
-                      name="estado"
+                      name="uf"
                       type="text"
                       placeholder="Estado"
                       className={formik.touched.uf && formik.errors.uf ? 'input border-warning' : 'input'}

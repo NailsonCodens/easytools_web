@@ -13,7 +13,15 @@ import Scroll from '../../../utils/scroll';
 const Workadd = () => {
   const formik = useFormik({
     initialValues: {
-
+      location: '',
+      neighboor: '',
+      address: '',
+      number: '',
+      complement: '',
+      state: '',
+      city: '',
+      lat: '',
+      lng: ''
     },
     validationSchema: Yup.object({
       location: Yup.string()
@@ -22,13 +30,18 @@ const Workadd = () => {
         .required('O endereço é obrigatório.'),
       number: Yup.string()
         .required('O numero do endereço é obrigatório.'),
-      uf: Yup.string()
+      complement: Yup.string()
+      .required('O complemento é obrigatório.'),
+      neighboor: Yup.string()
+      .required('O bairro é obrigatório.'),
+      state: Yup.string()
         .required('O estado é obrigatório.'),
       city: Yup.string()
         .required('O cidade é obrigatório.'),
     }),
 
-    onSubmit: value => {
+    onSubmit: values => {
+      console.log(values)
     }
   })
 
@@ -95,6 +108,15 @@ const Workadd = () => {
                     onChange={event => formik.handleChange(event)}
                     value={formik.values.neighboor}
                   />
+                  <Span className={'validation-warning'}>
+                    {
+                      formik.touched.neighboor && formik.errors.neighboor 
+                    ? 
+                      (<div>{formik.errors.neighboor}</div>) 
+                    : 
+                      null
+                    }
+                  </Span>
                 </Field>
               </div>
             </div>
@@ -162,6 +184,15 @@ const Workadd = () => {
                 onChange={event => formik.handleChange(event)}
                 value={formik.values.complement}
               />
+              <Span className={'validation-warning'}>
+                {
+                  formik.touched.complement && formik.errors.complement 
+                ? 
+                  (<div>{formik.errors.complement}</div>) 
+                : 
+                  null
+                }
+              </Span>
             </Field>
           </div>
         </div>
@@ -174,19 +205,19 @@ const Workadd = () => {
                       <b>Estado</b>
                     </Label>
                     <Input
-                      name="estado"
+                      name="state"
                       type="text"
                       placeholder="Estado"
-                      className={formik.touched.uf && formik.errors.uf ? 'input border-warning' : 'input'}
-                      onChange={event => formik.andleChange(event)}
-                      value={formik.values.uf}
+                      className={formik.touched.state && formik.errors.state ? 'input border-warning' : 'input'}
+                      onChange={event => formik.handleChange(event)}
+                      value={formik.values.state}
                     />
                   </Field>
                   <Span className={'validation-warning'}>
                     {
-                      formik.touched.uf && formik.errors.uf 
+                      formik.touched.state && formik.errors.state 
                     ? 
-                      (<div>{formik.errors.uf}</div>) 
+                      (<div>{formik.errors.state}</div>) 
                     : 
                       null
                     }
