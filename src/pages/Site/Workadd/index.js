@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.css';
 import { Warningtext } from '../../../components/Warningtext';
 import { useFormik } from 'formik';
@@ -9,8 +9,51 @@ import { Span } from '../../../components/Span';
 import InputMask from 'react-input-mask';
 import * as Yup from 'yup';
 import Scroll from '../../../utils/scroll';
+import api from '../../../services/api';
+import { getCordinates } from '../../../services/mapbox';
+import Notification from '../../../utils/notification';
+import { useLocation, useHistory } from 'react-router-dom';
+import queryString from 'query-string';
 
-const Workadd = () => {
+const Workadd = ({rent}) => {
+  let valuesroute = queryString.parse(useLocation().search);
+
+  let history = useHistory();
+
+  const info = () => Notification(
+    'info',
+    'Só um momento, verificando endereço.', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+  
+  const warning = () => Notification(
+    'warning',
+    'Não encontramos este endereço, verifique por favor.', 
+    {
+      autoClose: 1500,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 1500,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  ) 
+
   const formik = useFormik({
     initialValues: {
       location: '',
@@ -23,6 +66,7 @@ const Workadd = () => {
       lat: '',
       lng: ''
     },
+
     validationSchema: Yup.object({
       location: Yup.string()
         .required('CEP é obrigatório.'),
@@ -41,12 +85,52 @@ const Workadd = () => {
     }),
 
     onSubmit: values => {
-      console.log(values)
+      let query = `${values.address} ${values.number} ${values.uf} ${values.city}`
+      info()     
+      setTimeout(function(){
+        getCordinates(query).then(res => {
+          if (res.data.features.length !== '') {
+            let cordinates =  res.data.features[0].center
+            values.lat = cordinates[1]
+            values.lng = cordinates[0]
+            formik.values.lat = cordinates[1]
+            formik.values.lng = cordinates[0]
+            saveWorkadd(values)
+          } else {
+            warning()
+          }
+        }).catch(err => {
+
+        })
+      }, 2000);
     }
   })
 
+  async function saveWorkadd (values) {
+    values['rent_attempt_id'] = rent
+
+    const responseworkadd = await api.get(`workadd/${rent}`, {
+    });
+    if (responseworkadd.data.workadd.length > 0) {
+      var workaddid = responseworkadd.data.workadd[0].id;
+      var workaddrentid = responseworkadd.data.workadd[0].rent_attempt_id;
+
+      await api.put(`/workadd/update/${workaddrentid}/${workaddid}`, values, {})
+      .then((res) => {
+        history.push(`/s/payment/rent-payment?rent_attempt=${valuesroute.rent_attempt}&tool=${valuesroute.tool}&code_attempt=${valuesroute.code_attempt}`)      
+      }).catch((err) => {
+      })
+    } else {
+      await api.post('/workadd/add/', values, {})
+      .then((res) => {
+        history.push(`/s/payment/rent-payment?rent_attempt=${valuesroute.rent_attempt}&tool=${valuesroute.tool}&code_attempt=${valuesroute.code_attempt}`)      
+      }).catch((err) => {
+      })
+    }
+  }
+
   return (
-    <div className="container-fluid workadd">
+    <div className="container workadd">
       <p className="title-infos-tool hack-padding-top">Estamos quase lá!</p>
       <p className="title-tool-only">
         Adicione o endereço onde o equipamento será usado.

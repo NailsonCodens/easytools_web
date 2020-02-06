@@ -20,7 +20,7 @@ import Scroll from '../../../utils/scroll';
 const Rules = ({ history }) => {
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
-  const infochoose = useSelector(state => state.rentaltool);
+  const rentattempt = useSelector(state => state.rentattempt);
   const [tool, setTool] = useState([]);
   const [tension, setTension] = useState(values.tension);
   const [attempt, setAttempt] = useState([]);
@@ -45,7 +45,6 @@ const Rules = ({ history }) => {
     async function loadTool() { 
       const response = await api.get(`/tools_site/tool/${values.tool}`, {
       });
-
       if(response.data.tool.length > 0) {
         dispatch(Rentinfo(response.data.tool[0]));
         setTool(response.data.tool[0])
@@ -73,17 +72,38 @@ const Rules = ({ history }) => {
     } else if (!moment(values.init).isValid()) {
       history.push('/ops');
     } else {
+      var attemptvalues = {
+        user_lessor_id: tool.user_id,
+        tool_id: tool.id,
+        startdate: moment(values.start).format('YYYY-MM-DD'),
+        enddate: moment(values.end).format('YYYY-MM-DD'),
+        tension: values.tension,
+        days: rentattempt.amount,
+        amount: rentattempt.days,
+        period: rentattempt.period,
+        price: rentattempt.price,
+        cost: rentattempt.cost,
+        accept: 0,
+      }
+      updateRentattempt(attemptvalues);
+    }
+  }
+
+  async function updateRentattempt (attemptv) {
+    await api.put(`rent/attempt/update/${attempt.id}`, attemptv, {})
+    .then((res) => {
       Scroll()
       setModal(true)
-      //alert('aqui vai pedir o endereço da obra e depois vai salvar o aluguel na tabela rent uma copia da rentattemp com o accept 1 e com os valores finais')
-    }
+    }).catch((err) => {
+      console.log(err.response)
+    })  
   }
 
   return (
     <>
       {
         modal === true ? 
-        <Workaddress/> : 
+        <Workaddress rent={attempt.id}/> : 
         (
           <div className="container">
           {
@@ -154,7 +174,7 @@ const Rules = ({ history }) => {
                         <Button 
                           type={'button'}
                           className={'button is-fullwidth is-pulled-left color-logo'}
-                          text={'Alugar'}                                    
+                          text={'Prosseguir'}                                    
                           onClick={event => goRent()}
                         />
                       </div>

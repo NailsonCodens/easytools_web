@@ -90,7 +90,8 @@ const Resume = ({history}) => {
     } else if (!moment(values.init).isValid()) {
       history.push('/ops');
     } else {
-      history.push(`/s/payment/rent-rules?rent_attempt=${values.rent_attempt}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${values.am}&tension=${values.tension}&code_attempt=${values.code_attempt}`)
+  
+      history.push(`/s/payment/rent-rules?rent_attempt=${values.rent_attempt}&init=${values.init}&finish=${values.finish}&tool=${values.tool}&am=${values.am}&tension=${values.tension}&code_attempt=${values.code_attempt}`)
     }
   }
 

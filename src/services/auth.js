@@ -1,6 +1,7 @@
 import store from '../store/index';
 import axios from 'axios';
 import SimpleCrypto from "simple-crypto-js";
+import socketio from '../services/socketio';
 
 var _secretKey = 'KY_TP=*r9lX&ExT9X+(0%';
 var simpleCrypto = new SimpleCrypto(_secretKey);
@@ -35,8 +36,8 @@ api.interceptors.request.use(async config => {
 
 if (localStorage.getItem(TOKEN_KEY) !== null) {
   api.get('/perfil/').then((res) => {
-    res.data.user.map(user => (
-      store.dispatch({type:"auth", email: user.email, name: user.name, type_user: user.type, token: getToken()})
-    )) 
+    res.data.user.map(function(user) {
+      store.dispatch({type:"auth", id: user.id, email: user.email, name: user.name, type_user: user.type, token: getToken()})
+    }) 
   })   
 }

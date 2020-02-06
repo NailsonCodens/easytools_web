@@ -10,6 +10,7 @@ import 'bulma-checkradio/dist/css/bulma-checkradio.min.css'
 import './App.css';
 
 function App() {
+  
   return (
     <Provider store={store}>
       <div className="container-fluid">

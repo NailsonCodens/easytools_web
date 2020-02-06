@@ -79,7 +79,11 @@ const Tool = ({history}) => {
       if (tension !== '') {
         tensionChoose = tension
       } else {
-        tensionChoose = tool.tension.split('/')[1]
+        if (tool.tension.split('/')[0] === '') {
+          tensionChoose = tool.tension.split('/')[1]
+        } else {
+          tensionChoose = tool.tension.split('/')[0]          
+        }
       }
 
       var rentData = {

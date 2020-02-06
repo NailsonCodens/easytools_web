@@ -1,14 +1,44 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import Dropdown from '../Dropdown';
-
+import Dropdownpure from '../Dropdownpure';
+import Notification from '../../../components/Notification/index';
 import { Button } from '../../../components/Form/Button';
+import socketio from '../../../services/socketio';
+import Notifier from "react-desktop-notification"
+import { useSelector } from "react-redux";
 
 import './styleLessor.css'
 
 import logo from '../../../assets/images/logo_blue.png'
 
 const MenuLessor = () => {
+  const current_user = useSelector(state => state.auth);
+
+  socketio.emit('register', current_user.id);
+
+	useEffect(() => {
+		socketio.on('private_chat',function(data){
+			var user = data.user;
+			var message = data.message;
+			var title = data.title;
+      renderNotis()
+			Notifier.start(`${title}`, `${message}`,"www.google.com","validated image url");
+      console.log('asdasd')
+    });
+
+		return () => {
+
+		};
+	}, [])
+ 
+  const renderNotis = () => {
+    console.log(Math.random())
+    return (
+      <Notification/>
+    )
+  }
+
   return ( 
 		<nav className="navbar">
       <div className="navbar-brand">
@@ -38,9 +68,9 @@ const MenuLessor = () => {
           <Link to={'/lessor/messages'} className="navbar-item">
             Mensagens
           </Link>
-          <Link to={'/lessor'} className="navbar-item">
-            Notificações
-          </Link>
+          <Dropdownpure text="Notificações" classCuston="" classMenu="classMenu">
+            { renderNotis() }
+          </Dropdownpure>
         </div>
         <div className="navbar-end">
           <div className="navbar-item">

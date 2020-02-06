@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import {Search} from '../../../store/actions/search';
@@ -6,17 +6,45 @@ import Scrool from '../../../utils/scroll';
 import Auth from '../../../pages/Auth/index';
 import Modal from '../../../components/Modal';
 import Dropdown from '../Dropdown';
+import Dropdownpure from '../Dropdownpure';
 import './styleRenter.css'
-
 import logo from '../../../assets/images/logo.png'
+import socketio from '../../../services/socketio';
+import Notifier from "react-desktop-notification"
+import { Button } from '../../Form/Button';
+import Notification from '../../../components/Notification/index';
 
 const MenuRenter = () => {
   const dispatch = useDispatch();	
 	const [modal, setModal] = useState(false);
 	const current_user = useSelector(state => state.auth);
-	const search =   useSelector(state => state.search);
+	const search = useSelector(state => state.search);
+
+	socketio.emit('register', current_user.id);
 
 	let history = useHistory();
+
+	useEffect(() => {
+		socketio.on('private_chat',function(data){
+			console.log(data)
+			var user = data.user;
+			var message = data.message;
+			var title = data.title;
+
+			Notifier.start(`${title}`, `${message}`,"www.google.com","validated image url");
+			console.log('asdasd')
+		});
+
+		return () => {
+
+		};
+	}, [])
+ 
+  const renderNotis = () => {
+    return (
+      <Notification/>
+    )
+  }
 
 	const signLink = () => {
 		setModal(true)
@@ -27,9 +55,13 @@ const MenuRenter = () => {
     return modal
 	}
 
-  navigator.geolocation.getCurrentPosition(function(position) {
+	const notifications = () => {
+
+	}
+
+	navigator.geolocation.getCurrentPosition(function(position) {
     console.log(position)
-  });
+	});
 
 	return (
 		<div className="back-nav">
@@ -50,7 +82,7 @@ const MenuRenter = () => {
 									className="input input-search" 
 									value={search}
 									onChange={event => dispatch(Search(event.target.value))} 
-									/>
+								/>
 							</>
 						)
 					}
@@ -87,7 +119,10 @@ const MenuRenter = () => {
 											<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
 												Mensagens
 											</Link>
-										</>
+											<Dropdownpure text="Notificações" classMenu="classNotless" classCuston="">
+												{ renderNotis() }
+											</Dropdownpure>
+									</>
 									)
 								}
 								{

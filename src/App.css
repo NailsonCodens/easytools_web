@@ -279,3 +279,15 @@
 .no-margin-top-columns2{
   margin-top: -10px !important;
 }
+
+.classMenu span{
+  margin-top: 24px;
+}
+
+.classNotrent{
+  margin-top: 0px;
+}
+
+.dropdown-content{
+  margin-top: 0px;
+}

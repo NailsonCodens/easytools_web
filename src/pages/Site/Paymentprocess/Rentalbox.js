@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import moment from 'moment';
 import 'moment/locale/pt-br';
-
+import { Rentattempt } from '../../../store/actions/rentattempt.js';
   // eslint-disable-next-line
 import preciseDiff from 'moment-precise-range-plugin';
 import {IntlProvider, FormattedNumber} from 'react-intl';
@@ -13,8 +13,11 @@ import { useLocation } from 'react-router-dom';
 
 const Rentalbox = ({startDate, endDate, attempt}) => {
   const rentinfo = useSelector(state => state.rentinfo);
+
   const [tool, setTool] = useState([]);
   const [price, setPrice] = useState({});
+
+  const dispatch = useDispatch();
   
   let values = queryString.parse(useLocation().search);
 
@@ -28,12 +31,12 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
     loadInfochoose()
   }, [attempt, rentinfo]);
 
-  const formatPrice = (price) => {
+  const formatPrice = (pricef) => {
 
-    const priceback = price !== null ? price : 0
+    const priceback = pricef !== null ? pricef : 0
     const amount = parseInt(values.am) !== '' || parseInt(values.am) !== null ? parseInt(values.am) : 0
 
-    if (price !== null && values.endDate !== null) {
+    if (pricef !== null && values.endDate !== null) {
 
       var startdate = moment(startDate).format('YYYY-MM-DD');
       var enddate = moment(endDate).format('YYYY-MM-DD');
@@ -123,6 +126,9 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
           })
         }
       }
+
+      dispatch(Rentattempt(price.priceNoamount, price.amount, price.pricefull, amountat, price.type))
+
     }else {
       //por aqui um redirect para erro 404
     }
