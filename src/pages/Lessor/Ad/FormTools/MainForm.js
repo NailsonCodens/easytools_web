@@ -108,6 +108,7 @@ const Main = ({history, tool}) => {
       city: "",
       lat: 0,
       lng: 0,
+      availability: 1,
     },
     onSubmit: value => {
     }

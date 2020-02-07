@@ -1,0 +1,33 @@
+.column-notify{
+  cursor: pointer !important;
+  padding: 0rem !important;
+  background: rgb(245, 245, 245);
+}
+
+.column-notify:not(:last-child){
+  margin-bottom: 1px !important;
+}
+
+.notification{
+  padding: 0px !important;
+}
+
+.avatar-notify{
+  height: 50px;
+}
+
+.avatar-notify img{
+  border-radius: 100px !important;
+  width: 50px !important;
+  height: 50px;
+  object-fit:cover;
+  -webkit-box-shadow: 0px 2px 3px 0px rgba(156,156,156,1);
+  -moz-box-shadow: 0px 2px 3px 0px rgba(156,156,156,1);
+  box-shadow: 0px 2px 3px 0px rgba(156,156,156,1);
+}
+
+.notfound{
+  color: rgb(80, 79, 79) !important;
+  font-family: 'Poppins', sans-serif !important;
+  margin: 30px;
+}

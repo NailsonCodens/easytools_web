@@ -10,22 +10,24 @@ import Dropdownpure from '../Dropdownpure';
 import './styleRenter.css'
 import logo from '../../../assets/images/logo.png'
 import socketio from '../../../services/socketio';
-import Notifier from "react-desktop-notification"
+import Notifier from "react-desktop-notification";
 import { Button } from '../../Form/Button';
 import Notification from '../../../components/Notification/index';
+import api from '../../../services/api';
 
 const MenuRenter = () => {
   const dispatch = useDispatch();	
 	const [modal, setModal] = useState(false);
 	const current_user = useSelector(state => state.auth);
 	const search = useSelector(state => state.search);
+  const [notification, setNotfication] = useState([]);
 
 	socketio.emit('register', current_user.id);
 
 	let history = useHistory();
 
 	useEffect(() => {
-		socketio.on('private_chat',function(data){
+		socketio.on('notify',function(data){
 			console.log(data)
 			var user = data.user;
 			var message = data.message;
@@ -35,14 +37,30 @@ const MenuRenter = () => {
 			console.log('asdasd')
 		});
 
+    async function getNotification () {
+      const response = await api.get(`/notifications`, {
+      });
+      setNotfication(response.data.notification)
+
+      renderNotify()
+    }
+    getNotification()
+
 		return () => {
 
 		};
 	}, [])
  
+  const renderNotify = () => {
+    return (
+      <Notification nt={notification}/>
+    )
+  }
+
+
   const renderNotis = () => {
     return (
-      <Notification/>
+      <Notification  nt={[]}/>
     )
   }
 
@@ -53,10 +71,6 @@ const MenuRenter = () => {
   const hideModal = () => {
     setModal(false)
     return modal
-	}
-
-	const notifications = () => {
-
 	}
 
 	navigator.geolocation.getCurrentPosition(function(position) {
@@ -119,7 +133,7 @@ const MenuRenter = () => {
 											<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
 												Mensagens
 											</Link>
-											<Dropdownpure text="Notificações" classMenu="classNotless" classCuston="">
+											<Dropdownpure text="Notificações" classMenu="classNotless" classCuston=" notification">
 												{ renderNotis() }
 											</Dropdownpure>
 									</>

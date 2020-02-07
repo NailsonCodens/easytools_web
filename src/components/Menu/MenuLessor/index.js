@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Dropdown from '../Dropdown';
 import Dropdownpure from '../Dropdownpure';
@@ -7,6 +7,7 @@ import { Button } from '../../../components/Form/Button';
 import socketio from '../../../services/socketio';
 import Notifier from "react-desktop-notification"
 import { useSelector } from "react-redux";
+import api from '../../../services/api';
 
 import './styleLessor.css'
 
@@ -14,28 +15,36 @@ import logo from '../../../assets/images/logo_blue.png'
 
 const MenuLessor = () => {
   const current_user = useSelector(state => state.auth);
+  const [notification, setNotfication] = useState([]);
 
   socketio.emit('register', current_user.id);
 
 	useEffect(() => {
-		socketio.on('private_chat',function(data){
+		socketio.on('notify',function(data){
 			var user = data.user;
 			var message = data.message;
 			var title = data.title;
-      renderNotis()
-			Notifier.start(`${title}`, `${message}`,"www.google.com","validated image url");
-      console.log('asdasd')
+      Notifier.start(`${title}`, `${message}`,"www.google.com","validated image url");
+      getNotification()
     });
 
+    async function getNotification () {
+      const response = await api.get(`/notifications`, {
+      });
+      setNotfication(response.data.notification)
+
+      renderNotify()
+    }
+    getNotification()
+    
 		return () => {
 
 		};
 	}, [])
- 
-  const renderNotis = () => {
-    console.log(Math.random())
+
+  const renderNotify = () => {
     return (
-      <Notification/>
+      <Notification nt={notification}/>
     )
   }
 
@@ -68,8 +77,8 @@ const MenuLessor = () => {
           <Link to={'/lessor/messages'} className="navbar-item">
             Mensagens
           </Link>
-          <Dropdownpure text="Notificações" classCuston="" classMenu="classMenu">
-            { renderNotis() }
+          <Dropdownpure text="Notificações" classCuston=" notification" classMenu="classMenu">
+            { renderNotify() }
           </Dropdownpure>
         </div>
         <div className="navbar-end">

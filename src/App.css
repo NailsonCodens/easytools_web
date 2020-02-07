@@ -291,3 +291,9 @@
 .dropdown-content{
   margin-top: 0px;
 }
+
+.notification{
+  background: #fff;
+  width: 360px;
+  margin-top: 1px;
+}

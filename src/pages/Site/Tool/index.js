@@ -192,8 +192,7 @@ const Tool = ({history}) => {
     }
     loadTool();
 
-    async function loadLessor(iduser) {
-      
+    async function loadLessor(iduser) {      
       const response = await api.get(`/lessordata/${iduser}`, {
       });
       setDatalessor(response.data.user)

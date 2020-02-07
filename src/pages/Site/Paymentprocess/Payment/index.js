@@ -39,18 +39,19 @@ const Payment = () => {
     var tension = rentattempt.tension
     var startdate = moment(rentattempt.startdate).format('DD/MM/YYYY');
     var enddate = moment(rentattempt.enddate).format('DD/MM/YYYY');
-    var title = `Seu equipamento foi alugado por ${renter}`;
+    var title = `${renter} alugou seu equipamento`;
     var message = `Olá ${lessor}, ${renter} alugou sua ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}`;
 
     var notification = {
       rent_attempt_id: rentattempt.id,
       user_recipient_id: rentattempt.user_lessor_id,
+      message: message,
       title: title
     }
 
     await api.post('/notifications/send', notification, {})
     .then((res) => {
-      socketio.emit('private_chat',{
+      socketio.emit('notify',{
         to : rentattempt.user_lessor_id,
         title: title,
         message : message

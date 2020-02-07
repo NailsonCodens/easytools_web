@@ -27,13 +27,13 @@ const Rules = ({ history }) => {
   const [ok, setOk] = useState(true);
   const [okattempt, setOkAttempt] = useState(true);
   const [modal, setModal] = useState(false);
-  
   useEffect(() => {
     async function loadRentattempt () {
       const response = await api.get(`rent/attempt/${values.rent_attempt}/${values.code_attempt}`, {
       });
-
+      
       if (response.data.rentattempt.length > 0) {
+        console.log(response.data.rentattempt[0])
         setAttempt(response.data.rentattempt[0]);
         setOkAttempt(true)
       } else {

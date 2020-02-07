@@ -17,7 +17,7 @@ const Dashboard = ({history, location}) => {
 
   useEffect(() => {
     async function loadTools() { 
-      const response = await api.get(`/tools_site?search=${search}&lat=-25.481090&lng=-49.345604`, {
+      const response = await api.get(`/tools_site?search=${search}&lat=-25.482022&lng=-49.349009`, {
         headers: { search }
       });
 
