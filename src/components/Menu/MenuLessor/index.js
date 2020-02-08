@@ -16,7 +16,7 @@ import logo from '../../../assets/images/logo_blue.png'
 const MenuLessor = () => {
   const current_user = useSelector(state => state.auth);
   const [notification, setNotfication] = useState([]);
-
+  const [countn, setCount] = useState(0);
   socketio.emit('register', current_user.id);
 
 	useEffect(() => {
@@ -28,11 +28,18 @@ const MenuLessor = () => {
       getNotification()
     });
 
+    async function getCountnotification () {
+      const response = await api.get(`/notifications/count`, {
+      });
+      setCount(response.data.notification)
+    }
+    getCountnotification()
+
     async function getNotification () {
       const response = await api.get(`/notifications`, {
       });
       setNotfication(response.data.notification)
-
+      getCountnotification()
       renderNotify()
     }
     getNotification()
@@ -68,7 +75,7 @@ const MenuLessor = () => {
           <Link to={'/lessor/ad'} className="navbar-item">
             Anúncios
           </Link>
-          <Link to={'/lessor'} className="navbar-item">
+          <Link to={'/lessor/rents'} className="navbar-item">
             Aluguéis
           </Link>
           <Link to={'/lessor'} className="navbar-item">
@@ -77,7 +84,7 @@ const MenuLessor = () => {
           <Link to={'/lessor/messages'} className="navbar-item">
             Mensagens
           </Link>
-          <Dropdownpure text="Notificações" classCuston=" notification" classMenu="classMenu">
+          <Dropdownpure text="Notificações" countn={countn}  classCuston=" notification" classMenu="classMenu">
             { renderNotify() }
           </Dropdownpure>
         </div>

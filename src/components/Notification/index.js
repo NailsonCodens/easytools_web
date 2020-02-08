@@ -24,12 +24,18 @@ const Notification = ({nt}) => {
     };
   }, [])
 
-  const goNotification = () => {
+  const goNotification = (rent_attempt_id, id) => {
     if (current_user.type_user === 'Lessor') {
-      history.push(`/lessor/rent/${current_user.id}`);
+      goUpdatenotifiy(id);
+      history.push(`/lessor/rents/detail/${rent_attempt_id}`);
     } else {
       console.log('Renter')
     }
+  }
+
+  async function goUpdatenotifiy (id) {
+    const response = await api.put(`/notifications/update/${id}`, {
+    });  
   }
 
   const goAllnotification = () => {
@@ -41,7 +47,7 @@ const Notification = ({nt}) => {
       <li>
         {
           nt.map((notify, index) => (
-            <div key={index} className="columns column-notify" onClick={event => goNotification(notify.rent_attempt_id)}>
+            <div key={index} className="columns column-notify" onClick={event => goNotification(notify.rent_attempt_id, notify.id)}>
               <div className="column is-3">
                 <div className="avatar-notify">
                   <img src={notify.usersend.url} alt={notify.usersend.url} className="" />

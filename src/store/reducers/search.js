@@ -1,4 +1,4 @@
-export default function picture(state = '', action){
+export default function search(state = '', action){
   switch (action.type) {
     case 'search':
       return action.search 

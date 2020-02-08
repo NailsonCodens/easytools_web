@@ -297,3 +297,25 @@
   width: 360px;
   margin-top: 1px;
 }
+
+.count{
+  z-index: 999999 !important;
+  position: absolute !important;
+  right: 0;
+  top: 2px;
+  background: red;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  width: 18px !important;
+  height: 18px !important;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+  font-family: 'Poppins', sans-serif !important;
+  padding-top: 0px !important;
+}
+
+.count span{
+
+}

@@ -10,7 +10,7 @@ import { Warningtext } from '../../../components/Warningtext';
 import api from '../../../services/api';
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
-
+  
 const Rentalbox = ({startDate, endDate, attempt}) => {
   const rentinfo = useSelector(state => state.rentinfo);
 

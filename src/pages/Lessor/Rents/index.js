@@ -11,7 +11,7 @@ export default function Neighbor({history}) {
     <>
       <div className=" background-intern">
         <Route path={`${path}/`} exact component={Rents}/>
-        <Route path={`${path}/detail`} component={Detail}/>
+        <Route path={`${path}/detail/:id`} component={Detail}/>
       </div> 
     </>
   )
