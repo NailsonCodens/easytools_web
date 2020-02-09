@@ -3,12 +3,14 @@ import api from '../../services/api';
 import { useHistory } from 'react-router-dom';
 import './style.css';
 import { Button } from '../../components/Form/Button';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Notification as Notificationrd } from '../../store/actions/notification';
 
 const Notification = ({nt}) => {
 	let history = useHistory();
   const [notification, setNotification] = useState(nt);
   const current_user = useSelector(state => state.auth);
+  const dispatch = useDispatch();	
 
   useEffect(() => {
     async function notification () {
@@ -35,7 +37,14 @@ const Notification = ({nt}) => {
 
   async function goUpdatenotifiy (id) {
     const response = await api.put(`/notifications/update/${id}`, {
-    });  
+    });
+    updatecount()
+  }
+
+  async function updatecount () {
+    const response = await api.get(`/notifications/count`, {
+    });
+    dispatch(Notificationrd(response.data.notification))
   }
 
   const goAllnotification = () => {

@@ -6,17 +6,23 @@ import Notification from '../../../components/Notification/index';
 import { Button } from '../../../components/Form/Button';
 import socketio from '../../../services/socketio';
 import Notifier from "react-desktop-notification"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import api from '../../../services/api';
+import { Notification as Notificationrd } from '../../../store/actions/notification';
 
 import './styleLessor.css'
 
 import logo from '../../../assets/images/logo_blue.png'
 
 const MenuLessor = () => {
+  const dispatch = useDispatch();
   const current_user = useSelector(state => state.auth);
   const [notification, setNotfication] = useState([]);
   const [countn, setCount] = useState(0);
+  const notificationrd = useSelector(state => state.notification);
+
+  console.log(notificationrd)
+
   socketio.emit('register', current_user.id);
 
 	useEffect(() => {
@@ -31,6 +37,7 @@ const MenuLessor = () => {
     async function getCountnotification () {
       const response = await api.get(`/notifications/count`, {
       });
+      dispatch(Notificationrd(response.data.notification))
       setCount(response.data.notification)
     }
     getCountnotification()
@@ -84,7 +91,7 @@ const MenuLessor = () => {
           <Link to={'/lessor/messages'} className="navbar-item">
             Mensagens
           </Link>
-          <Dropdownpure text="Notificações" countn={countn}  classCuston=" notification" classMenu="classMenu">
+          <Dropdownpure text="Notificações" countn={notificationrd} classCuston=" notification" classMenu="classMenu">
             { renderNotify() }
           </Dropdownpure>
         </div>

@@ -109,9 +109,8 @@ const Edit = ({history}) => {
         } else {
           setCpfcnpj(perfil.cpfcnpj)
           formik.values.cpfcnpj = perfil.cpfcnpj 
+          perfil.cpfcnpj.length > 14 ? setSelectedDocument({value: 'cnpj', label: 'CNPJ' }) : setSelectedDocument({value: 'cpf', label: 'CPF' })
         }
-
-        perfil.cpfcnpj.length > 14 ? setSelectedDocument({value: 'cnpj', label: 'CNPJ' }) : setSelectedDocument({value: 'cpf', label: 'CPF' })
 
         setAddress(perfil.address)
         formik.values.address = perfil.address

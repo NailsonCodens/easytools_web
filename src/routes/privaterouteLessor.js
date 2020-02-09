@@ -5,6 +5,7 @@ import { isAuthenticated, getLoggedLessor } from "../services/auth";
 
 const PrivateRoute = ({ component: Component, currentuser, ...rest }) => (
   <Route
+
     {...rest}
     render={props =>
       isAuthenticated() && getLoggedLessor() === 'Lessor' ? (

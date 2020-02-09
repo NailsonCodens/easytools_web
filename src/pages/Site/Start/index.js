@@ -33,7 +33,7 @@ export default function Start({history}) {
 
       <Route path={`${path}/`} exact component={Index}/>
       <Route path={`${path}/tool/:id`} component={Tool}/>
-      <Route path={`${path}/payment`} component={Paymentprocess}/>
+      <PrivateRenter path={`${path}/payment`} component={Paymentprocess}/>
       <PrivateRenter path={`${path}/messages`} component={teste => ('asdsd')}/>
       <PrivateRenter path={`${path}/renter`} component={Rented}/>
     </>

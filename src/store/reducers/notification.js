@@ -1,6 +1,6 @@
 export default function notification(state = '', action){
   switch (action.type) {
-    case 'count':
+    case 'notification':
       return action.count 
     default:
       return state;

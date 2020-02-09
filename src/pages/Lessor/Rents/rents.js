@@ -4,8 +4,11 @@ import api from '../../../services/api';
 import './style.css';
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import Title from '../../../utils/title';
 
 const Rents = () => {
+  document.title = Title('Aluguéis');
+
   const [rents, setRents] = useState([]);
 
   useEffect(() => {

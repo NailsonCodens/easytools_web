@@ -13,6 +13,7 @@ import socketio from '../../../services/socketio';
 import Notifier from "react-desktop-notification";
 import { Button } from '../../Form/Button';
 import Notification from '../../../components/Notification/index';
+import { Notification as Notificationrd } from '../../../store/actions/notification';
 import api from '../../../services/api';
 
 const MenuRenter = () => {
@@ -21,6 +22,11 @@ const MenuRenter = () => {
 	const current_user = useSelector(state => state.auth);
 	const search = useSelector(state => state.search);
   const [notification, setNotfication] = useState([]);
+  const [countn, setCount] = useState(0);
+  const notificationrd = useSelector(state => state.notification);
+
+  console.log(notificationrd)
+
 
 	socketio.emit('register', current_user.id);
 
@@ -36,6 +42,14 @@ const MenuRenter = () => {
 			Notifier.start(`${title}`, `${message}`,"www.google.com","validated image url");
 			console.log('asdasd')
 		});
+
+    async function getCountnotification () {
+      const response = await api.get(`/notifications/count`, {
+			});
+      dispatch(Notificationrd(response.data.notification))
+      setCount(response.data.notification)
+    }
+    getCountnotification()
 
     async function getNotification () {
       const response = await api.get(`/notifications`, {
@@ -133,7 +147,7 @@ const MenuRenter = () => {
 											<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
 												Mensagens
 											</Link>
-											<Dropdownpure text="Notificações" classMenu="classNotless" classCuston=" notification">
+											<Dropdownpure text="Notificações" countn={notificationrd} classMenu="classNotless" classCuston=" notification">
 												{ renderNotis() }
 											</Dropdownpure>
 									</>

@@ -1,6 +1,6 @@
-export function Search(count){
+export function Notification(count){
   return {
-    type: 'count',
-    search: count,
+    type: 'notification',
+    count: count,
   }
 }
