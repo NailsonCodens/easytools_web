@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Button } from '../../../../../components/Form/Button';
 import {useDropzone} from 'react-dropzone';
 import '../style.css';
@@ -9,6 +9,22 @@ export default function Selfie({id}) {
   const [selfie, setSelfie] = useState(selfieu);
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
+
+  useEffect(() => {
+    async function loadPerfil() { 
+      if (id !== undefined) {
+        const response = await api.get(`/documents/${id}`, {
+        }); 
+        setSelfie(response.data.documentUser[0].urldoc)
+      }
+    }
+    loadPerfil();
+
+    return () => {
+
+    };
+  }, [id])
+
 
   const onDrop = useCallback(acceptedFiles => {    
     const preview = URL.createObjectURL(acceptedFiles[0])

@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect,  } from 'react';
 import { Button } from '../../../../../components/Form/Button';
 import {useDropzone} from 'react-dropzone';
+import { useSelector } from "react-redux";
 import '../style.css';
 import rg from '../../../../../assets/images/rg.png'
 import api from '../../../../../services/api';
@@ -9,6 +10,22 @@ export default function Document({id}) {
   const [document, setDocument] = useState(rg);
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
+  const user = useSelector(state => state.auth);
+
+  useEffect(() => {
+    async function loadPerfil() { 
+      if (id !== undefined) {
+        const response = await api.get(`/documents/${id}`, {
+        }); 
+        setDocument(response.data.documentUser[0].urldoc)
+      }
+    }
+    loadPerfil();
+
+    return () => {
+
+    };
+  }, [id])
 
   const onDrop = useCallback(acceptedFiles => {    
     const preview = URL.createObjectURL(acceptedFiles[0])
