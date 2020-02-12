@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect,  } from 'react';
 import { Button } from '../../../../../components/Form/Button';
 import {useDropzone} from 'react-dropzone';
-import { useSelector } from "react-redux";
 import '../style.css';
 import rg from '../../../../../assets/images/rg.png'
 import api from '../../../../../services/api';
@@ -10,7 +9,6 @@ export default function Document({id}) {
   const [document, setDocument] = useState(rg);
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
-  const user = useSelector(state => state.auth);
 
   useEffect(() => {
     async function loadPerfil() { 
