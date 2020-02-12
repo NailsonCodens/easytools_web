@@ -124,6 +124,12 @@
   margin-left: 30px !important;
 }
 
+.warning-cad{
+  font-size: 25px !important;
+  font-family: 'Poppins', sans-serif !important;
+  color: rgb(255, 145, 0) !important;
+}
+
 /*
 .container-checkbox-lessor #toggles{
   margin: 0 auto !important;

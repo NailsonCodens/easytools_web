@@ -49,12 +49,13 @@ const Tool = ({history}) => {
   const [tension, setTension] = useState('');
   const [tensionshow, setTensionshow] = useState([]);
   const [modal, setModal] = useState(false);
-  const [url, setUrl] = useState('');
+  //const [url, setUrl] = useState('');
   const [isSticky, setSticky] = useState(false);
   const [dataLessor, setDatalessor] = useState([]);
   const [datefix] = useState(useSelector(state => state.rentaltool));
   const [amount, setAmount] = useState(useSelector(state => state.rentaltool.amount));
-
+  const [perfil, setPerfil] = useState([]);
+  const [namelessor, setNamelessor] = useState('')
   const ref = useRef(null);
 
   let {id} = useParams();
@@ -74,52 +75,43 @@ const Tool = ({history}) => {
         .required('Adicione a data da devolução.'),
     }),
     onSubmit: value => {
-
-      var tensionChoose = ''
-      if (tension !== '') {
-        tensionChoose = tension
+      if (perfil.cpfcnpj === "") {
+        history.push('/s/renter/perfil/documents');
       } else {
-        if (tool.tension.split('/')[0] === '') {
-          tensionChoose = tool.tension.split('/')[1]
+        var tensionChoose = ''
+        if (tension !== '') {
+          tensionChoose = tension
         } else {
-          tensionChoose = tool.tension.split('/')[0]          
+          if (tool.tension.split('/')[0] === '') {
+            tensionChoose = tool.tension.split('/')[1]
+          } else {
+            tensionChoose = tool.tension.split('/')[0]          
+          }
         }
+  
+        var rentData = {
+          start: moment(value.startDate).format('YYYY-MM-DD'),
+          end: moment(value.endDate).format('YYYY-MM-DD'),
+          tension: tensionChoose,
+          amount: amount
+        }
+  
+        dispatch(
+          Rentaltool(
+            moment(value.startDate).format('YYYY-MM-DD'), 
+            moment(value.endDate).format('YYYY-MM-DD'),
+            tool.prices.split(';'),
+            tensionChoose,
+            formik.values.amount
+          )
+        );
+  
+        next(rentData)
       }
-
-      var rentData = {
-        start: moment(value.startDate).format('YYYY-MM-DD'),
-        end: moment(value.endDate).format('YYYY-MM-DD'),
-        tension: tensionChoose,
-        amount: amount
-      }
-
-      dispatch(
-        Rentaltool(
-          moment(value.startDate).format('YYYY-MM-DD'), 
-          moment(value.endDate).format('YYYY-MM-DD'),
-          tool.prices.split(';'),
-          tensionChoose,
-          formik.values.amount
-        )
-      );
-/*
-      localForage.setItem('infochoose', {})
-
-      localForage.setItem('infochoose', { 
-        startDate: moment(value.startDate).format('YYYY-MM-DD'),  
-        endDate: moment(value.endDate).format('YYYY-MM-DD'),
-        price: tool.prices.split(';'),
-        tension: tensionChoose,
-        amount: formik.values.amount
-
-      }).then(function () {
-      })*/
-
-    //  console.log(rentData)
-      next(rentData)
     }
   })
 
+  
   const next = (rentData) => {
     if (isAuthenticated()) {
       Scrool()
@@ -165,12 +157,12 @@ const Tool = ({history}) => {
   }
 
   const handleTension = (event) => {
-    console.log(event.target.value)
     setTension(event.target.value)
   }
 
   const handleScroll = () => {
     if (ref.current !== null ) {
+      console.log(ref.current.getBoundingClientRect().top)
       setSticky(ref.current.getBoundingClientRect().top <= 50);
     }
   };
@@ -196,6 +188,7 @@ const Tool = ({history}) => {
       const response = await api.get(`/lessordata/${iduser}`, {
       });
       setDatalessor(response.data.user)
+      setNamelessor(response.data.user[0])
     }
 
     async function loadValues(){
@@ -206,6 +199,14 @@ const Tool = ({history}) => {
       setDatesback(datefix, response.data.tool[0], amount)
     }
     loadValues()
+
+    async function loadPerfil() { 
+      const response = await api.get(`/perfil`, {
+      });
+      setPerfil(response.data.user[0])
+
+    }
+    loadPerfil();
 
     window.addEventListener('scroll', handleScroll);
 
@@ -405,7 +406,8 @@ const Tool = ({history}) => {
         text2 = '* Custo mensal, com este valor você pode alugar por mais dias para fechar o mês!'
       }
     }
-  return (
+
+    return (
     <>
       <div className="columns no-margin-top-columns2">
         <div className="column">
@@ -548,6 +550,57 @@ return (
                   </div>
                 </div>
               </div>
+              <div className="columns">
+                <div className="column">
+                  <p className="title-infos-tool hack-padding-top">Do aluguel do equipamento</p>  
+                  <div className="columns">
+                    <div className="column">
+                      <Ul>
+                        <li className="therent">
+                          {
+                            tool.contract === 'Y' ?
+                            (
+                              <p> - O vizinho { namelessor.name } <span>entrega</span> este equipamento para você não precisar sair de onde está.</p>
+                            )
+                            :
+                            (
+                              <p> - Você precisa buscar este equipamento.</p>
+                            )
+                          }
+                        </li>
+                        <li className="therent">
+                          {
+                            tool.contract === 'Y' ?
+                            (
+                              <p> - O vizinho { namelessor.name } <span>buscar</span> este equipamento no fim do período de aluguel.</p>
+                            )
+                            :
+                            (
+                              <p> - Você precisa devolver este equipamento no prazo final do seu aluguel.</p>
+                            )
+                          }
+                        </li>
+                        <li className="therent">
+                          {
+                            tool.contract === 'Y' ?
+                            (
+                              <p>
+                                - Este equipamento só pode ser alugado mediante assinatura de <span>contrato.</span> 
+                              </p>                                
+                            )
+                            :
+                            (
+                              <p>
+                                Este equipamento pode ser alugado sem contrato.
+                              </p>
+                            )
+                          }
+                        </li>
+                      </Ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <Hr/>
             <div className="columns">
@@ -566,8 +619,8 @@ return (
               </div>
             </div>
           </div>
-          <div>
-            <div  className={`column has-centered-text ${isSticky ? 'sticky box-rent' : ''}`} ref={ref}>
+          <div  className={`column has-centered-text`}>
+            <div  className={`pai has-centered-text sticky `}>
               <div className="rental-box sticky-inner">
                 <Form
                   onSubmit={ (e, values) => {
@@ -857,7 +910,7 @@ return (
                     <Warningtext class="has-text-centered message-rent">Você ainda não será cobrado.</Warningtext>
                   </div>
                 </Form>
-              </div>
+              </div>     
             </div>
           </div>
         </div>

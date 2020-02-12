@@ -159,27 +159,23 @@
 }
 
 .sticky {
+  position: -webkit-sticky;
   position: sticky;
-  top: 0;
+  top: 100px;
   z-index: 100; /* this is optional and should be different for every project */
 }
 
 .sticky-wrapper {
-  position: relative;
-  height: 3rem; /* We need to change this value */
 }
 
 .sticky .sticky-inner {
-  width: 100% !important;
-  position: fixed !important;
   top: 100px;
 }
 
 .box-rent .rental-box{
-  width: 27% !important;
-  z-index: 999;
+   /*z-index: 999;
   position: fixed;
-  right: 6% !important;
+  right: 6% !important;*/
 }
 
 .sub-title{
@@ -210,4 +206,16 @@
 
 .padding-left-name{
   padding-left: 20px !important;
+}
+
+.therent{
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: rgb(63, 63, 63);
+}
+
+.therent span{
+  color: #6EB5F4;
+  font-weight: bold;
+  text-transform: uppercase;
 }

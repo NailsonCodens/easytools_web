@@ -61,7 +61,7 @@ const Workadd = ({rent}) => {
       address: '',
       number: '',
       complement: '',
-      state: '',
+      uf: '',
       city: '',
       lat: '',
       lng: ''
@@ -78,7 +78,7 @@ const Workadd = ({rent}) => {
       .required('O complemento é obrigatório.'),
       neighboor: Yup.string()
       .required('O bairro é obrigatório.'),
-      state: Yup.string()
+      uf: Yup.string()
         .required('O estado é obrigatório.'),
       city: Yup.string()
         .required('O cidade é obrigatório.'),
@@ -289,19 +289,19 @@ const Workadd = ({rent}) => {
                       <b>Estado</b>
                     </Label>
                     <Input
-                      name="state"
+                      name="uf"
                       type="text"
                       placeholder="Estado"
-                      className={formik.touched.state && formik.errors.state ? 'input border-warning' : 'input'}
+                      className={formik.touched.uf && formik.errors.uf ? 'input border-warning' : 'input'}
                       onChange={event => formik.handleChange(event)}
-                      value={formik.values.state}
+                      value={formik.values.uf}
                     />
                   </Field>
                   <Span className={'validation-warning'}>
                     {
-                      formik.touched.state && formik.errors.state 
+                      formik.touched.uf && formik.errors.uf 
                     ? 
-                      (<div>{formik.errors.state}</div>) 
+                      (<div>{formik.errors.uf}</div>) 
                     : 
                       null
                     }

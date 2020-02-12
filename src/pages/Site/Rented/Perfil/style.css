@@ -20,3 +20,37 @@
   font-weight: 500 !important;
   font-size: 19px;
 }
+
+.documents_mini img{
+  width: 300px !important;
+  object-fit:cover;
+}
+
+.documents img{ 
+  width: 200px !important;
+  object-fit:cover;
+}
+
+.selfie_mini img {
+  width: 100px !important;
+  object-fit:cover;
+  margin-top: 28px;
+  margin-bottom: 100px; 
+}
+
+.selfie img{
+  width: 200px !important;
+  object-fit:cover;
+}
+
+.work_mini img{
+  width: 100px !important;
+  object-fit:cover;
+  margin-top: 28px;
+  margin-bottom: 100px; 
+}
+
+.work img{
+  width: 200px !important;
+  object-fit:cover;
+}

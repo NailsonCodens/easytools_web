@@ -5,8 +5,11 @@ import './style.css';
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import Title from '../../../utils/title';
+import {IntlProvider, FormattedNumber} from 'react-intl';
+import { Button } from '../../../components/Form/Button';
+import { Link } from 'react-router-dom';
 
-const Rents = () => {
+const Rents = ({ history }) => {
   document.title = Title('Aluguéis');
 
   const [rents, setRents] = useState([]);
@@ -21,6 +24,30 @@ const Rents = () => {
     return () => {
     };
   }, [])
+
+  const goDetail = (id) => {
+    history.push(`/lessor/rents/detail/${id}`);
+  }
+
+  const renderPeriod = (period) => {
+    var periodChoose = period
+
+    if (period === 'days') {
+      periodChoose = 'Dias ';
+    } else if (period === 'biweekly') {
+      periodChoose = 'Quinzenal ';
+    } else if (period === 'weekend') {
+      periodChoose = 'Semanal ';
+    } else if (period === 'month') {
+      periodChoose = 'Mês ';
+    }
+
+    return (
+      <>
+        { periodChoose }
+      </>
+    )
+  }
 
   return (
     <div className="container container-page">
@@ -75,14 +102,27 @@ const Rents = () => {
                               Informações do aluguél:
                             </b>
                             <p>
-                              Tensão: { rent.tool.tension }
+                              Tensão: { rent.tension }
                             </p>
                             <p>
-                              Período: { rent.days } { rent.period }
+                              Período: { rent.days } { renderPeriod(rent.period) }
                             </p>
                             <div className="columns">
                               <div className="column">
-                                Valores do aluguel
+                                <b>Valores do aluguel: </b>
+                                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                                  <FormattedNumber value={rent.cost} style="currency" currency="BRL" />
+                                </IntlProvider>                                
+                              </div>
+                            </div>
+                            <div className="columns">
+                              <div className="column">
+                                <Button
+                                  type={'submit'}
+                                  className={'button is-info color-logo-lessor is-pulled-left'}
+                                  text={'Ver detalhes'}
+                                  onClick={event => goDetail(rent.id)}
+                                />
                               </div>
                             </div>
                           </div>

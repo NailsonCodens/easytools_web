@@ -14,6 +14,7 @@ import InputMask from 'react-input-mask';
 import { Warningtext } from '../../../../components/Warningtext';
 import { Button } from '../../../../components/Form/Button';
 import { cpfMask, cnpjMask } from '../../../../utils/maskdocument';
+import { Link } from 'react-router-dom';
 
 const Edit = ({history}) => {
   document.title = Title('Perfil');
@@ -238,6 +239,10 @@ const Edit = ({history}) => {
       >
         <div className="columns column-address">
           <div className="column">
+            <h3 className="title-tool-only">
+              Adicione as informações necessárias para completar seu cadastro e você poder alugar sem problemas.
+            </h3>
+            <br/>
               <h3 className="title-box-inter">Informações </h3>
               <br/><br/>
               <Field>
@@ -360,6 +365,7 @@ const Edit = ({history}) => {
                       }
                     </Span>
                   </Field>
+                  <Warningtext>Se você vai alugar como empresa, escolha a opção CNPJ, ao escolher cnpj, alguns campos a mais serão abertos para completar o cadastro. </Warningtext>
                 </div>
               </div>
               <Field className="is-pulled-right space-bt">
@@ -370,7 +376,7 @@ const Edit = ({history}) => {
                 />
               </Field>
           </div>
-          <div className="column">
+          <div className="column is-5">
             <div className="column has-text-centered box-inter box-inter-padding">
               <b>{ name }</b>
               <br/>
@@ -380,23 +386,23 @@ const Edit = ({history}) => {
               <div className="column box-inter">
                 <div {...getRootProps()} className="drag-photo">
                   <input {...getInputProps()} />
-                    Altarar avatar
+                    Alterar avatar
                 </div>
               </div>
               {
-                  isactive === true ?
-                  (
-                    <>
-                      <Button
-                        type={'button'}
-                        className={'button is-info color-logo-lessor is-pulled-right'}
-                        text={'Salvar'}
-                        onClick={event => updateAvatar() }
-                        />
-                    </>
-                  ) :
-                  ('')
-                }
+                isactive === true ?
+                (
+                  <>
+                    <Button
+                      type={'button'}
+                      className={'button is-info color-logo-lessor is-pulled-right'}
+                      text={'Salvar'}
+                      onClick={event => updateAvatar() }
+                      />
+                  </>
+                ) :
+                ('')
+              }
             </div>
           </div>
         </div>
@@ -614,8 +620,18 @@ const Edit = ({history}) => {
               />
             </Field>
           </div> 
-          <div className="column">
-            <h3 className="title-box-inter">Seus documentos</h3>
+          <div className="column is-5">
+            <h3 className="title-box-inter">Meus documentos</h3>
+            <div>
+              <br/>
+              <Link to="/s/renter/perfil/documents">
+                <Button
+                  type={'submit'}
+                  className={'button color-logo-lessor'} 
+                  text={'Adicionar meus documentos'}
+                />
+              </Link>
+            </div>
           </div>
         </div>             
       </Form>

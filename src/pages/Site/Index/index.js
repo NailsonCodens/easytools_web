@@ -4,10 +4,12 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import queryString from 'query-string';
 import Scroll from '../../../utils/scroll';
+import Title from '../../../utils/title';
 
 import './style.css';
 
 const Dashboard = ({history, location}) => {
+  document.title = Title('Easytools');
   // eslint-disable-next-line
   const dispatch = useDispatch();
   // eslint-disable-next-line	

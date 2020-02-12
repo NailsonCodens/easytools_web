@@ -3,23 +3,172 @@ import api from '../../../services/api';
 import { useParams } from "react-router-dom";
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
-  
+import {IntlProvider, FormattedNumber} from 'react-intl';
+import moment from 'moment';
+import 'moment/locale/pt-br';
+import Title from '../../../utils/title';
+import {Titlepage} from '../../../components/Titles/Titlepages';
+import './style.css';
+
 export default function Rents() {
-  const [state, setstate] = useState([]);
+  document.title = Title('Detalhe aluguel');
+
+  const [rent, setRent] = useState([]);
+  const [workadd, setWorkadd] = useState([])
   let { id } = useParams();
   let values = queryString.parse(useLocation().search);
 
   useEffect(() => {
-    async function loadTool() { 
-      
+    async function loadRents () {
+      const response = await api.get(`/rents/${id}`, {});
+      setRent(response.data.rentattempt);
+
+      const responsew = await api.get(`/workadd/workadd/${response.data.rentattempt[0].id}`, {});
+      setWorkadd(responsew.data.workadd[0])
 
     }
+    loadRents();
     
     return () => {
     };
   }, [])
 
+  const renderPeriod = (period) => {
+    var periodChoose = period
+
+    if (period === 'days') {
+      periodChoose = 'Dias ';
+    } else if (period === 'biweekly') {
+      periodChoose = 'Quinzenal ';
+    } else if (period === 'weekend') {
+      periodChoose = 'Semanal ';
+    } else if (period === 'month') {
+      periodChoose = 'Mês ';
+    }
+
+    return (
+      <>
+        { periodChoose }
+      </>
+    )
+  }
+
   return (
-    <p>dasdsad</p>
+    <div className="container container-page">
+      <div className="columns is-desktop">
+        <div className="column box-inter">
+        {
+          rent.map((rent, index) => (
+            <div key={index} className="columns">
+              <div className="column">
+                <Titlepage>Detalhes do aluguel </Titlepage>
+                <div className="columns">
+                  <div className="column is-4">
+                    <div className="columns">
+                      <div className="column">
+                        <img src={rent.tool.picture[0].url} alt={rent.tool.picture[0].url} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="column">
+                    <b>
+                      Informações do aluguél:
+                    </b>
+                    <br/><br/>
+                    <p className="capitalize">
+                      { rent.tool.title } alugado para 
+                      <b> { rent.userrenter.name }</b>
+                    </p>
+                  <div className="columns">
+                    <div className="column">
+                      <p className="sub-title">Aluguel: <span className="datefull">{moment(rent.startdate).format('DD/MM/YYYY')}</span></p>
+                      <div className="box-date-rules is-pulled-left">
+                        {moment(rent.startdate).format('DD')}
+                        <br/>
+                        {moment(rent.startdate).format('MMM')}
+                      </div>
+                      <div className="name-data-rules is-pulled-left">
+                        {moment(rent.startdate).format('dddd')}
+                      </div>
+                      <div className="is-clearfix	"></div>
+                    </div>
+                    <div className="column">
+                      <p className="sub-title">Devolução: <span className="datefull">{moment(rent.enddate).format('DD/MM/YYYY')}</span></p>
+                      <div className="box-date-rules is-pulled-left">
+                        {moment(rent.enddate).format('DD')}
+                        <br/>
+                        {moment(rent.enddate).format('MMM')}
+                      </div>
+                      <div className="name-data-rules is-pulled-left">
+                        {moment(rent.enddate).format('dddd')}
+                      </div>
+                      <div className="is-clearfix	"></div>
+                      <p className="datefull"></p>
+                    </div>
+                  </div>
+                  <div className="columns">
+                    <div className="column">
+                      <p>
+                        Tensão: { rent.tension }
+                      </p>
+                      <p>
+                        Período: { rent.days } { renderPeriod(rent.period) }
+                      </p>
+                      <div className="columns">
+                        <div className="column">
+                          <b>Valores do aluguel: </b>
+                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                            <FormattedNumber value={rent.cost} style="currency" currency="BRL" />
+                          </IntlProvider>                                
+                        </div>
+                      </div>
+                      <div className="columns">
+                        <div className="column">
+                          <b>Informações do locatário:</b>
+                          <br/>
+                          <div className="columns">
+                            <div className="column is-3">
+                              <div className="avatar-detail">
+                                <img src={rent.userrenter.url} alt={rent.userrenter.url} />
+                              </div>
+                            </div>
+                            <div className="column">
+                              <p> { rent.userrenter.name } { rent.userrenter.last_name }</p>
+                              <p> { rent.userrenter.email } </p>
+                              <p> { rent.userrenter.cpfcnpj } </p>
+                              <p> <b>Nascimento:</b> { moment(rent.userrenter.birth_date).format('DD/MM/YYYY') } </p>
+                              <br/>
+                              <b>Endereço pessoal: </b>
+                              <br/>
+                              <p> { rent.userrenter.address } { rent.userrenter.number } { rent.userrenter.complement } { rent.userrenter.location } </p>
+                              <p> { rent.userrenter.uf } - { rent.userrenter.city } </p>
+                              <p>{ rent.userrenter.neighboor }</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="column is-5">
+                          <b>Adicionar endereço de uso: </b>
+                          <br/><br/>
+                          <p> { workadd.address } { workadd.number } { workadd.complement } <br/> { workadd.location } </p>
+                          <p> { workadd.uf } - { workadd.city } { workadd.neighboor }</p>
+                        </div>
+                      </div>
+                      <div className="columns">
+                        <div className="column">
+                          <b>Documentos do locatário: </b>
+                          <br/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>                  
+          ))
+        }
+        </div>        
+      </div>
+    </div>
   );
 }
