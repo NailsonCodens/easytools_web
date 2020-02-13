@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Document from '../../../Documents/document';
-import Proofaddress from '../../../Documents/proofAddress';
-import Selfie from '../../../Documents/selfie';
-import SocialContract from '../../../Documents/socialContract';
-import api from '../../../../services/api';
+import Document from '../../Documents/document';
+import Proofaddress from '../../Documents/proofAddress';
+import SocialContract from '../../Documents/socialContract';
+import Selfie from '../../Documents/selfie';
+import api from '../../../services/api';
 
 const Doc = () => {
   const [user, setUser] = useState('')

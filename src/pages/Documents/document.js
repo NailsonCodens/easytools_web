@@ -4,18 +4,42 @@ import {useDropzone} from 'react-dropzone';
 import rg from '../../assets/images/rg.png'
 import api from '../../services/api';
 import './style.css';
+import Notification from '../../utils/notification';
+import EllipsisText from "react-ellipsis-text";
 
 export default function Document({id}) {
   const [document, setDocument] = useState(rg);
+  const [namedocument, setNamedocument] = useState('');
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
+
+  const success = () => Notification(
+    'success',
+    'Documento atualizado com sucesso!', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
 
   useEffect(() => {
     async function loadPerfil() { 
       if (id !== undefined) {
         const response = await api.get(`/documents/${id}`, {
-        }); 
-        setDocument(response.data.documentUser[0].urldoc)
+        });
+        
+        if (response.data.documentUser[0].document !== null) {
+          setDocument(response.data.documentUser[0].urldoc);
+          setNamedocument(response.data.documentUser[0].document);
+        }
       }
     }
     loadPerfil();
@@ -43,11 +67,11 @@ export default function Document({id}) {
   async function saveDocument (document) {
     await api.put(`documents/document/${id}`, document, {})
     .then((res) => {
+      success();
     })
     .catch((err) => {
     })
   }
-
 
   return (
     <div>
@@ -55,12 +79,19 @@ export default function Document({id}) {
       <div className="column has-text-centered">
         <div className="column has-text-centered box-inter box-inter-padding">
           <div className={ isactive === true ? 'documents' : 'documents_mini'}>
-            <img src={document} alt={document}/>
+            <div className="columns">
+              <div className="column is-2">
+                <img src={document} alt={document}/>
+              </div>
+              <div className="column is-3">
+                <EllipsisText text={namedocument} length={20} />
+              </div>
+            </div>
           </div>
           <div className="column box-inter">
-            <div {...getRootProps()} className="drag-photo">
+            <div {...getRootProps()} className="drag-photo upload">
               <input {...getInputProps()} />
-                Alterar Documento
+                Anexar
             </div>
           </div>
           {

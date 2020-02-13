@@ -383,10 +383,10 @@ const Edit = ({history}) => {
               <div className="avatar-perfil" >
                 <img src={avatar} alt={avatar}/>
               </div>
-              <div className="column box-inter">
+              <div className="column box-inter upload">
                 <div {...getRootProps()} className="drag-photo">
                   <input {...getInputProps()} />
-                    Alterar avatar
+                    Alterar foto
                 </div>
               </div>
               {
@@ -621,15 +621,11 @@ const Edit = ({history}) => {
             </Field>
           </div> 
           <div className="column is-5">
-            <h3 className="title-box-inter">Meus documentos</h3>
+            <h3 className="title-box-inter">Documentos</h3>
             <div>
               <br/>
               <Link to="/s/renter/perfil/documents">
-                <Button
-                  type={'submit'}
-                  className={'button color-logo-lessor'} 
-                  text={'Adicionar meus documentos'}
-                />
+                Meus documentos 
               </Link>
             </div>
           </div>

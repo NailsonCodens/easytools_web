@@ -321,3 +321,7 @@
   text-decoration: underline !important;
   cursor: pointer !important;
 }
+
+.upload{
+  cursor: pointer !important;
+}

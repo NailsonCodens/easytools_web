@@ -1,23 +1,47 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Button } from '../../components/Form/Button';
 import {useDropzone} from 'react-dropzone';
-
+import Notification from '../../utils/notification';
+import EllipsisText from "react-ellipsis-text";
 import address from '../../assets/images/selfie.png'
 import api from '../../services/api';
 import './style.css';
 export default function Proofaddress({id}) {
   const [proof, stProof] = useState(address);
+  const [nameproof, setNameproof] = useState('');
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
+
+  const success = () => Notification(
+    'success',
+    'Documento atualizado com sucesso!', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
 
   useEffect(() => {
     async function loadPerfil() { 
       if (id !== undefined) {
         const response = await api.get(`/documents/${id}`, {
-        }); 
-        stProof(response.data.documentUser[0].urldoc)
+        });
+        if (response.data.documentUser.length > 0) {
+          if (response.data.documentUser[0].proof !== null) {
+            setNameproof(response.data.documentUser[0].proof)
+            stProof(response.data.documentUser[0].urlproof)     
+          }
+        }
       }
-    }
+    } 
     loadPerfil();
 
     return () => {
@@ -44,6 +68,7 @@ export default function Proofaddress({id}) {
   async function saveProof (proof) {
     await api.put(`documents/proof/${id}`, proof, {})
     .then((res) => {
+      success()
     })
     .catch((err) => {
     })
@@ -55,12 +80,19 @@ export default function Proofaddress({id}) {
       <div className="column has-text-centered">
         <div className="column has-text-centered box-inter box-inter-padding">
         <div className={ isactive === true ? 'work' : 'work_mini'}>
-            <img src={proof} alt={proof}/>
+            <div className="columns">
+              <div className="column is-2">
+                <img src={proof} alt={proof}/>
+              </div>
+              <div className="column">
+                <EllipsisText text={nameproof} length={20} />                
+              </div>
+            </div>
           </div>
           <div className="column box-inter">
-            <div {...getRootProps()} className="drag-photo">
+            <div {...getRootProps()} className="drag-photo upload">
               <input {...getInputProps()} />
-                Alterar Selfie
+              Anexar
             </div>
           </div>
           {

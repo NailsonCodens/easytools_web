@@ -7,7 +7,7 @@ import EllipsisText from "react-ellipsis-text";
 import selfieu from '../../assets/images/selfie.png'
 import api from '../../services/api';
 import './style.css';
-export default function Selfie({id}) {
+export default function SocialContract({id}) {
   const [selfie, setSelfie] = useState(selfieu);
   const [nameselfie, setNameselfie] = useState('');
   const [image, setImage] = useState('');
