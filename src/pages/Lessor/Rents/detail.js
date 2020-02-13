@@ -9,14 +9,20 @@ import 'moment/locale/pt-br';
 import Title from '../../../utils/title';
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import './style.css';
+import Modal from '../../../components/Modal';
 
 export default function Rents() {
   document.title = Title('Detalhe aluguel');
 
   const [rent, setRent] = useState([]);
-  const [workadd, setWorkadd] = useState([])
+  const [workadd, setWorkadd] = useState([]);
+  const [documentr, setDocument] = useState([]);
+  const [modal1, setModal1] = useState(false);
+  const [modal2, setModal2] = useState(false);
+  const [modal3, setModalthree] = useState(false);
+
   let { id } = useParams();
-  let values = queryString.parse(useLocation().search);
+  //let values = queryString.parse(useLocation().search);
 
   useEffect(() => {
     async function loadRents () {
@@ -25,9 +31,18 @@ export default function Rents() {
 
       const responsew = await api.get(`/workadd/workadd/${response.data.rentattempt[0].id}`, {});
       setWorkadd(responsew.data.workadd[0])
-
+      loadDocumentrenter(response.data.rentattempt[0].user_renter_id)
     }
     loadRents();
+
+    async function loadDocumentrenter (idrenter) {
+      if (idrenter !== undefined) {
+        const responsew = await api.get(`documents/${idrenter}`, {});
+        setDocument(responsew.data.documentUser[0])
+      }
+
+    }
+    loadDocumentrenter();
     
     return () => {
     };
@@ -52,6 +67,35 @@ export default function Rents() {
       </>
     )
   }
+
+  const showdocument = () => {
+    setModal1(true)
+  }
+  
+  const hideModalone = () => {
+    setModal1(false)
+    return modal1
+  }
+
+  const showselfie = () => {
+    setModal2(true)
+  }
+  
+  const hideModaltwo = () => {
+    setModal2(false)
+    return modal2
+  }
+
+
+  const showproof = () => {
+    setModalthree(true)
+  }
+  
+  const hideModalthree = () => {
+    setModalthree(false)
+    return modal3
+  }
+
 
   return (
     <div className="container container-page">
@@ -149,14 +193,75 @@ export default function Rents() {
                         <div className="column is-5">
                           <b>Adicionar endereço de uso: </b>
                           <br/><br/>
-                          <p> { workadd.address } { workadd.number } { workadd.complement } <br/> { workadd.location } </p>
-                          <p> { workadd.uf } - { workadd.city } { workadd.neighboor }</p>
+                            <p> { workadd.address } { workadd.number } { workadd.complement } <br/> { workadd.location } </p>
+                            <p> { workadd.uf } - { workadd.city } { workadd.neighboor }</p>
                         </div>
                       </div>
                       <div className="columns">
                         <div className="column">
-                          <b>Documentos do locatário: </b>
+                          <p className="link">Documentos do locatário: </p>
                           <br/>
+                          <div className="columns">
+                            <div className="column is-3">
+                              <span className="is-text" onClick={event => showdocument()}>Ver documento</span>
+                            </div>
+                            <div className="column is-3">
+                              <span className="is-text" onClick={event => showselfie()}>Ver selfie</span>
+                            </div>
+                            <div className="column is-3">
+                              <span className="is-text" onClick={event => showproof()}>Ver Endereço de uso</span>
+                            </div>
+                          </div>
+                          <Modal
+                            show={modal1} 
+                            onCloseModal={hideModalone} 
+                            closeOnEsc={true} 
+                            closeOnOverlayClick={true}
+                          > 
+                            <p>Documento</p>
+                            {
+                              /*
+                              <p className="is-text">Baixar</p>
+                              */
+                            }
+                            
+                            <br/>
+                            <img src={documentr.urldoc} alt={documentr.urldoc} />
+                          </Modal>
+                            
+                          <Modal
+                            show={modal2} 
+                            onCloseModal={hideModaltwo} 
+                            closeOnEsc={true} 
+                            closeOnOverlayClick={true}
+                          > 
+                            <p>Selfie</p>
+                            {
+                              /*
+                              <p className="is-text">Baixar</p>
+                              */
+                            }
+                            
+                            <br/>
+                            <img src={documentr.urlselfie} alt={documentr.urlselfie} />
+                          </Modal>
+
+                          <Modal
+                            show={modal3} 
+                            onCloseModal={hideModalthree} 
+                            closeOnEsc={true} 
+                            closeOnOverlayClick={true}
+                          > 
+                            <p>Endereço de uso</p>
+                            {
+                              /*
+                              <p className="is-text">Baixar</p>
+                              */
+                            }
+                            
+                            <br/>
+                            <img src={documentr.urlproof} alt={documentr.urlproof} />
+                          </Modal>
                         </div>
                       </div>
                     </div>

@@ -1,12 +1,12 @@
-import React, { useState, useCallback, useEffect,  } from 'react';
-import { Button } from '../../../../../components/Form/Button';
+import React, { useState, useCallback, useEffect } from 'react';
+import { Button } from '../../components/Form/Button';
 import {useDropzone} from 'react-dropzone';
-import '../style.css';
-import rg from '../../../../../assets/images/rg.png'
-import api from '../../../../../services/api';
 
-export default function Document({id}) {
-  const [document, setDocument] = useState(rg);
+import selfieu from '../../assets/images/selfie.png'
+import api from '../../services/api';
+import './style.css';
+export default function Selfie({id}) {
+  const [selfie, setSelfie] = useState(selfieu);
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
 
@@ -15,7 +15,7 @@ export default function Document({id}) {
       if (id !== undefined) {
         const response = await api.get(`/documents/${id}`, {
         }); 
-        setDocument(response.data.documentUser[0].urldoc)
+        setSelfie(response.data.documentUser[0].urldoc)
       }
     }
     loadPerfil();
@@ -25,42 +25,42 @@ export default function Document({id}) {
     };
   }, [id])
 
+
   const onDrop = useCallback(acceptedFiles => {    
     const preview = URL.createObjectURL(acceptedFiles[0])
     setImage(acceptedFiles);
-    setDocument(preview)
+    setSelfie(preview)
     setActive(true)
   }, [])
 
   const {getRootProps, getInputProps} = useDropzone({onDrop})
  
-  const updateDocument = () => {
+  const updateSelfie = () => {
     const data = new FormData();
-    data.append('document', image[0]);
-    saveDocument(data)
+    data.append('selfie', image[0]);
+    saveSelfie(data)
   }
 
-  async function saveDocument (document) {
-    await api.put(`documents/document/${id}`, document, {})
+  async function saveSelfie (selfie) {
+    await api.put(`documents/selfie/${id}`, selfie, {})
     .then((res) => {
     })
     .catch((err) => {
     })
   }
-
-
+  
   return (
     <div>
       <div className="columns">
       <div className="column has-text-centered">
         <div className="column has-text-centered box-inter box-inter-padding">
-          <div className={ isactive === true ? 'documents' : 'documents_mini'}>
-            <img src={document} alt={document}/>
+        <div className={ isactive === true ? 'selfie' : 'selfie_mini'}>
+            <img src={selfie} alt={selfie}/>
           </div>
           <div className="column box-inter">
             <div {...getRootProps()} className="drag-photo">
               <input {...getInputProps()} />
-                Alterar Documento
+                Alterar Selfie
             </div>
           </div>
           {
@@ -71,7 +71,7 @@ export default function Document({id}) {
                   type={'button'}
                   className={'button is-info color-logo-lessor is-pulled-right'}
                   text={'Salvar'}
-                  onClick={event => updateDocument() }
+                  onClick={event => updateSelfie() }
                   />
               </>
             ) :

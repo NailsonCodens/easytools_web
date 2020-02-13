@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Button } from '../../../../../components/Form/Button';
+import { Button } from '../../components/Form/Button';
 import {useDropzone} from 'react-dropzone';
-import '../style.css';
-import address from '../../../../../assets/images/selfie.png'
-import api from '../../../../../services/api';
 
+import address from '../../assets/images/selfie.png'
+import api from '../../services/api';
+import './style.css';
 export default function Proofaddress({id}) {
   const [proof, stProof] = useState(address);
   const [image, setImage] = useState('');

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Document from './Documents/document';
-import Proofaddress from './Documents/proofAddress';
-import Selfie from './Documents/selfie';
+import Document from '../../../Documents/document';
+import Proofaddress from '../../../Documents/proofAddress';
+import Selfie from '../../../Documents/selfie';
 import api from '../../../../services/api';
 
 const Doc = () => {

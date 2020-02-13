@@ -316,6 +316,8 @@
   padding-top: 0px !important;
 }
 
-.count span{
-
+.is-text{
+  color: rgb(0, 47, 255) !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
 }
