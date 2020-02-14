@@ -112,7 +112,7 @@ const MenuLessor = () => {
                   </Link>
                 </li>
                 <li className="li-drop">
-                  <Link to={'/'} className="navbar-item">
+                  <Link to={'/lessor/account'} className="navbar-item">
                     Conta
                   </Link>
                 </li>

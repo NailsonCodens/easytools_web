@@ -117,17 +117,28 @@ const Workadd = ({rent}) => {
 
       await api.put(`/workadd/update/${workaddrentid}/${workaddid}`, values, {})
       .then((res) => {
-        history.push(`/s/payment/rent-payment?rent_attempt=${valuesroute.rent_attempt}&tool=${valuesroute.tool}&code_attempt=${valuesroute.code_attempt}`)      
+        verifyAvailabletool()
       }).catch((err) => {
       })
     } else {
       await api.post('/workadd/add/', values, {})
       .then((res) => {
-        history.push(`/s/payment/rent-payment?rent_attempt=${valuesroute.rent_attempt}&tool=${valuesroute.tool}&code_attempt=${valuesroute.code_attempt}`)      
+        verifyAvailabletool()
       }).catch((err) => {
       })
     }
   }
+
+  async function verifyAvailabletool() { 
+    const response = await api.get(`/tools_site/tool/${valuesroute.tool}`, {
+    });
+    if (response.data.tool[0].availability === 'Y') {
+      history.push(`/s/payment/rent-payment?rent_attempt=${valuesroute.rent_attempt}&tool=${valuesroute.tool}&code_attempt=${valuesroute.code_attempt}`)      
+    } else {
+      history.push(`/?t=unavailable`);
+    }
+  }
+
 
   return (
     <div className="container workadd">

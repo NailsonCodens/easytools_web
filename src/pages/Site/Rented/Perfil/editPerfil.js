@@ -243,6 +243,13 @@ const Edit = ({history}) => {
               Adicione as informações necessárias para completar seu cadastro e você poder alugar sem problemas.
             </h3>
             <br/>
+            <h3 className="title-box-inter">Documentos</h3>
+            <div>
+              <Link to="/s/renter/perfil/documents">
+                Meus documentos 
+              </Link>
+            </div>
+            <br/>
               <h3 className="title-box-inter">Informações </h3>
               <br/><br/>
               <Field>
@@ -365,7 +372,7 @@ const Edit = ({history}) => {
                       }
                     </Span>
                   </Field>
-                  <Warningtext>Se você vai alugar como empresa, escolha a opção CNPJ, ao escolher cnpj, alguns campos a mais serão abertos para completar o cadastro. </Warningtext>
+                  <Warningtext>Se você vai alugar como empresa, escolha a opção CNPJ, preencha e salve. Logo após, vai em "Meus documentos para enviar uma cópia do contrato social da empresa." </Warningtext>
                 </div>
               </div>
               <Field className="is-pulled-right space-bt">
@@ -621,13 +628,7 @@ const Edit = ({history}) => {
             </Field>
           </div> 
           <div className="column is-5">
-            <h3 className="title-box-inter">Documentos</h3>
-            <div>
-              <br/>
-              <Link to="/s/renter/perfil/documents">
-                Meus documentos 
-              </Link>
-            </div>
+
           </div>
         </div>             
       </Form>

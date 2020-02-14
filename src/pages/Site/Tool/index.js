@@ -35,6 +35,7 @@ const Tool = ({history}) => {
   const dispatch = useDispatch();
 
   const infochoose = useSelector(state => state.rentaltool);
+	const current_user = useSelector(state => state.auth);
 
   const [tool, setTool] = useState({});
   const [pictures, setPictures] = useState([]);
@@ -56,6 +57,8 @@ const Tool = ({history}) => {
   const [amount, setAmount] = useState(useSelector(state => state.rentaltool.amount));
   const [perfil, setPerfil] = useState([]);
   const [namelessor, setNamelessor] = useState('')
+  const [document, setDocument] = useState({})
+  const [configlessor, setConfiglessor ] = useState('');
   const ref = useRef(null);
 
   let {id} = useParams();
@@ -75,38 +78,45 @@ const Tool = ({history}) => {
         .required('Adicione a data da devolução.'),
     }),
     onSubmit: value => {
-      if (perfil.cpfcnpj === "") {
-        history.push('/s/renter/perfil/documents');
-      } else {
-        var tensionChoose = ''
-        if (tension !== '') {
-          tensionChoose = tension
+      if (document.document !== null && document.selfie !== null && document.proof !== null) {
+        if (perfil.cpfcnpj === "") {
+          history.push('/s/renter/perfil/edit');
         } else {
-          if (tool.tension.split('/')[0] === '') {
-            tensionChoose = tool.tension.split('/')[1]
+          if (perfil.cpfcnpj.length > 14 && document.enterprise !== null) {
+            var tensionChoose = ''
+            if (tension !== '') {
+              tensionChoose = tension
+            } else {
+              if (tool.tension.split('/')[0] === '') {
+                tensionChoose = tool.tension.split('/')[1]
+              } else {
+                tensionChoose = tool.tension.split('/')[0]          
+              }
+            }
+      
+            var rentData = {
+              start: moment(value.startDate).format('YYYY-MM-DD'),
+              end: moment(value.endDate).format('YYYY-MM-DD'),
+              tension: tensionChoose,
+              amount: amount
+            }
+      
+            dispatch(
+              Rentaltool(
+                moment(value.startDate).format('YYYY-MM-DD'), 
+                moment(value.endDate).format('YYYY-MM-DD'),
+                tool.prices.split(';'),
+                tensionChoose,
+                formik.values.amount
+              )
+            );    
+            next(rentData)  
           } else {
-            tensionChoose = tool.tension.split('/')[0]          
+            history.push('/s/renter/perfil/documents');            
           }
         }
-  
-        var rentData = {
-          start: moment(value.startDate).format('YYYY-MM-DD'),
-          end: moment(value.endDate).format('YYYY-MM-DD'),
-          tension: tensionChoose,
-          amount: amount
-        }
-  
-        dispatch(
-          Rentaltool(
-            moment(value.startDate).format('YYYY-MM-DD'), 
-            moment(value.endDate).format('YYYY-MM-DD'),
-            tool.prices.split(';'),
-            tensionChoose,
-            formik.values.amount
-          )
-        );
-  
-        next(rentData)
+      } else {
+        history.push('/s/renter/perfil/documents');
       }
     }
   })
@@ -114,7 +124,6 @@ const Tool = ({history}) => {
   
   const next = (rentData) => {
     if (isAuthenticated()) {
-      Scrool()
       var attempt = {
         user_lessor_id: tool.user_id,
         tool_id: tool.id,
@@ -150,6 +159,7 @@ const Tool = ({history}) => {
     .then((res) => {
       var idbooking = res.data.rentattempt.idf
       var codeattempt = res.data.rentattempt.codeattempt
+      Scrool()
       history.push(`/s/payment/resumebook?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${formik.values.amount}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
     }).catch((err) => {
       console.log(err.response)
@@ -208,12 +218,29 @@ const Tool = ({history}) => {
     }
     loadPerfil();
 
+    async function loadConfiglessor () {
+        const response = await api.get(`/userconfig/${tool.user_id}`, {
+        });
+        console.log(response.data)
+        setConfiglessor(response.data.userconfig)
+    }
+    loadConfiglessor()
+
+    async function verifyDocumentrent(){
+      if (current_user.id !== undefined) {
+        const response = await api.get(`/documents/${current_user.id}`, {
+        });
+        setDocument(response.data.documentUser[0])  
+      }
+    }
+    verifyDocumentrent();
+
     window.addEventListener('scroll', handleScroll);
 
     return () => {
       window.removeEventListener('scroll', () => handleScroll);
     };
-  }, [id]);
+  }, [id, current_user]);
 
   const setDatesback = (dates, tool) => {
     if (dates.startDate && dates.endDate) {
@@ -481,10 +508,17 @@ return (
                   dataLessor.map((lessor, index) => (
                     <div key={index}>
                       <img src={lessor.url} alt={lessor.url} className="logo-neighbor"/>
-                      <span className="name-neighbor">Vizinho { lessor.name }</span>                     
+                      <span className="name-neighbor">Vizinho { lessor.name }</span>          
                     </div>
                   ))
                 }
+                <div>
+                  <span>
+                    {
+                      console.log(configlessor)
+                    }  
+                  </span>        
+                </div>
               </div>
             </div>
           </div>

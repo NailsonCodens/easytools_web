@@ -417,6 +417,7 @@ const Perfil = ({history}) => {
                           }
                         </Span>
                       </Field>
+                      <Warningtext>Se você é locador empresa, escolha a opção CNPJ, preencha e salve. Logo após, vai em "Meus documentos para enviar uma cópia do contrato social da empresa." </Warningtext>
                     </div>
                   </div>
                   <Field className="is-pulled-right">

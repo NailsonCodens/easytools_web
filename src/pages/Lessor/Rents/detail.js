@@ -191,23 +191,17 @@ export default function Rents() {
                           <p> { rent.userrenter.address } { rent.userrenter.number } { rent.userrenter.complement } { rent.userrenter.location } </p>
                           <p> { rent.userrenter.uf } - { rent.userrenter.city } </p>
                           <p>{ rent.userrenter.neighboor }</p>
-                          { /*<b>Adicionar endereço de uso: </b>*/ }
+                          { <b>Adicionar endereço de uso: </b> }
                           <br/><br/>
-                            {
-                              /*
                             <p> { workadd.address } { workadd.number } { workadd.complement } <br/> { workadd.location } </p>
                             <p> { workadd.uf } - { workadd.city } { workadd.neighboor }</p>
-                              */
-                            }
                         </div>
                       </div>
                       <div className="columns">
                         <div className="column">
-                          { /*<p className="link">Documentos do locatário: </p>*/ }
+                          { <p className="link">Documentos do locatário: </p> }
                           <br/>
                           <div className="columns">
-                            {
-                             /* 
                               <div className="column is-3">
                                 <span className="is-text" onClick={event => showdocument()}>Ver documento</span>
                               </div>
@@ -217,8 +211,6 @@ export default function Rents() {
                               <div className="column is-3">
                                 <span className="is-text" onClick={event => showproof()}>Ver Endereço de uso</span>
                               </div>
-                              */
-                            }
                           </div>
                           <Modal
                             show={modal1} 

@@ -8,6 +8,7 @@ import api from '../../../services/api';
 import moment from 'moment';
 import Rentalbox from './Rentalbox';
 import Rentruesblock from '../../Warnings/Rentrulesblock';
+import NotAvailable from '../../Warnings/NotAvailable';
 import localForage from "localforage";
 import { Button } from '../../../components/Form/Button';
 import Scrool from '../../../utils/scroll';
@@ -77,20 +78,37 @@ const Resume = ({history}) => {
 
   }, [dispatch, values.tool]);
 
+
+  async function verifyAvailabletool() { 
+    const response = await api.get(`/tools_site/tool/${values.tool}`, {
+    });
+    console.log(response.data.tool[0].availability)
+    if (response.data.tool[0].availability === 'Y') {
+      history.push(`/s/payment/rent-rules?rent_attempt=${values.rent_attempt}&init=${values.init}&finish=${values.finish}&tool=${values.tool}&am=${values.am}&tension=${values.tension}&code_attempt=${values.code_attempt}`)
+    } else {
+      history.push(`/?t=unavailable`);
+    }
+  }
+
+
   const goRules = () =>{
     //corrgiri e fazer salvar no banco os dados da tentiva de aluguel
     Scrool(0,0)
    
     if(!tool.tension.match(values.tension)){
+      console.log('aa');
       history.push('/ops');
     } else if (isNaN(parseInt(values.am))) {
+      console.log('aa');
       history.push('/ops');
     } else if (!moment(values.finish).isValid()) {
+      console.log('aa');
       history.push('/ops');
     } else if (!moment(values.init).isValid()) {
+      console.log('aa');
       history.push('/ops');
     } else {
-      history.push(`/s/payment/rent-rules?rent_attempt=${values.rent_attempt}&init=${values.init}&finish=${values.finish}&tool=${values.tool}&am=${values.am}&tension=${values.tension}&code_attempt=${values.code_attempt}`)
+      verifyAvailabletool()
     }
   }
 
@@ -104,7 +122,7 @@ const Resume = ({history}) => {
               tool.availability === "N" ?
               (
                 <>
-                    <Rentruesblock/>
+                    <NotAvailable/>
                 </>
               )
               :

@@ -4,6 +4,7 @@ import Proofaddress from '../../Documents/proofAddress';
 import SocialContract from '../../Documents/socialContract';
 import Selfie from '../../Documents/selfie';
 import api from '../../../services/api';
+import { Warningtext } from '../../../components/Warningtext';
 
 const Doc = () => {
   const [user, setUser] = useState('')
@@ -37,6 +38,7 @@ const Doc = () => {
           <p>Uma selfie sua.</p>
           <p>E o comprovante de endereço.</p>
           <p>Se for empresa, foto do contrato.</p>
+          <Warningtext>Fique tranquilo, seus dados estão seguros. Não compartilhammos, vendemos ou usamos indevidamente os seus dados". </Warningtext>
         </div>
         <div className="column">
           <div>

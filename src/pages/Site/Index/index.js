@@ -10,6 +10,8 @@ import './style.css';
 
 const Dashboard = ({history, location}) => {
   document.title = Title('Easytools');
+  let values = queryString.parse(useLocation().search);
+
   // eslint-disable-next-line
   const dispatch = useDispatch();
   // eslint-disable-next-line	
@@ -34,8 +36,31 @@ const Dashboard = ({history, location}) => {
     history.push(`s/tool/${id}?ctg=${category}`);
   }
 
+  const goIndex = () => {
+    history.push(`/`);
+  }
+
   return (
     <>
+      {
+        values.t === 'unavailable' ? 
+        (
+          <div className="warning-unavailable">
+            <div className="columns">
+              <div className="column is-10">
+                A ferramenta que você deseja está indisponível no momento, tente alugar de outro vizinho logo a baixo.
+              </div>
+              <div className="column">
+                <div className="is-pulled-right close-unavailable" onClick={event => goIndex()}></div>
+              </div>
+            </div>
+          </div>
+        )
+        :
+        (
+          ''
+        )
+      }
       <div className="container-fluid">
         <div className="container explorer">
           <h3>O que você precisa? </h3>
