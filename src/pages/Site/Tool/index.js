@@ -106,41 +106,42 @@ const Tool = ({history}) => {
         )
       );    
       next(rentData)  
-
-
     }
   })
 
-  
   const next = (rentData) => {
     if (isAuthenticated()) {
-      console.log(perfil.cpfcnpj)
-  
-      if (document.document !== null && document.selfie !== null && document.proof !== null) {
-        if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
-          history.push('/s/renter/perfil/edit');
-        } else {
-          if (perfil.cpfcnpj.length > 14 && document.enterprise !== null) { 
-            var attempt = {
-              user_lessor_id: tool.user_id,
-              tool_id: tool.id,
-              startdate: moment(rentData.start).format('YYYY-MM-DD'),
-              enddate: moment(rentData.end).format('YYYY-MM-DD'),
-              tension: rentData.tension,
-              days: price.amount,
-              amount: formik.values.amount,
-              period: price.type,
-              price: price.priceNoamount,
-              cost: price.pricefull,
-              accept: 0,
-            } 
-      
-            saveRentattempt(attempt);      
+      if (document !== undefined) {
+        if (document.document !== null && document.selfie !== null && document.proof !== null) {
+          if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
+            history.push('/s/renter/perfil/edit');
           } else {
-            history.push('/s/renter/perfil/documents');            
+            if (perfil.cpfcnpj.length > 14 && document.enterprise === null) { 
+              console.log('cai aqui e ta errado');
+              history.push('/s/renter/perfil/documents');            
+            } else {
+              var attempt = {
+                user_lessor_id: tool.user_id,
+                tool_id: tool.id,
+                startdate: moment(rentData.start).format('YYYY-MM-DD'),
+                enddate: moment(rentData.end).format('YYYY-MM-DD'),
+                tension: rentData.tension,
+                days: price.amount,
+                amount: formik.values.amount,
+                period: price.type,
+                price: price.priceNoamount,
+                cost: price.pricefull,
+                accept: 0,
+              } 
+              saveRentattempt(attempt);      
+            }
           }
+        } else {
+          console.log('aqui')
+          history.push('/s/renter/perfil/documents');
         }
       } else {
+        console.log('agora aqui')
         history.push('/s/renter/perfil/documents');
       }
     } else {
