@@ -14,6 +14,7 @@ import InputMask from 'react-input-mask';
 import { Warningtext } from '../../../../components/Warningtext';
 import { Button } from '../../../../components/Form/Button';
 import { cpfMask, cnpjMask } from '../../../../utils/maskdocument';
+import { Link } from 'react-router-dom';
 
 const Edit = ({history}) => {
   document.title = Title('Perfil');
@@ -34,6 +35,7 @@ const Edit = ({history}) => {
   const [documenttype, setSelectedDocument] = useState({value: 'cpf', label: 'CPF' });
   const [avatar, setAvatar] = useState('');
   const [image, setImage] = useState('');
+  const [phone, setPhone] = useState('');
 
   const formik = useFormik({
     initialValues: {
@@ -47,6 +49,7 @@ const Edit = ({history}) => {
       complement: '',
       neighboor: '',
       location: '',
+      phone: '',
       uf: '',
       city: '',
     },
@@ -61,13 +64,16 @@ const Edit = ({history}) => {
 
       last_name: Yup.string()
         .required('Nome é obrigatório.'),
+
+      phone: Yup.string()
+        .required('Celular é obrigatório.'),
+
     }),
 
     onSubmit: value => {
       api.put(`perfil/update/${id}`, value, {})
       .then((res) => {
         Scroll(0,0);
-        history.push('/s/renter/perfil')
       })
       .catch((err) => {
 
@@ -103,6 +109,12 @@ const Edit = ({history}) => {
         setLastname(perfil.last_name)
         formik.values.email = perfil.email
         setEmail(perfil.email)        
+
+        if (perfil.phone !== null) {
+          setPhone(perfil.phone)
+        }
+        formik.values.phone = perfil.phone
+
         if (perfil.cpfcnpj === null) {
           setCpfcnpj('')
           formik.values.cpfcnpj = ''            
@@ -163,6 +175,11 @@ const Edit = ({history}) => {
   const handleEmailChange = (email) => {
     formik.values.email = email;
     setEmail(email);
+  };
+
+  const handlePhoneChange = (phone) => {
+    formik.values.phone = phone;
+    setPhone(phone);
   };
 
   const handleDocumentChange = selectedDocument => {
@@ -227,6 +244,10 @@ const Edit = ({history}) => {
 
   const {getRootProps, getInputProps} = useDropzone({onDrop})
 
+  const goBack = () => {
+    history.push('/s/renter/perfil')      
+  }
+
   return (
     <div className="container">
       <Form
@@ -238,6 +259,27 @@ const Edit = ({history}) => {
       >
         <div className="columns column-address">
           <div className="column">
+            <h3 className="title-tool-only">
+              Adicione as informações necessárias para completar seu cadastro e você poder alugar sem problemas.
+            </h3>
+            <br/>
+            <h3 className="title-box-inter">Documentos</h3>
+            <div className="columns">
+              <div className="column">
+                <Link to="/s/renter/perfil/documents">
+                  Meus documentos 
+                </Link>
+              </div>
+              <div className="columns">
+                <Button
+                  type={'submit'}
+                  className={'button color-logo-lessor'} 
+                  text={'Voltar'}
+                  onClick={event => goBack()}
+                />
+              </div>
+            </div>
+            <br/>
               <h3 className="title-box-inter">Informações </h3>
               <br/><br/>
               <Field>
@@ -315,6 +357,30 @@ const Edit = ({history}) => {
                   }
                 </Span>
               </Field>
+              <Field>
+                  <Label className="label-perfil" for={'phone'}>
+                    <b>Celular</b>
+                  </Label>
+                  <InputMask
+                      name="phone"
+                      type="text"
+                      mask="(99) 9 9999-9999" 
+                      maskChar=" "
+                      placeholder="(41) 9 9999-9999" 
+                      className={formik.touched.phone && formik.errors.phone ? 'input border-warning' : 'input'}
+                      onChange={event => handlePhoneChange(event.target.value)}
+                      value={phone}
+                    />
+                  <Span className={'validation-warning'}>
+                    {
+                      formik.touched.phone && formik.errors.phone 
+                    ? 
+                      (<div>{formik.errors.phone}</div>) 
+                    : 
+                      null
+                    }
+                  </Span>
+                </Field>
               <div className="columns">
                 <div className="column is-4">
                 <Field className={'field'}>
@@ -360,6 +426,7 @@ const Edit = ({history}) => {
                       }
                     </Span>
                   </Field>
+                  <Warningtext>Se você vai alugar como empresa, escolha a opção CNPJ, preencha e salve. Logo após, vai em "Meus documentos para enviar uma cópia do contrato social da empresa." </Warningtext>
                 </div>
               </div>
               <Field className="is-pulled-right space-bt">
@@ -370,33 +437,33 @@ const Edit = ({history}) => {
                 />
               </Field>
           </div>
-          <div className="column">
+          <div className="column is-5">
             <div className="column has-text-centered box-inter box-inter-padding">
               <b>{ name }</b>
               <br/>
               <div className="avatar-perfil" >
                 <img src={avatar} alt={avatar}/>
               </div>
-              <div className="column box-inter">
+              <div className="column box-inter upload">
                 <div {...getRootProps()} className="drag-photo">
                   <input {...getInputProps()} />
-                    Altarar avatar
+                    Alterar foto
                 </div>
               </div>
               {
-                  isactive === true ?
-                  (
-                    <>
-                      <Button
-                        type={'button'}
-                        className={'button is-info color-logo-lessor is-pulled-right'}
-                        text={'Salvar'}
-                        onClick={event => updateAvatar() }
-                        />
-                    </>
-                  ) :
-                  ('')
-                }
+                isactive === true ?
+                (
+                  <>
+                    <Button
+                      type={'button'}
+                      className={'button is-info color-logo-lessor is-pulled-right'}
+                      text={'Salvar'}
+                      onClick={event => updateAvatar() }
+                      />
+                  </>
+                ) :
+                ('')
+              }
             </div>
           </div>
         </div>
@@ -614,8 +681,8 @@ const Edit = ({history}) => {
               />
             </Field>
           </div> 
-          <div className="column">
-            <h3 className="title-box-inter">Seus documentos</h3>
+          <div className="column is-5">
+
           </div>
         </div>             
       </Form>

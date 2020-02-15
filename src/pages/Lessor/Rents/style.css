@@ -6,3 +6,19 @@
   text-transform: uppercase !important;
   font-family: 'Poppins', sans-serif !important;
 }
+
+
+.avatar-detail{
+  height: 70px;
+  width: 70px !important;
+}
+
+.avatar-detail img{
+  border-radius: 100px !important;
+  width: 70px !important;
+  height: 70px;
+  object-fit:cover;
+  -webkit-box-shadow: 0px 2px 3px 0px rgba(156,156,156,1);
+  -moz-box-shadow: 0px 2px 3px 0px rgba(156,156,156,1);
+  box-shadow: 0px 2px 3px 0px rgba(156,156,156,1);
+}

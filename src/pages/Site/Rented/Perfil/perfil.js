@@ -10,7 +10,6 @@ const Pserfil = ({history}) => {
   const [user, setUser] = useState([]);
   document.title = Title(user.name);
 
-
   useEffect(() => {
     async function loadPerfil() { 
       const response = await api.get(`/perfil`, {

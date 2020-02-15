@@ -75,3 +75,22 @@
   font-weight: 600 !important;
   font-size: 18px;
 }
+
+.warning-unavailable{
+  z-index: 999999 !important;
+  position: fixed !important;
+  width: 100% !important;
+  background: rgb(255, 89, 89);
+  color: #fff;
+  padding: 10px;
+  padding-top: -10px !important;
+  margin-top: -12px;
+}
+
+.close-unavailable{
+
+}
+
+.close-unavailable::before{
+  content:'❌' !important;
+}

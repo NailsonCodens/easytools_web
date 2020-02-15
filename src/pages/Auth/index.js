@@ -152,7 +152,7 @@ const Signin = ({ hs, url, closeModal }) => {
           </div>
           <div className="has-text-centered">
             <Span>Não tem conta da EasyTools? </Span>
-            <Link to="/signup?type=lessor"><Span className="button-enter">Cadastre-se</Span></Link>
+            <Link to="/signup"><Span className="button-enter">Cadastre-se</Span></Link>
           </div>            
         </div>
         <Modal 

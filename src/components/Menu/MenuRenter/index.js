@@ -40,7 +40,7 @@ const MenuRenter = () => {
 			var title = data.title;
 
 			Notifier.start(`${title}`, `${message}`,"www.google.com","validated image url");
-			console.log('asdasd')
+
 		});
 
     async function getCountnotification () {
@@ -53,10 +53,8 @@ const MenuRenter = () => {
 
     async function getNotification () {
       const response = await api.get(`/notifications`, {
-      });
+			});
       setNotfication(response.data.notification)
-
-      renderNotify()
     }
     getNotification()
 
@@ -88,7 +86,7 @@ const MenuRenter = () => {
 	}
 
 	navigator.geolocation.getCurrentPosition(function(position) {
-    console.log(position)
+
 	});
 
 	return (
@@ -148,7 +146,7 @@ const MenuRenter = () => {
 												Mensagens
 											</Link>
 											<Dropdownpure text="Notificações" countn={notificationrd} classMenu="classNotless" classCuston=" notification">
-												{ renderNotis() }
+												{ renderNotify() }
 											</Dropdownpure>
 									</>
 									)

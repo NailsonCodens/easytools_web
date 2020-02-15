@@ -14,6 +14,7 @@ import { getCordinates } from '../../../services/mapbox';
 import Notification from '../../../utils/notification';
 import { useLocation, useHistory } from 'react-router-dom';
 import queryString from 'query-string';
+import { CheckboxIOS } from '../../../components/Form/Button';
 
 const Workadd = ({rent}) => {
   let valuesroute = queryString.parse(useLocation().search);
@@ -61,7 +62,7 @@ const Workadd = ({rent}) => {
       address: '',
       number: '',
       complement: '',
-      state: '',
+      uf: '',
       city: '',
       lat: '',
       lng: ''
@@ -78,7 +79,7 @@ const Workadd = ({rent}) => {
       .required('O complemento é obrigatório.'),
       neighboor: Yup.string()
       .required('O bairro é obrigatório.'),
-      state: Yup.string()
+      uf: Yup.string()
         .required('O estado é obrigatório.'),
       city: Yup.string()
         .required('O cidade é obrigatório.'),
@@ -117,16 +118,30 @@ const Workadd = ({rent}) => {
 
       await api.put(`/workadd/update/${workaddrentid}/${workaddid}`, values, {})
       .then((res) => {
-        history.push(`/s/payment/rent-payment?rent_attempt=${valuesroute.rent_attempt}&tool=${valuesroute.tool}&code_attempt=${valuesroute.code_attempt}`)      
+        verifyAvailabletool()
       }).catch((err) => {
       })
     } else {
       await api.post('/workadd/add/', values, {})
       .then((res) => {
-        history.push(`/s/payment/rent-payment?rent_attempt=${valuesroute.rent_attempt}&tool=${valuesroute.tool}&code_attempt=${valuesroute.code_attempt}`)      
+        verifyAvailabletool()
       }).catch((err) => {
       })
     }
+  }
+
+  async function verifyAvailabletool() { 
+    const response = await api.get(`/tools_site/tool/${valuesroute.tool}`, {
+    });
+    if (response.data.tool[0].availability === 'Y') {
+      history.push(`/s/payment/rent-payment?rent_attempt=${valuesroute.rent_attempt}&tool=${valuesroute.tool}&code_attempt=${valuesroute.code_attempt}`)      
+    } else {
+      history.push(`/?t=unavailable`);
+    }
+  }
+
+  const handleCheckIOS = () => {
+    console.log('asdsa')
   }
 
   return (
@@ -289,19 +304,19 @@ const Workadd = ({rent}) => {
                       <b>Estado</b>
                     </Label>
                     <Input
-                      name="state"
+                      name="uf"
                       type="text"
                       placeholder="Estado"
-                      className={formik.touched.state && formik.errors.state ? 'input border-warning' : 'input'}
+                      className={formik.touched.uf && formik.errors.uf ? 'input border-warning' : 'input'}
                       onChange={event => formik.handleChange(event)}
-                      value={formik.values.state}
+                      value={formik.values.uf}
                     />
                   </Field>
                   <Span className={'validation-warning'}>
                     {
-                      formik.touched.state && formik.errors.state 
+                      formik.touched.uf && formik.errors.uf 
                     ? 
-                      (<div>{formik.errors.state}</div>) 
+                      (<div>{formik.errors.uf}</div>) 
                     : 
                       null
                     }
@@ -330,6 +345,10 @@ const Workadd = ({rent}) => {
                       }
                     </Span>
                   </Field>
+                </div>
+              </div>
+              <div className="columns">
+                <div className="column">
                 </div>
               </div> 
           </div>

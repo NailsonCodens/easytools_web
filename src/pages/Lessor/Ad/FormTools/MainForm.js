@@ -7,7 +7,7 @@ import Finish from '../FormTools/Steps/Finish';
 import { useParams } from "react-router-dom";
 import api from '../../../../services/api';
 import { useFormik } from 'formik';
-
+import Warning from '../../Warning';
 import './Steps/style.css';
 
 import StepViewer from '../../../../components/StepViewer/StepViewer';
@@ -484,6 +484,7 @@ const Main = ({history, tool}) => {
               Insira no título o nome da ferramenta e a marca dela.
               Assim o cliente sabe exatamtente o que é o seu produto.
             </p>
+            <Warning/>
           </>
         )
       case 2: 
@@ -552,6 +553,7 @@ const Main = ({history, tool}) => {
               <p className="text-tips">
                 Confirme as informações do seu anúncio, se quiser corrigir algo, basta voltar na seção desejada.
               </p>
+              <Warning/>
             </>
           )
         default: 
@@ -562,6 +564,7 @@ const Main = ({history, tool}) => {
             Insira no título o nome da ferramenta e a marca dela.
             Assim o cliente sabe exatamtente o que é o seu produto.
           </p>
+          <Warning/>
         </>
       )
     }

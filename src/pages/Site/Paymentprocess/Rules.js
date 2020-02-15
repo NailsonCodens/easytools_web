@@ -12,6 +12,7 @@ import api from '../../../services/api';
 import localForage from "localforage";
 import { Warningtext } from '../../../components/Warningtext';
 import Rentruesblock from '../../Warnings/Rentrulesblock';
+import NotAvailable from '../../Warnings/NotAvailable';
 import moment from 'moment';
 import Modal from '../../../components/Modal';
 import Workaddress from '../Workadd/index';
@@ -33,7 +34,6 @@ const Rules = ({ history }) => {
       });
       
       if (response.data.rentattempt.length > 0) {
-        console.log(response.data.rentattempt[0])
         setAttempt(response.data.rentattempt[0]);
         setOkAttempt(true)
       } else {
@@ -92,11 +92,21 @@ const Rules = ({ history }) => {
   async function updateRentattempt (attemptv) {
     await api.put(`rent/attempt/update/${attempt.id}`, attemptv, {})
     .then((res) => {
-      Scroll()
-      setModal(true)
+      verifyAvailabletool()
     }).catch((err) => {
       console.log(err.response)
     })  
+  }
+
+  async function verifyAvailabletool() { 
+    const response = await api.get(`/tools_site/tool/${values.tool}`, {
+    });
+    if (response.data.tool[0].availability === 'Y') {
+      Scroll()
+      setModal(true)
+    } else {
+      history.push(`/?t=unavailable`);
+    }
   }
 
   return (
@@ -114,7 +124,7 @@ const Rules = ({ history }) => {
                   tool.availability === "N" ?
                   (
                     <>
-                        <Rentruesblock/>
+                        <NotAvailable/>
                     </>
                   )
                   :
@@ -125,19 +135,8 @@ const Rules = ({ history }) => {
                     <br/>
                     <div className="columns">
                       <div className="column is-two-thirds">
-                        <Lessor/>
-                      </div>
-                      <div className="column">
-                        <div className="column has-centered-text">
-                          <Rentalbox startDate={values.init} endDate={values.finish}></Rentalbox>
-                        </div>
-                      </div>
-                    </div>
-                    <Hr/>
-                    <br/>
-                    <div className="columns">
-                      <div className="column is-two-thirds">
-                      <p className="title-tool-only">Atenção! Regra do aluguel.</p>
+                        {/*<Lessor/>*/}
+                        <p className="title-tool-only">Atenção! Regra do aluguel.</p>
                         <br></br>
                         <p className="title-infos-tool hack-padding-top">Política de locação</p>
                         <Ul>
@@ -165,6 +164,17 @@ const Rules = ({ history }) => {
                           <b className="title-politics">Prazos e períodos</b>
                           <li> Como vai funcionar o pagamento</li>
                         </Ul>
+                      </div>
+                      <div className="column">
+                        <div className="column has-centered-text">
+                          <Rentalbox startDate={values.init} endDate={values.finish}></Rentalbox>
+                        </div>
+                      </div>
+                    </div>
+                    <Hr/>
+                    <br/>
+                    <div className="columns">
+                      <div className="column is-two-thirds">
                       </div>
                       <div className="column">
                       </div>

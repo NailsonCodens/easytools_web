@@ -8,6 +8,7 @@ import MenuLessor from '../../../components/Menu/MenuLessor/index';
 import Dashboard from '../Dashboard/index';
 import Ad from '../Ad/index';
 import Perfil from '../Perfil/index';
+import Account from '../Account/index';
 import Message from '../Message/index';
 import Rents from '../Rents/index';
 
@@ -70,6 +71,7 @@ export default function Start({history}) {
         <PrivateRoute path={`${path}/ad`} component={Ad}/>
         <PrivateRoute path={`${path}/messages`} component={Message}/>
         <PrivateRoute path={`${path}/perfil`} component={Perfil}/>
+        <PrivateRoute path={`${path}/account`} component={Account}/>
         <PrivateRoute path={`${path}/rents`} component={Rents}/>
       </div>
     </>

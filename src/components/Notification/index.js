@@ -63,7 +63,16 @@ const Notification = ({nt}) => {
                 </div>
               </div>
               <div className="column">
-                <b>{ notify.title }</b>
+                {
+                  notify.done === null ? 
+                  (
+                    <b>* { notify.title }</b>
+                  )
+                  :
+                  (
+                    <p>{ notify.title }</p>
+                  )
+                }
               </div>
             </div>
           ))

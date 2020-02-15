@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import InputMask from 'react-input-mask';
 
 import {Auth} from '../../store/actions/auth';
 
@@ -48,13 +49,13 @@ const Singup = ({ history }) => {
   const [day, setSelectedDays] = useState("");
   // eslint-disable-next-line
   const [year, setSelectedYears] = useState("");
-  
+
   const [modal, setModal] = useState(false);
   const [terms, setTerms] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [modify, setModify] = useState('morethan18');
   const [usernew, setUsernew] = useState({});
-
+  const [phone, setPhone] = useState('');
   const dispatch = useDispatch();
   useSelector(state => state.auth);
 
@@ -85,6 +86,7 @@ const Singup = ({ history }) => {
       email: '',
       name: '',
       last_name: '',
+      phone: '',
       password: '',
       type: typeuser,
       terms: 'Y',
@@ -92,6 +94,8 @@ const Singup = ({ history }) => {
       month: '',
       day: '',
       year: '',
+      lat: 0,
+      lng: 0
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -100,6 +104,9 @@ const Singup = ({ history }) => {
 
       name: Yup.string()
         .required('Nome é obrigatório.'),
+
+      phone: Yup.string()
+        .required('Celular é obrigatório.'),
 
       last_name: Yup.string()
         .required('Sobrenome é obrigatório.'),
@@ -182,14 +189,18 @@ const Singup = ({ history }) => {
     })
   }
 
+  const handleChangePhone = (input, event) => {
+    setPhone(event.target.value)
+    formik.values.phone = event.target.value
+  }
+  
   async function Authregister (user) {
     await api.post('auth/token/', user, {})
     .then((res) => {
       let { email, name, type } = res.data.user;
       let { token } = res.data;
       dispatch(Auth(email, name, token, type));
-
-      login(token);
+      login(token, type);
       history.push("/");
     })
     .catch((error) => {
@@ -273,6 +284,29 @@ const Singup = ({ history }) => {
                           formik.touched.last_name && formik.errors.last_name 
                         ? 
                           (<div>{formik.errors.last_name}</div>) 
+                        : 
+                          null
+                        }
+                      </Span>
+                    </Label>
+                  </Field>
+                  <Field className={'field'}>
+                    <Label for={'phone'}>
+                      <InputMask
+                        name="location"
+                        type="text"
+                        mask="(99) 9 9999-9999" 
+                        maskChar=" "
+                        placeholder="(41) 9 9999-9999" 
+                        className={formik.touched.phone && formik.errors.phone ? 'input border-warning' : 'input'}
+                        onChange={event => handleChangePhone('phone', event)}
+                        value={phone}
+                      />
+                      <Span className={'validation-warning'}>
+                        {
+                          formik.touched.phone && formik.errors.phone 
+                        ? 
+                          (<div>{formik.errors.phone}</div>) 
                         : 
                           null
                         }
