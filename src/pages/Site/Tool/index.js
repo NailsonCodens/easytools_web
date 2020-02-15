@@ -78,39 +78,64 @@ const Tool = ({history}) => {
         .required('Adicione a data da devolução.'),
     }),
     onSubmit: value => {
+      var tensionChoose = ''
+      if (tension !== '') {
+        tensionChoose = tension
+      } else {
+        if (tool.tension.split('/')[0] === '') {
+          tensionChoose = tool.tension.split('/')[1]
+        } else {
+          tensionChoose = tool.tension.split('/')[0]          
+        }
+      }
+
+      var rentData = {
+        start: moment(value.startDate).format('YYYY-MM-DD'),
+        end: moment(value.endDate).format('YYYY-MM-DD'),
+        tension: tensionChoose,
+        amount: amount
+      }
+
+      dispatch(
+        Rentaltool(
+          moment(value.startDate).format('YYYY-MM-DD'), 
+          moment(value.endDate).format('YYYY-MM-DD'),
+          tool.prices.split(';'),
+          tensionChoose,
+          formik.values.amount
+        )
+      );    
+      next(rentData)  
+
+
+    }
+  })
+
+  
+  const next = (rentData) => {
+    if (isAuthenticated()) {
+      console.log(perfil.cpfcnpj)
+  
       if (document.document !== null && document.selfie !== null && document.proof !== null) {
-        if (perfil.cpfcnpj === "") {
+        if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
           history.push('/s/renter/perfil/edit');
         } else {
-          if (perfil.cpfcnpj.length > 14 && document.enterprise !== null) {
-            var tensionChoose = ''
-            if (tension !== '') {
-              tensionChoose = tension
-            } else {
-              if (tool.tension.split('/')[0] === '') {
-                tensionChoose = tool.tension.split('/')[1]
-              } else {
-                tensionChoose = tool.tension.split('/')[0]          
-              }
-            }
+          if (perfil.cpfcnpj.length > 14 && document.enterprise !== null) { 
+            var attempt = {
+              user_lessor_id: tool.user_id,
+              tool_id: tool.id,
+              startdate: moment(rentData.start).format('YYYY-MM-DD'),
+              enddate: moment(rentData.end).format('YYYY-MM-DD'),
+              tension: rentData.tension,
+              days: price.amount,
+              amount: formik.values.amount,
+              period: price.type,
+              price: price.priceNoamount,
+              cost: price.pricefull,
+              accept: 0,
+            } 
       
-            var rentData = {
-              start: moment(value.startDate).format('YYYY-MM-DD'),
-              end: moment(value.endDate).format('YYYY-MM-DD'),
-              tension: tensionChoose,
-              amount: amount
-            }
-      
-            dispatch(
-              Rentaltool(
-                moment(value.startDate).format('YYYY-MM-DD'), 
-                moment(value.endDate).format('YYYY-MM-DD'),
-                tool.prices.split(';'),
-                tensionChoose,
-                formik.values.amount
-              )
-            );    
-            next(rentData)  
+            saveRentattempt(attempt);      
           } else {
             history.push('/s/renter/perfil/documents');            
           }
@@ -118,35 +143,6 @@ const Tool = ({history}) => {
       } else {
         history.push('/s/renter/perfil/documents');
       }
-    }
-  })
-
-  
-  const next = (rentData) => {
-    if (isAuthenticated()) {
-      var attempt = {
-        user_lessor_id: tool.user_id,
-        tool_id: tool.id,
-        startdate: moment(rentData.start).format('YYYY-MM-DD'),
-        enddate: moment(rentData.end).format('YYYY-MM-DD'),
-        tension: rentData.tension,
-        days: price.amount,
-        amount: formik.values.amount,
-        period: price.type,
-        price: price.priceNoamount,
-        cost: price.pricefull,
-        accept: 0,
-      } 
-
-      saveRentattempt(attempt);
-   
-      //    dispatch(Rentattempt(priceat, days, costat, amountat, periodat))
-   
-      /*console.log(        
-        price.priceNoamount, price.amount, price.pricefull, formik.values.amount, price.type
-      )*/
-
-     // history.push(`/s/resume?tool=${id}&booking=${'123'}&init=${rentData.start}&finish=${rentData.end}`)
     } else {
       Scrool()
       history.push(`/s/tool/${id}?ctg=${values.ctg}&rdt=${Math.random()}`)
@@ -773,6 +769,7 @@ return (
                         anchorDirection="left"
                         displayFormat={'DD/MM/YYYY'}
                         minimumNights={2}
+                        
                         startDate={formik.values.startDate} // momentPropTypes.momentObj or null,
                         startDateId={'start'} // PropTypes.string.isRequired,
                         endDate={formik.values.endDate} // momentPropTypes.momentObj or null,
