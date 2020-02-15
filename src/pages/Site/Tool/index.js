@@ -114,11 +114,12 @@ const Tool = ({history}) => {
       if (document !== undefined) {
         if (document.document !== null && document.selfie !== null && document.proof !== null) {
           if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
-            history.push('/s/renter/perfil/edit');
+            history.push('/s/renter/perfil/edit?e=cc');
+            //erro quando não tiver o cnpj
           } else {
             if (perfil.cpfcnpj.length > 14 && document.enterprise === null) { 
-              console.log('cai aqui e ta errado');
-              history.push('/s/renter/perfil/documents');            
+              history.push('/s/renter/perfil/documents?e=et3');     
+              //erro quando é cnpj       
             } else {
               var attempt = {
                 user_lessor_id: tool.user_id,
@@ -137,12 +138,12 @@ const Tool = ({history}) => {
             }
           }
         } else {
-          console.log('aqui')
-          history.push('/s/renter/perfil/documents');
+          history.push('/s/renter/perfil/documentsdocuments?e=pfd');
+          //erro quando é documents normais
         }
       } else {
-        console.log('agora aqui')
-        history.push('/s/renter/perfil/documents');
+        history.push('/s/renter/perfil/documents?e=nd');
+        //erro quando não tem nenhum documento.
       }
     } else {
       Scrool()

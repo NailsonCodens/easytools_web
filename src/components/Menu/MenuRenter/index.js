@@ -34,7 +34,6 @@ const MenuRenter = () => {
 
 	useEffect(() => {
 		socketio.on('notify',function(data){
-			console.log(data)
 			var user = data.user;
 			var message = data.message;
 			var title = data.title;
@@ -59,9 +58,11 @@ const MenuRenter = () => {
     getNotification()
 
 		async function decryptType () {
-			if (localStorage.getItem(TYPEUSER_KEY) != null){
-				setType(simpleCrypto.decrypt(localStorage.getItem(TYPEUSER_KEY)))
+			var teste = '';
+			if (localStorage.getItem(TYPEUSER_KEY) !== null){
+				teste = localStorage.getItem(TYPEUSER_KEY)
 			}
+			setType(simpleCrypto.decrypt(teste))
 		}
 		decryptType()
 
@@ -69,7 +70,7 @@ const MenuRenter = () => {
 
 		};
 	}, [])
- 
+
   const renderNotify = () => {
     return (
       <Notification nt={notification}/>
@@ -185,7 +186,7 @@ const MenuRenter = () => {
 									)
 								}
 								{
-									type === 'Lessor'? 
+									current_user.type_user === 'Lessor'? 
 									(
 										<Dropdown classCuston=" menu-from-lessor menus">
 											<li className="li-drop">
