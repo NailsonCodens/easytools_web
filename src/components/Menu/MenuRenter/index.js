@@ -85,6 +85,8 @@ const MenuRenter = () => {
     return modal
 	}
 
+	console.log(current_user)
+
 	navigator.geolocation.getCurrentPosition(function(position) {
     console.log(position)
 	});

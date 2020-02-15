@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-
+import { Link } from 'react-router-dom';
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import {SubTitlepages} from '../../../components/Titles/SubTitlepages';
 import api from '../../../services/api';
@@ -34,6 +34,17 @@ const Dashboard = ({history}) => {
     <>
       <div className="container container-page">
         <Titlepage>Meus resultados</Titlepage>
+      
+        <div className="column">
+          <div className="column box-freight">
+            Bem-vindo,
+            <br/>
+            Depois de configurar seu perfil, adicione o custo do frete caso precise levar o equipamento até o locatário,  <Link to={'/lessor/account'} className="is-text">
+              adicionar frete aqui.
+            </Link>
+          </div>
+        </div>
+      
         <div className="columns is-desktop">
           <div className="column box-inter has-text-centered">
             <SubTitlepages>Aluguéis</SubTitlepages>
@@ -48,9 +59,15 @@ const Dashboard = ({history}) => {
             </p>
           </div>
           <div className="column box-inter has-text-centered">
-            <SubTitlepages>Recomendações</SubTitlepages>
+            <SubTitlepages>Seus resultados até agora</SubTitlepages>
           </div>
         </div>
+        {
+ /*
+          <div className="column box-inter has-text-centered">
+            <SubTitlepages>Recomendações</SubTitlepages>
+          </div>
+
         <div className="columns is-desktop">
           <div className="column box-inter has-text-centered">
             <SubTitlepages>Seus resultados até agora</SubTitlepages>
@@ -59,6 +76,8 @@ const Dashboard = ({history}) => {
             <SubTitlepages>Texto sobre a avaliação do locador</SubTitlepages>
           </div>
         </div>
+*/
+      }
       </div>
     </>
   )

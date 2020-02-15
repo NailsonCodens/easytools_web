@@ -34,7 +34,6 @@ const Rules = ({ history }) => {
       });
       
       if (response.data.rentattempt.length > 0) {
-        console.log(response.data.rentattempt[0])
         setAttempt(response.data.rentattempt[0]);
         setOkAttempt(true)
       } else {
@@ -136,19 +135,8 @@ const Rules = ({ history }) => {
                     <br/>
                     <div className="columns">
                       <div className="column is-two-thirds">
-                        <Lessor/>
-                      </div>
-                      <div className="column">
-                        <div className="column has-centered-text">
-                          <Rentalbox startDate={values.init} endDate={values.finish}></Rentalbox>
-                        </div>
-                      </div>
-                    </div>
-                    <Hr/>
-                    <br/>
-                    <div className="columns">
-                      <div className="column is-two-thirds">
-                      <p className="title-tool-only">Atenção! Regra do aluguel.</p>
+                        {/*<Lessor/>*/}
+                        <p className="title-tool-only">Atenção! Regra do aluguel.</p>
                         <br></br>
                         <p className="title-infos-tool hack-padding-top">Política de locação</p>
                         <Ul>
@@ -176,6 +164,17 @@ const Rules = ({ history }) => {
                           <b className="title-politics">Prazos e períodos</b>
                           <li> Como vai funcionar o pagamento</li>
                         </Ul>
+                      </div>
+                      <div className="column">
+                        <div className="column has-centered-text">
+                          <Rentalbox startDate={values.init} endDate={values.finish}></Rentalbox>
+                        </div>
+                      </div>
+                    </div>
+                    <Hr/>
+                    <br/>
+                    <div className="columns">
+                      <div className="column is-two-thirds">
                       </div>
                       <div className="column">
                       </div>

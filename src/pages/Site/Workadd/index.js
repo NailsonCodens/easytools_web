@@ -14,6 +14,7 @@ import { getCordinates } from '../../../services/mapbox';
 import Notification from '../../../utils/notification';
 import { useLocation, useHistory } from 'react-router-dom';
 import queryString from 'query-string';
+import { CheckboxIOS } from '../../../components/Form/Button';
 
 const Workadd = ({rent}) => {
   let valuesroute = queryString.parse(useLocation().search);
@@ -139,6 +140,9 @@ const Workadd = ({rent}) => {
     }
   }
 
+  const handleCheckIOS = () => {
+    console.log('asdsa')
+  }
 
   return (
     <div className="container workadd">
@@ -341,6 +345,10 @@ const Workadd = ({rent}) => {
                       }
                     </Span>
                   </Field>
+                </div>
+              </div>
+              <div className="columns">
+                <div className="column">
                 </div>
               </div> 
           </div>

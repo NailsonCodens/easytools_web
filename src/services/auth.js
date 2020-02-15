@@ -9,6 +9,7 @@ var simpleCrypto = new SimpleCrypto(_secretKey);
 export const TOKEN_KEY = "@tk-e";
 export const TYPEUSER_KEY = "@t-us";
 export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
+
 export const getLoggedLessor = () => simpleCrypto.decrypt(localStorage.getItem(TYPEUSER_KEY));
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const login = (token, type) => {

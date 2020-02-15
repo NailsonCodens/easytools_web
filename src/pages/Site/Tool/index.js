@@ -187,7 +187,8 @@ const Tool = ({history}) => {
         setTensionshow(response.data.tool[0].tension)
         setPictures(response.data.tool[0].picture)
         setPrices(response.data.tool[0].prices.split(';'))
-        loadLessor(response.data.tool[0].UserId)  
+        loadLessor(response.data.tool[0].UserId) 
+        loadConfiglessor(response.data.tool[0].UserId)
       } else {
         history.push('/ops?notfound=notools');
       }
@@ -218,13 +219,11 @@ const Tool = ({history}) => {
     }
     loadPerfil();
 
-    async function loadConfiglessor () {
-        const response = await api.get(`/userconfig/${tool.user_id}`, {
+    async function loadConfiglessor (iduser) {
+        const response = await api.get(`/userconfig/${iduser}`, {
         });
-        console.log(response.data)
-        setConfiglessor(response.data.userconfig)
+        setConfiglessor(response.data.userconfig[0])
     }
-    loadConfiglessor()
 
     async function verifyDocumentrent(){
       if (current_user.id !== undefined) {
@@ -394,6 +393,21 @@ const Tool = ({history}) => {
     }
   }
 
+  const renderConfiglessor = () => {
+    var configles = '';
+    if (configlessor.typerent === 'cpf') {
+      configles = 'Este vizinho aluga somente para pessoas fisícas';
+    } else if (configlessor.typerent === 'cnpj') {
+      configles = 'Este vizinho aluga somente para empresas.';
+    } else {
+      configles = '';
+    }
+
+    return (
+      <p className="configlessor">{ configles }</p>
+    )
+  }
+
   const hideModal = () => {
     setModal(false)
     return modal
@@ -514,9 +528,7 @@ return (
                 }
                 <div>
                   <span>
-                    {
-                      console.log(configlessor)
-                    }  
+                    { /*renderConfiglessor()*/ }
                   </span>        
                 </div>
               </div>

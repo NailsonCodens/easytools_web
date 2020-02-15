@@ -69,7 +69,13 @@ function Index() {
          setFreight(response.data.userconfig[0].freight)
          formik.values.min = response.data.userconfig[0].min
           setMin(formik.values.min = response.data.userconfig[0].min)
-          setTyperent(formik.values.typerent = response.data.userconfig[0].typerent)
+
+          if (response.data.userconfig[0].typerent !== null) {
+            formik.values.typerent = response.data.userconfig[0].typerent
+            setTyperent(response.data.userconfig[0].typerent)
+          } else {
+            setTyperent('cpfcnpj')
+          }
       }
     }
     loadAccount()
@@ -115,9 +121,12 @@ function Index() {
           <Warningtext>
             Selecione aqui o valor do frete cobrado para levar seu equipamento ou ferramenta, para quem alugou.
           </Warningtext>
-          <Warningtext>
-            Você também pode escolher para quem você deseja locar, escolha ambos para alugar para qualquer pessoa.
-          </Warningtext>
+          {
+          /*
+            <Warningtext>
+              Você também pode escolher para quem você deseja locar, escolha ambos para alugar para qualquer pessoa.
+            </Warningtext>*/
+          }
           <div className="column">
             <div className="columns">
               <Form
@@ -177,47 +186,50 @@ function Index() {
                     </div>
                   </Field> 
                   <Field>
-                    <Label className="label-perfil" for={'typerent'}>
-                      <b>Preferência de aluguel:</b>
-                    </Label>
-                      <div className="columns">
-                        <div className="column has-text-centered">
-                          <input 
-                            className="is-checkradio"
-                            type="radio"
-                            id={'cpf'}
-                            name="typerent" 
-                            value="cpf"
-                            checked={typerent === 'cpf' ? true : false}
-                            onChange={event => handleTyperent(event)}
-                          />
-                          <Label for={'cpf'}>CPF</Label>    
-                        </div>
-                        <div className="column has-text-centered">
-                          <input 
+                    {
+/*                        <Label className="label-perfil" for={'typerent'}>
+                        <b>Preferência de aluguel:</b>
+                      </Label>
+                        <div className="columns">
+                          <div className="column has-text-centered">
+                            <input 
                               className="is-checkradio"
                               type="radio"
-                              id={'cnpj'}
+                              id={'cpf'}
                               name="typerent" 
-                              value="cnpj"
-                              checked={typerent === 'cnpj' ? true : false}
+                              value="cpf"
+                              checked={typerent === 'cpf' ? true : false}
                               onChange={event => handleTyperent(event)}
                             />
-                            <Label for={'cnpj'}>CNPJ</Label>
+                            <Label for={'cpf'}>CPF</Label>    
+                          </div>
+                          <div className="column has-text-centered">
+                            <input 
+                                className="is-checkradio"
+                                type="radio"
+                                id={'cnpj'}
+                                name="typerent" 
+                                value="cnpj"
+                                checked={typerent === 'cnpj' ? true : false}
+                                onChange={event => handleTyperent(event)}
+                              />
+                              <Label for={'cnpj'}>CNPJ</Label>
+                          </div>
+                          <div className="column has-text-centered">
+                            <input 
+                              className="is-checkradio"
+                              type="radio"
+                              id={'cpfcnpj'}
+                              name="typerent" 
+                              value="cpfcnpj"
+                              checked={typerent === 'cpfcnpj' ? true : false}
+                              onChange={event => handleTyperent(event)}
+                            />
+                            <Label for={'cpfcnpj'}>Ambos</Label>
+                          </div>
                         </div>
-                        <div className="column has-text-centered">
-                          <input 
-                            className="is-checkradio"
-                            type="radio"
-                            id={'cpfcnpj'}
-                            name="typerent" 
-                            value="cpfcnpj"
-                            checked={typerent === 'cpfcnpj' ? true : false}
-                            onChange={event => handleTyperent(event)}
-                          />
-                          <Label for={'cpfcnpj'}>Ambos</Label>
-                        </div>
-                      </div>
+                        */
+                    }
                   </Field> 
                   <Field className="is-pulled-right">
                     <Button
