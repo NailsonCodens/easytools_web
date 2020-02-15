@@ -35,6 +35,7 @@ const Edit = ({history}) => {
   const [documenttype, setSelectedDocument] = useState({value: 'cpf', label: 'CPF' });
   const [avatar, setAvatar] = useState('');
   const [image, setImage] = useState('');
+  const [phone, setPhone] = useState('');
 
   const formik = useFormik({
     initialValues: {
@@ -48,6 +49,7 @@ const Edit = ({history}) => {
       complement: '',
       neighboor: '',
       location: '',
+      phone: '',
       uf: '',
       city: '',
     },
@@ -62,13 +64,16 @@ const Edit = ({history}) => {
 
       last_name: Yup.string()
         .required('Nome é obrigatório.'),
+
+      phone: Yup.string()
+        .required('Celular é obrigatório.'),
+
     }),
 
     onSubmit: value => {
       api.put(`perfil/update/${id}`, value, {})
       .then((res) => {
         Scroll(0,0);
-        history.push('/s/renter/perfil')
       })
       .catch((err) => {
 
@@ -104,6 +109,12 @@ const Edit = ({history}) => {
         setLastname(perfil.last_name)
         formik.values.email = perfil.email
         setEmail(perfil.email)        
+
+        if (perfil.phone !== null) {
+          setPhone(perfil.phone)
+        }
+        formik.values.phone = perfil.phone
+
         if (perfil.cpfcnpj === null) {
           setCpfcnpj('')
           formik.values.cpfcnpj = ''            
@@ -164,6 +175,11 @@ const Edit = ({history}) => {
   const handleEmailChange = (email) => {
     formik.values.email = email;
     setEmail(email);
+  };
+
+  const handlePhoneChange = (phone) => {
+    formik.values.phone = phone;
+    setPhone(phone);
   };
 
   const handleDocumentChange = selectedDocument => {
@@ -228,6 +244,10 @@ const Edit = ({history}) => {
 
   const {getRootProps, getInputProps} = useDropzone({onDrop})
 
+  const goBack = () => {
+    history.push('/s/renter/perfil')      
+  }
+
   return (
     <div className="container">
       <Form
@@ -244,10 +264,20 @@ const Edit = ({history}) => {
             </h3>
             <br/>
             <h3 className="title-box-inter">Documentos</h3>
-            <div>
-              <Link to="/s/renter/perfil/documents">
-                Meus documentos 
-              </Link>
+            <div className="columns">
+              <div className="column">
+                <Link to="/s/renter/perfil/documents">
+                  Meus documentos 
+                </Link>
+              </div>
+              <div className="columns">
+                <Button
+                  type={'submit'}
+                  className={'button color-logo-lessor'} 
+                  text={'Voltar'}
+                  onClick={event => goBack()}
+                />
+              </div>
             </div>
             <br/>
               <h3 className="title-box-inter">Informações </h3>
@@ -327,6 +357,30 @@ const Edit = ({history}) => {
                   }
                 </Span>
               </Field>
+              <Field>
+                  <Label className="label-perfil" for={'phone'}>
+                    <b>Celular</b>
+                  </Label>
+                  <InputMask
+                      name="phone"
+                      type="text"
+                      mask="(99) 9 9999-9999" 
+                      maskChar=" "
+                      placeholder="(41) 9 9999-9999" 
+                      className={formik.touched.phone && formik.errors.phone ? 'input border-warning' : 'input'}
+                      onChange={event => handlePhoneChange(event.target.value)}
+                      value={phone}
+                    />
+                  <Span className={'validation-warning'}>
+                    {
+                      formik.touched.phone && formik.errors.phone 
+                    ? 
+                      (<div>{formik.errors.phone}</div>) 
+                    : 
+                      null
+                    }
+                  </Span>
+                </Field>
               <div className="columns">
                 <div className="column is-4">
                 <Field className={'field'}>

@@ -75,7 +75,8 @@ const Perfil = ({history}) => {
   const [documenttype, setSelectedDocument] = useState({value: 'cnpj', label: 'CNPJ' });
   const [avatar, setAvatar] = useState('');
   const [image, setImage] = useState('');
-
+  const [phone, setPhone] = useState('');
+    
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -88,6 +89,7 @@ const Perfil = ({history}) => {
       complement: '',
       neighboor: '',
       location: '',
+      phone: '',
       uf: '',
       city: '',
     },
@@ -102,7 +104,9 @@ const Perfil = ({history}) => {
 
       last_name: Yup.string()
         .required('Nome é obrigatório.'),
-
+      
+      phone: Yup.string()
+        .required('Celular é obrigatório.'),
     }),
 
     onSubmit: value => {
@@ -149,6 +153,11 @@ const Perfil = ({history}) => {
         setEmail(perfil.email)
         formik.values.email = perfil.email
         
+        if (perfil.phone !== null) {
+          setPhone(perfil.phone)
+        }
+        formik.values.phone = perfil.phone
+
         if (perfil.cpfcnpj === null) {
           setCpfcnpj('')
           formik.values.cpfcnpj = ''            
@@ -213,6 +222,12 @@ const Perfil = ({history}) => {
   const handleEmailChange = (email) => {
     formik.values.email = email;
     setEmail(email);
+  };
+
+
+  const handlePhoneChange = (phone) => {
+    formik.values.phone = phone;
+    setPhone(phone);
   };
 
   const handleDocumentChange = selectedDocument => {
@@ -372,6 +387,30 @@ const Perfil = ({history}) => {
                       }
                     </Span>
                   </Field>
+                  <Field>
+                    <Label className="label-perfil" for={'phone'}>
+                      <b>Celular</b>
+                    </Label>
+                    <InputMask
+                        name="phone"
+                        type="text"
+                        mask="(99) 9 9999-9999" 
+                        maskChar=" "
+                        placeholder="(41) 9 9999-9999" 
+                        className={formik.touched.phone && formik.errors.phone ? 'input border-warning' : 'input'}
+                        onChange={event => handlePhoneChange(event.target.value)}
+                        value={phone}
+                      />
+                   <Span className={'validation-warning'}>
+                      {
+                        formik.touched.phone && formik.errors.phone 
+                      ? 
+                        (<div>{formik.errors.phone}</div>) 
+                      : 
+                        null
+                      }
+                    </Span>
+                  </Field>
                   <div className="columns">
                     <div className="column is-3">
                     <Field className={'field'}>
@@ -393,7 +432,7 @@ const Perfil = ({history}) => {
                     </div>
                     <div className="column">
                       <Field>
-                        <Label className="label-perfil" for={'email'}>
+                        <Label className="label-perfil" for={'cpfcnpj'}>
                           <b>-</b>
                         </Label>
                         <Input
