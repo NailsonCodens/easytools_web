@@ -35,6 +35,10 @@ const Notification = ({nt}) => {
     }
   }
 
+  const goAccept = () => {
+    console.log('goAccept aceita o aluguel')
+  }
+
   async function goUpdatenotifiy (id) {
     const response = await api.put(`/notifications/update/${id}`, {
     });
@@ -67,12 +71,33 @@ const Notification = ({nt}) => {
                   notify.done === null ? 
                   (
                     <b>* { notify.title }</b>
+
                   )
                   :
                   (
                     <p>{ notify.title }</p>
                   )
                 }
+
+                { /* mostrar este botão, só quando a tentativa
+                  de locação, for nova, sabendo assim, pelo accept
+                */ }
+                <div className="columns">
+                  <div className="column">
+                    <Button
+                      className={'button is-small is-info'}
+                      text={'Aceitar aluguel'}
+                      onClick={event => goAccept()}
+                    />
+                  </div>
+                  <div className="column">
+                    <Button
+                      className={'button is-small is-info'}
+                      text={'Não aceitar'}
+                      onClick={event => goAccept()}
+                    />                    
+                  </div>
+                </div>
               </div>
             </div>
           ))
