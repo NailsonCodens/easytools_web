@@ -56,10 +56,10 @@ const Signin = ({ hs, url, closeModal }) => {
     await api.post('auth/token/', values, {})
     .then((res) => {
 
-      let { email, name, type } = res.data.user;
+      let { id, email, name, type } = res.data.user;
       let { token } = res.data;
       setNologin(false)
-      dispatch(Auth(email, name, type, token));
+      dispatch(Auth(email, name, type, token, id));
 
       login(token, type);
 

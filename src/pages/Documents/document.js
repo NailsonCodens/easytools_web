@@ -8,6 +8,7 @@ import Notification from '../../utils/notification';
 import EllipsisText from "react-ellipsis-text";
 
 export default function Document({id}) {
+ 
   const [document, setDocument] = useState(rg);
   const [namedocument, setNamedocument] = useState('');
   const [image, setImage] = useState('');
@@ -36,7 +37,7 @@ export default function Document({id}) {
         const response = await api.get(`/documents/${id}`, {
         });
         
-        if (response.data.documentUser[0].document !== null) {
+        if (response.data.documentUser.length > 0) {
           setDocument(response.data.documentUser[0].urldoc);
           setNamedocument(response.data.documentUser[0].document);
         }
@@ -70,6 +71,7 @@ export default function Document({id}) {
       success();
     })
     .catch((err) => {
+      console.log(err.response)
     })
   }
 

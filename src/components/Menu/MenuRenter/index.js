@@ -15,6 +15,8 @@ import { Button } from '../../Form/Button';
 import Notification from '../../../components/Notification/index';
 import { Notification as Notificationrd } from '../../../store/actions/notification';
 import api from '../../../services/api';
+import simpleCrypto from '../../../services/crypto';
+export const TYPEUSER_KEY = "@t-us";
 
 const MenuRenter = () => {
   const dispatch = useDispatch();	
@@ -24,9 +26,7 @@ const MenuRenter = () => {
   const [notification, setNotfication] = useState([]);
   const [countn, setCount] = useState(0);
   const notificationrd = useSelector(state => state.notification);
-
-  console.log(notificationrd)
-
+	const [type, setType] = useState('');
 
 	socketio.emit('register', current_user.id);
 
@@ -58,6 +58,13 @@ const MenuRenter = () => {
     }
     getNotification()
 
+		async function decryptType () {
+			if (localStorage.getItem(TYPEUSER_KEY) != null){
+				setType(simpleCrypto.decrypt(localStorage.getItem(TYPEUSER_KEY)))
+			}
+		}
+		decryptType()
+
 		return () => {
 
 		};
@@ -88,6 +95,8 @@ const MenuRenter = () => {
 	navigator.geolocation.getCurrentPosition(function(position) {
 
 	});
+
+	console.log(current_user)
 
 	return (
 		<div className="back-nav">
@@ -178,7 +187,7 @@ const MenuRenter = () => {
 									)
 								}
 								{
-									current_user.type_user === 'Lessor'? 
+									type === 'Lessor'? 
 									(
 										<Dropdown classCuston=" menu-from-lessor menus">
 											<li className="li-drop">
