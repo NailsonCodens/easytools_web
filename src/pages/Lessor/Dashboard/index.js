@@ -12,6 +12,7 @@ const Dashboard = ({history}) => {
   document.title = Title('Dashboard');
   const [rents, setRents] = useState(0);
   const [ads, setAds] = useState(0);
+  const [results, setResults] = useState('0,00');
 
   useEffect(() => {
     async function loadCountrents () {
@@ -25,6 +26,11 @@ const Dashboard = ({history}) => {
       setAds(response.data.tool)
     }
     loadCountads()
+
+    async function loadResults(){
+      const response = await api.get(`/dashboard/results`, {})
+      setResults(response.data.results)
+    }
 
     return () => {
     };
@@ -60,6 +66,9 @@ const Dashboard = ({history}) => {
           </div>
           <div className="column box-inter has-text-centered">
             <SubTitlepages>Seus resultados até agora</SubTitlepages>
+            <p className="values-dashboard">
+              <span className="values-dashboard-span">R$</span> { results }
+            </p>
           </div>
         </div>
         {

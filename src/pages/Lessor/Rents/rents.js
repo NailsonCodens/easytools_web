@@ -49,6 +49,8 @@ const Rents = ({ history }) => {
     )
   }
 
+  const placeholder = !rents.length ? 'Você ainda não alugou equipamentos.': '' ;
+
   return (
     <div className="container container-page">
       <div className="columns">
@@ -56,6 +58,7 @@ const Rents = ({ history }) => {
           <Titlepage>Aluguéis</Titlepage>
           <div className="columns is-desktop">
             <div className="column box-inter">
+              {placeholder}
               {
                 rents.map((rent, index) => (
                   <div key={index} className="columns">

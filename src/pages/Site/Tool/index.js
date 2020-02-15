@@ -78,8 +78,9 @@ const Tool = ({history}) => {
         .required('Adicione a data da devolução.'),
     }),
     onSubmit: value => {
+      console.log('opa',perfil.cpfcnpj);
       if (document.document !== null && document.selfie !== null && document.proof !== null) {
-        if (perfil.cpfcnpj === "") {
+        if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
           history.push('/s/renter/perfil/edit');
         } else {
           if (perfil.cpfcnpj.length > 14 && document.enterprise !== null) {
