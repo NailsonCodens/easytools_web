@@ -197,9 +197,9 @@ const Singup = ({ history }) => {
   async function Authregister (user) {
     await api.post('auth/token/', user, {})
     .then((res) => {
-      let { email, name, type } = res.data.user;
+      let { email, name, type, id } = res.data.user;
       let { token } = res.data;
-      dispatch(Auth(email, name, token, type));
+      dispatch(Auth(email, name, token, type, id));
       login(token, type);
       history.push("/");
     })

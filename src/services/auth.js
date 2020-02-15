@@ -1,15 +1,12 @@
 import store from '../store/index';
 import axios from 'axios';
-import SimpleCrypto from "simple-crypto-js";
 import socketio from '../services/socketio';
 
-var _secretKey = 'KY_TP=*r9lX&ExT9X+(0%';
-var simpleCrypto = new SimpleCrypto(_secretKey);
- 
+import simpleCrypto from './crypto';
+
 export const TOKEN_KEY = "@tk-e";
 export const TYPEUSER_KEY = "@t-us";
 export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
-
 export const getLoggedLessor = () => simpleCrypto.decrypt(localStorage.getItem(TYPEUSER_KEY));
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const login = (token, type) => {
@@ -19,6 +16,8 @@ export const login = (token, type) => {
 };
 export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(TYPEUSER_KEY);
+
   store.dispatch({type:"auth", email: null, name: null, type_user: null, token: null})
 };
 
