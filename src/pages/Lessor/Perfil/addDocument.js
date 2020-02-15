@@ -14,8 +14,10 @@ const Doc = () => {
     async function loadPerfil() { 
       const response = await api.get(`/perfil`, {
       });
-      setCnpj(response.data.user[0].cpfcnpj)
-      setUser(response.data.user[0])
+      if (response.data.user.length > 0) {
+        setCnpj(response.data.user[0].cpfcnpj)
+        setUser(response.data.user[0])  
+      }
     }
     loadPerfil();
   }, []);
@@ -62,7 +64,7 @@ const Doc = () => {
             </div>
           </div>
           {
-            cpfcnpj.length > 14 ? 
+            cpfcnpj !== null ? 
             (
               <div>
                 <div className="column">

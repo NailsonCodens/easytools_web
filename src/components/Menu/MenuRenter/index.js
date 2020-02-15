@@ -96,8 +96,6 @@ const MenuRenter = () => {
 
 	});
 
-	console.log(current_user)
-
 	return (
 		<div className="back-nav">
 			<nav className="navbar nav-fixed">
@@ -135,7 +133,7 @@ const MenuRenter = () => {
 						<div className="navbar-item">
 							<div className="buttons">
 							{
-									current_user.name === undefined ? 
+									current_user.name === undefined || current_user.name === null ? 
 									(
 										<>
 											<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
@@ -161,7 +159,7 @@ const MenuRenter = () => {
 									)
 								}
 								{
-									current_user.name === undefined ? 
+									current_user.name === undefined || current_user.name === null ? 
 									(
 										<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item">
 											Cadastre-se
