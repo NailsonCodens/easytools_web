@@ -17,9 +17,12 @@ const Notification = ({nt}) => {
     async function notification () {
       const response = await api.get(`notifications`, {
       });
-      setNotification(response.data.notification)
-      const rent = await api.get(`/rents/${response.data.notification[0].rent_attempt_id}`, {});
-      setRent(response.data.rentattempt);
+
+      if (response.data.notification.length > 0) {
+        setNotification(response.data.notification)
+        const rent = await api.get(`/rents/${response.data.notification[0].rent_attempt_id}`, {});
+        setRent(response.data.rentattempt);  
+      }
     }
     notification()
 
