@@ -11,6 +11,7 @@ import Perfil from '../Perfil/index';
 import Account from '../Account/index';
 import Message from '../Message/index';
 import Rents from '../Rents/index';
+import Notifications from '../../Notifications/index';
 
 import './style.css';
 
@@ -73,6 +74,7 @@ export default function Start({history}) {
         <PrivateRoute path={`${path}/perfil`} component={Perfil}/>
         <PrivateRoute path={`${path}/account`} component={Account}/>
         <PrivateRoute path={`${path}/rents`} component={Rents}/>
+        <PrivateRoute path={`${path}/notifications`} component={Notifications}/>
       </div>
     </>
   )

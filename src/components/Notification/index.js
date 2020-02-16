@@ -9,6 +9,7 @@ import { Notification as Notificationrd } from '../../store/actions/notification
 const Notification = ({nt}) => {
 	let history = useHistory();
   const [notification, setNotification] = useState(nt);
+  const [rent, setRent] = useState([]);
   const current_user = useSelector(state => state.auth);
   const dispatch = useDispatch();	
 
@@ -17,8 +18,9 @@ const Notification = ({nt}) => {
       const response = await api.get(`notifications`, {
       });
       setNotification(response.data.notification)
+      const rent = await api.get(`/rents/${response.data.notification[0].rent_attempt_id}`, {});
+      setRent(response.data.rentattempt);
     }
-
     notification()
 
     return () => {
@@ -36,7 +38,6 @@ const Notification = ({nt}) => {
   }
 
   const goAccept = () => {
-    console.log('goAccept aceita o aluguel')
   }
 
   async function goUpdatenotifiy (id) {
@@ -52,7 +53,7 @@ const Notification = ({nt}) => {
   }
 
   const goAllnotification = () => {
-    console.log('vai para todas as notificações')
+    history.push(`/lessor/notifications`);
   }
 
   return (
@@ -60,7 +61,7 @@ const Notification = ({nt}) => {
       <li>
         {
           nt.map((notify, index) => (
-            <div key={index} className="columns column-notify" onClick={event => goNotification(notify.rent_attempt_id, notify.id)}>
+            <div key={index} className="columns column-notify">
               <div className="column is-3">
                 <div className="avatar-notify">
                   <img src={notify.usersend.url} alt={notify.usersend.url} className="" />
@@ -85,17 +86,24 @@ const Notification = ({nt}) => {
                 <div className="columns">
                   <div className="column">
                     <Button
-                      className={'button is-small is-info'}
-                      text={'Aceitar aluguel'}
+                      className={'button is-small is-default bt-overhead'}
+                      text={'Ver'}
+                      onClick={event => goNotification(notify.rent_attempt_id, notify.id)}
+                    />    
+                  </div>
+                  <div className="column">
+                    <Button
+                      className={'button is-small is-info bt-overhead'}
+                      text={'Aceitar'}
                       onClick={event => goAccept()}
                     />
                   </div>
                   <div className="column">
                     <Button
-                      className={'button is-small is-info'}
+                      className={'button is-small is-warning bt-overhead'}
                       text={'Não aceitar'}
                       onClick={event => goAccept()}
-                    />                    
+                    />    
                   </div>
                 </div>
               </div>

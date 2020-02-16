@@ -29,9 +29,11 @@ export default function Rents() {
       const response = await api.get(`/rents/${id}`, {});
       setRent(response.data.rentattempt);
 
-      const responsew = await api.get(`/workadd/workadd/${response.data.rentattempt[0].id}`, {});
-      setWorkadd(responsew.data.workadd[0])
-      loadDocumentrenter(response.data.rentattempt[0].user_renter_id)
+      if (response.data.rentattempt.length > 0) {
+        const responsew = await api.get(`/workadd/workadd/${response.data.rentattempt[0].id}`, {});
+        setWorkadd(responsew.data.workadd[0])
+        loadDocumentrenter(response.data.rentattempt[0].user_renter_id)  
+      }
     }
     loadRents();
 
@@ -47,6 +49,8 @@ export default function Rents() {
     return () => {
     };
   }, [])
+
+  console.log(rent)
 
   const renderPeriod = (period) => {
     var periodChoose = period

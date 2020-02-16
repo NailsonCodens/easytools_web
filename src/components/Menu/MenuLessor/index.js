@@ -88,9 +88,12 @@ const MenuLessor = () => {
           <Link to={'/lessor'} className="navbar-item">
             Progresso
           </Link>
-          <Link to={'/lessor/messages'} className="navbar-item">
-            Mensagens
-          </Link>
+          {
+            /*
+            <Link to={'/lessor/messages'} className="navbar-item">
+              Mensagens
+            </Link>*/
+          }
           <Dropdownpure text="Notificações" countn={notificationrd} classCuston=" notification" classMenu="classMenu">
             { renderNotify() }
           </Dropdownpure>
