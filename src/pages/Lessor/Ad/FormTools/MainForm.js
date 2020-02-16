@@ -10,6 +10,8 @@ import { useFormik } from 'formik';
 import Warning from '../../Warning';
 import './Steps/style.css';
 
+import StepViewer from '../../../../components/StepViewer/StepViewer';
+
 const Main = ({history, tool}) => {
   let { id } = useParams();
   // eslint-disable-next-line
@@ -572,6 +574,7 @@ const Main = ({history, tool}) => {
     <>
       <div className="columns is-desktop ">
         <div className="column is-three-fifths box-inter">
+          <StepViewer items={5} active={step}/>
           <div className="container">
             {
               renderSteps()
