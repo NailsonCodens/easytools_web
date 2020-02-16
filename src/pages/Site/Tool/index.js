@@ -209,25 +209,30 @@ const Tool = ({history}) => {
     }
     loadValues()
 
-    async function loadPerfil() { 
-      const response = await api.get(`/perfil`, {
-      });
-      setPerfil(response.data.user[0])
-
+    async function loadPerfil() {
+      if (isAuthenticated()) {
+        const response = await api.get(`/perfil`, {
+        });
+        setPerfil(response.data.user[0])  
+      }
     }
     loadPerfil();
 
     async function loadConfiglessor (iduser) {
+      if (isAuthenticated()) {      
         const response = await api.get(`/userconfig/${iduser}`, {
         });
         setConfiglessor(response.data.userconfig[0])
+      }
     }
 
     async function verifyDocumentrent(){
-      if (current_user.id !== undefined) {
-        const response = await api.get(`/documents/${current_user.id}`, {
-        });
-        setDocument(response.data.documentUser[0])  
+      if (isAuthenticated()) {
+        if (current_user.id !== undefined) {
+          const response = await api.get(`/documents/${current_user.id}`, {
+          });
+          setDocument(response.data.documentUser[0])  
+        }  
       }
     }
     verifyDocumentrent();
@@ -889,7 +894,7 @@ return (
                         ('')
                       }
                       {
-                        tensionshow === '127V' ? 
+                        tensionshow === '127V/' ? 
                         (
                           <>
                             <Field>

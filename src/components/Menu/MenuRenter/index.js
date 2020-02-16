@@ -16,7 +16,7 @@ import Notification from '../../../components/Notification/index';
 import { Notification as Notificationrd } from '../../../store/actions/notification';
 import api from '../../../services/api';
 import simpleCrypto from '../../../services/crypto';
-export const TYPEUSER_KEY = "@t-us";
+import { isAuthenticated } from "../../../services/auth";
 
 const MenuRenter = () => {
   const dispatch = useDispatch();	
@@ -26,7 +26,6 @@ const MenuRenter = () => {
   const [notification, setNotfication] = useState([]);
   const [countn, setCount] = useState(0);
   const notificationrd = useSelector(state => state.notification);
-	const [type, setType] = useState('');
 
 	socketio.emit('register', current_user.id);
 
@@ -43,28 +42,24 @@ const MenuRenter = () => {
 		});
 
     async function getCountnotification () {
-      const response = await api.get(`/notifications/count`, {
-			});
-      dispatch(Notificationrd(response.data.notification))
-      setCount(response.data.notification)
+			if (isAuthenticated()) {
+				const response = await api.get(`/notifications/count`, {
+				});
+				dispatch(Notificationrd(response.data.notification))
+				setCount(response.data.notification)
+			}
     }
     getCountnotification()
 
     async function getNotification () {
+			if (isAuthenticated()) {
       const response = await api.get(`/notifications`, {
 			});
       setNotfication(response.data.notification)
+			}
     }
     getNotification()
 
-		async function decryptType () {
-			var teste = '';
-			if (localStorage.getItem(TYPEUSER_KEY) !== null){
-				teste = localStorage.getItem(TYPEUSER_KEY)
-			}
-			setType(simpleCrypto.decrypt(teste))
-		}
-		decryptType()
 
 		return () => {
 

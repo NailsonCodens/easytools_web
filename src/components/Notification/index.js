@@ -47,9 +47,11 @@ const Notification = ({nt}) => {
   }
 
   async function updatecount () {
-    const response = await api.get(`/notifications/count`, {
-    });
-    dispatch(Notificationrd(response.data.notification))
+    if (current_user.length > 0) {
+      const response = await api.get(`/notifications/count`, {
+      });
+      dispatch(Notificationrd(response.data.notification))  
+    }
   }
 
   const goAllnotification = () => {
