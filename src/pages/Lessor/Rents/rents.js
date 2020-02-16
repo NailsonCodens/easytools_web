@@ -9,6 +9,8 @@ import {IntlProvider, FormattedNumber} from 'react-intl';
 import { Button } from '../../../components/Form/Button';
 import { Link } from 'react-router-dom';
 
+import ChangeAccept from './conditionsRent';
+
 const Rents = ({ history }) => {
   document.title = Title('Aluguéis');
 
@@ -29,11 +31,30 @@ const Rents = ({ history }) => {
     history.push(`/lessor/rents/detail/${id}`);
   }
 
+  const accept = (id) => {
+    ChangeAccept('accept', id).then((res) => {
+      reloadRents()
+    })
+  }
+
+  const noaccept = (id) => {
+    ChangeAccept('accept', id).then((res) => {
+      reloadRents()
+    })
+  }
+
+  async function reloadRents () {
+    const response = await api.get('/rents/', {});
+    setTimeout(() => {
+      setRents(response.data.rentattempt);
+    }, 300);     
+  } 
+
   const renderPeriod = (period) => {
     var periodChoose = period
 
     if (period === 'days') {
-      periodChoose = 'Dias ';
+      periodChoose = 'Dia(s) ';
     } else if (period === 'biweekly') {
       periodChoose = 'Quinzenal ';
     } else if (period === 'weekend') {
@@ -65,6 +86,94 @@ const Rents = ({ history }) => {
                           <img src={rent.tool.picture[0].url} alt={rent.tool.picture[0].url} className="image-tool-rent"/>
                         </div>
                         <div className="column">
+                          <div>
+                            { 
+                              rent.accept === '0' && rent.paid === '0' ?
+                              (
+                                <b className="new">Aluguel novo</b>
+                              )
+                              :
+                              (
+                                ''
+                              )
+                            }
+                            { 
+                              rent.accept === 'N' || rent.paid === 'N' ?
+                              (
+                                <b className="notaccpet">Você negou este aluguel</b>
+                              )
+                              :
+                              (
+                                ''
+                              )
+                            }
+                            { 
+                              rent.accept === '1' && rent.paid === '0' ?
+                              (
+                                <b className="acceptandwaitng">Aceito e aguardando pagamento</b>
+                              )
+                              :
+                              (
+                                ''
+                              )
+                            }
+                            { 
+                              rent.accept === '1' && rent.paid === '1' ?
+                              (
+                                <b className="acceptandpaid">Aceito e Pago</b>
+                              )
+                              :
+                              (
+                                ''
+                              )
+                            }
+                          </div>
+                          <div className="columns">
+                            <div className="column is-2">
+                              <Button
+                                type={'submit'}
+                                className={'button is-info color-logo-lessor is-pulled-left'}
+                                text={'Ver detalhes'}
+                                onClick={event => goDetail(rent.id)}
+                              />
+                            </div>
+                            <div className="column is-2">
+                              { 
+                                rent.accept !== '0' || rent.accept === 'N' ?
+                                (
+                                  ''
+                                )
+                                :
+                                (
+                                  <Button
+                                    type={'submit'}
+                                    className={'button is-success color-logo-lessor is-pulled-left'}
+                                    text={'Aceitar'}
+                                    onClick={event => accept(rent.id)}
+                                  />
+                                )
+                              }
+                            </div>
+                            <div className="column is-2">
+                                { console.log() }
+                                { 
+                                  rent.accept === 'N' || rent.accept === '1' ?
+                                  (
+                                    ''
+                                  )
+                                  :
+                                  (
+                                    <Button
+                                      type={'submit'}
+                                      className={'button is-danger color-logo-lessor is-pulled-left'}
+                                      text={'Negar'}
+                                      onClick={event => noaccept(rent.id)}
+                                    />
+                                  )
+                                }
+                              </div>
+                          </div>
+                          <br/>
                           <p className="capitalize">
                             { rent.tool.title } alugado para 
                             <b> { rent.userrenter.name }</b>
@@ -113,16 +222,6 @@ const Rents = ({ history }) => {
                                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                   <FormattedNumber value={rent.cost} style="currency" currency="BRL" />
                                 </IntlProvider>                                
-                              </div>
-                            </div>
-                            <div className="columns">
-                              <div className="column">
-                                <Button
-                                  type={'submit'}
-                                  className={'button is-info color-logo-lessor is-pulled-left'}
-                                  text={'Ver detalhes'}
-                                  onClick={event => goDetail(rent.id)}
-                                />
                               </div>
                             </div>
                           </div>

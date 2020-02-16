@@ -10,6 +10,8 @@ import Title from '../../../utils/title';
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import './style.css';
 import Modal from '../../../components/Modal';
+import { Button } from '../../../components/Form/Button';
+import ChangeAccept from './conditionsRent';
 
 export default function Rents() {
   document.title = Title('Detalhe aluguel');
@@ -49,8 +51,6 @@ export default function Rents() {
     return () => {
     };
   }, [])
-
-  console.log(rent)
 
   const renderPeriod = (period) => {
     var periodChoose = period
@@ -100,6 +100,24 @@ export default function Rents() {
     return modal3
   }
 
+  const accept = (id) => {
+    ChangeAccept('accept', id).then((res) => {
+      reloadRents()
+    })
+  }
+
+  const noaccept = (id) => {
+    ChangeAccept('accept', id).then((res) => {
+      reloadRents()
+    })
+  }
+
+  async function reloadRents () {
+    const response = await api.get('/rents/', {});
+    setTimeout(() => {
+      setRent(response.data.rentattempt);
+    }, 300);     
+  } 
 
   return (
     <div className="container container-page">
@@ -122,7 +140,87 @@ export default function Rents() {
                     <b>
                       Informações do aluguél:
                     </b>
-                    <br/><br/>
+                    <br/>
+                    <div>
+                            { 
+                              rent.accept === '0' && rent.paid === '0' ?
+                              (
+                                <b className="new">Aluguel novo</b>
+                              )
+                              :
+                              (
+                                ''
+                              )
+                            }
+                            { 
+                              rent.accept === 'N' || rent.paid === 'N' ?
+                              (
+                                <b className="notaccpet">Você negou este aluguel</b>
+                              )
+                              :
+                              (
+                                ''
+                              )
+                            }
+                            { 
+                              rent.accept === '1' && rent.paid === '0' ?
+                              (
+                                <b className="acceptandwaitng">Aceito e aguardando pagamento</b>
+                              )
+                              :
+                              (
+                                ''
+                              )
+                            }
+                            { 
+                              rent.accept === '1' && rent.paid === '1' ?
+                              (
+                                <b className="acceptandpaid">Aceito e Pago</b>
+                              )
+                              :
+                              (
+                                ''
+                              )
+                            }
+                          </div>
+                          <div className="columns">
+                            <div className="column is-2">
+                              { 
+                                rent.accept !== '0' || rent.accept === 'N' ?
+                                (
+                                  ''
+                                )
+                                :
+                                (
+                                  <Button
+                                    type={'submit'}
+                                    className={'button is-success color-logo-lessor is-pulled-left'}
+                                    text={'Aceitar'}
+                                    onClick={event => accept(rent.id)}
+                                  />
+                                )
+                              }
+                            </div>
+                            <div className="column is-2">
+                                { console.log() }
+                                { 
+                                  rent.accept === 'N' || rent.accept === '1' ?
+                                  (
+                                    ''
+                                  )
+                                  :
+                                  (
+                                    <Button
+                                      type={'submit'}
+                                      className={'button is-danger color-logo-lessor is-pulled-left'}
+                                      text={'Negar'}
+                                      onClick={event => noaccept(rent.id)}
+                                    />
+                                  )
+                                }
+                              </div>
+                          </div>
+                    <br/>
                     <p className="capitalize">
                       { rent.tool.title } alugado para 
                       <b> { rent.userrenter.name }</b>
@@ -195,7 +293,8 @@ export default function Rents() {
                           <p> { rent.userrenter.address } { rent.userrenter.number } { rent.userrenter.complement } { rent.userrenter.location } </p>
                           <p> { rent.userrenter.uf } - { rent.userrenter.city } </p>
                           <p>{ rent.userrenter.neighboor }</p>
-                          { <b>Adicionar endereço de uso: </b> }
+                          <br/>
+                          { <b>Endereço de uso: </b> }
                           <br/><br/>
                             <p> { workadd.address } { workadd.number } { workadd.complement } <br/> { workadd.location } </p>
                             <p> { workadd.uf } - { workadd.city } { workadd.neighboor }</p>
@@ -203,7 +302,7 @@ export default function Rents() {
                       </div>
                       <div className="columns">
                         <div className="column">
-                          { <p className="link">Documentos do locatário: </p> }
+                          { <b className="link">Documentos do locatário: </b> }
                           <br/>
                           <div className="columns">
                               <div className="column is-3">

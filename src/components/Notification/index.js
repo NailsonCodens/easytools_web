@@ -91,20 +91,6 @@ const Notification = ({nt}) => {
                       onClick={event => goNotification(notify.rent_attempt_id, notify.id)}
                     />    
                   </div>
-                  <div className="column">
-                    <Button
-                      className={'button is-small is-info bt-overhead'}
-                      text={'Aceitar'}
-                      onClick={event => goAccept()}
-                    />
-                  </div>
-                  <div className="column">
-                    <Button
-                      className={'button is-small is-warning bt-overhead'}
-                      text={'Não aceitar'}
-                      onClick={event => goAccept()}
-                    />    
-                  </div>
                 </div>
               </div>
             </div>
