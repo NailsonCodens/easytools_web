@@ -26,6 +26,11 @@
   box-shadow: 0px 2px 3px 0px rgba(156,156,156,1);
 }
 
+.bt-overhead{
+  z-index: 9 !important;
+  position: initial !important;
+}
+
 .notfound{
   color: rgb(80, 79, 79) !important;
   font-family: 'Poppins', sans-serif !important;

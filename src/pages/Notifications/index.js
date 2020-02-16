@@ -1,33 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
+import Notication from '../../components/Notification/index'
 import api from '../../services/api';
-import { useHistory } from 'react-router-dom';
-import './style.css';
+import './style.css'
 import { Button } from '../../components/Form/Button';
 import { useDispatch, useSelector } from "react-redux";
 import { Notification as Notificationrd } from '../../store/actions/notification';
+import {Titlepage} from '../../components/Titles/Titlepages';
 
-const Notification = ({nt}) => {
-	let history = useHistory();
-  const [notification, setNotification] = useState(nt);
-  const [rent, setRent] = useState([]);
+const Allnotification = ({history}) => {
+  const [notification, setNotification] = useState([])
   const current_user = useSelector(state => state.auth);
   const dispatch = useDispatch();	
 
   useEffect(() => {
-    async function notification () {
-      const response = await api.get(`notifications`, {
+    async function getNotification () {
+      const response = await api.get(`/notifications/all`, {
       });
-
-      if (response.data.notification.length > 0) {
-        setNotification(response.data.notification)
-        const rent = await api.get(`/rents/${response.data.notification[0].rent_attempt_id}`, {});
-        setRent(response.data.rentattempt);  
-      }
+      setNotification(response.data.notification)
     }
-    notification()
+    getNotification()
 
     return () => {
-
     };
   }, [])
 
@@ -40,9 +33,6 @@ const Notification = ({nt}) => {
     }
   }
 
-  const goAccept = () => {
-  }
-
   async function goUpdatenotifiy (id) {
     const response = await api.put(`/notifications/update/${id}`, {
     });
@@ -50,11 +40,9 @@ const Notification = ({nt}) => {
   }
 
   async function updatecount () {
-    if (current_user.length > 0) {
-      const response = await api.get(`/notifications/count`, {
-      });
-      dispatch(Notificationrd(response.data.notification))  
-    }
+    const response = await api.get(`/notifications/count`, {
+    });
+    dispatch(Notificationrd(response.data.notification))
   }
 
   const goAllnotification = () => {
@@ -63,11 +51,15 @@ const Notification = ({nt}) => {
 
   return (
     <div>
-      <li>
-        {
-          nt.map((notify, index) => (
+    <div className="container container-page">
+      <div className="columns is-desktop">
+        <div className="column box-inter padding-notification">
+          <Titlepage>Notificações </Titlepage>
+          <br/><br/>
+          {
+            notification.map((notify, index) => (
             <div key={index} className="columns column-notify">
-              <div className="column is-3">
+              <div className="column is-1">
                 <div className="avatar-notify">
                   <img src={notify.usersend.url} alt={notify.usersend.url} className="" />
                 </div>
@@ -99,30 +91,13 @@ const Notification = ({nt}) => {
                 </div>
               </div>
             </div>
-          ))
-        }
-        {
-          nt.length === 0 ?
-          (
-            <div className="notfound has-text-centered">
-              Nenhuma notificação por enquanto!
-            </div>
-          )
-          :
-          (
-            <div className="has-text-centered">
-              <br/>
-              <Button
-                className={'button is-small is-info'}
-                text={'Ver mais'}
-                onClick={event => goAllnotification()}
-              /> 
-            </div>
-          )
-        }
-      </li>
+            ))
+          }
+        </div>
+        </div>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default Notification;
+export default Allnotification

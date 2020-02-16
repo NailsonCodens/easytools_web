@@ -16,7 +16,7 @@ import Notification from '../../../components/Notification/index';
 import { Notification as Notificationrd } from '../../../store/actions/notification';
 import api from '../../../services/api';
 import simpleCrypto from '../../../services/crypto';
-export const TYPEUSER_KEY = "@t-us";
+import { isAuthenticated } from "../../../services/auth";
 
 const MenuRenter = () => {
   const dispatch = useDispatch();	
@@ -26,7 +26,6 @@ const MenuRenter = () => {
   const [notification, setNotfication] = useState([]);
   const [countn, setCount] = useState(0);
   const notificationrd = useSelector(state => state.notification);
-	const [type, setType] = useState('');
 
 	socketio.emit('register', current_user.id);
 
@@ -34,7 +33,6 @@ const MenuRenter = () => {
 
 	useEffect(() => {
 		socketio.on('notify',function(data){
-			console.log(data)
 			var user = data.user;
 			var message = data.message;
 			var title = data.title;
@@ -44,32 +42,30 @@ const MenuRenter = () => {
 		});
 
     async function getCountnotification () {
-      const response = await api.get(`/notifications/count`, {
-			});
-      dispatch(Notificationrd(response.data.notification))
-      setCount(response.data.notification)
+			if (isAuthenticated()) {
+				const response = await api.get(`/notifications/count`, {
+				});
+				dispatch(Notificationrd(response.data.notification))
+				setCount(response.data.notification)
+			}
     }
     getCountnotification()
 
     async function getNotification () {
+			if (isAuthenticated()) {
       const response = await api.get(`/notifications`, {
 			});
       setNotfication(response.data.notification)
+			}
     }
     getNotification()
 
-		async function decryptType () {
-			if (localStorage.getItem(TYPEUSER_KEY) != null){
-				setType(simpleCrypto.decrypt(localStorage.getItem(TYPEUSER_KEY)))
-			}
-		}
-		decryptType()
 
 		return () => {
 
 		};
 	}, [])
- 
+
   const renderNotify = () => {
     return (
       <Notification nt={notification}/>
@@ -185,7 +181,7 @@ const MenuRenter = () => {
 									)
 								}
 								{
-									type === 'Lessor'? 
+									current_user.type_user === 'Lessor'? 
 									(
 										<Dropdown classCuston=" menu-from-lessor menus">
 											<li className="li-drop">
