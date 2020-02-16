@@ -12,7 +12,7 @@ const Dashboard = ({history}) => {
   document.title = Title('Dashboard');
   const [rents, setRents] = useState(0);
   const [ads, setAds] = useState(0);
-  const [results, setResults] = useState('0,00');
+  const [results, setResults] = useState(0);
 
   useEffect(() => {
     async function loadCountrents () {
@@ -29,8 +29,10 @@ const Dashboard = ({history}) => {
 
     async function loadResults(){
       const response = await api.get(`/dashboard/results`, {})
+      console.log('results', response.data.results);
       setResults(response.data.results)
     }
+    loadResults()
 
     return () => {
     };
@@ -67,7 +69,7 @@ const Dashboard = ({history}) => {
           <div className="column box-inter has-text-centered">
             <SubTitlepages>Seus resultados até agora</SubTitlepages>
             <p className="values-dashboard">
-              <span className="values-dashboard-span">R$</span> { results }
+              <span className="values-dashboard-span">R$</span> { results === 0 ? '0,00' : results }
             </p>
           </div>
         </div>
