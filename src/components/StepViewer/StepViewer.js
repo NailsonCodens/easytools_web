@@ -15,7 +15,7 @@ const StepViewer = props => {
     let html = [];
   
     while (count <= items) {
-      html.push(<li className={active === count ? 'active' : ''}></li>);
+      html.push(<li key={count} className={active === count ? 'active' : ''}></li>);
       count++;
     }
   
