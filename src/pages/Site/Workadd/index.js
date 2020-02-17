@@ -75,8 +75,6 @@ const Workadd = ({rent}) => {
         .required('O endereço é obrigatório.'),
       number: Yup.string()
         .required('O numero do endereço é obrigatório.'),
-      complement: Yup.string()
-      .required('O complemento é obrigatório.'),
       neighboor: Yup.string()
       .required('O bairro é obrigatório.'),
       uf: Yup.string()
@@ -273,7 +271,7 @@ const Workadd = ({rent}) => {
           <div className="column is-3">
             <Field>
               <Label className="label-perfil" for={'complement'}>
-                <b>Completo</b>
+                <b>Complemento</b>
               </Label>
               <Input
                 name="complement"

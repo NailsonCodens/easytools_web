@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import {SubTitlepages} from '../../../components/Titles/SubTitlepages';
+import {IntlProvider, FormattedNumber} from 'react-intl';
 import api from '../../../services/api';
 
 import Title from '../../../utils/title';
@@ -69,7 +70,9 @@ const Dashboard = ({history}) => {
           <div className="column box-inter has-text-centered">
             <SubTitlepages>Seus resultados até agora</SubTitlepages>
             <p className="values-dashboard">
-              <span className="values-dashboard-span">R$</span> { results === 0 ? '0,00' : results }
+            <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+              <b><FormattedNumber value={results} style="currency" currency="BRL" /></b>
+            </IntlProvider>
             </p>
           </div>
         </div>
