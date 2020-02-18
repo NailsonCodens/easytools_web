@@ -6,7 +6,12 @@ import EllipsisText from "react-ellipsis-text";
 import address from '../../assets/images/selfie.png'
 import api from '../../services/api';
 import './style.css';
+import { useLocation } from "react-router-dom";
+import queryString from 'query-string';
+
 export default function Proofaddress({id}) {
+  let values = queryString.parse(useLocation().search);
+
   const [proof, stProof] = useState(address);
   const [nameproof, setNameproof] = useState('');
   const [image, setImage] = useState('');
@@ -68,12 +73,17 @@ export default function Proofaddress({id}) {
   }
 
   async function saveProof (proof) {
-    await api.put(`documents/proof/${id}`, proof, {})
+    console.log(values.e)
+
+    /*await api.put(`documents/proof/${id}`, proof, {})
     .then((res) => {
       success()
+
+      
+
     })
     .catch((err) => {
-    })
+    })*/
   }
   
   return (
@@ -86,8 +96,8 @@ export default function Proofaddress({id}) {
               <div className="column is-2">
                 <img src={proof} alt={proof}/>
               </div>
-              <div className="column">
-                <EllipsisText text={nameproof} length={20} />
+              <div className="column is-3">
+                <EllipsisText text={nameproof} length={20}/>
                 { 
                   showcheck === true ?
                   (<span className="check-photo"></span>)

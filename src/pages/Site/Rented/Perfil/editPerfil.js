@@ -469,7 +469,10 @@ const Edit = ({history}) => {
                         }
                       </Span>
                     </Field>
-                    <Warningtext>Se você vai alugar como empresa, escolha a opção CNPJ, preencha e salve. Logo após, vai em "Meus documentos para enviar uma cópia do contrato social da empresa." </Warningtext>
+                    <Warningtext>
+                      Se você é locador empresa, escolha a opção CNPJ, preencha e salve. 
+                      <br/> logo após, vá em "Meus documentos" para enviar uma cópia do contrato social da empresa. 
+                    </Warningtext>
                   </div>
                 </div>
                 <Field className="is-pulled-right space-bt">

@@ -52,7 +52,6 @@ export default function SocialContract({id}) {
     };
   }, [id])
 
-
   const onDrop = useCallback(acceptedFiles => {    
     const preview = URL.createObjectURL(acceptedFiles[0])
     setImage(acceptedFiles);
