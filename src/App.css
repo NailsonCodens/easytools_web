@@ -325,3 +325,21 @@
 .upload{
   cursor: pointer !important;
 }
+
+.warning-unavailable{
+  z-index: 99 !important;
+  width: 100% !important;
+  background:#FFD237;
+  color: #000;
+  padding: 5px;
+  padding-top: -10px !important;
+  margin-top: -12px;
+}
+
+.close-unavailable{
+
+}
+
+.close-unavailable::before{
+  content:'❌' !important;
+}

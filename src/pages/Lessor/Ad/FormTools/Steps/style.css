@@ -21,3 +21,8 @@
 .check{
   margin: 5px;
 }
+
+.warning-red{
+  color: red !important;
+  font-weight: bold !important;
+}

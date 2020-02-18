@@ -41,7 +41,6 @@ const Perfil = ({history}) => {
     }
   )
 
-
   const success2 = () => Notification(
     'success',
     'Avatar alterado com sucesso!', 
@@ -478,15 +477,6 @@ const Perfil = ({history}) => {
                       <input {...getInputProps()} />
                         Alterar avatar    
                     </div>
-                    <br/><br/><br/><br/><br/>
-                    <div>
-                      <span
-                        className={'is-text upload'}
-                        onClick={event => goAdddocument() }
-                      > 
-                        Meus documentos
-                      </span>
-                    </div>
                   </div>
                   {
                       isactive === true ?
@@ -502,6 +492,15 @@ const Perfil = ({history}) => {
                       ) :
                       ('')
                     }
+                    <br/>
+                    <div>
+                      <span
+                        className={'is-text upload'}
+                        onClick={event => goAdddocument() }
+                      > 
+                        Meus documentos
+                      </span>
+                    </div>
                 </div>
               </div>
               <div className="columns">
@@ -509,6 +508,8 @@ const Perfil = ({history}) => {
                   <h3 className="title-box-inter">Endereço</h3>
                   <Warningtext>
                     Seus anúncios aparecerão com esta região selecionada. No entanto, você poderá editar em cada anúncio também.
+                    <br/>
+                    Seu endereço será verificado.
                   </Warningtext>
                   <div className="columns column-address">
                     <div className="column">

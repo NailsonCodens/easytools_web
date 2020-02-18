@@ -296,8 +296,8 @@ const Main = ({history, tool}) => {
     const dvnew = value ? 'Y' : 'N'
     setDelivery(dvnew)
     formik.values.devolution = dvnew
-  }
-
+  } 
+  
   const handleLocationChange = (location) => {
     setLocation(location)
     formik.values.location = location

@@ -69,12 +69,11 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
         response.data.user.map(function (perfil) {
           // eslint-disable-next-line
           if (perfil.location === "" || perfil.address === "" || perfil.number === "" && perfil.location === "" || perfil.complement === "" || perfil.city === "" || perfil.uf === "") {
-            setShowad(true)
             showMsg(true)
           }
+         setAddress(response.data.user[0]);
           return ''
         }) 
-        setAddress(response.data.user[0]);
       } else {
         setShowad(false)
       }
@@ -82,9 +81,10 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
     loadPerfil()
   }, [showad, values, id]);
 
+
   const formik = useFormik({
     initialValues: {
-      location: values.location,
+      location: values.location ,
       neighboor: values.neighboor,
       address: values.address,
       number: values.number,
@@ -108,25 +108,28 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
     }),
 
     onSubmit: value => {
-      let query = `${values.address} ${values.number} ${values.uf} ${values.city}`
-      info()     
-      setTimeout(function(){
-        getCordinates(query).then(res => {
-          if (res.data.features.length !== '') {
-            let cordinates =  res.data.features[0].center
-            values.lat = cordinates[1]
-            values.lng = cordinates[0]
-            formik.values.lat = cordinates[1]
-            formik.values.lng = cordinates[0]
-            nextStep()
-          } else {
-            warning()
-          }
-        }).catch(err => {
-          console.log(err)
-        })
-      }, 2000);
-    }
+      if(values.location === '') {
+      } else {
+        let query = `${values.address} ${values.number} ${values.uf} ${values.city}`
+        info()     
+        setTimeout(function(){
+          getCordinates(query).then(res => {
+            if (res.data.features.length !== '') {
+              let cordinates =  res.data.features[0].center
+              values.lat = cordinates[1]
+              values.lng = cordinates[0]
+              formik.values.lat = cordinates[1]
+              formik.values.lng = cordinates[0]
+              nextStep()
+            } else {
+              warning()
+            }
+          }).catch(err => {
+            console.log(err)
+          })
+        }, 2000);  
+      }
+   }
   })
 
   const handleChangeAddress = (input, event, type) => {
@@ -166,22 +169,26 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
     prevStep();
   }
 
+  const openForm = () => {
+    setShowad(false);
+  }
+
   const setFormik = () => {
-    if (id === undefined) {
-      values.location = address.location
-      formik.values.location = address.location
-      values.neighboor = address.neighboor
-      formik.values.neighboor = address.neighboor
-      values.address = address.address
-      formik.values.address = address.address
-      values.number = address.number
-      formik.values.number = address.number
-      values.complement = address.complement
-      formik.values.complement = address.complement
-      values.uf = address.uf
-      formik.values.uf = address.uf
-      values.city = address.city
-      formik.values.city = address.city
+/*    if (id === undefined) {
+      values.location = address.location !== null ? address.location : ''
+      formik.values.location = address.location !== null ? address.location : ''
+      values.neighboor = address.neighboor !== null ? address.neighboor : ''
+      formik.values.neighboor = address.neighboor !== null ? address.neighboor : ''
+      values.address = address.address !== null ? address.address : ''
+      formik.values.address = address.address !== null ? address.address : ''
+      values.number = address.number !== null ? address.number : ''
+      formik.values.number = address.number !== null ? address.number : ''
+      values.complement = address.complement !== null ? address.complement : ''
+      formik.values.complement = address.complement !== null ? address.complement : ''
+      values.uf = address.uf = address.uf !== null ? address.uf : ''
+      formik.values.uf = address.uf !== null ? address.uf : '' 
+      values.city = address.city !== null ? address.city : ''
+      formik.values.city = address.city !== null ? address.city : ''
     } else {
       formik.values.location = values.location
       formik.values.neighboor = values.neighboor
@@ -190,28 +197,29 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
       formik.values.complement = values.complement
       formik.values.uf = values.uf
       formik.values.city = values.city
-    }
+    }*/
   }
 
   const handleCheckIOS = event => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     setShowad(value)
-    if (id === undefined) {
-      values.location = address.location
-      formik.values.location = address.location
-      values.neighboor = address.neighboor
-      formik.values.neighboor = address.neighboor
-      values.address = address.address
-      formik.values.address = address.address
-      values.number = address.number
-      formik.values.number = address.number
-      values.complement = address.complement
-      formik.values.complement = address.complement
-      values.uf = address.uf
-      formik.values.uf = address.uf
-      values.city = address.city
-      formik.values.city = address.city
+
+    if (id === undefined) { 
+      values.location = address.location !== null ? address.location : ''
+      formik.values.location = address.location !== null ? address.location : ''
+      values.neighboor = address.neighboor !== null ? address.neighboor : ''
+      formik.values.neighboor = address.neighboor !== null ? address.neighboor : ''
+      values.address = address.address !== null ? address.address : ''
+      formik.values.address = address.address !== null ? address.address : ''
+      values.number = address.number !== null ? address.number : ''
+      formik.values.number = address.number !== null ? address.number : ''
+      values.complement = address.complement !== null ? address.complement : ''
+      formik.values.complement = address.complement !== null ? address.complement : ''
+      values.uf = address.uf = address.uf !== null ? address.uf : ''
+      formik.values.uf = address.uf !== null ? address.uf : '' 
+      values.city = address.city !== null ? address.city : ''
+      formik.values.city = address.city !== null ? address.city : ''
     }else {
       formik.values.location = values.location
       formik.values.neighboor = values.neighboor
@@ -229,18 +237,18 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
       <SubTitlepages>Onde está sua ferramenta?</SubTitlepages>
       <div className={showad === true ? 'address-user is-block' : 'is-hidden'}>
         {
-          showsg === true ?
+          values.location === "" ?
           (
             <>
               <p>
                 Você ainda não tem um endereço padrão.
                 <br/>
-                Para fazer isto,  <Link to={'/lessor/perfil'}> clique aqui </Link> e adicione seu endereço.
+                Para fazer isto, vá em "perfil" e adicione seu endereço.
               </p>
               <br/>
               <Warningtext>
-                * Você pode alterar este endereço a qualquer momento, caso não deseje usa-lo, 
-                basta apenas seleciona o botão abaixo para o lado esquerdo
+                * Você pode alterar este endereço a qualquer momento no seu perfil, e caso não deseje usa-lo agora, 
+                basta apenas seleciona o botão abaixo para o lado esquerdo.
               </Warningtext>
             </>
           ) 
@@ -259,6 +267,11 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
         <p>
           { 
             showad === false ? ('Novo endereço.') : ('Endereço padrão.')
+          }
+          <br/>
+          {
+            showad === true? (
+''            ) : ('')
           }
         </p>
         <div className="offer">        
@@ -457,8 +470,9 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
         />
         <Button
           type={'submit'}
-          className={'button color-logo-lessor back-form is-pulled-right'}
-          text={'Salvar e Prosseguir'}
+          className={ formik.errors.location ? 'button is-warning back-form is-pulled-right' : 'button color-logo-lessor back-form is-pulled-right'}
+          text={ formik.errors.location ? 'Adicionar novo endereço' : 'Salvar e Prosseguir'}
+          onClick={event => openForm()}
         />
       </Form>
     </>

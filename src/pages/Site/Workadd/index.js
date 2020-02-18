@@ -88,6 +88,8 @@ const Workadd = ({rent}) => {
       info()     
       setTimeout(function(){
         getCordinates(query).then(res => {
+          console.log(res)
+
           if (res.data.features.length !== '') {
             let cordinates =  res.data.features[0].center
             values.lat = cordinates[1]
@@ -99,7 +101,7 @@ const Workadd = ({rent}) => {
             warning()
           }
         }).catch(err => {
-
+          warning()
         })
       }, 2000);
     }

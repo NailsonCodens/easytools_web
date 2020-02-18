@@ -4,11 +4,11 @@ const Warninggeneral = props => {
   return (
     <div className="warning-unavailable">
       <div className="columns">
-        <div className="column is-10">
-          { props.text }
-        </div>
         <div className="column">
-          <div className="is-pulled-right close-unavailable" onClick={event => props.close}></div>
+          { props.children }
+        </div>
+        <div className="column is-2">
+          <div className="is-pulled-right close-unavailable" onClick={props.close}></div>
         </div>
       </div>
   </div>

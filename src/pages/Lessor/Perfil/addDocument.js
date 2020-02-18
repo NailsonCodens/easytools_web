@@ -42,6 +42,9 @@ const Doc = () => {
           <p>Se for empresa, foto do contrato.</p>
           <Warningtext>Fique tranquilo, seus dados estão seguros. Não compartilhammos, vendemos ou usamos indevidamente os seus dados". </Warningtext>
         </div>
+      </div>
+
+      <div className="columns">
         <div className="column">
           <div>
             <h3 className="title-box-inter">Foto do documento</h3>
@@ -49,36 +52,36 @@ const Doc = () => {
               <Document id={user.id}/>
             </div>
           </div>
+        </div>
+        <div className="column">
           <div>
             <h3 className="title-box-inter">Uma Selfie</h3>
             <div>
               <Selfie id={user.id}/>
             </div>            
           </div>
+        </div>
+        <div className="column">
+          <h3 className="title-box-inter">Comprovante de endereço</h3>
           <div>
-            <div className="column">
-              <h3 className="title-box-inter">Comprovante de endereço</h3>
-              <div>
-                <Proofaddress id={user.id}/>
-              </div>
-            </div>
+            <Proofaddress id={user.id}/>
           </div>
-          {
-            cpfcnpj !== null ? 
-            (
-              <div>
-                <div className="column">
-                  <h3 className="title-box-inter">Contrato Social</h3>
-                  <div>
-                    <SocialContract id={user.id}/>
+            {
+              cpfcnpj !== null && cpfcnpj > 14  ? 
+              (
+                <div>
+                  <div className="column">
+                    <h3 className="title-box-inter">Contrato Social</h3>
+                    <div>
+                      <SocialContract id={user.id}/>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )
-            :
-            ('')
-          }
-        </div>
+              )
+              :
+              ('')
+            }
+          </div>
       </div>
     </div>
   );

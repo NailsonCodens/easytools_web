@@ -111,14 +111,16 @@ const Tool = ({history}) => {
 
   const next = (rentData) => {
     if (isAuthenticated()) {
-      if (document !== undefined) {
-        if (document.document !== null && document.selfie !== null && document.proof !== null) {
-          if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
-            history.push('/s/renter/perfil/edit?e=cc');
-            //erro quando não tiver o cnpj
-          } else {
+
+      if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
+        history.push('/s/renter/perfil/edit?e=cc');
+      }else {
+        if (document !== undefined) {
+
+          console.log(document.document, document.selfie, document.proof)
+          if (document.document !== null || document.selfie !== null || document.proof !== null) {
             if (perfil.cpfcnpj.length > 14 && document.enterprise === null) { 
-              history.push('/s/renter/perfil/documents?e=et3');     
+              history.push('/s/renter/perfil/documents?e=cs');     
               //erro quando é cnpj       
             } else {
               var attempt = {
@@ -136,15 +138,15 @@ const Tool = ({history}) => {
               } 
               saveRentattempt(attempt);      
             }
+          } else {
+            history.push('/s/renter/perfil/documents?e=df');
           }
-        } else {
-          history.push('/s/renter/perfil/documentsdocuments?e=pfd');
-          //erro quando é documents normais
+        }else {
+          history.push('/s/renter/perfil/documents?e=nd');
         }
-      } else {
-        history.push('/s/renter/perfil/documents?e=nd');
-        //erro quando não tem nenhum documento.
+
       }
+
     } else {
       Scrool()
       history.push(`/s/tool/${id}?ctg=${values.ctg}&rdt=${Math.random()}`)
