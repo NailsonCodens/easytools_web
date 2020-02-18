@@ -12,6 +12,7 @@ export default function Selfie({id}) {
   const [nameselfie, setNameselfie] = useState('');
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
+  const [showcheck, setShowcheck] = useState(false);
 
   const success = () => Notification(
     'success',
@@ -38,7 +39,8 @@ export default function Selfie({id}) {
         if (response.data.documentUser.length > 0) {
           if (response.data.documentUser[0].selfie !== null) {
             setNameselfie(response.data.documentUser[0].selfie);
-            setSelfie(response.data.documentUser[0].urlselfie)    
+            setSelfie(response.data.documentUser[0].urlselfie)
+            setShowcheck(true)   
           }
         }
       }
@@ -87,6 +89,12 @@ export default function Selfie({id}) {
               </div>    
               <div className="column">
                 <EllipsisText text={nameselfie} length={20} />
+                { 
+                  showcheck === true ?
+                  (<span className="check-photo"></span>)
+                  :
+                  ('')
+                }     
               </div>
             </div>
           </div>

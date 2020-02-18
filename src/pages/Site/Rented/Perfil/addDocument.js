@@ -114,20 +114,20 @@ const Doc = ({history}) => {
             </div>
           </div>
           {
-              cpfcnpj !== null && cpfcnpj.length > 14  ? 
-              (
-                <div>
-                  <div className="column">
-                    <h3 className="title-box-inter">Contrato Social</h3>
-                    <div>
-                      <SocialContract id={user.id}/>
-                    </div>
+            cpfcnpj !== null && cpfcnpj.length > 14  ? 
+            (
+              <div>
+                <div className="column">
+                  <h3 className="title-box-inter">Contrato Social</h3>
+                  <div>
+                    <SocialContract id={user.id}/>
                   </div>
                 </div>
-              )
-              :
-              ('')
-            }
+              </div>
+            )
+            :
+            ('')
+          }
         </div>
       </div>
     </>

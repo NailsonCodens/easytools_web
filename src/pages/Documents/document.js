@@ -13,6 +13,7 @@ export default function Document({id}) {
   const [namedocument, setNamedocument] = useState('');
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
+  const [showcheck, setShowcheck] = useState(false);
 
   const success = () => Notification(
     'success',
@@ -38,6 +39,7 @@ export default function Document({id}) {
         });
         
         if (response.data.documentUser.length > 0) {
+          setShowcheck(true);
           setDocument(response.data.documentUser[0].urldoc);
           setNamedocument(response.data.documentUser[0].document);
         }
@@ -87,6 +89,12 @@ export default function Document({id}) {
               </div>
               <div className="column is-3">
                 <EllipsisText text={namedocument} length={20} />
+                { 
+                  showcheck === true ?
+                  (<span className="check-photo"></span>)
+                  :
+                  ('')
+                }
               </div>
             </div>
           </div>

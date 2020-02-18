@@ -11,6 +11,7 @@ export default function Proofaddress({id}) {
   const [nameproof, setNameproof] = useState('');
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
+  const [showcheck, setShowcheck] = useState(false);
 
   const success = () => Notification(
     'success',
@@ -37,7 +38,8 @@ export default function Proofaddress({id}) {
         if (response.data.documentUser.length > 0) {
           if (response.data.documentUser[0].proof !== null) {
             setNameproof(response.data.documentUser[0].proof)
-            stProof(response.data.documentUser[0].urlproof)     
+            stProof(response.data.documentUser[0].urlproof)
+            setShowcheck(true)   
           }
         }
       }
@@ -85,7 +87,13 @@ export default function Proofaddress({id}) {
                 <img src={proof} alt={proof}/>
               </div>
               <div className="column">
-                <EllipsisText text={nameproof} length={20} />                
+                <EllipsisText text={nameproof} length={20} />
+                { 
+                  showcheck === true ?
+                  (<span className="check-photo"></span>)
+                  :
+                  ('')
+                }            
               </div>
             </div>
           </div>

@@ -28,3 +28,12 @@
   width: 50px !important;
   object-fit:cover;
 }
+
+.check-photo{
+  color: rgb(0, 255, 76);
+}
+
+.check-photo::before{
+  content: '✔️';
+  
+}

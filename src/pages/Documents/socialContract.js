@@ -11,6 +11,7 @@ export default function SocialContract({id}) {
   const [namesocial, setNamesocial] = useState('');
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
+  const [showcheck, setShowcheck] = useState(false);
 
   const success = () => Notification(
     'success',
@@ -38,7 +39,8 @@ export default function SocialContract({id}) {
         if (response.data.documentUser.length > 0) {
           if (response.data.documentUser[0].enterprise !== null) {
             setNamesocial(response.data.documentUser[0].enterprise);
-            setSocial(response.data.documentUser[0].urlenterprise)    
+            setSocial(response.data.documentUser[0].urlenterprise)
+            setShowcheck(true)  
           }
         }
       }
@@ -87,6 +89,12 @@ export default function SocialContract({id}) {
               </div>    
               <div className="column">
                 <EllipsisText text={namesocial} length={20} />
+                { 
+                  showcheck === true ?
+                  (<span className="check-photo"></span>)
+                  :
+                  ('')
+                }
               </div>
             </div>
           </div>
