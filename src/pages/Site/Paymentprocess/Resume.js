@@ -78,18 +78,15 @@ const Resume = ({history}) => {
 
   }, [dispatch, values.tool]);
 
-
   async function verifyAvailabletool() { 
     const response = await api.get(`/tools_site/tool/${values.tool}`, {
     });
-    console.log(response.data.tool[0].availability)
     if (response.data.tool[0].availability === 'Y') {
       history.push(`/s/payment/rent-rules?rent_attempt=${values.rent_attempt}&init=${values.init}&finish=${values.finish}&tool=${values.tool}&am=${values.am}&tension=${values.tension}&code_attempt=${values.code_attempt}`)
     } else {
       history.push(`/?t=unavailable`);
     }
   }
-
 
   const goRules = () =>{
     //corrgiri e fazer salvar no banco os dados da tentiva de aluguel

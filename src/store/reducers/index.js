@@ -6,6 +6,7 @@ import rentinfo from './rentinfo';
 import rentaltool from './rentaltool'
 import rentattempt from './rentattempt'
 import notification from './notification';
+import link from './link';
 
 export default combineReducers({
   auth,
@@ -14,5 +15,6 @@ export default combineReducers({
   rentinfo,
   rentaltool,
   rentattempt,
-  notification
+  notification,
+  link
 });

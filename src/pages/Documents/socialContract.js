@@ -6,11 +6,39 @@ import EllipsisText from "react-ellipsis-text";
 import sociali from '../../assets/images/selfie.png'
 import api from '../../services/api';
 import './style.css';
+import queryString from 'query-string';
+import { useLocation } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
+import { useSelector } from "react-redux";
+
 export default function SocialContract({id}) {
+  let values = queryString.parse(useLocation().search);
+  const link = useSelector(state => state.link);
+  let history = useHistory();
+
   const [social, setSocial] = useState(sociali);
   const [namesocial, setNamesocial] = useState('');
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
+  const [showcheck, setShowcheck] = useState(false);
+  const [perfil, setPerfil] = useState([]);
+
+  const success2 = () => Notification(
+    'success',
+    'Documento atualizado com sucesso, vamos voltar onde estavamos?!', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
 
   const success = () => Notification(
     'success',
@@ -31,6 +59,14 @@ export default function SocialContract({id}) {
 
   useEffect(() => {
     async function loadPerfil() { 
+      const response = await api.get(`/perfil`, {
+      });
+      setPerfil(response.data.user)
+    }
+    loadPerfil()
+
+
+    async function loadSocial() { 
       if (id !== undefined) {
         const response = await api.get(`/documents/${id}`, {
         });
@@ -38,18 +74,18 @@ export default function SocialContract({id}) {
         if (response.data.documentUser.length > 0) {
           if (response.data.documentUser[0].enterprise !== null) {
             setNamesocial(response.data.documentUser[0].enterprise);
-            setSocial(response.data.documentUser[0].urlenterprise)    
+            setSocial(response.data.documentUser[0].urlenterprise)
+            setShowcheck(true)  
           }
         }
       }
     }
-    loadPerfil();
+    loadSocial();
 
     return () => {
 
     };
   }, [id])
-
 
   const onDrop = useCallback(acceptedFiles => {    
     const preview = URL.createObjectURL(acceptedFiles[0])
@@ -69,7 +105,12 @@ export default function SocialContract({id}) {
   async function saveSelfie (social) {
     await api.put(`documents/enterprise/${id}`, social, {})
     .then((res) => {
-      success()
+      success2()
+      if (values.e === 'cs' && perfil[0].cpfcnpj.length > 14) {
+        setTimeout(function(){
+           history.push(link);
+        }, 1200);
+      }
     })
     .catch((err) => {
     })
@@ -87,6 +128,12 @@ export default function SocialContract({id}) {
               </div>    
               <div className="column">
                 <EllipsisText text={namesocial} length={20} />
+                { 
+                  showcheck === true ?
+                  (<span className="check-photo"></span>)
+                  :
+                  ('')
+                }
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import { useDispatch, useSelector } from "react-redux";
 import { Rentaltool } from '../../../store/actions/rentaltool';
+import { Link } from '../../../store/actions/link';
 import 'react-dates/initialize';
 import { DateRangePicker, toMomentObject } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
@@ -120,7 +121,8 @@ const Tool = ({history}) => {
           console.log(document.document, document.selfie, document.proof)
           if (document.document !== null || document.selfie !== null || document.proof !== null) {
             if (perfil.cpfcnpj.length > 14 && document.enterprise === null) { 
-              history.push('/s/renter/perfil/documents?e=cs');     
+              history.push('/s/renter/perfil/documents?e=cs');
+              dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
               //erro quando é cnpj       
             } else {
               var attempt = {
@@ -140,9 +142,11 @@ const Tool = ({history}) => {
             }
           } else {
             history.push('/s/renter/perfil/documents?e=df');
+            dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
           }
         }else {
           history.push('/s/renter/perfil/documents?e=nd');
+          dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
         }
 
       }
@@ -153,6 +157,7 @@ const Tool = ({history}) => {
       setModal(true)
     }
   }
+
 
   async function saveRentattempt (attempt) {
     await api.post('rent/attempt/add/', attempt, {})

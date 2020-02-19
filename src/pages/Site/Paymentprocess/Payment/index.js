@@ -28,9 +28,15 @@ const Payment = ({history}) => {
     async function loadRentattempt () {
       const response = await api.get(`rent/attempt/${values.rent_attempt}/${values.code_attempt}`, {
       });
+
+      
+
       if (response.data.rentattempt.length > 0) {
         setRentattemp(response.data.rentattempt[0]);
         setStart(moment(response.data.rentattempt[0].startdate).format('DD/MM/YYYY'));
+      
+        console.log(response.data.rentattempt[0].enddate)
+
         setEnd(moment(response.data.rentattempt[0].enddate).format('DD/MM/YYYY'));
         setOkAttempt(true)
       } else {
