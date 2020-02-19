@@ -162,7 +162,7 @@ export default function Rents({history}) {
         console.log(err.response)
       })
     } else {
-      history.push(`/lessor/detail/${id}?e=unavailable`);
+      history.push(`/lessor/renter/detail/${id}?e=unavailable`);
     }
   }
 

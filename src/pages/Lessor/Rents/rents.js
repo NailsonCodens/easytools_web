@@ -33,10 +33,12 @@ const Rents = ({ history }) => {
   }
 
   const accept = (id, rent) => {
-    ChangeAccept('accept', id).then((res) => {
+    sendNotification(id, 'accept', rent)
+  
+    
+    /*ChangeAccept('accept', id).then((res) => {
       reloadRents()
-      sendNotification(id, 'accept', rent)
-    })
+    })*/
   }
 
   const noaccept = (id, rent) => {
@@ -51,7 +53,7 @@ const Rents = ({ history }) => {
     const response = await api.get(`/tools_site/tool/${rent.tool_id}`, {
     });
 
-    if (response.data.tool.availability === 'Y') {
+    if (response.data.tool[0].availability === 'Y') {
       var titletool = rent.tool.title
       var lessor = rent.userlessor.name
       var renter = rent.userrenter.name
@@ -69,17 +71,20 @@ const Rents = ({ history }) => {
         title = `${renter} Não aceitou o seu aluguel!`;
         message = `Olá ${renter}, Seu pedido não foi aceito pelo vizinho ${lessor}. Fique tranquilo, nós entraremos em contato com você.`;  
       }
+
       var notification = {
-        rent_attempt_id: rent[0].id,
-        user_recipient_id: rent[0].userrenter.id,
+        rent_attempt_id: rent.id,
+        user_recipient_id: rent.userrenter.id,
         message: message,
         title: title
       }
 
+      console.log(notification)
+
       await api.post('/notifications/send', notification, {})
       .then((res) => {
         socketio.emit('notify',{
-          to : rent[0].user_renter_id,
+          to : rent.user_renter_id,
           title: title,
           message : message
         });
@@ -87,7 +92,7 @@ const Rents = ({ history }) => {
         console.log(err.response)
       })
     } else {
-      history.push(`/lessor/detail/${id}?e=unavailable`);
+      history.push(`/lessor/renter/detail/${id}?e=unavailable`);
     }
   }
 
