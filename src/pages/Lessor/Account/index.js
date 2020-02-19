@@ -62,8 +62,10 @@ function Index() {
 
   useEffect(() => {
     async function loadAccount() {
+      const response = await api.get(`/userconfig/${current_user.id}`, {});
+
       if (current_user.id !== undefined) {
-        const response = await api.get(`/userconfig/${current_user.id}`, {});
+        if (response.data.userconfig.length > 0) {
           setId(response.data.userconfig[0].id)
          formik.values.freight = response.data.userconfig[0].freight
          setFreight(response.data.userconfig[0].freight)
@@ -76,6 +78,8 @@ function Index() {
           } else {
             setTyperent('cpfcnpj')
           }
+
+        }
       }
     }
     loadAccount()
