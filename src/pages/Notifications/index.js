@@ -25,11 +25,13 @@ const Allnotification = ({history}) => {
   }, [])
 
   const goNotification = (rent_attempt_id, id) => {
+
     if (current_user.type_user === 'Lessor') {
       goUpdatenotifiy(id);
       history.push(`/lessor/rents/detail/${rent_attempt_id}`);
     } else {
-      console.log('Renter')
+      goUpdatenotifiy(id);
+      history.push(`/s/leased/detail/${rent_attempt_id}`);
     }
   }
 
@@ -46,7 +48,12 @@ const Allnotification = ({history}) => {
   }
 
   const goAllnotification = () => {
-    history.push(`/lessor/notifications`);
+    if (current_user.type_user === 'Lessor') {
+      history.push(`/lessor/notifications`);
+    } else {
+      history.push(`/s/renter/notifications`);
+    }
+
   }
 
   return (

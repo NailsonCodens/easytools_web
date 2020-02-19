@@ -182,7 +182,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
               <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                 <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
                 { 
-                  values.am === undefined ? 'x 1 PÇ' : `x ${values.am} PÇ` 
+                  values.am === undefined ? 'x 1 UN' : `x ${values.am} UN` 
                 }
               </IntlProvider>            
             </p>

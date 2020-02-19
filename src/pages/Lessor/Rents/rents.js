@@ -8,6 +8,7 @@ import Title from '../../../utils/title';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import { Button } from '../../../components/Form/Button';
 import { Link } from 'react-router-dom';
+import socketio from '../../../services/socketio';
 
 import ChangeAccept from './conditionsRent';
 
@@ -31,16 +32,68 @@ const Rents = ({ history }) => {
     history.push(`/lessor/rents/detail/${id}`);
   }
 
-  const accept = (id) => {
+  const accept = (id, rent) => {
+    sendNotification(id, 'accept', rent)
+  
+    
+    /*ChangeAccept('accept', id).then((res) => {
+      reloadRents()
+    })*/
+  }
+
+  const noaccept = (id, rent) => {
     ChangeAccept('accept', id).then((res) => {
       reloadRents()
+      sendNotification(id, 'noaccept', rent)
     })
   }
 
-  const noaccept = (id) => {
-    ChangeAccept('accept', id).then((res) => {
-      reloadRents()
-    })
+
+  async function sendNotification(id, type, rent) {
+    const response = await api.get(`/tools_site/tool/${rent.tool_id}`, {
+    });
+
+    if (response.data.tool[0].availability === 'Y') {
+      var titletool = rent.tool.title
+      var lessor = rent.userlessor.name
+      var renter = rent.userrenter.name
+      var tension = rent.tension
+      var startdate = moment(rent.startdate).format('DD/MM/YYYY');
+      var enddate = moment(rent.enddate).format('DD/MM/YYYY');
+
+      var message = '';
+      var title = '';
+
+      if (type === 'accept') {
+        title = `O vizinho ${lessor} aceitou seu aluguel!`;
+        message = `Olá ${renter}, O vizinho aceitou seu pedido. por texto de processamento do aluguel, se for boleto ficamos aguardando o pagamento, se for ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}.`;  
+      } else {
+        title = `${renter} Não aceitou o seu aluguel!`;
+        message = `Olá ${renter}, Seu pedido não foi aceito pelo vizinho ${lessor}. Fique tranquilo, nós entraremos em contato com você.`;  
+      }
+
+      var notification = {
+        rent_attempt_id: rent.id,
+        user_recipient_id: rent.userrenter.id,
+        message: message,
+        title: title
+      }
+
+      console.log(notification)
+
+      await api.post('/notifications/send', notification, {})
+      .then((res) => {
+        socketio.emit('notify',{
+          to : rent.user_renter_id,
+          title: title,
+          message : message
+        });
+      }).catch((err) => {
+        console.log(err.response)
+      })
+    } else {
+      history.push(`/lessor/renter/detail/${id}?e=unavailable`);
+    }
   }
 
   async function reloadRents () {
@@ -152,7 +205,7 @@ const Rents = ({ history }) => {
                                     type={'submit'}
                                     className={'button is-success color-logo-lessor is-pulled-left'}
                                     text={'Aceitar'}
-                                    onClick={event => accept(rent.id)}
+                                    onClick={event => accept(rent.id, rent)}
                                   />
                                 )
                               }
@@ -170,7 +223,7 @@ const Rents = ({ history }) => {
                                       type={'submit'}
                                       className={'button is-danger color-logo-lessor is-pulled-left'}
                                       text={'Negar'}
-                                      onClick={event => noaccept(rent.id)}
+                                      onClick={event => noaccept(rent.id, rent)}
                                     />
                                   )
                                 }
