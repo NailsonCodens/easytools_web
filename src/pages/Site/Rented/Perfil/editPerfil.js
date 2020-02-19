@@ -41,6 +41,8 @@ const Edit = ({history}) => {
   const [avatar, setAvatar] = useState('');
   const [image, setImage] = useState('');
   const [phone, setPhone] = useState('');
+  const [namesocial, setNamesocial] = useState('');
+  const [setshowbutton, setShowbutton] = useState('');
 
   const success = () => Notification(
     'success',
@@ -95,6 +97,7 @@ const Edit = ({history}) => {
     onSubmit: value => {
       api.put(`perfil/update/${id}`, value, {})
       .then((res) => {
+        setShowbutton(true)
         success()
       })
       .catch((err) => {
@@ -183,7 +186,24 @@ const Edit = ({history}) => {
       })
     }
     loadPerfil();
-  }, [formik.values]);
+
+    async function loadDocument() { 
+      if (id !== '') {
+        const response = await api.get(`/documents/${id}`, {
+        });
+
+        if (response.data.documentUser.length > 0) {
+          if (response.data.documentUser[0].enterprise !== null) {
+            setNamesocial(response.data.documentUser[0].enterprise);
+          }
+        }
+      }
+    }
+    loadDocument();
+
+  }, [formik.values, id]);
+
+  console.log(namesocial)
 
   const handleNameChange = (name) => {
     formik.values.name = name;
@@ -267,6 +287,10 @@ const Edit = ({history}) => {
 
   const {getRootProps, getInputProps} = useDropzone({onDrop})
 
+  const goDocument = () => {
+    history.push('/s/renter/perfil/documents')    
+  }
+
   const goBack = () => {
     history.push('/s/renter/perfil')      
   }
@@ -281,12 +305,10 @@ const Edit = ({history}) => {
 
   return (
     <>
-
-
       {
         values.e === 'cc' ? 
         (
-          <Warninggeneral close={goClose}>Precisamos do seu cpf, ou se você deseja locar como empresa, o cnpj. Lembre-se, que ao selecionar cnpj, você precisa enviar uma cópia do contrato social. <span onClick={goScroll} className="is-text upload">Clique aqui para enviar.</span></Warninggeneral>
+          <Warninggeneral close={goClose}>Precisamos do seu cpf, ou se você deseja locar como empresa, o cnpj. Lembre-se, que ao selecionar cnpj, você precisa enviar uma cópia do contrato social.</Warninggeneral>
         )
         : 
         (
@@ -441,6 +463,28 @@ const Edit = ({history}) => {
                         formik.handleChange("document");
                       }}
                     />
+                    <br/>
+                      {
+                        namesocial === "" && setshowbutton === true && cpfcnpj.length > 14 ? 
+                        (
+                          <>
+                            <Warningtext>
+                              Precisamos do seu contrato social. 
+                            </Warningtext>
+
+                            <Button
+                              type={'button'}
+                              className={'button is-small is-info color-logo-lessor is-pulled-left'}
+                              text={'Enviar contrato social'}
+                              onClick={event => goDocument() }
+                            />  
+                          </> 
+                        )
+                        :
+                        (
+                          ''
+                        )
+                      }
                   </Field>
                   </div>
                   <div className="column">

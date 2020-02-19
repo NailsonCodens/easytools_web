@@ -27,7 +27,7 @@ export default function Start({history}) {
       // eslint-disable-next-line
       response.data.user.map(function (perfil) {
         // eslint-disable-next-line
-        if (perfil.location === "" || perfil.address === "" || perfil.number === "" && perfil.location === "" || perfil.city === "" || perfil.uf === "") {
+        if (perfil.location === null ||  perfil.address === null || perfil.number === null && perfil.location === null || perfil.city === null || perfil.uf === null) {
           setCheck(true)
         } else {
           setCheck(false)
@@ -63,7 +63,7 @@ export default function Start({history}) {
             ('')
 
           }
-
+          <br/><br/>
         </div> 
         <Route path={`${path}/`} exact>
           <Redirect to="lessor/dashboard"/>
