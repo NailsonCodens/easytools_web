@@ -32,21 +32,32 @@ const Notification = ({nt}) => {
   }, [])
 
   const goNotification = (rent_attempt_id, id) => {
+    
     if (current_user.type_user === 'Lessor') {
       goUpdatenotifiy(id);
       history.push(`/lessor/rents/detail/${rent_attempt_id}`);
     } else {
-      console.log('Renter')
+      goUpdatenotifiy(id);
+      history.push(`/s/leased/detail/${rent_attempt_id}`);
     }
-  }
-
-  const goAccept = () => {
   }
 
   async function goUpdatenotifiy (id) {
     const response = await api.put(`/notifications/update/${id}`, {
     });
     updatecount()
+    updateNotficationsshow()
+  }
+
+  async function updateNotficationsshow () {
+    const response = await api.get(`notifications`, {
+    });
+
+    if (response.data.notification.length > 0) {
+      setNotification(response.data.notification)
+      const rent = await api.get(`/rents/${response.data.notification[0].rent_attempt_id}`, {});
+      setRent(response.data.rentattempt);  
+    }
   }
 
   async function updatecount () {
@@ -58,14 +69,18 @@ const Notification = ({nt}) => {
   }
 
   const goAllnotification = () => {
-    history.push(`/lessor/notifications`);
+    if (current_user.type_user === 'Lessor') {
+      history.push(`/lessor/notifications`);
+    } else {
+      history.push(`/s/renter/notifications`);
+    }
   }
 
   return (
     <div>
       <li>
         {
-          nt.map((notify, index) => (
+          notification.map((notify, index) => (
             <div key={index} className="columns column-notify">
               <div className="column is-3">
                 <div className="avatar-notify">

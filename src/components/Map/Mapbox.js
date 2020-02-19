@@ -19,7 +19,7 @@ const Mapbox = ({ lat, lng, url, title }) => {
   })
 
   navigator.geolocation.getCurrentPosition(function(position) {
-    console.log(position)
+
   });
 
   const navStyle = {
