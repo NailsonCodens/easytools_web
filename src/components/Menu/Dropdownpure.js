@@ -1,7 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Ul } from '../../components/List/index';
+import { isAuthenticated } from "../../services/auth";
+import Notification from '../../components/Notification/index';
+import { Notification as Notificationrd } from '../../store/actions/notification';
+import api from '../../services/api';
+import { useDispatch } from "react-redux";
 
 const Droppure = ({ children, classCuston, classMenu, text, countn }) => {
+  const dispatch = useDispatch();	
+
   const wrapperRef = useRef(null);
 	useOutsideAlerter(wrapperRef);
   let [active, setActiveMenu] = useState('');
@@ -13,7 +20,17 @@ const Droppure = ({ children, classCuston, classMenu, text, countn }) => {
 		}
 	
 		useEffect(() => {
-			document.addEventListener("mousedown", handleClickOutside);
+      async function getCountnotification () {
+        if (isAuthenticated()) {
+          const response = await api.get(`/notifications/count`, {
+          });
+          console.log(response.data.notification)
+          dispatch(Notificationrd(response.data.notification))
+        }
+      }
+      getCountnotification()
+
+      document.addEventListener("mousedown", handleClickOutside);
 			return () => {
 				document.removeEventListener("mousedown", handleClickOutside);
 			};

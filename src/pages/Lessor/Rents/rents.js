@@ -33,12 +33,10 @@ const Rents = ({ history }) => {
   }
 
   const accept = (id, rent) => {
-    sendNotification(id, 'accept', rent)
-  
-    
-    /*ChangeAccept('accept', id).then((res) => {
+    ChangeAccept('accept', id).then((res) => {
       reloadRents()
-    })*/
+      sendNotification(id, 'accept', rent)
+    })
   }
 
   const noaccept = (id, rent) => {
@@ -78,8 +76,6 @@ const Rents = ({ history }) => {
         message: message,
         title: title
       }
-
-      console.log(notification)
 
       await api.post('/notifications/send', notification, {})
       .then((res) => {

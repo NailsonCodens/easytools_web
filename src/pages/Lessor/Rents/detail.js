@@ -34,8 +34,10 @@ export default function Rents({history}) {
 
       if (response.data.rentattempt.length > 0) {
         const responsew = await api.get(`/workadd/workadd/${response.data.rentattempt[0].id}`, {});
-        setWorkadd(responsew.data.workadd[0])
-        loadDocumentrenter(response.data.rentattempt[0].user_renter_id)  
+        if (responsew.data.workadd.length > 0){
+          setWorkadd(responsew.data.workadd[0])
+          loadDocumentrenter(response.data.rentattempt[0].user_renter_id)    
+        }
       }
     }
     loadRents();
@@ -328,6 +330,16 @@ export default function Rents({history}) {
                               <p> { rent.userrenter.name } { rent.userrenter.last_name }</p>
                               <p> { rent.userrenter.email } </p>
                               <p> { rent.userrenter.cpfcnpj } </p>
+                              <br/>
+                              {
+                                rent.accept === '1' && rent.paid === '1' 
+                                ?
+                                (
+                                  <p> { rent.userrenter.phone } </p>
+                                )
+                                :
+                                (<p className="color-rent">Quando o aluguel for aceito e pago, você poderá acessar o telefone do locatário.</p>)
+                              }                              
                               { /*<p> <b>Nascimento:</b> { moment(rent.userrenter.birth_date).format('DD/MM/YYYY') } </p>*/ }
                               <br/>
                             </div>

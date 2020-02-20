@@ -29,7 +29,7 @@
 }
 
 .new{
-  color: rgb(0, 140, 255);
+  color: rgb(135, 194, 241);
 }
 
 .notaccpet{
@@ -42,4 +42,8 @@
 
 .acceptandpaid{
   color: rgb(27, 175, 106);
+}
+
+.color-rent{
+  color: rgb(135, 194, 241);
 }

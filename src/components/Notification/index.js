@@ -17,9 +17,10 @@ const Notification = ({nt}) => {
     async function notification () {
       const response = await api.get(`notifications`, {
       });
-
+      
+      setNotification(response.data.notification)
+      
       if (response.data.notification.length > 0) {
-        setNotification(response.data.notification)
         const rent = await api.get(`/rents/${response.data.notification[0].rent_attempt_id}`, {});
         setRent(response.data.rentattempt);  
       }
@@ -117,7 +118,7 @@ const Notification = ({nt}) => {
           ))
         }
         {
-          nt.length === 0 ?
+          notification.length === 0 ?
           (
             <div className="notfound has-text-centered">
               Nenhuma notificação por enquanto!
