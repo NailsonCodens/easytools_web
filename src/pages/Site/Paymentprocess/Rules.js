@@ -72,6 +72,7 @@ const Rules = ({ history }) => {
     } else if (!moment(values.init).isValid()) {
       history.push('/ops');
     } else {
+
       var attemptvalues = {
         user_lessor_id: tool.user_id,
         tool_id: tool.id,
@@ -83,6 +84,8 @@ const Rules = ({ history }) => {
         period: rentattempt.period,
         price: rentattempt.price,
         cost: rentattempt.cost,
+        priceperiod: rentattempt.priceperiod,
+        freight: rentattempt.freight,
         accept: 0,
       }
       updateRentattempt(attemptvalues);

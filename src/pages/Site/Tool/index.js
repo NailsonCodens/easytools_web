@@ -136,6 +136,8 @@ const Tool = ({history}) => {
                 period: price.type,
                 price: price.priceNoamount,
                 cost: price.pricefull,
+                priceperiod: price.price,
+                freight: 0,
                 accept: 0,
               } 
               saveRentattempt(attempt);      

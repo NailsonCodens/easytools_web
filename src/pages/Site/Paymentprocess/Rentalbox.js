@@ -10,7 +10,7 @@ import { Warningtext } from '../../../components/Warningtext';
 import api from '../../../services/api';
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
-  
+   
 const Rentalbox = ({startDate, endDate, attempt}) => {
   const rentinfo = useSelector(state => state.rentinfo);
 
@@ -127,7 +127,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
         }
       }
 
-      dispatch(Rentattempt(price.priceNoamount, price.amount, price.pricefull, amountat, price.type))
+      dispatch(Rentattempt(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, 0, price.price))
 
     }else {
       //por aqui um redirect para erro 404

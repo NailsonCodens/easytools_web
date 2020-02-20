@@ -170,7 +170,13 @@ const Workadd = ({rent}) => {
       formik.values.uf = perfil.uf
       formik.values.city = perfil.city
     } else {
-      formik.values.address = ''  
+      formik.values.location = ''
+      formik.values.neighboor = ''
+      formik.values.address = ''
+      formik.values.number = ''
+      formik.values.complement = ''
+      formik.values.uf = ''
+      formik.values.city = ''
     }
   }
 
