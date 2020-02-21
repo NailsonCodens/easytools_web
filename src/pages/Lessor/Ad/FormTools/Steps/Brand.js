@@ -93,7 +93,6 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
   return (
     <>
       <SubTitlepages>Adicione as informações como marca do equipamento, categoria e para que usar.</SubTitlepages>
-      <br></br>
       <Form
         onSubmit={ (e, values) => {
           Scroll(100, 100);
@@ -101,7 +100,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
         }} 
         noValidate
       > 
-        <div className="columns">
+        <div className="columns column-address">
           <div className="column">
             <Field>
               {
@@ -132,7 +131,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
             </Field>
           </div>
         </div>
-        <div className="columns column-address">
+        <div className="columns">
           <div className="column">
             <Field>
               <Label className="label-perfil" for={'brand'}>
@@ -145,32 +144,6 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
                 className={'input'}
                 onChange={event => handleChangeBrand('brand', event)}
                 value={values.brand}
-              />
-              <Span className={'validation-warning'}>
-                {
-                  formik.touched.brand && formik.errors.brand 
-                ? 
-                  (<div>{formik.errors.brand}</div>) 
-                : 
-                  null
-                }
-              </Span>
-            </Field>
-          </div>
-        </div>
-        <div className="columns column-address">
-          <div className="column">
-            <Field>
-              <Label className="label-perfil" for={'type_spec'}>
-                <b>Tipo</b>
-              </Label>
-              <Input
-                name="type_spec"
-                type="text"
-                placeholder=""
-                className={'input'}
-                onChange={event => handleChangeBrand('type_spec', event)}
-                value={values.type_spec}
               />
               <Span className={'validation-warning'}>
                 {
@@ -201,6 +174,36 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
               />
             </Field>
           </div>
+        </div>
+        <div className="columns column-address">
+          {
+          /*
+            <div className="column">
+              <Field>
+                <Label className="label-perfil" for={'type_spec'}>
+                  <b>Tipo</b>
+                </Label>
+                <Input
+                  name="type_spec"
+                  type="text"
+                  placeholder=""
+                  className={'input'}
+                  onChange={event => handleChangeBrand('type_spec', event)}
+                  value={values.type_spec}
+                />
+                <Span className={'validation-warning'}>
+                  {
+                    formik.touched.brand && formik.errors.brand 
+                  ? 
+                    (<div>{formik.errors.brand}</div>) 
+                  : 
+                    null
+                  }
+                </Span>
+              </Field>
+            </div>
+          */
+          }
         </div>
         <div className="columns column-address">
           <div className="column is-3">

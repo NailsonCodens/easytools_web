@@ -349,3 +349,12 @@
   font-family: 'Poppins', sans-serif !important;
   font-weight: 500 !important;
 }
+
+.list-info-payment{
+  list-style: disc;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+  color: #60A8F1;
+  margin-bottom: 10px;
+}

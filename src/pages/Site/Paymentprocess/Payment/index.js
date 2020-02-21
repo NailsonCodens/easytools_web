@@ -25,6 +25,7 @@ const Payment = ({history}) => {
   const [start, setStart] = useState([]);
   const [end, setEnd] = useState([]);
   const [freight, setFreight] = useState([]);
+  const [userconfig, setUserconfig] = useState([]);
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -65,7 +66,7 @@ const Payment = ({history}) => {
       const response = await api.get(`/userconfig/${userid}`, {
       });
       
-      console.log(response.data) 
+      setUserconfig(response.data.userconfig[0]) 
       /*if(response.data.tool.length > 0) {
         dispatch(Rentinfo(response.data.tool[0]));
         setTool(response.data.tool[0])
@@ -184,15 +185,31 @@ const Payment = ({history}) => {
                       onChange={event => handleFreight(event)}
                   />
                     <Label for={'without'}>Buscar equipamento</Label>
-                    <input 
-                      className="is-checkradio"
-                      id="with"
-                      type="radio" 
-                      name="freight"
-                      value="with"
-                      onChange={event => handleFreight(event)}
-                    />
-                    <Label for={'with'}>Receber equipamento</Label>
+                    { 
+                    //adicionar aqui clausula que verifica onde a ferramenta está, e o endereço passado na seção anterior para 
+                    //ver se abre o campo de receber o equipamento.
+                      tool.delivery === 'Y' ? 
+                      (
+                        <>
+                          <input 
+                            className="is-checkradio"
+                            id="with"
+                            type="radio" 
+                            name="freight"
+                            value="with"
+                            onChange={event => handleFreight(event)}
+                          />
+                          <Label for={'with'}>Receber equipamento</Label>
+                        </>
+                      )
+                      :
+                      (
+                        <>
+                          <br/><br/>
+                          <b>* Este vizinho não entrega o equipamento, você precisa buscar.</b>
+                        </>
+                      )
+                    }
                   </Field>
                 </div>
               </div>
@@ -202,21 +219,28 @@ const Payment = ({history}) => {
                   <>
                     <p className="title-tool-only-little"> Frete </p>
                     <Warningtext>
-                      Ao escolher receber o equipamento, é cobrado a valor do frete por quilometro. 
+                      Ao escolher receber o equipamento, é cobrado o valor do frete por quilometro de onde a 
+                      ferramenta está, até o endereço que você adicionou. 
                     </Warningtext>
+                    {  
+                      console.log(userconfig.freight, userconfig.min)
+                    }
                   </>
                 )
                 :
                 (
                   <>
-                  { console.log(tool) }
                     <div className="columns">
                       <div className="column">
-                      <p className="title-infos-tool hack-padding-top">Localização do equipamento ({ tool.title })</p>
+                        <b>* Após confirmarmos o pagamento, você receberá o endereço para buscar o equipamento.</b>
+                        <br/><br/>
+                        <p className="title-infos-tool hack-padding-top">Localização do equipamento ({ tool.title })</p>
                         {
                         tool.lat !== undefined && tool.lng !== undefined ? 
                         (
-                          <Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture1} title={tool.title}/>                   
+                          <>
+                            <Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture1} title={tool.title}/>                   
+                          </>
                         )
                         : 
                         (
@@ -228,13 +252,33 @@ const Payment = ({history}) => {
                   </>
                 )
               }
+              <p className="title-tool-only-little">Informações importantes:</p>
+              <br/>
+              <ul>
+                {
+                  tool.contract === 'Y' ? 
+                  (
+                    <li className="list-info-payment">Você só pode usar o equipamento, mediante assinatura de contrato. Prepare uma caneta quando for obter o equipamento!</li>
+                  )
+                  :
+                  ('')
+                }
+                {
+                  tool.devolution === 'Y' ? 
+                  (
+                    <li className="list-info-payment">O Vizinho { rentattempt.userlessor.name } busca o equipamento no término do aluguel.</li>
+                  )
+                  :
+                  ('')                  
+                }
+              </ul>
+              <br/><br/>
               <Button 
                 type={'button'}
                 className={'button is-pulled-left color-logo'}
                 text={'Pagar'}                                    
                 onClick={event => paymentRent()}
               />
-
               {
 
                 /*
