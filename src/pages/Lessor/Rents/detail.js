@@ -13,6 +13,7 @@ import Modal from '../../../components/Modal';
 import { Button } from '../../../components/Form/Button';
 import ChangeAccept from './conditionsRent';
 import socketio from '../../../services/socketio';
+import Email from '../../../utils/sendemail';
 
 export default function Rents({history}) {
   document.title = Title('Detalhe aluguel');
@@ -34,8 +35,10 @@ export default function Rents({history}) {
 
       if (response.data.rentattempt.length > 0) {
         const responsew = await api.get(`/workadd/workadd/${response.data.rentattempt[0].id}`, {});
-        setWorkadd(responsew.data.workadd[0])
-        loadDocumentrenter(response.data.rentattempt[0].user_renter_id)  
+        if (responsew.data.workadd.length > 0){
+          setWorkadd(responsew.data.workadd[0])
+          loadDocumentrenter(response.data.rentattempt[0].user_renter_id)    
+        }
       }
     }
     loadRents();
@@ -138,10 +141,10 @@ export default function Rents({history}) {
       var title = '';
 
       if (type === 'accept') {
-        title = `O vizinho ${lessor} aceitou seu aluguel!`;
+        title = `EasyTools -  Aluguel aceito. O vizinho ${lessor} aceitou seu aluguel!`;
         message = `Olá ${renter}, O vizinho aceitou seu pedido. por texto de processamento do aluguel, se for boleto ficamos aguardando o pagamento, se for ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}.`;  
       } else {
-        title = `${renter} Não aceitou o seu aluguel!`;
+        title = `EasyTools - ${renter} Não aceitou o seu aluguel!`;
         message = `Olá ${renter}, Seu pedido não foi aceito pelo vizinho ${lessor}. Fique tranquilo, nós entraremos em contato com você.`;  
       }
       var notification = {
@@ -150,6 +153,8 @@ export default function Rents({history}) {
         message: message,
         title: title
       }
+
+      Email(rent[0].userrenter.id, title, message);
 
       await api.post('/notifications/send', notification, {})
       .then((res) => {
@@ -328,6 +333,16 @@ export default function Rents({history}) {
                               <p> { rent.userrenter.name } { rent.userrenter.last_name }</p>
                               <p> { rent.userrenter.email } </p>
                               <p> { rent.userrenter.cpfcnpj } </p>
+                              <br/>
+                              {
+                                rent.accept === '1' && rent.paid === '1' 
+                                ?
+                                (
+                                  <p> { rent.userrenter.phone } </p>
+                                )
+                                :
+                                (<p className="color-rent">Quando o aluguel for aceito e pago, você poderá acessar o telefone do locatário.</p>)
+                              }                              
                               { /*<p> <b>Nascimento:</b> { moment(rent.userrenter.birth_date).format('DD/MM/YYYY') } </p>*/ }
                               <br/>
                             </div>

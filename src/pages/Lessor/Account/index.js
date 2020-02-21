@@ -120,8 +120,14 @@ function Index() {
         </div>
       </div>
       <div className="columns">
+        <div className="column">
+          <br/>
+          <Titlepage>
+            Cobre um frete justo, os clientes podem desistir de alugar seu equipamento e alugar de outro vizinho pelo valor alto do frete.
+          </Titlepage>
+        </div>
         <div className="column is-7 box-inter box-inter-padding">
-          <h3 className="title-box-inter">Frete e tipo de locação</h3>
+          <h3 className="title-box-inter">Valor para entregar o equipamento</h3>
           <Warningtext>
             Selecione aqui o valor do frete cobrado para levar seu equipamento ou ferramenta, para quem alugou.
           </Warningtext>
@@ -166,7 +172,7 @@ function Index() {
                       </div>
                       <div className="column">
                           <Label className="label-perfil" for={'min'}>
-                            <b>Valor mínimo</b>
+                            <b>Valor mínimo para realizar a entrega</b>
                           </Label>
                           <CurrencyInput
                           name="min"

@@ -223,7 +223,6 @@ const Perfil = ({history}) => {
     setEmail(email);
   };
 
-
   const handlePhoneChange = (phone) => {
     formik.values.phone = phone;
     setPhone(phone);

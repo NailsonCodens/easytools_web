@@ -19,7 +19,22 @@ import { CheckboxIOS } from '../../../components/Form/Button';
 const Workadd = ({rent}) => {
   let valuesroute = queryString.parse(useLocation().search);
 
+  const [address, setAddress] = useState('N');
+  const [perfil, setPerfil] = useState('');
+
   let history = useHistory();
+
+  useEffect(() => {
+    async function loadAddress (addresschoose) {
+      const response = await api.get(`/perfil`, {
+      });
+      setPerfil(response.data.user[0])
+    }
+    loadAddress()
+    
+    return () => {
+    };
+  }, [])
 
   const info = () => Notification(
     'info',
@@ -88,7 +103,6 @@ const Workadd = ({rent}) => {
       info()     
       setTimeout(function(){
         getCordinates(query).then(res => {
-          console.log(res)
 
           if (res.data.features.length !== '') {
             let cordinates =  res.data.features[0].center
@@ -106,6 +120,7 @@ const Workadd = ({rent}) => {
       }, 2000);
     }
   })
+
 
   async function saveWorkadd (values) {
     values['rent_attempt_id'] = rent
@@ -140,24 +155,58 @@ const Workadd = ({rent}) => {
     }
   }
 
-  const handleCheckIOS = () => {
-    console.log('asdsa')
+  const handleCheckIOS = event => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const addresschoose = value ? 'Y' : 'N'
+    setAddress(addresschoose)
+
+    if (addresschoose === 'Y') {
+      formik.values.location = perfil.location
+      formik.values.neighboor = perfil.neighboor
+      formik.values.address = perfil.address
+      formik.values.number = perfil.number
+      formik.values.complement = perfil.complement
+      formik.values.uf = perfil.uf
+      formik.values.city = perfil.city
+    } else {
+      formik.values.location = ''
+      formik.values.neighboor = ''
+      formik.values.address = ''
+      formik.values.number = ''
+      formik.values.complement = ''
+      formik.values.uf = ''
+      formik.values.city = ''
+    }
   }
+
+  console.log(address)
 
   return (
     <div className="container workadd">
       <p className="title-infos-tool hack-padding-top">Estamos quase lá!</p>
+
       <p className="title-tool-only">
         Adicione o endereço onde o equipamento será usado.
       </p>
       <Warningtext>
         <br/>
         Para que tudo ocorra bem, é importante que você adicione o endereço onde o equipamento vai ser usado. 
-        <br/>
         Não se preocupe, o endereço serve para que o locador saiba onde entregar e/ou onde o equipamento será usado,
-        <br/>
-        garantindo assim um melhor atendimento.
+        garantindo assim um melhor atendimento. 
       </Warningtext>
+      <br/>
+      <div className="offer">
+        <CheckboxIOS 
+          onChange={handleCheckIOS}
+          name="address"
+          value={address} 
+          bind="checksignup"
+          ch={address === 'Y' ? true : false}
+          off="Adicionar novo endereço." 
+          on="Usar meu endereço."
+        />
+      </div>
       <br/>
       <Form
         onSubmit={ values => {

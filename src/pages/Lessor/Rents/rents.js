@@ -9,6 +9,7 @@ import {IntlProvider, FormattedNumber} from 'react-intl';
 import { Button } from '../../../components/Form/Button';
 import { Link } from 'react-router-dom';
 import socketio from '../../../services/socketio';
+import Email from '../../../utils/sendemail';
 
 import ChangeAccept from './conditionsRent';
 
@@ -34,10 +35,10 @@ const Rents = ({ history }) => {
 
   const accept = (id, rent) => {
     sendNotification(id, 'accept', rent)
-  
     
     /*ChangeAccept('accept', id).then((res) => {
       reloadRents()
+      sendNotification(id, 'accept', rent)
     })*/
   }
 
@@ -65,10 +66,10 @@ const Rents = ({ history }) => {
       var title = '';
 
       if (type === 'accept') {
-        title = `O vizinho ${lessor} aceitou seu aluguel!`;
+        title = `EasyTools -  Aluguel aceito. O vizinho ${lessor} aceitou seu aluguel!`;
         message = `Olá ${renter}, O vizinho aceitou seu pedido. por texto de processamento do aluguel, se for boleto ficamos aguardando o pagamento, se for ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}.`;  
       } else {
-        title = `${renter} Não aceitou o seu aluguel!`;
+        title = `EasyTools - ${renter} Não aceitou o seu aluguel!`;
         message = `Olá ${renter}, Seu pedido não foi aceito pelo vizinho ${lessor}. Fique tranquilo, nós entraremos em contato com você.`;  
       }
 
@@ -79,7 +80,7 @@ const Rents = ({ history }) => {
         title: title
       }
 
-      console.log(notification)
+      Email(rent.userrenter.id, title, message);
 
       await api.post('/notifications/send', notification, {})
       .then((res) => {

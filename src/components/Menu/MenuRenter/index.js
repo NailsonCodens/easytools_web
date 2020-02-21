@@ -33,12 +33,12 @@ const MenuRenter = () => {
 
 	useEffect(() => {
 		socketio.on('notify',function(data){
+			console.log(data)
 			var user = data.user;
 			var message = data.message;
 			var title = data.title;
-
 			Notifier.start(`${title}`, `${message}`,"www.google.com","validated image url");
-
+			getNotification()
 		});
 
     async function getCountnotification () {
@@ -56,6 +56,8 @@ const MenuRenter = () => {
       const response = await api.get(`/notifications`, {
 			});
       setNotfication(response.data.notification)
+      getCountnotification()
+      renderNotify()
 			}
     }
     getNotification()
