@@ -26,6 +26,8 @@ const Payment = ({history}) => {
   const [end, setEnd] = useState([]);
   const [freight, setFreight] = useState([]);
   const [userconfig, setUserconfig] = useState([]);
+  const [workadd, setWorkadd] = useState([]);
+  const [valuewithfreigh, setValuewithfreigh] = useState(0);
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -36,9 +38,9 @@ const Payment = ({history}) => {
       });
 
       if (response.data.rentattempt.length > 0) {
+        loadWorkadduser(response.data.rentattempt[0], response.data.rentattempt[0].tool.lat, response.data.rentattempt[0].tool.lng)  
         setRentattemp(response.data.rentattempt[0]);
         setStart(moment(response.data.rentattempt[0].startdate).format('DD/MM/YYYY'));
-      
         setEnd(moment(response.data.rentattempt[0].enddate).format('DD/MM/YYYY'));
         setOkAttempt(true)
       } else {
@@ -46,7 +48,6 @@ const Payment = ({history}) => {
       }
     }
     loadRentattempt();
-
 
     async function loadTool() { 
       const response = await api.get(`/tools_site/tool/${values.tool}`, {
@@ -65,15 +66,14 @@ const Payment = ({history}) => {
     async function loadFreight (userid) {
       const response = await api.get(`/userconfig/${userid}`, {
       });
-      
       setUserconfig(response.data.userconfig[0]) 
-      /*if(response.data.tool.length > 0) {
-        dispatch(Rentinfo(response.data.tool[0]));
-        setTool(response.data.tool[0])
-        setOk(true)
-      } else {
-        setOk(false)
-      }*/
+    }
+
+    async function loadWorkadduser (rentid, lat, lng) {
+      const responseworkadd = await api.get(`/workadd/${'e9a400c4-fa60-4a5c-aaf0-f573c907f99c?lat=-25.480929&lng=-49.345622'}`, {
+      });
+
+      setWorkadd(responseworkadd.data.workadd[0])
     }
 
     return () => {
@@ -123,9 +123,6 @@ const Payment = ({history}) => {
     }
   }
 
-  const renderText = () => {
-   
-  }
 
   const handleFreight = (event) => {
     setFreight(event.target.value)
@@ -160,6 +157,24 @@ const Payment = ({history}) => {
     return text
   }
 
+  const renderCalc = () => {
+    var kmregional = 8
+    var freight = parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.'));
+    var minfreight = parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.'));
+    var kmcurrent = workadd.distance;
+    var costfreight = 0;
+
+    if (kmregional > kmcurrent) {
+        costfreight  = minfreight
+    } else {
+        costfreight = freight * kmcurrent.toFixed(1);
+    }
+
+    console.log(costfreight)
+
+    return costfreight
+  }
+
   return (
     <div className="container">
       {
@@ -167,7 +182,7 @@ const Payment = ({history}) => {
         (
           <div className="columns">
             <div className="column is-two-thirds">
-              <p className="title-tool-only"> Entrega ou busca & pagamento </p>
+              <p className="title-tool-only"> Entrega ou busca </p>
               <br/><br/>
               <p className="title-tool-only-little">
                 Escolha de que forma você deseja obter o equipamento.
@@ -222,9 +237,12 @@ const Payment = ({history}) => {
                       Ao escolher receber o equipamento, é cobrado o valor do frete por quilometro de onde a 
                       ferramenta está, até o endereço que você adicionou. 
                     </Warningtext>
-                    {  
-                      console.log(userconfig.freight, userconfig.min)
-                    }
+                    <br/>
+                    <span className="valuefreight">Valor do frete: </span>
+                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                      <b><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
+                    </IntlProvider>
+                    <br/><br/> 
                   </>
                 )
                 :
@@ -266,19 +284,15 @@ const Payment = ({history}) => {
                 {
                   tool.devolution === 'Y' ? 
                   (
-                    <li className="list-info-payment">O Vizinho { rentattempt.userlessor.name } busca o equipamento no término do aluguel.</li>
+                    <li className="list-info-payment">O Vizinho { /*rentattempt.userlessor.name */} busca o equipamento no término do aluguel.</li>
                   )
                   :
                   ('')                  
                 }
               </ul>
               <br/><br/>
-              <Button 
-                type={'button'}
-                className={'button is-pulled-left color-logo'}
-                text={'Pagar'}                                    
-                onClick={event => paymentRent()}
-              />
+              <p className="title-tool-only"> Pagamento </p>
+              <br/>
               {
 
                 /*
@@ -334,7 +348,7 @@ const Payment = ({history}) => {
                     </div>  
                   </div>  
               </div>
-                <div className="columns">
+                <div className="columns no-margin-top-columns">
                   <div className="column">
                   <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                     <FormattedNumber value={rentattempt.priceperiod} style="currency" currency="BRL" />
@@ -366,7 +380,35 @@ const Payment = ({history}) => {
                   </p>
                 </div>
               </div>
-
+              {
+                freight === 'with' ? 
+                (
+                  <div className="columns no-margin-top-columns">
+                    <div className="column">
+                      <b>Total com frete</b>
+                    </div>
+                    <div className="column">
+                      <p className="is-pulled-right">
+                        <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                          <b><FormattedNumber value={parseFloat(rentattempt.cost.replace(/\./gi,'').replace(/,/gi,'.')) + renderCalc()} style="currency" currency="BRL" /></b>
+                        </IntlProvider>            
+                      </p>
+                    </div>
+                  </div>
+                )
+                :
+                ('')
+              }
+              <div className="columns">
+                <div className="column">
+                  <Button 
+                    type={'button'}
+                    className={'button is-pulled-right color-logo'}
+                    text={'Pagar'}                                    
+                    onClick={event => paymentRent()}
+                  />
+                </div>
+              </div>
               </div>
             </div>
           </div>

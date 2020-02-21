@@ -24,7 +24,6 @@ const Droppure = ({ children, classCuston, classMenu, text, countn }) => {
         if (isAuthenticated()) {
           const response = await api.get(`/notifications/count`, {
           });
-          console.log(response.data.notification)
           dispatch(Notificationrd(response.data.notification))
         }
       }
