@@ -281,6 +281,20 @@ const Rents = ({ history }) => {
                                 </IntlProvider>                                
                               </div>
                             </div>
+                            <div className="columns">
+                              <div className="column">
+                                <b>Custo de entrega: </b>
+                                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                                  <FormattedNumber value={parseFloat(rent.freight)} style="currency" currency="BRL" />
+                                </IntlProvider>                                
+                              </div>
+                              <div className="column">
+                                <b>Valores do aluguel + Custo de entrega: </b>
+                                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                                  <FormattedNumber value={parseFloat(rent.cost) + parseFloat(rent.freight)} style="currency" currency="BRL" />
+                                </IntlProvider>                                
+                              </div>
+                            </div>
                           </div>
                         </div>
                         </div>

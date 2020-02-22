@@ -121,12 +121,12 @@ const Workadd = ({rent}) => {
     }
   })
 
-
   async function saveWorkadd (values) {
     values['rent_attempt_id'] = rent
 
     const responseworkadd = await api.get(`workadd/${rent}`, {
     });
+
     if (responseworkadd.data.workadd.length > 0) {
       var workaddid = responseworkadd.data.workadd[0].id;
       var workaddrentid = responseworkadd.data.workadd[0].rent_attempt_id;
@@ -148,6 +148,7 @@ const Workadd = ({rent}) => {
   async function verifyAvailabletool() { 
     const response = await api.get(`/tools_site/tool/${valuesroute.tool}`, {
     });
+
     if (response.data.tool[0].availability === 'Y') {
       history.push(`/s/payment/rent-payment?rent_attempt=${valuesroute.rent_attempt}&tool=${valuesroute.tool}&code_attempt=${valuesroute.code_attempt}`)      
     } else {
