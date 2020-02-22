@@ -38,7 +38,7 @@ const Payment = ({history}) => {
       });
 
       if (response.data.rentattempt.length > 0) {
-        loadWorkadduser(response.data.rentattempt[0], response.data.rentattempt[0].tool.lat, response.data.rentattempt[0].tool.lng)  
+        loadWorkadduser(response.data.rentattempt[0].id, response.data.rentattempt[0].tool.lat, response.data.rentattempt[0].tool.lng)  
         setRentattemp(response.data.rentattempt[0]);
         setStart(moment(response.data.rentattempt[0].startdate).format('DD/MM/YYYY'));
         setEnd(moment(response.data.rentattempt[0].enddate).format('DD/MM/YYYY'));
@@ -70,7 +70,7 @@ const Payment = ({history}) => {
     }
 
     async function loadWorkadduser (rentid, lat, lng) {
-      const responseworkadd = await api.get(`/workadd/${'e9a400c4-fa60-4a5c-aaf0-f573c907f99c?lat=-25.480929&lng=-49.345622'}`, {
+      const responseworkadd = await api.get(`/workadd/${rentid}?lat=${lat}&lng=${lng}`, {
       });
 
       setWorkadd(responseworkadd.data.workadd[0])
@@ -81,13 +81,26 @@ const Payment = ({history}) => {
   }, [current_user])
 
   const paymentRent = () => {
-
-    sendNotification()
+    updateRentattemp()
   }
 
   async function sendNotification () {
     verifyAvailabletool()
   }
+
+  async function updateRentattemp () {
+    var rentupdate = {
+      freight: renderCalc()
+    }
+
+    await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
+    .then((res) => {
+      //sendNotification()
+    }).catch((err) => {
+      console.log(err.response)
+    }) 
+  }
+
   async function verifyAvailabletool() { 
     const response = await api.get(`/tools_site/tool/${rentattempt.tool_id}`, {
     });
@@ -123,7 +136,6 @@ const Payment = ({history}) => {
     }
   }
 
-
   const handleFreight = (event) => {
     setFreight(event.target.value)
   }
@@ -153,14 +165,13 @@ const Payment = ({history}) => {
         text = ` x ${months} Mêses`
       }
     }
-
     return text
   }
 
   const renderCalc = () => {
     var kmregional = 8
-    var freight = parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.'));
-    var minfreight = parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.'));
+    var freight = userconfig !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1;
+    var minfreight = userconfig !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 30;
     var kmcurrent = workadd.distance;
     var costfreight = 0;
 
@@ -169,9 +180,6 @@ const Payment = ({history}) => {
     } else {
         costfreight = freight * kmcurrent.toFixed(1);
     }
-
-    console.log(costfreight)
-
     return costfreight
   }
 
@@ -232,13 +240,13 @@ const Payment = ({history}) => {
                 freight === 'with' ? 
                 (
                   <>
-                    <p className="title-tool-only-little"> Frete </p>
+                    <p className="title-tool-only-little"> Custo de entrega </p>
                     <Warningtext>
-                      Ao escolher receber o equipamento, é cobrado o valor do frete por quilometro de onde a 
-                      ferramenta está, até o endereço que você adicionou. 
+                      Ao escolher receber o equipamento, é cobrado o valor do custo de entrega por quilometro de onde o 
+                      equipamento está, até o endereço que você adicionou. 
                     </Warningtext>
                     <br/>
-                    <span className="valuefreight">Valor do frete: </span>
+                    <span className="valuefreight">Custo da entrega: </span>
                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                       <b><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
                     </IntlProvider>

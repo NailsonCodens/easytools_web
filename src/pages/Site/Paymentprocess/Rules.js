@@ -170,7 +170,7 @@ const Rules = ({ history }) => {
                       </div>
                       <div className="column">
                         <div className="column has-centered-text">
-                          <Rentalbox startDate={values.init} endDate={values.finish}></Rentalbox>
+                          <Rentalbox attempt={attempt} startDate={values.init} endDate={values.finish}></Rentalbox>
                         </div>
                       </div>
                     </div>

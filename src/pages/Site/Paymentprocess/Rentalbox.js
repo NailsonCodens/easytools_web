@@ -12,8 +12,8 @@ import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
    
 const Rentalbox = ({startDate, endDate, attempt}) => {
+  
   const rentinfo = useSelector(state => state.rentinfo);
-
   const [tool, setTool] = useState([]);
   const [price, setPrice] = useState({});
 
@@ -29,7 +29,8 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
       formatPrice(response.data.tool[0].prices.split(';'))
     }
     loadInfochoose()
-  }, [attempt, rentinfo]);
+
+  }, [attempt]);
 
   const formatPrice = (pricef) => {
 
@@ -129,10 +130,34 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
 
       dispatch(Rentattempt(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, 0, price.price))
 
+      updateRentattemp(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, 0, price.price)
     }else {
       //por aqui um redirect para erro 404
     }
   }
+
+  async function updateRentattemp (price, days, cost, amount, period, freight, priceperiod) {
+    var rentupdate = {
+      price: price,
+      days: days,
+      cost: cost,
+      amount: amount,
+      period: period,
+      freight: freight,
+      priceperiod: priceperiod
+    }
+
+    console.log(attempt.id)
+
+    if (attempt.id !== undefined) {
+      await api.put(`rent/attempt/updaterent/${attempt.id}`, rentupdate, {})
+      .then((res) => {
+      }).catch((err) => {
+        console.log(err.response)
+      })   
+    }
+  }
+
 
   const renderPrice = () => {
     var text = ''
