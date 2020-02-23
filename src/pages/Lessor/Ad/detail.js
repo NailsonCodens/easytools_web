@@ -246,13 +246,16 @@ const Detail = ({history}) => {
                   <b> Entraga: </b> { tool.delivery === 'Y' ? 'SIM' : 'NÃO' }
                   <b> Devolução: </b> { tool.devolution === 'Y' ? 'SIM' : 'NÃO' }
                 </p>
-                <Button
-                  type={'button'}
-                  className={'button is-info color-logo-lessor is-pulled-left'}
-                  text={showaddress === true ? 'Esconder localização' : 'Mostrar localização'  }
-                  onClick={event => showAddress()}
-                />
-                <br/><br/>
+                <div>
+                  <div className={'has-text-centered is-size-4 mwd-m-top'}><p>Endereço</p></div>
+                  <div onClick={event => showAddress()} className={'mwd-expand'}>
+                      <div className={'mwd-bar'}></div>
+                      <div className={'mwd-expander'}>
+                        <div className={'pos down-arrow'}></div>
+                      </div>
+                      <div className={'mwd-bar'}></div>
+                  </div>
+                </div>
                 <p className={ showaddress === true ? 'block' : 'is-hidden' }>
                   <b>CEP: </b> { tool.location }
                   <b> Bairro: </b> { neighboor }
