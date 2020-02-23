@@ -54,6 +54,7 @@ export default function Index({history}) {
         <div className="columns is-desktop">
           <div className="column box-inter">
             <div className="columns is-desktop is-multiline">
+              { tools.length === 0 ? <div className={'mwd-placeholder'} >Você ainda não tem nenhum anúncio.</div> : ''}
               {
                 tools.map(tool => (
                   <div key={tool.id} className="column is-one-third">

@@ -182,6 +182,7 @@ const Singup = ({ history }) => {
       }, 1000);      
     })
     .catch((err) => {
+      console.log(err.response)
       if (err.response.data.fields.email) {
         setTerms(false);
         setRedirect(true);

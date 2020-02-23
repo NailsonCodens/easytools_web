@@ -721,7 +721,23 @@ const Perfil = ({history}) => {
                   </Field>
                 </div>
                 <div className="column box-inter box-inter-padding">
-                  -
+                    <Form 
+                      //onSubmit={handlePasswordChange}
+                      noValidate
+                    >
+                      <Input
+                        name="oldPassword"
+                        type="password"
+                        placeholder="Senha Antiga"
+                       // className={formik.touched.name && formik.errors.name ? 'input border-warning' : 'input'}
+                        onChange={event => {
+                          //handleNameChange(event.target.value);
+                          //formik.handleChange("name");
+                        }}
+                        value={name}
+                      >
+                      </Input>
+                    </Form>
                 </div>
               </div>
             </Form>
