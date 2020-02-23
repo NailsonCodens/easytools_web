@@ -48,7 +48,6 @@ export default function Rents({history}) {
         const responsew = await api.get(`documents/${idrenter}`, {});
         setDocument(responsew.data.documentUser[0])
       }
-
     }
     loadDocumentrenter();
     
