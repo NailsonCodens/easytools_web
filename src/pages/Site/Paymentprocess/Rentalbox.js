@@ -41,7 +41,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
 
       var startdate = moment(startDate).format('YYYY-MM-DD');
       var enddate = moment(endDate).format('YYYY-MM-DD');
-  
+
       var period = moment.preciseDiff(startdate, enddate, true);
       var days = period.days;
       var months = period.months;
@@ -57,7 +57,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
 
         setPrice({
           type: 'month', 
-          amount: days, 
+          amount: months, 
           amountmonth: months, 
           price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
           priceNoamount: months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
@@ -144,7 +144,9 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
       amount: amount,
       period: period,
       freight: freight,
-      priceperiod: priceperiod
+      priceperiod: priceperiod,
+      startdate: startDate,
+      enddate: endDate
     }
 
     console.log(attempt.id)

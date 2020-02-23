@@ -181,6 +181,7 @@ const Resume = ({history}) => {
                   </div>
                   <div className="column">
                   <div className="column has-centered-text">
+                    { console.log(values.init, values.finish) }
                     <Rentalbox attempt={attempt} startDate={values.init} endDate={values.finish}></Rentalbox>
                   </div>
                   </div>

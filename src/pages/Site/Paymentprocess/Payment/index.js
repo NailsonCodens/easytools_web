@@ -90,12 +90,14 @@ const Payment = ({history}) => {
 
   async function updateRentattemp () {
     var rentupdate = {
-      freight: renderCalc()
+      freight: renderCalc(),
+      startdate: rentattempt.startdate,
+      enddate: rentattempt.enddate
     }
 
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
     .then((res) => {
-      //sendNotification()
+      sendNotification()
     }).catch((err) => {
       console.log(err.response)
     }) 
@@ -104,6 +106,9 @@ const Payment = ({history}) => {
   async function verifyAvailabletool() { 
     const response = await api.get(`/tools_site/tool/${rentattempt.tool_id}`, {
     });
+
+
+
     if (response.data.tool[0].availability === 'Y') {
       var titletool = rentattempt.tool.title
       var lessor = rentattempt.userlessor.name
@@ -146,6 +151,7 @@ const Payment = ({history}) => {
     var weekend = 1
     var months = rentattempt.amountmonth
 
+
     if (rentattempt.period === 'days') {
       text = ` x ${days} Dia(s)`
     }
@@ -159,10 +165,11 @@ const Payment = ({history}) => {
     }
 
     if (rentattempt.period === 'month') {
-      if (months === 1) {
-        text = ` por ${months} Mês`
+
+      if (rentattempt.period === 'month' && rentattempt.days === 1) {
+        text = ` por ${days} Mês`
       } else {
-        text = ` x ${months} Mêses`
+        text = ` x ${days} Mêses`
       }
     }
     return text

@@ -20,7 +20,8 @@ const Workadd = ({rent}) => {
   let valuesroute = queryString.parse(useLocation().search);
 
   const [address, setAddress] = useState('N');
-  const [perfil, setPerfil] = useState('');
+  const [perfil, setPerfil] = useState([]);
+  const [notifice, setNotice] = useState(false);
 
   let history = useHistory();
 
@@ -28,7 +29,14 @@ const Workadd = ({rent}) => {
     async function loadAddress (addresschoose) {
       const response = await api.get(`/perfil`, {
       });
-      setPerfil(response.data.user[0])
+
+      if (response.data.user[0].address !== null || response.data.user[0].number !== null 
+        || response.data.user[0].location !== null || response.data.user[0].uf !== null
+        || response.data.user[0].city !== null){
+        setPerfil(response.data.user[0])
+      } else {
+        setNotice(true)
+      }
     }
     loadAddress()
     
@@ -181,8 +189,6 @@ const Workadd = ({rent}) => {
     }
   }
 
-  console.log(address)
-
   return (
     <div className="container workadd">
       <p className="title-infos-tool hack-padding-top">Estamos quase lá!</p>
@@ -207,6 +213,19 @@ const Workadd = ({rent}) => {
           off="Adicionar novo endereço." 
           on="Usar meu endereço."
         />
+        {
+          console.log(notifice)
+        }
+        {
+          notifice === true ? 
+          (
+            <Warningtext>
+              Você ainda não colocou seu endereço de cadastro, faça isso assim que puder, clicando no seu nome no canto inferior direito -> perfil. 
+            </Warningtext>     
+          )
+          :
+          ('')
+        }
       </div>
       <br/>
       <Form

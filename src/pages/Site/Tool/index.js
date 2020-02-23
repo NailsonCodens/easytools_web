@@ -117,8 +117,6 @@ const Tool = ({history}) => {
         history.push('/s/renter/perfil/edit?e=cc');
       }else {
         if (document !== undefined) {
-
-          console.log(document.document, document.selfie, document.proof)
           if (document.document !== null || document.selfie !== null || document.proof !== null) {
             if (perfil.cpfcnpj.length > 14 && document.enterprise === null) { 
               history.push('/s/renter/perfil/documents?e=cs');
@@ -282,50 +280,50 @@ const Tool = ({history}) => {
           type: 'month', 
           amount: days, 
           amountmonth: months, 
-          price: parseInt(priceback[3]), 
-          pricefull: (months * parseInt(priceback[3]) * amount)
+          price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+          pricefull: (months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
         })
       } else if (period.days !== 0) {
         if (days < 7)
           setPrice({
             type: 'days', 
             amount: days, 
-            price: parseInt(priceback[0]),
-            priceNoamount: days * parseInt(priceback[0]), 
-            pricefull: (days * parseInt(priceback[0]) * amount)
+            price: parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.')),
+            priceNoamount: days * parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.')), 
+            pricefull: (days * parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
           })
         else if (days === 7)
           setPrice({
             type: 'weekend', 
             amount: days, 
-            price: parseInt(priceback[1]), 
-            priceNoamount: 1 * parseInt(priceback[1]),
-            pricefull: (1 * parseInt(priceback[1]) * amount)
+            price: parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: 1 * parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.')),
+            pricefull: (1 * parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
           })
         else if (days > 7 && days < 15)
           setPrice({
             type: 'biweekly', 
             amount: days, 
-            price: parseInt(priceback[2]), 
-            priceNoamount: 1 * parseInt(priceback[2]),
-            pricefull: (1 * parseInt(priceback[2])) * amount
+            price: parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: 1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')),
+            pricefull: (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
           })
         else if (days === 15)
         setPrice({
           type: 'biweekly', 
           amount: days, 
-          price: parseInt(priceback[2]), 
-          priceNoamount: 1 * parseInt(priceback[2]),
-          pricefull: (1 * parseInt(priceback[2])) * amount
+          price: parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')), 
+          priceNoamount: 1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')),
+          pricefull: (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
         })
         else if (days > 15)
           setPrice({
             type: 'month', 
             amount: days, 
             amountmonth: 1, 
-            price: parseInt(priceback[3]), 
-            priceNoamount: 1 * parseInt(priceback[3]),
-            pricefull: (1 * parseInt(priceback[3])) * amount
+            price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
+            pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
           })
       }
     }
@@ -353,54 +351,60 @@ const Tool = ({history}) => {
       if (period.months !== 0) {
         setPrice({
           type: 'month', 
-          amount: days, 
+          amount: months, 
           amountmonth: months, 
-          price: parseInt(prices[3]),
-          priceNoamount: months * parseInt(prices[3]),
-          pricefull: (months * parseInt(prices[3]) * amounttool)
+          price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+          priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
+          pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
         })
       } else if (period.days !== 0) {
         if (days < 7)
           setPrice({
             type: 'days', 
             amount: days, 
-            price: parseInt(prices[0]), 
-            priceNoamount: days * parseInt(prices[0]),
-            pricefull: (days * parseInt(prices[0]) * amounttool)
+            price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')),
+            pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
           })
         else if (days === 7)
           setPrice({
             type: 'weekend', 
             amount: days, 
-            price: parseInt(prices[1]), 
-            priceNoamount: 1 * parseInt(prices[1]),
-            pricefull: (1 * parseInt(prices[1]) * amounttool)
+            price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')),
+            pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
           })
         else if (days > 7 && days < 15)
           setPrice({
             type: 'biweekly', 
             amount: days, 
-            price: parseInt(prices[2]), 
-            priceNoamount: 1 * parseInt(prices[2]),
-            pricefull: (1 * parseInt(prices[2])) * amounttool
+            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')),
+            pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
           })
         else if (days === 15)
         setPrice({
           type: 'biweekly', 
           amount: days, 
-          price: parseInt(prices[2]), 
-          priceNoamount: 1 * parseInt(prices[2]),
-          pricefull: (1 * parseInt(prices[2])) * amounttool
+          price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')), 
+          priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')),
+          pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
         })
-        else if (days > 15)
-          setPrice({
-            type: 'month', 
-            amount: days, 
-            amountmonth: 1, 
-            price: parseInt(prices[3]), 
-            priceNoamount: 1 * parseInt(prices[3]),
-            pricefull: (1 * parseInt(prices[3])) * amounttool
-        })
+        else if (days > 15){
+          if (months === 1) {
+            setPrice({
+              type: 'month', 
+              amount: days, 
+              amountmonth: 1, 
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+            })
+          }
+           else {
+
+           }
+        }
       }
     }
   }
@@ -474,7 +478,7 @@ const Tool = ({history}) => {
             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
               <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
               { 
-                amount === undefined ? 'x 1 PÇ' : `x ${amount} PÇ` 
+                amount === undefined ? 'x 1 UN' : `x ${amount} UN` 
               }
             </IntlProvider>            
           </p>

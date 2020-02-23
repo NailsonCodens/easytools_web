@@ -56,7 +56,7 @@ export default function Rents({history}) {
     };
   }, [])
 
-  const renderPeriod = (period) => {
+  const renderPeriod = (period, days) => {
     var periodChoose = period
 
     if (period === 'days') {
@@ -66,7 +66,11 @@ export default function Rents({history}) {
     } else if (period === 'weekend') {
       periodChoose = 'Semanal ';
     } else if (period === 'month') {
-      periodChoose = 'Mês ';
+      if (days === 1) {
+        periodChoose = 'Mês ';
+      } else {
+        periodChoose = 'Mêses ';
+      }
     }
 
     return (
@@ -309,7 +313,7 @@ export default function Rents({history}) {
                         Tensão: { rent.tension }
                       </p>
                       <p>
-                        Período: { rent.days } { renderPeriod(rent.period) }
+                        Período: { rent.days } { renderPeriod(rent.period, rent.days) }
                       </p>
                       <div className="columns">
                         <div className="column">
