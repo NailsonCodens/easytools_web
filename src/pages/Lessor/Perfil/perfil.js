@@ -18,15 +18,16 @@ import { cpfMask, cnpjMask } from '../../../utils/maskdocument';
 import documents from '../../../utils/documents';
 import api from '../../../services/api';
 import Notification from '../../../utils/notification';
+import PasswordChange from '../../../components/PasswordChange/PasswordChange';
 
 import './style.css';
 
 const Perfil = ({history}) => {
   document.title = Title('Perfil');
 
-  const success = () => Notification(
+  const success = (msg = null) => Notification(
     'success',
-    'Perfil atualizado com sucesso!', 
+    msg !== null ? msg : 'Perfil atualizado com sucesso!', 
     {
       autoClose: 3000,
       draggable: false,
@@ -39,6 +40,24 @@ const Perfil = ({history}) => {
       pauseOnHover: true,
       draggable: true,
     }
+  )
+
+  const notSuccess = (msg = null) => Notification(
+    'error',
+    msg !== null ? msg : 'A senha atual não é válida!',
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+
   )
 
   const success2 = () => Notification(
@@ -108,7 +127,8 @@ const Perfil = ({history}) => {
         .required('Celular é obrigatório.'),
     }),
 
-    onSubmit: value => {
+    onSubmit: (value, actions) => {
+      actions.setSubmitting(true)
       api.put(`perfil/update/${id}`, value, {})
       .then((res) => {
         success()
@@ -721,23 +741,7 @@ const Perfil = ({history}) => {
                   </Field>
                 </div>
                 <div className="column box-inter box-inter-padding">
-                    <Form 
-                      //onSubmit={handlePasswordChange}
-                      noValidate
-                    >
-                      <Input
-                        name="oldPassword"
-                        type="password"
-                        placeholder="Senha Antiga"
-                       // className={formik.touched.name && formik.errors.name ? 'input border-warning' : 'input'}
-                        onChange={event => {
-                          //handleNameChange(event.target.value);
-                          //formik.handleChange("name");
-                        }}
-                        value={name}
-                      >
-                      </Input>
-                    </Form>
+                  <PasswordChange userId={id} success={success} notSuccess = {notSuccess}/>
                 </div>
               </div>
             </Form>
