@@ -189,7 +189,7 @@ const Tool = ({history}) => {
 
       console.log(response)
 
-      if (response.data.tool.length > 0 && response.data.tool[0].situation === 'Y') {
+      if (response.data.tool.length > 0 || response.data.tool[0].situation === 'Y') {
         setTool(response.data.tool[0])
         setTensionshow(response.data.tool[0].tension)
         setPictures(response.data.tool[0].picture)

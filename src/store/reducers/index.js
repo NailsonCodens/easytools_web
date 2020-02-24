@@ -6,6 +6,7 @@ import rentinfo from './rentinfo';
 import rentaltool from './rentaltool'
 import rentattempt from './rentattempt'
 import notification from './notification';
+import coordinates from './coordinates';
 import link from './link';
 
 export default combineReducers({
@@ -16,5 +17,6 @@ export default combineReducers({
   rentaltool,
   rentattempt,
   notification,
+  coordinates,
   link
 });

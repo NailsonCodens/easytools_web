@@ -1,8 +1,6 @@
-export function Search(search, lat, lng){
+export function Search(search){
   return {
     type: 'search',
-    search: search,
-    lat: lat,
-    lng: lng
+    search: search
   }
 }

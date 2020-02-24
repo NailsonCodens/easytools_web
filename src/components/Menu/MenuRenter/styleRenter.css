@@ -97,6 +97,29 @@
   border-radius: 100px !important;
 }
 
+.newaddress{
+  background: #fff;
+  z-index: 999;
+  position:fixed;
+  width: 400px;
+  margin-top: 0px;
+  border-top: none !important;
+  border: 1px solid rgb(224, 224, 224);
+  padding: 10px;
+}
+
+.input-small{
+  margin-top: 4px;
+  margin-bottom: 4px;
+  font-size: 13px !important;
+}
+
+.box-places{
+  font-size: 12px;
+  height: 100px !important;
+  overflow-x: scroll;
+}
+
 @media (max-width: 900px) {
   .input-search {
     width: 85% !important;
