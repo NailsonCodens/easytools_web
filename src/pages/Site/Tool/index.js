@@ -187,7 +187,9 @@ const Tool = ({history}) => {
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
 
-      if (response.data.tool.length > 0) {
+      console.log(response)
+
+      if (response.data.tool.length > 0 && response.data.tool[0].situation === 'Y') {
         setTool(response.data.tool[0])
         setTensionshow(response.data.tool[0].tension)
         setPictures(response.data.tool[0].picture)
