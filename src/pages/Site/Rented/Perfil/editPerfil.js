@@ -19,6 +19,7 @@ import Notification from '../../../../utils/notification';
 import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import Warninggeneral from '../../../Warnings/Warninggeneral';
+import PasswordChange from '../../../../components/PasswordChange/PasswordChange';
 
 const Edit = ({history}) => {
   document.title = Title('Perfil');
@@ -44,9 +45,9 @@ const Edit = ({history}) => {
   const [namesocial, setNamesocial] = useState('');
   const [setshowbutton, setShowbutton] = useState('');
 
-  const success = () => Notification(
+  const success = (msg = null) => Notification(
     'success',
-    'Alterado com sucesso.', 
+    msg !== null ? msg : 'Alterado com sucesso!',
     {
       autoClose: 1500,
       draggable: false,
@@ -59,6 +60,24 @@ const Edit = ({history}) => {
       pauseOnHover: true,
       draggable: true,
     }
+  )
+
+  const notSuccess = (msg = null) => Notification(
+    'error',
+    msg !== null ? msg : 'A senha atual não é válida!',
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+
   )
 
   const formik = useFormik({
@@ -774,10 +793,14 @@ const Edit = ({history}) => {
               </Field>
             </div> 
             <div className="column is-5">
-
             </div>
           </div>             
         </Form>
+       <div className={'columns column-address'}>
+         <div className={'column is-three-fifths'}>
+          <PasswordChange userId={id} success={success} notSuccess = {notSuccess}/>
+         </div>
+       </div>
       </div>
     </>
   );
