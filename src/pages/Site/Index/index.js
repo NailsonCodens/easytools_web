@@ -17,31 +17,29 @@ const Dashboard = ({history, location}) => {
   // eslint-disable-next-line	
   const paramsearch = queryString.parse(useLocation().search).search;
   const [tools, setTools] = useState([]);
-	const search =   useSelector(state => state.search);
+	const search = useSelector(state => state.search);
+	const coordinates = useSelector(state => state.coordinates);
 
   useEffect(() => {
-    async function loadTools() {
-      var response = '';
-      if (search !== '') {
-        if (search.lat === undefined) {
-          response = await api.get(`/tools_site?search=${search.search}&lat=&lng=`, {
-            headers: { search }
-          });
-        } else {
-          response = await api.get(`/tools_site?search=${search.search}&lat=${search.lat}&lng=${search.lng}`, {
-            headers: { search }
-          });
-        }       
-      } else {
-        response = await api.get(`/tools_site?search=&lat=&lng=`, {
-          headers: { search }
-        });
-      }
+    async function loadCoords () {
+      navigator.geolocation.getCurrentPosition(
+				position => {
+          loadTools(position.coords.latitude, position.coords.longitude)
+				},
+				error => {
+          loadTools()
+        },{ enableHighAccuracy: true });
+    }
+    loadCoords()
 
+    async function loadTools(lat = '', lng = '') {
+
+      const response = await api.get(`/tools_site?search=${search}&lat=${lat}&lng=${lng}`, {
+        headers: { search }
+      });
      setTools(response.data.tools)
     }
 
-    loadTools();
   }, [search]);
 
   const goTool = (id,category) => {

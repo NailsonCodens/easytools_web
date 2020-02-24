@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import {Search} from '../../../store/actions/search';
+import {Coordinates} from '../../../store/actions/coordinates';
 import Scrool from '../../../utils/scroll';
 import Auth from '../../../pages/Auth/index';
 import Modal from '../../../components/Modal';
@@ -18,6 +19,11 @@ import api from '../../../services/api';
 import simpleCrypto from '../../../services/crypto';
 import { isAuthenticated } from "../../../services/auth";
 import Notificationtost from '../../../utils/notification';
+import Title from '../../../utils/title';
+import { Warningtext } from '../../../components/Warningtext';
+import { Form, Input } from '@rocketseat/unform';
+import { Field, Label } from '../../../components/Form/Form';
+import { useFormik } from 'formik';
 
 const MenuRenter = () => {
   const dispatch = useDispatch();	
@@ -29,10 +35,24 @@ const MenuRenter = () => {
   const notificationrd = useSelector(state => state.notification);
 	const [menu, setMenu] = useState(false);
 	const [location, setLocation] = useState(false);
+	const [lat, setLat] = useState(0);
+	const [lng, setLng] = useState(0);
+	const [bettersearch, setBettersearch] = useState(false);
 
 	socketio.emit('register', current_user.id);
 
 	let history = useHistory();
+
+
+  const formik = useFormik({
+    initialValues: {
+			address: '',
+    },
+
+    onSubmit: value => {
+   
+    }
+  })
 
 	useEffect(() => {
 		socketio.on('notify',function(data){
@@ -62,8 +82,18 @@ const MenuRenter = () => {
       renderNotify()
 			}
     }
-    getNotification()
+		getNotification()
 
+		async function Coordinates () {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(
+				position => {
+				},
+				erroget => {
+				},{ enableHighAccuracy: true });
+			}	
+		}
+		Coordinates()
 
 		return () => {
 
@@ -80,7 +110,8 @@ const MenuRenter = () => {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 			position => {
-					console.log(position.coords);
+				dispatch(Coordinates(position.coords.latitude, position.coords.longitude))
+				success()
 			},
 			erroget => {
 				error()
@@ -119,21 +150,33 @@ const MenuRenter = () => {
       pauseOnHover: true,
       draggable: true,
     }
+	)
+	
+  const success = () => Notificationtost(
+    'success',
+    'Estes são os equipamentos mais próximos de vocês.', 
+    {
+      autoClose: 6000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
   )
 
 	const searchTools = (event) => {
-
-		dispatch(Search(search, 13323213, 3456556))
+		dispatch(Search(search))
 	}
 
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(
-		position => {
-				console.log(position.coords);
-		},
-		error => {
-		},{ enableHighAccuracy: true });
+	const cancel = () => {
+		setBettersearch(false)
 	}
+
 	return (
 		<div className="back-nav">
 			<nav className="navbar nav-fixed">
@@ -147,34 +190,105 @@ const MenuRenter = () => {
 						:
 						(
 							<>
-								<input 
-									type="text" 
-									placeholder='Experimente "Furadeira" e pressione ENTER' 
-									className="input input-search" 
-									value={search}
-									onKeyPress={event => {
-										if (event.key === 'Enter') {
-											searchTools()
-										}
-									}}
-									onChange={event => setSearch(event.target.value)} 
-								/>
-								<Button 
-									type={'button'}
-									className={'button is-default localization'}
-									text={'Sua localização'}                            
-									onClick={event => getLocation()}
-								/>
-								{
-									location === true ? 
-									(
-										<>
-											<div>Opção para por endereço</div>
-										</>
-									)
-									:
-									('')
-								}
+								<div>
+									<input 
+										type="text" 
+										placeholder='Experimente "Furadeira" e pressione ENTER' 
+										className="input input-search" 
+										value={search}
+										onKeyPress={event => {
+											if (event.key === 'Enter') {
+												searchTools()
+											}
+										}}
+										onChange={event => setSearch(event.target.value)} 
+									/>
+									{
+										location === true ?
+										(
+											<Button 
+												type={'button'}
+												className={'button is-default localization'}
+												text={'S'}                            
+												onClick={event => getLocation()}
+											/>	
+										)
+										:
+										('')
+									}
+									<div className="is-clearfix"></div>	
+									<div>
+										<Button 
+											type={'button'}
+											className={'button is-small is-default localization'}
+											text={'Melhorar minha busca'}                            
+											onClick={event => setBettersearch(!bettersearch)}
+										/>
+									</div>
+									{
+										location === true || bettersearch === true? 
+										(
+											<>
+												<div className="newaddress">
+													<p>Melhore sua busca.</p>
+													<Warningtext class="orange">Adicione opções para refinar sua busca.</Warningtext>
+													<Form
+														onSubmit={ (e, values) => {
+															formik.handleSubmit(values)
+														}} 
+														noValidate
+													>
+														<Input
+															name="neighboor"
+															type="text"
+															placeholder="Rua, número complemento - Estado - Cidade"
+															className={'input input-small'}
+															onChange={event => formik.handleChange(event)}
+															value={formik.values.address}
+														/>
+
+														<p>Distância.</p>
+
+														<div className="columns">
+															<div className="column">
+
+															</div>
+														</div>
+
+
+														<p>Categoria.</p>
+
+														<Input
+															name="neighboor"
+															type="text"
+															placeholder="Rua, número complemento - Estado - Cidade"
+															className={'input input-small'}
+															onChange={event => formik.handleChange(event)}
+															value={formik.values.address}
+														/>
+
+														<div className="is-pulled-right">
+															<Button 
+																type={'button'}
+																className={'button is-small is-info localization'}
+																text={'Pronto'}                            
+																onClick={event => getLocation()}
+															/>
+															<Button 
+																type={'button'}
+																className={'button is-small is-default localization'}
+																text={'Cancelar'}                            
+																onClick={event => cancel()}
+															/>
+														</div>
+													</Form>
+												</div>
+											</>
+										)
+										:
+										('')
+									}
+								</div>
 							</>
 						)
 					}
