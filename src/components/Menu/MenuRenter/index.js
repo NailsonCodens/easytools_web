@@ -24,6 +24,9 @@ import { Warningtext } from '../../../components/Warningtext';
 import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../components/Form/Form';
 import { useFormik } from 'formik';
+import Select from 'react-select';
+import categories from '../../../utils/categories';
+import { getCordinates } from '../../../services/mapbox';
 
 const MenuRenter = () => {
   const dispatch = useDispatch();	
@@ -38,15 +41,18 @@ const MenuRenter = () => {
 	const [lat, setLat] = useState(0);
 	const [lng, setLng] = useState(0);
 	const [bettersearch, setBettersearch] = useState(false);
+	const [myaddress, setMyaddress] = useState('');
+	const [places, setPlaces] = useState([]);
 
 	socketio.emit('register', current_user.id);
 
 	let history = useHistory();
 
-
   const formik = useFormik({
     initialValues: {
 			address: '',
+			category: '',
+			distance: '',
     },
 
     onSubmit: value => {
@@ -177,6 +183,22 @@ const MenuRenter = () => {
 		setBettersearch(false)
 	}
 
+  const handleChangeCategory = (input, event, type) => {
+	}
+
+	const handleDistance = () => {
+
+	}
+
+	const handleMyaddress = (event) => {
+		let query = event.target.value
+		setMyaddress(event.target.value)
+
+		getCordinates(query).then(res => {
+			setPlaces(res.data.features)
+		})
+	}
+	
 	return (
 		<div className="back-nav">
 			<nav className="navbar nav-fixed">
@@ -243,30 +265,70 @@ const MenuRenter = () => {
 															type="text"
 															placeholder="Rua, número complemento - Estado - Cidade"
 															className={'input input-small'}
-															onChange={event => formik.handleChange(event)}
-															value={formik.values.address}
+															onChange={event => handleMyaddress(event)}
+															value={myaddress}
 														/>
-
-														<p>Distância.</p>
-
-														<div className="columns">
-															<div className="column">
-
-															</div>
+														<div className="box-places">
+															{
+																places.map((place, index) => (
+																	<p>{place.place_name}</p>
+																))
+															}
 														</div>
-
-
+														<p>Distância.</p>
+															<input 
+                                      className="is-checkradio"
+                                      type="radio"
+                                      id={'Tri'}
+                                      name="tension" 
+                                      value="Tri"
+                                      defaultChecked={true}
+                                      onChange={event => handleDistance(event)}
+                                  />
+                                    <label for={'Tri'}>10Km</label>
+																		<input 
+                                      className="is-checkradio"
+                                      type="radio"
+                                      id={'Tri'}
+                                      name="tension" 
+                                      value="Tri"
+                                      defaultChecked={true}
+                                      onChange={event => handleDistance(event)}
+                                  />
+                                    <Label for={'Tri'}>20Km</Label>
+																		<input 
+                                      className="is-checkradio"
+                                      type="radio"
+                                      id={'Tri'}
+                                      name="tension" 
+                                      value="Tri"
+                                      defaultChecked={true}
+                                      onChange={event => handleDistance(event)}
+                                  />
+                                    <Label for={'Tri'}>30Km</Label>
+																		<input 
+                                      className="is-checkradio"
+                                      type="radio"
+                                      id={'Tri'}
+                                      name="tension" 
+                                      value="Tri"
+                                      defaultChecked={true}
+                                      onChange={event => handleDistance(event)}
+                                  />
+                                    <Label for={'Tri'}>50Km</Label>
 														<p>Categoria.</p>
-
-														<Input
-															name="neighboor"
-															type="text"
-															placeholder="Rua, número complemento - Estado - Cidade"
-															className={'input input-small'}
-															onChange={event => formik.handleChange(event)}
-															value={formik.values.address}
+														<Select
+														className={''}
+														options={categories}
+														isSearchable={true}
+														placeholder={'Cortante'}
+														onChange={selectedOption => {
+															handleChangeCategory('category', selectedOption, 'select');
+															formik.handleChange("category");
+														}}
+														value={formik.values.category}
 														/>
-
+														<br/><br/>
 														<div className="is-pulled-right">
 															<Button 
 																type={'button'}
@@ -398,11 +460,16 @@ const MenuRenter = () => {
 													Perfil
 												</Link>
 											</li>
+											{
+											/*
 											<li className="li-drop">
 												<Link to={'/s/renter/account'} onClick={event => Scrool() } className="navbar-item">
 													Conta
 												</Link>
+
 											</li>
+												*/
+											}
 										</Dropdown>				
 									)
 								}
