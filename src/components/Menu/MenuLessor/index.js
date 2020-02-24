@@ -20,6 +20,7 @@ const MenuLessor = () => {
   const [notification, setNotfication] = useState([]);
   const [countn, setCount] = useState(0);
   const notificationrd = useSelector(state => state.notification);
+	const [menu, setMenu] = useState(false);
 
   console.log(notificationrd)
 
@@ -68,11 +69,22 @@ const MenuLessor = () => {
         <Link to={'/lessor/dashboard'} className="navbar-item">
           <img src={logo} alt="EasyTools Logo" className=""/>
         </Link>
-        <span role="button" href="a" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </span>
+        <span 
+						role="button" 
+						href="a" 
+						className="navbar-burger burger" 
+						aria-label="menu" 
+						aria-expanded="false" 
+						data-target="navbarBasicExample"
+						onClick={event => setMenu(!menu)}
+					>
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+					</span>
+				</div>
+
+				<div className={menu === true ? "navbar-menu is-active" : "navbar-menu"}>
       </div>
       <div className="navbar-menu">
         <div className="navbar-start">

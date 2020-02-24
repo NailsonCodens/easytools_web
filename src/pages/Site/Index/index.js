@@ -20,10 +20,23 @@ const Dashboard = ({history, location}) => {
 	const search =   useSelector(state => state.search);
 
   useEffect(() => {
-    async function loadTools() { 
-      const response = await api.get(`/tools_site?search=${search}&lat=-25.481090&lng=-49.345604`, {
-        headers: { search }
-      });
+    async function loadTools() {
+      var response = '';
+      if (search !== '') {
+        if (search.lat === undefined) {
+          response = await api.get(`/tools_site?search=${search.search}&lat=&lng=`, {
+            headers: { search }
+          });
+        } else {
+          response = await api.get(`/tools_site?search=${search.search}&lat=${search.lat}&lng=${search.lng}`, {
+            headers: { search }
+          });
+        }       
+      } else {
+        response = await api.get(`/tools_site?search=&lat=&lng=`, {
+          headers: { search }
+        });
+      }
 
      setTools(response.data.tools)
     }

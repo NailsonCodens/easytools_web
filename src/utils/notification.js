@@ -15,6 +15,9 @@ const Notification = function (typetoastify = 'info', text = 'Padrão', config =
     case 'warning':
         toast.warning(text, type)
         break;
+        case 'error':
+          toast.error(text, type)
+          break;
     default: 
       toast.info(text, type)
      break;

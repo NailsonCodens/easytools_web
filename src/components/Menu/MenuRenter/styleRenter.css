@@ -91,6 +91,12 @@
   padding-bottom: 85px;
 }
 
+.localization{
+  -webkit-border-radius: 100px !important;
+  -moz-border-radius: 100px !important;
+  border-radius: 100px !important;
+}
+
 @media (max-width: 900px) {
   .input-search {
     width: 85% !important;

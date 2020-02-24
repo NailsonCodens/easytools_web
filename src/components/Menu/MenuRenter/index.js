@@ -17,15 +17,18 @@ import { Notification as Notificationrd } from '../../../store/actions/notificat
 import api from '../../../services/api';
 import simpleCrypto from '../../../services/crypto';
 import { isAuthenticated } from "../../../services/auth";
+import Notificationtost from '../../../utils/notification';
 
 const MenuRenter = () => {
   const dispatch = useDispatch();	
 	const [modal, setModal] = useState(false);
 	const current_user = useSelector(state => state.auth);
-	const search = useSelector(state => state.search);
+	const [search, setSearch] = useState('');
   const [notification, setNotfication] = useState([]);
   const [countn, setCount] = useState(0);
   const notificationrd = useSelector(state => state.notification);
+	const [menu, setMenu] = useState(false);
+	const [location, setLocation] = useState(false);
 
 	socketio.emit('register', current_user.id);
 
@@ -33,7 +36,6 @@ const MenuRenter = () => {
 
 	useEffect(() => {
 		socketio.on('notify',function(data){
-			console.log(data)
 			var user = data.user;
 			var message = data.message;
 			var title = data.title;
@@ -74,6 +76,18 @@ const MenuRenter = () => {
     )
   }
 
+	const getLocation = () => {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+			position => {
+					console.log(position.coords);
+			},
+			erroget => {
+				error()
+				setLocation(true)
+			},{ enableHighAccuracy: true });
+		}
+	}
 
   const renderNotis = () => {
     return (
@@ -90,10 +104,36 @@ const MenuRenter = () => {
     return modal
 	}
 
-	navigator.geolocation.getCurrentPosition(function(position) {
+  const error = () => Notificationtost(
+    'error',
+    'Não conseguimos pegar sua localização. habilite a geolocalização em seu navegador.', 
+    {
+      autoClose: 6000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
 
-	});
+	const searchTools = (event) => {
 
+		dispatch(Search(search, 13323213, 3456556))
+	}
+
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(
+		position => {
+				console.log(position.coords);
+		},
+		error => {
+		},{ enableHighAccuracy: true });
+	}
 	return (
 		<div className="back-nav">
 			<nav className="navbar nav-fixed">
@@ -109,22 +149,51 @@ const MenuRenter = () => {
 							<>
 								<input 
 									type="text" 
-									placeholder='Experimente "Furadeira"' 
+									placeholder='Experimente "Furadeira" e pressione ENTER' 
 									className="input input-search" 
 									value={search}
-									onChange={event => dispatch(Search(event.target.value))} 
+									onKeyPress={event => {
+										if (event.key === 'Enter') {
+											searchTools()
+										}
+									}}
+									onChange={event => setSearch(event.target.value)} 
 								/>
+								<Button 
+									type={'button'}
+									className={'button is-default localization'}
+									text={'Sua localização'}                            
+									onClick={event => getLocation()}
+								/>
+								{
+									location === true ? 
+									(
+										<>
+											<div>Opção para por endereço</div>
+										</>
+									)
+									:
+									('')
+								}
 							</>
 						)
 					}
-					<span role="button" href="a" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+					<span 
+						role="button" 
+						href="a" 
+						className="navbar-burger burger" 
+						aria-label="menu" 
+						aria-expanded="false" 
+						data-target="navbarBasicExample"
+						onClick={event => setMenu(!menu)}
+					>
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
 					</span>
 				</div>
 
-				<div className="navbar-menu">
+				<div className={menu === true ? "navbar-menu is-active" : "navbar-menu"}>
 					<div className="navbar-start"> 
 					</div>
 					<div className="navbar-end">
