@@ -43,6 +43,7 @@ const MenuRenter = () => {
 	const [bettersearch, setBettersearch] = useState(false);
 	const [myaddress, setMyaddress] = useState('');
 	const [places, setPlaces] = useState([]);
+	const [category, setCategory] = useState([]);
 
 	socketio.emit('register', current_user.id);
 
@@ -184,10 +185,12 @@ const MenuRenter = () => {
 	}
 
   const handleChangeCategory = (input, event, type) => {
+		setCategory(event)
+		//console.log(input, event.value, type)
 	}
 
-	const handleDistance = () => {
-
+	const handleDistance = (event) => {
+		console.log(event.target.value)
 	}
 
 	const handleMyaddress = (event) => {
@@ -198,7 +201,13 @@ const MenuRenter = () => {
 			setPlaces(res.data.features)
 		})
 	}
-	
+
+	const selectPlace = (place) => {
+		console.log(place.center)
+		setMyaddress(place.place_name)
+		setPlaces(false)
+	}	
+
 	return (
 		<div className="back-nav">
 			<nav className="navbar nav-fixed">
@@ -252,8 +261,7 @@ const MenuRenter = () => {
 										(
 											<>
 												<div className="newaddress">
-													<p>Melhore sua busca.</p>
-													<Warningtext class="orange">Adicione opções para refinar sua busca.</Warningtext>
+													<p>Refine sua busca.</p>
 													<Form
 														onSubmit={ (e, values) => {
 															formik.handleSubmit(values)
@@ -268,55 +276,68 @@ const MenuRenter = () => {
 															onChange={event => handleMyaddress(event)}
 															value={myaddress}
 														/>
-														<div className="box-places">
-															{
-																places.map((place, index) => (
-																	<p>{place.place_name}</p>
-																))
-															}
-														</div>
-														<p>Distância.</p>
+														{
+															places.length > 0 ? 
+															(
+																<>
+																	<div className="box-places">
+																		<ul>
+																			{
+																				places.map((place, index) => (
+																					<li className="list-places" key={index} onClick={event => selectPlace(place)}>
+																						{place.place_name}
+																						{ console.log(place) }
+																					</li>
+																				))
+																			}
+																		</ul>
+																	</div>
+																</>
+															)
+															:
+															('')
+														}
+														<br/>
+														<p>Distância</p>
 															<input 
                                       className="is-checkradio"
                                       type="radio"
-                                      id={'Tri'}
-                                      name="tension" 
-                                      value="Tri"
-                                      defaultChecked={true}
+                                      id={'10'}
+                                      name="distance" 
+                                      value="10"
                                       onChange={event => handleDistance(event)}
                                   />
-                                    <label for={'Tri'}>10Km</label>
+                                    <Label for={'10'}>10Km</Label>
 																		<input 
                                       className="is-checkradio"
                                       type="radio"
-                                      id={'Tri'}
-                                      name="tension" 
-                                      value="Tri"
-                                      defaultChecked={true}
+                                      id={'20'}
+                                      name="distance" 
+                                      value="20"
+
                                       onChange={event => handleDistance(event)}
                                   />
-                                    <Label for={'Tri'}>20Km</Label>
+                                    <Label for={'20'}>20Km</Label>
 																		<input 
                                       className="is-checkradio"
                                       type="radio"
-                                      id={'Tri'}
-                                      name="tension" 
-                                      value="Tri"
-                                      defaultChecked={true}
+                                      id={'30'}
+                                      name="distance" 
+                                      value="30"
                                       onChange={event => handleDistance(event)}
                                   />
-                                    <Label for={'Tri'}>30Km</Label>
+                                    <Label for={'30'}>30Km</Label>
 																		<input 
                                       className="is-checkradio"
                                       type="radio"
-                                      id={'Tri'}
-                                      name="tension" 
-                                      value="Tri"
-                                      defaultChecked={true}
+                                      id={'50'}
+                                      name="distance" 
+                                      value="50"
                                       onChange={event => handleDistance(event)}
                                   />
-                                    <Label for={'Tri'}>50Km</Label>
-														<p>Categoria.</p>
+                                    <Label for={'50'}>50Km</Label>
+														<br/>
+														<p>Categoria</p>
 														<Select
 														className={''}
 														options={categories}
@@ -326,7 +347,7 @@ const MenuRenter = () => {
 															handleChangeCategory('category', selectedOption, 'select');
 															formik.handleChange("category");
 														}}
-														value={formik.values.category}
+														value={category}
 														/>
 														<br/><br/>
 														<div className="is-pulled-right">
