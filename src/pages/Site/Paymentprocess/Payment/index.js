@@ -24,7 +24,8 @@ const Payment = ({history}) => {
   const [tool, setTool] = useState([]);
   const [start, setStart] = useState([]);
   const [end, setEnd] = useState([]);
-  const [freight, setFreight] = useState([]);
+  const [freight, setFreight] = useState('');
+  const [acquisition, setAcquisition] = useState('');
   const [userconfig, setUserconfig] = useState([]);
   const [workadd, setWorkadd] = useState([]);
   const [valuewithfreigh, setValuewithfreigh] = useState(0);
@@ -89,10 +90,26 @@ const Payment = ({history}) => {
   }
 
   async function updateRentattemp () {
+    var acq = ''
+    var freightnew = '';
+
+    if (acquisition === '') {
+      acq = 'without';
+    } else {
+      acq = acquisition;
+    }
+
+    if (freight === '' || freight === 'without') {
+      freightnew = 0
+    } else {
+      freightnew = renderCalc()
+    }
+
     var rentupdate = {
-      freight: renderCalc(),
+      freight: freightnew,
       startdate: rentattempt.startdate,
-      enddate: rentattempt.enddate
+      enddate: rentattempt.enddate,
+      acquisition: acq
     }
 
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
@@ -101,13 +118,12 @@ const Payment = ({history}) => {
     }).catch((err) => {
       console.log(err.response)
     }) 
+
   }
 
   async function verifyAvailabletool() { 
     const response = await api.get(`/tools_site/tool/${rentattempt.tool_id}`, {
     });
-
-
 
     if (response.data.tool[0].availability === 'Y') {
       var titletool = rentattempt.tool.title
@@ -143,6 +159,7 @@ const Payment = ({history}) => {
 
   const handleFreight = (event) => {
     setFreight(event.target.value)
+    setAcquisition(event.target.value)
   }
 
   const renderPrice = () => {

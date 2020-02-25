@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Notification as Notificationrd } from '../../store/actions/notification';
 
 const Notification = ({nt}) => {
+  console.log(nt)
 	let history = useHistory();
   const [notification, setNotification] = useState(nt);
   const [rent, setRent] = useState([]);
+  const [define, setDefine] = useState(false);
   const current_user = useSelector(state => state.auth);
   const dispatch = useDispatch();	
 
@@ -19,8 +21,8 @@ const Notification = ({nt}) => {
       });
       
       setNotification(response.data.notification)
-      
       if (response.data.notification.length > 0) {
+        setDefine(true);
         const rent = await api.get(`/rents/${response.data.notification[0].rent_attempt_id}`, {});
         setRent(response.data.rentattempt);  
       }
@@ -81,44 +83,94 @@ const Notification = ({nt}) => {
     <div>
       <li>
         {
-          notification.map((notify, index) => (
-            <div key={index} className="columns column-notify">
-              <div className="column is-3">
-                <div className="avatar-notify">
-                  <img src={notify.usersend.url} alt={notify.usersend.url} className="" />
-                </div>
-              </div>
-              <div className="column">
-                {
-                  notify.done === null ? 
-                  (
-                    <b>* { notify.title }</b>
+          nt.length > 0 ? 
+          (
+            <>
+              {
+                nt.map((notify, index) => (
+                  <div key={index} className="columns column-notify">
+                    <div className="column is-3">
+                      <div className="avatar-notify">
+                        <img src={notify.usersend.url} alt={notify.usersend.url} className="" />
+                      </div>
+                    </div>
+                    <div className="column">
+                      {
+                        notify.done === null ? 
+                        (
+                          <b>* { notify.title }</b>
 
-                  )
-                  :
-                  (
-                    <p>{ notify.title }</p>
-                  )
-                }
+                        )
+                        :
+                        (
+                          <p>{ notify.title }</p>
+                        )
+                      }
 
-                { /* mostrar este botão, só quando a tentativa
-                  de locação, for nova, sabendo assim, pelo accept
-                */ }
-                <div className="columns">
-                  <div className="column">
-                    <Button
-                      className={'button is-small is-default bt-overhead'}
-                      text={'Ver'}
-                      onClick={event => goNotification(notify.rent_attempt_id, notify.id)}
-                    />    
+                      { /* mostrar este botão, só quando a tentativa
+                        de locação, for nova, sabendo assim, pelo accept
+                      */ }
+                      <div className="columns">
+                        <div className="column">
+                          <Button
+                            className={'button is-small is-default bt-overhead'}
+                            text={'Ver'}
+                            onClick={event => goNotification(notify.rent_attempt_id, notify.id)}
+                          />    
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          ))
+                ))
+
+              }
+            </>
+          ):
+          (
+            <>
+              {
+                notification.map((notify, index) => (
+                  <div key={index} className="columns column-notify">
+                    <div className="column is-3">
+                      <div className="avatar-notify">
+                        <img src={notify.usersend.url} alt={notify.usersend.url} className="" />
+                      </div>
+                    </div>
+                    <div className="column">
+                      {
+                        notify.done === null ? 
+                        (
+                          <b>* { notify.title }</b>
+
+                        )
+                        :
+                        (
+                          <p>{ notify.title }</p>
+                        )
+                      }
+
+                      { /* mostrar este botão, só quando a tentativa
+                        de locação, for nova, sabendo assim, pelo accept
+                      */ }
+                      <div className="columns">
+                        <div className="column">
+                          <Button
+                            className={'button is-small is-default bt-overhead'}
+                            text={'Ver'}
+                            onClick={event => goNotification(notify.rent_attempt_id, notify.id)}
+                          />    
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              }
+            </>
+          )
         }
+        { console.log(define) }
         {
-          notification.length === 0 ?
+          nt.length === 0 && define === false ? 
           (
             <div className="notfound has-text-centered">
               Nenhuma notificação por enquanto!
