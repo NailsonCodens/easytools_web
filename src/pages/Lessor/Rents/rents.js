@@ -33,13 +33,11 @@ const Rents = ({ history }) => {
     history.push(`/lessor/rents/detail/${id}`);
   }
 
-  const accept = (id, rent) => {
-    sendNotification(id, 'accept', rent)
-    
-    /*ChangeAccept('accept', id).then((res) => {
+  const accept = (id, rent) => {    
+    ChangeAccept('accept', id).then((res) => {
       reloadRents()
       sendNotification(id, 'accept', rent)
-    })*/
+    })
   }
 
   const noaccept = (id, rent) => {
