@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import {Search} from '../../../store/actions/search';
-import {Coordinates} from '../../../store/actions/coordinates';
+import {Latitude} from '../../../store/actions/latitude';
+import {Longitude} from '../../../store/actions/longitude';
+import {Distance} from '../../../store/actions/distance';
 import Scrool from '../../../utils/scroll';
 import Auth from '../../../pages/Auth/index';
 import Modal from '../../../components/Modal';
@@ -27,6 +29,7 @@ import { useFormik } from 'formik';
 import Select from 'react-select';
 import categories from '../../../utils/categories';
 import { getCordinates } from '../../../services/mapbox';
+import latitude from '../../../store/reducers/latitude';
 
 const MenuRenter = () => {
   const dispatch = useDispatch();	
@@ -44,6 +47,9 @@ const MenuRenter = () => {
 	const [myaddress, setMyaddress] = useState('');
 	const [places, setPlaces] = useState([]);
 	const [category, setCategory] = useState([]);
+	const [distancevalue, setDistancevalue] = useState('');
+	const [coordiantevalue, setCoordinatevalue] = useState({});
+	const [categoryvalue, setCategoryvalue] = useState('');
 
 	socketio.emit('register', current_user.id);
 
@@ -60,6 +66,23 @@ const MenuRenter = () => {
    
     }
   })
+
+
+  const wrapperRef = useRef(null);
+	useOutsideAlerter(wrapperRef);
+
+	function useOutsideAlerter(ref) {
+		function handleClickOutside(event) {
+			if (ref.current && !ref.current.contains(event.target)) {
+				setBettersearch(false);
+			}
+		}
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};			
+	}
 
 	useEffect(() => {
 		socketio.on('notify',function(data){
@@ -117,7 +140,8 @@ const MenuRenter = () => {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 			position => {
-				dispatch(Coordinates(position.coords.latitude, position.coords.longitude))
+				dispatch(Latitude(position.coords.latitude))
+				dispatch(Longitude(position.coords.longitude))
 				success()
 			},
 			erroget => {
@@ -186,11 +210,12 @@ const MenuRenter = () => {
 
   const handleChangeCategory = (input, event, type) => {
 		setCategory(event)
+		setCategoryvalue(event.value)
 		//console.log(input, event.value, type)
 	}
 
 	const handleDistance = (event) => {
-		console.log(event.target.value)
+		setDistancevalue(event.target.value)
 	}
 
 	const handleMyaddress = (event) => {
@@ -203,8 +228,18 @@ const MenuRenter = () => {
 	}
 
 	const selectPlace = (place) => {
-		console.log(place.center)
+		setCoordinatevalue(place.center)
 		setMyaddress(place.place_name)
+		setPlaces(false)
+	}
+	
+	const goOn = () => {
+		dispatch(Latitude(coordiantevalue[1]))
+		dispatch(Longitude(coordiantevalue[0]))
+		dispatch(Distance(distancevalue))
+		dispatch(Search(search))
+
+		setBettersearch(false)
 		setPlaces(false)
 	}	
 
@@ -260,8 +295,11 @@ const MenuRenter = () => {
 										location === true || bettersearch === true? 
 										(
 											<>
-												<div className="newaddress">
+												<div className="newaddress" ref={wrapperRef}>
 													<p>Refine sua busca.</p>
+													<Warningtext class="welcome-user">
+														Adicione o endereço onde o equipamento ou ferramenta, será usado.
+													</Warningtext>
 													<Form
 														onSubmit={ (e, values) => {
 															formik.handleSubmit(values)
@@ -337,30 +375,36 @@ const MenuRenter = () => {
                                   />
                                     <Label for={'50'}>50Km</Label>
 														<br/>
-														<p>Categoria</p>
-														<Select
-														className={''}
-														options={categories}
-														isSearchable={true}
-														placeholder={'Cortante'}
-														onChange={selectedOption => {
-															handleChangeCategory('category', selectedOption, 'select');
-															formik.handleChange("category");
-														}}
-														value={category}
-														/>
-														<br/><br/>
+														{
+															/*
+																<p>Categoria</p>
+																<Select
+																className={''}
+																options={categories}
+																isSearchable={true}
+																placeholder={'Cortante'}
+																onChange={selectedOption => {
+																	handleChangeCategory('category', selectedOption, 'select');
+																	formik.handleChange("category");
+																}}
+																value={category}
+																/>
+																<br/><br/>
+															*/
+														}
+
 														<div className="is-pulled-right">
 															<Button 
 																type={'button'}
 																className={'button is-small is-info localization'}
-																text={'Pronto'}                            
-																onClick={event => getLocation()}
+																text={'Pronto'}
+																disabled={coordiantevalue.length === undefined ? true : false}                       
+																onClick={event => goOn()}
 															/>
 															<Button 
 																type={'button'}
 																className={'button is-small is-default localization'}
-																text={'Cancelar'}                            
+																text={'Fechar'}                            
 																onClick={event => cancel()}
 															/>
 														</div>

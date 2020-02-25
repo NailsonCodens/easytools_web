@@ -6,7 +6,7 @@ export default function coordiantes(state = '', action){
         lng: action.lng,
       }
 
-      return coordiantes;
+      return coordinates;
     default:
       return state;
   }

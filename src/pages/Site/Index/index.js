@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import queryString from 'query-string';
 import Scroll from '../../../utils/scroll';
 import Title from '../../../utils/title';
+import desert2 from '../../../assets/images/desert2.svg'
 
 import './style.css';
 
@@ -18,7 +19,9 @@ const Dashboard = ({history, location}) => {
   const paramsearch = queryString.parse(useLocation().search).search;
   const [tools, setTools] = useState([]);
 	const search = useSelector(state => state.search);
-	const coordinates = useSelector(state => state.coordinates);
+	const latitude = useSelector(state => state.latitude);
+  const longitude = useSelector(state => state.longitude);
+  const distance = useSelector(state => state.distance);
 
   useEffect(() => {
     async function loadCoords () {
@@ -33,14 +36,24 @@ const Dashboard = ({history, location}) => {
     loadCoords()
 
     async function loadTools(lat = '', lng = '') {
+      var latcorrect = ''; 
+      var lngcorrect = '';
 
-      const response = await api.get(`/tools_site?search=${search}&lat=${lat}&lng=${lng}`, {
+      if (latitude === '') {
+        latcorrect = lat;
+        lngcorrect = lng;
+      } else {
+        latcorrect = latitude;
+        lngcorrect = longitude;
+      }
+
+      const response = await api.get(`/tools_site?search=${search}&distance=${distance}&lat=${latcorrect}&lng=${lngcorrect}`, {
         headers: { search }
       });
      setTools(response.data.tools)
     }
 
-  }, [search]);
+  }, [search, latitude, longitude, distance]);
 
   const goTool = (id,category) => {
     Scroll()
@@ -130,6 +143,23 @@ const Dashboard = ({history, location}) => {
               ))
             }
           </div>
+          {
+            tools.length > 0 ?
+            ('')
+            :
+            (
+              <>
+                <div className="columns">
+                  <div className="column is-7">
+                    <p className="title-notfound">Não encontramos o que você deseja. Tente procurar novamente</p>
+                  </div>
+                  <div className="column has-text-centered">
+                    <img src={desert2} alt="Desert" className="svgnotfound2"/>
+                  </div>
+                </div>
+              </>
+            )
+          } 
         </div>
       </div>
     </>

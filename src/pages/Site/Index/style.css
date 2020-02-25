@@ -75,3 +75,14 @@
   font-weight: 600 !important;
   font-size: 18px;
 }
+
+.tool{
+  cursor: pointer !important;
+  margin: 10px !important;
+}
+
+@media (max-width: 900px) {
+  .tool{
+    margin: 10px 25px !important;
+  }
+}

@@ -516,7 +516,7 @@ const Tool = ({history}) => {
 return (
   <>
     <div className="container-fluid">
-      <div className="columns box-photos">
+      <div className="columns box-photos is-mobile is-desktop">
         {
           pictures.map((picture, index) => (
             <div className="column" key={index}>
@@ -525,7 +525,7 @@ return (
           ))
         }
       </div>
-      <div className="container">
+      <div className="container container-bottom">
         <div className="columns head-infos-tool">
           <div className="column is-two-thirds">
             <div>
