@@ -454,7 +454,7 @@ const MenuRenter = () => {
 											<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
 												Seja um vizinho
 											</Link>
-											<Link to={'/myrent'} onClick={event => Scrool() } className="navbar-item">
+											<Link to={'/s/renter/myrent'} onClick={event => Scrool() } className="navbar-item">
 												Coisas que aluguei
 											</Link>
 											<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
