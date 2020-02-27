@@ -6,7 +6,11 @@ import PrivateRenter from '../../../routes/privaterouteRenter';
 import Perfil from './Perfil/index';
 import Account from './Account/index';
 import Notification from '../../Notifications/index';
+
+import MyRent from './MyRent/index';
+import Details from './MyRent/details';
 import Options from './Options/index';
+
 
 export default function Start({history}) {
   let { path } = useRouteMatch();
@@ -17,6 +21,8 @@ export default function Start({history}) {
       <PrivateRenter path={`${path}/perfil`} component={Perfil}/>
       <PrivateRenter path={`${path}/account`} component={Account}/>
       <PrivateRenter path={`${path}/notifications`} component={Notification}/>
+      <PrivateRenter path={`${path}/myrent`} exact component={MyRent}/>
+      <PrivateRenter path={`${path}/myrent/details/:id`} component={Details}/>
       <PrivateRenter path={`${path}/user-option`} component={Options}/>
     </>
   )

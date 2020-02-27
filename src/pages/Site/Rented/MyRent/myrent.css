@@ -1,0 +1,79 @@
+.container-fluid{
+  background-color: #f4f4f4;
+}
+
+.image-tool-rent{
+  width: 200px;
+}
+
+.capitalize{
+  text-transform: uppercase !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+
+.avatar-detail{
+  height: 70px;
+  width: 70px !important;
+}
+
+.avatar-detail img{
+  border-radius: 100px !important;
+  width: 70px !important;
+  height: 70px;
+  object-fit:cover;
+  -webkit-box-shadow: 0px 2px 3px 0px rgba(156,156,156,1);
+  -moz-box-shadow: 0px 2px 3px 0px rgba(156,156,156,1);
+  box-shadow: 0px 2px 3px 0px rgba(156,156,156,1);
+}
+
+.new, .notaccpet, .acceptandwaitng, .acceptandpaid{
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.new{
+  color: rgb(135, 194, 241);
+}
+
+.notaccpet{
+  color: red;  
+}
+
+.acceptandwaitng{
+  color: rgb(251, 193, 0);
+}
+
+.acceptandpaid{
+  color: rgb(27, 175, 106);
+}
+
+.color-rent{
+  color: rgb(135, 194, 241);
+}
+
+.mwd-item-container {
+  background-color: white;
+}
+
+.mwd-content-right{
+  /* background-color: red; */
+  padding-top: 0 !important;
+}
+
+.mwd-details-btn {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.columns:not(:last-child) {
+  margin-bottom: 0 !important;
+}
+
+.mwd-date-rent {
+  transform: translateY(-2em);
+}
+
+.mwd-rent-info {
+  transform: translateY(-2em);
+}
