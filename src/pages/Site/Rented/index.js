@@ -18,7 +18,7 @@ export default function Start({history}) {
       <PrivateRenter path={`${path}/perfil`} component={Perfil}/>
       <PrivateRenter path={`${path}/account`} component={Account}/>
       <PrivateRenter path={`${path}/notifications`} component={Notification}/>
-      <PrivateRenter path={`${path}/myrent`} component={MyRent}/>
+      <PrivateRenter path={`${path}/myrent`} exact component={MyRent}/>
       <PrivateRenter path={`${path}/myrent/details/:id`} component={Details}/>
     </>
   )

@@ -30,7 +30,7 @@ export default function Rents({history}) {
 
   useEffect(() => {
     async function loadRents () {
-      const response = await api.get(`/rents/${id}`, {});
+      const response = await api.get(`renter/rents/${id}`, {});
       setRent(response.data.rentattempt);
 
       if (response.data.rentattempt.length > 0) {
@@ -192,7 +192,7 @@ export default function Rents({history}) {
                     </div>
                   </div>
                   <div className="column">
-                    {/* <b>
+                    <b>
                       Informações do aluguél:
                     </b>
                     <br/>
@@ -237,7 +237,7 @@ export default function Rents({history}) {
                                 ''
                               )
                             }
-                          </div> */}
+                          </div>
                           <div className="columns">
                             {/* <div className="column is-2">
                               { 
@@ -324,13 +324,27 @@ export default function Rents({history}) {
                       </div>
                       <div className="columns">
                         <div className="column">
-                          <b>Custo de entrega: </b>
-                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                            <FormattedNumber value={parseFloat(rent.freight)} style="currency" currency="BRL" />
-                          </IntlProvider>                                
+                          {
+                            rent.freight > 0 ? 
+                            (
+                              <>
+                              <b>Custo de entrega: </b>
+                              <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                                <FormattedNumber value={parseFloat(rent.freight)} style="currency" currency="BRL" />
+                              </IntlProvider>
+                              </> 
+                            )
+                            :
+                            (<b className="welcome-user">Cliente vai buscar o equipamento com você.</b>)
+                          }                           
                         </div>
                         <div className="column">
-                          <b>Valores do aluguel + Custo de entrega: </b>
+                          {
+                            rent.freight > 0 ? 
+                            (<b>Valores do aluguel + Custo de entrega: </b>)
+                            :
+                            (<b>Valores final do aluguel: </b>)
+                          }
                           <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                             <FormattedNumber value={parseFloat(rent.cost) + parseFloat(rent.freight)} style="currency" currency="BRL" />
                           </IntlProvider>                                

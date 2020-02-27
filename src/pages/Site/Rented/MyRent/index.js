@@ -30,7 +30,7 @@ const Rents = ({ history }) => {
   }, [])
 
   const goDetail = (id) => {
-    history.push(`/myrent/details/${id}`);
+    history.push(`/s/renter/myrent/details/${id}`);
   }
 
   // const accept = (id, rent) => {
@@ -138,11 +138,15 @@ const Rents = ({ history }) => {
                 rents.map((rent, index) => (
                   <div key={index} className="columns">
                     <div className="column">
-                      <div className="columns">
+                      <div className="columns mwd-item-container">
                         <div className="column is-3">
                           <img src={rent.tool.picture[0].url} alt={rent.tool.picture[0].url} className="image-tool-rent"/>
                         </div>
-                        <div className="column">
+                        <div className="column mwd-content-right">
+                        <p className="capitalize">
+                            { rent.tool.title } 
+                            {/* <b> { rent.userrenter.name }</b> */}
+                          </p>
                           <div>
                             { 
                               rent.accept === '0' && rent.paid === '0' ?
@@ -185,7 +189,7 @@ const Rents = ({ history }) => {
                               )
                             }
                           </div>
-                          <div className="columns">
+                          <div className="columns mwd-details-btn">
                             <div className="column is-2">
                               <Button
                                 type={'submit'}
@@ -231,13 +235,10 @@ const Rents = ({ history }) => {
                             </div> */}
                           </div>
                           <br/>
-                          <p className="capitalize">
-                            { rent.tool.title } alugado para 
-                            <b> { rent.userrenter.name }</b>
-                          </p>
-                        <div className="columns">
+                          
+                        <div className="columns mwd-date-rent">
                           <div className="column">
-                            <p className="sub-title">Aluguel: <span className="datefull">{moment(rent.startdate).format('DD/MM/YYYY')}</span></p>
+                            {/* <p className="sub-title">Aluguel: <span className="datefull">{moment(rent.startdate).format('DD/MM/YYYY')}</span></p> */}
                             <div className="box-date-rules is-pulled-left">
                               {moment(rent.startdate).format('DD')}
                               <br/>
@@ -249,7 +250,7 @@ const Rents = ({ history }) => {
                             <div className="is-clearfix	"></div>
                           </div>
                           <div className="column">
-                            <p className="sub-title">Devolução: <span className="datefull">{moment(rent.enddate).format('DD/MM/YYYY')}</span></p>
+                            {/* <p className="sub-title">Devolução: <span className="datefull">{moment(rent.enddate).format('DD/MM/YYYY')}</span></p> */}
                             <div className="box-date-rules is-pulled-left">
                               {moment(rent.enddate).format('DD')}
                               <br/>
@@ -262,40 +263,39 @@ const Rents = ({ history }) => {
                             <p className="datefull"></p>
                           </div>
                         </div>
-                        <div className="columns">
-                          <div className="column">
-                            <b>
-                              Informações do aluguél:
-                            </b>
-                            <p>
-                              Tensão: { rent.tension }
-                            </p>
-                            <p>
-                              Período: { rent.days } { renderPeriod(rent.period) }
-                            </p>
-                            <div className="columns">
-                              <div className="column">
-                                <b>Valores do aluguel: </b>
+                        <div className="columns mwd-rent-info">
+
+                          <div className="column is-half">
+                              <b>
+                                Informações do aluguél:
+                              </b>
+                              <p>
+                                Tensão: { rent.tension }
+                              </p>
+                              <p>
+                                Período: { rent.days } { renderPeriod(rent.period) }
+                              </p>
+                              
+                          </div>
+                          <div className="column is-half">
+                                <b>Valores do aluguel: </b> <br></br>
                                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                   <FormattedNumber value={rent.cost} style="currency" currency="BRL" />
-                                </IntlProvider>                                
-                              </div>
-                            </div>
-                            <div className="columns">
-                              <div className="column">
+                                </IntlProvider>  
+                            
                                 <b>Custo de entrega: </b>
                                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                   <FormattedNumber value={parseFloat(rent.freight)} style="currency" currency="BRL" />
                                 </IntlProvider>                                
-                              </div>
-                              <div className="column">
+                              <br></br>
+                              
                                 <b>Valores do aluguel + Custo de entrega: </b>
                                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                   <FormattedNumber value={parseFloat(rent.cost) + parseFloat(rent.freight)} style="currency" currency="BRL" />
                                 </IntlProvider>                                
-                              </div>
-                            </div>
-                          </div>
+                           
+                                </div>
+                          
                         </div>
                         </div>
                       </div>

@@ -1,3 +1,7 @@
+.container-fluid{
+  background-color: #f4f4f4;
+}
+
 .image-tool-rent{
   width: 200px;
 }
@@ -46,4 +50,30 @@
 
 .color-rent{
   color: rgb(135, 194, 241);
+}
+
+.mwd-item-container {
+  background-color: white;
+}
+
+.mwd-content-right{
+  /* background-color: red; */
+  padding-top: 0 !important;
+}
+
+.mwd-details-btn {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.columns:not(:last-child) {
+  margin-bottom: 0 !important;
+}
+
+.mwd-date-rent {
+  transform: translateY(-2em);
+}
+
+.mwd-rent-info {
+  transform: translateY(-2em);
 }
