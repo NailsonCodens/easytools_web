@@ -49,7 +49,11 @@ const MenuRenter = ({ children, classCuston }) => {
 
   const Dropdown = () => {
     if (isMobile) {
-      history.push('/s/renter/user-option');
+      if (current_user.type_user === 'Lessor') {
+        history.push('/lessor/user-option');
+      } else {
+        history.push('/s/renter/user-option');
+      }
     } else {
       if (active === 'is-active') {
         setActiveMenu('')

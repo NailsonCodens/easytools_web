@@ -30,3 +30,10 @@
 .user-dropdown{
   cursor: pointer; 
 }
+
+@media (max-width: 900px) {
+  .icon-lessor{
+    float: right !important;
+  }
+
+}

@@ -264,7 +264,7 @@ const MenuRenter = () => {
 				<>
 					<div className={"navbar-item"}>
 						<div className="buttons">
-							<Link to={'/lessor/dashboard'} onClick={event => Scrool() } className="navbar-item">
+							<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
 									<div className="box-icons-mobile">
 										<FontAwesomeIcon icon={['fas', 'search']} className={history.location.pathname === '/' ? "menu-icons-active" : "menu-icons" } size="1x"/>
 										<div className="text-box">
@@ -367,7 +367,7 @@ const MenuRenter = () => {
 									<>
 										<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
 												<div className="box-icons-mobile">
-													<div className="">
+													<div className="text-box">
 													Seja um vizinho
 													</div>
 												</div>
@@ -375,7 +375,7 @@ const MenuRenter = () => {
 										<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item">
 											<div className="box-icons-mobile">
 													<p></p>
-													<div className="">
+													<div className="text-box">
 														Aluge!
 													</div>
 												</div>

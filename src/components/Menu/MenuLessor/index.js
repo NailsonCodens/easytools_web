@@ -9,10 +9,16 @@ import Notifier from "react-desktop-notification"
 import { useDispatch, useSelector } from "react-redux";
 import api from '../../../services/api';
 import { Notification as Notificationrd } from '../../../store/actions/notification';
-
+import {
+  isMobile
+} from "react-device-detect";
 import './styleLessor.css'
 
 import logo from '../../../assets/images/logo_blue.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+library.add(faSearch,);
 
 const MenuLessor = () => {
   const dispatch = useDispatch();
@@ -21,8 +27,6 @@ const MenuLessor = () => {
   const [countn, setCount] = useState(0);
   const notificationrd = useSelector(state => state.notification);
 	const [menu, setMenu] = useState(false);
-
-  console.log(notificationrd)
 
   socketio.emit('register', current_user.id);
 
@@ -34,6 +38,13 @@ const MenuLessor = () => {
       Notifier.start(`${title}`, `${message}`,"www.google.com","validated image url");
       getNotification()
     });
+
+		async function verifyDevice () {
+			if (isMobile) {
+				setMenu(true)
+			}
+		}
+		verifyDevice()
 
     async function getCountnotification () {
       const response = await api.get(`/notifications/count`, {
@@ -69,6 +80,16 @@ const MenuLessor = () => {
         <Link to={'/lessor/dashboard'} className="navbar-item">
           <img src={logo} alt="EasyTools Logo" className=""/>
         </Link>
+        {
+          isMobile === true ? 
+          (
+            <div className="icon-lessor">
+              <FontAwesomeIcon icon={['fas', 'search']} className="menu-icons" size="1x"/>
+            </div>
+          )
+          :
+          ('')
+        }
         <span 
 						role="button" 
 						href="a" 

@@ -1,0 +1,8 @@
+.optionuser-container{
+  margin-top: -40px !important;
+}
+
+.optionuser-container .navbar-item{
+  margin: 10px;
+  border-bottom: 1px solid rgb(207, 207, 207);
+}
