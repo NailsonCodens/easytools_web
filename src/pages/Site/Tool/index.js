@@ -30,7 +30,9 @@ import Auth from '../../../pages/Auth/index';
 import Modal from '../../../components/Modal';
 import localForage from "localforage";
 import Mapbox from '../../../components/Map/Mapbox';
-
+import {
+  isMobile
+} from "react-device-detect";
 
 const Tool = ({history}) => {
   const dispatch = useDispatch();
@@ -319,14 +321,26 @@ const Tool = ({history}) => {
           pricefull: (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
         })
         else if (days > 15)
-          setPrice({
-            type: 'month', 
-            amount: days, 
-            amountmonth: 1, 
-            price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
-          })
+          if (months === 1) {
+            setPrice({
+              type: 'month', 
+              amount: days, 
+              amountmonth: 1, 
+              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+              priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+            })
+          }
+          else {
+            setPrice({
+              type: 'month', 
+              amount: days, 
+              amountmonth: months, 
+              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+              priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+            })
+          }
       }
     }
   }
@@ -349,6 +363,8 @@ const Tool = ({history}) => {
 
       var days = period.days;
       var months = period.months;
+      console.log(days)
+      console.log(months)
 
       if (period.months !== 0) {
         setPrice({
@@ -404,9 +420,18 @@ const Tool = ({history}) => {
             })
           }
            else {
-
+            setPrice({
+              type: 'month', 
+              amount: days, 
+              amountmonth: months, 
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+            })
            }
         }
+
+        console.log(price)
       }
     }
   }
@@ -459,13 +484,16 @@ const Tool = ({history}) => {
     if (price.type === 'month') {
       if (months === 1) {
         text = ` por ${months} Mês`
-        text2 = `* Custo mensal, com este valor você pode alugar por mais ${ 30 - days } dias!`
+        text2 = `* Custo mensal`
+      }else if (days > 15 && days <= 31) {
+        text = ` por 1 Mês`
+        text2 = `* Você está alugando por ${days} dias, mas o custo é mensal. Com este valor você pode alugar por mais ${ 30 - days } dias!`
       } else {
         text = ` x ${months} Mêses`
         text2 = '* Custo mensal, com este valor você pode alugar por mais dias para fechar o mês!'
       }
     }
-
+    
     return (
     <>
       <div className="columns no-margin-top-columns2">
@@ -570,7 +598,6 @@ return (
                   <p className="title-infos-tool hack-padding-top">Especificações</p>
                 </div>
                 <div className="column">
-                  <p className="title-infos-tool hack-padding-top">Configurações</p>
                 </div>
               </div>
               <div className="columns">
@@ -791,7 +818,7 @@ return (
                         anchorDirection="left"
                         displayFormat={'DD/MM/YYYY'}
                         minimumNights={2}
-                        
+                        numberOfMonths={isMobile === true ? 1 : 2}
                         startDate={formik.values.startDate} // momentPropTypes.momentObj or null,
                         startDateId={'start'} // PropTypes.string.isRequired,
                         endDate={formik.values.endDate} // momentPropTypes.momentObj or null,

@@ -213,6 +213,9 @@
   color: rgb(134, 134, 134) !important;
 }
 
+.nopadding{
+  padding: 0 !important;
+}
 
 .menu-from-lessor, .menu-from-renter{
   margin-top: 12px !important;
@@ -397,4 +400,38 @@
   font-size: 20px;
   margin-top: 20px;
   margin-bottom: 10px;
+}
+
+@media (max-width: 900px) {
+  .columns {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .styles_modalCenter__L9F2w{
+    width: 100% !important;
+    background: #fff;
+  }
+
+  .title-tool-only{
+    font-size: 1.5em;
+  }
+
+  .title-infos-tool{
+    font-size: 1.4em;
+  }
+}
+
+@media screen and (max-width: 1023px){
+  .navbar-menu {
+    background-color: white;
+    box-shadow: none !important;
+    padding: 0.5rem 0;
+  }
+
+  .dates-payment{
+    margin-top: -15px !important;
+    margin-bottom: -10px !important;
+  }
 }

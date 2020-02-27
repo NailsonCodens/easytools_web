@@ -343,6 +343,7 @@ const Edit = ({history}) => {
         >
           <div className="columns column-address">
             <div className="column">
+              <br/><br/>
               <h3 className="title-tool-only">
                 Adicione as informações necessárias para completar seu cadastro e você poder alugar sem problemas.
               </h3>

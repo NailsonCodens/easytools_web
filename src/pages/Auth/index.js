@@ -82,7 +82,7 @@ const Signin = ({ hs, url, closeModal }) => {
       <div className="container-singin">
         <div className="singin">
           <div className="container">
-            <div className="column">
+            <div className="column nopadding">
               <div className="has-text-centered">
                 <h2 className="welcome-easytools">Bem-vindo ao EasyTools</h2>
               </div>

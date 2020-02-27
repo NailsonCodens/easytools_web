@@ -72,6 +72,7 @@ const Doc = ({history}) => {
       <div className="container">
         <div className="columns">
           <div className="column">
+            <br/><br/>
             <h3 className="title-tool-only">
               Você precisa nos enviar fotos do seu documento para completar seu cadastro, é bem rapido.
               <br/><br/>

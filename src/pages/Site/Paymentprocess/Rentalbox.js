@@ -49,7 +49,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
       var priceat = '';
       var costat = '';
       var amountat = amount;
-  
+
       if (period.months !== 0) {
         periodat = 'month'
         priceat = parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
@@ -117,17 +117,28 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
           priceat = parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
           costat = (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
 
-          setPrice({
-            type: 'month', 
-            amount: days, 
-            amountmonth: 1, 
-            price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
-          })
+          if (months === 1) {
+            setPrice({
+              type: 'month', 
+              amount: days, 
+              amountmonth: 1, 
+              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+              priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+            })
+          }
+           else {
+            setPrice({
+              type: 'month', 
+              amount: days, 
+              amountmonth: months, 
+              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+              priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+            })
+           }
         }
       }
-
       dispatch(Rentattempt(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, 0, price.price))
 
       updateRentattemp(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, 0, price.price)
@@ -149,8 +160,6 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
       enddate: endDate
     }
 
-    console.log(attempt.id)
-
     if (attempt.id !== undefined) {
       await api.put(`rent/attempt/updaterent/${attempt.id}`, rentupdate, {})
       .then((res) => {
@@ -160,13 +169,14 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
     }
   }
 
-
   const renderPrice = () => {
     var text = ''
     var text2 = ''
     var days = price.amount
     var weekend = 1
     var months = price.amountmonth
+
+    console.log(months)
 
     if (price.type === 'days') {
       text = ` x ${days} Dia(s)`
@@ -189,15 +199,19 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
     if (price.type === 'month') {
       if (months === 1) {
         text = ` por ${months} Mês`
-        text2 = `* Custo mensal, com este valor você pode alugar por mais ${ 30 - days } dias!`
+        text2 = `* Custo mensal`
+      }else if (days > 15 && days <= 31) {
+        text = ` por 1 Mês`
+        text2 = `* Você está alugando por ${days} dias, mas o custo é mensal. Com este valor você pode alugar por mais ${ 30 - days } dias!`
       } else {
         text = ` x ${months} Mêses`
         text2 = '* Custo mensal, com este valor você pode alugar por mais dias para fechar o mês!'
       }
     }
+
     return (
       <>
-        <div className="columns">
+        <div className="columns is-mobile">
           <div className="column">
             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
               <FormattedNumber value={price.price} style="currency" currency="BRL" />
@@ -222,7 +236,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
             </div>
           </div>*/
         }
-        <div className="columns no-margin-top-columns">
+        <div className="columns is-mobile no-margin-top-columns">
           <div className="column">
             Tensão equip
           </div>
@@ -232,7 +246,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
             </div>
           </div>
         </div>
-        <div className="columns no-margin-top-columns">
+        <div className="columns is-mobile no-margin-top-columns">
           <div className="column">
             <b>Total</b>
           </div>
@@ -251,7 +265,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
   return (
     <>
       <div className="rental-box">
-        <div className="columns">
+        <div className="columns is-desktop is-mobile">
           <div className="column">
             <img src={rentinfo.picture1} alt={rentinfo.picture1} className="" />
           </div>

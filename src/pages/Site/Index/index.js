@@ -6,7 +6,6 @@ import queryString from 'query-string';
 import Scroll from '../../../utils/scroll';
 import Title from '../../../utils/title';
 import desert2 from '../../../assets/images/desert2.svg'
-
 import './style.css';
 
 const Dashboard = ({history, location}) => {

@@ -168,7 +168,6 @@ const Notification = ({nt}) => {
             </>
           )
         }
-        { console.log(define) }
         {
           nt.length === 0 && define === false ? 
           (

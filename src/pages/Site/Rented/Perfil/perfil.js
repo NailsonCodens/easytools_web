@@ -28,6 +28,7 @@ const Pserfil = ({history}) => {
     <div className="container">
       <div className="columns">
         <div className="column">
+          <br/><br/>
           <p className="name-renter-left">{ user.name } { user.last_name }</p>
           <p className="email-renter">{ user.email }</p>
           <p> { user.cpfcnpj } </p>
