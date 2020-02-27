@@ -127,9 +127,13 @@ const Resume = ({history}) => {
               <>
                 <div>
                   <br/><br/><br/><br/>
-                  <p className="title-tool-only">Aluguel de { tool.title }</p>
-                  <br/>
-                  <Warningtext>* Confirmar o produto que você está prestes a alugar.</Warningtext>
+                  <div className="column nopadding">
+                    <div className="column">
+                      <p className="title-tool-only">Aluguel de { tool.title }</p>
+                      <br/>
+                      <Warningtext>* Confirmar o produto que você está prestes a alugar.</Warningtext>
+                    </div>
+                  </div>
                 </div>
                 <div className="columns">
                   <div className="column is-two-thirds">
@@ -159,12 +163,13 @@ const Resume = ({history}) => {
                             </div>
                           </div>
                         </div>
-                        <div className="columns">
+                        <br/><br/>
+                        <div className="columns nopadding">
                           <div className="column">
                             <b className="tension-rules">Você está alugando um equipamento de tensão { tension === 'Tri' ? 'Trifásico' : tension }.</b>    
                           </div>
                         </div>
-                        <div className="columns">
+                        <div className="columns nopadding">
                           <div className="column">
                             <p><b>Marca</b>: { tool.brand }</p>
                             <p><b>Categoria</b>: { tool.category }</p>

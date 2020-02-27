@@ -4,6 +4,7 @@ import { isAuthenticated } from "../../services/auth";
 import Notification from '../../components/Notification/index';
 import { Notification as Notificationrd } from '../../store/actions/notification';
 import api from '../../services/api';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -13,6 +14,7 @@ library.add(faBell)
 
 const Droppure = ({ children, classCuston, classMenu, text, countn }) => {
   const dispatch = useDispatch();	
+  let history = useHistory();
 
   const wrapperRef = useRef(null);
 	useOutsideAlerter(wrapperRef);
@@ -42,10 +44,14 @@ const Droppure = ({ children, classCuston, classMenu, text, countn }) => {
 	}
 
   const Dropdown = () => {
-    if (active === 'is-active') {
-      setActiveMenu('')
+    if (isMobile) {
+      history.push('/s/renter/notifications')
     } else {
-      setActiveMenu('is-active')
+      if (active === 'is-active') {
+        setActiveMenu('')
+      } else {
+        setActiveMenu('is-active')
+      }  
     }
   }
 
@@ -64,10 +70,17 @@ const Droppure = ({ children, classCuston, classMenu, text, countn }) => {
                 </div> 
               )
             }
-            <span className={"user-dropdown "}>
+            <span className={"user-dropdown is-cs-menu-b"}>
               { 
                 isMobile ? 
-                (<FontAwesomeIcon icon={['fas', 'bell']} size="2x"/>)
+                (
+                  <>
+                    <FontAwesomeIcon icon={['fas', 'bell']} className={history.location.pathname === '/s/renter/notifications' ? "menu-icons-active" : "menu-icons" } size="1x"/>
+                    <div className="text-box text-box-cs-notify">
+                      Notificações
+                    </div>
+                  </>
+                )
                 :
                 (<>{text}</>)
               }

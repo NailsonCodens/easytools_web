@@ -100,6 +100,20 @@ const Allnotification = ({history}) => {
             </div>
             ))
           }
+        {
+          notification.length === 0 ? 
+          (
+            <div className="notfound has-text-centered">
+              Nenhuma notificação por enquanto!
+            </div>
+          )
+          :
+          (
+            <div className="has-text-centered">
+            </div>
+          )
+        }
+
         </div>
         </div>
       </div>

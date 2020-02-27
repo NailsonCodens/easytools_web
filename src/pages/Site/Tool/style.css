@@ -250,4 +250,12 @@
   .title-popup{
     font-size: 10px !important;
   }
+
+  .container-bottom{
+    padding: 0px !important;
+  }
+
+  .espec{
+    display: none !important;
+  }
 }

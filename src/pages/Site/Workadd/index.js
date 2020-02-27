@@ -235,7 +235,7 @@ const Workadd = ({rent}) => {
         noValidate
       >
         <div className="columns">
-          <div className="column">
+          <div className="columns">
             <div className="columns column-address">
               <div className="column">
                 <Field>
@@ -365,7 +365,7 @@ const Workadd = ({rent}) => {
           </div>
         </div>
         <div className="columns">
-          <div className="column">
+          <div className="columns">
             <div className="columns">
                 <div className="column">
                   <Field>

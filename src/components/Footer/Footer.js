@@ -18,7 +18,7 @@ const Footer = () => {
 	return (
 		<>
 			{ 
-				location === '/lessor/signin' 
+				location === '/lessor/signin' || location === '/s/renter/user-option' 
 				? 
 				'' 
 				: 

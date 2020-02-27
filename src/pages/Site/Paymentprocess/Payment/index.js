@@ -187,7 +187,11 @@ const Payment = ({history}) => {
       if (rentattempt.period === 'month' && rentattempt.days === 1) {
         text = ` por ${days} Mês`
       } else {
-        text = ` x ${days} Mêses`
+        if (rentattempt.days > 15 && rentattempt.days <= 31) {
+          text = ` por 1 Mês`
+        }else {
+          text = ` x ${days} Mêses`
+        }
       }
     }
     return text
@@ -214,6 +218,7 @@ const Payment = ({history}) => {
         okattempt === true ? 
         (
           <div className="columns">
+            <br/><br/>
             <div className="column is-two-thirds">
               <p className="title-tool-only"> Entrega ou busca </p>
               <br/><br/>
@@ -349,7 +354,7 @@ const Payment = ({history}) => {
             </div>
             <div className="column">
               <div className="rental-box">
-                <div className="columns">
+                <div className="columns is-desktop is-mobile">
                   <div className="column">
                     <img src={tool.picture1} alt={tool.picture1} className="" />
                   </div>
@@ -367,12 +372,12 @@ const Payment = ({history}) => {
                     <b> Aluguel </b> { start }
                   </div>
                 </div>
-                <div className="columns  no-margin-top-columns">
+                <div className="columns no-margin-top-columns dates-payment">
                   <div className="column">
                     <b> Devolução </b> { end }                    
                   </div>
                 </div>
-                <div className="columns no-margin-top-columns">
+                <div className="columns is-mobile no-margin-top-columns dates-payment">
                   <div className="column">
                     Tensão equip
                   </div>
@@ -382,7 +387,7 @@ const Payment = ({history}) => {
                     </div>  
                   </div>  
               </div>
-                <div className="columns no-margin-top-columns">
+                <div className="columns is-mobile no-margin-top-columns dates-payment">
                   <div className="column">
                   <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                     <FormattedNumber value={rentattempt.priceperiod} style="currency" currency="BRL" />
@@ -402,7 +407,7 @@ const Payment = ({history}) => {
                     </p>
                   </div>
                 </div>
-              <div className="columns no-margin-top-columns">
+              <div className="columns is-mobile no-margin-top-columns">
                 <div className="column">
                   <b>Total</b>
                 </div>
@@ -417,7 +422,7 @@ const Payment = ({history}) => {
               {
                 freight === 'with' ? 
                 (
-                  <div className="columns no-margin-top-columns">
+                  <div className="columns is-mobile no-margin-top-columns">
                     <div className="column">
                       <b>Total com frete</b>
                     </div>
@@ -441,6 +446,7 @@ const Payment = ({history}) => {
                     text={'Pagar'}                                    
                     onClick={event => paymentRent()}
                   />
+                  <br/><br/>
                 </div>
               </div>
               </div>

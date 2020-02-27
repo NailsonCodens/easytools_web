@@ -134,8 +134,12 @@ const Rules = ({ history }) => {
                   (
                   <>
                     <br/><br/>
-                    <p className="title-tool-only">Vizinho, Politicas & Regras e Pagamento </p>
-                    <br/>
+                    <div className="columns noppadding">
+                      <div className="column">
+                        <p className="title-tool-only">Vizinho, Politicas & Regras e Pagamento </p>
+                        <br/>
+                      </div>
+                    </div>
                     <div className="columns">
                       <div className="column is-two-thirds">
                         {/*<Lessor/>*/}
@@ -176,12 +180,6 @@ const Rules = ({ history }) => {
                     </div>
                     <Hr/>
                     <br/>
-                    <div className="columns">
-                      <div className="column is-two-thirds">
-                      </div>
-                      <div className="column">
-                      </div>
-                    </div>
                     <div className="columns">
                       <div className="column is-3">
                         <Button 

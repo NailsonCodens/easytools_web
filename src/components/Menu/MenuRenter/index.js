@@ -35,8 +35,8 @@ import {
 } from "react-device-detect";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCoffee, faBell } from '@fortawesome/free-solid-svg-icons'
-library.add(faCoffee);
+import { faCoffee, faSearch, faUserCircle, faHandshake } from '@fortawesome/free-solid-svg-icons'
+library.add(faCoffee, faSearch, faUserCircle, faHandshake);
 
 const MenuRenter = () => {
   const dispatch = useDispatch();	
@@ -258,105 +258,137 @@ const MenuRenter = () => {
 	}	
 
 	const renderEndmenu = () => {
+		
 		if (isMobile) {
 			return (
 				<>
-					<div className="navbar-item">
+					<div className={"navbar-item"}>
 						<div className="buttons">
-						{
-								current_user.name === undefined || current_user.name === null ? 
+							<Link to={'/lessor/dashboard'} onClick={event => Scrool() } className="navbar-item">
+									<div className="box-icons-mobile">
+										<FontAwesomeIcon icon={['fas', 'search']} className={history.location.pathname === '/' ? "menu-icons-active" : "menu-icons" } size="1x"/>
+										<div className="text-box">
+											Explorar
+										</div>
+									</div>
+							</Link>
+							{
+								isAuthenticated() === true ? 
+								(
+									<>
+										<div onClick={event => Scrool() } className="navbar-item">
+											<div className="box-icons-mobile box-icons-mobile-cs ">
+												<Dropdownpure text="Notificações" countn={notificationrd} classMenu="classNotless" classCuston=" notification">
+													{ renderNotify() }
+												</Dropdownpure>
+											</div>
+										</div>
+										{
+											current_user.type_user === 'Lessor'? 
+											(
+												<Link to={'/lessor/dashboard'} onClick={event => Scrool() } className="navbar-item">
+														<div className="box-icons-mobile">
+															<FontAwesomeIcon icon={['fas', 'search']} className="menu-icons" size="1x"/>
+															<div className="text-box">
+																Alugados
+															</div>
+														</div>
+												</Link>
+											)
+											:
+											(
+												<Link to={'/myrent'} onClick={event => Scrool() } className="navbar-item">
+														<div className="box-icons-mobile">
+															<FontAwesomeIcon icon={['fas', 'handshake']} className="menu-icons" size="1x"/>
+															<div className="text-box">
+																Aluguéis
+															</div>
+														</div>
+												</Link>
+											)
+										}
+										<div onClick={event => Scrool() } className="navbar-item">
+											{
+												current_user.type_user === 'Lessor'? 
+												(
+													<div className="box-icons-mobile box-icons-mobile-cs box-icons-mobile-cs-user">
+														<Dropdown classCuston="menu-from-lessor menus">
+															<li className="li-drop">
+																<Link to={'/lessor/perfil'} onClick={event => Scrool() } className="navbar-item">
+																	Perfil
+																</Link>
+															</li>
+															<li className="li-drop">
+																<Link to={'/lessor/account'} onClick={event => Scrool() } className="navbar-item">
+																	Conta
+																</Link>
+															</li>
+															<li className="li-drop">
+																<Link to={'/lessor/dashboard'} onClick={event => Scrool() } className="navbar-item">
+																	Ver meus alugueis
+																</Link>
+															</li>
+															<li className="li-drop">
+																<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
+																	Como ser um bom vizinho?
+																</Link>
+															</li>
+														</Dropdown>
+													</div>
+												)
+												:
+												(
+													<div className="box-icons-mobile box-icons-mobile-cs box-icons-mobile-cs-user">
+														<Dropdown classCuston=" menu-from-renter menus">
+															<li className="li-drop">
+																<Link to={'/s/renter/perfil'} onClick={event => Scrool() } className="navbar-item">
+																	Perfil
+																</Link>
+															</li>
+															{
+															/*
+															<li className="li-drop">
+																<Link to={'/s/renter/account'} onClick={event => Scrool() } className="navbar-item">
+																	Conta
+																</Link>
+					
+															</li>
+																*/
+															}
+														</Dropdown>
+													</div>
+												)
+											}
+										</div>
+									</>
+								)
+								:
 								(
 									<>
 										<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
-											Seja um vizinho
+												<div className="box-icons-mobile">
+													<div className="">
+													Seja um vizinho
+													</div>
+												</div>
 										</Link>
-									</>
-								) : 
-								(
-									<>
-										<Link to={'/myrent'} onClick={event => Scrool() } className="navbar-item">
-										<FontAwesomeIcon icon={['fas', 'coffee']} size="2x"/>
+										<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item">
+											<div className="box-icons-mobile">
+													<p></p>
+													<div className="">
+														Aluge!
+													</div>
+												</div>
 										</Link>
-										{
-											/*
-											<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
-												Mensagens
-											</Link>
-											*/
-										}
-										<Dropdownpure text="Notificações" countn={notificationrd} classMenu="classNotless" classCuston=" notification">
-											{ renderNotify() }
-										</Dropdownpure>
-								</>
-								)
-							}
-							{
-								current_user.name === undefined || current_user.name === null ? 
-								(
-									<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item">
-										Cadastre-se
-									</Link>
-								) : 
-								(
-									<>
+										<div onClick={event => Scrool() } className="navbar-item" onClick={signLink}>
+												<div className="box-icons-mobile">
+													<FontAwesomeIcon icon={['fas', 'user-circle']} className="menu-icons" size="1x"/>
+													<div className="text-box">
+														Entrar
+													</div>
+												</div>
+										</div>
 									</>
-								)
-							}
-							{
-								current_user.name === undefined||current_user.name === null ? 
-								(
-									<p className="navbar-item signin" onClick={signLink}>
-										Entrar
-									</p>
-								) : 
-								(
-									''					
-								)
-							}
-							{
-								current_user.type_user === 'Lessor'? 
-								(
-									<Dropdown classCuston=" menu-from-lessor menus">
-										<li className="li-drop">
-											<Link to={'/lessor/perfil'} onClick={event => Scrool() } className="navbar-item">
-												Perfil
-											</Link>
-										</li>
-										<li className="li-drop">
-											<Link to={'/lessor/account'} onClick={event => Scrool() } className="navbar-item">
-												Conta
-											</Link>
-										</li>
-										<li className="li-drop">
-											<Link to={'/lessor/dashboard'} onClick={event => Scrool() } className="navbar-item">
-												Ver meus alugueis
-											</Link>
-										</li>
-										<li className="li-drop">
-											<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
-												Como ser um bom vizinho?
-											</Link>
-										</li>
-									</Dropdown>
-								) : 
-								(
-									<Dropdown classCuston=" menu-from-renter menus">
-										<li className="li-drop">
-											<Link to={'/s/renter/perfil'} onClick={event => Scrool() } className="navbar-item">
-												Perfil
-											</Link>
-										</li>
-										{
-										/*
-										<li className="li-drop">
-											<Link to={'/s/renter/account'} onClick={event => Scrool() } className="navbar-item">
-												Conta
-											</Link>
-
-										</li>
-											*/
-										}
-									</Dropdown>				
 								)
 							}
 							<Modal
@@ -534,15 +566,26 @@ const MenuRenter = () => {
 									}
 									<div className="is-clearfix"></div>	
 									<div>
-										<Button 
-											type={'button'}
-											className={'button is-small is-default localization'}
-											text={'Melhorar minha busca'}                            
-											onClick={event => setBettersearch(!bettersearch)}
-										/>
+										{
+											isMobile ? 
+											(
+												<span	type={'button'} className={'button is-small is-default localization'} onClick={event => setBettersearch(!bettersearch)}>
+													<FontAwesomeIcon icon={['fas', 'search']} size="1x" />
+												</span>
+											)
+											:
+											(
+												<Button 
+													type={'button'}
+													className={'button is-small is-default localization'}
+													text={'Melhorar minha busca'}                            
+													onClick={event => setBettersearch(!bettersearch)}
+												/>
+											)
+										}
 									</div>
 									{
-										location === true || bettersearch === true? 
+										bettersearch === true? 
 										(
 											<>
 												<div className="newaddress" ref={wrapperRef}>
@@ -645,14 +688,14 @@ const MenuRenter = () => {
 														<div className="is-pulled-right">
 															<Button 
 																type={'button'}
-																className={'button is-small is-info localization'}
+																className={'button is-small is-info buttonsaddress'}
 																text={'Pronto'}
 																disabled={coordiantevalue.length === undefined ? true : false}                       
 																onClick={event => goOn()}
 															/>
 															<Button 
 																type={'button'}
-																className={'button is-small is-default localization'}
+																className={'button is-small is-default buttonsaddress'}
 																text={'Fechar'}                            
 																onClick={event => cancel()}
 															/>
@@ -686,7 +729,7 @@ const MenuRenter = () => {
 				<div className={menu === true ? "navbar-menu is-active" : "navbar-menu"}>
 					<div className="navbar-start"> 
 					</div>
-					<div className="navbar-end">
+					<div className={"navbar-end"}>
 						{
 							renderEndmenu()
 						}
