@@ -104,7 +104,6 @@ const MenuLessor = () => {
 						<span aria-hidden="true"></span>
 					</span>
 				</div>
-
 				<div className={menu === true ? "navbar-menu is-active" : "navbar-menu"}>
       </div>
       <div className="navbar-menu">

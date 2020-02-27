@@ -35,8 +35,8 @@ import {
 } from "react-device-detect";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCoffee, faSearch, faUserCircle, faHandshake } from '@fortawesome/free-solid-svg-icons'
-library.add(faCoffee, faSearch, faUserCircle, faHandshake);
+import { faCoffee, faSearch, faUserCircle, faHandshake, faTags } from '@fortawesome/free-solid-svg-icons'
+library.add(faCoffee, faSearch, faUserCircle, faHandshake, faTags);
 
 const MenuRenter = () => {
   const dispatch = useDispatch();	
@@ -288,7 +288,7 @@ const MenuRenter = () => {
 											(
 												<Link to={'/lessor/dashboard'} onClick={event => Scrool() } className="navbar-item">
 														<div className="box-icons-mobile">
-															<FontAwesomeIcon icon={['fas', 'search']} className="menu-icons" size="1x"/>
+															<FontAwesomeIcon icon={['fas', 'tags']} className="menu-icons" size="1x"/>
 															<div className="text-box">
 																Alugados
 															</div>
@@ -297,9 +297,9 @@ const MenuRenter = () => {
 											)
 											:
 											(
-												<Link to={'/myrent'} onClick={event => Scrool() } className="navbar-item">
+												<Link to={'/s/renter/myrent'} onClick={event => Scrool() } className="navbar-item">
 														<div className="box-icons-mobile">
-															<FontAwesomeIcon icon={['fas', 'handshake']} className="menu-icons" size="1x"/>
+															<FontAwesomeIcon icon={['fas', 'handshake']} className={history.location.pathname === '/s/renter/myrent' ? "menu-icons-active" : "menu-icons" }  size="1x"/>
 															<div className="text-box">
 																Aluguéis
 															</div>
@@ -422,9 +422,16 @@ const MenuRenter = () => {
 										<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
 											Seja um vizinho
 										</Link>
-										<Link to={'/s/renter/myrent'} onClick={event => Scrool() } className="navbar-item">
-											Coisas que aluguei
-										</Link>
+										{
+											current_user.type_user === 'Renter' ? 
+											(
+												<Link to={'/s/renter/myrent'} onClick={event => Scrool() } className="navbar-item">
+													Coisas que aluguei
+												</Link>	
+											)
+											:
+											('')
+										}
 										{
 											/*
 											<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
@@ -729,7 +736,7 @@ const MenuRenter = () => {
 				<div className={menu === true ? "navbar-menu is-active" : "navbar-menu"}>
 					<div className="navbar-start"> 
 					</div>
-					<div className={"navbar-end"}>
+					<div className={"navbar-end-rent"}>
 						{
 							renderEndmenu()
 						}

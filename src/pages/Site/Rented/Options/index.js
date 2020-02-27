@@ -53,6 +53,7 @@ function Index({history}) {
             :
             (
               <div className="optionsuser">
+                <br/><br/><br/>
                 <Link to={'/s/renter/perfil'} onClick={event => Scrool() } className="navbar-item">
                   Perfil
                 </Link>
