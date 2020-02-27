@@ -5,6 +5,11 @@ import Notification from '../../components/Notification/index';
 import { Notification as Notificationrd } from '../../store/actions/notification';
 import api from '../../services/api';
 import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faBell } from '@fortawesome/free-solid-svg-icons'
+import { isMobile } from 'react-device-detect';
+library.add(faBell)
 
 const Droppure = ({ children, classCuston, classMenu, text, countn }) => {
   const dispatch = useDispatch();	
@@ -60,7 +65,12 @@ const Droppure = ({ children, classCuston, classMenu, text, countn }) => {
               )
             }
             <span className={"user-dropdown "}>
-              { text }
+              { 
+                isMobile ? 
+                (<FontAwesomeIcon icon={['fas', 'bell']} size="2x"/>)
+                :
+                (<>{text}</>)
+              }
             </span>
             <span className="icon is-small">
               <i className="fas fa-angle-down" aria-hidden="true"></i>

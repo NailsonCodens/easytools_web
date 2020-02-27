@@ -31,14 +31,11 @@ import categories from '../../../utils/categories';
 import { getCordinates } from '../../../services/mapbox';
 import latitude from '../../../store/reducers/latitude';
 import {
-  BrowserView,
-  MobileView,
-  isBrowser,
   isMobile
 } from "react-device-detect";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { faCoffee, faBell } from '@fortawesome/free-solid-svg-icons'
 library.add(faCoffee);
 
 const MenuRenter = () => {
@@ -278,7 +275,7 @@ const MenuRenter = () => {
 								(
 									<>
 										<Link to={'/myrent'} onClick={event => Scrool() } className="navbar-item">
-										<FontAwesomeIcon icon={['fas', 'coffee']} size="3x"/>
+										<FontAwesomeIcon icon={['fas', 'coffee']} size="2x"/>
 										</Link>
 										{
 											/*

@@ -232,18 +232,18 @@
     border-left: 1px solid rgb(160, 160, 160) !important;
     border-right: 1px solid rgb(160, 160, 160) !important;
     padding: 0 !important;
-    height: 100px !important;
+    height: 200px !important;
   }
   
   .box-photos .column img{
     width:100%;
-    height:100px;
+    height:200px;
     object-fit:cover;
   }
   
   .box-photos .column img:hover{
     width:100%;
-    height:100px;
+    height:200px;
     object-fit:cover;
   }
 

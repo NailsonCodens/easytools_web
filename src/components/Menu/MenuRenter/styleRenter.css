@@ -135,7 +135,7 @@
 @media (max-width: 900px) {
   .input-search {
     width: 100% !important;
-    border: 2px solid rgb(102, 102, 102) !important;
+    border: 2px solid rgb(146, 146, 146) !important;
     border-radius: 100px !important;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
@@ -150,7 +150,6 @@
   .nav {
     display: block;
     grid-template-columns: none;
-
   }
   
   .navbar-end{
@@ -163,14 +162,18 @@
     z-index: 9999;
     position: fixed;
     display: flex !important;
+    align-items: center;
+    justify-content: center;
   }
 
   .navbar-item{
-    padding: 10px !important;
+    padding: 6px 30px !important;
   } 
 
   .nav-fixed{
     padding-top: 15px;
+    padding-bottom: 18px !important;
+    border-bottom: 1px solid rgb(155, 155, 155) !important;
   }
 
   .logo {
@@ -191,7 +194,7 @@
     left: 0;
     margin-top: 0px;
     border-top: none !important;
-  border-bottom: 1px solid rgb(117, 117, 117);
+  border-bottom: 1px solid rgb(160, 160, 160);
     padding: 10px;
     margin-top: -2px;
   }
@@ -208,5 +211,9 @@
   .localization{
     border: 1px solid rgb(87, 87, 87) !important;
     margin-left:0px;
+  }
+
+  .logouser-menu{
+    width: 40px;
   }
 }
