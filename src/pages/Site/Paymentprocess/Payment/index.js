@@ -12,6 +12,7 @@ import {IntlProvider, FormattedNumber} from 'react-intl';
 import { Warningtext } from '../../../../components/Warningtext';
 import { Field, Label } from '../../../../components/Form/Form';
 import Mapbox from '../../../../components/Map/Mapbox';
+import Paymentme from './paymentme';
 
 import moment from 'moment';
 import 'moment/locale/pt-br';
@@ -324,6 +325,7 @@ const Payment = ({history}) => {
               </ul>
               <br/><br/>
               <p className="title-tool-only"> Pagamento </p>
+              <Paymentme/>
               <br/>
               {
 

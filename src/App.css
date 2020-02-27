@@ -396,3 +396,16 @@
   margin-top: 20px;
   margin-bottom: 10px;
 }
+
+@media (max-width: 600px) {
+  .columns {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .styles_modalCenter__L9F2w{
+    width: 100% !important;
+    background: #fff;
+  }
+}

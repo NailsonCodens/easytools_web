@@ -69,7 +69,7 @@ const Mapbox = ({ lat, lng, url, title }) => {
               onClose={() => setShowpopup(false)}
               anchor="top">
               <div>
-                <div className="columns">
+                <div className="columns is-mobile">
                   <div className="column">
                     <img src={url} alt={url} style={styleImage} />
                   </div>

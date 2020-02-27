@@ -57,6 +57,7 @@ const MenuRenter = ({ children, classCuston }) => {
             <div className="dropdown-trigger btn-user">
               <span aria-haspopup="true" aria-controls="dropdown-menu6" onClick={Dropdown}>
                 <span className="user-dropdown">
+                  
                   Olá { current_user.name }
                 </span>
                 <span className="icon is-small">
