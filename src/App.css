@@ -149,7 +149,8 @@
 
 .background-intern{
   background: #f4f4f4;
-  padding-top: 20px;
+  padding-top: -30px !important;
+  margin-top: -20px;
 }
 
 .container-page{

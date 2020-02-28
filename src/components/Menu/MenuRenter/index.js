@@ -290,7 +290,7 @@ const MenuRenter = () => {
 														<div className="box-icons-mobile">
 															<FontAwesomeIcon icon={['fas', 'tags']} className="menu-icons" size="1x"/>
 															<div className="text-box">
-																Alugados
+																Aluguéis
 															</div>
 														</div>
 												</Link>

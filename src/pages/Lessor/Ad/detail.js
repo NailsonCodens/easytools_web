@@ -289,7 +289,7 @@ const Detail = ({history}) => {
                     )
                 }
               </div>
-              <div className="columns box-imgs">
+              <div className="columns is-mobile box-imgs">
                 {
                   listphoto.length > 0 ?
                   (

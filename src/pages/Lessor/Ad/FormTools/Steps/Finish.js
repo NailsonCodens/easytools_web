@@ -184,6 +184,7 @@ const Finish = ({handleChange, prevStep, values}) => {
           className={'button color-logo-lessor back-form is-pulled-right'}
           text={'Concluir'}
         />
+        <br/><br/>
         </Form>
     </>
   )

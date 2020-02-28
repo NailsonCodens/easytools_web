@@ -32,8 +32,58 @@
 }
 
 @media (max-width: 900px) {
-  .icon-lessor{
-    float: right !important;
+  .navbar-end{
+    background: #fff;
+    height: 60px;
+    bottom: 0px;
+    padding-top: 10px;
+    left: 0px;
+    width: 100% !important;
+    z-index: 9999;
+    position: fixed;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(15, 15, 15)
   }
 
+  .navbar-start{
+    display: none !important;
+  }
+
+  .menuhan{
+    font-size: 40px;
+  }
+  
+  .icon-lessor-menu{
+    color: #4a4a4a;
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    margin-left: auto;
+    right: 10px;
+    top: 10px;
+  }
+
+  .navbar-start-cs{
+    position: absolute;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    background:#fff;
+    padding-top: 10px;
+    width: 100%!important;
+    border-top: 1px solid rgb(214, 214, 214);
+    border-bottom: 1px solid rgb(214, 214, 214);
+    left: 0;
+  }
+
+  .navbar-start-cs .navbar-item{
+    padding: 0px 0px !important;
+  }
+
+  .menu-icons-lessor{
+    color: #60A8F1 !important; 
+  }
 }

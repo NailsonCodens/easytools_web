@@ -197,6 +197,7 @@ const Rents = ({ history }) => {
                                 text={'Ver detalhes'}
                                 onClick={event => goDetail(rent.id)}
                               />
+                              <br/><br/>
                             </div>
                             {/* <div className="column is-2">
                               { 

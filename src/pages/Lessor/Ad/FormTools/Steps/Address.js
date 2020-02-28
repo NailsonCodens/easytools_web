@@ -474,6 +474,7 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
           text={ formik.errors.location ? 'Adicionar novo endereço' : 'Salvar e Prosseguir'}
           onClick={event => openForm()}
         />
+        <br/><br/>
       </Form>
     </>
   )

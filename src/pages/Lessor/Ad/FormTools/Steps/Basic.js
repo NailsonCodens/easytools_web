@@ -108,6 +108,7 @@ const Basic = ({nextStep, handleChange, values}) => {
           className={'button color-logo-lessor is-pulled-right'}
           text={'Salvar e Prosseguir'}
         />
+        <br/><br/>
       </Form>
     </>
   )

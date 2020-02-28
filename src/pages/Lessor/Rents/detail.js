@@ -14,6 +14,9 @@ import { Button } from '../../../components/Form/Button';
 import ChangeAccept from './conditionsRent';
 import socketio from '../../../services/socketio';
 import Email from '../../../utils/sendemail';
+import {
+  isMobile
+} from "react-device-detect";
 
 export default function Rents({history}) {
   document.title = Title('Detalhe aluguel');
@@ -187,6 +190,19 @@ export default function Rents({history}) {
                   <div className="column is-4">
                     <div className="columns">
                       <div className="column">
+                        {
+                          isMobile ? 
+                          (
+                            <p className="capitalize title-rent">
+                              { rent.tool.title } alugado por 
+                              <b> { rent.userrenter.name }</b>
+                            </p>
+                          )
+                          :
+                          (
+                            ''
+                          )
+                        }
                         <img src={rent.tool.picture[0].url} alt={rent.tool.picture[0].url} />
                       </div>
                     </div>
@@ -197,88 +213,95 @@ export default function Rents({history}) {
                     </b>
                     <br/>
                     <div>
+                      { 
+                        rent.accept === '0' && rent.paid === '0' ?
+                        (
+                          <b className="new">Aluguel novo</b>
+                        )
+                        :
+                        (
+                          ''
+                        )
+                      }
+                      { 
+                        rent.accept === 'N' || rent.paid === 'N' ?
+                        (
+                          <b className="notaccpet">Você negou este aluguel</b>
+                        )
+                        :
+                        (
+                          ''
+                        )
+                      }
+                      { 
+                        rent.accept === '1' && rent.paid === '0' ?
+                        (
+                          <b className="acceptandwaitng">Aceito e aguardando pagamento</b>
+                        )
+                        :
+                        (
+                          ''
+                        )
+                      }
+                      { 
+                        rent.accept === '1' && rent.paid === '1' ?
+                        (
+                          <b className="acceptandpaid">Aceito e Pago</b>
+                        )
+                        :
+                        (
+                          ''
+                        )
+                      }
+                    </div>
+                      <div className="columns">
+                        <div className={ isMobile === true ? "column" : "column is-2"}>
+                          { 
+                            rent.accept !== '0' || rent.accept === 'N' ?
+                            (
+                              ''
+                            )
+                            :
+                            (
+                              <Button
+                                type={'submit'}
+                                className={"button is-success color-logo-lessor" + isMobile === true ? "" : "button is-success color-logo-lessor"}
+                                text={'Aceitar'}
+                                onClick={event => accept(rent.id)}
+                              />
+                            )
+                          }
+                        </div>
+                        <div className={ isMobile === true ? "column" : "column is-2"}>
                             { 
-                              rent.accept === '0' && rent.paid === '0' ?
-                              (
-                                <b className="new">Aluguel novo</b>
-                              )
-                              :
+                              rent.accept === 'N' || rent.accept === '1' ?
                               (
                                 ''
                               )
-                            }
-                            { 
-                              rent.accept === 'N' || rent.paid === 'N' ?
-                              (
-                                <b className="notaccpet">Você negou este aluguel</b>
-                              )
                               :
                               (
-                                ''
-                              )
-                            }
-                            { 
-                              rent.accept === '1' && rent.paid === '0' ?
-                              (
-                                <b className="acceptandwaitng">Aceito e aguardando pagamento</b>
-                              )
-                              :
-                              (
-                                ''
-                              )
-                            }
-                            { 
-                              rent.accept === '1' && rent.paid === '1' ?
-                              (
-                                <b className="acceptandpaid">Aceito e Pago</b>
-                              )
-                              :
-                              (
-                                ''
+                                <Button
+                                  type={'submit'}
+                                  className={'button is-danger color-logo-lessor '}
+                                  text={'Negar'}
+                                  onClick={event => noaccept(rent.id)}
+                                />
                               )
                             }
                           </div>
-                          <div className="columns">
-                            <div className="column is-2">
-                              { 
-                                rent.accept !== '0' || rent.accept === 'N' ?
-                                (
-                                  ''
-                                )
-                                :
-                                (
-                                  <Button
-                                    type={'submit'}
-                                    className={'button is-success color-logo-lessor is-pulled-left'}
-                                    text={'Aceitar'}
-                                    onClick={event => accept(rent.id)}
-                                  />
-                                )
-                              }
-                            </div>
-                            <div className="column is-2">
-                                { 
-                                  rent.accept === 'N' || rent.accept === '1' ?
-                                  (
-                                    ''
-                                  )
-                                  :
-                                  (
-                                    <Button
-                                      type={'submit'}
-                                      className={'button is-danger color-logo-lessor is-pulled-left'}
-                                      text={'Negar'}
-                                      onClick={event => noaccept(rent.id)}
-                                    />
-                                  )
-                                }
-                              </div>
-                          </div>
+                      </div>
                     <br/>
-                    <p className="capitalize">
-                      { rent.tool.title } alugado para 
-                      <b> { rent.userrenter.name }</b>
-                    </p>
+                    {
+                      isMobile ? 
+                      ('')
+                      :
+                      (
+                        <p className="capitalize title-rent">
+                        { rent.tool.title } alugado para 
+                        <b> { rent.userrenter.name }</b>
+                        </p>
+                      )
+                    }
                   <div className="columns">
                     <div className="column">
                       <p className="sub-title">Aluguel: <span className="datefull">{moment(rent.startdate).format('DD/MM/YYYY')}</span></p>

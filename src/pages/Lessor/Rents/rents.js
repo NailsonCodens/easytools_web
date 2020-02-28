@@ -10,7 +10,9 @@ import { Button } from '../../../components/Form/Button';
 import { Link } from 'react-router-dom';
 import socketio from '../../../services/socketio';
 import Email from '../../../utils/sendemail';
-
+import {
+  isMobile
+} from "react-device-detect";
 import ChangeAccept from './conditionsRent';
 
 const Rents = ({ history }) => {
@@ -46,7 +48,6 @@ const Rents = ({ history }) => {
       sendNotification(id, 'noaccept', rent)
     })
   }
-
 
   async function sendNotification(id, type, rent) {
     const response = await api.get(`/tools_site/tool/${rent.tool_id}`, {
@@ -134,10 +135,23 @@ const Rents = ({ history }) => {
               {placeholder}
               {
                 rents.map((rent, index) => (
-                  <div key={index} className="columns">
-                    <div className="column">
+                  <div key={index} className="columns rents">
+                    <div className="column padding-rents">
                       <div className="columns">
-                        <div className="column is-3">
+                        {
+                          isMobile ? 
+                          (
+                            <p className="capitalize title-rent">
+                              { rent.tool.title } alugado por 
+                              <b> { rent.userrenter.name }</b>
+                            </p>
+                          )
+                          :
+                          (
+                            ''
+                          )
+                        }
+                        <div className={ isMobile === true ? "column" : "column is-5"}>
                           <img src={rent.tool.picture[0].url} alt={rent.tool.picture[0].url} className="image-tool-rent"/>
                         </div>
                         <div className="column">
@@ -183,16 +197,16 @@ const Rents = ({ history }) => {
                               )
                             }
                           </div>
-                          <div className="columns">
-                            <div className="column is-2">
+                          <div className="columns is-mobile">
+                            <div className={ isMobile === true ? "column is-5" : "column is-2"}>
                               <Button
                                 type={'submit'}
-                                className={'button is-info color-logo-lessor is-pulled-left'}
+                                className={'button is-info is-small color-logo-lessor is-pulled-left'}
                                 text={'Ver detalhes'}
                                 onClick={event => goDetail(rent.id)}
                               />
                             </div>
-                            <div className="column is-2">
+                            <div className={ isMobile === true ? "column is-4" : "column is-2"}>
                               { 
                                 rent.accept !== '0' || rent.accept === 'N' ?
                                 (
@@ -202,15 +216,14 @@ const Rents = ({ history }) => {
                                 (
                                   <Button
                                     type={'submit'}
-                                    className={'button is-success color-logo-lessor is-pulled-left'}
+                                    className={'button is-success is-small color-logo-lessor is-pulled-left'}
                                     text={'Aceitar'}
                                     onClick={event => accept(rent.id, rent)}
                                   />
                                 )
                               }
                             </div>
-                            <div className="column is-2">
-                                { console.log() }
+                            <div className={ isMobile === true ? "column is-4" : "column is-2"}>
                                 { 
                                   rent.accept === 'N' || rent.accept === '1' ?
                                   (
@@ -220,7 +233,7 @@ const Rents = ({ history }) => {
                                   (
                                     <Button
                                       type={'submit'}
-                                      className={'button is-danger color-logo-lessor is-pulled-left'}
+                                      className={'button is-danger is-small color-logo-lessor is-pulled-left'}
                                       text={'Negar'}
                                       onClick={event => noaccept(rent.id, rent)}
                                     />
@@ -229,10 +242,17 @@ const Rents = ({ history }) => {
                               </div>
                           </div>
                           <br/>
-                          <p className="capitalize">
-                            { rent.tool.title } alugado para 
-                            <b> { rent.userrenter.name }</b>
-                          </p>
+                          {
+                            isMobile ? 
+                            ('')
+                            :
+                            (
+                              <p className="capitalize title-rent">
+                              { rent.tool.title } alugado para 
+                              <b> { rent.userrenter.name }</b>
+                              </p>
+                            )
+                          }
                         <div className="columns">
                           <div className="column">
                             <p className="sub-title">Aluguel: <span className="datefull">{moment(rent.startdate).format('DD/MM/YYYY')}</span></p>
@@ -272,7 +292,7 @@ const Rents = ({ history }) => {
                               Período: { rent.days } { renderPeriod(rent.period) }
                             </p>
                             <div className="columns">
-                              <div className="column">
+                              <div className="column padding-rents">
                                 <b>Valores do aluguel: </b>
                                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                   <FormattedNumber value={rent.cost} style="currency" currency="BRL" />
@@ -280,7 +300,7 @@ const Rents = ({ history }) => {
                               </div>
                             </div>
                             <div className="columns">
-                              <div className="column">
+                              <div className="column padding-rents">
                                 {
                                   rent.freight > 0 ? 
                                   (
@@ -295,7 +315,7 @@ const Rents = ({ history }) => {
                                   (<b className="welcome-user">Cliente vai buscar o equipamento com você.</b>)
                                 }
                               </div>
-                              <div className="column">
+                              <div className="column padding-rents">
                                 {
                                   rent.freight > 0 ? 
                                   (<b>Valores do aluguel + Custo de entrega: </b>)
@@ -306,6 +326,7 @@ const Rents = ({ history }) => {
                                   <FormattedNumber value={parseFloat(rent.cost) + parseFloat(rent.freight)} style="currency" currency="BRL" />
                                 </IntlProvider>                                
                               </div>
+                              <br/><br/>
                             </div>
                           </div>
                         </div>
