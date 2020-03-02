@@ -14,6 +14,8 @@ import { Button } from '../../../components/Form/Button';
 import ChangeAccept from './conditionsRent';
 import socketio from '../../../services/socketio';
 import Email from '../../../utils/sendemail';
+import { Paymentlink }from '../../PaymentLink/index';
+
 import {
   isMobile
 } from "react-device-detect";
@@ -110,10 +112,18 @@ export default function Rents({history}) {
     return modal3
   }
 
-  const accept = (id) => {
-    ChangeAccept('accept', id).then((res) => {
-      reloadRents()
+  const accept = (id, rent) => {        
+    Paymentlink(id).then(function (response){
       sendNotification(id, 'accept')
+      ChangeAccept('accept', id).then((res) => {
+        reloadRents()
+      })
+      sendNotificationPayment(id, 'paymentlinkok')
+    }).catch(function (err) {
+      ChangeAccept('accept', id).then((res) => {
+        reloadRents()
+        sendNotification(id, 'noacceptforpayment')
+      })
     })
   }
 
@@ -130,6 +140,41 @@ export default function Rents({history}) {
       setRent(response.data.rentattempt);
     }, 300);     
   } 
+
+  async function sendNotificationPayment(id, type) {
+    var lessor = rent[0].userlessor.name
+    var renter = rent[0].userrenter.name
+    var message = '';
+    var title = '';
+
+    if (type === 'paymentlinkok') {
+      title = `Pagamento do aluguel - Olá, clique em para pagar pelo aluguel do equipamento, clique em pagar!`;
+      message = `Está tudo ok com seu pedido, só falta pagar :). Clique em pagar para finalizarmos o seu pedido e o vizinho ${lessor} preparar o equipamento para você.`;  
+    }
+
+    var notification = {
+      rent_attempt_id: rent[0].id,
+      user_recipient_id: rent[0].userrenter.id,
+      message: message,
+      title: title
+    }
+
+    //enviar outro email com o link do pagamento
+    
+    Email(rent[0].user_renter_id, title, message);
+
+    await api.post('/notifications/send', notification, {})
+    .then((res) => {
+      console.log(res)
+      socketio.emit('notify',{
+        to : rent[0].user_renter_id,
+        title: title,
+        message : message
+      });
+    }).catch((err) => {
+      console.log(err.response)
+    })
+  }
 
   async function sendNotification(id, type) {
     const response = await api.get(`/tools_site/tool/${rent[0].tool_id}`, {
