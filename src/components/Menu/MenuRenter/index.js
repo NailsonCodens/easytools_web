@@ -426,7 +426,7 @@ const MenuRenter = () => {
 											current_user.type_user === 'Renter' ? 
 											(
 												<Link to={'/s/renter/myrent'} onClick={event => Scrool() } className="navbar-item">
-													Coisas que aluguei
+													Meus alugados
 												</Link>	
 											)
 											:

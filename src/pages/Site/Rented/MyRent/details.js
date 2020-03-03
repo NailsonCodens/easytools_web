@@ -14,6 +14,7 @@ import { Button } from '../../../../components/Form/Button';
 //import ChangeAccept from './conditionsRent';
 import socketio from '../../../../services/socketio';
 import Email from '../../../../utils/sendemail';
+import { Link } from 'react-router-dom';
 
 export default function Rents({history}) {
   document.title = Title('Detalhe aluguel');
@@ -157,8 +158,6 @@ export default function Rents({history}) {
         title: title
       }
 
-      Email(rent[0].userrenter.id, title, message);
-
       await api.post('/notifications/send', notification, {})
       .then((res) => {
         socketio.emit('notify',{
@@ -195,7 +194,15 @@ export default function Rents({history}) {
                     <b>
                       Informações do aluguél:
                     </b>
-                    <br/>
+                    <br/><br/>
+                    {
+                      rent.accept === '1' && rent.paid === '0' ?
+                      (
+                        <p><b>Link de pagamento</b> <a href={rent.linkpayment} target="_blank">{ rent.linkpayment }</a></p>                        
+                      )
+                      :
+                      ('')
+                    }
                     <div>
                             { 
                               rent.accept === '0' && rent.paid === '0' ?
@@ -210,7 +217,7 @@ export default function Rents({history}) {
                             { 
                               rent.accept === 'N' || rent.paid === 'N' ?
                               (
-                                <b className="notaccpet">Você negou este aluguel</b>
+                                <b className="notaccpet">Aluguel negado</b>
                               )
                               :
                               (
@@ -335,7 +342,7 @@ export default function Rents({history}) {
                               </> 
                             )
                             :
-                            (<b className="welcome-user">Cliente vai buscar o equipamento com você.</b>)
+                            (<b className="welcome-user">Você optou por buscar este equipamento com o vizinho.</b>)
                           }                           
                         </div>
                         <div className="column">
@@ -351,112 +358,11 @@ export default function Rents({history}) {
                         </div>
                       </div>
                       <div className="columns">
-                        <div className="column">
-                          <b>Informações do locatário:</b>
-                          <br/>
-                          <div className="columns">
-                            <div className="column is-3">
-                              <div className="avatar-detail">
-                                <img src={rent.userrenter.url} alt={rent.userrenter.url} />
-                              </div>
-                            </div>
-                            <div className="column">
-                              <p> { rent.userrenter.name } { rent.userrenter.last_name }</p>
-                              <p> { rent.userrenter.email } </p>
-                              <p> { rent.userrenter.cpfcnpj } </p>
-                              <br/>
-                              {
-                                rent.accept === '1' && rent.paid === '1' 
-                                ?
-                                (
-                                  <p> { rent.userrenter.phone } </p>
-                                )
-                                :
-                                (<p className="color-rent">Quando o aluguel for aceito e pago, você poderá acessar o telefone do locatário.</p>)
-                              }                              
-                              { /*<p> <b>Nascimento:</b> { moment(rent.userrenter.birth_date).format('DD/MM/YYYY') } </p>*/ }
-                              <br/>
-                            </div>
-                          </div>
-                        </div>
                         <div className="column is-5">
-                          <b>Endereço pessoal: </b>
-                          <br/><br/>
-                          <p> { rent.userrenter.address } { rent.userrenter.number } { rent.userrenter.complement } { rent.userrenter.location } </p>
-                          <p> { rent.userrenter.uf } - { rent.userrenter.city } </p>
-                          <p>{ rent.userrenter.neighboor }</p>
-                          <br/>
-                          { <b>Endereço de uso: </b> }
+                          { <b>Seu endereço de uso: </b> }
                           <br/><br/>
                             <p> { workadd.address } { workadd.number } { workadd.complement } <br/> { workadd.location } </p>
                             <p> { workadd.uf } - { workadd.city } { workadd.neighboor }</p>
-                        </div>
-                      </div>
-                      <div className="columns">
-                        <div className="column">
-                          { <b className="link">Documentos do locatário: </b> }
-                          <br/>
-                          <div className="columns">
-                              <div className="column is-3">
-                                <span className="is-text" onClick={event => showdocument()}>Ver documento</span>
-                              </div>
-                              <div className="column is-3">
-                                <span className="is-text" onClick={event => showselfie()}>Ver selfie</span>
-                              </div>
-                              <div className="column is-3">
-                                <span className="is-text" onClick={event => showproof()}>Ver Endereço de uso</span>
-                              </div>
-                          </div>
-                          <Modal
-                            show={modal1} 
-                            onCloseModal={hideModalone} 
-                            closeOnEsc={true} 
-                            closeOnOverlayClick={true}
-                          > 
-                            <p>Documento</p>
-                            {
-                              /*
-                              <p className="is-text">Baixar</p>
-                              */
-                            }
-                            
-                            <br/>
-                            <img src={documentr.urldoc} alt={documentr.urldoc} />
-                          </Modal>
-                            
-                          <Modal
-                            show={modal2} 
-                            onCloseModal={hideModaltwo} 
-                            closeOnEsc={true} 
-                            closeOnOverlayClick={true}
-                          > 
-                            <p>Selfie</p>
-                            {
-                              /*
-                              <p className="is-text">Baixar</p>
-                              */
-                            }
-                            
-                            <br/>
-                            <img src={documentr.urlselfie} alt={documentr.urlselfie} />
-                          </Modal>
-
-                          <Modal
-                            show={modal3} 
-                            onCloseModal={hideModalthree} 
-                            closeOnEsc={true} 
-                            closeOnOverlayClick={true}
-                          > 
-                            <p>Endereço de uso</p>
-                            {
-                              /*
-                              <p className="is-text">Baixar</p>
-                              */
-                            }
-                            
-                            <br/>
-                            <img src={documentr.urlproof} alt={documentr.urlproof} />
-                          </Modal>
                         </div>
                       </div>
                     </div>
