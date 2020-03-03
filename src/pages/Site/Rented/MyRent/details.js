@@ -15,6 +15,7 @@ import { Button } from '../../../../components/Form/Button';
 import socketio from '../../../../services/socketio';
 import Email from '../../../../utils/sendemail';
 import { Link } from 'react-router-dom';
+import { Warningtext } from '../../../../components/Warningtext';
 
 export default function Rents({history}) {
   document.title = Title('Detalhe aluguel');
@@ -198,7 +199,11 @@ export default function Rents({history}) {
                     {
                       rent.accept === '1' && rent.paid === '0' ?
                       (
-                        <p><b>Link de pagamento</b> <a href={rent.linkpayment} target="_blank">{ rent.linkpayment }</a></p>                        
+                        <>
+                          <p><b>Link de pagamento</b> <a href={rent.linkpayment} target="_blank">{ rent.linkpayment }</a></p> 
+                          <Warningtext>Você tem 20 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>                      
+                          <br/>
+                        </>
                       )
                       :
                       ('')
