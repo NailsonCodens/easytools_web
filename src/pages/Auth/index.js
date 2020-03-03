@@ -153,7 +153,11 @@ const Signin = ({ hs, url, closeModal }) => {
           <div className="has-text-centered">
             <Span>Não tem conta da EasyTools? </Span>
             <Link to="/signup"><Span className="button-enter">Cadastre-se</Span></Link>
-          </div>            
+          </div>  
+          <div className="has-text-centered mwd-opacity-low">
+            <Span>Esqueci minha senha </Span>
+            <Link to="/password-recover"><Span className="button-enter">Recuperar Senha</Span></Link>
+          </div>               
         </div>
         <Modal 
           show={nologin} 

@@ -1,0 +1,96 @@
+.container-sign-up{
+  width: 100vw !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center;
+}
+
+.sign-up{
+  margin: 20px !important;
+  padding: 4px;
+  padding-bottom: 30px !important;
+  width: 380px !important;
+  border: 1px solid rgb(207, 207, 207) !important;
+}
+
+.title-singup{
+  margin: 20px;
+  color: #000;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 0.9em;
+}
+
+.offer{
+  margin-top: -20px;
+}
+
+.button-enter{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: #60a8f1;
+}
+
+.terms{
+  width: 100%;
+  height: 300px !important;
+  text-align: justify;
+  overflow: auto;    
+  padding:20px;
+  scrollbar-base-color:#ffeaff
+}
+
+.accepted-bt{
+  margin-right: 20px;
+}
+
+
+.mwd-container {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  padding: 1em 1em 2em 1em;
+  margin: 0 auto;
+  border: 1px solid rgb(207, 207, 207);
+  margin-top: 30vh;
+}
+
+.mwd-container input {
+  display: block;
+  width: 100%;
+  align-self: stretch;
+}
+
+.mwd-center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+.mwd-center-right {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1em;
+}
+
+.mwd-full-heigh {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mwd-subtitle{
+  font-size: 1.3em;
+}
+
+.mwd-submit-btn {
+  padding: .6em 5em;
+  background-color: #FFD237;
+  border:0;
+  cursor: pointer;
+  font-weight: 700;
+}

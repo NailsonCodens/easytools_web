@@ -49,6 +49,10 @@
   color: rgb(47, 47, 47);
 }
 
+.mwd-opacity-low {
+  opacity: .7;
+}
+
 @media (max-width: 900px) {
   .singin{
     background: #fff;
