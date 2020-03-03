@@ -10,6 +10,7 @@ import { Button } from '../../../components/Form/Button';
 import { Link } from 'react-router-dom';
 import socketio from '../../../services/socketio';
 import Email from '../../../utils/sendemail';
+import { Paymentlink }from '../../PaymentLink/index';
 import {
   isMobile
 } from "react-device-detect";
@@ -35,10 +36,18 @@ const Rents = ({ history }) => {
     history.push(`/lessor/rents/detail/${id}`);
   }
 
-  const accept = (id, rent) => {    
-    ChangeAccept('accept', id).then((res) => {
-      reloadRents()
+  const accept = (id, rent) => {        
+    Paymentlink(id).then(function (response){
       sendNotification(id, 'accept', rent)
+      ChangeAccept('accept', id).then((res) => {
+        reloadRents()
+      })
+      sendNotificationPayment(id, 'paymentlinkok', rent)
+    }).catch(function (err) {
+      ChangeAccept('accept', id).then((res) => {
+        reloadRents()
+        sendNotification(id, 'noacceptforpayment', rent)
+      })
     })
   }
 
@@ -67,7 +76,13 @@ const Rents = ({ history }) => {
       if (type === 'accept') {
         title = `EasyTools -  Aluguel aceito. O vizinho ${lessor} aceitou seu aluguel!`;
         message = `Olá ${renter}, O vizinho aceitou seu pedido. por texto de processamento do aluguel, se for boleto ficamos aguardando o pagamento, se for ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}.`;  
-      } else {
+      } else if (type === 'noacceptforpayment') {
+        title = `EasyTools - Não cosneguimos processar seu aluguel!`;
+        message = `Olá existe algum problema com seus dados, entre em contato cosnoco.`;  
+      }else if (type === 'paymentlinkok') {
+        title = `Pagamento do aluguel - Olá, clique em para pagar pelo aluguel do equipamento, clique em pagar!`;
+        message = `Está tudo ok com seu pedido, só falta pagar :). Clique em pagar para finalizarmos o seu pedido e o vizinho ${lessor} preparar o equipamento para você.`;  
+      }else {
         title = `EasyTools - ${renter} Não aceitou o seu aluguel!`;
         message = `Olá ${renter}, Seu pedido não foi aceito pelo vizinho ${lessor}. Fique tranquilo, nós entraremos em contato com você.`;  
       }
@@ -79,6 +94,8 @@ const Rents = ({ history }) => {
         title: title
       }
 
+      //enviar outro email com o link do pagamento
+      
       Email(rent.userrenter.id, title, message);
 
       await api.post('/notifications/send', notification, {})
@@ -94,6 +111,41 @@ const Rents = ({ history }) => {
     } else {
       history.push(`/lessor/renter/detail/${id}?e=unavailable`);
     }
+  }
+
+  async function sendNotificationPayment(id, type, rent) {
+      var lessor = rent.userlessor.name
+      var renter = rent.userrenter.name
+      var message = '';
+      var title = '';
+
+      if (type === 'paymentlinkok') {
+        title = `Pagamento do aluguel - Olá, clique em para pagar pelo aluguel do equipamento, clique em pagar!`;
+        message = `Está tudo ok com seu pedido, só falta pagar :). Clique em pagar para finalizarmos o seu pedido e o vizinho ${lessor} preparar o equipamento para você.`;  
+      }
+
+      var notification = {
+        rent_attempt_id: rent.id,
+        user_recipient_id: rent.userrenter.id,
+        message: message,
+        title: title
+      }
+
+      //enviar outro email com o link do pagamento
+      
+      Email(rent.userrenter.id, title, message);
+
+      await api.post('/notifications/send', notification, {})
+      .then((res) => {
+        console.log(res)
+        socketio.emit('notify',{
+          to : rent.user_renter_id,
+          title: title,
+          message : message
+        });
+      }).catch((err) => {
+        console.log(err.response)
+      })
   }
 
   async function reloadRents () {

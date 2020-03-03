@@ -24,14 +24,17 @@ const Allnotification = ({history}) => {
     };
   }, [])
 
-  const goNotification = (rent_attempt_id, id) => {
-
-    if (current_user.type_user === 'Lessor') {
-      goUpdatenotifiy(id);
-      history.push(`/lessor/rents/detail/${rent_attempt_id}`);
+  const goNotification = (rent_attempt_id, id, type) => {
+    if (type === 'Pagar') {
+      //por a configuração para acessar o link de pagamento
     } else {
-      goUpdatenotifiy(id);
-      history.push(`/s/leased/detail/${rent_attempt_id}`);
+      if (current_user.type_user === 'Lessor') {
+        goUpdatenotifiy(id);
+        history.push(`/lessor/rents/detail/${rent_attempt_id}`);
+      } else {
+        goUpdatenotifiy(id);
+        history.push(`/s/renter/myrent/details/${rent_attempt_id}`);
+      }
     }
   }
 
@@ -91,8 +94,9 @@ const Allnotification = ({history}) => {
                   <div className="column">
                     <Button
                       className={'button is-small is-default bt-overhead'}
-                      text={'Ver'}
-                      onClick={event => goNotification(notify.rent_attempt_id, notify.id)}
+                            text={notify.title.indexOf('Pagamento') === 0 ? 'Pagar' : 'Ver'}
+                            onClick={event => goNotification(notify.rent_attempt_id, notify.id, notify.title.indexOf('Pagamento') === 0 ? 'Pagar' : 'Ver')}
+
                     />    
                   </div>
                 </div>

@@ -4,8 +4,8 @@ import socketio from '../services/socketio';
 
 import simpleCrypto from './crypto';
 
-export const TOKEN_KEY = "@tk-e";
-export const TYPEUSER_KEY = "@t-us";
+export const TOKEN_KEY = process.env.REACT_APP_TOKEN_KEY;
+export const TYPEUSER_KEY = process.env.REACT_APP_TYPEUSER_KEY;
 export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
 export const getLoggedLessor = () => simpleCrypto.decrypt(localStorage.getItem(TYPEUSER_KEY));
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
@@ -21,8 +21,14 @@ export const logout = () => {
   store.dispatch({type:"auth", email: null, name: null, type_user: null, token: null})
 };
 
+let baseURL = process.env.REACT_APP_URL_DEV;
+
+if (process.env.NODE_ENV === 'production') {
+  baseURL = process.env.REACT_APP_URL_BUILD;
+}
+
 const api = axios.create({
-  baseURL: 'http://localhost:9090/api/',
+  baseURL: baseURL,
   responseType: 'json',
 });
 

@@ -344,6 +344,7 @@ const Singup = ({ history }) => {
                   </div>
                   <br/>
                   <Field className={'field'}>
+                  <Label for={'birth_date'}>Data de nascimento</Label>
                     <div className="columns">
                       <div className="column">
                         <Field className={'field'}>

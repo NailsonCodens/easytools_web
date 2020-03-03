@@ -93,16 +93,12 @@ const Resume = ({history}) => {
     Scrool(0,0)
    
     if(!tool.tension.match(values.tension)){
-      console.log('aa');
       history.push('/ops');
     } else if (isNaN(parseInt(values.am))) {
-      console.log('aa');
       history.push('/ops');
     } else if (!moment(values.finish).isValid()) {
-      console.log('aa');
       history.push('/ops');
     } else if (!moment(values.init).isValid()) {
-      console.log('aa');
       history.push('/ops');
     } else {
       verifyAvailabletool()

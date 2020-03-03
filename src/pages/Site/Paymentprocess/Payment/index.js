@@ -115,7 +115,7 @@ const Payment = ({history}) => {
 
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
     .then((res) => {
-      sendNotification()
+      history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      
     }).catch((err) => {
       console.log(err.response)
     }) 
@@ -307,49 +307,6 @@ const Payment = ({history}) => {
                     </div>
                   </>
                 )
-              }
-              <p className="title-tool-only-little">Informações importantes:</p>
-              <br/>
-              <ul>
-                {
-                  tool.contract === 'Y' ? 
-                  (
-                    <li className="list-info-payment">Você só pode usar o equipamento, mediante assinatura de contrato. Prepare uma caneta quando for obter o equipamento!</li>
-                  )
-                  :
-                  ('')
-                }
-                {
-                  tool.devolution === 'Y' ? 
-                  (
-                    <li className="list-info-payment">O Vizinho { /*rentattempt.userlessor.name */} busca o equipamento no término do aluguel.</li>
-                  )
-                  :
-                  ('')                  
-                }
-              </ul>
-              <br/><br/>
-              <p className="title-tool-only"> Pagamento </p>
-              <Paymentme/>
-              <br/>
-              {
-
-                /*
-                
-                                  <Label className="label-perfil" for={'check'}><b>Buscar equipamento ou Entregar neste endereço?</b></Label>
-                  <CheckboxIOS 
-                    onChange={handleCheckIOS}
-                    name="marketing"
-                    value={formik.values.marketing} 
-                    bind="checksignup"
-                    ch={true}
-                    off="Entregar neste endereço" 
-                    on="Buscar equipamento"
-                  />
-                  <Warningtext>
-                    Você pode escolher entre buscar o equipamento com o vizinho, ou escolher a opção de entrega. 
-                  </Warningtext>
-                */
               }
             </div>
             <div className="column">

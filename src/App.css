@@ -282,13 +282,6 @@
   margin-top: -60px;
 }
 
-.no-margin-top-columns{
-  margin-top: -30px !important;
-}
-
-.no-margin-top-columns2{
-  margin-top: -10px !important;
-}
 
 .classMenu span{
   margin-top: 24px;
@@ -402,12 +395,30 @@
   margin-bottom: 10px;
 }
 
+
+.no-margin-top-columns{
+  margin-top: -20px !important;
+}
+
+.no-margin-top-columns2{
+  margin-top: -10px !important;
+}
+
+
 @media (max-width: 900px) {
   .columns {
     margin-left: 0 !important;
     margin-right: 0 !important;
     margin-top: 0 !important;
   }
+
+  .no-margin-top-columns{
+    margin-top: -20px !important;
+  }
+  
+  .no-margin-top-columns2{
+    margin-top: -10px !important;
+  }  
 
   .styles_modalCenter__L9F2w{
     width: 100% !important;
