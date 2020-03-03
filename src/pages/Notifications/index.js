@@ -26,7 +26,7 @@ const Allnotification = ({history}) => {
 
   const goNotification = (rent_attempt_id, id, type) => {
     if (type === 'Pagar') {
-      //por a configuração para acessar o link de pagamento
+      history.push(`/s/payment/payment-view/${rent_attempt_id}`);
     } else {
       if (current_user.type_user === 'Lessor') {
         goUpdatenotifiy(id);

@@ -4,7 +4,7 @@ import Resume from '../../Site/Paymentprocess/Resume';
 import Rules from '../../Site/Paymentprocess/Rules';
 import Payment from '../../Site/Paymentprocess/Payment/index';
 import Paymentfinish from '../../Site/Paymentprocess/Payment/paymentfinish';
-
+import Paymentview from '../Paymentprocess/Payment/paymentme';
 const Index = ({history}) => {
   let { path } = useRouteMatch();
 
@@ -14,6 +14,7 @@ const Index = ({history}) => {
       <Route path={`${path}/rent-rules`} component={Rules}/>
       <Route path={`${path}/rent-payment`} component={Payment}/>
       <Route path={`${path}/rent-paymentfinish`} component={Paymentfinish}/>
+      <Route path={`${path}/payment-view/:id`} component={Paymentview}/>
     </div>
   );
 };

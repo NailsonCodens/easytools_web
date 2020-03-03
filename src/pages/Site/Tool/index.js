@@ -114,14 +114,25 @@ const Tool = ({history}) => {
 
   const next = (rentData) => {
     if (isAuthenticated()) {
-
       if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
-        history.push('/s/renter/perfil/edit?e=cc');
+        if (perfil.type === 'Lessor') {
+          Scrool()
+          history.push(`/lessor/perfil?e=cc`);
+        } else {
+          Scrool()
+          history.push('/s/renter/perfil/edit?e=cc');
+        }
+
       }else {
         if (document !== undefined) {
           if (document.document !== null || document.selfie !== null || document.proof !== null) {
             if (perfil.cpfcnpj.length > 14 && document.enterprise === null) { 
-              history.push('/s/renter/perfil/documents?e=cs');
+              Scrool()
+              if (perfil.type === 'Lessor') {
+                history.push(`/lessor/perfil/detail/${perfil.id}?e=cs`);
+              } else {
+                history.push('/s/renter/perfil/documents?e=cs');                
+              }
               dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
               //erro quando é cnpj       
             } else {
@@ -143,23 +154,30 @@ const Tool = ({history}) => {
               saveRentattempt(attempt);      
             }
           } else {
-            history.push('/s/renter/perfil/documents?e=df');
-            dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
+            Scrool()
+            if (perfil.type === 'Lessor') {
+              history.push(`/lessor/perfil/detail/${perfil.id}?e=df`);
+            } else {
+              history.push('/s/renter/perfil/documents?e=df');
+            }
+            dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));  
           }
         }else {
-          history.push('/s/renter/perfil/documents?e=nd');
+          Scrool()
+          if (perfil.type === 'Lessor') { 
+            history.push(`/lessor/perfil/detail/${perfil.id}?e=nd`);
+          } else {
+            history.push('/s/renter/perfil/documents?e=nd');
+          }
           dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
         }
-
       }
-
     } else {
       Scrool()
       history.push(`/s/tool/${id}?ctg=${values.ctg}&rdt=${Math.random()}`)
       setModal(true)
     }
   }
-
 
   async function saveRentattempt (attempt) {
     await api.post('rent/attempt/add/', attempt, {})
@@ -188,8 +206,6 @@ const Tool = ({history}) => {
     async function loadTool() { 
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
-
-      console.log(response)
 
       if (response.data.tool.length > 0 || response.data.tool[0].situation === 'Y') {
         setTool(response.data.tool[0])

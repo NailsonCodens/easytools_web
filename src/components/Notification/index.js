@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Notification as Notificationrd } from '../../store/actions/notification';
 
 const Notification = ({nt}) => {
-  console.log(nt)
 	let history = useHistory();
   const [notification, setNotification] = useState(nt);
   const [rent, setRent] = useState([]);
@@ -36,7 +35,7 @@ const Notification = ({nt}) => {
 
   const goNotification = (rent_attempt_id, id, type) => {
     if (type === 'Pagar') {
-      //por a configuração para acessar o link de pagamento
+      history.push(`/s/payment/payment-view/${rent_attempt_id}`);
     } else {
       if (current_user.type_user === 'Lessor') {
         goUpdatenotifiy(id);

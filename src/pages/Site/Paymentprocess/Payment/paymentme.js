@@ -1,12 +1,8 @@
 import React from 'react';
 const Paymentme = () => {
-  const pagarme = () => {
-
-  }
-
   return (
     <div>
-      <button onClick={event => pagarme()}> pagarme</button>
+      aqui eentra um iframe com o link de pagamento referente ao rentattempt
     </div>
   );
 };

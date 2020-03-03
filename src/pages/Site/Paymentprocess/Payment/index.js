@@ -386,7 +386,7 @@ const Payment = ({history}) => {
                     <div className="column">
                       <p className="is-pulled-right">
                         <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                          <b><FormattedNumber value={parseFloat(rentattempt.cost.replace(/\./gi,'').replace(/,/gi,'.')) + renderCalc()} style="currency" currency="BRL" /></b>
+                          <b><FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
                         </IntlProvider>            
                       </p>
                     </div>
