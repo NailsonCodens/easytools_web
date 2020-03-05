@@ -35,7 +35,10 @@ const Notification = ({nt}) => {
 
   const goNotification = (rent_attempt_id, id, type) => {
     if (type === 'Pagar') {
-      history.push(`/s/payment/payment-view/${rent_attempt_id}`);
+      history.push({
+       pathname: `/s/payment/payment-view/${rent_attempt_id}`,
+       target: "_blank"
+      });
     } else {
       if (current_user.type_user === 'Lessor') {
         goUpdatenotifiy(id);
@@ -91,7 +94,7 @@ const Notification = ({nt}) => {
               {
                 nt.map((notify, index) => (
                   <div key={index} className="columns column-notify">
-                    <div className="column is-3">
+                    <div className="column is-2">
                       <div className="avatar-notify">
                         <img src={notify.usersend.url} alt={notify.usersend.url} className="" />
                       </div>
@@ -100,12 +103,12 @@ const Notification = ({nt}) => {
                       {
                         notify.done === null ? 
                         (
-                          <b> { notify.title }</b>
+                          <b className="title-notification"> { notify.title }</b>
 
                         )
                         :
                         (
-                          <p>{ notify.title }</p>
+                          <p className="title-notification">{ notify.title }</p>
                         )
                       }
 
@@ -133,7 +136,7 @@ const Notification = ({nt}) => {
               {
                 notification.map((notify, index) => (
                   <div key={index} className="columns column-notify">
-                    <div className="column is-3">
+                    <div className="column is-2">
                       <div className="avatar-notify">
                         <img src={notify.usersend.url} alt={notify.usersend.url} className="" />
                       </div>
@@ -142,12 +145,12 @@ const Notification = ({nt}) => {
                       {
                         notify.done === null ? 
                         (
-                          <b>* { notify.title }</b>
+                          <b className="title-notification">* { notify.title }</b>
 
                         )
                         :
                         (
-                          <p>{ notify.title }</p>
+                          <p className="title-notification">{ notify.title }</p>
                         )
                       }
 

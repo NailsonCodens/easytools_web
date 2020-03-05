@@ -173,8 +173,8 @@ const Resume = ({history}) => {
                           </div>
                           <div className="column">
                             <p><b>Potência</b>: { tool.power }</p>
-                            <p><b>Tensão</b>: { tool.category }</p>
-                            <p><b>Alimentação</b>: { tool.type_spec }</p>
+                            <p><b>Tensão</b>: { tension === 'Tri' ? 'Trifásico' : tension }</p>
+                            <p><b>Alimentação</b>: { tool.feed }</p>
                           </div>
                         </div>
                       </div>

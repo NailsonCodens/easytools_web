@@ -31,8 +31,8 @@
 }
 
 .logo-neighbor{
-  widows: 80px;
-  height: 80px;
+  widows: 50px;
+  height: 50px;
   border-radius: 100%;
   text-align: left !important;
   object-fit:cover;
@@ -49,7 +49,7 @@
   margin-left: 15px;
   z-index: 9;
   position: relative;
-  top: -30px;
+  top: -17px;
   font-family: 'Poppins', sans-serif !important;
   font-weight: 700 !important;
 }

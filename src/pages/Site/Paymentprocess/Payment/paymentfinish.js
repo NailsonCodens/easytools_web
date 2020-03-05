@@ -152,6 +152,8 @@ const Paymentfinish = ({history}) => {
           title: title,
           message : message
         });
+        
+        history.push(`/s/payment/congrats/${rentattempt.id}`);
       }).catch((err) => {
         console.log(err.response)
       }) 
@@ -238,7 +240,7 @@ const Paymentfinish = ({history}) => {
                     <Button 
                       type={'button'}
                       className={'button is-pulled-left color-logo'}
-                      text={'Pagar'}                                    
+                      text={'Alugar'}                                    
                       onClick={event => paymentRent()}
                     />
                     <br/><br/>

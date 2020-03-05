@@ -49,6 +49,9 @@ const Dashboard = ({history, location}) => {
       const response = await api.get(`/tools_site?search=${search}&distance=${distance}&lat=${latcorrect}&lng=${lngcorrect}`, {
         headers: { search }
       });
+      
+      console.log(response)
+
      setTools(response.data.tools)
     }
 
