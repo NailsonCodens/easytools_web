@@ -237,7 +237,7 @@ const Detail = ({history}) => {
                 <p className="tool-datas">
                   <b>Preços:</b>
                   <br/>
-                  <b> Diária: </b> <span className="money">R$ { prices[0] } </span> <b> Quinzenal: </b> <span className="money">R$ { prices[1] } </span> <b> Mensal: </b> <span className="money">R$ { prices[2] } </span>
+                  <b> Diária: </b> <span className="money">R$ { prices[0] } </span> <b> Semanal: </b> <span className="money">R$ { prices[1] } </span> <b> Quinzenal: </b> <span className="money">R$ { prices[2] } </span> <b> Mensal: </b> <span className="money">R$ { prices[3] } </span>
 
                 </p>
                 <p className="tool-datas"> 

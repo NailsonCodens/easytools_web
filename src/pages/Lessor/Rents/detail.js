@@ -289,7 +289,7 @@ export default function Rents({history}) {
                       {
                         rent.paid === 'N' ?
                         (
-                          <b className="notaccpet">Este aluguel não foi pago pelo</b>
+                          <b className="notaccpet">Este aluguel não foi pago</b>
                         )
                         :
                         (
@@ -421,7 +421,7 @@ export default function Rents({history}) {
                               </> 
                             )
                             :
-                            (<b className="welcome-user">Cliente vai buscar o equipamento com você.</b>)
+                            ('')
                           }                           
                         </div>
                         <div className="column">

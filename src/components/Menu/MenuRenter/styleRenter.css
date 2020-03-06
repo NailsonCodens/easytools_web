@@ -1,7 +1,7 @@
 .navbar {
   display: grid;
   grid-template-columns: auto 1fr 1fr;
-	grid-template-rows: 60px;
+
   align-items: center !important;
   justify-content: center !important;
   padding-left: 10px;

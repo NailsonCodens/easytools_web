@@ -13,6 +13,7 @@ import { Warningtext } from '../../../../components/Warningtext';
 import { Field, Label } from '../../../../components/Form/Form';
 import Mapbox from '../../../../components/Map/Mapbox';
 import Paymentme from './paymentme';
+import { Ul } from '../../../../components/List';
 
 import moment from 'moment';
 import 'moment/locale/pt-br';
@@ -222,7 +223,7 @@ const Payment = ({history}) => {
           <div className="columns">
             <br/><br/>
             <div className="column is-two-thirds">
-              <p className="title-tool-only"> Informações & Entrega </p>
+              <p className="title-tool-only"> Estamos quase lá! Entrega.</p>
               {
                 /*
                     <p className="title-tool-only-little">
@@ -285,8 +286,7 @@ const Payment = ({history}) => {
                   <>
                     <p className="title-tool-only-little"> Custo de entrega </p>
                     <Warningtext>
-                      Ao escolher receber o equipamento, é cobrado o valor do custo de entrega por quilometro de onde o 
-                      equipamento está, até o endereço que você adicionou. 
+                      Você receberá o equipamento, no endereço de uso informado.
                     </Warningtext>
                     <br/>
                     <span className="valuefreight">Custo da entrega: </span>
@@ -294,6 +294,11 @@ const Payment = ({history}) => {
                       <b><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
                     </IntlProvider>
                     <br/><br/> 
+                    <Ul>
+                      <b className="title-politics">Entrega</b>
+                      <li> - Depois de pago o aluguel, nós entregamos o equipamento onde você deseja! </li>
+                      <li> - Ao receber o equipamento alugado, nós fazemos um chekout com você para mantermos a qualidade dos equipamentos alugados.</li>
+                    </Ul>
                   </>
                 )
                 :

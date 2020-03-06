@@ -156,29 +156,49 @@ const Rules = ({ history }) => {
                       <div className="column is-two-thirds">
                         <p className="title-infos-tool hack-padding-top">Política de locação</p>
                         <Ul>
-                          <b className="title-politics">Prazos e períodos</b>
-                          <li> - O prazo para o locatário aceitar sua solicitação é de 1 hora;</li>
-                          <li> - O período escolhido para usar o equipamento dejado começa a contar em D+1, ou seja, pediu dia 14, a contagem dos dias começa dia 15; </li>
+                          <b className="title-politics">Como funciona? </b>
+                          <li> - Você faz a aluga sua ferramenta;</li>
+                          <li> - Recebemos a sua solicitação de aluguel; </li>
+                          <li> - Enviamos a confirmação do seu aluguel junto com um link de pagamento; </li>
+                          <li> - Equipamento locado, nós enviamos o contrato de locação via email. Tudo digital, chega de papel!</li>
+                          <li><i class="explanation-rules">Todo o processo de aluguel se resolve em menos de 15 minuto após os 5 primeiros alugueis.</i></li> 
+                        </Ul>
+                        <br/>
+                        <Ul>
+                          <b className="title-politics">Entrega</b>
+                          <li> - Depois de pago o aluguel, nós entregamos o equipamento onde você deseja! </li>
+                          <li> - Ao receber o equipamento alugado, nós fazemos um chekout com você para mantermos a qualidade dos equipamentos alugados.</li>
+                        </Ul>
+                        <br/>
+                        <Ul>
                           <b className="title-politics">Devolução</b>
-                          <li> - É muito importante devolver a ferramenta no dia previsto, caso isto não seja feito, a plataforma continuará contabilizando os dias a mais; </li>
-                          <b className="title-politics">Cancelamentos</b>
+                          <li> - Fique ligado ao dia de devoluçã. Nós notificaremos via e-mail, website e app, alguns dias antes de vencer o período contratado! </li>
+                          <li> - Nós faremos a busca do equipamento no local onde entregamos, na data final do período contratado.</li>
+                          <li>Neste momento, fazemos o check-in do equipamento para averiguarmos o estado do equipamento.</li>
+                        </Ul>
+                        <br/>
+                        <Ul>
+                          <b className="title-politics">Prazos e períodos</b>
+                          <li> - Respitar os prazos e períodos contratados é a grande chave para nosso relacionamento;</li>
+                          <li> - O período escolhido para usar o equipamento alugado começa a contar em D+1, ou seja, pediu dia 14, a contagem dos dias começa dia 15; </li>
                         </Ul>
                         <br/>
                         <p className="title-infos-tool hack-padding-top">Contrato de locação</p>
                         <Ul>
-                          <b className="title-politics">Prazos e períodos</b>
-                          <li> - O prazo para o locatário aceitar sua solicitação é de 1 hora;</li>
-                          <li> - O período escolhido para usar o equipamento dejado começa a contar em D+1, ou seja, pediu dia 14, a contagem dos dias começa dia 15; </li>
-                          <b className="title-politics">Devolução</b>
-                          <li> - É muito importante devolver a ferramenta no dia previsto, caso isto não seja feito, a plataforma continuará contabilizando os dias a mais; </li>
-                          <b className="title-politics">Cancelamentos</b>
-                          <li> - Cancelamento gratuíto em até 24 horas Depois disto, recolheremos uma taxa de 10% do valor do equipamento;</li>
+                          <b className="title-politics">Contrato on-line</b>
+                          <li> - Apartir do momento em que você se cadastra na plataforma e aceita os termos de uso, você já acetia os termos do contrato de locação;</li>
+                          <li> - Este contrato é disponibilizado a você de forma totalmente on-line, via e-mail; </li>
                         </Ul>
                         <br/>
                         <p className="title-infos-tool hack-padding-top">Pagamento</p>
                         <Ul>
-                          <b className="title-politics">Prazos e períodos</b>
-                          <li> Como vai funcionar o pagamento</li>
+                          <b className="title-politics"> Pagamento online </b>
+                          <li> Para facilitar sua vida, nós enviamos um link de pagamento a você. Pagamento online para aluguel de equipamento, já pensou nessa facilidade?</li>
+                        </Ul>
+                        <p className="title-infos-tool hack-padding-top">Uma nova forma de alugar</p>
+                        <Ul>
+                          <b className="title-politics"> Parceiro </b>
+                          <li> Somos o seu parceiro novo, com um novo jeito de alugar equipamentos para você e seu negócio.</li>
                         </Ul>
                       </div>
                       <div className="column">
@@ -201,7 +221,7 @@ const Rules = ({ history }) => {
                                   )
                                   :
                                   (
-                                    <p> - Você precisa buscar este equipamento.</p>
+                                    ''
                                   )
                                 }
                               </li>
@@ -213,7 +233,7 @@ const Rules = ({ history }) => {
                                   )
                                   :
                                   (
-                                    <p> - Você precisa devolver este equipamento no prazo final do seu aluguel.</p>
+                                    ''
                                   )
                                 }
                               </li>
@@ -227,9 +247,7 @@ const Rules = ({ history }) => {
                                   )
                                   :
                                   (
-                                    <p>
-                                      Este equipamento pode ser alugado sem contrato.
-                                    </p>
+                                    ''
                                   )
                                 }
                               </li>

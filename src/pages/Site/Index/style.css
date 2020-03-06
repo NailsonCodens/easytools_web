@@ -39,19 +39,25 @@
 .price{
   font-family: 'Poppins', sans-serif !important;
   font-weight: 600 !important;
+  font-size: 18px;
   color: #000;
 }
 
 .image-index{
   margin-top: 0px;
   margin-bottom: 60px;
-  background: #fff url('../../../assets/images/background.jpg') no-repeat;
-  background-size: cover !important;
+  /*background: #fff url('../../../assets/images/background.png') no-repeat;*/
+  background-position: center top;
   -webkit-font-smoothing: antialiased !important;
-  height: 500px;
+}
+
+.background-tools{
+  width: 80%;
+  margin-top: -500px;
 }
 
 .explorer{
+  padding-top: 100px;
   padding: 30px;
 }
 
@@ -59,8 +65,23 @@
   margin-bottom: 60px;
   font-family: 'Poppins', sans-serif !important;
   font-weight: 600 !important;
-  font-size: 30px;
+  font-size: 35px;
   color: #000;
+  opacity: 1;
+}
+
+.logo-index{
+  margin-bottom: -30px;
+  width: 220px;
+}
+
+.title-index{
+  margin-bottom: 60px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 28px;
+  color: #000;
+  opacity: 1;
 }
 
 .itens-explorer{
@@ -79,6 +100,12 @@
 .tool{
   cursor: pointer !important;
   margin: 10px !important;
+}
+
+.text-subtitle-index{
+  font-size: 25px;
+  color:#000;
+  margin-top: -55px;
 }
 
 @media (max-width: 900px) {

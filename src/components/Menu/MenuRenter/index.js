@@ -380,7 +380,7 @@ const MenuRenter = () => {
 											<div className="box-icons-mobile">
 													<p></p>
 													<div className="text-box">
-														Aluge!
+														Alugue!
 													</div>
 												</div>
 										</Link>
@@ -460,9 +460,17 @@ const MenuRenter = () => {
 							{
 								current_user.name === undefined || current_user.name === null ? 
 								(
-									<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item">
-										Cadastre-se
-									</Link>
+									<>
+										<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item">
+											Alugue
+										</Link>
+										<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
+											Um novo jeito de alugar!
+										</Link>
+										<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
+											Ajuda
+										</Link>
+									</>
 								) : 
 								(
 									<>

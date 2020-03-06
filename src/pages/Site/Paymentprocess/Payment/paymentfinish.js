@@ -207,32 +207,19 @@ const Paymentfinish = ({history}) => {
 
   return (
     <div className="container">
+            <br/><br/><br/>
       {
         okattempt === true ? 
         (
           <div className="columns">
-            <br/><br/>
             <div className="column is-two-thirds">
               <p className="title-tool-only"> Pagamento e uso</p>
               <p className="title-tool-only-little">Informações importantes.</p>
               <br/>
               <ul>
-                {
-                  tool.contract === 'Y' ? 
-                  (
-                    <li className="list-info-payment">Você só pode usar o equipamento, mediante assinatura de contrato. Prepare uma caneta quando for obter o equipamento!</li>
-                  )
-                  :
-                  ('')
-                }
-                {
-                  tool.devolution === 'Y' ? 
-                  (
-                    <li className="list-info-payment">O Vizinho { /*rentattempt.userlessor.name */} busca o equipamento no término do aluguel.</li>
-                  )
-                  :
-                  ('')                  
-                }
+                <li className="list-info-payment">Ao clicar em "alugar", nós receberemos o seu pedido e dentro de alguns minutos, retornaremos uma notificação via e-mail, site e app, aceitando seu aluguel.</li>
+                <li className="list-info-payment"> Logo após, você receberá algumas orientações de como proceder com o equipamento alugado. O que fazer o que não fazer.</li>
+                <li className="list-info-payment"> Quando você receber o link do pagamento, basta pagar e nós iremos entregar o equipamento no seu endereço de uso.</li>
               </ul>
               <br/><br/>
                 <div className="columns">

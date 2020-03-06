@@ -33,6 +33,10 @@ import Mapbox from '../../../components/Map/Mapbox';
 import {
   isMobile
 } from "react-device-detect";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
+library.add(faStar);
 
 const Tool = ({history}) => {
   const dispatch = useDispatch();
@@ -632,7 +636,7 @@ return (
                     <li><b>Potência</b></li>
                     <li>{ tool.power }</li>
                     <li><b>Tensão</b></li>
-                    <li>{ tool.tension }</li>
+                    <li>{ tool.tension === '/Tri' ? 'Trifásico' : tool.tension }</li>
                     <li><b>Alimentação</b></li>
                     <li>{ tool.feed }</li>
                   </Ul>
@@ -640,18 +644,19 @@ return (
               </div>
               <div className="columns">
                 <div className="column">
-                  <p className="title-infos-tool hack-padding-top">Acessórios e Acompanhamentos</p>   
+                  <p className="title-infos-tool hack-padding-top">Acessórios e Acompanhamentos <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
+                  </p>   
                   <div className="columns">
                     <div className="column">
                       <Ul>
                         <li><b>Acessórios</b></li>
-                        <li>{ tool.accessory }</li>
+                        <li>{ tool.accessory !== '' ? tool.accessory : 'Nenhum acessório disponível.'  }</li>
                       </Ul>
                     </div>
                     <div className="column">
                       <Ul>
-                        <li><b>Acompanhamento</b></li>
-                      <li>{ tool.follow }</li>
+                        <li><b>Acompanha</b></li>
+                      <li>{ tool.follow !== '' ? tool.follow : 'Não disponível disponível' }</li>
                       </Ul>
                     </div>
                   </div>
@@ -662,16 +667,14 @@ return (
             <div className="columns">
               <div className="column">
                 {
-                  /*
-                    <p className="title-infos-tool hack-padding-top">Localização do equipamento ({ tool.title })</p>
-                  */
+                  /*<p className="title-infos-tool hack-padding-top">Onde nós temos este equipamento ({ tool.title })</p>*/
                 }
                 {
                  tool.lat !== undefined && tool.lng !== undefined ? 
                  (
                    <>
                     {
-                      /*<Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture[0].url} title={tool.title}/>*/                                     
+                      /*<Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture[0].url} title={tool.title}/> */                                   
                     }
                    </>
                  )

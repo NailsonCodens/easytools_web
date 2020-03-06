@@ -37,15 +37,6 @@
   color: #000;
 }
 
-.image-index{
-  margin-top: 0px;
-  margin-bottom: 60px;
-  background: #fff url('../../../assets/images/background.jpg') no-repeat;
-  background-size: cover !important;
-  -webkit-font-smoothing: antialiased !important;
-  height: 500px;
-}
-
 .explorer{
   padding: 30px;
 }

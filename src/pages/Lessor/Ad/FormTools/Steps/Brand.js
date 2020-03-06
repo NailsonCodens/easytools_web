@@ -176,8 +176,6 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
           </div>
         </div>
         <div className="columns column-address">
-          {
-          /*
             <div className="column">
               <Field>
                 <Label className="label-perfil" for={'type_spec'}>
@@ -202,29 +200,27 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
                 </Span>
               </Field>
             </div>
-          */
-          }
+            <div className="column">
+              <Field className={'field'}>
+                <Label for={'feeding'}>
+                  <b>Alimentação</b>
+                </Label>
+                <Select
+                  className={''}
+                  options={feeds}
+                  isSearchable={true}
+                  placeholder={'Energia elétrica'}
+                  onChange={selectedOption => {
+                    handleChangeBrand('feed', selectedOption, 'select');
+                    formik.handleChange("feed");
+                  }}
+                  value={values.feed}
+                />
+              </Field>
+            </div>
         </div>
         <div className="columns column-address">
-          <div className="column is-3">
-            <Field className={'field'}>
-              <Label for={'feeding'}>
-                <b>Alimentação</b>
-              </Label>
-              <Select
-                className={''}
-                options={feeds}
-                isSearchable={true}
-                placeholder={'Energia elétrica'}
-                onChange={selectedOption => {
-                  handleChangeBrand('feed', selectedOption, 'select');
-                  formik.handleChange("feed");
-                }}
-                value={values.feed}
-              />
-            </Field>
-          </div>
-          <div className="column is-3">
+          <div className="column">
             <Field>
               <Label className="label-perfil" for={'power'}>
                 <b>Potência</b>

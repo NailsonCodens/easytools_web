@@ -201,7 +201,7 @@ export default function Rents({history}) {
                       (
                         <>
                           <p><b>Link de pagamento</b> <a href={rent.linkpayment} target="_blank">{ rent.linkpayment }</a></p> 
-                          <Warningtext>Você tem 20 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>                      
+                          <Warningtext>Você tem 30 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>                      
                           <br/>
                         </>
                       )
@@ -344,22 +344,24 @@ export default function Rents({history}) {
                               <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                 <FormattedNumber value={parseFloat(rent.freight)} style="currency" currency="BRL" />
                               </IntlProvider>
+                              <br/><br/>
+                              {
+                                rent.freight > 0 ? 
+                                (<b>Valores do aluguel + Custo de entrega: </b>)
+                                :
+                                (<b>Valores final do aluguel: </b>)
+                              }
+
+                              <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                                <FormattedNumber value={parseFloat(rent.cost) + parseFloat(rent.freight)} style="currency" currency="BRL" />
+                              </IntlProvider>
                               </> 
                             )
                             :
-                            (<b className="welcome-user">Você optou por buscar este equipamento com o vizinho.</b>)
+                            ('')
                           }                           
                         </div>
-                        <div className="column">
-                          {
-                            rent.freight > 0 ? 
-                            (<b>Valores do aluguel + Custo de entrega: </b>)
-                            :
-                            (<b>Valores final do aluguel: </b>)
-                          }
-                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                            <FormattedNumber value={parseFloat(rent.cost) + parseFloat(rent.freight)} style="currency" currency="BRL" />
-                          </IntlProvider>                                
+                        <div className="column">                                
                         </div>
                       </div>
                       <div className="columns">

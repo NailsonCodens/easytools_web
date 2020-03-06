@@ -7,6 +7,9 @@ import Scroll from '../../../utils/scroll';
 import Title from '../../../utils/title';
 import desert2 from '../../../assets/images/desert2.svg'
 import './style.css';
+import logo from '../../../assets/images/easytools_yellow.png'
+import background from '../../../assets/images/background.png'
+import { Link, useHistory } from 'react-router-dom';
 
 const Dashboard = ({history, location}) => {
   document.title = Title('Easytools');
@@ -23,6 +26,7 @@ const Dashboard = ({history, location}) => {
   const distance = useSelector(state => state.distance);
 
   useEffect(() => {
+    /*
     async function loadCoords () {
       navigator.geolocation.getCurrentPosition(
 				position => {
@@ -33,27 +37,27 @@ const Dashboard = ({history, location}) => {
         },{ enableHighAccuracy: true });
     }
     loadCoords()
+    */
 
     async function loadTools(lat = '', lng = '') {
       var latcorrect = ''; 
       var lngcorrect = '';
 
-      if (latitude === '') {
+      /*if (latitude === '') {
         latcorrect = lat;
         lngcorrect = lng;
       } else {
         latcorrect = latitude;
         lngcorrect = longitude;
-      }
+      }*/
 
-      const response = await api.get(`/tools_site?search=${search}&distance=${distance}&lat=${latcorrect}&lng=${lngcorrect}`, {
+      const response = await api.get(`/tools_site?search=${search}&distance=${1000}&lat=${latcorrect}&lng=${lngcorrect}`, {
         headers: { search }
       });
-      
-      console.log(response)
 
      setTools(response.data.tools)
     }
+    loadTools()
 
   }, [search, latitude, longitude, distance]);
 
@@ -87,20 +91,33 @@ const Dashboard = ({history, location}) => {
           ''
         )
       }
-      <div className="container-fluid">
-        <div className="container explorer">
-          <h3>O que você precisa?</h3>
-          <h2> Não compre, aluge! </h2>
-          <br/>
-          <h3>Alugue com equipamentos e ferramentas com nossos vizinhos, <br/> aqui na EasyTools! </h3>
-        </div>
-        {
-          /*
-                <div className="image-index">
+      <div className="">
+        <div className="">
+          {
+            <div className="image-index">
+              <div className="explorer has-text-centered">
+                <div className="">
+                  <img src={logo}  alt="EasyTools Logo" className="logo-index"/>
+                </div>                
+                <br/><br/><br/>
+                <h3>Alugue equipamentos e ferramentas online, nós entregamos! </h3>
+                <p className="text-subtitle-index">Uma nova maneira de alugar equipamentos e ferramentas.</p>
+                <br/><br/>
+                <Link
+                  to={'/'}
+                  className={'button color-logo'}
+                >
+                  Conhecer
+                </Link>
+                <br/>
+                <img src={background}  alt="EasyTools Logo" className="background-tools"/>
               </div>
-          */
-        }
+            </div>
+          }
+        </div>
         <div className="container">
+
+          <h3 className="title-index">O que você precisa?</h3>
           <div className="columns is-desktop is-multiline">
             {
               tools.map(tool => (

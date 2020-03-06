@@ -7,11 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Notification as Notificationrd } from '../../store/actions/notification';
 
 const Notification = ({nt}) => {
-	let history = useHistory();
+  let history = useHistory();
   const [notification, setNotification] = useState(nt);
   const [rent, setRent] = useState([]);
   const [define, setDefine] = useState(false);
   const current_user = useSelector(state => state.auth);
+  const notificationrd = useSelector(state => state.notification);
   const dispatch = useDispatch();	
 
   useEffect(() => {
@@ -39,6 +40,7 @@ const Notification = ({nt}) => {
        pathname: `/s/payment/payment-view/${rent_attempt_id}`,
        target: "_blank"
       });
+      goUpdatenotifiy(id);
     } else {
       if (current_user.type_user === 'Lessor') {
         goUpdatenotifiy(id);
@@ -93,24 +95,14 @@ const Notification = ({nt}) => {
             <>
               {
                 nt.map((notify, index) => (
-                  <div key={index} className="columns column-notify">
+                  <div key={index} className={notify.done === null ? 'columns is-mobile column-notify new-notify' : "columns is-mobile column-notify"}>
                     <div className="column is-2">
                       <div className="avatar-notify">
                         <img src={notify.usersend.url} alt={notify.usersend.url} className="" />
                       </div>
                     </div>
                     <div className="column">
-                      {
-                        notify.done === null ? 
-                        (
-                          <b className="title-notification"> { notify.title }</b>
-
-                        )
-                        :
-                        (
-                          <p className="title-notification">{ notify.title }</p>
-                        )
-                      }
+                      <p className="title-notification">{ notify.title }</p>
 
                       { /* mostrar este botão, só quando a tentativa
                         de locação, for nova, sabendo assim, pelo accept
@@ -186,7 +178,7 @@ const Notification = ({nt}) => {
               <br/>
               <Button
                 className={'button is-small is-info'}
-                text={'Ver mais'}
+                text={'Ver mais' + ' (' + notificationrd + ') '}
                 onClick={event => goAllnotification()}
               /> 
             </div>
