@@ -28,6 +28,9 @@ const Rules = ({ history }) => {
   const [ok, setOk] = useState(true);
   const [okattempt, setOkAttempt] = useState(true);
   const [modal, setModal] = useState(false);
+  const [namelessor, setNamelessor] = useState('')
+  const [dataLessor, setDatalessor] = useState([]);
+
   useEffect(() => {
     async function loadRentattempt () {
       const response = await api.get(`rent/attempt/${values.rent_attempt}/${values.code_attempt}`, {
@@ -48,12 +51,21 @@ const Rules = ({ history }) => {
       if(response.data.tool.length > 0) {
         dispatch(Rentinfo(response.data.tool[0]));
         setTool(response.data.tool[0])
+        loadLessor(response.data.tool[0].user_id)
         setOk(true)
       } else {
         setOk(false)
       }
     }
     loadTool();
+
+
+    async function loadLessor(iduser) {      
+      const response = await api.get(`/lessordata/${iduser}`, {
+      });
+      setDatalessor(response.data.user)
+      setNamelessor(response.data.user[0])
+    }
 
   }, [values.tool]);
  
@@ -136,15 +148,12 @@ const Rules = ({ history }) => {
                     <br/><br/>
                     <div className="columns noppadding">
                       <div className="column">
-                        <p className="title-tool-only">Vizinho, Politicas & Regras e Pagamento </p>
+                        <p className="title-tool-only">Politicas & Regras do aluguel </p>
                         <br/>
                       </div>
                     </div>
                     <div className="columns">
                       <div className="column is-two-thirds">
-                        {/*<Lessor/>*/}
-                        <p className="title-tool-only">Atenção! Regra do aluguel.</p>
-                        <br></br>
                         <p className="title-infos-tool hack-padding-top">Política de locação</p>
                         <Ul>
                           <b className="title-politics">Prazos e períodos</b>
@@ -175,6 +184,57 @@ const Rules = ({ history }) => {
                       <div className="column">
                         <div className="column has-centered-text">
                           <Rentalbox attempt={attempt} startDate={values.init} endDate={values.finish}></Rentalbox>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="columns">
+                      <div className="column">
+                        <p className="title-infos-tool hack-padding-top">Do aluguel do equipamento</p>  
+                        <div className="columns">
+                          <div className="column">
+                            <Ul>
+                              <li className="therent">
+                                {
+                                  tool.contract === 'Y' ?
+                                  (
+                                    <p> - A { namelessor.name } <span>entrega</span> este equipamento para você não precisar sair de onde está.</p>
+                                  )
+                                  :
+                                  (
+                                    <p> - Você precisa buscar este equipamento.</p>
+                                  )
+                                }
+                              </li>
+                              <li className="therent">
+                                {
+                                  tool.contract === 'Y' ?
+                                  (
+                                    <p> - A { namelessor.name } <span>buscar</span> este equipamento no fim do período de aluguel.</p>
+                                  )
+                                  :
+                                  (
+                                    <p> - Você precisa devolver este equipamento no prazo final do seu aluguel.</p>
+                                  )
+                                }
+                              </li>
+                              <li className="therent">
+                                {
+                                  tool.contract === 'Y' ?
+                                  (
+                                    <p>
+                                      - O <span>contrato</span> é totalmente digital. 
+                                    </p>                                
+                                  )
+                                  :
+                                  (
+                                    <p>
+                                      Este equipamento pode ser alugado sem contrato.
+                                    </p>
+                                  )
+                                }
+                              </li>
+                            </Ul>
+                          </div>
                         </div>
                       </div>
                     </div>

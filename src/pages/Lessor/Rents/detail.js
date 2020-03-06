@@ -112,30 +112,31 @@ export default function Rents({history}) {
     return modal3
   }
 
-  const accept = (id, rent) => {        
-    Paymentlink(id).then(function (response){
-      sendNotification(id, 'accept')
+  const accept = (id) => {
+    Paymentlink(id, rent[0]).then(function (response){
+      sendNotification(id, 'accept', rent)
       ChangeAccept('accept', id).then((res) => {
         reloadRents()
       })
       sendNotificationPayment(id, 'paymentlinkok')
     }).catch(function (err) {
-      ChangeAccept('accept', id).then((res) => {
-        reloadRents()
+      console.log(err)
+      ChangeAccept('notaccept', id).then((res) => {
+        reloadRents(id)
         sendNotification(id, 'noacceptforpayment')
       })
     })
   }
 
   const noaccept = (id) => {
-    ChangeAccept('noaccept', id).then((res) => {
-      reloadRents()
+    ChangeAccept('notaccept', id).then((res) => {
+      reloadRents(id)
       sendNotification(id, 'noaccept')
     })
   }
 
-  async function reloadRents () {
-    const response = await api.get('/rents/', {});
+  async function reloadRents (id) {
+    const response = await api.get('/rents/'+id, {});
     setTimeout(() => {
       setRent(response.data.rentattempt);
     }, 300);     
@@ -194,10 +195,17 @@ export default function Rents({history}) {
       if (type === 'accept') {
         title = `EasyTools -  Aluguel aceito. O vizinho ${lessor} aceitou seu aluguel!`;
         message = `Olá ${renter}, O vizinho aceitou seu pedido. por texto de processamento do aluguel, se for boleto ficamos aguardando o pagamento, se for ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}.`;  
-      } else {
+      } else if (type === 'noacceptforpayment') {
+        title = `EasyTools - Não cosneguimos processar seu aluguel!`;
+        message = `Olá existe algum problema com seus dados, entre em contato cosnoco.`;  
+      }else if (type === 'paymentlinkok') {
+        title = `Pagamento do aluguel - Olá, clique em para pagar pelo aluguel do equipamento, clique em pagar!`;
+        message = `Está tudo ok com seu pedido, só falta pagar :). Clique em pagar para finalizarmos o seu pedido e o vizinho ${lessor} preparar o equipamento para você.`;  
+      }else {
         title = `EasyTools - ${renter} Não aceitou o seu aluguel!`;
         message = `Olá ${renter}, Seu pedido não foi aceito pelo vizinho ${lessor}. Fique tranquilo, nós entraremos em contato com você.`;  
       }
+
       var notification = {
         rent_attempt_id: rent[0].id,
         user_recipient_id: rent[0].userrenter.id,
@@ -269,9 +277,19 @@ export default function Rents({history}) {
                         )
                       }
                       { 
-                        rent.accept === 'N' || rent.paid === 'N' ?
+                        rent.accept === 'N' ?
                         (
-                          <b className="notaccpet">Você negou este aluguel</b>
+                          <b className="notaccpet">Aluguel negado</b>
+                        )
+                        :
+                        (
+                          ''
+                        )
+                      }
+                      {
+                        rent.paid === 'N' ?
+                        (
+                          <b className="notaccpet">Este aluguel não foi pago pelo</b>
                         )
                         :
                         (

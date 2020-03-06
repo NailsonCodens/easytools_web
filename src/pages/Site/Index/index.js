@@ -49,6 +49,9 @@ const Dashboard = ({history, location}) => {
       const response = await api.get(`/tools_site?search=${search}&distance=${distance}&lat=${latcorrect}&lng=${lngcorrect}`, {
         headers: { search }
       });
+      
+      console.log(response)
+
      setTools(response.data.tools)
     }
 
@@ -86,24 +89,10 @@ const Dashboard = ({history, location}) => {
       }
       <div className="container-fluid">
         <div className="container explorer">
-          <h3>O que você precisa? </h3>
-          <div className="columns">
-            <div className="column">
-              <div className="itens-explorer">
-                Ferramentas pessoais
-              </div>
-            </div>
-            <div className="column">
-              <div className="itens-explorer">
-                Ferramentas de médio porte
-              </div>
-            </div>
-            <div className="column">
-              <div className="itens-explorer">
-                Ferramentas de médio porte
-              </div>
-            </div>
-          </div>
+          <h3>O que você precisa?</h3>
+          <h2> Não compre, aluge! </h2>
+          <br/>
+          <h3>Alugue com equipamentos e ferramentas com nossos vizinhos, <br/> aqui na EasyTools! </h3>
         </div>
         {
           /*

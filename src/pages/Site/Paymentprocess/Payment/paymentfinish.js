@@ -152,6 +152,8 @@ const Paymentfinish = ({history}) => {
           title: title,
           message : message
         });
+        
+        history.push(`/s/payment/congrats/${rentattempt.id}`);
       }).catch((err) => {
         console.log(err.response)
       }) 
@@ -238,7 +240,7 @@ const Paymentfinish = ({history}) => {
                     <Button 
                       type={'button'}
                       className={'button is-pulled-left color-logo'}
-                      text={'Pagar'}                                    
+                      text={'Alugar'}                                    
                       onClick={event => paymentRent()}
                     />
                     <br/><br/>
@@ -343,7 +345,7 @@ const Paymentfinish = ({history}) => {
                     <div className="column">
                       <p className="is-pulled-right">
                         <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                          <b><FormattedNumber value={parseFloat(rentattempt.cost.replace(/\./gi,'').replace(/,/gi,'.')) + renderCalc()} style="currency" currency="BRL" /></b>
+                          <b><FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
                         </IntlProvider>            
                       </p>
                     </div>

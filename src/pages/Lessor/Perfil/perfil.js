@@ -12,9 +12,10 @@ import {Titlepage} from '../../../components/Titles/Titlepages';
 import { Span } from '../../../components/Span';
 import InputMask from 'react-input-mask';
 import Title from '../../../utils/title';
-
+import queryString from 'query-string';
+import { useLocation } from "react-router-dom";
 import { cpfMask, cnpjMask } from '../../../utils/maskdocument';
-
+import Warninggeneral from '../../Warnings/Warninggeneral';
 import documents from '../../../utils/documents';
 import api from '../../../services/api';
 import Notification from '../../../utils/notification';
@@ -24,6 +25,7 @@ import './style.css';
 
 const Perfil = ({history}) => {
   document.title = Title('Perfil');
+  let values = queryString.parse(useLocation().search);
 
   const success = (msg = null) => Notification(
     'success',
@@ -137,6 +139,10 @@ const Perfil = ({history}) => {
       })
     }
   })
+
+  const goClose = () => {
+    history.push('/lessor/perfil');
+  }
 
   const goAdddocument = () => {
     history.push(`/lessor/perfil/detail/${id}`);
@@ -313,6 +319,16 @@ const Perfil = ({history}) => {
 
   return (
     <>
+      {
+        values.e === 'cc' ? 
+        (
+          <Warninggeneral close={goClose}>Precisamos do seu cpf, ou se você deseja locar como empresa, o cnpj. Lembre-se, que ao selecionar cnpj, você precisa enviar uma cópia do contrato social.</Warninggeneral>
+        )
+        : 
+        (
+          ''
+        )
+      }
       <div className="container container-page">
         <div className="columns">
           <div className="column has-text-left">

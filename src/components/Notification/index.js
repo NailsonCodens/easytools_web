@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Notification as Notificationrd } from '../../store/actions/notification';
 
 const Notification = ({nt}) => {
-  console.log(nt)
 	let history = useHistory();
   const [notification, setNotification] = useState(nt);
   const [rent, setRent] = useState([]);
@@ -36,7 +35,10 @@ const Notification = ({nt}) => {
 
   const goNotification = (rent_attempt_id, id, type) => {
     if (type === 'Pagar') {
-      //por a configuração para acessar o link de pagamento
+      history.push({
+       pathname: `/s/payment/payment-view/${rent_attempt_id}`,
+       target: "_blank"
+      });
     } else {
       if (current_user.type_user === 'Lessor') {
         goUpdatenotifiy(id);
@@ -92,7 +94,7 @@ const Notification = ({nt}) => {
               {
                 nt.map((notify, index) => (
                   <div key={index} className="columns column-notify">
-                    <div className="column is-3">
+                    <div className="column is-2">
                       <div className="avatar-notify">
                         <img src={notify.usersend.url} alt={notify.usersend.url} className="" />
                       </div>
@@ -101,12 +103,12 @@ const Notification = ({nt}) => {
                       {
                         notify.done === null ? 
                         (
-                          <b> { notify.title }</b>
+                          <b className="title-notification"> { notify.title }</b>
 
                         )
                         :
                         (
-                          <p>{ notify.title }</p>
+                          <p className="title-notification">{ notify.title }</p>
                         )
                       }
 
@@ -134,7 +136,7 @@ const Notification = ({nt}) => {
               {
                 notification.map((notify, index) => (
                   <div key={index} className="columns column-notify">
-                    <div className="column is-3">
+                    <div className="column is-2">
                       <div className="avatar-notify">
                         <img src={notify.usersend.url} alt={notify.usersend.url} className="" />
                       </div>
@@ -143,12 +145,12 @@ const Notification = ({nt}) => {
                       {
                         notify.done === null ? 
                         (
-                          <b>* { notify.title }</b>
+                          <b className="title-notification">* { notify.title }</b>
 
                         )
                         :
                         (
-                          <p>{ notify.title }</p>
+                          <p className="title-notification">{ notify.title }</p>
                         )
                       }
 

@@ -114,14 +114,25 @@ const Tool = ({history}) => {
 
   const next = (rentData) => {
     if (isAuthenticated()) {
-
       if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
-        history.push('/s/renter/perfil/edit?e=cc');
+        if (perfil.type === 'Lessor') {
+          Scrool()
+          history.push(`/lessor/perfil?e=cc`);
+        } else {
+          Scrool()
+          history.push('/s/renter/perfil/edit?e=cc');
+        }
+
       }else {
         if (document !== undefined) {
           if (document.document !== null || document.selfie !== null || document.proof !== null) {
             if (perfil.cpfcnpj.length > 14 && document.enterprise === null) { 
-              history.push('/s/renter/perfil/documents?e=cs');
+              Scrool()
+              if (perfil.type === 'Lessor') {
+                history.push(`/lessor/perfil/detail/${perfil.id}?e=cs`);
+              } else {
+                history.push('/s/renter/perfil/documents?e=cs');                
+              }
               dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
               //erro quando é cnpj       
             } else {
@@ -143,23 +154,30 @@ const Tool = ({history}) => {
               saveRentattempt(attempt);      
             }
           } else {
-            history.push('/s/renter/perfil/documents?e=df');
-            dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
+            Scrool()
+            if (perfil.type === 'Lessor') {
+              history.push(`/lessor/perfil/detail/${perfil.id}?e=df`);
+            } else {
+              history.push('/s/renter/perfil/documents?e=df');
+            }
+            dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));  
           }
         }else {
-          history.push('/s/renter/perfil/documents?e=nd');
+          Scrool()
+          if (perfil.type === 'Lessor') { 
+            history.push(`/lessor/perfil/detail/${perfil.id}?e=nd`);
+          } else {
+            history.push('/s/renter/perfil/documents?e=nd');
+          }
           dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
         }
-
       }
-
     } else {
       Scrool()
       history.push(`/s/tool/${id}?ctg=${values.ctg}&rdt=${Math.random()}`)
       setModal(true)
     }
   }
-
 
   async function saveRentattempt (attempt) {
     await api.post('rent/attempt/add/', attempt, {})
@@ -188,8 +206,6 @@ const Tool = ({history}) => {
     async function loadTool() { 
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
-
-      console.log(response)
 
       if (response.data.tool.length > 0 || response.data.tool[0].situation === 'Y') {
         setTool(response.data.tool[0])
@@ -568,7 +584,7 @@ return (
                   dataLessor.map((lessor, index) => (
                     <div key={index}>
                       <img src={lessor.url} alt={lessor.url} className="logo-neighbor"/>
-                      <span className="name-neighbor">Vizinho { lessor.name }</span>          
+                      <span className="name-neighbor"> { lessor.name }</span>          
                     </div>
                   ))
                 }
@@ -641,66 +657,23 @@ return (
                   </div>
                 </div>
               </div>
-              <div className="columns">
-                <div className="column">
-                  <p className="title-infos-tool hack-padding-top">Do aluguel do equipamento</p>  
-                  <div className="columns">
-                    <div className="column">
-                      <Ul>
-                        <li className="therent">
-                          {
-                            tool.contract === 'Y' ?
-                            (
-                              <p> - O vizinho { namelessor.name } <span>entrega</span> este equipamento para você não precisar sair de onde está.</p>
-                            )
-                            :
-                            (
-                              <p> - Você precisa buscar este equipamento.</p>
-                            )
-                          }
-                        </li>
-                        <li className="therent">
-                          {
-                            tool.contract === 'Y' ?
-                            (
-                              <p> - O vizinho { namelessor.name } <span>buscar</span> este equipamento no fim do período de aluguel.</p>
-                            )
-                            :
-                            (
-                              <p> - Você precisa devolver este equipamento no prazo final do seu aluguel.</p>
-                            )
-                          }
-                        </li>
-                        <li className="therent">
-                          {
-                            tool.contract === 'Y' ?
-                            (
-                              <p>
-                                - Este equipamento só pode ser alugado mediante assinatura de <span>contrato.</span> 
-                              </p>                                
-                            )
-                            :
-                            (
-                              <p>
-                                Este equipamento pode ser alugado sem contrato.
-                              </p>
-                            )
-                          }
-                        </li>
-                      </Ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
             <Hr/>
             <div className="columns">
               <div className="column">
-              <p className="title-infos-tool hack-padding-top">Localização do equipamento ({ tool.title })</p>
+                {
+                  /*
+                    <p className="title-infos-tool hack-padding-top">Localização do equipamento ({ tool.title })</p>
+                  */
+                }
                 {
                  tool.lat !== undefined && tool.lng !== undefined ? 
                  (
-                  <Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture[0].url} title={tool.title}/>                   
+                   <>
+                    {
+                      /*<Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture[0].url} title={tool.title}/>*/                                     
+                    }
+                   </>
                  )
                  : 
                  (

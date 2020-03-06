@@ -26,7 +26,7 @@ const Allnotification = ({history}) => {
 
   const goNotification = (rent_attempt_id, id, type) => {
     if (type === 'Pagar') {
-      //por a configuração para acessar o link de pagamento
+      history.push(`/s/payment/payment-view/${rent_attempt_id}`);
     } else {
       if (current_user.type_user === 'Lessor') {
         goUpdatenotifiy(id);
@@ -68,7 +68,7 @@ const Allnotification = ({history}) => {
           <br/><br/>
           {
             notification.map((notify, index) => (
-            <div key={index} className="columns column-notify">
+            <div key={index} className="columns is-mobile column-notify">
               <div className="column is-1">
                 <div className="avatar-notify">
                   <img src={notify.usersend.url} alt={notify.usersend.url} className="" />
@@ -78,19 +78,19 @@ const Allnotification = ({history}) => {
                 {
                   notify.done === null ? 
                   (
-                    <b>* { notify.title }</b>
+                    <b className="title-notification"> { notify.title }</b>
 
                   )
                   :
                   (
-                    <p>{ notify.title }</p>
+                    <p className="title-notification">{ notify.title }</p>
                   )
                 }
 
                 { /* mostrar este botão, só quando a tentativa
                   de locação, for nova, sabendo assim, pelo accept
                 */ }
-                <div className="columns">
+                <div className="columns is-mobile">
                   <div className="column">
                     <Button
                       className={'button is-small is-default bt-overhead'}

@@ -1,9 +1,10 @@
 import api from '../../../services/api';
 
 const ChangeAccept = (data, id) => {
+  console.log(data)
   var type = '';
 
-  if ('accept') {
+  if (data === 'accept') {
     type = '1';
   } else {
     type = 'N';

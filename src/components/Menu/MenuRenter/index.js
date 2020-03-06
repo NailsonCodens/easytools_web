@@ -365,13 +365,17 @@ const MenuRenter = () => {
 								:
 								(
 									<>
-										<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
-												<div className="box-icons-mobile">
-													<div className="text-box">
-													Seja um vizinho
-													</div>
-												</div>
-										</Link>
+										{
+											/*
+												<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
+														<div className="box-icons-mobile">
+															<div className="text-box">
+															Seja um vizinho
+															</div>
+														</div>
+												</Link>
+											*/
+										}
 										<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item">
 											<div className="box-icons-mobile">
 													<p></p>
@@ -412,16 +416,24 @@ const MenuRenter = () => {
 								current_user.name === undefined || current_user.name === null ? 
 								(
 									<>
-										<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
-											Seja um vizinho
-										</Link>
+										{
+											/*
+												<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
+													Seja um vizinho
+												</Link>											
+											*/	
+										}
 									</>
 								) : 
 								(
 									<>
-										<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
-											Seja um vizinho
-										</Link>
+										{
+											/*
+												<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
+													Seja um vizinho
+												</Link>											
+											*/
+										}
 										{
 											current_user.type_user === 'Renter' ? 
 											(

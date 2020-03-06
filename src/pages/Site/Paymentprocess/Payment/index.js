@@ -68,6 +68,7 @@ const Payment = ({history}) => {
     async function loadFreight (userid) {
       const response = await api.get(`/userconfig/${userid}`, {
       });
+      setFreight('with')
       setUserconfig(response.data.userconfig[0]) 
     }
 
@@ -119,7 +120,6 @@ const Payment = ({history}) => {
     }).catch((err) => {
       console.log(err.response)
     }) 
-
   }
 
   async function verifyAvailabletool() { 
@@ -198,61 +198,74 @@ const Payment = ({history}) => {
   }
 
   const renderCalc = () => {
+
     var kmregional = 8
-    var freight = userconfig !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1;
-    var minfreight = userconfig !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 30;
+    var freight = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1;
+    var minfreight = userconfig.freight !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 30;
     var kmcurrent = workadd.distance;
     var costfreight = 0;
 
     if (kmregional > kmcurrent) {
         costfreight  = minfreight
     } else {
-        costfreight = freight * kmcurrent.toFixed(1);
+        costfreight = freight * kmcurrent;
     }
     return costfreight
   }
 
   return (
     <div className="container">
+      <br/><br/>
       {
         okattempt === true ? 
         (
           <div className="columns">
             <br/><br/>
             <div className="column is-two-thirds">
-              <p className="title-tool-only"> Entrega ou busca </p>
-              <br/><br/>
-              <p className="title-tool-only-little">
-                Escolha de que forma você deseja obter o equipamento.
-              </p>
+              <p className="title-tool-only"> Informações & Entrega </p>
+              {
+                /*
+                    <p className="title-tool-only-little">
+                      Escolha de que forma você deseja obter o equipamento.
+                    </p>
+                */
+              }
               <div className="columns">
                 <div className="column">
                   <Field>
-                    <input 
-                      className="is-checkradio"
-                      type="radio"
-                      id={'without'}
-                      name="freight" 
-                      value="without"
-                      defaultChecked={true}
-                      onChange={event => handleFreight(event)}
-                  />
-                    <Label for={'without'}>Buscar equipamento</Label>
-                    { 
-                    //adicionar aqui clausula que verifica onde a ferramenta está, e o endereço passado na seção anterior para 
-                    //ver se abre o campo de receber o equipamento.
+                      {
+                        /*
+                          <input 
+                            className="is-checkradio"
+                            type="radio"
+                            id={'without'}
+                            name="freight" 
+                            value="without"
+                            onChange={event => handleFreight(event)}
+                          />
+                          <Label for={'without'}>Buscar equipamento</Label>
+                        */
+                      }
+                      { 
+                      //adicionar aqui clausula que verifica onde a ferramenta está, e o endereço passado na seção anterior para 
+                      //ver se abre o campo de receber o equipamento.
                       tool.delivery === 'Y' ? 
                       (
                         <>
-                          <input 
-                            className="is-checkradio"
-                            id="with"
-                            type="radio" 
-                            name="freight"
-                            value="with"
-                            onChange={event => handleFreight(event)}
-                          />
-                          <Label for={'with'}>Receber equipamento</Label>
+                          {
+                            /*
+                            <input 
+                              className="is-checkradio"
+                              id="with"
+                              type="radio" 
+                              name="freight"
+                              value="with"
+                              defaultChecked={true}
+                              onChange={event => handleFreight(event)}
+                            />
+                            <Label for={'with'}>Receber equipamento</Label>
+                            */
+                          }
                         </>
                       )
                       :
@@ -288,14 +301,25 @@ const Payment = ({history}) => {
                   <>
                     <div className="columns">
                       <div className="column">
-                        <b>* Após confirmarmos o pagamento, você receberá o endereço para buscar o equipamento.</b>
-                        <br/><br/>
-                        <p className="title-infos-tool hack-padding-top">Localização do equipamento ({ tool.title })</p>
+                        {
+                          /*
+                            <b>* Após confirmarmos o pagamento, você receberá o endereço para buscar o equipamento.</b>
+                          */
+                        }
+                        {
+                          /*
+                            <p className="title-infos-tool hack-padding-top">Localização do equipamento ({ tool.title })</p>                          
+                          */
+                        }
                         {
                         tool.lat !== undefined && tool.lng !== undefined ? 
                         (
                           <>
-                            <Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture1} title={tool.title}/>                   
+                            {
+                              /*
+                                <Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture1} title={tool.title}/>                                                 
+                              */ 
+                            }
                           </>
                         )
                         : 
@@ -386,7 +410,7 @@ const Payment = ({history}) => {
                     <div className="column">
                       <p className="is-pulled-right">
                         <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                          <b><FormattedNumber value={parseFloat(rentattempt.cost.replace(/\./gi,'').replace(/,/gi,'.')) + renderCalc()} style="currency" currency="BRL" /></b>
+                          <b><FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
                         </IntlProvider>            
                       </p>
                     </div>
@@ -400,7 +424,7 @@ const Payment = ({history}) => {
                   <Button 
                     type={'button'}
                     className={'button is-pulled-right color-logo'}
-                    text={'Pagar'}                                    
+                    text={'Prosseguir'}                                    
                     onClick={event => paymentRent()}
                   />
                   <br/><br/>

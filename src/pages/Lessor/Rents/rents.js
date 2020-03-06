@@ -37,14 +37,14 @@ const Rents = ({ history }) => {
   }
 
   const accept = (id, rent) => {        
-    Paymentlink(id).then(function (response){
+    Paymentlink(id, rent).then(function (response){
       sendNotification(id, 'accept', rent)
       ChangeAccept('accept', id).then((res) => {
         reloadRents()
       })
       sendNotificationPayment(id, 'paymentlinkok', rent)
     }).catch(function (err) {
-      ChangeAccept('accept', id).then((res) => {
+      ChangeAccept('notaccept', id).then((res) => {
         reloadRents()
         sendNotification(id, 'noacceptforpayment', rent)
       })
@@ -52,7 +52,7 @@ const Rents = ({ history }) => {
   }
 
   const noaccept = (id, rent) => {
-    ChangeAccept('accept', id).then((res) => {
+    ChangeAccept('notaccept', id).then((res) => {
       reloadRents()
       sendNotification(id, 'noaccept', rent)
     })
@@ -219,9 +219,19 @@ const Rents = ({ history }) => {
                               )
                             }
                             { 
-                              rent.accept === 'N' || rent.paid === 'N' ?
+                              rent.accept === 'N' ?
                               (
-                                <b className="notaccpet">Você negou este aluguel</b>
+                                <b className="notaccpet">Aluguel negado</b>
+                              )
+                              :
+                              (
+                                ''
+                              )
+                            }
+                            {
+                              rent.paid === 'N' ?
+                              (
+                                <b className="notaccpet">Este aluguel não foi pago pelo</b>
                               )
                               :
                               (
