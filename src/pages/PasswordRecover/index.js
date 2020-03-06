@@ -9,25 +9,48 @@ import { Span } from '../../components/Span';
 import api from '../../services/api';
 import logo_blue from '../../assets/images/logo_blue.png';
 import logo_yellow from '../../assets/images/logo.png';
+import Notification from '../../utils/notification';
 
 import './style.css';
 
 const PasswordRecover = ({ history }) => {
 
   let logo = logo_yellow;
-  const [message, setMessage] = useState('');
-  const [messageOK, setMessageOK] = useState('');
 
-  if(message){
-    alert(message);
-    setMessage('');
-  }
+  const success = (msg = null) => Notification(
+    'success',
+    msg !== null ? msg : 'Perfil atualizado com sucesso!', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 4000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
 
-  if(messageOK){
-    alert(messageOK);
-    setMessageOK('');
-  }
+  const notSuccess = (msg = null) => Notification(
+    'error',
+    msg !== null ? msg : 'A senha atual não é válida!',
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 4000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
 
+  )
 
   const formik = useFormik({
     initialValues: {
@@ -49,12 +72,12 @@ const PasswordRecover = ({ history }) => {
     .then((res) => {
       console.log(res)
       if(res){
-        setMessageOK('Email enviado com sucesso, verifique sua caixa de entrada!');
+        success(`Um email foi enviado para ${values.email}, verifique sua caixa de entrada!`);
       }
     })
     .catch((err) => {
       if(err.response.status === 404){
-        setMessage('Este email não foi encontrado em nossa base de dados!');
+        notSuccess(`O email: ${values.email} não foi encontrado em nossa base de dados!`);
       }
     })
     
