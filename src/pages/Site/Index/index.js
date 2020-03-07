@@ -100,14 +100,14 @@ const Dashboard = ({history, location}) => {
                   <img src={logo}  alt="EasyTools Logo" className="logo-index"/>
                 </div>                
                 <br/><br/><br/>
-                <h3>Alugue equipamentos e ferramentas online, nós entregamos! </h3>
+                <h3>Alugar equipamentos e ferramentas nunca foi tão fácil! </h3>
                 <p className="text-subtitle-index">Uma nova maneira de alugar equipamentos e ferramentas.</p>
                 <br/><br/>
                 <Link
                   to={'/'}
                   className={'button color-logo'}
                 >
-                  Conhecer
+                  Como funciona?
                 </Link>
                 <br/>
                 <img src={background}  alt="EasyTools Logo" className="background-tools"/>

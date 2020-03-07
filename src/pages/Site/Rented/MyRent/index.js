@@ -14,7 +14,7 @@ import Email from '../../../../utils/sendemail';
 //import ChangeAccept from './conditionsRent';
 
 const Rents = ({ history }) => {
-  document.title = Title('Aluguéis');
+  document.title = Title('Meus alugados');
 
   const [rents, setRents] = useState([]);
 
@@ -130,7 +130,7 @@ const Rents = ({ history }) => {
     <div className="container container-page">
       <div className="columns">
         <div className="column has-text-left">
-          <Titlepage>Aluguéis</Titlepage>
+          <Titlepage>Meus alugados</Titlepage>
           <div className="columns is-desktop">
             <div className="column box-inter">
               {placeholder}
@@ -279,11 +279,11 @@ const Rents = ({ history }) => {
                               
                           </div>
                           <div className="column is-half">
-                                <b>Valores do aluguel: </b> <br></br>
+                                <b>Valores do aluguel: </b>
                                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                   <FormattedNumber value={rent.cost} style="currency" currency="BRL" />
                                 </IntlProvider>  
-                            
+                                <br/>
                                 <b>Custo de entrega: </b>
                                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                   <FormattedNumber value={parseFloat(rent.freight)} style="currency" currency="BRL" />

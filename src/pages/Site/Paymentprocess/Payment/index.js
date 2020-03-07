@@ -115,6 +115,8 @@ const Payment = ({history}) => {
       acquisition: acq
     }
 
+    console.log(rentupdate)
+
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
     .then((res) => {
       history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      

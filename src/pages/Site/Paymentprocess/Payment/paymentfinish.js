@@ -106,11 +106,12 @@ const Paymentfinish = ({history}) => {
       freightnew = renderCalc()
     }
 
+    console.log(freightnew)
+
     var rentupdate = {
-      freight: freightnew,
+      finishprocess: 'y',
       startdate: rentattempt.startdate,
       enddate: rentattempt.enddate,
-      acquisition: acq
     }
 
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
@@ -201,7 +202,6 @@ const Paymentfinish = ({history}) => {
   }
 
   const renderCalc = () => {
-    console.log(rentattempt.freight)
     return  parseFloat(rentattempt.freight.replace(/\./gi,'').replace(/,/gi,'.'))
   }
 
@@ -224,7 +224,19 @@ const Paymentfinish = ({history}) => {
               <br/><br/>
                 <div className="columns">
                   <div className="column">
+                    {
+                      rentattempt.finishprocess === "y" ? 
+                      (
+                        <>
+                          <Warningtext><b>Este aluguel já está sendo processado.</b></Warningtext>
+                          <br/><br/>
+                        </>
+                      )
+                      :
+                      ('')
+                    }
                     <Button 
+                      disabled={rentattempt.finishprocess === "y" ? true : false}
                       type={'button'}
                       className={'button is-pulled-left color-logo'}
                       text={'Alugar'}                                    

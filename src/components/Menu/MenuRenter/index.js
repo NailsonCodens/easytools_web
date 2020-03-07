@@ -295,14 +295,16 @@ const MenuRenter = () => {
 											)
 											:
 											(
-												<Link to={'/s/renter/myrent'} onClick={event => Scrool() } className="navbar-item">
-														<div className="box-icons-mobile">
-															<FontAwesomeIcon icon={['fas', 'handshake']} className={history.location.pathname === '/s/renter/myrent' ? "menu-icons-active" : "menu-icons" }  size="1x"/>
-															<div className="text-box">
-																Meus alugados
+												<>
+													<Link to={'/s/renter/myrent'} onClick={event => Scrool() } className="navbar-item">
+															<div className="box-icons-mobile">
+																<FontAwesomeIcon icon={['fas', 'handshake']} className={history.location.pathname === '/s/renter/myrent' ? "menu-icons-active" : "menu-icons" }  size="1x"/>
+																<div className="text-box">
+																	Meus alugados
+																</div>
 															</div>
-														</div>
-												</Link>
+													</Link>
+												</>
 											)
 										}
 										<div onClick={event => Scrool() } className="navbar-item">
@@ -323,7 +325,7 @@ const MenuRenter = () => {
 															</li>
 															<li className="li-drop">
 																<Link to={'/lessor/dashboard'} onClick={event => Scrool() } className="navbar-item">
-																	Ver meus alugueis
+																	Meus alugueis
 																</Link>
 															</li>
 															<li className="li-drop">
@@ -435,9 +437,14 @@ const MenuRenter = () => {
 										{
 											current_user.type_user === 'Renter' ? 
 											(
-												<Link to={'/s/renter/myrent'} onClick={event => Scrool() } className="navbar-item">
-													Meus alugados
-												</Link>	
+												<>
+													<Link to={'/'} onClick={event => Scrool(400, 400) } className="navbar-item">
+														Explorar
+													</Link>
+													<Link to={'/s/renter/myrent'} onClick={event => Scrool() } className="navbar-item">
+														Meus alugados
+													</Link>	
+												</>
 											)
 											:
 											('')
