@@ -212,7 +212,7 @@ const Singup = ({ history }) => {
   return (
     <>
       <div className="has-text-centered">
-        <Link to="/?redirect"><Span className="button-enter">Voltar!</Span></Link>
+        <Link to="/?r=redirect"><Span className="button-enter">Voltar!</Span></Link>
       </div>
       <div className="has-text-centered container-sign-up">
         <div className="sign-up">

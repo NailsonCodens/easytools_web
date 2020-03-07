@@ -147,6 +147,7 @@ const Tool = ({history}) => {
                 enddate: moment(rentData.end).format('YYYY-MM-DD'),
                 tension: rentData.tension,
                 days: price.amount,
+                month: price.amountmonth,
                 amount: formik.values.amount,
                 period: price.type,
                 price: price.priceNoamount,
@@ -192,7 +193,7 @@ const Tool = ({history}) => {
       history.push(`/s/payment/resumebook?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${formik.values.amount}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
     }).catch((err) => {
       console.log(err.response)
-    })  
+    })
   }
 
   const handleTension = (event) => {
@@ -298,7 +299,6 @@ const Tool = ({history}) => {
 
       var days = period.days;
       var months = period.months;
-
       if (period.months !== 0) {
         setPrice({
           type: 'month', 
@@ -341,17 +341,16 @@ const Tool = ({history}) => {
           pricefull: (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
         })
         else if (days > 15)
-          if (months === 1) {
+          if (months === 0) {
             setPrice({
               type: 'month', 
               amount: days, 
-              amountmonth: 1, 
+              amountmonth: 0, 
               price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
               priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
               pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
             })
-          }
-          else {
+          } else {
             setPrice({
               type: 'month', 
               amount: days, 
@@ -383,13 +382,11 @@ const Tool = ({history}) => {
 
       var days = period.days;
       var months = period.months;
-      console.log(days)
-      console.log(months)
 
       if (period.months !== 0) {
         setPrice({
           type: 'month', 
-          amount: months, 
+          amount: days, 
           amountmonth: months, 
           price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
           priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
@@ -429,11 +426,11 @@ const Tool = ({history}) => {
           pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
         })
         else if (days > 15){
-          if (months === 1) {
+          if (months === 0) {
             setPrice({
               type: 'month', 
               amount: days, 
-              amountmonth: 1, 
+              amountmonth: 0, 
               price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
               priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
               pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
@@ -450,8 +447,6 @@ const Tool = ({history}) => {
             })
            }
         }
-
-        console.log(price)
       }
     }
   }

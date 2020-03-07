@@ -92,6 +92,7 @@ const Rules = ({ history }) => {
         enddate: moment(values.finish).format('YYYY-MM-DD'),
         tension: values.tension,
         days: rentattempt.days,
+        month: rentattempt.month,
         amount: rentattempt.amount,
         period: rentattempt.period,
         price: rentattempt.price,

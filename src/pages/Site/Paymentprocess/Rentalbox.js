@@ -49,15 +49,17 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
       var priceat = '';
       var costat = '';
       var amountat = amount;
+      var amountmonth = months;
 
       if (period.months !== 0) {
         periodat = 'month'
+        amountmonth = months
         priceat = parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
         costat = (months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
 
         setPrice({
           type: 'month', 
-          amount: months, 
+          amount: days, 
           amountmonth: months, 
           price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
           priceNoamount: months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
@@ -117,17 +119,19 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
           priceat = parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
           costat = (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
 
-          if (months === 1) {
+          if (months === 0) {
+            amountmonth = 0
             setPrice({
               type: 'month', 
               amount: days, 
-              amountmonth: 1, 
+              amountmonth: 0, 
               price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
               priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
               pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
             })
-          }
-           else {
+          } else {
+            amountmonth = months
+
             setPrice({
               type: 'month', 
               amount: days, 
@@ -139,18 +143,20 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
            }
         }
       }
-      dispatch(Rentattempt(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, 0, price.price))
+      
+      dispatch(Rentattempt(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, 0, price.price, amountmonth))
 
-      updateRentattemp(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, 0, price.price)
+      updateRentattemp(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, 0, price.price, amountmonth)
     }else {
       //por aqui um redirect para erro 404
     }
   }
 
-  async function updateRentattemp (price, days, cost, amount, period, freight, priceperiod) {
+  async function updateRentattemp (price, days, cost, amount, period, freight, priceperiod, month) {
     var rentupdate = {
       price: price,
       days: days,
+      month: month,
       cost: cost,
       amount: amount,
       period: period,
@@ -159,6 +165,8 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
       startdate: startDate,
       enddate: endDate
     }
+
+    console.log(rentupdate)
 
     if (attempt.id !== undefined) {
       await api.put(`rent/attempt/updaterent/${attempt.id}`, rentupdate, {})

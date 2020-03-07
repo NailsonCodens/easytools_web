@@ -72,7 +72,7 @@ const PasswordRecover = ({ history }) => {
     .then((res) => {
       console.log(res)
       if(res){
-        success(`Um email foi enviado para ${values.email}, verifique sua caixa de entrada!`);
+        success(`Um email foi enviado para ${values.email}, verifique sua caixa de entrada! Você será redirecionado `);
       }
     })
     .catch((err) => {

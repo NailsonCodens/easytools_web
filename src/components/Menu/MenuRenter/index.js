@@ -8,6 +8,8 @@ import {Distance} from '../../../store/actions/distance';
 import Scrool from '../../../utils/scroll';
 import Auth from '../../../pages/Auth/index';
 import Modal from '../../../components/Modal';
+import queryString from 'query-string';
+import { useLocation } from 'react-router-dom';
 import Dropdown from '../Dropdown';
 import Dropdownpure from '../Dropdownpure';
 import './styleRenter.css'
@@ -54,6 +56,7 @@ const MenuRenter = () => {
 	const [distancevalue, setDistancevalue] = useState('');
 	const [coordiantevalue, setCoordinatevalue] = useState({});
 	const [categoryvalue, setCategoryvalue] = useState('');
+  let values = queryString.parse(useLocation().search);
 
 	socketio.emit('register', current_user.id);
 
@@ -103,7 +106,14 @@ const MenuRenter = () => {
 		}
 		verifyDevice()
 		
-		
+
+		async function loadRedirect () {
+			if (values.r === 'redirect') {
+				setModal(true)
+			}
+		}
+		loadRedirect()
+
     async function getCountnotification () {
 			if (isAuthenticated()) {
 				const response = await api.get(`/notifications/count`, {
@@ -512,6 +522,11 @@ const MenuRenter = () => {
 										</li>
 										<li className="li-drop">
 											<Link to={'/lessor/dashboard'} onClick={event => Scrool() } className="navbar-item">
+												Meus resultados
+											</Link>
+										</li>
+										<li className="li-drop">
+											<Link to={'/lessor/rents'} onClick={event => Scrool() } className="navbar-item">
 												Ver meus alugueis
 											</Link>
 										</li>

@@ -155,17 +155,23 @@ const Rents = ({ history }) => {
     }, 300);     
   } 
 
-  const renderPeriod = (period) => {
+  const renderPeriod = (period, days, month) => {
     var periodChoose = period
 
     if (period === 'days') {
-      periodChoose = 'Dia(s) ';
+      periodChoose = days + ' Dia(s) ';
     } else if (period === 'biweekly') {
-      periodChoose = 'Quinzenal ';
+      periodChoose = 15 + ' Dias (Quinzenal) ';
     } else if (period === 'weekend') {
-      periodChoose = 'Semanal ';
+      periodChoose = 7 + ' Dias (Semanal) ';
     } else if (period === 'month') {
-      periodChoose = 'Mês ';
+      if (month === '0') {
+        periodChoose = 1 + ' Mês';
+      }else if (month === 1) {
+        periodChoose = 1 + ' Mês ';
+      }else {
+        periodChoose = month + ' Mêses';
+      }
     }
 
     return (
@@ -351,7 +357,7 @@ const Rents = ({ history }) => {
                               Tensão: { rent.tension === 'Tri' ? 'Trifásico' : rent.tension }
                             </p>
                             <p>
-                              Período: { rent.days } { renderPeriod(rent.period) }
+                              Período: { renderPeriod(rent.period, rent.days, rent.month) }
                             </p>
                             <div className="columns">
                               <div className="column padding-rents">
