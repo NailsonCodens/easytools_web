@@ -195,7 +195,7 @@ const Rules = ({ history }) => {
                           <b className="title-politics"> Pagamento online </b>
                           <li> Para facilitar sua vida, nós enviamos um link de pagamento a você. Pagamento online para aluguel de equipamento, já pensou nessa facilidade?</li>
                         </Ul>
-                        <p className="title-infos-tool hack-padding-top">Uma nova forma de alugar</p>
+                        <li><i class="explanation-rules">Uma nova forma de alugar</i></li> 
                         <Ul>
                           <b className="title-politics"> Parceiro </b>
                           <li> Somos o seu parceiro novo, com um novo jeito de alugar equipamentos para você e seu negócio.</li>

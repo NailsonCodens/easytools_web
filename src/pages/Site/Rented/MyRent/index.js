@@ -271,7 +271,7 @@ const Rents = ({ history }) => {
                                 Informações do aluguél:
                               </b>
                               <p>
-                                Tensão: { rent.tension }
+                                Tensão: { rent.tension === 'Tri' ? 'Trifásico' : rent.tension }
                               </p>
                               <p>
                                 Período: { rent.days } { renderPeriod(rent.period) }

@@ -414,6 +414,40 @@
   font-weight: 700;
 }
 
+.text-congrats{
+  font-size: 20px;
+  color: #4e4e4e;
+  font-weight: 600;
+}
+
+.congrats{
+  color: #60a8f1 !important;
+}
+
+.notice-congrats li{
+  font-size: 19px !important;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.thumbup{
+  color: #60a8f1;
+  margin-right: 20px;
+}
+
+.thumbdown{
+  color: red;
+  margin-right: 20px;
+}
+
+.box-itens-helping ul li{
+  font-size: 16px;
+  margin: 15px 0px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif !important;
+  color: rgb(138, 138, 138);
+}
+
+
 @media (max-width: 900px) {
   .columns {
     margin-left: 0 !important;

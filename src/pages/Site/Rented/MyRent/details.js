@@ -321,7 +321,7 @@ export default function Rents({history}) {
                   <div className="columns">
                     <div className="column">
                       <p>
-                        Tensão: { rent.tension }
+                      Tensão: { rent.tension === 'Tri' ? 'Trifásico' : rent.tension }
                       </p>
                       <p>
                         Período: { rent.days } { renderPeriod(rent.period, rent.days) }

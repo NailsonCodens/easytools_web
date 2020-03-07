@@ -18,18 +18,15 @@ import { Button } from '../../Form/Button';
 import Notification from '../../../components/Notification/index';
 import { Notification as Notificationrd } from '../../../store/actions/notification';
 import api from '../../../services/api';
-import simpleCrypto from '../../../services/crypto';
 import { isAuthenticated } from "../../../services/auth";
 import Notificationtost from '../../../utils/notification';
-import Title from '../../../utils/title';
 import { Warningtext } from '../../../components/Warningtext';
 import { Form, Input } from '@rocketseat/unform';
-import { Field, Label } from '../../../components/Form/Form';
+import { Label } from '../../../components/Form/Form';
 import { useFormik } from 'formik';
-import Select from 'react-select';
-import categories from '../../../utils/categories';
 import { getCordinates } from '../../../services/mapbox';
-import latitude from '../../../store/reducers/latitude';
+import { Notifications } from '../../../store/actions/notifications';
+
 import {
   isMobile
 } from "react-device-detect";
@@ -121,6 +118,7 @@ const MenuRenter = () => {
 			if (isAuthenticated()) {
       const response = await api.get(`/notifications`, {
 			});
+			dispatch(Notifications(response.data.notification))
       setNotfication(response.data.notification)
       getCountnotification()
       renderNotify()
@@ -301,7 +299,7 @@ const MenuRenter = () => {
 														<div className="box-icons-mobile">
 															<FontAwesomeIcon icon={['fas', 'handshake']} className={history.location.pathname === '/s/renter/myrent' ? "menu-icons-active" : "menu-icons" }  size="1x"/>
 															<div className="text-box">
-																Aluguéis
+																Meus alugados
 															</div>
 														</div>
 												</Link>
@@ -464,10 +462,10 @@ const MenuRenter = () => {
 										<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item">
 											Alugue
 										</Link>
-										<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
+										<Link to={'/s/about-us'} onClick={event => Scrool() } className="navbar-item">
 											Um novo jeito de alugar!
 										</Link>
-										<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
+										<Link to={'/s/help-me'} onClick={event => Scrool() } className="navbar-item">
 											Ajuda
 										</Link>
 									</>
@@ -602,12 +600,18 @@ const MenuRenter = () => {
 											)
 											:
 											(
-												<Button 
-													type={'button'}
-													className={'button is-small is-default localization'}
-													text={'Melhorar minha busca'}                            
-													onClick={event => setBettersearch(!bettersearch)}
-												/>
+												<>
+												{
+													/*
+													<Button 
+														type={'button'}
+														className={'button is-small is-default localization'}
+														text={'Melhorar minha busca'}                            
+														onClick={event => setBettersearch(!bettersearch)}
+													/>
+													*/
+												}
+												</>
 											)
 										}
 									</div>

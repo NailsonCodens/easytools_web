@@ -116,7 +116,7 @@ export default function Rents({history}) {
     Paymentlink(id, rent[0]).then(function (response){
       sendNotification(id, 'accept', rent)
       ChangeAccept('accept', id).then((res) => {
-        reloadRents()
+        reloadRents(id)
       })
       sendNotificationPayment(id, 'paymentlinkok')
     }).catch(function (err) {
@@ -395,7 +395,7 @@ export default function Rents({history}) {
                   <div className="columns">
                     <div className="column">
                       <p>
-                        Tensão: { rent.tension }
+                        Tensão: { rent.tension === 'Tri' ? 'Trifásico' : rent.tension }
                       </p>
                       <p>
                         Período: { rent.days } { renderPeriod(rent.period, rent.days) }
@@ -460,7 +460,7 @@ export default function Rents({history}) {
                                 :
                                 (<p className="color-rent">Quando o aluguel for aceito e pago, você poderá acessar o telefone do locatário.</p>)
                               }                              
-                              { /*<p> <b>Nascimento:</b> { moment(rent.userrenter.birth_date).format('DD/MM/YYYY') } </p>*/ }
+                              { <p> <b>Nascimento:</b> { moment(rent.userrenter.birth_date).format('DD/MM/YYYY') } </p> }
                               <br/>
                             </div>
                           </div>

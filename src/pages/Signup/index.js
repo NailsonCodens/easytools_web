@@ -211,6 +211,9 @@ const Singup = ({ history }) => {
 
   return (
     <>
+      <div className="has-text-centered">
+        <Link to="/?redirect"><Span className="button-enter">Voltar!</Span></Link>
+      </div>
       <div className="has-text-centered container-sign-up">
         <div className="sign-up">
           <Link to={'/'}>
@@ -444,7 +447,7 @@ const Singup = ({ history }) => {
               <Hr/>
               <div className="">
                 <Span>Já tem conta da EasyTools? </Span>
-                <Link to="lessor/signin"><Span className="button-enter">Entrar</Span></Link>
+                <Link to="/?redirect"><Span className="button-enter">Entrar</Span></Link>
               </div>
             </div>
             <Modal 

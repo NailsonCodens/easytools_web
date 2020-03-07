@@ -9,6 +9,7 @@ import notification from './notification';
 import latitude from './latitude';
 import longitude from './longitude';
 import distance from './distance';
+import notifications from './notifications';
 import link from './link';
 
 export default combineReducers({
@@ -22,5 +23,6 @@ export default combineReducers({
   latitude,
   longitude,
   distance,
-  link
+  link,
+  notifications
 });

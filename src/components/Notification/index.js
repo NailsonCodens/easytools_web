@@ -5,20 +5,27 @@ import './style.css';
 import { Button } from '../../components/Form/Button';
 import { useDispatch, useSelector } from "react-redux";
 import { Notification as Notificationrd } from '../../store/actions/notification';
+import { Notifications } from '../../store/actions/notifications';
 
 const Notification = ({nt}) => {
   let history = useHistory();
-  const [notification, setNotification] = useState(nt);
+  const dispatch = useDispatch();	
+  const [notification, setNotification] = useState();
   const [rent, setRent] = useState([]);
   const [define, setDefine] = useState(false);
+  const notifications = useSelector(state => state.notifications);
   const current_user = useSelector(state => state.auth);
   const notificationrd = useSelector(state => state.notification);
-  const dispatch = useDispatch();	
+
+
 
   useEffect(() => {
     async function notification () {
+
       const response = await api.get(`notifications`, {
       });
+
+      dispatch(Notifications(response.data.notification))
       
       setNotification(response.data.notification)
       if (response.data.notification.length > 0) {
@@ -34,6 +41,8 @@ const Notification = ({nt}) => {
     };
   }, [])
 
+  console.log(notifications)
+  
   const goNotification = (rent_attempt_id, id, type) => {
     if (type === 'Pagar') {
       history.push({
@@ -49,6 +58,8 @@ const Notification = ({nt}) => {
         goUpdatenotifiy(id);
         history.push(`/s/renter/myrent/details/${rent_attempt_id}`);
       }
+
+      updatecount()
     }
   }
 
@@ -64,6 +75,7 @@ const Notification = ({nt}) => {
     });
 
     if (response.data.notification.length > 0) {
+      dispatch(Notifications(response.data.notification))
       setNotification(response.data.notification)
       const rent = await api.get(`/rents/${response.data.notification[0].rent_attempt_id}`, {});
       setRent(response.data.rentattempt);  
@@ -90,11 +102,11 @@ const Notification = ({nt}) => {
     <div>
       <li>
         {
-          nt.length > 0 ? 
+          notifications.length > 0 ? 
           (
             <>
               {
-                nt.map((notify, index) => (
+                notifications.map((notify, index) => (
                   <div key={index} className={notify.done === null ? 'columns is-mobile column-notify new-notify' : "columns is-mobile column-notify"}>
                     <div className="column is-2">
                       <div className="avatar-notify">
@@ -126,7 +138,7 @@ const Notification = ({nt}) => {
           (
             <>
               {
-                notification.map((notify, index) => (
+                notifications.map((notify, index) => (
                   <div key={index} className="columns column-notify">
                     <div className="column is-2">
                       <div className="avatar-notify">
@@ -137,7 +149,7 @@ const Notification = ({nt}) => {
                       {
                         notify.done === null ? 
                         (
-                          <b className="title-notification">* { notify.title }</b>
+                          <b className="title-notification"> { notify.title }</b>
 
                         )
                         :
@@ -166,7 +178,7 @@ const Notification = ({nt}) => {
           )
         }
         {
-          nt.length === 0 && define === false ? 
+          notifications.length === 0 && define === false ? 
           (
             <div className="notfound has-text-centered">
               Nenhuma notificação por enquanto!

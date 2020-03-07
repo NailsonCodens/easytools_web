@@ -10,6 +10,8 @@ import Index from '../Index/index';
 import Tool from '../../Site/Tool/index';
 import Rented from '../../Site/Rented/index';
 import Paymentprocess from '../../Site/Paymentprocess/index';
+import Helpme from '../../Site/Helpme/index';
+import Newrent from '../Newrent/index';
 
 export default function Start({history}) {
   let { path } = useRouteMatch();
@@ -32,6 +34,8 @@ export default function Start({history}) {
       }
 
       <Route path={`${path}/`} exact component={Index}/>
+      <Route path={`${path}/help-me`} component={Helpme}/>
+      <Route path={`${path}/about-us`} component={Newrent}/>
       <Route path={`${path}/tool/:id`} component={Tool}/>
       <PrivateRenter path={`${path}/payment`} component={Paymentprocess}/>
       <PrivateRenter path={`${path}/messages`} component={teste => ('asdsd')}/>

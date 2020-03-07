@@ -207,7 +207,7 @@ const Paymentfinish = ({history}) => {
 
   return (
     <div className="container">
-            <br/><br/><br/>
+      <br/><br/>
       {
         okattempt === true ? 
         (

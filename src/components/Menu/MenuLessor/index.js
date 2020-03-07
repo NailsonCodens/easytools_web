@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import api from '../../../services/api';
 import { Notification as Notificationrd } from '../../../store/actions/notification';
 import Scrool from '../../../utils/scroll';
+import { Notifications } from '../../../store/actions/notifications';
 
 import {
   isMobile
@@ -61,6 +62,7 @@ const MenuLessor = () => {
     async function getNotification () {
       const response = await api.get(`/notifications`, {
       });
+			dispatch(Notifications(response.data.notification))
       setNotfication(response.data.notification)
       getCountnotification()
       renderNotify()

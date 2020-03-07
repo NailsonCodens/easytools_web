@@ -137,7 +137,6 @@ const Rents = ({ history }) => {
 
       await api.post('/notifications/send', notification, {})
       .then((res) => {
-        console.log(res)
         socketio.emit('notify',{
           to : rent.user_renter_id,
           title: title,
@@ -151,6 +150,7 @@ const Rents = ({ history }) => {
   async function reloadRents () {
     const response = await api.get('/rents/', {});
     setTimeout(() => {
+      console.log(response.data.rentattempt)
       setRents(response.data.rentattempt);
     }, 300);     
   } 
@@ -348,7 +348,7 @@ const Rents = ({ history }) => {
                               Informações do aluguél:
                             </b>
                             <p>
-                              Tensão: { rent.tension }
+                              Tensão: { rent.tension === 'Tri' ? 'Trifásico' : rent.tension }
                             </p>
                             <p>
                               Período: { rent.days } { renderPeriod(rent.period) }
@@ -374,7 +374,7 @@ const Rents = ({ history }) => {
                                    </> 
                                   )
                                   :
-                                  (<b className="welcome-user">Cliente vai buscar o equipamento com você.</b>)
+                                  ('')
                                 }
                               </div>
                               <div className="column padding-rents">

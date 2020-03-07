@@ -335,6 +335,14 @@ const Edit = ({history}) => {
         )
       }
       <div className="container">
+      <br/><br/>
+                  <Button
+                    type={'submit'}
+                    className={'button color-logo-lessor'} 
+                    text={'Voltar'}
+                    onClick={event => goBack()}
+                  />
+
         <Form
           onSubmit={ (e, values) => {
             formik.handleSubmit(values)
@@ -342,7 +350,7 @@ const Edit = ({history}) => {
           noValidate          
         >
           <div className="columns column-address">
-            <div className="column">
+             <div className="column">
               <br/><br/>
               <h3 className="title-tool-only">
                 Adicione as informações necessárias para completar seu cadastro e você poder alugar sem problemas.
@@ -354,14 +362,6 @@ const Edit = ({history}) => {
                   <Link to="/s/renter/perfil/documents">
                     Meus documentos 
                   </Link>
-                </div>
-                <div className="columns">
-                  <Button
-                    type={'submit'}
-                    className={'button color-logo-lessor'} 
-                    text={'Voltar'}
-                    onClick={event => goBack()}
-                  />
                 </div>
               </div>
               <br/>
