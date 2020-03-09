@@ -483,14 +483,14 @@ const MenuRenter = () => {
 											Um novo jeito de alugar!
 										</Link>
 										<Link to={'/s/help-me'} onClick={event => Scrool() } className="navbar-item">
-											Ajuda
+											Dúvidas
 										</Link>
 									</>
 								) : 
 								(
 									<>
 										<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
-											Ajuda
+											Dúvidas
 										</Link>
 									</>
 								)

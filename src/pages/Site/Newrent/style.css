@@ -1,0 +1,80 @@
+.title-about-us{
+  font-size: 30px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif !important; 
+  margin-bottom: -20px;
+}
+
+.cl-text p {
+  text-align: left;
+}
+
+.sub-title-about-us{
+  font-size: 20px;
+  font-weight: 300;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.how-work-it{
+  margin-top: 60px;
+}
+
+.how-work-it-text{
+  font-size: 25px; 
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500;
+}
+
+.message-about{
+  font-size: 17px;
+  color: #60a8f1;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+
+.icons-about{
+  margin-right: 0px;
+  color: #60a8f1;
+}
+
+.h-w-i-li{
+  font-size: 19px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+  color: rgb(126, 126, 126);
+}
+
+.cl-icons{
+
+}
+
+.just{
+  margin: 20px;
+  font-size: 30px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.logo-about{
+  width: 200px;
+  height: 200px;
+  margin-top: -30px;
+}
+
+.time{
+  font-size: 17px;
+  font-family: 10px;
+  color: #60a8f1;
+  font-weight: 600;
+}
+
+.title-name{
+  font-size: 20px;
+  padding: 10px 0px !important;
+  font-weight: bold;
+}
+
+.text-h{
+  margin-left: 20px;
+  color: #60a8f1;
+}

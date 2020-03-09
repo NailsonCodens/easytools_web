@@ -2,8 +2,9 @@ import React from 'react'
 
 const Helpme = () => {
   return (
-    <div>
-      ajuda
+    <div className="container">
+      <br/><br/>
+      <p>Tem alguma dúvida?</p>
     </div>
   )
 }

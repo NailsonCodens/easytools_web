@@ -57,6 +57,7 @@ const Tool = ({history}) => {
   const [tension, setTension] = useState('');
   const [tensionshow, setTensionshow] = useState([]);
   const [modal, setModal] = useState(false);
+  const [modal2, setModal2] = useState(false);
   //const [url, setUrl] = useState('');
   const [isSticky, setSticky] = useState(false);
   const [dataLessor, setDatalessor] = useState([]);
@@ -370,7 +371,6 @@ const Tool = ({history}) => {
 
     formik.values.startDate = dates.startDate
     formik.values.endDate = dates.endDate
-
     setStartdate(dates.startDate)
     setEnddate(dates.endDate)
 
@@ -383,15 +383,21 @@ const Tool = ({history}) => {
       var days = period.days;
       var months = period.months;
 
+      console.log(days, months)
+
       if (period.months !== 0) {
-        setPrice({
-          type: 'month', 
-          amount: days, 
-          amountmonth: months, 
-          price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-          priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
-          pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
-        })
+        if (days > 0) {
+            setModal2(true)
+        } else {
+          setPrice({
+            type: 'month', 
+            amount: days, 
+            amountmonth: months, 
+            price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
+            pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+          })  
+        }
       } else if (period.days !== 0) {
         if (days < 7)
           setPrice({
@@ -435,8 +441,7 @@ const Tool = ({history}) => {
               priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
               pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
             })
-          }
-           else {
+          } else {
             setPrice({
               type: 'month', 
               amount: days, 
@@ -471,12 +476,19 @@ const Tool = ({history}) => {
     return modal
   }
 
+  const hideModal2 = () => {
+    setModal2(false)
+    return modal2
+  }
+
   const renderPrice = () => {
     var text = ''
     var text2 = ''
     var days = price.amount
     var weekend = 1
     var months = price.amountmonth
+
+    console.log(days, months)
 
     if (price.type === 'days') {
       text = ` x ${days} Dia(s)`
@@ -498,8 +510,14 @@ const Tool = ({history}) => {
 
     if (price.type === 'month') {
       if (months === 1) {
-        text = ` por ${months} Mês`
-        text2 = `* Custo mensal`
+        if (days > 0 ) {
+          text = ` por ${months} Mês e ${days} Dia(s)`
+          text2 = `* Custo mensal`
+        } else {
+          text = ` por ${months} Mês`
+          text2 = `* Custo mensal`
+        }
+
       }else if (days > 15 && days <= 31) {
         text = ` por 1 Mês`
         text2 = `* Você está alugando por ${days} dias, mas o custo é mensal. Com este valor você pode alugar por mais ${ 30 - days } dias!`
@@ -1012,6 +1030,19 @@ return (
         </div>*/
         }
       </div>
+      <Modal
+        show={modal2} 
+        onCloseModal={hideModal2} 
+        closeOnEsc={true} 
+        closeOnOverlayClick={true}
+      > 
+        <p className="periods-mistakes">Ops!</p>
+        <br/>
+        <p className="periods-mistakes">Períodos superiores a 30 dias, só podem ser contados mês a mês.</p>
+        <br/>
+        <Button className="button color-logo" onClick={event => setModal2(false)} text={'Mudar data'}/>
+      </Modal>
+
       <Modal
         show={modal} 
         onCloseModal={hideModal} 
