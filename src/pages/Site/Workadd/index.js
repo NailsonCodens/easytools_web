@@ -205,24 +205,39 @@ const Workadd = ({rent}) => {
       </Warningtext>
       <br/>
       <div className="offer">
-        <CheckboxIOS 
-          onChange={handleCheckIOS}
-          name="address"
-          value={address} 
-          bind="checksignup"
-          ch={address === 'Y' ? true : false}
-          off="Adicionar novo endereço." 
-          on="Usar meu endereço."
-        />
+        <br/>
         {
-          console.log(notifice)
+          perfil.location === undefined ? 
+          (
+            <>
+            </>
+          )
+          :
+          (
+            <CheckboxIOS 
+              onChange={handleCheckIOS}
+              name="address"
+              value={address} 
+              bind="checksignup"
+              ch={address === 'Y' ? true : false}
+              off="Adicionar novo endereço." 
+              on="Usar meu endereço."
+            />
+          )
         }
+         <br/>
         {
           notifice === true ? 
           (
-            <Warningtext>
-              Você ainda não colocou seu endereço de cadastro, faça isso assim que puder, clicando no seu nome no canto inferior direito -> perfil. 
-            </Warningtext>     
+            <>
+              <Warningtext>
+              </Warningtext>     
+              <p className="red-text">
+                Você ainda não colocou seu endereço de cadastro, faça isso assim que puder clicando no seu nome no canto inferior direito -> perfil. 
+                <br/>
+                Por hora, apenas adicione o seu endereço de uso.
+              </p>
+            </>
           )
           :
           ('')

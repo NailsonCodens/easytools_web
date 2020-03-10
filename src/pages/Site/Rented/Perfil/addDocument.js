@@ -9,6 +9,7 @@ import Warninggeneral from '../../../Warnings/Warninggeneral';
 import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import Scroll from '../../../../utils/scroll';
+import { Button } from '../../../../components/Form/Button';
 
 const Doc = ({history}) => {
 
@@ -36,7 +37,11 @@ const Doc = ({history}) => {
   const goScroll = () => {
     Scroll(400,400);
   }
-
+ 
+  const goBack = () => {
+    history.push('/s/renter/perfil')      
+  }
+  
   return (
     <>
       {
@@ -80,6 +85,14 @@ const Doc = ({history}) => {
             </h3>
           </div>
         </div>
+        
+        <Button
+          type={'submit'}
+          className={'button color-logo-lessor'} 
+          text={'Voltar'}
+          onClick={event => goBack()}
+        />
+
         <div className="columns">
           <div className="column">
             <h3 className="title-box-inter">Os documentos são:</h3> 
