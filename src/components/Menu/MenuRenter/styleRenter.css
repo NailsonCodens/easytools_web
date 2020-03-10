@@ -274,6 +274,7 @@
     margin-left:0px;
     float: right !important;
     margin-right: 10px;
+    display: none !important;
   }
 
   .logouser-menu{

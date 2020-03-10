@@ -388,9 +388,9 @@ const MenuRenter = () => {
 										}
 										<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item">
 											<div className="box-icons-mobile">
-													<p></p>
+													<FontAwesomeIcon icon={['fas', 'handshake']} className="menu-icons" size="1x"/>
 													<div className="text-box">
-														Alugue!
+														Alugar!
 													</div>
 												</div>
 										</Link>
@@ -476,8 +476,8 @@ const MenuRenter = () => {
 								current_user.name === undefined || current_user.name === null ? 
 								(
 									<>
-										<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item">
-											Alugue
+										<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item button color-logo">
+											Alugue o que você precisa
 										</Link>
 										<Link to={'/s/about-us'} onClick={event => Scrool() } className="navbar-item">
 											Um novo jeito de alugar!
