@@ -446,6 +446,20 @@
   color: rgb(138, 138, 138);
 }
 
+.feedback{
+  background: rgb(255, 223, 116);
+  padding: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(0, 0, 0);
+}
+
+.feedback-button{
+  z-index: 999;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
 
 @media (max-width: 900px) {
   .columns {
