@@ -202,7 +202,7 @@ export default function Rents({history}) {
                       rent.accept === '1' && rent.paid === '0' ?
                       (
                         <>
-                          <p><b>Link de pagamento</b> <a href={rent.linkpayment} target="_blank">{ rent.linkpayment }</a></p> 
+                          <p><b>Link de pagamento</b> <a href={'/s/payment/payment-view/' + rent.id} target="_blank">https://pagarmeualuguel.easytools</a></p> 
                           <Warningtext>Você tem 30 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>                      
                           <br/>
                         </>

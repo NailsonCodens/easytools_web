@@ -17,8 +17,6 @@ const Notification = ({nt}) => {
   const current_user = useSelector(state => state.auth);
   const notificationrd = useSelector(state => state.notification);
 
-
-
   useEffect(() => {
     async function notification () {
 
@@ -41,7 +39,6 @@ const Notification = ({nt}) => {
     };
   }, [])
 
-  console.log(notifications)
   
   const goNotification = (rent_attempt_id, id, type) => {
     if (type === 'Pagar') {
@@ -60,6 +57,8 @@ const Notification = ({nt}) => {
       }
 
       updatecount()
+
+      document.location.reload(true);
     }
   }
 

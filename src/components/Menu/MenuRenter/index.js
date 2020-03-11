@@ -489,7 +489,7 @@ const MenuRenter = () => {
 								) : 
 								(
 									<>
-										<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
+										<Link to={'/s/help-me'} onClick={event => Scrool() } className="navbar-item">
 											Dúvidas
 										</Link>
 									</>
@@ -542,6 +542,11 @@ const MenuRenter = () => {
 										<li className="li-drop">
 											<Link to={'/s/renter/perfil'} onClick={event => Scrool() } className="navbar-item">
 												Perfil
+											</Link>
+										</li>
+										<li className="li-drop">
+											<Link to={'/s/renter/perfil/documents'} onClick={event => Scrool() } className="navbar-item">
+												Documento
 											</Link>
 										</li>
 										{

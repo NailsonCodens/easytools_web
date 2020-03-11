@@ -265,6 +265,13 @@ export default function Rents({history}) {
                       Informações do aluguél:
                     </b>
                     <br/>
+                    {
+                      'id: ' + rent.id
+                    }
+                    <br/>
+                    {
+                      'idf: ' + rent.idf 
+                    }
                     <div>
                       { 
                         rent.accept === '0' && rent.paid === '0' ?

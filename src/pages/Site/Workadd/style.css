@@ -2,6 +2,10 @@
 
 }
 
+.red-text{
+  color: red !important;
+}
+
 @media (max-width: 900px) {
   .workadd{
     background: #fff;

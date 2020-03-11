@@ -13,7 +13,6 @@ import { Warningtext } from '../../../../components/Warningtext';
 import { Field, Label } from '../../../../components/Form/Form';
 import Mapbox from '../../../../components/Map/Mapbox';
 import Email from '../../../../utils/sendemail';
-
 import moment from 'moment';
 import 'moment/locale/pt-br';
 moment.locale('pt-BR');
@@ -247,9 +246,7 @@ const Paymentfinish = ({history}) => {
                 </div>
               <br/>
               {
-
-                /*
-                
+                /* 
                                   <Label className="label-perfil" for={'check'}><b>Buscar equipamento ou Entregar neste endereço?</b></Label>
                   <CheckboxIOS 
                     onChange={handleCheckIOS}

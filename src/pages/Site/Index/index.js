@@ -104,7 +104,7 @@ const Dashboard = ({history, location}) => {
                 <p className="text-subtitle-index">Uma nova maneira de alugar equipamentos e ferramentas.</p>
                 <br/><br/>
                 <Link
-                  to={'/'}
+                  to={'/s/about-us'}
                   className={'button color-logo'}
                 >
                   Como funciona?
