@@ -101,9 +101,9 @@ async function linkpayment (idattempt, rent) {
           country: "br",
           state: rent.userrenter.uf !== null ? rent.userrenter.uf : 'Paraná',
           city: rent.userrenter.city !== null ? rent.userrenter.city : 'Curitiba',
-          neighborhood: rent.userrenter.neighboor !== null ? rent.userrenter.neighboor : '-',
-          street: rent.userrenter.address !== null ? rent.userrenter.address : 'Rua',
-          street_number: rent.userrenter.number !== null ? rent.userrenter.number : '1',
+          neighborhood: rent.userrenter.neighboor !== null && rent.userrenter.neighboor !== "" ? rent.userrenter.neighboor : '-',
+          street: rent.userrenter.address !== null && rent.userrenter.address !== "" ? rent.userrenter.address : 'Rua',
+          street_number: rent.userrenter.number !== null && rent.userrenter.number !== "" ? rent.userrenter.number : '1',
           zipcode: renderZipcode()
         }
       }

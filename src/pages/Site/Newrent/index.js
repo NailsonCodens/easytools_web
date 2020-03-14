@@ -1,6 +1,7 @@
 import React from 'react'
 import './style.css'
 import { Link} from 'react-router-dom';
+import {Helmet} from 'react-helmet'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUserCircle, faIdCard, faCalendarWeek, faCreditCard, faTruck } from '@fortawesome/free-solid-svg-icons'
@@ -9,7 +10,16 @@ library.add(faUserCircle, faIdCard, faCalendarWeek, faCreditCard, faTruck);
 
 const Newrent = () => {
   return (
-    <div className="container">
+    <>
+      <Helmet>
+        <title>Uma nova forma de alugar equipamentos e ferramentas | EasyTools</title>
+        <meta
+          name="description"
+          content="EasyTools, Aluguel online de ferramentas e equipamentos que você e seu negócio precisam! A primeira locadora de equipamentos e ferrmanetas totalmente on-line."
+        />
+        <meta name="keywords" content="Aluguel online, equipamentos, construção cívil"/>
+      </Helmet>
+      <div className="container">
       <br/><br/>
       <h3 className="title-about-us has-text-centered">Uma nova forma de alugar equipamentos e ferramentas.</h3>
       <br/>
@@ -149,6 +159,7 @@ const Newrent = () => {
       <br/><br/>
       <Link to="/" className="button color-logo">Alugar!</Link>
     </div>
+    </>
   )
 }
 

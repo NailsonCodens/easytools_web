@@ -5,7 +5,7 @@ import queryString from 'query-string';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import InputMask from 'react-input-mask';
-
+import {Helmet} from 'react-helmet'
 import {Auth} from '../../store/actions/auth';
 
 import { login } from '../../services/auth';
@@ -32,7 +32,7 @@ import logo_blue from '../../assets/images/logo_blue.png';
 import logo_yellow from '../../assets/images/logo.png';
 import baby from '../../assets/images/baby.svg';
 import man from '../../assets/images/man.svg';
-
+import ReactGA from 'react-ga';
 import './style.css';
 
 const Singup = ({ history }) => {
@@ -178,12 +178,22 @@ const Singup = ({ history }) => {
       }
       
       setTimeout(() => {
+        ReactGA.event({
+          category: 'Usuário se cadastrou',
+          action: `Usuário ${user.id} ${user.email} se cadastrou na easytools`,
+          label: 'Sign'
+        });
+        Scrool(0,0);
         Authregister(user);
       }, 1000);      
     })
     .catch((err) => {
-      console.log(err.response)
       if (err.response.data.fields.email) {
+        ReactGA.event({
+          category: 'Erro no cadastro do usuário',
+          action: `Usuário não conseguiu logar, erro de api`,
+          label: 'Sign'
+        });
         setTerms(false);
         setRedirect(true);
       }
@@ -202,7 +212,11 @@ const Singup = ({ history }) => {
       let { token } = res.data;
       dispatch(Auth(email, name, type, token, id));
       login(token, type);
-
+      ReactGA.event({
+        category: 'Autenticou depois do cadastro',
+        action: `Usuário ${id} ${email} logou na easytools`,
+        label: 'Sign'
+      });
       history.push("/");
     })
     .catch((error) => {
@@ -211,8 +225,16 @@ const Singup = ({ history }) => {
 
   return (
     <>
+      <Helmet>
+        <title>Crie sua conta | EasyTools</title>
+        <meta
+          name="description"
+          content="Crie sua conta e alugue equipamentos e ferramentas na EasyTools."
+        />
+        <meta name="keywords" content="Aluguel, Crie uma conta easytools"/>
+      </Helmet>
       <div className="has-text-centered">
-        <Link to="/?r=redirect"><Span className="button-enter">Voltar!</Span></Link>
+        <Link to="/"><Span className="button-enter">Voltar!</Span></Link>
       </div>
       <div className="has-text-centered container-sign-up">
         <div className="sign-up">

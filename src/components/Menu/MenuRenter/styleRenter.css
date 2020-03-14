@@ -1,7 +1,4 @@
 .navbar {
-  display: grid;
-  grid-template-columns: auto 1fr 1fr;
-
   align-items: center !important;
   justify-content: center !important;
   padding-left: 10px;
@@ -103,8 +100,8 @@
   background: #fff;
   z-index: 999;
   position:fixed;
-  width: 400px;
-  margin-top: 0px;
+  width: 340px;
+  margin-top: -10px;
   border-top: none !important;
   border: 1px solid rgb(224, 224, 224);
   padding: 10px;
@@ -174,15 +171,26 @@
 
 }
 
+.navbar-start{
+  justify-content: flex-start !important;
+  margin-left: auto !important;
+}
+
+.navbar-end-rent{
+  justify-content: flex-end !important;
+  margin-left: auto !important;
+}
+
 @media (max-width: 900px) {
   .input-search {
+    margin-top: 14px;
     width: 100% !important;
     border: 1px solid rgb(221, 221, 221) !important;
     border-radius: 100px !important;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
     padding-left:20px !important;
-    height: 40px !important;
+    height: 30px !important;
   }
 
   .navbar-burger{
@@ -232,13 +240,13 @@
   }
   
   .nav-fixed{
-    padding-top: 15px;
-    padding-bottom: 28px !important;
+    padding-top: -3px;
+    padding-bottom: 0px !important;
     border-bottom: 1px solid rgb(155, 155, 155) !important;
   }
 
   .logo {
-    width: 65px;
+    width: 45px;
     grid-column: 1;
     padding: 2px;
     margin-top: 2px;

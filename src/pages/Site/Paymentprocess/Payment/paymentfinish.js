@@ -13,8 +13,14 @@ import { Warningtext } from '../../../../components/Warningtext';
 import { Field, Label } from '../../../../components/Form/Form';
 import Mapbox from '../../../../components/Map/Mapbox';
 import Email from '../../../../utils/sendemail';
+import ReactGA from 'react-ga';
+import Scrool from '../../../../utils/scroll';
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import {Helmet} from 'react-helmet';
+import {
+  isMobile
+} from "react-device-detect";
 moment.locale('pt-BR');
 
 const Paymentfinish = ({history}) => {
@@ -29,6 +35,7 @@ const Paymentfinish = ({history}) => {
   const [userconfig, setUserconfig] = useState([]);
   const [workadd, setWorkadd] = useState([]);
   const [valuewithfreigh, setValuewithfreigh] = useState(0);
+  const [setclass, setClass] = useState('bottom-no-box');
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -49,6 +56,18 @@ const Paymentfinish = ({history}) => {
       }
     }
     loadRentattempt();
+
+
+    async function showBottom () {
+      //verificar mobile
+      if (document.documentElement.scrollTop > 160) {
+        setClass('bottom-box')
+      }else{
+        setClass('bottom-no-box')
+      }
+    }
+    window.onscroll = () => showBottom()
+
 
     async function loadTool() { 
       const response = await api.get(`/tools_site/tool/${values.tool}`, {
@@ -89,6 +108,15 @@ const Paymentfinish = ({history}) => {
     verifyAvailabletool()
   }
 
+  const Tracking = (category, action, label) => {
+    Scrool()
+    ReactGA.event({
+      category: category,
+      action: action,
+      label: label
+    });
+  }
+
   async function updateRentattemp () {
     var acq = ''
     var freightnew = '';
@@ -105,8 +133,6 @@ const Paymentfinish = ({history}) => {
       freightnew = renderCalc()
     }
 
-    console.log(freightnew)
-
     var rentupdate = {
       finishprocess: 'y',
       startdate: rentattempt.startdate,
@@ -115,11 +141,10 @@ const Paymentfinish = ({history}) => {
 
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
     .then((res) => {
+      Tracking('Alugou, finalizou o processo', 'Alugou', 'processo final aluguel')
       sendNotification()
     }).catch((err) => {
-      console.log(err.response)
-    }) 
-
+    })
   }
 
   async function verifyAvailabletool() { 
@@ -205,14 +230,18 @@ const Paymentfinish = ({history}) => {
   }
 
   return (
-    <div className="container">
+    <>
+        <Helmet>
+          <title>{ 'Pagamento' }</title>
+        </Helmet>
+        <div className="container">
       <br/><br/>
       {
         okattempt === true ? 
         (
           <div className="columns">
             <div className="column is-two-thirds">
-              <p className="title-tool-only"> Pagamento e uso</p>
+              <p className="title-tool-only"> Pagamento</p>
               <p className="title-tool-only-little">Informações importantes.</p>
               <br/>
               <ul>
@@ -234,13 +263,6 @@ const Paymentfinish = ({history}) => {
                       :
                       ('')
                     }
-                    <Button 
-                      disabled={rentattempt.finishprocess === "y" ? true : false}
-                      type={'button'}
-                      className={'button is-pulled-left color-logo'}
-                      text={'Alugar'}                                    
-                      onClick={event => paymentRent()}
-                    />
                     <br/><br/>
                   </div>
                 </div>
@@ -360,6 +382,50 @@ const Paymentfinish = ({history}) => {
         )
       }
     </div>
+    <div className={setclass}>
+      <div className="columns">
+        {
+          isMobile ?
+          ('')
+          :
+          (
+            <>
+              <div className="column is-hidden-bottom">
+                <p>Aluguel de <span className="titlerentbox">{ tool.title }</span></p>
+              </div>
+            </>
+          ) 
+        }
+        <div className="column">
+          <div className="columns is-mobile">
+            <div className="column">
+              <Button 
+                type={'button'}
+                className={'button is-pulled-right bt-bottom color-logo'}
+                text={rentattempt.finishprocess === "y" ? 'Sendo processado' : 'Alugar'}
+                disabled={rentattempt.finishprocess === "y" ? true : false}                              
+                onClick={event => paymentRent()}
+              />
+              {
+                rentattempt.freight > 0 ? 
+                (
+                  <p className={ isMobile ? "is-pulled-left price-bottom" : "is-pulled-right price-bottom" }>
+                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                      <b>Total: <FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
+                    </IntlProvider>            
+                  </p>
+  
+                )
+                :
+                ('')
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </>
   );
 };
 

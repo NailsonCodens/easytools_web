@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import {Helmet} from 'react-helmet';
+import Scrool from '../../../../utils/scroll';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faHandshake, faTools, faCommentDots, faCalendarAlt, faCheckCircle, faExclamationTriangle, faGift} from '@fortawesome/free-solid-svg-icons'
@@ -7,7 +9,11 @@ library.add(faHandshake, faTools, faCommentDots, faCalendarAlt, faCheckCircle, f
 
 const Congrats = () => {
   return (
-    <div className="container explorer">
+    <>
+        <Helmet>
+          <title>{ 'Parabéns, seu aluguel foi enviado' }</title>
+        </Helmet>
+        <div className="container explorer">
       <br/><br/>
       <h3 className="congrats">Parabéns, seu aluguel foi enviado <FontAwesomeIcon icon={['fas', 'handshake']} className="" size="1x"/></h3>
       <p className="text-congrats">Fique ligado, você vai receber uma notificação aqui na plataforma e por e-mail quando o pedido for aceito.</p>
@@ -44,6 +50,7 @@ const Congrats = () => {
         <div className="column">
           <Link
           to="/"
+          onClick={event => Scrool(0,0)}
             className={'button is-pulled-left color-logo'}                                
           >
             Pronto!
@@ -52,6 +59,7 @@ const Congrats = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

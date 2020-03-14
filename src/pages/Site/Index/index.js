@@ -10,9 +10,10 @@ import './style.css';
 import logo from '../../../assets/images/easytools_yellow.png'
 import background from '../../../assets/images/background.png'
 import { Link, useHistory } from 'react-router-dom';
+import ReactGA from 'react-ga';
+import {Helmet} from 'react-helmet'
 
 const Dashboard = ({history, location}) => {
-  document.title = Title('Easytools');
   let values = queryString.parse(useLocation().search);
 
   // eslint-disable-next-line
@@ -47,7 +48,7 @@ const Dashboard = ({history, location}) => {
         latcorrect = lat;
         lngcorrect = lng;
       } else {
-        latcorrect = latitude;
+        latcorrect = latitudge;
         lngcorrect = longitude;
       }*/
 
@@ -61,7 +62,17 @@ const Dashboard = ({history, location}) => {
 
   }, [search, latitude, longitude, distance]);
 
-  const goTool = (id,category) => {
+  const Tracking = (id, category, action, label) => {
+    ReactGA.event({
+      category: category,
+      action: action,
+      label: label,
+    });
+  }
+
+  const goTool = (id,category, tool) => {
+    Tracking(id, 'Clque na ferramenta', `Clique na (tools) ferramenta ${tool.id} ${tool.title}`)
+
     Scroll()
     history.push(`s/tool/${id}?ctg=${category}`);
   }
@@ -72,6 +83,15 @@ const Dashboard = ({history, location}) => {
 
   return (
     <>
+      <Helmet>
+        <title>Aluguel on-line de equipamentos e ferramentas! | EasyTools</title>
+        <meta
+          name="description"
+          content="EasyTools, Aluguel online de ferramentas e equipamentos que você e seu negócio precisam! A primeira locadora de equipamentos e ferrmanetas totalmente on-line."
+        />
+        <meta name="keywords" content="Aluguel, ferramenta, equipamento, betoneira, aluguel de equipamento online"/>
+      </Helmet>
+
       {
         values.t === 'unavailable' ? 
         (
@@ -94,25 +114,31 @@ const Dashboard = ({history, location}) => {
       <div className="">
         <div className="">
           {
-            <div className="image-index">
-              <div className="explorer has-text-centered">
-                <div className="">
-                  <img src={logo}  alt="EasyTools Logo" className="logo-index"/>
-                </div>                
-                <br/><br/><br/>
-                <h3>Alugar equipamentos e ferramentas nunca foi tão fácil! </h3>
-                <p className="text-subtitle-index">Uma nova maneira de alugar equipamentos e ferramentas.</p>
-                <br/><br/>
-                <Link
-                  to={'/s/about-us'}
-                  className={'button color-logo'}
-                >
-                  Como funciona?
-                </Link>
-                <br/>
-                <img src={background}  alt="EasyTools Logo" className="background-tools"/>
+            search === '' ? 
+            (
+              <div className="image-index">
+                <div className="explorer has-text-centered">
+                  <div className="">
+                    <img src={logo}  alt="EasyTools Logo" className="logo-index"/>
+                  </div>                
+                  <br/><br/><br/>
+                  <h3>Alugar equipamentos e ferramentas nunca foi tão fácil! </h3>
+                  <p className="text-subtitle-index">Uma nova maneira de alugar equipamentos e ferramentas.</p>
+                  <br/><br/>
+                  <Link
+                    to={'/s/about-us'}
+                    className={'button color-logo'}
+                    onClick={event => Tracking('noid', 'Como funciona', `Como funciona?`) }  
+                  >
+                    Como funciona?
+                  </Link>
+                  <br/>
+                  <img src={background}  alt="EasyTools Logo" className="background-tools"/>
+                </div>
               </div>
-            </div>
+            )
+            :
+            ('')
           }
         </div>
         <div className="container">
@@ -122,7 +148,7 @@ const Dashboard = ({history, location}) => {
             {
               tools.map(tool => (
                 <div key={tool.id} className="column is-one-quarter">
-                  <span onClick={event => goTool(tool.id, tool.category)}>
+                  <span onClick={event => goTool(tool.id, tool.category, tool)}>
                     <div className="tool">
                       <div className="picture-tool"> 
                         {
@@ -154,7 +180,7 @@ const Dashboard = ({history, location}) => {
             :
             (
               <>
-                <div className="columns">
+                <div className="columns is-mobile">
                   <div className="column is-7">
                     <p className="title-notfound">Não encontramos o que você deseja. Tente procurar novamente</p>
                   </div>

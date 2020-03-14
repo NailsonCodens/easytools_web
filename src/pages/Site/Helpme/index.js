@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './style.css'
+import {Helmet} from 'react-helmet'
 
 const Helpme = () => {
   const [setaboutus, setAboutus] = useState(false);
@@ -12,7 +13,16 @@ const Helpme = () => {
   const [setattendance, setAttendance] = useState(false);
 
   return (
-    <div className="container">
+    <>
+      <Helmet>
+        <title>Tem alguma dúvida? | EasyTools</title>
+        <meta
+          name="description"
+          content="Tire suas dúvidas aqui, quer alugar um equipamento ou ferramenta? EasyTools."
+        />
+        <meta name="keywords" content="Ajuda EasyTools, Ajuda ferramenta fácil"/>
+      </Helmet>
+      <div className="container">
       <br/><br/>
       <p className="title-about-us has-text-centered">Tem alguma dúvida?</p>
       <br/><br/>
@@ -147,6 +157,7 @@ const Helpme = () => {
       </article>      
     </section>
     </div>
+    </>
   )
 }
 

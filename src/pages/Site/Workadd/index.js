@@ -15,6 +15,7 @@ import Notification from '../../../utils/notification';
 import { useLocation, useHistory } from 'react-router-dom';
 import queryString from 'query-string';
 import { CheckboxIOS } from '../../../components/Form/Button';
+import ReactGA from 'react-ga';
 
 const Workadd = ({rent}) => {
   let valuesroute = queryString.parse(useLocation().search);
@@ -25,12 +26,22 @@ const Workadd = ({rent}) => {
 
   let history = useHistory();
 
+  const Tracking = (category, action, label) => {
+    Scroll()
+    ReactGA.event({
+      category: category,
+      action: action,
+      label: label
+    });
+  }
+
   useEffect(() => {
     async function loadAddress (addresschoose) {
       const response = await api.get(`/perfil`, {
       });
+      console.log(response.data.user[0])
 
-      if (response.data.user[0].address !== null || response.data.user[0].number !== null 
+      if (response.data.user[0].address !== null 
         || response.data.user[0].location !== null || response.data.user[0].uf !== null
         || response.data.user[0].city !== null){
         setPerfil(response.data.user[0])
@@ -158,6 +169,7 @@ const Workadd = ({rent}) => {
     });
 
     if (response.data.tool[0].availability === 'Y') {
+      Tracking('Prosseguiu e foi para entrega', 'Prosseguiu para as entrega', 'workaddress')
       history.push(`/s/payment/rent-payment?rent_attempt=${valuesroute.rent_attempt}&tool=${valuesroute.tool}&code_attempt=${valuesroute.code_attempt}`)      
     } else {
       history.push(`/?t=unavailable`);

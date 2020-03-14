@@ -14,8 +14,14 @@ import { Field, Label } from '../../../../components/Form/Form';
 import Mapbox from '../../../../components/Map/Mapbox';
 import Paymentme from './paymentme';
 import { Ul } from '../../../../components/List';
-
+import ReactGA from 'react-ga';
+import Scroll from '../../../../utils/scroll';
+import {Helmet} from 'react-helmet';
+import Rentalbottombox from '../Rentalbottombox';
 import moment from 'moment';
+import {
+  isMobile
+} from "react-device-detect";
 import 'moment/locale/pt-br';
 moment.locale('pt-BR');
 
@@ -31,6 +37,7 @@ const Payment = ({history}) => {
   const [userconfig, setUserconfig] = useState([]);
   const [workadd, setWorkadd] = useState([]);
   const [valuewithfreigh, setValuewithfreigh] = useState(0);
+  const [setclass, setClass] = useState('bottom-no-box');
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -43,6 +50,7 @@ const Payment = ({history}) => {
       if (response.data.rentattempt.length > 0) {
         loadWorkadduser(response.data.rentattempt[0].id, response.data.rentattempt[0].tool.lat, response.data.rentattempt[0].tool.lng)  
         setRentattemp(response.data.rentattempt[0]);
+
         setStart(moment(response.data.rentattempt[0].startdate).format('DD/MM/YYYY'));
         setEnd(moment(response.data.rentattempt[0].enddate).format('DD/MM/YYYY'));
         setOkAttempt(true)
@@ -66,6 +74,17 @@ const Payment = ({history}) => {
     }
     loadTool();
 
+    async function showBottom () {
+      //verificar mobile
+      if (document.documentElement.scrollTop > 160) {
+        setClass('bottom-box')
+      }else{
+        setClass('bottom-no-box')
+      }
+    }
+    window.onscroll = () => showBottom()
+
+
     async function loadFreight (userid) {
       const response = await api.get(`/userconfig/${userid}`, {
       });
@@ -88,6 +107,15 @@ const Payment = ({history}) => {
     updateRentattemp()
   }
 
+  const Tracking = (category, action, label) => {
+    Scroll()
+    ReactGA.event({
+      category: category,
+      action: action,
+      label: label
+    });
+  }
+
   async function sendNotification () {
     verifyAvailabletool()
   }
@@ -97,7 +125,7 @@ const Payment = ({history}) => {
     var freightnew = '';
 
     if (acquisition === '') {
-      acq = 'without';
+      acq = 'with';
     } else {
       acq = acquisition;
     }
@@ -114,13 +142,13 @@ const Payment = ({history}) => {
       enddate: rentattempt.enddate,
       acquisition: acq
     }
-
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
     .then((res) => {
+      Tracking('Prosseguiu para finalizar e pagar', 'Prosseguiu para pagar', 'entrega')
       history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      
     }).catch((err) => {
       console.log(err.response)
-    }) 
+    })
   }
 
   async function verifyAvailabletool() { 
@@ -215,8 +243,11 @@ const Payment = ({history}) => {
   }
 
   return (
-    <div className="container">
-      <br/><br/>
+    <>
+        <Helmet>
+          <title>{ 'Entrega e custo' }</title>
+        </Helmet>
+        <div className="container">
       {
         okattempt === true ? 
         (
@@ -426,12 +457,6 @@ const Payment = ({history}) => {
               }
               <div className="columns">
                 <div className="column">
-                  <Button 
-                    type={'button'}
-                    className={'button is-pulled-right color-logo'}
-                    text={'Prosseguir'}                                    
-                    onClick={event => paymentRent()}
-                  />
                   <br/><br/>
                 </div>
               </div>
@@ -445,6 +470,40 @@ const Payment = ({history}) => {
         )
       }
     </div>
+    <div className={setclass}>
+      <div className="columns">
+        {
+          isMobile ?
+          ('')
+          :
+          (
+            <>
+              <div className="column is-hidden-bottom">
+                <p>Aluguel de <span className="titlerentbox">{ tool.title }</span></p>
+              </div>
+            </>
+          ) 
+        }
+        <div className="column">
+          <div className="columns is-mobile">
+            <div className="column">
+              <Button 
+                type={'button'}
+                className={'button is-pulled-right bt-bottom color-logo'}
+                text={'Prosseguir'}                                    
+                onClick={event => paymentRent()}
+              />
+              <p className={ isMobile ? "is-pulled-left price-bottom" : "is-pulled-right price-bottom" }>
+                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                  <b>Total: <FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
+                </IntlProvider>            
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </>
   );
 };
 

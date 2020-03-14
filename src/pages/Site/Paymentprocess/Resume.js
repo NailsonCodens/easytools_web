@@ -12,7 +12,10 @@ import NotAvailable from '../../Warnings/NotAvailable';
 import localForage from "localforage";
 import { Button } from '../../../components/Form/Button';
 import Scrool from '../../../utils/scroll';
+import ReactGA from 'react-ga';
 import 'moment/locale/pt-br';
+import {Helmet} from 'react-helmet';
+import Rentalbottombox from './Rentalbottombox';
 moment.locale('pt-BR');
 
 const Resume = ({history}) => {
@@ -78,10 +81,20 @@ const Resume = ({history}) => {
 
   }, [dispatch, values.tool]);
 
+  const Tracking = (category, action, label) => {
+    Scrool()
+    ReactGA.event({
+      category: category,
+      action: action,
+      label: label
+    });
+  }
+
   async function verifyAvailabletool() { 
     const response = await api.get(`/tools_site/tool/${values.tool}`, {
     });
     if (response.data.tool[0].availability === 'Y') {
+      Tracking('Prosseguiu e foi para as regras', 'Prosseguiu para as regras', 'resume')
       history.push(`/s/payment/rent-rules?rent_attempt=${values.rent_attempt}&init=${values.init}&finish=${values.finish}&tool=${values.tool}&am=${values.am}&tension=${values.tension}&code_attempt=${values.code_attempt}`)
     } else {
       history.push(`/?t=unavailable`);
@@ -106,6 +119,10 @@ const Resume = ({history}) => {
   }
 
   return (
+    <>
+    <Helmet>
+      <title>{ 'Resumo de aluguel de' + tool.title }</title>
+    </Helmet>
     <div className="container no-margin-top">
       {
         okattempt === true && ok === true ? 
@@ -185,20 +202,13 @@ const Resume = ({history}) => {
                   </div>
                   <div className="column">
                   <div className="column has-centered-text">
-                    { console.log(values.init, values.finish) }
-                    <Rentalbox attempt={attempt} startDate={values.init} endDate={values.finish}></Rentalbox>
+                    <div  className={``}>
+                      <Rentalbox attempt={attempt} startDate={values.init} endDate={values.finish}></Rentalbox>
+                    </div>
                   </div>
                   </div>
                 </div>
                 <div className="columns">
-                  <div className="column is-3">
-                    <Button 
-                      type={'button'}
-                      className={'button is-fullwidth is-pulled-left color-logo'}
-                      text={'Prosseguir'}                                    
-                      onClick={event => goRules()}
-                    />
-                  </div>
                 </div>
                 <br/>
                 <br/>
@@ -212,8 +222,9 @@ const Resume = ({history}) => {
           <Rentruesblock/>
         )
       }
-
     </div>
+      <Rentalbottombox title={tool.title} go={goRules} attempt={attempt} startDate={values.init} endDate={values.finish} scroolView={160}/>
+    </>
   );
 };
 

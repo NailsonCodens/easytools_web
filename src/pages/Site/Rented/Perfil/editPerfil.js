@@ -307,14 +307,17 @@ const Edit = ({history}) => {
   const {getRootProps, getInputProps} = useDropzone({onDrop})
 
   const goDocument = () => {
+    Scroll(0,0);
     history.push('/s/renter/perfil/documents')    
   }
 
   const goBack = () => {
+    Scroll(0,0);
     history.push('/s/renter/perfil')      
   }
 
   const goClose = () => {
+    Scroll(0,0);
     history.push('/s/renter/perfil/edit');
   }
 
@@ -485,7 +488,7 @@ const Edit = ({history}) => {
                     />
                     <br/>
                       {
-                        namesocial === "" && setshowbutton === true && cpfcnpj.length > 14 ? 
+                        namesocial === "" && cpfcnpj.length > 14 ? 
                         (
                           <>
                             <Warningtext>
@@ -494,15 +497,33 @@ const Edit = ({history}) => {
 
                             <Button
                               type={'button'}
-                              className={'button is-small is-info color-logo-lessor is-pulled-left'}
+                              className={'button is-small is-black is-pulled-left'}
                               text={'Enviar contrato social'}
                               onClick={event => goDocument() }
                             />  
                           </> 
-                        )
-                        :
-                        (
-                          ''
+                        ):(
+                          <>
+                            {
+                              cpfcnpj.length === 14 ? 
+                              (
+                                <>
+                                  <Warningtext>
+                                    Precisamos dos seus documentos. 
+                                  </Warningtext>
+
+                                  <Button
+                                    type={'button'}
+                                    className={'button is-small is-black is-pulled-left'}
+                                    text={'Enviar documentos'}
+                                    onClick={event => goDocument() }
+                                  />
+                                </>
+                              )
+                              :
+                              ('')
+                            }
+                          </>
                         )
                       }
                   </Field>

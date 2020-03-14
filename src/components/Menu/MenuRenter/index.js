@@ -28,16 +28,19 @@ import { Label } from '../../../components/Form/Form';
 import { useFormik } from 'formik';
 import { getCordinates } from '../../../services/mapbox';
 import { Notifications } from '../../../store/actions/notifications';
+import ReactGA from 'react-ga';
+
 
 import {
   isMobile
 } from "react-device-detect";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCoffee, faSearch, faUserCircle, faHandshake, faTags } from '@fortawesome/free-solid-svg-icons'
-library.add(faCoffee, faSearch, faUserCircle, faHandshake, faTags);
+import { faCoffee, faSearch, faUserCircle, faHandshake, faTags , faInfo} from '@fortawesome/free-solid-svg-icons'
+library.add(faCoffee, faSearch, faUserCircle, faHandshake, faTags, faInfo);
 
 const MenuRenter = () => {
+
   const dispatch = useDispatch();	
 	const [modal, setModal] = useState(false);
 	const current_user = useSelector(state => state.auth);
@@ -57,6 +60,23 @@ const MenuRenter = () => {
 	const [coordiantevalue, setCoordinatevalue] = useState({});
 	const [categoryvalue, setCategoryvalue] = useState('');
   let values = queryString.parse(useLocation().search);
+  
+	const trackingId = "UA-160397692-1"; // Replace with your Google Analytics tracking ID
+	ReactGA.initialize(trackingId);
+	ReactGA.set({
+		userId: current_user.id,
+		// any data that is relevant to the user session
+		// that you would like to track with google analytics
+	})
+
+	const Tracking = (category, action, label) => {
+		Scrool()
+		ReactGA.event({
+			category: category,
+			action: action,
+			label: label
+		});
+	}
 
 	socketio.emit('register', current_user.id);
 
@@ -137,13 +157,14 @@ const MenuRenter = () => {
 		getNotification()
 
 		async function Coordinates () {
+			/*
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(
 				position => {
 				},
 				erroget => {
 				},{ enableHighAccuracy: true });
-			}	
+			}	*/
 		}
 		Coordinates()
 
@@ -159,7 +180,7 @@ const MenuRenter = () => {
   }
 
 	const getLocation = () => {
-		if (navigator.geolocation) {
+		/*if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 			position => {
 				dispatch(Latitude(position.coords.latitude))
@@ -170,7 +191,7 @@ const MenuRenter = () => {
 				error()
 				setLocation(true)
 			},{ enableHighAccuracy: true });
-		}
+		}*/
 	}
 
   const renderNotis = () => {
@@ -223,7 +244,21 @@ const MenuRenter = () => {
   )
 
 	const searchTools = (event) => {
-		dispatch(Search(search))
+		setSearch(event)
+		setBettersearch(true)
+	}
+
+	const findTools = (op = '') => {
+		if (op === 'close') {
+			dispatch(Search(''))
+			setSearch('')
+			setBettersearch(false)
+			Scrool(0,0)	
+		} else {
+			dispatch(Search(search))
+			setBettersearch(false)
+			Scrool(0,0)	
+		}
 	}
 
 	const cancel = () => {
@@ -272,7 +307,7 @@ const MenuRenter = () => {
 				<>
 					<div className={"navbar-item"}>
 						<div className="buttons">
-							<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
+							<Link to={'/'}  onClick={event => Tracking('Menu site - explorar', 'Clique menu explorar', 'Menu site') } className="navbar-item">
 									<div className="box-icons-mobile">
 										<FontAwesomeIcon icon={['fas', 'search']} className={history.location.pathname === '/' ? "menu-icons-active" : "menu-icons" } size="1x"/>
 										<div className="text-box">
@@ -284,7 +319,7 @@ const MenuRenter = () => {
 								isAuthenticated() === true ? 
 								(
 									<>
-										<div onClick={event => Scrool() } className="navbar-item">
+										<div onClick={event => Tracking('Menu site - Notificação', 'Clique menu notificação', 'Menu site') } className="navbar-item">
 											<div className="box-icons-mobile box-icons-mobile-cs ">
 												<Dropdownpure text="Notificações" countn={notificationrd} classMenu="classNotless" classCuston=" notification">
 													{ renderNotify() }
@@ -294,7 +329,7 @@ const MenuRenter = () => {
 										{
 											current_user.type_user === 'Lessor'? 
 											(
-												<Link to={'/lessor/dashboard'} onClick={event => Scrool() } className="navbar-item">
+												<Link to={'/lessor/dashboard'} onClick={event => Tracking('Menu site - Aluguéis', 'Clique menu aluguéis', 'Menu site') } className="navbar-item">
 														<div className="box-icons-mobile">
 															<FontAwesomeIcon icon={['fas', 'tags']} className="menu-icons" size="1x"/>
 															<div className="text-box">
@@ -306,7 +341,7 @@ const MenuRenter = () => {
 											:
 											(
 												<>
-													<Link to={'/s/renter/myrent'} onClick={event => Scrool() } className="navbar-item">
+													<Link to={'/s/renter/myrent'} onClick={event => Tracking('Menu site - meus alugados', 'Clique menu meus alugados', 'Menu site') } className="navbar-item">
 															<div className="box-icons-mobile">
 																<FontAwesomeIcon icon={['fas', 'handshake']} className={history.location.pathname === '/s/renter/myrent' ? "menu-icons-active" : "menu-icons" }  size="1x"/>
 																<div className="text-box">
@@ -324,25 +359,29 @@ const MenuRenter = () => {
 													<div className="box-icons-mobile box-icons-mobile-cs box-icons-mobile-cs-user">
 														<Dropdown classCuston="menu-from-lessor menus">
 															<li className="li-drop">
-																<Link to={'/lessor/perfil'} onClick={event => Scrool() } className="navbar-item">
+																<Link to={'/lessor/perfil'} onClick={event => Tracking('Menu site - perfil', 'Clique menu perfil', 'Menu site') } className="navbar-item">
 																	Perfil
 																</Link>
 															</li>
 															<li className="li-drop">
-																<Link to={'/lessor/account'} onClick={event => Scrool() } className="navbar-item">
+																<Link to={'/lessor/account'} onClick={event => Tracking('Menu site - conta', 'Clique menu conta', 'Menu site') } className="navbar-item">
 																	Conta
 																</Link>
 															</li>
 															<li className="li-drop">
-																<Link to={'/lessor/dashboard'} onClick={event => Scrool() } className="navbar-item">
+																<Link to={'/lessor/dashboard'} onClick={event => Tracking('Menu site - meus aluguéis dropdown', 'Clique menu meus aluguéis dropdown', 'Menu site') } className="navbar-item">
 																	Meus alugueis
 																</Link>
 															</li>
-															<li className="li-drop">
-																<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
-																	Como ser um bom vizinho?
-																</Link>
-															</li>
+															{
+																/*
+																	<li className="li-drop">
+																		<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
+																			Como ser um bom vizinho?
+																		</Link>
+																	</li>																
+																*/
+															}
 														</Dropdown>
 													</div>
 												)
@@ -351,7 +390,7 @@ const MenuRenter = () => {
 													<div className="box-icons-mobile box-icons-mobile-cs box-icons-mobile-cs-user">
 														<Dropdown classCuston=" menu-from-renter menus">
 															<li className="li-drop">
-																<Link to={'/s/renter/perfil'} onClick={event => Scrool() } className="navbar-item">
+																<Link to={'/s/renter/perfil'} onClick={event => Tracking('Menu site - perfil', 'Clique menu meus perfil dropdown', 'Menu site') } className="navbar-item">
 																	Perfil
 																</Link>
 															</li>
@@ -386,7 +425,7 @@ const MenuRenter = () => {
 												</Link>
 											*/
 										}
-										<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item">
+										<Link to={'/signup?type=renter'} onClick={event => Tracking('Menu site - alugar', 'Clique menu alugar', 'Menu site') } className="navbar-item">
 											<div className="box-icons-mobile">
 													<FontAwesomeIcon icon={['fas', 'handshake']} className="menu-icons" size="1x"/>
 													<div className="text-box">
@@ -394,7 +433,7 @@ const MenuRenter = () => {
 													</div>
 												</div>
 										</Link>
-										<div onClick={event => Scrool() } className="navbar-item" onClick={signLink}>
+										<div onClick={event => Tracking('Menu site - Modal entrar', 'Clique menu modal entrar', 'Menu site') } className="navbar-item" onClick={signLink}>
 												<div className="box-icons-mobile">
 													<FontAwesomeIcon icon={['fas', 'user-circle']} className="menu-icons" size="1x"/>
 													<div className="text-box">
@@ -402,6 +441,14 @@ const MenuRenter = () => {
 													</div>
 												</div>
 										</div>
+										<Link to={'/s/help-me'} onClick={event => Tracking('Menu site - alugar', 'Clique menu alugar', 'Menu site') } className="navbar-item">
+												<div className="box-icons-mobile">
+														<FontAwesomeIcon icon={['fas', 'info']} className="menu-icons" size="1x"/>
+														<div className="text-box">
+															Dúvidas
+														</div>
+													</div>
+											</Link>
 									</>
 								)
 							}
@@ -448,12 +495,12 @@ const MenuRenter = () => {
 											current_user.type_user === 'Renter' ? 
 											(
 												<>
-													<Link to={'/'} onClick={event => Scrool(400, 400) } className="navbar-item">
+													<Link to={'/'} onClick={event => Tracking('Menu site - explorar', 'Clique menu explorar', 'Menu site', 400, 400) } className="navbar-item">
 														Explorar
 													</Link>
-													<Link to={'/s/renter/myrent'} onClick={event => Scrool() } className="navbar-item">
+													<Link to={'/s/renter/myrent'} onClick={event => Tracking('Menu site - meus alugado', 'Clique menu meus alugados', 'Menu site') } className="navbar-item">
 														Meus alugados
-													</Link>	
+													</Link>
 												</>
 											)
 											:
@@ -476,20 +523,20 @@ const MenuRenter = () => {
 								current_user.name === undefined || current_user.name === null ? 
 								(
 									<>
-										<Link to={'/signup?type=renter'} onClick={event => Scrool() } className="navbar-item button color-logo">
+										<Link to={'/signup?type=renter'} onClick={event => Tracking('Menu site - Alugue o que precisa', 'Clique menu alugue o que precisa', 'Menu site') } className="navbar-item button color-logo">
 											Alugue o que você precisa
 										</Link>
-										<Link to={'/s/about-us'} onClick={event => Scrool() } className="navbar-item">
+										<Link to={'/s/about-us'} onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site') } className="navbar-item">
 											Um novo jeito de alugar!
 										</Link>
-										<Link to={'/s/help-me'} onClick={event => Scrool() } className="navbar-item">
+										<Link to={'/s/help-me'} onClick={event => Tracking('Menu site - dúvidas', 'Clique menu dúvidas', 'Menu site') } className="navbar-item">
 											Dúvidas
 										</Link>
 									</>
 								) : 
 								(
 									<>
-										<Link to={'/s/help-me'} onClick={event => Scrool() } className="navbar-item">
+										<Link to={'/s/help-me'} onClick={event => Tracking('Menu site - dúvidas', 'Clique menu dúvidas', 'Menu site') } className="navbar-item">
 											Dúvidas
 										</Link>
 									</>
@@ -511,41 +558,45 @@ const MenuRenter = () => {
 								(
 									<Dropdown classCuston=" menu-from-lessor menus">
 										<li className="li-drop">
-											<Link to={'/lessor/perfil'} onClick={event => Scrool() } className="navbar-item">
+											<Link to={'/lessor/perfil'} onClick={event => Tracking('Menu site - perfil lessor', 'Clique menu perfil lessor', 'Menu site') } className="navbar-item">
 												Perfil
 											</Link>
 										</li>
 										<li className="li-drop">
-											<Link to={'/lessor/account'} onClick={event => Scrool() } className="navbar-item">
+											<Link to={'/lessor/account'} onClick={event => Tracking('Menu site - conta', 'Clique menu conta', 'Menu site') } className="navbar-item">
 												Conta
 											</Link>
 										</li>
 										<li className="li-drop">
-											<Link to={'/lessor/dashboard'} onClick={event => Scrool() } className="navbar-item">
+											<Link to={'/lessor/dashboard'} onClick={event => Tracking('Menu site - meus resultados', 'Clique menu meus resultados', 'Menu site') } className="navbar-item">
 												Meus resultados
 											</Link>
 										</li>
 										<li className="li-drop">
-											<Link to={'/lessor/rents'} onClick={event => Scrool() } className="navbar-item">
+											<Link to={'/lessor/rents'} onClick={event => Tracking('Menu site - ver meus alugueis', 'Clique menu ver meus alugueis', 'Menu site') } className="navbar-item">
 												Ver meus alugueis
 											</Link>
 										</li>
-										<li className="li-drop">
-											<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
-												Como ser um bom vizinho?
-											</Link>
-										</li>
+										{
+											/*
+											<li className="li-drop">
+												<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
+													Como ser um bom vizinho?
+												</Link>
+											</li>
+											*/
+										}
 									</Dropdown>
 								) : 
 								(
 									<Dropdown classCuston=" menu-from-renter menus">
 										<li className="li-drop">
-											<Link to={'/s/renter/perfil'} onClick={event => Scrool() } className="navbar-item">
+											<Link to={'/s/renter/perfil'} onClick={event => Tracking('Menu site - perfil renter', 'Clique menu perfil renter', 'Menu site') } className="navbar-item">
 												Perfil
 											</Link>
 										</li>
 										<li className="li-drop">
-											<Link to={'/s/renter/perfil/documents'} onClick={event => Scrool() } className="navbar-item">
+											<Link to={'/s/renter/perfil/documents'} onClick={event => Tracking('Menu site - documentos', 'Clique menu documentos', 'Menu site') } className="navbar-item">
 												Documento
 											</Link>
 										</li>
@@ -581,7 +632,7 @@ const MenuRenter = () => {
 		<div className="back-nav">
 			<nav className="navbar nav-fixed">
 				<div className="navbar-brand">
-					<Link to={'/'} onClick={Scrool(0,0)}>
+					<Link to={'/'} onClick={ event => findTools('close')}>
 						<img src={logo} alt="EasyTools Logo" className="logo"/>
 					</Link>	
 					{
@@ -598,10 +649,10 @@ const MenuRenter = () => {
 										value={search}
 										onKeyPress={event => {
 											if (event.key === 'Enter') {
-												searchTools()
+												findTools()
 											}
 										}}
-										onChange={event => setSearch(event.target.value)} 
+										onChange={event => searchTools(event.target.value)} 
 									/>
 									{
 										location === true ?
@@ -643,122 +694,137 @@ const MenuRenter = () => {
 										}
 									</div>
 									{
-										bettersearch === true? 
+										bettersearch === true && search !== ''? 
 										(
 											<>
 												<div className="newaddress" ref={wrapperRef}>
-													<p>Refine sua busca.</p>
-													<Warningtext class="welcome-user">
-														Adicione o endereço onde o equipamento ou ferramenta, será usado.
-													</Warningtext>
-													<Form
-														onSubmit={ (e, values) => {
-															formik.handleSubmit(values)
-														}} 
-														noValidate
-													>
-														<Input
-															name="neighboor"
-															type="text"
-															placeholder="Rua, número complemento - Estado - Cidade"
-															className={'input input-small'}
-															onChange={event => handleMyaddress(event)}
-															value={myaddress}
-														/>
-														{
-															places.length > 0 ? 
-															(
-																<>
-																	<div className="box-places">
-																		<ul>
-																			{
-																				places.map((place, index) => (
-																					<li className="list-places" key={index} onClick={event => selectPlace(place)}>
-																						{place.place_name}
-																					</li>
-																				))
-																			}
-																		</ul>
-																	</div>
-																</>
-															)
-															:
-															('')
-														}
-														<br/>
-														<p>Distância</p>
-															<input 
-                                      className="is-checkradio"
-                                      type="radio"
-                                      id={'10'}
-                                      name="distance" 
-                                      value="10"
-                                      onChange={event => handleDistance(event)}
-                                  />
-                                    <Label for={'10'}>10Km</Label>
-																		<input 
-                                      className="is-checkradio"
-                                      type="radio"
-                                      id={'20'}
-                                      name="distance" 
-                                      value="20"
-
-                                      onChange={event => handleDistance(event)}
-                                  />
-                                    <Label for={'20'}>20Km</Label>
-																		<input 
-                                      className="is-checkradio"
-                                      type="radio"
-                                      id={'30'}
-                                      name="distance" 
-                                      value="30"
-                                      onChange={event => handleDistance(event)}
-                                  />
-                                    <Label for={'30'}>30Km</Label>
-																		<input 
-                                      className="is-checkradio"
-                                      type="radio"
-                                      id={'50'}
-                                      name="distance" 
-                                      value="50"
-                                      onChange={event => handleDistance(event)}
-                                  />
-                                    <Label for={'50'}>50Km</Label>
-														<br/>
-														{
-															/*
-																<p>Categoria</p>
-																<Select
-																className={''}
-																options={categories}
-																isSearchable={true}
-																placeholder={'Cortante'}
-																onChange={selectedOption => {
-																	handleChangeCategory('category', selectedOption, 'select');
-																	formik.handleChange("category");
-																}}
-																value={category}
+													<div className="columns">
+														<div className="column">
+																<Button 
+																	type={'button'}
+																	className={'button is-small is-info buttonsaddress'}
+																	text={'Buscar'}
+																	onClick={event => findTools()}
 																/>
-																<br/><br/>
-															*/
-														}
-														<br/><br/>
-														<div className="is-pulled-right">
-															<Button 
-																type={'button'}
-																className={'button is-small is-info buttonsaddress'}
-																text={'Pronto'}
-																disabled={coordiantevalue.length === undefined ? true : false}                       
-																onClick={event => goOn()}
-															/>
-															<Button 
-																type={'button'}
-																className={'button is-small is-default buttonsaddress'}
-																text={'Fechar'}                            
-																onClick={event => cancel()}
-															/>
 														</div>
-													</Form>
+													</div>
+													{
+														/*
+															<p>Refine sua busca.</p>
+															<Warningtext class="welcome-user">
+																Adicione o endereço onde o equipamento ou ferramenta, será usado.
+															</Warningtext>
+															<Form
+																onSubmit={ (e, values) => {
+																	formik.handleSubmit(values)
+																}} 
+																noValidate
+															>
+																<Input
+																	name="neighboor"
+																	type="text"
+																	placeholder="Rua, número complemento - Estado - Cidade"
+																	className={'input input-small'}
+																	onChange={event => handleMyaddress(event)}
+																	value={myaddress}
+																/>
+																{
+																	places.length > 0 ? 
+																	(
+																		<>
+																			<div className="box-places">
+																				<ul>
+																					{
+																						places.map((place, index) => (
+																							<li className="list-places" key={index} onClick={event => selectPlace(place)}>
+																								{place.place_name}
+																							</li>
+																						))
+																					}
+																				</ul>
+																			</div>
+																		</>
+																	)
+																	:
+																	('')
+																}
+																<br/>
+																<p>Distância</p>
+																	<input 
+																					className="is-checkradio"
+																					type="radio"
+																					id={'10'}
+																					name="distance" 
+																					value="10"
+																					onChange={event => handleDistance(event)}
+																			/>
+																				<Label for={'10'}>10Km</Label>
+																				<input 
+																					className="is-checkradio"
+																					type="radio"
+																					id={'20'}
+																					name="distance" 
+																					value="20"
+
+																					onChange={event => handleDistance(event)}
+																			/>
+																				<Label for={'20'}>20Km</Label>
+																				<input 
+																					className="is-checkradio"
+																					type="radio"
+																					id={'30'}
+																					name="distance" 
+																					value="30"
+																					onChange={event => handleDistance(event)}
+																			/>
+																				<Label for={'30'}>30Km</Label>
+																				<input 
+																					className="is-checkradio"
+																					type="radio"
+																					id={'50'}
+																					name="distance" 
+																					value="50"
+																					onChange={event => handleDistance(event)}
+																			/>
+																				<Label for={'50'}>50Km</Label>
+																<br/>
+																{
+																	/*
+																		<p>Categoria</p>
+																		<Select
+																		className={''}
+																		options={categories}
+																		isSearchable={true}
+																		placeholder={'Cortante'}
+																		onChange={selectedOption => {
+																			handleChangeCategory('category', selectedOption, 'select');
+																			formik.handleChange("category");
+																		}}
+																		value={category}
+																		/>
+																		<br/><br/>
+																	
+																}
+																<br/><br/>
+																<div className="is-pulled-right">
+																	<Button 
+																		type={'button'}
+																		className={'button is-small is-info buttonsaddress'}
+																		text={'Pronto'}
+																		disabled={coordiantevalue.length === undefined ? true : false}                       
+																		onClick={event => goOn()}
+																	/>
+																	<Button 
+																		type={'button'}
+																		className={'button is-small is-default buttonsaddress'}
+																		text={'Fechar'}                            
+																		onClick={event => cancel()}
+																	/>
+																</div>
+															</Form>
+														
+														*/
+													}
 												</div>
 											</>
 										)
@@ -783,9 +849,8 @@ const MenuRenter = () => {
 						<span aria-hidden="true"></span>
 					</span>
 				</div>
-
 				<div className={menu === true ? "navbar-menu is-active" : "navbar-menu"}>
-					<div className="navbar-start"> 
+					<div className="navbar-start">
 					</div>
 					<div className={"navbar-end-rent"}>
 						{

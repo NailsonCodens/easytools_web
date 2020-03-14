@@ -17,6 +17,9 @@ import moment from 'moment';
 import Modal from '../../../components/Modal';
 import Workaddress from '../Workadd/index';
 import Scroll from '../../../utils/scroll';
+import ReactGA from 'react-ga';
+import {Helmet} from 'react-helmet';
+import Rentalbottombox from './Rentalbottombox';
 
 const Rules = ({ history }) => {
   let values = queryString.parse(useLocation().search);
@@ -30,6 +33,15 @@ const Rules = ({ history }) => {
   const [modal, setModal] = useState(false);
   const [namelessor, setNamelessor] = useState('')
   const [dataLessor, setDatalessor] = useState([]);
+
+  const Tracking = (category, action, label) => {
+    Scroll()
+    ReactGA.event({
+      category: category,
+      action: action,
+      label: label
+    });
+  }
 
   useEffect(() => {
     async function loadRentattempt () {
@@ -120,6 +132,7 @@ const Rules = ({ history }) => {
     if (response.data.tool[0].availability === 'Y') {
       Scroll()
       setModal(true)
+      Tracking('Prosseguiu para workaddress', 'Prosseguiu para workaddress', 'regras')
     } else {
       history.push(`/?t=unavailable`);
     }
@@ -127,9 +140,12 @@ const Rules = ({ history }) => {
 
   return (
     <>
+      <Helmet>
+        <title>{ 'Políticas & Regras e pagamento' }</title>
+      </Helmet>
       {
         modal === true ? 
-        <Workaddress rent={attempt.id}/> : 
+        <Workaddress rent={attempt.id} /> : 
         (
           <div className="container">
           {
@@ -150,57 +166,62 @@ const Rules = ({ history }) => {
                     <div className="columns noppadding">
                       <div className="column">
                         <p className="title-tool-only">Politicas & Regras do aluguel </p>
-                        <br/>
                       </div>
                     </div>
                     <div className="columns">
                       <div className="column is-two-thirds">
-                        <p className="title-infos-tool hack-padding-top">Política de locação</p>
-                        <Ul>
-                          <b className="title-politics">Como funciona? </b>
-                          <li> - Você faz a aluga sua ferramenta;</li>
-                          <li> - Recebemos a sua solicitação de aluguel; </li>
-                          <li> - Enviamos a confirmação do seu aluguel junto com um link de pagamento; </li>
-                          <li> - Equipamento locado, nós enviamos o contrato de locação via email. Tudo digital, chega de papel!</li>
-                          <li><i class="explanation-rules">Todo o processo de aluguel se resolve em menos de 15 minuto após os 5 primeiros alugueis.</i></li> 
-                        </Ul>
-                        <br/>
-                        <Ul>
-                          <b className="title-politics">Entrega</b>
-                          <li> - Depois de pago o aluguel, nós entregamos o equipamento onde você deseja! </li>
-                          <li> - Ao receber o equipamento alugado, nós fazemos um chekout com você para mantermos a qualidade dos equipamentos alugados.</li>
-                        </Ul>
-                        <br/>
-                        <Ul>
-                          <b className="title-politics">Devolução</b>
-                          <li> - Fique ligado ao dia de devoluçã. Nós notificaremos via e-mail, website e app, alguns dias antes de vencer o período contratado! </li>
-                          <li> - Nós faremos a busca do equipamento no local onde entregamos, na data final do período contratado.</li>
-                          <li>Neste momento, fazemos o check-in do equipamento para averiguarmos o estado do equipamento.</li>
-                        </Ul>
-                        <br/>
-                        <Ul>
-                          <b className="title-politics">Prazos e períodos</b>
-                          <li> - Respitar os prazos e períodos contratados é a grande chave para nosso relacionamento;</li>
-                          <li> - O período escolhido para usar o equipamento alugado começa a contar em D+1, ou seja, pediu dia 14, a contagem dos dias começa dia 15; </li>
-                        </Ul>
-                        <br/>
-                        <p className="title-infos-tool hack-padding-top">Contrato de locação</p>
-                        <Ul>
-                          <b className="title-politics">Contrato on-line</b>
-                          <li> - Apartir do momento em que você se cadastra na plataforma e aceita os termos de uso, você já acetia os termos do contrato de locação;</li>
-                          <li> - Este contrato é disponibilizado a você de forma totalmente on-line, via e-mail; </li>
-                        </Ul>
-                        <br/>
-                        <p className="title-infos-tool hack-padding-top">Pagamento</p>
-                        <Ul>
-                          <b className="title-politics"> Pagamento online </b>
-                          <li> Para facilitar sua vida, nós enviamos um link de pagamento a você. Pagamento online para aluguel de equipamento, já pensou nessa facilidade?</li>
-                        </Ul>
-                        <li><i class="explanation-rules">Uma nova forma de alugar</i></li> 
-                        <Ul>
-                          <b className="title-politics"> Parceiro </b>
-                          <li> Somos o seu parceiro novo, com um novo jeito de alugar equipamentos para você e seu negócio.</li>
-                        </Ul>
+                        <div className="columns noppadding">
+                          <div className="column">
+                            <br/><br/>
+                            <p className="title-infos-tool hack-padding-top">Política de locação</p>
+                            <Ul>
+                              <b className="title-politics">Como funciona? </b>
+                              <li> - Você faz a aluga sua ferramenta;</li>
+                              <li> - Recebemos a sua solicitação de aluguel; </li>
+                              <li> - Enviamos a confirmação do seu aluguel junto com um link de pagamento; </li>
+                              <li> - Equipamento locado, nós enviamos o contrato de locação via email. Tudo digital, chega de papel!</li>
+                              <li><i class="explanation-rules">Todo o processo de aluguel se resolve em menos de 15 minuto após os 5 primeiros alugueis.</i></li> 
+                            </Ul>
+                            <br/>
+                            <Ul>
+                              <b className="title-politics">Entrega</b>
+                              <li> - Depois de pago o aluguel, nós entregamos o equipamento onde você deseja! </li>
+                              <li> - Ao receber o equipamento alugado, nós fazemos um chekout com você para mantermos a qualidade dos equipamentos alugados.</li>
+                            </Ul>
+                            <br/>
+                            <Ul>
+                              <b className="title-politics">Devolução</b>
+                              <li> - Fique ligado ao dia de devoluçã. Nós notificaremos via e-mail, website e app, alguns dias antes de vencer o período contratado! </li>
+                              <li> - Nós faremos a busca do equipamento no local onde entregamos, na data final do período contratado.</li>
+                              <li>Neste momento, fazemos o check-in do equipamento para averiguarmos o estado do equipamento.</li>
+                            </Ul>
+                            <br/>
+                            <Ul>
+                              <b className="title-politics">Prazos e períodos</b>
+                              <li> - Respitar os prazos e períodos contratados é a grande chave para nosso relacionamento;</li>
+                              <li> - O período escolhido para usar o equipamento alugado começa a contar em D+1, ou seja, pediu dia 14, a contagem dos dias começa dia 15; </li>
+                            </Ul>
+                            <br/>
+                            <p className="title-infos-tool hack-padding-top">Contrato de locação</p>
+                            <Ul>
+                              <b className="title-politics">Contrato on-line</b>
+                              <li> - Apartir do momento em que você se cadastra na plataforma e aceita os termos de uso, você já acetia os termos do contrato de locação;</li>
+                              <li> - Este contrato é disponibilizado a você de forma totalmente on-line, via e-mail; </li>
+                            </Ul>
+                            <br/>
+                            <p className="title-infos-tool hack-padding-top">Pagamento</p>
+                            <Ul>
+                              <b className="title-politics"> Pagamento online </b>
+                              <li> Para facilitar sua vida, nós enviamos um link de pagamento a você. Pagamento online para aluguel de equipamento, já pensou nessa facilidade?</li>
+                            </Ul>
+                            <li><i class="explanation-rules">Uma nova forma de alugar</i></li> 
+                            <Ul>
+                              <b className="title-politics"> Parceiro </b>
+                              <li> Somos o seu parceiro novo, com um novo jeito de alugar equipamentos para você e seu negócio.</li>
+                            </Ul>
+                            </div>
+                          </div>
+
                       </div>
                       <div className="column">
                         <div className="column has-centered-text">
@@ -210,63 +231,12 @@ const Rules = ({ history }) => {
                     </div>
                     <div className="columns">
                       <div className="column">
-                        <p className="title-infos-tool hack-padding-top">Do aluguel do equipamento</p>  
-                        <div className="columns">
-                          <div className="column">
-                            <Ul>
-                              <li className="therent">
-                                {
-                                  tool.contract === 'Y' ?
-                                  (
-                                    <p> - A { namelessor.name } <span>entrega</span> este equipamento para você não precisar sair de onde está.</p>
-                                  )
-                                  :
-                                  (
-                                    ''
-                                  )
-                                }
-                              </li>
-                              <li className="therent">
-                                {
-                                  tool.contract === 'Y' ?
-                                  (
-                                    <p> - A { namelessor.name } <span>buscar</span> este equipamento no fim do período de aluguel.</p>
-                                  )
-                                  :
-                                  (
-                                    ''
-                                  )
-                                }
-                              </li>
-                              <li className="therent">
-                                {
-                                  tool.contract === 'Y' ?
-                                  (
-                                    <p>
-                                      - O <span>contrato</span> é totalmente digital. 
-                                    </p>                                
-                                  )
-                                  :
-                                  (
-                                    ''
-                                  )
-                                }
-                              </li>
-                            </Ul>
-                          </div>
-                        </div>
                       </div>
                     </div>
                     <Hr/>
                     <br/>
                     <div className="columns">
                       <div className="column is-3">
-                        <Button 
-                          type={'button'}
-                          className={'button is-fullwidth is-pulled-left color-logo'}
-                          text={'Prosseguir'}                                    
-                          onClick={event => goRent()}
-                        />
                       </div>
                     </div>                
                   </>
@@ -280,7 +250,15 @@ const Rules = ({ history }) => {
           }
         </div>  
         )
-      }   
+      }
+      {
+        modal === true ? 
+        ('')
+        :
+        (
+          <Rentalbottombox title={tool.title} go={goRent} attempt={attempt} startDate={values.init} endDate={values.finish} scroolView={160}/>
+        )
+      }
     </>
   );
 };

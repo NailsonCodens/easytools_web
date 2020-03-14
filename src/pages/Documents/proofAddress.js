@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from 'react-router-dom';
+import Scroll from '../../utils/scroll';
 
 export default function Proofaddress({id}) {
 
@@ -107,6 +108,7 @@ export default function Proofaddress({id}) {
   async function saveProof (proof) {
     await api.put(`documents/proof/${id}`, proof, {})
     .then((res) => {
+      Scroll(0,0)
       success2()
       if (values.e === 'df' && perfil[0].cpfcnpj.length <= 14 || values.e === 'nd' && perfil[0].cpfcnpj.length <= 14) {
         setTimeout(function(){

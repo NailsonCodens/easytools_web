@@ -30,6 +30,9 @@ import Auth from '../../../pages/Auth/index';
 import Modal from '../../../components/Modal';
 import localForage from "localforage";
 import Mapbox from '../../../components/Map/Mapbox';
+import ReactGA, { set } from 'react-ga';
+import {Helmet} from 'react-helmet'
+
 import {
   isMobile
 } from "react-device-detect";
@@ -37,6 +40,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 library.add(faStar);
+
+const Tracking = (category, action, label) => {
+  Scrool()
+  ReactGA.event({
+    category: category,
+    action: action,
+    label: label
+  });
+}
 
 const Tool = ({history}) => {
   const dispatch = useDispatch();
@@ -130,7 +142,7 @@ const Tool = ({history}) => {
 
       }else {
         if (document !== undefined) {
-          if (document.document !== null || document.selfie !== null || document.proof !== null) {
+          if (document.document !== null && document.selfie !== null && document.proof !== null) {
             if (perfil.cpfcnpj.length > 14 && document.enterprise === null) { 
               Scrool()
               if (perfil.type === 'Lessor') {
@@ -156,7 +168,8 @@ const Tool = ({history}) => {
                 priceperiod: price.price,
                 freight: 0,
                 accept: 0,
-              } 
+              }
+
               saveRentattempt(attempt);      
             }
           } else {
@@ -186,15 +199,22 @@ const Tool = ({history}) => {
   }
 
   async function saveRentattempt (attempt) {
-    await api.post('rent/attempt/add/', attempt, {})
-    .then((res) => {
-      var idbooking = res.data.rentattempt.idf
-      var codeattempt = res.data.rentattempt.codeattempt
-      Scrool()
-      history.push(`/s/payment/resumebook?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${formik.values.amount}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
-    }).catch((err) => {
-      console.log(err.response)
-    })
+
+    if (attempt.month > 0 && attempt.days > 0) {
+      setModal2(true)
+      Tracking('Tentativa de aluguel maior com mêses e dias falha', `Tentativa de aluguel maior com mêses e dias`, 'Tentativa de aluguel maior com mêses e dias')
+    } else {
+      await api.post('rent/attempt/add/', attempt, {})
+      .then((res) => {
+        var idbooking = res.data.rentattempt.idf
+        var codeattempt = res.data.rentattempt.codeattempt
+        Scrool()
+        Tracking('Tentativa de aluguel', ` Tentativa de aluguel criada idbooking: ${idbooking} codeattempt: ${codeattempt}`, 'Tentativa de aluguel')
+        history.push(`/s/payment/resumebook?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${formik.values.amount}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
+      }).catch((err) => {
+        console.log(err.response)
+      })
+    }
   }
 
   const handleTension = (event) => {
@@ -203,7 +223,6 @@ const Tool = ({history}) => {
 
   const handleScroll = () => {
     if (ref.current !== null ) {
-      console.log(ref.current.getBoundingClientRect().top)
       setSticky(ref.current.getBoundingClientRect().top <= 50);
     }
   };
@@ -383,12 +402,18 @@ const Tool = ({history}) => {
       var days = period.days;
       var months = period.months;
 
-      console.log(days, months)
-
       if (period.months !== 0) {
         if (days > 0) {
             setModal2(true)
-        } else {
+            setPrice({
+              type: 'month', 
+              amount: days, 
+              amountmonth: months, 
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+              priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+            })
+          } else {
           setPrice({
             type: 'month', 
             amount: days, 
@@ -396,7 +421,7 @@ const Tool = ({history}) => {
             price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
             priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
             pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
-          })  
+          })
         }
       } else if (period.days !== 0) {
         if (days < 7)
@@ -488,8 +513,6 @@ const Tool = ({history}) => {
     var weekend = 1
     var months = price.amountmonth
 
-    console.log(days, months)
-
     if (price.type === 'days') {
       text = ` x ${days} Dia(s)`
       text2 = '* Custo diário'
@@ -576,6 +599,14 @@ const Tool = ({history}) => {
 
 return (
   <>
+    <Helmet>
+      <title>{ tool.title }</title>
+      <meta
+        name="description"
+        content={ 'Aluguel de ' + tool.title + ' | Easytools ' }
+      />
+      <meta name="keywords" content={tool.title}/>
+    </Helmet>
     <div className="container-fluid">
       <div className="columns box-photos is-mobile is-desktop">
         {
@@ -981,12 +1012,30 @@ return (
                   <div className="pricefinal">
                     <Warningtext>* O preço final pode mudar de acordo com o período escolhido. Diária, Semanal, Quizenal e Mensal tem valores diferentes.</Warningtext>
                   </div>
-                  <Button
-                    disabled={tool.availability === "Y" ? false : true}
-                    type={'submit'}
-                    className={'button is-fullwidth color-logo'}
-                    text={tool.availability === "Y" ? 'Alugar' : 'Não disponível para locação'}
-                  />
+                  {
+                    modal2 === true ? 
+                    (
+                      <>
+                        <Button
+                          disabled={true}
+                          type={'submit'}
+                          className={'button is-fullwidth color-logo'}
+                          text={'Altere a data para prosseguir'}
+                        />
+                      </>
+                    )
+                    :
+                    (
+                      <>
+                        <Button
+                          disabled={tool.availability === "Y" ? false : true}
+                          type={'submit'}
+                          className={'button is-fullwidth color-logo'}
+                          text={tool.availability === "Y" ? 'Alugar' : 'Não disponível para locação'}
+                        />
+                      </>
+                    )
+                  }
                   <div>
                     <Warningtext class="has-text-centered message-rent">Você ainda não será cobrado.</Warningtext>
                   </div>

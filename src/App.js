@@ -10,7 +10,6 @@ import 'bulma-accordion/dist/css/bulma-accordion.min.css'
 import './App.css';
 
 function App() {
-  
   return (
     <Provider store={store}>
       <div className="container-fluid">

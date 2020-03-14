@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import socketio from '../../../services/socketio';
 import Email from '../../../utils/sendemail';
 import { Paymentlink }from '../../PaymentLink/index';
+import Scroll from '../../../utils/scroll';
+
 import {
   isMobile
 } from "react-device-detect";
@@ -33,6 +35,7 @@ const Rents = ({ history }) => {
   }, [])
 
   const goDetail = (id) => {
+    Scroll(100, 100)
     history.push(`/lessor/rents/detail/${id}`);
   }
 

@@ -26,6 +26,8 @@
     "react-dom": "^16.11.0",
     "react-dropzone": "^10.2.1",
     "react-ellipsis-text": "^1.2.1",
+    "react-ga": "^2.7.0",
+    "react-helmet": "^5.2.1",
     "react-iframe": "^1.8.0",
     "react-input-mask": "^2.0.4",
     "react-intl": "^3.9.3",

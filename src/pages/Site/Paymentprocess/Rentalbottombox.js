@@ -1,27 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
+import { Button } from '../../../components/Form/Button';
 import { useDispatch, useSelector } from "react-redux";
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import { Rentattempt } from '../../../store/actions/rentattempt.js';
-  // eslint-disable-next-line
-import preciseDiff from 'moment-precise-range-plugin';
-import {IntlProvider, FormattedNumber} from 'react-intl';
-import { Warningtext } from '../../../components/Warningtext';
 import api from '../../../services/api';
+import { Rentattempt } from '../../../store/actions/rentattempt.js';
+import {IntlProvider, FormattedNumber} from 'react-intl';
+import {
+  isMobile
+} from "react-device-detect";
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
-   
-const Rentalbox = ({startDate, endDate, attempt}) => {
-  
-  const rentinfo = useSelector(state => state.rentinfo);
+
+const Rentalbottombox = ({title, go, scroolView = 300, startDate, endDate, attempt}) => {
+  let values = queryString.parse(useLocation().search);
   const [tool, setTool] = useState([]);
   const [price, setPrice] = useState({});
-
+  const [setclass, setClass] = useState('bottom-no-box');
   const dispatch = useDispatch();
-  
-  let values = queryString.parse(useLocation().search);
 
   useEffect(() => {
+
+    async function showBottom () {
+      //verificar mobile
+      if (document.documentElement.scrollTop > scroolView) {
+        setClass('bottom-box')
+      }else{
+        setClass('bottom-no-box')
+      }
+    }
+    window.onscroll = () => showBottom()
+
     async function loadInfochoose() {
       const response = await api.get(`/tools_site/tool/${values.tool}`, {
       });
@@ -31,16 +40,23 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
     loadInfochoose()
 
   }, [attempt]);
-
   const formatPrice = (pricef) => {
-
     const priceback = pricef !== null ? pricef : 0
-    const amount = parseFloat(values.am.replace(/\./gi,'').replace(/,/gi,'.')) !== '' || parseFloat(values.am.replace(/\./gi,'').replace(/,/gi,'.')) !== null ? parseFloat(values.am.replace(/\./gi,'').replace(/,/gi,'.')) : 0
+
+    var amount
+
+    if (values.am === undefined) {
+      amount = parseFloat(attempt.amount) !== '' ? parseFloat(attempt.amount) : 0
+    } else {
+      amount = parseFloat(values.am.replace(/\./gi,'').replace(/,/gi,'.')) !== '' || parseFloat(values.am.replace(/\./gi,'').replace(/,/gi,'.')) !== null ? parseFloat(values.am.replace(/\./gi,'').replace(/,/gi,'.')) : 0
+    }
 
     if (pricef !== null && values.endDate !== null) {
 
       var startdate = moment(startDate).format('YYYY-MM-DD');
       var enddate = moment(endDate).format('YYYY-MM-DD');
+
+      console.log(startdate)
 
       var period = moment.preciseDiff(startdate, enddate, true);
       var days = period.days;
@@ -175,132 +191,41 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
     }
   }
 
-  const renderPrice = () => {
-    var text = ''
-    var text2 = ''
-    var days = price.amount
-    var weekend = 1
-    var months = price.amountmonth
-
-    if (price.type === 'days') {
-      text = ` x ${days} Dia(s)`
-      text2 = '* Custo diário'
-    }
-
-    if (price.type === 'weekend') {
-      text = ` por ${weekend} Semana`
-      text2 = `* Custo semanal`
-    }
-    
-    if (price.type === 'biweekly') {
-      text = ` por ${days} Dias`
-
-      if (days !== 15) {
-        text2 = `* Custo quinzenal, com este valor você pode alugar por mais ${ 15 - days } dias!`
-      }
-    }
-
-    if (price.type === 'month') {
-      if (months === 1) {
-        text = ` por ${months} Mês`
-        text2 = `* Custo mensal`
-      }else if (days > 15 && days <= 31) {
-        text = ` por 1 Mês`
-        text2 = `* Você está alugando por ${days} dias, mas o custo é mensal. Com este valor você pode alugar por mais ${ 30 - days } dias!`
-      } else {
-        text = ` x ${months} Mêses`
-        text2 = '* Custo mensal, com este valor você pode alugar por mais dias para fechar o mês!'
-      }
-    }
-
-    return (
-      <>
-        <div className="columns is-mobile">
-          <div className="column">
-            <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-              <FormattedNumber value={price.price} style="currency" currency="BRL" />
-              { text }
-            </IntlProvider>
-          </div>
-          <div className="column is-6">
-            <p className="is-pulled-right">
-              <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
-                { 
-                  values.am === undefined ? 'x 1 UN' : `x ${values.am} UN` 
-                }
-              </IntlProvider>            
-            </p>
-          </div>
-        </div>
-        {
-         /* <div className="columns">
-            <div className="no-padding-text">
-              <Warningtext class="orange">{ text2 }</Warningtext>
-            </div>
-          </div>*/
-        }
-        <div className="columns is-mobile no-margin-top-columns">
-          <div className="column">
-            Tensão
-          </div>
-          <div className="column">
-            <div className="is-pulled-right">
-              { values.tension === 'Tri' ? 'Trifásico' : values.tension }
-            </div>
-          </div>
-        </div>
-        <div className="columns is-mobile no-margin-top-columns">
-          <div className="column">
-            <b>Total</b>
-          </div>
-          <div className="column">
-            <p className="is-pulled-right">
-              <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                <b><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
-              </IntlProvider>            
-            </p>
-          </div>
-        </div>
-      </>
-    )
-  }
-
   return (
-    <>
-      <div className="stc-box">
-        <div className="stc-child">
-          <div className="rental-box">
-            <div className="columns is-desktop is-mobile">
+    <div className={setclass}>
+      <div className="columns">
+        {
+          isMobile ?
+          ('')
+          :
+          (
+            <>
+              <div className="column is-hidden-bottom">
+                <p>Aluguel de <span className="titlerentbox">{ title }</span></p>
+              </div>
+            </>
+          ) 
+        }
+        <div className="column">
+          <div className="columns is-mobile">
             <div className="column">
-              <img src={rentinfo.picture1} alt={rentinfo.picture1} className="" />
-            </div>
-            <div className="column">
-              <img src={rentinfo.picture2} alt={rentinfo.picture2} className="" />
-            </div>
-            <div className="column">
-              <img src={rentinfo.picture3} alt={rentinfo.picture3} className="" />
+              <Button 
+                type={'button'}
+                className={'button is-pulled-right bt-bottom color-logo'}
+                text={'Prosseguir'}                                    
+                onClick={event => go()}
+              />
+              <p className={ isMobile ? "is-pulled-left price-bottom" : "is-pulled-right price-bottom" }>
+                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                  <b>Total: <FormattedNumber value={parseFloat(price.pricefull) || 0} style="currency" currency="BRL" /></b>
+                </IntlProvider>            
+              </p>
             </div>
           </div>
-            <p className="title-tool-rules">{ tool.title }</p>
-            <b className="category">{ rentinfo.category }</b>
-            {
-              Object.entries(price).length > 0 ? 
-              (
-                <div className="container">
-                  {renderPrice()}
-                </div>
-              ) : 
-              ('')
-            }
-          </div>
-        </div>  
+        </div>
       </div>
+    </div>
+  )
+}
 
-      <div className="back-sticky">
-      </div>
-    </>
-  );
-};
-
-export default Rentalbox;
+export default Rentalbottombox
