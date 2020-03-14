@@ -161,7 +161,7 @@ export default function Rents({history}) {
 
     //enviar outro email com o link do pagamento
     
-    //Email(rent[0].user_renter_id, title, message);
+    Email(rent[0].user_renter_id, title, message);
 
     await api.post('/notifications/send', notification, {})
     .then((res) => {
@@ -212,7 +212,7 @@ export default function Rents({history}) {
         title: title
       }
 
-      //Email(rent[0].userrenter.id, title, message);
+      Email(rent[0].userrenter.id, title, message);
 
       await api.post('/notifications/send', notification, {})
       .then((res) => {
