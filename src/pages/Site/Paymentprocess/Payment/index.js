@@ -229,8 +229,20 @@ const Payment = ({history}) => {
   const renderCalc = () => {
 
     var kmregional = 8
-    var freight = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1;
-    var minfreight = userconfig.freight !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 30;
+
+    var freight = '';
+    var minfreight = '';
+
+    if (userconfig !== undefined) {
+      freight = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1;
+      minfreight = userconfig.freight !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 30;
+    } else {
+      freight = 1;
+      minfreight = 30;
+    }
+
+    console.log(workadd)
+
     var kmcurrent = workadd.distance;
     var costfreight = 0;
 

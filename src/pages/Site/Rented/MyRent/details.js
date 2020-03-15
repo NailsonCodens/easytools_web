@@ -69,7 +69,7 @@ export default function Rents({history}) {
     } else if (period === 'month') {
       if (month === '0') {
         periodChoose = 1 + ' Mês';
-      }else if (month === 1) {
+      }else if (month === '1') {
         periodChoose = 1 + ' Mês ';
       }else {
         periodChoose = month + ' Mêses';

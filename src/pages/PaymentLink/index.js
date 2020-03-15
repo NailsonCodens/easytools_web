@@ -13,9 +13,13 @@ async function linkpayment (idattempt, rent) {
     title += " Por " + rent.days + ' Dias - Semana ';
   } else if (rent.period === 'month') {
     if (rent.days === '1' || rent.days === 1) {
-      title += " Por " + rent.days + ' Mês ';
+
     } else {
-      title += " Por " + rent.days + ' Mêses ';
+      if (rent.month === '1') {
+        title += " Por " + rent.month + ' Mês ';
+      }else {
+        title += " Por " + rent.month + ' Mêses ';
+      }
     }
   }
 

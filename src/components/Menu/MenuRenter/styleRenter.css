@@ -181,6 +181,15 @@
   margin-left: auto !important;
 }
 
+.menu-small img{
+  width: 40px !important;
+}
+
+.menu-small .input-search {
+  height: 30px !important;
+  margin-top: 10px;
+}
+
 @media (max-width: 900px) {
   .input-search {
     margin-top: 14px;

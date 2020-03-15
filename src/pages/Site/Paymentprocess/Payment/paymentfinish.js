@@ -89,6 +89,7 @@ const Paymentfinish = ({history}) => {
       setUserconfig(response.data.userconfig[0]) 
     }
 
+
     async function loadWorkadduser (rentid, lat, lng) {
       const responseworkadd = await api.get(`/workadd/${rentid}?lat=${lat}&lng=${lng}`, {
       });
@@ -132,6 +133,8 @@ const Paymentfinish = ({history}) => {
     } else {
       freightnew = renderCalc()
     }
+
+    console.log(freightnew)
 
     var rentupdate = {
       finishprocess: 'y',
@@ -226,7 +229,7 @@ const Paymentfinish = ({history}) => {
   }
 
   const renderCalc = () => {
-    return  parseFloat(rentattempt.freight.replace(/\./gi,'').replace(/,/gi,'.'))
+    return  parseFloat(rentattempt.freight)
   }
 
   return (

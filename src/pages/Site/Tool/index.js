@@ -837,7 +837,7 @@ return (
                       <DateRangePicker
                         anchorDirection="left"
                         displayFormat={'DD/MM/YYYY'}
-                        minimumNights={2}
+                        minimumNights={1}
                         numberOfMonths={isMobile === true ? 1 : 2}
                         startDate={formik.values.startDate} // momentPropTypes.momentObj or null,
                         startDateId={'start'} // PropTypes.string.isRequired,

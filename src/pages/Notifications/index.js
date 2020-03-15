@@ -6,6 +6,7 @@ import { Button } from '../../components/Form/Button';
 import { useDispatch, useSelector } from "react-redux";
 import { Notification as Notificationrd } from '../../store/actions/notification';
 import {Titlepage} from '../../components/Titles/Titlepages';
+import Scroll from '../../utils/scroll';
 
 const Allnotification = ({history}) => {
   const [notification, setNotification] = useState([])
@@ -25,6 +26,7 @@ const Allnotification = ({history}) => {
   }, [])
 
   const goNotification = (rent_attempt_id, id, type) => {
+    Scroll()
     if (type === 'Pagar') {
       history.push(`/s/payment/payment-view/${rent_attempt_id}`);
       goUpdatenotifiy(id);

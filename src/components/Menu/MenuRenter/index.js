@@ -59,7 +59,9 @@ const MenuRenter = () => {
 	const [distancevalue, setDistancevalue] = useState('');
 	const [coordiantevalue, setCoordinatevalue] = useState({});
 	const [categoryvalue, setCategoryvalue] = useState('');
-  let values = queryString.parse(useLocation().search);
+	const [setclass, setClass] = useState('normal');
+
+	let values = queryString.parse(useLocation().search);
   
 	const trackingId = "UA-160397692-1"; // Replace with your Google Analytics tracking ID
 	ReactGA.initialize(trackingId);
@@ -118,6 +120,17 @@ const MenuRenter = () => {
 			Notifier.start(`${title}`, `${message}`,"www.google.com","validated image url");
 			getNotification()
 		});
+
+
+    async function showBottom () {
+      //verificar mobile
+      if (document.documentElement.scrollTop > 100) {
+        setClass('menu-small')
+      }else{
+        setClass('normal')
+      }
+    }
+    window.onscroll = () => showBottom()
 
 		async function verifyDevice () {
 			if (isMobile) {
@@ -244,6 +257,9 @@ const MenuRenter = () => {
   )
 
 	const searchTools = (event) => {
+		if (event === '') {
+			findTools('close')
+		}
 		setSearch(event)
 		setBettersearch(true)
 	}
@@ -630,7 +646,7 @@ const MenuRenter = () => {
 
 	return (
 		<div className="back-nav">
-			<nav className="navbar nav-fixed">
+			<nav className={"navbar nav-fixed " + setclass}>
 				<div className="navbar-brand">
 					<Link to={'/'} onClick={ event => findTools('close')}>
 						<img src={logo} alt="EasyTools Logo" className="logo"/>

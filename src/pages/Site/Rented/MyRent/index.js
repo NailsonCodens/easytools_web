@@ -10,6 +10,7 @@ import { Button } from '../../../../components/Form/Button';
 import { Link } from 'react-router-dom';
 import socketio from '../../../../services/socketio';
 import Email from '../../../../utils/sendemail';
+import Scroll from '../../../../utils/scroll';
 
 //import ChangeAccept from './conditionsRent';
 
@@ -30,6 +31,7 @@ const Rents = ({ history }) => {
   }, [])
 
   const goDetail = (id) => {
+    Scroll()
     history.push(`/s/renter/myrent/details/${id}`);
   }
 
@@ -114,9 +116,10 @@ const Rents = ({ history }) => {
     } else if (period === 'weekend') {
       periodChoose = 7 + ' Dias (Semanal) ';
     } else if (period === 'month') {
+
       if (month === '0') {
         periodChoose = 1 + ' Mês';
-      }else if (month === 1) {
+      }else if (month === '1') {
         periodChoose = 1 + ' Mês ';
       }else {
         periodChoose = month + ' Mêses';

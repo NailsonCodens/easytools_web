@@ -30,7 +30,7 @@ const Paymentme = () => {
   return (
     <>
       <Helmet>
-        <title>{ 'Pagamento de' + rent.tool.title }</title>
+        <title>{ 'Pagamento do aluguel' }</title>
       </Helmet>
       <div className="container explorer">
         {

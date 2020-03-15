@@ -6,6 +6,7 @@ import { Button } from '../../components/Form/Button';
 import { useDispatch, useSelector } from "react-redux";
 import { Notification as Notificationrd } from '../../store/actions/notification';
 import { Notifications } from '../../store/actions/notifications';
+import Scroll from '../../utils/scroll';
 
 const Notification = ({nt}) => {
   let history = useHistory();
@@ -41,6 +42,7 @@ const Notification = ({nt}) => {
 
   
   const goNotification = (rent_attempt_id, id, type) => {
+    Scroll()
     if (type === 'Pagar') {
       history.push({
        pathname: `/s/payment/payment-view/${rent_attempt_id}`,
