@@ -137,11 +137,14 @@ const Payment = ({history}) => {
     }
 
     var rentupdate = {
-      freight: freightnew,
+      freight: parseFloat(freightnew.toFixed(2)),
       startdate: rentattempt.startdate,
       enddate: rentattempt.enddate,
       acquisition: acq
     }
+
+    console.log(rentupdate)
+
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
     .then((res) => {
       Tracking('Prosseguiu para finalizar e pagar', 'Prosseguiu para pagar', 'entrega')
@@ -240,9 +243,6 @@ const Payment = ({history}) => {
       freight = 1;
       minfreight = 30;
     }
-
-    console.log(workadd)
-
     var kmcurrent = workadd.distance;
     var costfreight = 0;
 
@@ -251,6 +251,7 @@ const Payment = ({history}) => {
     } else {
         costfreight = freight * kmcurrent;
     }
+
     return costfreight
   }
 

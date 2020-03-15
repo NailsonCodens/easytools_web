@@ -120,6 +120,7 @@ export default function Rents({history}) {
       })
       sendNotificationPayment(id, 'paymentlinkok')
     }).catch(function (err) {
+      console.log(err)
       ChangeAccept('notaccept', id).then((res) => {
         reloadRents(id)
         sendNotification(id, 'noacceptforpayment')

@@ -119,8 +119,13 @@ const MenuRenter = () => {
 			var title = data.title;
 			Notifier.start(`${title}`, `${message}`,"www.google.com","validated image url");
 			getNotification()
+			console.log('estou passando notificação');
 		});
 
+		async function loadAsknotification () {
+
+		}
+		loadAsknotification()
 
     async function showBottom () {
       //verificar mobile
