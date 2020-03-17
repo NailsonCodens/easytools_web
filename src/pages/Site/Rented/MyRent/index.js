@@ -50,7 +50,7 @@ const Rents = ({ history }) => {
   //     sendNotification(id, 'noaccept', rent)
   //   })
   // }
-
+/*
 
   async function sendNotification(id, type, rent) {
     const response = await api.get(`/tools_site/tool/${rent.tool_id}`, {
@@ -98,7 +98,7 @@ const Rents = ({ history }) => {
       history.push(`/lessor/renter/detail/${id}?e=unavailable`);
     }
   }
-
+*/
   async function reloadRents () {
     const response = await api.get('/rents/', {});
     setTimeout(() => {

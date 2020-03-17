@@ -1,15 +1,17 @@
 import api from  '../services/api';
 
-const Email = function (iduser, title, text){
-  console.log(iduser, title, text)
-  sendemail(iduser, title, text)
+const Email = function (iduser, title, text, urllabel, maintext){
+  console.log(iduser, title, text, maintext, urllabel, maintext)
+  sendemail(iduser, title, text, urllabel, maintext)
 }
 
-async function sendemail (iduser, title, text) {
+async function sendemail (iduser, title, text, urllabel, maintext) {
   var email = {
     iduser: iduser,
     subject: title,
-    text: text
+    text: text,
+    maintext: maintext,
+    urlLabel: urllabel
   }
 
   await api.post('/email/send', email, {})

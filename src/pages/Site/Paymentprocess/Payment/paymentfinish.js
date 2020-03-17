@@ -163,7 +163,9 @@ const Paymentfinish = ({history}) => {
       var enddate = moment(rentattempt.enddate).format('DD/MM/YYYY');
       var title = `${renter} alugou seu equipamento`;
       var message = `Olá ${lessor}, ${renter} alugou sua ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}.`;
-  
+      var maintext = 'Oba, aluguel novo!'
+      var urllabel = "Ver aluguel"  
+
       var notification = {
         rent_attempt_id: rentattempt.id,
         user_recipient_id: rentattempt.user_lessor_id,
@@ -171,7 +173,7 @@ const Paymentfinish = ({history}) => {
         title: title
       }
 
-      Email(rentattempt.user_lessor_id, title, message);
+      Email(rentattempt.user_lessor_id, title, message, urllabel, maintext);
 
       await api.post('/notifications/send', notification, {})
       .then((res) => {

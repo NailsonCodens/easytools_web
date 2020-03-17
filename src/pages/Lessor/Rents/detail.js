@@ -147,10 +147,15 @@ export default function Rents({history}) {
     var renter = rent[0].userrenter.name
     var message = '';
     var title = '';
+    var maintext = 'Você está prestes a receber seu equipamento alugado!';
+    var urllabel = 'Acessar o site e pagar';
 
     if (type === 'paymentlinkok') {
       title = `Pagamento do aluguel - Olá, clique em para pagar pelo aluguel do equipamento, clique em pagar!`;
-      message = `Está tudo ok com seu pedido, só falta pagar :). Clique em pagar para finalizarmos o seu pedido e o vizinho ${lessor} preparar o equipamento para você.`;  
+      message = `
+        Está tudo ok com seu pedido, só falta pagar :). Clique em pagar para finalizarmos o seu pedido e o vizinho ${lessor} preparar o equipamento para você. 
+        Para pagar acesse o site, entre na sua conta e vá em Meus alugados -> Detalhes -> Link de pagamento https://pagarmeualuguel.easytools
+        `;  
     }
 
     var notification = {
@@ -161,8 +166,8 @@ export default function Rents({history}) {
     }
 
     //enviar outro email com o link do pagamento
-    
-    Email(rent[0].user_renter_id, title, message);
+
+    Email(rent[0].user_renter_id, title, message, urllabel, maintext);
 
     await api.post('/notifications/send', notification, {})
     .then((res) => {
@@ -191,19 +196,30 @@ export default function Rents({history}) {
 
       var message = '';
       var title = '';
+      var maintext = '';
+      var urllabel = '';
+
 
       if (type === 'accept') {
-        title = `EasyTools -  Aluguel aceito. O vizinho ${lessor} aceitou seu aluguel!`;
-        message = `Olá ${renter}, O vizinho aceitou seu pedido. por texto de processamento do aluguel, se for boleto ficamos aguardando o pagamento, se for ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}.`;  
+        title = `EasyTools -  Aluguel aceito. Seu aluguel foi aceito!`;
+        message = `Olá ${renter}, Seu aluguel foi aceito. Fique ligado, nós vamos te enviar o link de pagamento, que pode ser acessado na sua conta na Easytools direto no site. Você alugou: ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}. A entrega do equipamento, ocorrerá quando confirarmos o pagamento.`;  
+        maintext = 'Boa notícia! seu aluguel foi processado.'
+        urllabel = "Ver e pagar meu equipamento alugado"
       } else if (type === 'noacceptforpayment') {
-        title = `EasyTools - Não cosneguimos processar seu aluguel!`;
-        message = `Olá existe algum problema com seus dados, entre em contato cosnoco.`;  
+        title = `EasyTools - Não conseguimos processar seu aluguel!`;
+        message = `Olá existe algum problema com seus dados, entre em contato cosnoco, ou espere que nós entraremos em contato.`;  
+        maintext = 'Ops! Seu aluguel foi rejeitado, nós vamos te ligar.'
+        urllabel = "Ver aluguel negado."
       }else if (type === 'paymentlinkok') {
         title = `Pagamento do aluguel - Olá, clique em para pagar pelo aluguel do equipamento, clique em pagar!`;
-        message = `Está tudo ok com seu pedido, só falta pagar :). Clique em pagar para finalizarmos o seu pedido e o vizinho ${lessor} preparar o equipamento para você.`;  
+        message = `Está tudo ok com seu pedido, só falta pagar :). Clique em pagar para finalizarmos o seu aluguel e entregarmos o equipamento para você.`;  
+        maintext = 'Estamos aguardando seu pagamento para ir entregar seu equipamento.'
+        urllabel = "Pagar aluguel"
       }else {
-        title = `EasyTools - ${renter} Não aceitou o seu aluguel!`;
-        message = `Olá ${renter}, Seu pedido não foi aceito pelo vizinho ${lessor}. Fique tranquilo, nós entraremos em contato com você.`;  
+        title = `EasyTools - A Easytools não aceitou o seu aluguel!`;
+        message = `Olá ${renter}, Seu pedido não foi aceito pela Easytools. Fique tranquilo, nós entraremos em contato com você.`;  
+        maintext = 'Ops! Seu aluguel foi rejeitado, nós vamos te ligar.'
+        urllabel = "Ver aluguel negado."
       }
 
       var notification = {
@@ -213,7 +229,7 @@ export default function Rents({history}) {
         title: title
       }
 
-      Email(rent[0].userrenter.id, title, message);
+      Email(rent[0].user_renter_id, title, message, urllabel, maintext)
 
       await api.post('/notifications/send', notification, {})
       .then((res) => {

@@ -44,10 +44,10 @@ export default function Start({history}) {
       <PrivateRenter path={`${path}/payment`} component={Paymentprocess}/>
       <PrivateRenter path={`${path}/messages`} component={teste => ('asdsd')}/>
       <PrivateRenter path={`${path}/renter`} component={Rented}/>
-      <PrivateRenter path={`${path}/terms`} component={Terms}/>
-      <PrivateRenter path={`${path}/dealopen`} component={Dealopen}/>
-      <PrivateRenter path={`${path}/policeuse`} component={Policeuse}/>
-      <PrivateRenter path={`${path}/privacyterms`} component={Privacy}/>
+      <Route path={`${path}/terms`} component={Terms}/>
+      <Route path={`${path}/dealopen`} component={Dealopen}/>
+      <Route path={`${path}/policeuse`} component={Policeuse}/>
+      <Route path={`${path}/privacyterms`} component={Privacy}/>
     </>
   )
 }
