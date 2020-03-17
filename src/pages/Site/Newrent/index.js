@@ -117,9 +117,10 @@ const Newrent = () => {
           </div>
         </div>
       </div>
-      <div className="why-easytools">
-        <br/><br/>
-        <p className="how-work-it-text">Por que EasyTools? </p>
+      <div className="why-easytools ">
+        <div className="columns">
+          <div className="column">
+          <p className="how-work-it-text">Por que EasyTools? </p>
         <br/>
         <ul>
           <li>
@@ -155,9 +156,14 @@ const Newrent = () => {
             </p>
           </li>
         </ul>
+        <br/><br/>
+        <Link to="/" className="button color-logo">Alugar!</Link>
+          </div>
+        </div>
+        <br/><br/>
+
       </div>
       <br/><br/>
-      <Link to="/" className="button color-logo">Alugar!</Link>
     </div>
     </>
   )

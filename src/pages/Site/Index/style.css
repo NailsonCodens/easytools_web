@@ -105,7 +105,36 @@
 .text-subtitle-index{
   font-size: 25px;
   color:#000;
-  margin-top: -55px;
+  margin-top: -25px;
+}
+
+.soon{
+  z-index: 9;
+  position: relative;
+  background: #60a8f1;
+  padding: 0px 4px;
+  top: -300px;
+  width: 100px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  color: #fff;
+}
+
+.neighboor-div{
+  background: #60a8f1;
+  padding-top: 50px;
+  color: #fff;
+  margin-top: 100px !important;
+  padding-bottom: 30px;
+}
+
+.tl-neigh-cs{
+  color: #fff !important;
+  margin-bottom: 30px;
+}
+
+.text-neigh-cs{
+  margin-left: 20px !important;
 }
 
 @media (max-width: 900px) {

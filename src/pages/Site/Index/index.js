@@ -12,6 +12,7 @@ import background from '../../../assets/images/background.png'
 import { Link, useHistory } from 'react-router-dom';
 import ReactGA from 'react-ga';
 import {Helmet} from 'react-helmet'
+import { Button } from '../../../components/Form/Button';
 
 const Dashboard = ({history, location}) => {
   let values = queryString.parse(useLocation().search);
@@ -159,16 +160,29 @@ const Dashboard = ({history, location}) => {
                                 (
                                   <img src={ picture.url } alt="EasyTools Logo" className="image-list ad-img"/>
                                 ):
-                                ('')
+                                (
+                                  ''
+                                )
                               }
                             </span>
                           ))
                         }
-                      </div>
+                      </div>                         
                       <b className="category">{tool.category}</b>
                       <p className="title-tool">{tool.title}</p>
                       <p className="text-price">Diária a partir de <span className="price">R$ { tool.prices.split(';')[0] }</span></p>
                     </div>
+                    {
+                        tool.prices.split(';')[3].trim() === '0,00'? 
+                        (
+                          <>
+                            <p className="soon">Em breve!</p>
+                          </>
+                        )
+                        :
+                        ('')
+
+                      }
                   </span>
                 </div>
               ))
@@ -191,6 +205,42 @@ const Dashboard = ({history, location}) => {
               </>
             )
           } 
+        </div>
+        <br/><br/>
+        <div className="has-text-centered">
+          <p className="title-index">Não encontrou o que precisa? Nos avise!!</p> 
+          <div className="columns">
+            <div className="column">
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfRH_Gi5cIoSdaaUxdT8KN0t9eQ3kOcRloiIJJkrnkkweOQmA/viewform" 
+                target="_blank"
+                className={'button is-black'}
+              >
+                O que você precisa e não achou aqui?
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="neighboor-div">
+          <div className="container">
+  
+            <p className="title-index tl-neigh-cs">Quer ser um vizinho na Easytools?</p>
+            <p className="text-neigh-cs">
+              Vizinho é um apelido que carinhosamente damos aos nossos parceiros que disponibilizam seus equipamentos e ferramentas na Easytools.
+              Quer ser um vizinho? Clique no botão a baixo e entre em contato conosco.
+            </p>
+            <div className="columns">
+              <div className="column">
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSfRH_Gi5cIoSdaaUxdT8KN0t9eQ3kOcRloiIJJkrnkkweOQmA/viewform" 
+                  target="_blank"
+                  className={'button is-default'}
+                >
+                  Quero ser um vizinho
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
