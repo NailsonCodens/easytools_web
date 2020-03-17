@@ -50,74 +50,105 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
       var costat = '';
       var amountat = amount;
       var amountmonth = months;
+      var costfixed = '';
+      var pricefixed = '';
+      var pricefixednoamount = '';
 
       if (period.months !== 0) {
         periodat = 'month'
         amountmonth = months
+
+        pricefixednoamount = days * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
+        costfixed = (months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
+
+
         priceat = parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
-        costat = (months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
+        costat = parseFloat(costfixed.toFixed(2))
 
         setPrice({
           type: 'month', 
           amount: days, 
           amountmonth: months, 
           price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-          priceNoamount: months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-          pricefull: (months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
+          priceNoamount: parseFloat(pricefixednoamount.toFixed(2)), 
+          pricefull: parseFloat(costfixed.toFixed(2))
         })
       } else if (period.days !== 0) {
         if (days < 7) {
+          pricefixednoamount = days * parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.'))
+          costfixed = (days * parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
+
           periodat = 'days'
           priceat = parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.'))
-          costat = (days * parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
+          costat = parseFloat(costfixed.toFixed(2))
 
           setPrice({
             type: 'days', 
             amount: days, 
             price: parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.')),
-            priceNoamount: days * parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.')), 
-            pricefull: (days * parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
+            priceNoamount: parseFloat(pricefixednoamount.toFixed(2)), 
+            pricefull: parseFloat(costfixed.toFixed(2))
           })
         } else if (days === 7) {
           periodat = 'weekend'
-          priceat = parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.'))
-          costat = (1 * parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
 
+          pricefixednoamount = days * parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.'))
+          costfixed = (1 * parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
+  
+
+          priceat = parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.'))
+          costat = parseFloat(costfixed.toFixed(2))
           setPrice({
             type: 'weekend', 
             amount: days, 
             price: parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: 1 * parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (1 * parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
+            priceNoamount: parseFloat(pricefixednoamount.toFixed(2)),
+            pricefull: parseFloat(costfixed.toFixed(2))
           })
         } else if (days > 7 && days < 15) {
           periodat = 'biweekly'
+
+          pricefixednoamount = days * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))
+          costfixed = (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
+  
+
           priceat = parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))
-          costat = (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
+          costat = parseFloat(costfixed.toFixed(2))
 
           setPrice({
             type: 'biweekly', 
             amount: days, 
             price: parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: 1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+            priceNoamount: parseFloat(pricefixednoamount.toFixed(2)),
+            pricefull: parseFloat(costfixed.toFixed(2))
           })
         } else if (days === 15) {
           periodat = 'biweekly'
+
+          pricefixednoamount = days * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))
+          costfixed = (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
+  
+
           priceat = parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'));
-          costat = (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+          costat = parseFloat(costfixed.toFixed(2))
 
           setPrice({
             type: 'biweekly', 
             amount: days, 
             price: parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: 1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+            priceNoamount: parseFloat(pricefixednoamount.toFixed(2)),
+            pricefull: parseFloat(costfixed.toFixed(2))
           })  
         } else if (days > 15) {
           periodat = 'month'
+
+
+          pricefixednoamount = days * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
+          costfixed = (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
+  
+
           priceat = parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
-          costat = (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+          costat = parseFloat(costfixed.toFixed(2))
 
           if (months === 0) {
             amountmonth = 0
@@ -125,10 +156,10 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
               type: 'month', 
               amount: days, 
               amountmonth: 0, 
-              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-              priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
-              pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
-            })
+              price: parseFloat(priceback[3].toFixed(2).replace(/\./gi,'').replace(/,/gi,'.')), 
+              priceNoamount: parseFloat(pricefixednoamount.toFixed(2)),
+              pricefull: parseFloat(costfixed.toFixed(2))
+             })
           } else {
             amountmonth = months
 
@@ -136,9 +167,9 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
               type: 'month', 
               amount: days, 
               amountmonth: months, 
-              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-              priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
-              pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+              price: parseFloat(priceback[3].toFixed(2).replace(/\./gi,'').replace(/,/gi,'.')), 
+              priceNoamount: parseFloat(pricefixednoamount.toFixed(2)),
+              pricefull: parseFloat(costfixed.toFixed(2))
             })
            }
         }
@@ -167,6 +198,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
     }
 
     if (attempt.id !== undefined) {
+      console.log(rentupdate)
       await api.put(`rent/attempt/updaterent/${attempt.id}`, rentupdate, {})
       .then((res) => {
       }).catch((err) => {

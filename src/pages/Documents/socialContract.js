@@ -108,7 +108,7 @@ export default function SocialContract({id}) {
       success2()
       if (values.e === 'cs' && perfil[0].cpfcnpj.length > 14) {
         setTimeout(function(){
-           history.push(link);
+          history.push(localStorage.getItem('@lkt'))
         }, 1200);
       }
     })

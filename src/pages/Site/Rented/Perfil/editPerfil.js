@@ -20,11 +20,12 @@ import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import Warninggeneral from '../../../Warnings/Warninggeneral';
 import PasswordChange from '../../../../components/PasswordChange/PasswordChange';
+import { useDispatch, useSelector } from "react-redux";
 
 const Edit = ({history}) => {
   document.title = Title('Perfil');
   let values = queryString.parse(useLocation().search);
-
+  const link = useSelector(state => state.link);
   const [isactive, setActive] = useState([]);
   const [id, setId] = useState('');
   const [name, setName] = useState('');
@@ -313,7 +314,11 @@ const Edit = ({history}) => {
 
   const goBack = () => {
     Scroll(0,0);
-    history.push('/s/renter/perfil')      
+    if (localStorage.getItem('@lkt') !== "") {
+      history.push(localStorage.getItem('@lkt'))
+    } else {
+      history.push('/s/renter/perfil')      
+    }    
   }
 
   const goClose = () => {
@@ -341,8 +346,8 @@ const Edit = ({history}) => {
       <br/><br/>
                   <Button
                     type={'submit'}
-                    className={'button color-logo-lessor'} 
-                    text={'Voltar'}
+                    className={'button color-logo-lessor back-perfil'} 
+                    text={'Voltar de onde eu parei'}
                     onClick={event => goBack()}
                   />
 

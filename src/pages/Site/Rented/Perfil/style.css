@@ -20,3 +20,19 @@
   font-weight: 500 !important;
   font-size: 19px;
 }
+
+.back-perfil{
+  z-index: 9 !important;
+  position: fixed !important;
+  right: 10px !important;
+  bottom: 10px !important;
+}
+
+@media (max-width: 900px) {
+  .back-perfil{
+    z-index: 9999 !important;
+    position: fixed !important;
+    bottom: 70px !important;
+
+  }
+}

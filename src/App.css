@@ -481,7 +481,34 @@
   display: none !important;
 }
 
+.rentandnow{
+  font-size: 25px;
+  font-family: 'Poppins', sans-serif !important;
+  color: #60a8f1;  
+  margin-bottom: 30px;
+}
+
+.aftercontineos{
+  font-size: 21px !important;
+  color: #60a8f1;  
+}
+
 @media (max-width: 900px) {
+  .warning-unavailable{
+    z-index: 99 !important;
+    width: 100% !important;
+    background:#FFD237;
+    color: #000;
+    padding: 5px;
+    padding-top: -10px !important;
+    margin-top: -12px;
+    padding-bottom: 30px;
+  }
+
+  .explorer{
+    padding: 0px !important;
+  }
+
   .columns {
     margin-left: 0 !important;
     margin-right: 0 !important;

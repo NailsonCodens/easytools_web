@@ -213,6 +213,7 @@ const Rules = ({ history }) => {
                             <Ul>
                               <b className="title-politics"> Pagamento online </b>
                               <li> Para facilitar sua vida, nós enviamos um link de pagamento a você. Pagamento online para aluguel de equipamento, já pensou nessa facilidade?</li>
+                              <li>Este link ficará acessível para você em sua conta em "Meus alugado" -> Detalhes. Você pode também acessar este link pela notificação.</li>
                             </Ul>
                             <li><i class="explanation-rules">Uma nova forma de alugar</i></li> 
                             <Ul>
@@ -221,7 +222,6 @@ const Rules = ({ history }) => {
                             </Ul>
                             </div>
                           </div>
-
                       </div>
                       <div className="column">
                         <div className="column has-centered-text">
@@ -256,7 +256,7 @@ const Rules = ({ history }) => {
         ('')
         :
         (
-          <Rentalbottombox title={tool.title} go={goRent} attempt={attempt} startDate={values.init} endDate={values.finish} scroolView={160}/>
+          <Rentalbottombox title={tool.title} go={goRent} attempt={attempt} startDate={values.init} endDate={values.finish} scroolView={100}/>
         )
       }
     </>

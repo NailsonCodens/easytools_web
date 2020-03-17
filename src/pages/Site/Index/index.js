@@ -143,7 +143,7 @@ const Dashboard = ({history, location}) => {
         </div>
         <div className="container">
 
-          <h3 className="title-index">O que você precisa?</h3>
+          <h3 className="title-index">O que você precisa alugar?</h3>
           <div className="columns is-desktop is-multiline">
             {
               tools.map(tool => (

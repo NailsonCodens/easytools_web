@@ -17,7 +17,16 @@ const Congrats = () => {
       <br/><br/>
       <h3 className="congrats">Parabéns, seu aluguel foi enviado <FontAwesomeIcon icon={['fas', 'handshake']} className="" size="1x"/></h3>
       <p className="text-congrats">Fique ligado, você vai receber uma notificação aqui na plataforma e por e-mail quando o pedido for aceito.</p>
-      <p>Nosso prazo de retorno é de 15 minutos nos primeiros 5 alugueis. Depois disso, seu aluguel é processado instântaneamente.</p>
+      <br/>
+      <p className="rentandnow">Aluguei e agora, como eu pago? </p>
+      <p className="text-rentandnow">
+        Você também vai receber um link para pagamento. Junto com a notificação do seu aluguel, vem o link de pagamento que pode ser acessado aqui dentro da plataforma. 
+        <br/>
+        Basta ir em "Meus alugados" -> Detalhes e acessar o link, ou acessar o link de pagamento pela notificação.
+      </p>
+      <br/>
+      <p className="rentandnow">Quanto tempo demora ? </p>
+      <p>Nosso prazo de retorno é de 30 minutos nos primeiros 5 alugueis. Depois disso, seu aluguel é processado instântaneamente.</p>
       <br/><br/>
       <h3>
         Algumas dicas! 

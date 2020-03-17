@@ -39,7 +39,12 @@ const Doc = ({history}) => {
   }
  
   const goBack = () => {
-    history.push('/s/renter/perfil')      
+    Scroll(0,0);
+    if (localStorage.getItem('@lkt') !== "") {
+      history.push(localStorage.getItem('@lkt'))
+    } else {
+      history.push('/s/renter/perfil')      
+    }       
   }
   
   return (
@@ -88,8 +93,8 @@ const Doc = ({history}) => {
         
         <Button
           type={'submit'}
-          className={'button color-logo-lessor'} 
-          text={'Voltar'}
+          className={'button back-perfil color-logo-lessor'} 
+          text={'Voltar onde eu estava'}
           onClick={event => goBack()}
         />
 

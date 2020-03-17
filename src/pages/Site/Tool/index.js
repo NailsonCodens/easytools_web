@@ -129,6 +129,10 @@ const Tool = ({history}) => {
     }
   })
 
+  const setLsItem = (url) => {
+    localStorage.setItem('@lkt', `dsadasdas`);
+  }
+
   const next = (rentData) => {
     if (isAuthenticated()) {
       if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
@@ -137,6 +141,7 @@ const Tool = ({history}) => {
           history.push(`/lessor/perfil?e=cc`);
         } else {
           Scrool()
+          setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
           history.push('/s/renter/perfil/edit?e=cc');
         }
 
@@ -148,6 +153,7 @@ const Tool = ({history}) => {
               if (perfil.type === 'Lessor') {
                 history.push(`/lessor/perfil/detail/${perfil.id}?e=cs`);
               } else {
+                setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
                 history.push('/s/renter/perfil/documents?e=cs');                
               }
               dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
@@ -163,8 +169,8 @@ const Tool = ({history}) => {
                 month: price.amountmonth,
                 amount: formik.values.amount,
                 period: price.type,
-                price: price.priceNoamount,
-                cost: price.pricefull,
+                price: price.priceNoamount.toFixed(2),
+                cost: price.pricefull.toFixed(2),
                 priceperiod: price.price,
                 freight: 0,
                 accept: 0,
@@ -176,16 +182,21 @@ const Tool = ({history}) => {
             Scrool()
             if (perfil.type === 'Lessor') {
               history.push(`/lessor/perfil/detail/${perfil.id}?e=df`);
+
+              dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));  
             } else {
+              setLsItem() 
               history.push('/s/renter/perfil/documents?e=df');
+              dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));  
             }
-            dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));  
+
           }
         }else {
           Scrool()
           if (perfil.type === 'Lessor') { 
             history.push(`/lessor/perfil/detail/${perfil.id}?e=nd`);
           } else {
+            setLsItem() 
             history.push('/s/renter/perfil/documents?e=nd');
           }
           dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));

@@ -76,7 +76,7 @@ const Payment = ({history}) => {
 
     async function showBottom () {
       //verificar mobile
-      if (document.documentElement.scrollTop > 160) {
+      if (document.documentElement.scrollTop > 100) {
         setClass('bottom-box')
       }else{
         setClass('bottom-no-box')

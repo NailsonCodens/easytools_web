@@ -12,6 +12,10 @@ import Rented from '../../Site/Rented/index';
 import Paymentprocess from '../../Site/Paymentprocess/index';
 import Helpme from '../../Site/Helpme/index';
 import Newrent from '../Newrent/index';
+import Dealopen from '../Polices/dealopen';
+import Policeuse from '../Polices/police_use';
+import Privacy from '../Polices/privacy_terms';
+import Terms from '../Polices/terms';
 
 export default function Start({history}) {
   let { path } = useRouteMatch();
@@ -40,6 +44,10 @@ export default function Start({history}) {
       <PrivateRenter path={`${path}/payment`} component={Paymentprocess}/>
       <PrivateRenter path={`${path}/messages`} component={teste => ('asdsd')}/>
       <PrivateRenter path={`${path}/renter`} component={Rented}/>
+      <PrivateRenter path={`${path}/terms`} component={Terms}/>
+      <PrivateRenter path={`${path}/dealopen`} component={Dealopen}/>
+      <PrivateRenter path={`${path}/policeuse`} component={Policeuse}/>
+      <PrivateRenter path={`${path}/privacyterms`} component={Privacy}/>
     </>
   )
 }

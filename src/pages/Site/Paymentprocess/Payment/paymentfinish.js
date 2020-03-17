@@ -60,7 +60,7 @@ const Paymentfinish = ({history}) => {
 
     async function showBottom () {
       //verificar mobile
-      if (document.documentElement.scrollTop > 160) {
+      if (document.documentElement.scrollTop > 100) {
         setClass('bottom-box')
       }else{
         setClass('bottom-no-box')
@@ -252,6 +252,14 @@ const Paymentfinish = ({history}) => {
                 <li className="list-info-payment"> Logo após, você receberá algumas orientações de como proceder com o equipamento alugado. O que fazer o que não fazer.</li>
                 <li className="list-info-payment"> Quando você receber o link do pagamento, basta pagar e nós iremos entregar o equipamento no seu endereço de uso.</li>
               </ul>
+              <br/>
+              <p className="aftercontineos">
+                Antes de prosseguir, confira o o equipamento, sua tensão e as datas escolhidas. 
+                <br/>
+                Estando tudo certo, aceite e prossiga para finalizar o aluguel.
+              </p>
+
+
               <br/><br/>
                 <div className="columns">
                   <div className="column">
@@ -405,7 +413,7 @@ const Paymentfinish = ({history}) => {
               <Button 
                 type={'button'}
                 className={'button is-pulled-right bt-bottom color-logo'}
-                text={rentattempt.finishprocess === "y" ? 'Sendo processado' : 'Alugar'}
+                text={rentattempt.finishprocess === "y" ? 'Sendo processado' : 'Confirmar e Alugar'}
                 disabled={rentattempt.finishprocess === "y" ? true : false}                              
                 onClick={event => paymentRent()}
               />
