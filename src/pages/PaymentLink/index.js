@@ -24,9 +24,8 @@ async function linkpayment (idattempt, rent) {
   }
 
   const renderValuefinal = () => {
-    var value = parseFloat(rent.cost) + parseFloat(rent.freight)
-    var vl = value.toString()
-    return parseFloat(vl * 100)
+    console.log((parseFloat(rent.cost) * 100) + (parseFloat(rent.freight) * 100))
+    return (parseFloat(rent.cost) * 100) + (parseFloat(rent.freight) * 100)
   }
 
   const renderTypedocument = () => {

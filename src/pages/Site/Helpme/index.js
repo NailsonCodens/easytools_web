@@ -34,18 +34,18 @@ const Helpme = () => {
         </div>
         <div className="accordion-body">
           <div className="accordion-content">
-            A EasyTools é uma locadora de equipamentos e ferramentas 100% On-line. 
-            <br/>
-            Somos a primeira locadora online delivery de equipamentos sem loja física. Você aluga e nós entregamos na sua casa o equipamento alugado.
-            Alugue qualquer equipamento e ferramenta que precisa, chega de burocracias para alugar, venha para o digital com a EasyTools! 
-            <br/>
-            O processo de locação não demora mais que 30 minutos.
+          A EasyTools é uma locadora de equipamentos e ferramentas 100% online.
+          <br/>
+          Somos a primeira locadora online delivery de equipamentos sem loja física. Você aluga e nós entregamos em sua casa. Alugue qualquer equipamento e ferramenta que precisar, sem burocracia.
+          <br/>
+          O processo de locação não demora mais que 30 minutos.
+
           </div>
         </div>
       </article>
       <article className={setworkit === true ? 'accordion is-active ' : ' accordion ' }>
         <div className="accordion-header">
-          <p onClick={event => setWorkit(!setworkit)} className="name-click">Como funciona</p>
+          <p onClick={event => setWorkit(!setworkit)} className="name-click">Como funciona?</p>
           <button className="toggle" aria-label="toggle" onClick={event => setWorkit(!setworkit)}></button>
         </div>
         <div className="accordion-body">
@@ -54,27 +54,23 @@ const Helpme = () => {
             <br/><br/>
             1 - Cadastro
             <br/>
-            Acesse nosso site ou baixe nosso app e clique em "Alugar", crie seu cadastro. * Vá em perfil e adicione os documentos necessários. * Caso não tenha os documentos neste momento, você pode fazer este processo quando for alugar um equipamento;
+            Acesse nosso site ou baixe nosso app e clique em "Alugue o que você precisa" e crie seu cadastro. * Vá em Perfil e adicione os documentos necessários. * Caso não tenha os documentos neste momento, você pode fazer este processo quando for alugar um equipamento;
             <br/>
             <br/>
             2 - Locação
             <br/>
-            Escolha o equipamento que deseja locar com a EasyTools, adicione o período de uso desejado e clique em "Alugar". Fique trânquilo, você não será cobrado nesta hora.
-            * Você revisará na próxima pagina, o equipamento escolhido. * Depois, você precisar ler e entender as regras da locação. * Seguindo para finalizar, adicione o endereço onde o equipamento será entregue para uso.
-            * Será exibido para você, o custo para levar o equipamento até sua casa.
+            Escolha o equipamento que deseja locar com a EasyTools, adicione o período de uso desejado e clique em "Alugar". Fique tranquilo, você não será cobrado nesta hora. * Você revisará na próxima página, o equipamento escolhido. * Depois, você precisa ler e entender as regras da locação. * Para finalizar, adicione o endereço onde o equipamento deverá ser entregue para uso. * Será informado o custo para levar o equipamento até o local desejado.
             <br/>
             <br/>
             3 - Pagamento
             <br/>
-            Logo após enviar seu aluguel, nós analisaremos os dados e equipamento alugado em 15 minutos nos primeiros 5 aluguéis, logo após os primeiros aluguéis, a análise é quase instantanea.
-            Você receberá um link de pagamento e a confirmação do aluguel na sua conta e por e-mail. * Pagamento realizado, nós entregamos o equipamento na porta do seu endereço cadastrado em até 2 horas.
+            Logo após solicitar seu equipamento, nós analisaremos os dados e produto alugado em até 30 minutos nos primeiros 5 aluguéis, nos demais aluguéis a análise será quase instantânea. Você receberá uma confirmação do aluguel na sua conta e por e-mail e o link de pagamento, que também poderá ser acessado dentro da plataforma, basta ir em "Meus alugados" -> Detalhes e acessar o link. * Pagamento realizado, nós entregaremos o equipamento no endereço cadastrado em até 2 horas.
+            Por enquanto, aceitamos apenas pagamentos em cartão de crédito, para a segurança de seus dados. 
             <br/>
-            Aceitamos pagamentos em cartão de crédito apenas, para a segurança dos seus dados.
-            <br/><br/>
+            <br/>
             4 - Entrega do equipamento
             <br/>
-            Nós enviaremos um e-mail confirmando a entrega do equipamento no seu endereço. * Não entregaremos o equipamento a outra pessoa que não seja quem alugou.
-            * Nós realizaremos um check-in junto com você quando formos entregar o equipamento. E fazemos um check-out na devolução.
+            Nós enviaremos um e-mail confirmando a entrega do equipamento em seu endereço. * Nós realizaremos um check-in junto com você quando formos entregar o equipamento e um check-out na devolução.
           </div>
         </div>
       </article>
@@ -85,9 +81,9 @@ const Helpme = () => {
         </div>
         <div className="accordion-body">
           <div className="accordion-content">
-            Chega de burocracia e papeladas desnecessárias, o nosso contrato é totalmente online, você recebe o contrato no seu e-mail cadastrado na EasyTools.
-            <br/>
-            * Quando você se cadastrar na plataforma e aceita os termos de uso e politicas, você automaticamente já aceita o contrato de futuras locações dentro da plataforma.
+          Sem burocracia e papeladas desnecessárias, o nosso contrato é totalmente online e você recebe em seu e-mail cadastrado na EasyTools.
+          <br/>
+          * Quando você se cadastrar na plataforma e aceitar os termos de uso e politicas, automaticamente, delcara aceito o contrato de futuras locações dentro da plataforma.
           </div>
         </div>
       </article>
@@ -98,24 +94,22 @@ const Helpme = () => {
         </div>
         <div className="accordion-body">
           <div className="accordion-content">
-            Você não precisa pagar calção ou qualquer segurança para alugar com a EasyTools. Mas fique atento ao contrato e aos termos de uso.
+            Você não precisa pagar calção ou qualquer garantia para alugar com a EasyTools. Mas fique atento ao contrato e aos termos de uso.
             <br/>
             Temos regras e acordos sobre avarias e problemas com os equipamentos.
             <br/>
             Nós confiamos em você para usar nossos equipamentos!
-           </div>
+          </div>
         </div>
       </article>
       <article className={setbreakdowns === true ? 'accordion is-active ' : ' accordion ' }>
         <div className="accordion-header">
-          <p onClick={event => setBreakdowns(!setbreakdowns)} className="name-click">Avarias no equipamento</p>
+          <p onClick={event => setBreakdowns(!setbreakdowns)} className="name-click">E se o equipamento for avariado?</p>
           <button className="toggle" aria-label="toggle" onClick={event => setBreakdowns(!setbreakdowns)}></button>
         </div>
         <div className="accordion-body">
           <div className="accordion-content">
-            Nós sabemos que equipamentos estragam sem que alguém tenha causado algum dano. 
-            Em caso de equipamento avariado, nós faremos uma análise com os nossos tecnicos, se ficar provado avarias por parte do locatário, o locatário é responsável e terá que arcar com este custo de manutenção do mesmo.
-            Se o equipamento falhar, ou estragar normalmente, sem avarias causadas pelo locatário, nos avise atraveś dos nossos canais de comunicação, Instagram, WhatsApp, e-mail e chat que nós rapidamente faremos a trocar do equipamento no local de uso.
+            Nós sabemos que equipamentos estragam. Se o equipamento falhar, ou apresentar defeito sem avarias causadas pelo locatário, nos informe através dos nossos canais de comunicação: Instagram, WhatsApp, e-mail ou chat que nós rapidamente faremos a troca do equipamento no local de uso. Em todos os casos de equipamento avariado, nós faremos uma análise com os nossos técnicos e se forem confirmadas avarias por parte do locatário, o mesmo será responsável e deverá arcar com o custo de manutenção, reparo ou novo produto.
           </div>
         </div>
       </article>      
@@ -126,9 +120,7 @@ const Helpme = () => {
         </div>
         <div className="accordion-body">
           <div className="accordion-content">
-            Dias antes do final do aluguel, nossa plataforma enviará avisos para que você esteja ciente de quando o equipamento precisa ser entregue. 
-            No dia da entregam nós iremos buscar o equipamento, então deixe o equipamento pronto para que possamos levar. 
-            * Se o equipamento não for devolvido na data prevista, contará o valor de uma diária a cada dia a mais do período de devolução previsto.
+              Dias antes do fim do aluguel, nossa plataforma enviará avisos para que você esteja ciente de quando o equipamento precisa ser devolvido. No dia da devolução nós iremos buscar o equipamento, portanto, deixe o equipamento pronto para que possamos levar. * Se o equipamento não for devolvido na data prevista, será cobrado o valor de uma nova diária a cada dia ultrapassado ao período de devolução previsto.
           </div>
         </div>
       </article>      
@@ -139,8 +131,7 @@ const Helpme = () => {
         </div>
         <div className="accordion-body">
           <div className="accordion-content">
-           A EasyTools é uma empresa delivery de equipamentos totalmente online, dispensando a necessidade de papeladas e burocracias para que você tenha o equipamento desejado, sem
-           ter que ir a uma loja e/ou ficar horas esperando um orçamento ou até mesmo por telefone.
+            Não, a EasyTools é uma empresa delivery de equipamentos totalmente online, dispensando a necessidade de papeladas e burocracias para que você tenha o equipamento desejado, sem precisar ir a uma loja e/ou ficar horas aguardando um orçamento.
           </div>
         </div>
       </article>   
@@ -151,7 +142,7 @@ const Helpme = () => {
         </div>
         <div className="accordion-body">
           <div className="accordion-content">
-            Todos os dias da semana, das 8h às 19h, incluindo finais de semana e feriados, através dos chats disponíveis no aplicativo da EasyTools e no site oficial da EasyTools e por e-mail: easytoolsapp@gmail.com
+            De segunda à  sexta das 8:00 às 19:00 e sábados das 08:00 à 12:00, através dos chats disponíveis no aplicativo da EasyTools, no site oficial da EasyTools e por e-mail: easytoolsapp@gmail.com
           </div>
         </div>
       </article>      

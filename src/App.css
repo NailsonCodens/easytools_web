@@ -493,7 +493,45 @@
   color: #60a8f1;  
 }
 
+.terms-complete{
+  font-family: 'Poppins', sans-serif !important; 
+}
+
+.ol-privacy{
+  font-weight: 500;
+  color: #60a8f1;
+  padding-left: 30px;
+}
+
+.topics-terms{
+  font-size: 22px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif !important; 
+  padding-bottom: 30px;
+}
+
+.ul-pr-dec{
+  list-style: disc !important;
+}
+
+.logo-whats{
+  width: 60px !important;
+  z-index:999;
+  position: fixed;
+  right: 10px;
+  bottom: 20px;
+}
+
+
 @media (max-width: 900px) {
+  .logo-whats{
+    width: 60px !important;
+    z-index:999;
+    position: fixed;
+    left: 10px;
+    bottom: 80px;
+  }
+  
   .warning-unavailable{
     z-index: 99 !important;
     width: 100% !important;

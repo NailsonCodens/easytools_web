@@ -666,6 +666,14 @@ return (
                 { tool.description }
               </p>
             </div>
+            <div className="description">
+              <p className="title-infos-tool">
+                Uso indicado <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
+              </p>
+              <p className="text-simple-info-tool">
+                { tool.use_indication }
+              </p>
+            </div>
             <Hr/>
             <div className="specification">
               <div className="columns">
@@ -767,7 +775,7 @@ return (
                                     <Button 
                                         type={'button'}
                                         className={'button is-link is-light is-small is-pulled-right'}
-                                        text={'Valores períodos'}                                    
+                                        text={'Valores por períodos'}                                    
                                       onClick={event => setShowprices(!showprices)}
                                     />
                                   </>
@@ -1021,7 +1029,7 @@ return (
                     ('')
                   }
                   <div className="pricefinal">
-                    <Warningtext>* O preço final pode mudar de acordo com o período escolhido. Diária, Semanal, Quizenal e Mensal tem valores diferentes.</Warningtext>
+                    <Warningtext>*O valor final pode mudar de acordo com o período escolhido: diária, semanal, quizenal ou mensal.</Warningtext>
                   </div>
                   {
                     modal2 === true ? 

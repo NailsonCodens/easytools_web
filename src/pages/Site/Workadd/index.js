@@ -207,13 +207,11 @@ const Workadd = ({rent}) => {
       <p className="title-infos-tool hack-padding-top">Estamos quase lá!</p>
 
       <p className="title-tool-only">
-        Adicione o endereço onde o equipamento será usado.
+        Onde você quer receber o equipamento?
       </p>
       <Warningtext>
         <br/>
-        Para que tudo ocorra bem, é importante que você adicione o endereço onde o equipamento vai ser usado. 
-        Não se preocupe, o endereço serve para que nós saibamos onde entregar e/ou onde o equipamento será usado,
-        garantindo assim um atendimento personalizado a você. 
+        Para que tudo ocorra bem, é importante que você adicione o endereço onde o equipamento será usado. Não se preocupe, o endereço serve para que nós saibamos onde entregar e/ou onde o equipamento será usado, garantindo assim um atendimento personalizado a você. 
       </Warningtext>
       <br/>
       <div className="offer">
@@ -245,9 +243,9 @@ const Workadd = ({rent}) => {
               <Warningtext>
               </Warningtext>     
               <p className="red-text">
-                Você ainda não colocou seu endereço de cadastro, faça isso assim que puder clicando no seu nome no canto inferior direito -> perfil. 
+                Você ainda não colocou seu endereço de cadastro, faça isso assim que possível clicando no seu nome no canto inferior direito -> perfil. 
                 <br/>
-                Por hora, apenas adicione o seu endereço de uso.
+                Para seguite, adicione o seu endereço de uso.
               </p>
             </>
           )

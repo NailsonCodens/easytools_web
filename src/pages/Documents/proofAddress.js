@@ -28,7 +28,7 @@ export default function Proofaddress({id}) {
 
   const success2 = () => Notification(
     'success',
-    'Documento atualizado com sucesso, vamos voltar onde estavamos?!', 
+    'Documento atualizado com sucesso, vamos voltar onde estavamos?', 
     {
       autoClose: 3000,
       draggable: false,

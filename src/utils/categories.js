@@ -1,12 +1,10 @@
 const category = [
-  {value: 'Cortante', label: 'Contante' }, 
-  {value: 'Furante', label: 'Furante' }, 
-  { value: 'Lavagem', label: 'Lavagem' }, 
-  { value: "Batedor", label: "Batedor" },
+  { value: "Bricolagem", label: "Bricolagem" },
+  { value: "Construção", label: "Construção" },
+  { value: "Demolição", label: "Demolição" },
   { value: "Limpeza", label: "Limpeza" },
   { value: "Jardinagem", label: "Jardinagem" },
-  { value: "Demolição", label: "Demolição" },
-  { value: "Lixar", label: "Lixar" },
+  { value: "Estrutura", label: "Estrutura" },
 ];
 
 export default category;

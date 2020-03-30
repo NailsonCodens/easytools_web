@@ -52,7 +52,7 @@ const Doc = ({history}) => {
       {
         values.e === 'nd' ? 
         (
-          <Warninggeneral close={goClose}>Precisamos dos seus documentos para dar segurança a você e a plataforma. Se você for locar como cnpj, nos envie o contrato social de sua empresa por favor.</Warninggeneral>
+          <Warninggeneral close={goClose}>Precisamos de seus documentos, para sua segurança e da plataforma. Lembre-se que, ao selecionar CNPJ, você precisa enviar uma cópia do contrato social.</Warninggeneral>
         )
         : 
         (
@@ -62,7 +62,7 @@ const Doc = ({history}) => {
       {
         values.e === 'df' ? 
         (
-          <Warninggeneral close={goClose}>Ainda faltam alguns documentos para você nos enviar. Veja os documentos que estão faltando e nos envie para poder locar.</Warninggeneral>
+          <Warninggeneral close={goClose}>Você loca como CNPJ, portanto, precisamos do contrato social de sua empresa. Clique aqui para enviar.</Warninggeneral>
         )
         : 
         (
@@ -72,7 +72,7 @@ const Doc = ({history}) => {
       {
         values.e === 'cs' ? 
         (
-          <Warninggeneral close={goClose}>Você loca como cnpj, então por isso, precisamos do contrato social da sua empresa. <span onClick={goScroll} className="is-text upload">Clique aqui para enviar.</span></Warninggeneral>
+          <Warninggeneral close={goClose}>Você loca como CNPJ, portanto, precisamos do contrato social de sua empresa <span onClick={goScroll} className="is-text upload">Clique aqui para enviar.</span></Warninggeneral>
         )
         : 
         (
@@ -84,7 +84,7 @@ const Doc = ({history}) => {
           <div className="column">
             <br/><br/>
             <h3 className="title-tool-only">
-              Você precisa nos enviar fotos do seu documento para completar seu cadastro, é bem rapido.
+              Precisamos que nos envie fotos de seus documentos para completar seu cadastro, é bem rapido.
               <br/><br/>
               Você só precisa fazer isso uma vez.
             </h3>
@@ -105,14 +105,13 @@ const Doc = ({history}) => {
             <p>Uma selfie sua.</p>
             <p>E o comprovante de endereço.</p>
             <p>Se for empresa, foto do contrato.</p>
-            <Warningtext>Fique tranquilo, seus dados estão seguros. Não compartilhammos, vendemos ou usamos indevidamente os seus dados". </Warningtext>
+            <Warningtext>Fique tranquilo, seus dados estão seguros conosco. Não os compartilharemos, venderemos ou usaremos indevidamente. </Warningtext>
           </div>
         </div>
-
         <div className="columns">
           <div className="column">
             <div>
-              <h3 className="title-box-inter">Foto do documento</h3>
+              <h3 className="title-box-inter">RG uo CNH</h3>
               <div>
                 <Document id={user.id}/>
               </div>
@@ -137,7 +136,7 @@ const Doc = ({history}) => {
             (
               <div>
                 <div className="column">
-                  <h3 className="title-box-inter">Contrato Social</h3>
+                  <h3 className="title-box-inter">Contrato Social (Em caso de CNPJ)</h3>
                   <div>
                     <SocialContract id={user.id}/>
                   </div>

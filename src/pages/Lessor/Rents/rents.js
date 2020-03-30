@@ -47,6 +47,7 @@ const Rents = ({ history }) => {
       })
       sendNotificationPayment(id, 'paymentlinkok', rent)
     }).catch(function (err) {
+      console.log(err)
       ChangeAccept('notaccept', id).then((res) => {
         reloadRents()
         sendNotification(id, 'noacceptforpayment', rent)
@@ -102,13 +103,13 @@ const Rents = ({ history }) => {
       }
 
       var notification = {
-        rent_attempt_id: rent[0].id,
-        user_recipient_id: rent[0].userrenter.id,
+        rent_attempt_id: rent.id,
+        user_recipient_id: rent.userrenter.id,
         message: message,
         title: title
       }
 
-      Email(rent[0].user_renter_id, title, message, urllabel, maintext)
+      Email(rent.user_renter_id, title, message, urllabel, maintext)
 
 
       await api.post('/notifications/send', notification, {})
@@ -142,16 +143,17 @@ const Rents = ({ history }) => {
           `;  
       }
   
+
       var notification = {
-        rent_attempt_id: rent[0].id,
-        user_recipient_id: rent[0].userrenter.id,
+        rent_attempt_id: rent.id,
+        user_recipient_id: rent.userrenter.id,
         message: message,
         title: title
       }
   
       //enviar outro email com o link do pagamento
   
-      Email(rent[0].user_renter_id, title, message, urllabel, maintext);
+      Email(rent.user_renter_id, title, message, urllabel, maintext);
   
 
       await api.post('/notifications/send', notification, {})

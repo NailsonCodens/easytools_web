@@ -361,7 +361,7 @@ const Edit = ({history}) => {
              <div className="column">
               <br/><br/>
               <h3 className="title-tool-only">
-                Adicione as informações necessárias para completar seu cadastro e você poder alugar sem problemas.
+                Adicione as informações necessárias para completar seu cadastro.
               </h3>
               <br/>
               <h3 className="title-box-inter">Documentos</h3>
@@ -560,8 +560,9 @@ const Edit = ({history}) => {
                       </Span>
                     </Field>
                     <Warningtext>
-                      Se você é locador empresa, escolha a opção CNPJ, preencha e salve. 
-                      <br/> logo após, vá em "Meus documentos" para enviar uma cópia do contrato social da empresa. 
+                      No caso de CNPJ, selecione acima esta opção e salve.
+                      <br/>
+                      Em seguida, vá em "Meus documentos" para enviar uma cópia do contrato social.
                     </Warningtext>
                   </div>
                 </div>
@@ -607,8 +608,6 @@ const Edit = ({history}) => {
             <div className="column">
               <h3 className="title-box-inter">Endereço</h3>
               <Warningtext>
-                Seus anúncios aparecerão com esta região selecionada. No entanto, você poderá editar em cada anúncio também.
-                <br/>
                 Seu endereço será verificado.
               </Warningtext>
               <div className="columns column-address">
@@ -785,7 +784,7 @@ const Edit = ({history}) => {
                 <div className="column">
                   <Field>
                     <Label for={'neighboor'}>
-                      <b>Cidade e Região</b>
+                      <b>Cidade</b>
                     </Label>
                     <Input
                       name="city"

@@ -142,6 +142,11 @@
     margin: 10px 0px !important;
   }
   
+  .column-cs-mobile{
+    width: 50% !important;
+    padding: 0.50em !important;
+  }
+
   .image-index{
     margin-top: 20px;
     margin-bottom: 60px;

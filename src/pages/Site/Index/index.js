@@ -123,8 +123,8 @@ const Dashboard = ({history, location}) => {
                     <img src={logo}  alt="EasyTools Logo" className="logo-index"/>
                   </div>                
                   <br/><br/><br/>
-                  <h3>Alugar equipamentos e ferramentas nunca foi tão fácil! </h3>
-                  <p className="text-subtitle-index">Uma nova maneira de alugar equipamentos e ferramentas.</p>
+                  <h3>Alugar equipamentos e ferramentas nunca foi tão fácil. </h3>
+                  <p className="text-subtitle-index">Descubra uma nova maneira de alugar!</p>
                   <br/><br/>
                   <Link
                     to={'/s/about-us'}
@@ -143,12 +143,11 @@ const Dashboard = ({history, location}) => {
           }
         </div>
         <div className="container">
-
           <h3 className="title-index">O que você precisa alugar?</h3>
-          <div className="columns is-desktop is-multiline">
+          <div className="columns is-desktop is-mobile is-multiline">
             {
               tools.map(tool => (
-                <div key={tool.id} className="column is-one-quarter">
+                <div key={tool.id} className="column column-cs-mobile is-one-quarter">
                   <span onClick={event => goTool(tool.id, tool.category, tool)}>
                     <div className="tool">
                       <div className="picture-tool"> 
@@ -208,7 +207,6 @@ const Dashboard = ({history, location}) => {
         </div>
         <br/><br/>
         <div className="has-text-centered">
-          <p className="title-index">Não encontrou o que precisa? Nos avise!!</p> 
           <div className="columns">
             <div className="column">
               <a
@@ -226,8 +224,7 @@ const Dashboard = ({history, location}) => {
   
             <p className="title-index tl-neigh-cs">Quer ser um vizinho na Easytools?</p>
             <p className="text-neigh-cs">
-              Vizinho é um apelido que carinhosamente damos aos nossos parceiros que disponibilizam seus equipamentos e ferramentas na Easytools.
-              Quer ser um vizinho? Clique no botão a baixo e entre em contato conosco.
+              Vizinho é um apelido que, carinhosamente, damos aos nossos parceiros que disponibilizam seus equipamentos e ferramentas na Easytools. Quer ser um vizinho? Clique no botão a baixo e entre em contato conosco.
             </p>
             <div className="columns">
               <div className="column">

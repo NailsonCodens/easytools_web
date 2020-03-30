@@ -29,9 +29,9 @@ const Newrent = () => {
         <div className="columns">
           <div className="column cl-text">
             <p className="message-about">
-              "Se você pode pedir comida on-line, por que não equipamentos e ferramentas?"
+              Se você pode pedir comida online, por que não equipamentos e ferramentas?
               <br/>
-              Não temos loja física, por isso somos inovadores, atendemos somente on-line e entregamos na sua casa o produto alugado
+              Não temos loja física, por isso somos inovadores, atendemos somente online e fazemos delivery do equipamento onde você desejar.
             </p>
           </div>
           <div className="column cl-image">
@@ -90,7 +90,8 @@ const Newrent = () => {
                     </div>
                   </div>
                   <div className="column">
-                    Dentro de alguns minutos você receberá uma notificação confirmando seu aluguel e um link de pagamento para concluir o aluguel;</div>
+                    Dentro de alguns minutos você receberá uma notificação confirmando seu aluguel e um link de pagamento;
+                  </div>
                 </div>  
               </li>
               <li className="h-w-i-li"> 
@@ -107,13 +108,12 @@ const Newrent = () => {
               </li>  
               <li>
                 <p className="just">
-                  Só isso?
-                  Sim, só isso!
+                  Só isso? Sim, só isso!
                 </p>
               </li>
             </ul>
             <br/>
-            <p className="time">* Todo esse processo demora em média 6 minutos, alguéis de equipamentos offline demoram em média 4, 5 horas para acontecer.</p>
+            <p className="time">* Todo esse processo demora em média 10 minutos! Aluguéis de equipamentos offline demoram em média 4/5 horas para acontecer.</p>
           </div>
         </div>
       </div>
@@ -125,7 +125,7 @@ const Newrent = () => {
         <ul>
           <li>
             <p className="title-name">
-              Menos burocracia (Zero papela).
+             Menos burocracia (zero papela).
             </p>
             <p className="text-h">
               Chega de demora para alugar um equipamento, online é o futuro e o presente.
@@ -144,7 +144,7 @@ const Newrent = () => {
               Confiamos em você.
             </p>
             <p className="text-h">
-              Na EasyTools o foco é em você, nossa regra é, cuide do nosso equipamento como se fosse seu.
+              Na EasyTools o foco é em você, e nós confiamos que cuidará do nosso equipamento como se fosse seu.
             </p>
           </li>
           <li>

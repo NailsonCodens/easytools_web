@@ -250,18 +250,16 @@ const Paymentfinish = ({history}) => {
               <p className="title-tool-only-little">Informações importantes.</p>
               <br/>
               <ul>
-                <li className="list-info-payment">Ao clicar em "alugar", nós receberemos o seu pedido e dentro de alguns minutos, retornaremos uma notificação via e-mail, site e app, aceitando seu aluguel.</li>
-                <li className="list-info-payment"> Logo após, você receberá algumas orientações de como proceder com o equipamento alugado. O que fazer o que não fazer.</li>
-                <li className="list-info-payment"> Quando você receber o link do pagamento, basta pagar e nós iremos entregar o equipamento no seu endereço de uso.</li>
+                <li className="list-info-payment">Ao clicar em "alugar", nós receberemos o seu pedido e dentro de alguns minutos você receberá uma notificação via e-mail, site e app, aceitando seu aluguel.</li>
+                <li className="list-info-payment">Logo após, você receberá algumas orientações sobre o equipamento alugado.</li>
+                <li className="list-info-payment">Assim que o pagamento for identificado, o equipamento será entregue no seu endereço de uso.</li>
               </ul>
               <br/>
               <p className="aftercontineos">
-                Antes de prosseguir, confira o o equipamento, sua tensão e as datas escolhidas. 
+                Antes de prosseguir, confira o equipamento, sua tensão e as datas escolhidas.
                 <br/>
                 Estando tudo certo, aceite e prossiga para finalizar o aluguel.
               </p>
-
-
               <br/><br/>
                 <div className="columns">
                   <div className="column">
@@ -269,8 +267,6 @@ const Paymentfinish = ({history}) => {
                       rentattempt.finishprocess === "y" ? 
                       (
                         <>
-                          <Warningtext><b>Este aluguel já está sendo processado.</b></Warningtext>
-                          <br/><br/>
                         </>
                       )
                       :

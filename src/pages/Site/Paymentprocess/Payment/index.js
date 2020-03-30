@@ -231,7 +231,7 @@ const Payment = ({history}) => {
 
   const renderCalc = () => {
 
-    var kmregional = 8
+    var kmregional = 3
 
     var freight = '';
     var minfreight = '';
@@ -245,6 +245,8 @@ const Payment = ({history}) => {
     }
     var kmcurrent = workadd.distance;
     var costfreight = 0;
+
+    console.log(kmcurrent)
 
     if (kmregional > kmcurrent) {
         costfreight  = minfreight
@@ -267,7 +269,7 @@ const Payment = ({history}) => {
           <div className="columns">
             <br/><br/>
             <div className="column is-two-thirds">
-              <p className="title-tool-only"> Estamos quase lá! Entrega.</p>
+              <p className="title-tool-only"> Estamos quase lá!</p>
               {
                 /*
                     <p className="title-tool-only-little">
@@ -340,8 +342,8 @@ const Payment = ({history}) => {
                     <br/><br/> 
                     <Ul>
                       <b className="title-politics">Entrega</b>
-                      <li> - Depois de pago o aluguel, nós entregamos o equipamento onde você deseja! </li>
-                      <li> - Ao receber o equipamento alugado, nós fazemos um chekout com você para mantermos a qualidade dos equipamentos alugados.</li>
+                      <li> - Depois do pagamento confirmado, nós entregamos o equipamento no local solicitado. </li>
+                      <li> - No ato da entrega, um chekout será feito para mantermos a qualidade dos equipamentos alugados.</li>
                     </Ul>
                   </>
                 )

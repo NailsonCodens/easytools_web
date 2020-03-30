@@ -84,7 +84,7 @@ const Signin = ({ hs, url, closeModal }) => {
           <div className="container">
             <div className="column nopadding">
               <div className="has-text-centered">
-                <h2 className="welcome-easytools">Bem-vindo ao EasyTools</h2>
+                <h2 className="welcome-easytools">Bem-vindo à EasyTools!</h2>
               </div>
               <br/>
               <Form 
@@ -151,12 +151,12 @@ const Signin = ({ hs, url, closeModal }) => {
             </div>
           </div>
           <div className="has-text-centered">
-            <Span>Não tem conta da EasyTools? </Span>
+            <Span>Ainda não tem uma conta na EasyTools? </Span>
             <Link to="/signup"><Span className="button-enter">Cadastre-se</Span></Link>
           </div>  
           <div className="has-text-centered mwd-opacity-low">
-            <Span>Esqueci minha senha </Span>
-            <Link to="/password-recover"><Span className="button-enter">Recuperar Senha</Span></Link>
+            <Span>Esqueci minha senha! </Span>
+            <Link to="/password-recover"><Span className="button-enter">Recuperar Senha.</Span></Link>
           </div>               
         </div>
         <Modal 

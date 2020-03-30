@@ -1,7 +1,6 @@
 import api from  '../services/api';
 
 const Email = function (iduser, title, text, urllabel, maintext){
-  console.log(iduser, title, text, maintext, urllabel, maintext)
   sendemail(iduser, title, text, urllabel, maintext)
 }
 
@@ -18,6 +17,7 @@ async function sendemail (iduser, title, text, urllabel, maintext) {
   .then((res) => {
     console.log(res)
   }).catch((err) => {
+    console.log(err)
   })
 }
 

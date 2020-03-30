@@ -144,7 +144,7 @@ const Resume = ({history}) => {
                     <div className="column">
                       <p className="title-tool-only">Aluguel de { tool.title }</p>
                       <br/>
-                      <Warningtext>* Revise e confirme o equipamento ou ferramenta que você está alugando.</Warningtext>
+                      <Warningtext>* Revise e confirme o equipamento/ferramenta que você está alugando.</Warningtext>
                     </div>
                   </div>
                 </div>
