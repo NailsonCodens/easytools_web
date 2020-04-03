@@ -11,15 +11,20 @@ import queryString from 'query-string';
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from 'react-router-dom';
 import Scroll from '../../utils/scroll';
+import {Proof} from '../../store/actions/proof';
+
+import pdf from '../../assets/images/file.png';
 
 export default function Proofaddress({id}) {
+  let location = useLocation().pathname;
+  const dispatch = useDispatch();
 
   let history = useHistory();
   const link = useSelector(state => state.link);
 
   let values = queryString.parse(useLocation().search);
 
-  const [proof, stProof] = useState(address);
+  const [proof, stProof] = useState('Não adicionado.');
   const [nameproof, setNameproof] = useState('');
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
@@ -93,8 +98,16 @@ export default function Proofaddress({id}) {
   const onDrop = useCallback(acceptedFiles => {    
     const preview = URL.createObjectURL(acceptedFiles[0])
     setImage(acceptedFiles);
-    stProof(preview)
+
+    if (acceptedFiles[0].type !== 'image/jpeg' && acceptedFiles[0].type !== 'image/png') {
+      stProof(pdf)
+    } else {
+      stProof(preview)
+    }
+
     setActive(true)
+
+    dispatch(Proof(acceptedFiles[0]));
   }, [])
 
   const {getRootProps, getInputProps} = useDropzone({onDrop})
@@ -124,45 +137,48 @@ export default function Proofaddress({id}) {
     <div>
       <div className="columns">
       <div className="column has-text-centered">
-        <div className="column has-text-centered box-inter box-inter-padding">
-        <div className={ isactive === true ? 'work' : 'work_mini'}>
-            <div className="columns">
-              <div className="column is-2">
-                <img src={proof} alt={proof}/>
-              </div>
-              <div className="column is-3">
-                <EllipsisText text={nameproof} length={20}/>
-                { 
-                  showcheck === true ?
-                  (<span className="check-photo"></span>)
-                  :
-                  ('')
-                }            
-              </div>
+        <div className="has-text-centered">      
+            {
+              proof === 'Não adicionado.' ? 
+              (<span>{ proof }</span>)
+              :
+              (
+                <img src={proof} alt={proof} className="imagedoc"/>
+              )
+            }
+            <EllipsisText text={nameproof} length={20}/>
+            { 
+              showcheck === true ?
+              (<span className="check-photo"></span>)
+              :
+              ('')
+            }           
             </div>
-          </div>
-          <div className="column box-inter">
-            <div {...getRootProps()} className="drag-photo upload">
-              <input {...getInputProps()} />
-              Anexar
-            </div>
-          </div>
-          {
-            isactive === true ?
-            (
-              <>
-                <Button
-                  type={'button'}
-                  className={'button is-info color-logo-lessor is-pulled-right'}
-                  text={'Salvar'}
-                  onClick={event => updateProof() }
-                  />
-              </>
-            ) :
-            ('')
-          }
+            {
+              location === '/s/renter/perfil/documents' ? 
+              (
+                ''
+              )
+              :
+              (
+                <div className="column box-inter">
+                  <div {...getRootProps()} className="drag-photo upload">
+                    <input {...getInputProps()} />
+                      Anexar
+                  </div>
+                </div>
+              )
+            }
+
+            {
+              isactive === true ?
+              (
+                <>
+                </>
+              ) :
+              ('')
+            }
         </div>
-      </div>
       </div>
     </div>
   )

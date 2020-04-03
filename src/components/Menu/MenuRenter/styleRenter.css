@@ -20,12 +20,16 @@
 }
 
 .logo {
-  width: 65px;
+  width: 55px;
   grid-column: 1;
   padding: 2px;
   z-index:9;
-  top: 4px;
+  top: 8px;
   position: relative;
+}
+
+.menu-small .logo{
+  top: 5px;
 }
 
 .right-menu {
@@ -192,9 +196,10 @@
 
 @media (max-width: 900px) {
   .navbar{
-    height: 0px !important;
+    height: 25px !important;
   }
 
+  
   .navbar-brand{
     margin-top: -1px !important;
   }
@@ -213,7 +218,6 @@
 
   .input-search {
     margin-top: 14px;
-    width: 100% !important;
     border: 1px solid rgb(221, 221, 221) !important;
     border-radius: 100px !important;
     font-family: 'Poppins', sans-serif;

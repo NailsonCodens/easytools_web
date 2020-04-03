@@ -1,6 +1,7 @@
 import React from 'react'
 import './style.css'
 import { Link} from 'react-router-dom';
+import Scrool from '../../../utils/scroll';
 import {Helmet} from 'react-helmet'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -12,7 +13,7 @@ const Newrent = () => {
   return (
     <>
       <Helmet>
-        <title>Uma nova forma de alugar equipamentos e ferramentas | EasyTools</title>
+        <title>Alugar não precisa ser burocrático e chato</title>
         <meta
           name="description"
           content="EasyTools, Aluguel online de ferramentas e equipamentos que você e seu negócio precisam! A primeira locadora de equipamentos e ferrmanetas totalmente on-line."
@@ -20,10 +21,11 @@ const Newrent = () => {
         <meta name="keywords" content="Aluguel online, equipamentos, construção cívil"/>
       </Helmet>
       <div className="container">
-      <br/><br/>
-      <h3 className="title-about-us has-text-centered">Uma nova forma de alugar equipamentos e ferramentas.</h3>
-      <br/>
-      <p className="has-text-centered sub-title-about-us">Alugar equipamentos não precisa ser burocrático e chato.</p>
+        <div className="container">
+          <h3 className="title-about-us has-text-centered">Alugar não precisa ser burocrático e chato.</h3>
+          <br/>
+          <p className="has-text-centered sub-title-about-us">Sem papél, sem burocracia, tudo digital.</p>
+        </div>
       <br/><br/>
       <div className="text-intro">
         <div className="columns">
@@ -157,7 +159,7 @@ const Newrent = () => {
           </li>
         </ul>
         <br/><br/>
-        <Link to="/" className="button color-logo">Alugar!</Link>
+        <Link to="/" className="button color-logo" onClick={event => Scrool(0,0)}>Alugar!</Link>
           </div>
         </div>
         <br/><br/>

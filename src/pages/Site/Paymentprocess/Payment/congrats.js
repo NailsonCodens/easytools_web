@@ -9,12 +9,11 @@ library.add(faHandshake, faTools, faCommentDots, faCalendarAlt, faCheckCircle, f
 
 const Congrats = () => {
   return (
-    <>
+    <div className="container">
         <Helmet>
           <title>{ 'Parabéns, seu aluguel foi enviado' }</title>
         </Helmet>
-        <div className="container explorer">
-      <br/><br/>
+        <div className="explorer">
       <h3 className="congrats">Parabéns, seu aluguel foi enviado <FontAwesomeIcon icon={['fas', 'handshake']} className="" size="1x"/></h3>
       <p className="text-congrats">Fique ligado, você vai receber uma notificação aqui na plataforma e por e-mail quando o pedido for aceito.</p>
       <br/>
@@ -31,7 +30,7 @@ const Congrats = () => {
       <h3>
         Algumas dicas! 
       </h3>
-      <div className="columns">
+      <div className="container columns">
         <div className="column">
           <div className="box-itens-helping">
             <ul>
@@ -60,7 +59,7 @@ const Congrats = () => {
           <Link
           to="/"
           onClick={event => Scrool(0,0)}
-            className={'button is-pulled-left color-logo'}                                
+            className={'button is-pulled-left color-logo button-congrats'}                                
           >
             Pronto!
           </Link>
@@ -68,7 +67,7 @@ const Congrats = () => {
         </div>
       </div>
     </div>
-    </>
+    </div>
   )
 }
 

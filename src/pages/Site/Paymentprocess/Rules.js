@@ -162,7 +162,6 @@ const Rules = ({ history }) => {
                   :
                   (
                   <>
-                    <br/><br/>
                     <div className="columns noppadding">
                       <div className="column">
                         <p className="title-tool-only">Politicas & Regras do aluguel </p>
@@ -255,7 +254,7 @@ const Rules = ({ history }) => {
         ('')
         :
         (
-          <Rentalbottombox title={tool.title} go={goRent} attempt={attempt} startDate={values.init} endDate={values.finish} scroolView={100}/>
+          <Rentalbottombox title={tool.title} go={goRent} attempt={attempt} startDate={values.init} endDate={values.finish} scroolView={-10}/>
         )
       }
     </>

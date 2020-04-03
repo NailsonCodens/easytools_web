@@ -3,12 +3,18 @@ import { Button } from '../../components/Form/Button';
 import {useDropzone} from 'react-dropzone';
 import Notification from '../../utils/notification';
 import EllipsisText from "react-ellipsis-text";
-
-import selfieu from '../../assets/images/selfie.png'
+import { useDispatch, useSelector } from "react-redux";
+import selfieu from '../../assets/images/selfie.png';
 import api from '../../services/api';
 import './style.css';
+import {Selfie as Selfieus} from '../../store/actions/selfie';
+import { useLocation } from "react-router-dom";
+import pdf from '../../assets/images/file.png';
+
 export default function Selfie({id}) {
-  const [selfie, setSelfie] = useState(selfieu);
+  let location = useLocation().pathname;
+  const dispatch = useDispatch();
+  const [selfie, setSelfie] = useState('Não adicionado.');
   const [nameselfie, setNameselfie] = useState('');
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
@@ -56,8 +62,15 @@ export default function Selfie({id}) {
   const onDrop = useCallback(acceptedFiles => {    
     const preview = URL.createObjectURL(acceptedFiles[0])
     setImage(acceptedFiles);
-    setSelfie(preview)
+
+    if (acceptedFiles[0].type !== 'image/jpeg' && acceptedFiles[0].type !== 'image/png') {
+      setSelfie(pdf)
+    } else {
+      setSelfie(preview)
+    } 
     setActive(true)
+
+    dispatch(Selfieus(acceptedFiles[0]));
   }, [])
 
   const {getRootProps, getInputProps} = useDropzone({onDrop})
@@ -81,45 +94,47 @@ export default function Selfie({id}) {
     <div>
       <div className="columns">
       <div className="column has-text-centered">
-        <div className="column has-text-centered box-inter box-inter-padding">
-        <div className={ isactive === true ? 'selfie' : 'selfie_mini'}>
-            <div className="columns">
-              <div className="column is-2">
-                <img src={selfie} alt={selfie}/>
-              </div>    
-              <div className="column">
-                <EllipsisText text={nameselfie} length={20} />
-                { 
-                  showcheck === true ?
-                  (<span className="check-photo"></span>)
-                  :
-                  ('')
-                }     
-              </div>
+        <div className="has-text-centered"> 
+            {
+              selfie === 'Não adicionado.' ? 
+              (<span>{ selfie }</span>)
+              :
+              (
+                <img src={selfie} alt={selfie} className="imagedoc"/>
+              )
+            }
+            <EllipsisText text={nameselfie} length={20}/>
+            { 
+              showcheck === true ?
+              (<span className="check-photo"></span>)
+              :
+              ('')
+            }     
             </div>
-          </div>
-          <div className="column box-inter">
-            <div {...getRootProps()} className="drag-photo upload">
-              <input {...getInputProps()} />
-              Anexar
-            </div>
-          </div>
-          {
-            isactive === true ?
-            (
-              <>
-                <Button
-                  type={'button'}
-                  className={'button is-info color-logo-lessor is-pulled-right'}
-                  text={'Salvar'}
-                  onClick={event => updateSelfie() }
-                  />
-              </>
-            ) :
-            ('')
-          }
+            {
+              location === '/s/renter/perfil/documents' ? 
+              (
+                ''
+              )
+              :
+              (
+                <div className="column box-inter">
+                  <div {...getRootProps()} className="drag-photo upload">
+                    <input {...getInputProps()} />
+                      Anexar
+                  </div>
+                </div>
+              )
+            }
+            {
+              isactive === true ?
+              (
+                <>
+                </>
+              ) :
+              ('')
+            }
         </div>
-      </div>
       </div>
     </div>
   )

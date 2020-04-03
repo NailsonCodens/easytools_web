@@ -76,7 +76,7 @@ const Payment = ({history}) => {
 
     async function showBottom () {
       //verificar mobile
-      if (document.documentElement.scrollTop > 100) {
+      if (document.documentElement.scrollTop > -10) {
         setClass('bottom-box')
       }else{
         setClass('bottom-no-box')
@@ -231,7 +231,7 @@ const Payment = ({history}) => {
 
   const renderCalc = () => {
 
-    var kmregional = 3
+    var kmregional = 5
 
     var freight = '';
     var minfreight = '';
@@ -246,13 +246,14 @@ const Payment = ({history}) => {
     var kmcurrent = workadd.distance;
     var costfreight = 0;
 
-    console.log(kmcurrent)
+    console.log(kmcurrent, freight, minfreight)
 
     if (kmregional > kmcurrent) {
         costfreight  = minfreight
     } else {
         costfreight = freight * kmcurrent;
     }
+
 
     return costfreight
   }
@@ -267,7 +268,6 @@ const Payment = ({history}) => {
         okattempt === true ? 
         (
           <div className="columns">
-            <br/><br/>
             <div className="column is-two-thirds">
               <p className="title-tool-only"> Estamos quase lá!</p>
               {

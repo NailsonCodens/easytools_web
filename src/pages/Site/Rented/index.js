@@ -11,7 +11,6 @@ import MyRent from './MyRent/index';
 import Details from './MyRent/details';
 import Options from './Options/index';
 
-
 export default function Start({history}) {
   let { path } = useRouteMatch();
 

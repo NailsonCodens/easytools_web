@@ -9,14 +9,16 @@ import './style.css';
 import queryString from 'query-string';
 import { useLocation } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {Social} from '../../store/actions/social';
 
 export default function SocialContract({id}) {
+  const dispatch = useDispatch();
   let values = queryString.parse(useLocation().search);
   const link = useSelector(state => state.link);
   let history = useHistory();
 
-  const [social, setSocial] = useState(sociali);
+  const [social, setSocial] = useState('Não adicionado.');
   const [namesocial, setNamesocial] = useState('');
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
@@ -90,8 +92,15 @@ export default function SocialContract({id}) {
   const onDrop = useCallback(acceptedFiles => {    
     const preview = URL.createObjectURL(acceptedFiles[0])
     setImage(acceptedFiles);
-    setSocial(preview)
+
+    if (acceptedFiles[0].type !== 'image/jpeg' && acceptedFiles[0].type !== 'image/png') {
+      setSocial(preview)
+    } else {
+      setSocial(preview)
+    } 
     setActive(true)
+
+    dispatch(Social(acceptedFiles[0]));
   }, [])
 
   const {getRootProps, getInputProps} = useDropzone({onDrop})
@@ -119,46 +128,39 @@ export default function SocialContract({id}) {
   return (
     <div>
       <div className="columns">
-      <div className="column has-text-centered">
-        <div className="column has-text-centered box-inter box-inter-padding">
-        <div className={ isactive === true ? 'selfie' : 'selfie_mini'}>
-            <div className="columns">
-              <div className="column is-2">
-                <img src={social} alt={social}/>
-              </div>    
-              <div className="column">
-                <EllipsisText text={namesocial} length={20} />
-                { 
-                  showcheck === true ?
-                  (<span className="check-photo"></span>)
-                  :
-                  ('')
-                }
+        <div className="column has-text-centered">
+          <div className="has-text-centered">
+              {
+                social === 'Não adicionado.' ? 
+                (<span>{ social }</span>)
+                :
+                (
+                  <img src={social} alt={social} className="imagedoc"/>
+                )
+              }
+              <EllipsisText text={namesocial} length={20}/>
+              { 
+                showcheck === true ?
+                (<span className="check-photo"></span>)
+                :
+                ('')
+              }      
               </div>
-            </div>
-          </div>
-          <div className="column box-inter">
-            <div {...getRootProps()} className="drag-photo upload">
-              <input {...getInputProps()} />
-              Anexar
-            </div>
-          </div>
-          {
-            isactive === true ?
-            (
-              <>
-                <Button
-                  type={'button'}
-                  className={'button is-info color-logo-lessor is-pulled-right'}
-                  text={'Salvar'}
-                  onClick={event => updateSocial() }
-                  />
-              </>
-            ) :
-            ('')
-          }
+              <div className="column box-inter">
+                <div {...getRootProps()} className="drag-photo upload">
+                  <input {...getInputProps()} />
+                    Anexar
+                </div>
+              </div>
+              {
+                isactive === true ?
+                (
+                  <>
+                  </>
+                ) :
+                ('')
+              }
         </div>
-      </div>
       </div>
     </div>
   )

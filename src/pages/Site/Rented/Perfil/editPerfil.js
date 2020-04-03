@@ -317,7 +317,7 @@ const Edit = ({history}) => {
     if (localStorage.getItem('@lkt') !== "") {
       history.push(localStorage.getItem('@lkt'))
     } else {
-      history.push('/s/renter/perfil')      
+      history.push('/')      
     }    
   }
 

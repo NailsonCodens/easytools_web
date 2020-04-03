@@ -19,7 +19,6 @@ import { faInstagram } from '@fortawesome/free-brands-svg-icons'
 library.add(faInstagram);
 
 const Footer = () => {
-
 	let location = useLocation().pathname;
 
 	return (
@@ -31,12 +30,18 @@ const Footer = () => {
 				: 
 				<footer className="footer">
 					<div className="whatsapp-help">
-						<a
-						 href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="_blank">
-							<p>Fale conosco</p>
-							<br/>
-							<img src={whats} alt="Whats App EasyTools Logo" className="logo-whats"/>
-						</a>
+						{
+							location === '/' ? 
+							(
+								<a
+								href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="_blank">
+									<br/>
+									<img src={whats} alt="Whats App EasyTools Logo" className="logo-whats"/>
+								</a>	 
+							)
+							:
+							('')
+						}
 					</div>
 					<div className="container">
 						<div className="columns is-desktop">
@@ -53,6 +58,12 @@ const Footer = () => {
 									<li><Link to={'/s/signup?type=renter'} onClick={event => Scrool() } >Alugue o que precisa!</Link></li>
 									<li><Link to={'/s/about-us'} onClick={event => Scrool() } >Sobre a EasyTools</Link></li>
 									<li><Link to={'/s/help-me'} onClick={event => Scrool() } >Ajuda</Link></li>
+									<li>
+										<a
+										href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="_blank">
+											WhatsApp
+										</a>
+									</li>
 									<li>easytools@gmail.com</li>
 								</Ul>
 						</div>

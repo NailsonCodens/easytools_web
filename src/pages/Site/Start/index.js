@@ -16,6 +16,7 @@ import Dealopen from '../Polices/dealopen';
 import Policeuse from '../Polices/police_use';
 import Privacy from '../Polices/privacy_terms';
 import Terms from '../Polices/terms';
+import Adddocument from '../../Site/Tool/adddocument'
 
 export default function Start({history}) {
   let { path } = useRouteMatch();
@@ -48,6 +49,7 @@ export default function Start({history}) {
       <Route path={`${path}/dealopen`} component={Dealopen}/>
       <Route path={`${path}/policeuse`} component={Policeuse}/>
       <Route path={`${path}/privacyterms`} component={Privacy}/>
+      <PrivateRenter path={`${path}/adddocuments`} component={Adddocument}/>
     </>
   )
 }

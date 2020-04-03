@@ -138,8 +138,7 @@ const Resume = ({history}) => {
               :
               (
               <>
-                <div>
-                  <br/><br/><br/><br/>
+                <div className="padding-pages-intern">
                   <div className="column nopadding">
                     <div className="column">
                       <p className="title-tool-only">Aluguel de { tool.title }</p>
@@ -223,7 +222,7 @@ const Resume = ({history}) => {
         )
       }
     </div>
-      <Rentalbottombox title={tool.title} go={goRules} attempt={attempt} startDate={values.init} endDate={values.finish} scroolView={100}/>
+      <Rentalbottombox title={tool.title} go={goRules} attempt={attempt} startDate={values.init} endDate={values.finish} scroolView={-10}/>
     </>
   );
 };

@@ -32,6 +32,7 @@ import localForage from "localforage";
 import Mapbox from '../../../components/Map/Mapbox';
 import ReactGA, { set } from 'react-ga';
 import {Helmet} from 'react-helmet'
+import Adddocument from './adddocument';
 
 import {
   isMobile
@@ -56,6 +57,7 @@ const Tool = ({history}) => {
   const infochoose = useSelector(state => state.rentaltool);
 	const current_user = useSelector(state => state.auth);
 
+  const [adddoc, setAdddoc] = useState(false);
   const [tool, setTool] = useState({});
   const [pictures, setPictures] = useState([]);
   const [prices, setPrices] = useState([]);
@@ -98,6 +100,8 @@ const Tool = ({history}) => {
         .required('Adicione a data da devolução.'),
     }),
     onSubmit: value => {
+      loaddocumenttwo()
+
       var tensionChoose = ''
       if (tension !== '') {
         tensionChoose = tension
@@ -130,7 +134,7 @@ const Tool = ({history}) => {
   })
 
   const setLsItem = (url) => {
-    localStorage.setItem('@lkt', `dsadasdas`);
+    localStorage.setItem('@lkt', url);
   }
 
   const next = (rentData) => {
@@ -142,7 +146,8 @@ const Tool = ({history}) => {
         } else {
           Scrool()
           setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
-          history.push('/s/renter/perfil/edit?e=cc');
+          history.push(`/s/adddocuments`);
+         // setAdddoc(true);
         }
 
       }else {
@@ -154,7 +159,8 @@ const Tool = ({history}) => {
                 history.push(`/lessor/perfil/detail/${perfil.id}?e=cs`);
               } else {
                 setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
-                history.push('/s/renter/perfil/documents?e=cs');                
+                history.push(`/s/adddocuments`);
+              //setAdddoc(true);
               }
               dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
               //erro quando é cnpj       
@@ -185,8 +191,10 @@ const Tool = ({history}) => {
 
               dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));  
             } else {
-              setLsItem() 
-              history.push('/s/renter/perfil/documents?e=df');
+              setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
+              history.push(`/s/adddocuments`);
+            //  setAdddoc(true);
+
               dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));  
             }
 
@@ -196,8 +204,9 @@ const Tool = ({history}) => {
           if (perfil.type === 'Lessor') { 
             history.push(`/lessor/perfil/detail/${perfil.id}?e=nd`);
           } else {
-            setLsItem() 
-            history.push('/s/renter/perfil/documents?e=nd');
+            setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
+            history.push(`/s/adddocuments`);
+           // setAdddoc(true);
           }
           dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
         }
@@ -608,6 +617,18 @@ const Tool = ({history}) => {
     setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, event.target.value)
   }
 
+  async function loaddocumenttwo () {
+    const response = await api.get(`/documents/${current_user.id}`, {
+    });
+    setDocument(response.data.documentUser[0])
+  }
+
+  const closeAdd = () => {
+    //window.location.reload();
+    loaddocumenttwo()
+    setAdddoc(false)
+  }
+
 return (
   <>
     <Helmet>
@@ -618,508 +639,519 @@ return (
       />
       <meta name="keywords" content={tool.title}/>
     </Helmet>
-    <div className="container-fluid">
-      <div className="columns box-photos is-mobile is-desktop">
-        {
-          pictures.map((picture, index) => (
-            <div className="column" key={index}>
-              <img src={picture.url} alt={picture.url} className="" />
-            </div>  
-          ))
-        }
-      </div>
-      <div className="container container-bottom">
-        <div className="columns head-infos-tool">
-          <div className="column is-two-thirds">
-            <div>
-              <h3 className="title-tool-only">{tool.title}</h3>
-              <b className="category">{ tool.category }</b>
-            </div>
-          </div>
-          <div className="column">
-            <div className="columns">
-              <div className="">
-                {
-                  dataLessor.map((lessor, index) => (
-                    <div key={index}>
-                      <img src={lessor.url} alt={lessor.url} className="logo-neighbor"/>
-                      <span className="name-neighbor"> { lessor.name }</span>          
-                    </div>
-                  ))
-                }
-                <div>
-                  <span>
-                    { /*renderConfiglessor()*/ }
-                  </span>        
-                </div>
-              </div>
-            </div>
-          </div>
+    {
+      adddoc === true ? 
+      (
+        <Adddocument onClose={closeAdd}/>
+
+      )
+      :
+      (
+        <div className="container-fluid">
+        <div className="columns box-photos is-mobile is-desktop">
+          {
+            pictures.map((picture, index) => (
+              <div className="column" key={index}>
+                <img src={picture.url} alt={picture.url} className="" />
+              </div>  
+            ))
+          }
         </div>
-        <div className="columns">
-          <div className="column is-two-thirds">
-            <div className="description">
-              <p className="title-infos-tool">
-                Descrição
-              </p>
-              <p className="text-simple-info-tool">
-                { tool.description }
-              </p>
+        <div className="container container-bottom">
+          <div className="columns head-infos-tool">
+            <div className="column is-two-thirds">
+              <div>
+                <h3 className="title-tool-only">{tool.title}</h3>
+                <b className="category">{ tool.category }</b>
+              </div>
             </div>
-            <div className="description">
-              <p className="title-infos-tool">
-                Uso indicado <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
-              </p>
-              <p className="text-simple-info-tool">
-                { tool.use_indication }
-              </p>
-            </div>
-            <Hr/>
-            <div className="specification">
+            <div className="column">
               <div className="columns">
-                <div className="column">
-                  <p className="title-infos-tool hack-padding-top">Especificações</p>
-                </div>
-                <div className="column">
-                </div>
-              </div>
-              <div className="columns">
-                <div className="column">
-                  <Ul>
-                    <li><b>Marca</b></li>
-                    <li>{ tool.brand }</li>
-                    <li><b>Categoria</b></li>
-                    <li>{ tool.category }</li>
-                    <li><b>Tipo</b></li>
-                    <li>{ tool.type_spec }</li>
-                  </Ul>
-                </div>
-                <div className="column">
-                  <Ul>
-                    <li><b>Potência</b></li>
-                    <li>{ tool.power }</li>
-                    <li><b>Tensão</b></li>
-                    <li>{ tool.tension === '/Tri' ? 'Trifásico' : tool.tension }</li>
-                    <li><b>Alimentação</b></li>
-                    <li>{ tool.feed }</li>
-                  </Ul>
-                </div>
-              </div>
-              <div className="columns">
-                <div className="column">
-                  <p className="title-infos-tool hack-padding-top">Acessórios e Acompanhamentos <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
-                  </p>   
-                  <div className="columns">
-                    <div className="column">
-                      <Ul>
-                        <li><b>Acessórios</b></li>
-                        <li>{ tool.accessory !== '' ? tool.accessory : 'Nenhum acessório disponível.'  }</li>
-                      </Ul>
-                    </div>
-                    <div className="column">
-                      <Ul>
-                        <li><b>Acompanha</b></li>
-                      <li>{ tool.follow !== '' ? tool.follow : 'Não disponível disponível' }</li>
-                      </Ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <Hr/>
-            <div className="columns">
-              <div className="column">
-                {
-                  /*<p className="title-infos-tool hack-padding-top">Onde nós temos este equipamento ({ tool.title })</p>*/
-                }
-                {
-                 tool.lat !== undefined && tool.lng !== undefined ? 
-                 (
-                   <>
-                    {
-                      /*<Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture[0].url} title={tool.title}/> */                                   
-                    }
-                   </>
-                 )
-                 : 
-                 (
-                   ''
-                 )
-                }
-              </div>
-            </div>
-          </div>
-          <div  className={`column has-centered-text`}>
-            <div  className={`pai has-centered-text sticky `}>
-              <div className="rental-box sticky-inner">
-                <Form
-                  onSubmit={ (e, values) => {
-                    formik.handleSubmit(values)
-                  }} 
-                  noValidate
-                >
+                <div className="">
                   {
-                    prices.map((price, index) => (
+                    dataLessor.map((lessor, index) => (
                       <div key={index}>
-                        {
-                          index === 0 ? 
-                          (
-                            <>
-                              <span className="price-rent">
-                                {`R$ ${price.trim()} `}
-                              </span>
-                              <span >Diária </span>
-                              { 
-                                index === 0 ? (
-                                  <>
-                                    <Button 
-                                        type={'button'}
-                                        className={'button is-link is-light is-small is-pulled-right'}
-                                        text={'Valores por períodos'}                                    
-                                      onClick={event => setShowprices(!showprices)}
-                                    />
-                                  </>
-                                ) : 
-                                (
-                                  ''
-                                )
-                              }
-                            </>
-                          ) : 
-                          (
-                            <div className={showprices === true ? 'is-block' : 'is-hidden'}>
-                              <div>
-                                {
-                                  price.trim() !== 0 && index === 1 ? 
-                                  (
-                                    <>
-                                      <span className="price-rent price-others">
-                                        {`R$ ${price.trim()} `}
-                                      </span>
-                                      <span className="price-others-legend">
-                                        Semanal
-                                      </span>
-                                    </>
-                                  ) 
-                                  :
-                                  (
-                                    ''
-                                  )
-                                  }
-                                  {
-                                  price.trim() !== 0 && index === 2 ? 
-                                  (
-                                    <>
-                                      <span className="price-rent price-others">
-                                        {`R$ ${price.trim()} `}
-                                      </span>
-                                      <span className="price-others-legend">
-                                        Quinzenal
-                                      </span>
-                                    </>
-                                  ) 
-                                  :
-                                  (
-                                    ''
-                                  )
-                                  }
-                                  {
-                                  price.trim() !== '0' && index === 3 ? 
-                                  (
-                                    <>
-                                      <span className="price-rent price-others">
-                                        {`R$ ${price.trim()} `}
-                                      </span>
-                                      <span className="price-others-legend">
-                                        Mensal
-                                      </span>
-                                    </>
-                                  ) 
-                                  :
-                                  (
-                                    ''
-                                  )
-                                }                       
-                              </div>
-                            </div>
-                          )
-                        }
+                        <img src={lessor.url} alt={lessor.url} className="logo-neighbor"/>
+                        <span className="name-neighbor"> { lessor.name }</span>          
                       </div>
                     ))
                   }
-                  <Field>
-                    <Label className="label label-period" for={'title'}>
-                      Período de uso
-                    </Label> 
-                    <br/>
-                    <div className="dt-range-picker-tool no-margin-top-columns2">
-                      <DateRangePicker
-                        anchorDirection="left"
-                        displayFormat={'DD/MM/YYYY'}
-                        minimumNights={1}
-                        numberOfMonths={isMobile === true ? 1 : 2}
-                        startDate={formik.values.startDate} // momentPropTypes.momentObj or null,
-                        startDateId={'start'} // PropTypes.string.isRequired,
-                        endDate={formik.values.endDate} // momentPropTypes.momentObj or null,
-                        endDateId={'end'} // PropTypes.string.isRequired,
-                        onDatesChange={({ startDate, endDate }) => setDates({ startDate, endDate })} // PropTypes.func.isRequired,
-                        focusedInput={focus.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-                        onFocusChange={focusedInput => setFocus({ focusedInput })} // PropTypes.func.isRequired,
-                        startDatePlaceholderText="Aluguel"
-                        endDatePlaceholderText="Devolução"
-                      />
-                      <Span className={'validation-warning'}>
-                        {
-                          formik.touched.startDate && formik.errors.startDate 
-                        ? 
-                          (<div>Por favor insira as datas de aluguel e devolução.</div>) 
-                        : 
-                          null
-                        }
-                      </Span>
-                    </div>
-                  </Field>
-                  <div className="columns">
-                    <div className="column">
-                      {
-                        tensionshow === '127V/220V' ? 
-                        (
-                          <>
-                            <Field>
-                              <Label  className="label" for={'tension'}>Tensão</Label>
-                              <div className="columns">
-                                <div className="column has-text-centered">
-                                  <Field>
-                                    <input 
-                                      className="is-checkradio"
-                                      type="radio"
-                                      id={'127v'}
-                                      name="tension" 
-                                      value="127V"
-                                      defaultChecked={true}
-                                      onChange={event => handleTension(event)}
-                                  />
-                                    <Label for={'127v'}>127V</Label>
-                                    <input 
-                                      className="is-checkradio"
-                                      id="220v"
-                                      type="radio" 
-                                      name="tension"
-                                      value="220V"
-                                      onChange={event => handleTension(event)}
-                                    />
-                                    <Label for={'220v'}>220V</Label>
-                                  </Field>
-                                </div>
-                              </div>
-                            </Field>                    
-                          </>
-                        ) 
-                        :
-                        ('')
-                      }
-                      {
-                        tensionshow === '/Tri' ? 
-                        (
-                          <>
-                            <Field>
-                              <Label  className="label" for={'tension'}>Tensão</Label>
-                              <div className="columns">
-                                <div className="column has-text-centered">
-                                  <Field>
-                                    <input 
-                                      className="is-checkradio"
-                                      type="radio"
-                                      id={'Tri'}
-                                      name="tension" 
-                                      value="Tri"
-                                      defaultChecked={true}
-                                      onChange={event => handleTension(event)}
-                                  />
-                                    <Label for={'Tri'}>Trifásico</Label>
-                                  </Field>
-                                </div>
-                              </div>
-                            </Field>                    
-                          </>
-                        ) 
-                        :
-                        ('')
-                      }
-                      {
-                        tensionshow === '/220V' ? 
-                        (
-                          <>
-                            <Field>
-                              <Label  className="label" for={'tension'}>Tensão</Label>
-                              <div className="columns">
-                                <div className="column has-text-centered">
-                                  <Field>
-                                    <input 
-                                      className="is-checkradio"
-                                      type="radio"
-                                      id={'220v'}
-                                      name="tension" 
-                                      value="220V"
-                                      defaultChecked={true}
-                                      onChange={event => handleTension(event)}
-                                  />
-                                    <Label for={'220v'}>220V</Label>
-                                  </Field>
-                                </div>
-                              </div>
-                            </Field>                    
-                          </>
-                        ) 
-                        :
-                        ('')
-                      }
-                      {
-                        tensionshow === '127V/' ? 
-                        (
-                          <>
-                            <Field>
-                              <Label  className="label" for={'tension'}>Tensão</Label>
-                              <div className="columns">
-                                <div className="column has-text-centered">
-                                  <Field>
-                                    <input 
-                                      className="is-checkradio"
-                                      type="radio"
-                                      id={'127v'}
-                                      name="tension" 
-                                      value="127V"
-                                      defaultChecked={true}
-                                      onChange={event => handleTension(event)}
-                                  />
-                                    <Label for={'127v'}>127V</Label>
-                                  </Field>
-                                </div>
-                              </div>
-                            </Field>                    
-                          </>
-                        ) 
-                        :
-                        ('')
-                      }
-
-                    </div>
-                    <div className="column is-4">
-                      <Field>
-                        <Label className="label" for={'amount'}>Quantide</Label>
-                        <Input
-                          className="input"
-                          name="amount"
-                          type="number"
-                          placeholder=""
-                          min="1"
-                          onChange={event => handleAmount(event)}
-                          value={formik.values.amount}
-                        />
-                      </Field>
-                    </div>
-                  </div>
-                  {
-                    Object.entries(price).length > 0 ? 
-                    (
-                      <div className="container">
-                        {renderPrice()}
-                      </div>
-                    ) : 
-                    ('')
-                  }
-                  <div className="pricefinal">
-                    <Warningtext>*O valor final pode mudar de acordo com o período escolhido: diária, semanal, quizenal ou mensal.</Warningtext>
-                  </div>
-                  {
-                    modal2 === true ? 
-                    (
-                      <>
-                        <Button
-                          disabled={true}
-                          type={'submit'}
-                          className={'button is-fullwidth color-logo'}
-                          text={'Altere a data para prosseguir'}
-                        />
-                      </>
-                    )
-                    :
-                    (
-                      <>
-                        <Button
-                          disabled={tool.availability === "Y" ? false : true}
-                          type={'submit'}
-                          className={'button is-fullwidth color-logo'}
-                          text={tool.availability === "Y" ? 'Alugar' : 'Não disponível para locação'}
-                        />
-                      </>
-                    )
-                  }
                   <div>
-                    <Warningtext class="has-text-centered message-rent">Você ainda não será cobrado.</Warningtext>
+                    <span>
+                      { /*renderConfiglessor()*/ }
+                    </span>        
                   </div>
-                </Form>
-              </div>     
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        {
-          /*<div className="columns comments">
-          <div className="column">
-            <p className="title-infos-tool hack-padding-top">Comentários e Avaliações</p>
-            <Ul>
-              <li>
-                <div className="card">
-                  <div className="card-content">
-                    <div className="media">
-                      <div className="media-left">
-                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="asdsad g"/>
+          <div className="columns">
+            <div className="column is-two-thirds">
+              <div className="description">
+                <p className="title-infos-tool">
+                  Descrição
+                </p>
+                <p className="text-simple-info-tool">
+                  { tool.description }
+                </p>
+              </div>
+              <div className="description">
+                <p className="title-infos-tool">
+                  Uso indicado <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
+                </p>
+                <p className="text-simple-info-tool">
+                  { tool.use_indication }
+                </p>
+              </div>
+              <Hr/>
+              <div className="specification">
+                <div className="columns">
+                  <div className="column">
+                    <p className="title-infos-tool hack-padding-top">Especificações</p>
+                  </div>
+                  <div className="column">
+                  </div>
+                </div>
+                <div className="columns">
+                  <div className="column">
+                    <Ul>
+                      <li><b>Marca</b></li>
+                      <li>{ tool.brand }</li>
+                      <li><b>Categoria</b></li>
+                      <li>{ tool.category }</li>
+                      <li><b>Tipo</b></li>
+                      <li>{ tool.type_spec }</li>
+                    </Ul>
+                  </div>
+                  <div className="column">
+                    <Ul>
+                      <li><b>Potência</b></li>
+                      <li>{ tool.power }</li>
+                      <li><b>Tensão</b></li>
+                      <li>{ tool.tension === '/Tri' ? 'Trifásico' : tool.tension }</li>
+                      <li><b>Alimentação</b></li>
+                      <li>{ tool.feed }</li>
+                    </Ul>
+                  </div>
+                </div>
+                <div className="columns">
+                  <div className="column">
+                    <p className="title-infos-tool hack-padding-top">Acessórios e Acompanhamentos <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
+                    </p>   
+                    <div className="columns">
+                      <div className="column">
+                        <Ul>
+                          <li><b>Acessórios</b></li>
+                          <li>{ tool.accessory !== '' ? tool.accessory : 'Nenhum acessório disponível.'  }</li>
+                        </Ul>
                       </div>
-                      <div className="media-content">
-                        <p className="title is-4">
-                          Maria José
-                        </p>
-                        <p className="subtitle is-6">
-                          @mariajosé
-                        </p>
+                      <div className="column">
+                        <Ul>
+                          <li><b>Acompanha</b></li>
+                        <li>{ tool.follow !== '' ? tool.follow : 'Não disponível disponível' }</li>
+                        </Ul>
                       </div>
-                    </div>
-                    <div className="content">
-                      Os equipamentos estão sempre impecavéis. Alugo sempre com eles, pois sei da procedência. 
-                      Tem um atendimento impecável, presencialmente e aqui na Easyools.
                     </div>
                   </div>
-                </div>  
-              </li>
-            </Ul>
+                </div>
+              </div>
+              <Hr/>
+              <div className="columns">
+                <div className="column">
+                  {
+                    /*<p className="title-infos-tool hack-padding-top">Onde nós temos este equipamento ({ tool.title })</p>*/
+                  }
+                  {
+                   tool.lat !== undefined && tool.lng !== undefined ? 
+                   (
+                     <>
+                      {
+                        /*<Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture[0].url} title={tool.title}/> */                                   
+                      }
+                     </>
+                   )
+                   : 
+                   (
+                     ''
+                   )
+                  }
+                </div>
+              </div>
+            </div>
+            <div  className={`column has-centered-text`}>
+              <div  className={`pai has-centered-text sticky `}>
+                <div className="rental-box sticky-inner">
+                  <Form
+                    onSubmit={ (e, values) => {
+                      formik.handleSubmit(values)
+                    }} 
+                    noValidate
+                  >
+                    {
+                      prices.map((price, index) => (
+                        <div key={index}>
+                          {
+                            index === 0 ? 
+                            (
+                              <>
+                                <span className="price-rent">
+                                  {`R$ ${price.trim()} `}
+                                </span>
+                                <span >Diária </span>
+                                { 
+                                  index === 0 ? (
+                                    <>
+                                      <Button 
+                                          type={'button'}
+                                          className={'button is-link is-light is-small is-pulled-right'}
+                                          text={'Valores por períodos'}                                    
+                                        onClick={event => setShowprices(!showprices)}
+                                      />
+                                    </>
+                                  ) : 
+                                  (
+                                    ''
+                                  )
+                                }
+                              </>
+                            ) : 
+                            (
+                              <div className={showprices === true ? 'is-block' : 'is-hidden'}>
+                                <div>
+                                  {
+                                    price.trim() !== 0 && index === 1 ? 
+                                    (
+                                      <>
+                                        <span className="price-rent price-others">
+                                          {`R$ ${price.trim()} `}
+                                        </span>
+                                        <span className="price-others-legend">
+                                          Semanal
+                                        </span>
+                                      </>
+                                    ) 
+                                    :
+                                    (
+                                      ''
+                                    )
+                                    }
+                                    {
+                                    price.trim() !== 0 && index === 2 ? 
+                                    (
+                                      <>
+                                        <span className="price-rent price-others">
+                                          {`R$ ${price.trim()} `}
+                                        </span>
+                                        <span className="price-others-legend">
+                                          Quinzenal
+                                        </span>
+                                      </>
+                                    ) 
+                                    :
+                                    (
+                                      ''
+                                    )
+                                    }
+                                    {
+                                    price.trim() !== '0' && index === 3 ? 
+                                    (
+                                      <>
+                                        <span className="price-rent price-others">
+                                          {`R$ ${price.trim()} `}
+                                        </span>
+                                        <span className="price-others-legend">
+                                          Mensal
+                                        </span>
+                                      </>
+                                    ) 
+                                    :
+                                    (
+                                      ''
+                                    )
+                                  }                       
+                                </div>
+                              </div>
+                            )
+                          }
+                        </div>
+                      ))
+                    }
+                    <Field>
+                      <Label className="label label-period" for={'title'}>
+                        Período de uso
+                      </Label> 
+                      <br/>
+                      <div className="dt-range-picker-tool no-margin-top-columns2">
+                        <DateRangePicker
+                          anchorDirection="left"
+                          displayFormat={'DD/MM/YYYY'}
+                          minimumNights={1}
+                          numberOfMonths={isMobile === true ? 1 : 2}
+                          startDate={formik.values.startDate} // momentPropTypes.momentObj or null,
+                          startDateId={'start'} // PropTypes.string.isRequired,
+                          endDate={formik.values.endDate} // momentPropTypes.momentObj or null,
+                          endDateId={'end'} // PropTypes.string.isRequired,
+                          onDatesChange={({ startDate, endDate }) => setDates({ startDate, endDate })} // PropTypes.func.isRequired,
+                          focusedInput={focus.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
+                          onFocusChange={focusedInput => setFocus({ focusedInput })} // PropTypes.func.isRequired,
+                          startDatePlaceholderText="Aluguel"
+                          endDatePlaceholderText="Devolução"
+                        />
+                        <Span className={'validation-warning'}>
+                          {
+                            formik.touched.startDate && formik.errors.startDate 
+                          ? 
+                            (<div>Por favor insira as datas de aluguel e devolução.</div>) 
+                          : 
+                            null
+                          }
+                        </Span>
+                      </div>
+                    </Field>
+                    <div className="columns">
+                      <div className="column">
+                        {
+                          tensionshow === '127V/220V' ? 
+                          (
+                            <>
+                              <Field>
+                                <Label  className="label" for={'tension'}>Tensão</Label>
+                                <div className="columns">
+                                  <div className="column has-text-centered">
+                                    <Field>
+                                      <input 
+                                        className="is-checkradio"
+                                        type="radio"
+                                        id={'127v'}
+                                        name="tension" 
+                                        value="127V"
+                                        defaultChecked={true}
+                                        onChange={event => handleTension(event)}
+                                    />
+                                      <Label for={'127v'}>127V</Label>
+                                      <input 
+                                        className="is-checkradio"
+                                        id="220v"
+                                        type="radio" 
+                                        name="tension"
+                                        value="220V"
+                                        onChange={event => handleTension(event)}
+                                      />
+                                      <Label for={'220v'}>220V</Label>
+                                    </Field>
+                                  </div>
+                                </div>
+                              </Field>                    
+                            </>
+                          ) 
+                          :
+                          ('')
+                        }
+                        {
+                          tensionshow === '/Tri' ? 
+                          (
+                            <>
+                              <Field>
+                                <Label  className="label" for={'tension'}>Tensão</Label>
+                                <div className="columns">
+                                  <div className="column has-text-centered">
+                                    <Field>
+                                      <input 
+                                        className="is-checkradio"
+                                        type="radio"
+                                        id={'Tri'}
+                                        name="tension" 
+                                        value="Tri"
+                                        defaultChecked={true}
+                                        onChange={event => handleTension(event)}
+                                    />
+                                      <Label for={'Tri'}>Trifásico</Label>
+                                    </Field>
+                                  </div>
+                                </div>
+                              </Field>                    
+                            </>
+                          ) 
+                          :
+                          ('')
+                        }
+                        {
+                          tensionshow === '/220V' ? 
+                          (
+                            <>
+                              <Field>
+                                <Label  className="label" for={'tension'}>Tensão</Label>
+                                <div className="columns">
+                                  <div className="column has-text-centered">
+                                    <Field>
+                                      <input 
+                                        className="is-checkradio"
+                                        type="radio"
+                                        id={'220v'}
+                                        name="tension" 
+                                        value="220V"
+                                        defaultChecked={true}
+                                        onChange={event => handleTension(event)}
+                                    />
+                                      <Label for={'220v'}>220V</Label>
+                                    </Field>
+                                  </div>
+                                </div>
+                              </Field>                    
+                            </>
+                          ) 
+                          :
+                          ('')
+                        }
+                        {
+                          tensionshow === '127V/' ? 
+                          (
+                            <>
+                              <Field>
+                                <Label  className="label" for={'tension'}>Tensão</Label>
+                                <div className="columns">
+                                  <div className="column has-text-centered">
+                                    <Field>
+                                      <input 
+                                        className="is-checkradio"
+                                        type="radio"
+                                        id={'127v'}
+                                        name="tension" 
+                                        value="127V"
+                                        defaultChecked={true}
+                                        onChange={event => handleTension(event)}
+                                    />
+                                      <Label for={'127v'}>127V</Label>
+                                    </Field>
+                                  </div>
+                                </div>
+                              </Field>                    
+                            </>
+                          ) 
+                          :
+                          ('')
+                        }
+  
+                      </div>
+                      <div className="column is-4">
+                        <Field>
+                          <Label className="label" for={'amount'}>Quantide</Label>
+                          <Input
+                            className="input"
+                            name="amount"
+                            type="number"
+                            placeholder=""
+                            min="1"
+                            onChange={event => handleAmount(event)}
+                            value={formik.values.amount}
+                          />
+                        </Field>
+                      </div>
+                    </div>
+                    {
+                      Object.entries(price).length > 0 ? 
+                      (
+                        <div className="container">
+                          {renderPrice()}
+                        </div>
+                      ) : 
+                      ('')
+                    }
+                    <div className="pricefinal">
+                      <Warningtext>*O valor final pode mudar de acordo com o período escolhido: diária, semanal, quizenal ou mensal.</Warningtext>
+                    </div>
+                    {
+                      modal2 === true ? 
+                      (
+                        <>
+                          <Button
+                            disabled={true}
+                            type={'submit'}
+                            className={'button is-fullwidth color-logo'}
+                            text={'Altere a data para prosseguir'}
+                          />
+                        </>
+                      )
+                      :
+                      (
+                        <>
+                          <Button
+                            disabled={tool.availability === "Y" ? false : true}
+                            type={'submit'}
+                            className={'button is-fullwidth color-logo'}
+                            text={tool.availability === "Y" ? 'Alugar' : 'Não disponível para locação'}
+                          />
+                        </>
+                      )
+                    }
+                    <div>
+                      <Warningtext class="has-text-centered message-rent">Você ainda não será cobrado.</Warningtext>
+                    </div>
+                  </Form>
+                </div>     
+              </div>
+            </div>
           </div>
-          <div className="column">
-          </div>
-        </div>*/
-        }
+          {
+            /*<div className="columns comments">
+            <div className="column">
+              <p className="title-infos-tool hack-padding-top">Comentários e Avaliações</p>
+              <Ul>
+                <li>
+                  <div className="card">
+                    <div className="card-content">
+                      <div className="media">
+                        <div className="media-left">
+                          <img src="https://bulma.io/images/placeholders/96x96.png" alt="asdsad g"/>
+                        </div>
+                        <div className="media-content">
+                          <p className="title is-4">
+                            Maria José
+                          </p>
+                          <p className="subtitle is-6">
+                            @mariajosé
+                          </p>
+                        </div>
+                      </div>
+                      <div className="content">
+                        Os equipamentos estão sempre impecavéis. Alugo sempre com eles, pois sei da procedência. 
+                        Tem um atendimento impecável, presencialmente e aqui na Easyools.
+                      </div>
+                    </div>
+                  </div>  
+                </li>
+              </Ul>
+            </div>
+            <div className="column">
+            </div>
+          </div>*/
+          }
+        </div>
+        <Modal
+          show={modal2} 
+          onCloseModal={hideModal2} 
+          closeOnEsc={true} 
+          closeOnOverlayClick={true}
+        > 
+          <p className="periods-mistakes">Ops!</p>
+          <br/>
+          <p className="periods-mistakes">Períodos superiores a 30 dias, só podem ser contados mês a mês.</p>
+          <br/>
+          <Button className="button color-logo" onClick={event => setModal2(false)} text={'Mudar data'}/>
+        </Modal>
+  
+        <Modal
+          show={modal} 
+          onCloseModal={hideModal} 
+          closeOnEsc={true} 
+          closeOnOverlayClick={true}
+        > 
+          <Auth hs={history} url={''} closeModal={event => setModal(false)}></Auth>
+        </Modal>
       </div>
-      <Modal
-        show={modal2} 
-        onCloseModal={hideModal2} 
-        closeOnEsc={true} 
-        closeOnOverlayClick={true}
-      > 
-        <p className="periods-mistakes">Ops!</p>
-        <br/>
-        <p className="periods-mistakes">Períodos superiores a 30 dias, só podem ser contados mês a mês.</p>
-        <br/>
-        <Button className="button color-logo" onClick={event => setModal2(false)} text={'Mudar data'}/>
-      </Modal>
-
-      <Modal
-        show={modal} 
-        onCloseModal={hideModal} 
-        closeOnEsc={true} 
-        closeOnOverlayClick={true}
-      > 
-        <Auth hs={history} url={''} closeModal={event => setModal(false)}></Auth>
-      </Modal>
-    </div>
+  
+      )
+    }
   </>
 )
 }

@@ -120,11 +120,10 @@ const Dashboard = ({history, location}) => {
               <div className="image-index">
                 <div className="explorer has-text-centered">
                   <div className="">
-                    <img src={logo}  alt="EasyTools Logo" className="logo-index"/>
                   </div>                
                   <br/><br/><br/>
                   <h3>Alugar equipamentos e ferramentas nunca foi tão fácil. </h3>
-                  <p className="text-subtitle-index">Descubra uma nova maneira de alugar!</p>
+                  <p className="text-subtitle-index">Alugou, chegou!</p>
                   <br/><br/>
                   <Link
                     to={'/s/about-us'}
@@ -147,7 +146,7 @@ const Dashboard = ({history, location}) => {
           <div className="columns is-desktop is-mobile is-multiline">
             {
               tools.map(tool => (
-                <div key={tool.id} className="column column-cs-mobile is-one-quarter">
+                <div key={tool.id} className="column column-cs-mobile is-one-fifth">
                   <span onClick={event => goTool(tool.id, tool.category, tool)}>
                     <div className="tool">
                       <div className="picture-tool"> 

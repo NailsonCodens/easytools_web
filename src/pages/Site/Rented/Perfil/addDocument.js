@@ -10,13 +10,19 @@ import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import Scroll from '../../../../utils/scroll';
 import { Button } from '../../../../components/Form/Button';
+import { useSelector } from "react-redux";
 
 const Doc = ({history}) => {
+  const documentdata = useSelector(state => state.document);
+  const proofdata = useSelector(state => state.proof);
+  const selfiedata = useSelector(state => state.selfie);
+  const socialdata = useSelector(state => state.social);
 
   let values = queryString.parse(useLocation().search);
 
   const [user, setUser] = useState('')
   const [cpfcnpj, setCnpj] = useState('')
+  const [war, setWar] = useState('');
 
   useEffect(() => {
     async function loadPerfil() { 
@@ -40,15 +46,75 @@ const Doc = ({history}) => {
  
   const goBack = () => {
     Scroll(0,0);
-    if (localStorage.getItem('@lkt') !== "") {
-      history.push(localStorage.getItem('@lkt'))
+    history.push('/')
+  }
+
+  const saveDocument = () => {
+    const document = new FormData();
+    const social = new FormData();
+    const selfie = new FormData();
+    const proof = new FormData();
+
+    document.append('document', documentdata);
+    social.append('enterprise', socialdata);
+    selfie.append('selfie', selfiedata);
+    proof.append('proof', proofdata);
+
+    if (cpfcnpj !== null && cpfcnpj.length > 14) {
+      setWar('Você precisa adicionar o contrato social da sua empresa.');
     } else {
-      history.push('/s/renter/perfil')      
-    }       
+      if (documentdata === '') {
+        setWar('Adicione seu documento.');
+        return 
+      } else {
+        if (documentdata.type !== 'application/pdf' && documentdata.type !== 'image/jpeg' && documentdata.type !== 'image/png') {
+          setWar('Só são permitidos pdf e images jpg para documento.');
+          return
+        }
+      }
+
+      if (selfiedata === '') {
+        setWar('Adicione uma selfie.');
+        return 
+      } else {
+        if (selfiedata.type !== 'application/pdf' && selfiedata.type !== 'image/jpeg' && selfiedata.type !== 'image/png') {
+          setWar('Só são permitidos pdf e images jpg para documento.');
+          return 
+        }
+      }
+
+      if (proofdata === '') {
+        setWar('Adicione o comprovante de endereço.');
+        return
+      } else {
+        if (proofdata.type !== 'application/pdf' && proofdata.type !== 'image/jpeg'  && proofdata.type !== 'image/png') {
+          setWar('Só são permitidos pdf e images jpg para comprovante de endereço.');
+          return 
+        }
+      }
+
+      if (socialdata.value === 'cnpj' && socialdata !== '') {
+        if (socialdata.type !== 'application/pdf' && socialdata.type !== 'image/jpeg') {
+          setWar('Só são permitidos pdf e images jpg para contrato social.');
+          return 
+        }
+      }
+      setWar('')
+    }
   }
   
   return (
     <>
+      {
+        war !== '' ? 
+        (
+        <Warninggeneral>{ war }</Warninggeneral>
+        )
+        : 
+        (
+          ''
+        )
+      }    
       {
         values.e === 'nd' ? 
         (
@@ -94,7 +160,7 @@ const Doc = ({history}) => {
         <Button
           type={'submit'}
           className={'button back-perfil color-logo-lessor'} 
-          text={'Voltar onde eu estava'}
+          text={'Explorar'}
           onClick={event => goBack()}
         />
 
@@ -111,7 +177,7 @@ const Doc = ({history}) => {
         <div className="columns">
           <div className="column">
             <div>
-              <h3 className="title-box-inter">RG uo CNH</h3>
+              <h3 className="title-box-inter">RG ou CNH</h3>
               <div>
                 <Document id={user.id}/>
               </div>

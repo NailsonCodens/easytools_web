@@ -668,7 +668,7 @@ const MenuRenter = () => {
 								<div>
 									<input 
 										type="text" 
-										placeholder='Experimente "Furadeira" e pressione ENTER' 
+										placeholder='Equipamentos e ferramentas' 
 										className="input input-search" 
 										value={search}
 										onKeyPress={event => {

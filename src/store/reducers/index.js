@@ -11,6 +11,10 @@ import longitude from './longitude';
 import distance from './distance';
 import notifications from './notifications';
 import link from './link';
+import document from './document';
+import proof from './proof';
+import selfie from './selfie';
+import social from './social';
 
 export default combineReducers({
   auth,
@@ -24,5 +28,9 @@ export default combineReducers({
   longitude,
   distance,
   link,
+  document,
+  proof,
+  selfie,
+  social,
   notifications
 });

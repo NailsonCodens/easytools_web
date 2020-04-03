@@ -60,7 +60,7 @@ const Paymentfinish = ({history}) => {
 
     async function showBottom () {
       //verificar mobile
-      if (document.documentElement.scrollTop > 100) {
+      if (document.documentElement.scrollTop > -10) {
         setClass('bottom-box')
       }else{
         setClass('bottom-no-box')
@@ -240,7 +240,6 @@ const Paymentfinish = ({history}) => {
           <title>{ 'Pagamento' }</title>
         </Helmet>
         <div className="container">
-      <br/><br/>
       {
         okattempt === true ? 
         (

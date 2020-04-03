@@ -6,10 +6,16 @@ import api from '../../services/api';
 import './style.css';
 import Notification from '../../utils/notification';
 import EllipsisText from "react-ellipsis-text";
+import { useDispatch, useSelector } from "react-redux";
+import {Document as Doc} from '../../store/actions/document';
+import { useLocation } from 'react-router-dom';
+import pdf from '../../assets/images/file.png';
 
-export default function Document({id}) {
- 
-  const [document, setDocument] = useState(rg);
+export default function Document({history, id}) {
+	let location = useLocation().pathname;
+
+  const dispatch = useDispatch();
+  const [document, setDocument] = useState('Não adicionado.');
   const [namedocument, setNamedocument] = useState('');
   const [image, setImage] = useState('');
   const [isactive, setActive] = useState([]);
@@ -55,8 +61,17 @@ export default function Document({id}) {
   const onDrop = useCallback(acceptedFiles => {    
     const preview = URL.createObjectURL(acceptedFiles[0])
     setImage(acceptedFiles);
-    setDocument(preview)
+
+    if (acceptedFiles[0].type !== 'image/jpeg' && acceptedFiles[0].type !== 'image/png') {
+      setDocument(pdf)
+    } else {
+      setDocument(preview)
+    }
+
     setActive(true)
+
+    dispatch(Doc(acceptedFiles[0]));
+
   }, [])
 
   const {getRootProps, getInputProps} = useDropzone({onDrop})
@@ -64,7 +79,6 @@ export default function Document({id}) {
   const updateDocument = () => {
     const data = new FormData();
     data.append('document', image[0]);
-    saveDocument(data)
   }
 
   async function saveDocument (document) {
@@ -81,45 +95,49 @@ export default function Document({id}) {
     <div>
       <div className="columns">
       <div className="column has-text-centered">
-        <div className="column has-text-centered box-inter box-inter-padding">
-          <div className={ isactive === true ? 'documents' : 'documents_mini'}>
-            <div className="columns">
-              <div className="column is-2">
-                <img src={document} alt={document}/>
-              </div>
-              <div className="column is-3">
-                <EllipsisText text={namedocument} length={20} />
-                { 
-                  showcheck === true ?
-                  (<span className="check-photo"></span>)
-                  :
-                  ('')
-                }
-              </div>
-            </div>
+        <div className="has-text-centered">
+
+          {
+            document === 'Não adicionado.' ? 
+            (<span>{ document }</span>)
+            :
+            (
+              <img src={document} alt={document} className="imagedoc"/>
+            )
+          }
+          <EllipsisText text={namedocument} length={20}/>
+          { 
+            showcheck === true ?
+            (<span className="check-photo"></span>)
+            :
+            ('')
+          } 
           </div>
-          <div className="column box-inter">
-            <div {...getRootProps()} className="drag-photo upload">
-              <input {...getInputProps()} />
-                Anexar
-            </div>
-          </div>
+
+          {
+            location === '/s/renter/perfil/documents' ? 
+            (
+              ''
+            )
+            :
+            (
+              <div className="column box-inter">
+                <div {...getRootProps()} className="drag-photo upload">
+                  <input {...getInputProps()} />
+                    Anexar
+                </div>
+              </div>
+            )
+          }
           {
             isactive === true ?
             (
               <>
-                <Button
-                  type={'button'}
-                  className={'button is-info color-logo-lessor is-pulled-right'}
-                  text={'Salvar'}
-                  onClick={event => updateDocument() }
-                  />
               </>
             ) :
             ('')
           }
         </div>
-      </div>
       </div>
     </div>
   )
