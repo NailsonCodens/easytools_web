@@ -11,6 +11,9 @@ import {Document as Doc} from '../../store/actions/document';
 import { useLocation } from 'react-router-dom';
 import pdf from '../../assets/images/file.png';
 
+import Resizer from 'react-image-file-resizer';
+
+
 export default function Document({history, id}) {
 	let location = useLocation().pathname;
 
@@ -59,19 +62,33 @@ export default function Document({history, id}) {
   }, [id])
 
   const onDrop = useCallback(acceptedFiles => {    
-    const preview = URL.createObjectURL(acceptedFiles[0])
-    setImage(acceptedFiles);
+    var preview = URL.createObjectURL(acceptedFiles[0])
 
     if (acceptedFiles[0].type !== 'image/jpeg' && acceptedFiles[0].type !== 'image/png') {
       setDocument(pdf)
+      setImage(acceptedFiles[0]);
+      dispatch(Doc(acceptedFiles[0]));
     } else {
       setDocument(preview)
     }
 
     setActive(true)
+      Resizer.imageFileResizer(
+        acceptedFiles[0],
+        1024,
+        1024,
+        'JPEG',
+        29,
+        0,
+        uri => {
+          var filenew = new File([uri], acceptedFiles[0].name, {type: acceptedFiles[0].type})
+          preview = URL.createObjectURL(filenew)
+          setImage(filenew);
+          dispatch(Doc(filenew));
+        },
+        'blob'
 
-    dispatch(Doc(acceptedFiles[0]));
-
+      );
   }, [])
 
   const {getRootProps, getInputProps} = useDropzone({onDrop})

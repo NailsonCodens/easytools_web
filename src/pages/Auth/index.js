@@ -152,11 +152,11 @@ const Signin = ({ hs, url, closeModal }) => {
           </div>
           <div className="has-text-centered">
             <Span>Ainda não tem uma conta na EasyTools? </Span>
-            <Link to="/signup"><Span className="button-enter">Cadastre-se</Span></Link>
+            <a onClick={event => Scrool()} href="/signup"><Span className="button-enter">Cadastre-se</Span></a>
           </div>  
           <div className="has-text-centered mwd-opacity-low">
             <Span>Esqueci minha senha! </Span>
-            <Link to="/password-recover"><Span className="button-enter">Recuperar Senha.</Span></Link>
+            <a onClick={event => Scrool()} href="/password-recover"><Span className="button-enter">Recuperar Senha.</Span></a>
           </div>               
         </div>
         <Modal 

@@ -171,7 +171,6 @@ const Rules = ({ history }) => {
                       <div className="column is-two-thirds">
                         <div className="columns noppadding">
                           <div className="column">
-                            <br/><br/>
                             <p className="title-infos-tool hack-padding-top">Política de locação</p>
                             <Ul>
                               <b className="title-politics">Como funciona? </b>
@@ -181,20 +180,24 @@ const Rules = ({ history }) => {
                               <li> - Equipamento locado, nós enviamos o contrato de locação via email. Tudo digital, chega de papel;</li>
                               <li><i class="explanation-rules">Todo o processo de aluguel se resolve em menos de 15 minuto. (Após os 5 primeiros alugueis).</i></li> 
                             </Ul>
-                            <br/>
-                            <Ul>
-                              <b className="title-politics">Entrega</b>
-                              <li> - Depois do pagamento confirmado, nós entregamos o equipamento no local solicitado. </li>
-                              <li> - No ato da entrega, um chekout será feito para mantermos a qualidade dos equipamentos alugados.</li>
-                            </Ul>
-                            <br/>
-                            <Ul>
-                              <b className="title-politics">Devolução</b>
-                              <li> - Fique atento ao dia de devolução. Nós notificaremos via e-mail, website e app, alguns dias antes de vencer o período contratado! </li>
-                              <li> - Nós faremos a busca do equipamento no local onde entregamos, na data final do período contratado.</li>
-                              <li>Neste momento, fazemos o check-in do equipamento para averiguação do estado do equipamento.</li>
-                            </Ul>
-                            <br/>
+                            {
+                              /*
+                                <br/>
+                                <Ul>
+                                  <b className="title-politics">Entrega</b>
+                                  <li> - Depois do pagamento confirmado, nós entregamos o equipamento no local solicitado. </li>
+                                  <li> - No ato da entrega, um chekout será feito para mantermos a qualidade dos equipamentos alugados.</li>
+                                </Ul>
+                                <br/>
+                                <Ul>
+                                  <b className="title-politics">Devolução</b>
+                                  <li> - Fique atento ao dia de devolução. Nós notificaremos via e-mail, website e app, alguns dias antes de vencer o período contratado! </li>
+                                  <li> - Nós faremos a busca do equipamento no local onde entregamos, na data final do período contratado.</li>
+                                  <li>Neste momento, fazemos o check-in do equipamento para averiguação do estado do equipamento.</li>
+                                </Ul>
+                                <br/> 
+                              */
+                            }
                             <Ul>
                               <b className="title-politics">Prazos e períodos</b>
                               <li> - Respeitar os prazos e períodos contratados é a grande chave para nosso relacionamento;</li>
@@ -208,16 +211,21 @@ const Rules = ({ history }) => {
                               <li> - Este contrato é disponibilizado a você de forma totalmente on-line, via e-mail; </li>
                             </Ul>
                             <br/>
-                            <p className="title-infos-tool hack-padding-top">Pagamento</p>
-                            <Ul>
-                              <b className="title-politics"> Pagamento online </b>
-                              <li> Para facilitar sua vida, nós enviamos um link de pagamento à você. </li>
-                              <li>Este link ficará acessível para você em sua conta no campo "Meus alugados ? Detalhes". Você também pode acessar este link pela notificação.</li>
-                            </Ul>
-                            <Ul>
-                              <b className="title-politics"> Parceria </b>
-                              <li> Somos o seu parceiro novo, com um novo jeito de alugar equipamentos para você ou seu negócio.</li>
-                            </Ul>
+                            {
+                              /*
+                                <br/>
+                                <p className="title-infos-tool hack-padding-top">Pagamento</p>
+                                <Ul>
+                                  <b className="title-politics"> Pagamento online </b>
+                                  <li> Para facilitar sua vida, nós enviamos um link de pagamento à você. </li>
+                                  <li>Este link ficará acessível para você em sua conta no campo "Meus alugados ? Detalhes". Você também pode acessar este link pela notificação.</li>
+                                </Ul>
+                                <Ul>
+                                  <b className="title-politics"> Parceria </b>
+                                  <li> Somos o seu parceiro novo, com um novo jeito de alugar equipamentos para você ou seu negócio.</li>
+                                </Ul>                              
+                              */
+                            }
                             </div>
                           </div>
                       </div>

@@ -73,7 +73,7 @@ const Allnotification = ({history}) => {
             notification.map((notify, index) => (
             
             <div key={index} className={notify.done === null ? 'columns is-mobile column-notify new-notify' : "columns is-mobile column-notify"}>
-              <div className="column is-1">
+              <div className="column is-2">
                 <div className="avatar-notify">
                   <img src={notify.usersend.url} alt={notify.usersend.url} className="" />
                 </div>

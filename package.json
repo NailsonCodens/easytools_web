@@ -29,6 +29,7 @@
     "react-ga": "^2.7.0",
     "react-helmet": "^5.2.1",
     "react-iframe": "^1.8.0",
+    "react-image-file-resizer": "^0.2.1",
     "react-input-mask": "^2.0.4",
     "react-intl": "^3.9.3",
     "react-map-gl": "^5.2.1",
@@ -43,6 +44,7 @@
     "simple-crypto-js": "^2.2.0",
     "socket.io-client": "^2.3.0",
     "styled-components": "^5.0.1",
+    "typewriter-effect": "^2.13.0",
     "yup": "^0.27.0"
   },
   "scripts": {

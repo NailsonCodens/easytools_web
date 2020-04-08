@@ -2,8 +2,7 @@ import React from 'react'
 
 const Privacyterm = () => {
   return (
-    <div className="container terms-complete">
-      <br/><br/>
+    <div className="container terms-complete padding">
       <p className="title-about-us">Termo de privacidade</p>
       <br/><br/>
       <div className="columns">

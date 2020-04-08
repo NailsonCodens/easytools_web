@@ -137,6 +137,12 @@
   margin-left: 20px !important;
 }
 
+.title-index{
+  font-size: 37px !important;
+  font-family: 'OpenSans', sans-serif !important;
+  font-weight: 600 !important;
+}
+
 @media (max-width: 900px) {
   .tool{
     margin: 10px 0px !important;
@@ -148,7 +154,7 @@
   }
 
   .image-index{
-    margin-top: 20px;
+    margin-top: 0px;
     margin-bottom: 60px;
     /*background: #fff url('../../../assets/images/background.png') no-repeat;*/
     background-position: center top;

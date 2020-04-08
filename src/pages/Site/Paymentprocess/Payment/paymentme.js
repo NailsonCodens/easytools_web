@@ -32,14 +32,14 @@ const Paymentme = () => {
       <Helmet>
         <title>{ 'Pagamento do aluguel' }</title>
       </Helmet>
-      <div className="container explorer">
+      <div className="container explorer container-mobile-paymentme">
         {
           rent.map((rent, index) => (
             <div key="rent">
               <h3>Pagamento do aluguel de { rent.tool.title }</h3>
               <br/>
               <div className="columns">
-                <div className="column">
+                <div className="column no-padding-paymentme">
                   <Iframe url={rent.linkpayment}
                     width="100%"
                     height="600px"

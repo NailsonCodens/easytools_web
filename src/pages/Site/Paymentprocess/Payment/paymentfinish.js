@@ -410,7 +410,7 @@ const Paymentfinish = ({history}) => {
               <Button 
                 type={'button'}
                 className={'button is-pulled-right bt-bottom color-logo'}
-                text={rentattempt.finishprocess === "y" ? 'Sendo processado' : 'Confirmar e Alugar'}
+                text={rentattempt.finishprocess === "y" ? 'Sendo processado' : 'Confirmar'}
                 disabled={rentattempt.finishprocess === "y" ? true : false}                              
                 onClick={event => paymentRent()}
               />

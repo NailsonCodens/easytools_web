@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from 'react-router-dom';
 import Scroll from '../../utils/scroll';
 import {Proof} from '../../store/actions/proof';
+import Resizer from 'react-image-file-resizer';
 
 import pdf from '../../assets/images/file.png';
 
@@ -96,18 +97,34 @@ export default function Proofaddress({id}) {
 
 
   const onDrop = useCallback(acceptedFiles => {    
-    const preview = URL.createObjectURL(acceptedFiles[0])
-    setImage(acceptedFiles);
+    var preview = URL.createObjectURL(acceptedFiles[0])
 
     if (acceptedFiles[0].type !== 'image/jpeg' && acceptedFiles[0].type !== 'image/png') {
       stProof(pdf)
+      setImage(acceptedFiles[0]);
+      dispatch(Proof(acceptedFiles[0]));
     } else {
       stProof(preview)
     }
 
     setActive(true)
+      Resizer.imageFileResizer(
+        acceptedFiles[0],
+        1024,
+        1024,
+        'JPEG',
+        29,
+        0,
+        uri => {
+          var filenew = new File([uri], acceptedFiles[0].name, {type: acceptedFiles[0].type})
+          preview = URL.createObjectURL(filenew)
+          setImage(filenew);
+          dispatch(Proof(filenew));
+        },
+        'blob'
+      );
 
-    dispatch(Proof(acceptedFiles[0]));
+      setActive(true)
   }, [])
 
   const {getRootProps, getInputProps} = useDropzone({onDrop})

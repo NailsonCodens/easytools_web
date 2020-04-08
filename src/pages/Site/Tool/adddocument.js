@@ -32,6 +32,8 @@ const Adddocument = ({ onClose, history }) => {
   const socialdata = useSelector(state => state.social);
   const us = useSelector(state => state.auth);
 
+  console.log(documentdata, socialdata, selfiedata, proofdata)
+
   const [war, setWar] = useState('');
   const [documenttype, setSelectedDocument] = useState({value: 'cpf', label: 'CPF' });
   const [cpfcnpj, setCpfcnpj] = useState('');
@@ -51,23 +53,23 @@ const Adddocument = ({ onClose, history }) => {
   const [showcheck, setShowcheck] = useState(false);
   const [user, setUser] = useState('');
   
-  const success = () => Notification(
-    'success',
-    'Tudo pronto, vamos seguir?!', 
+  const info = () => Notification(
+    'info',
+    'Salvando seus documentos, só um momento.', 
     {
       autoClose: 3000,
       draggable: false,
     },
     {
       position: "top-center",
-      autoClose: 2000,
+      autoClose: 4800,
       hideProgressBar: true,
       closeOnClick: false,
       pauseOnHover: true,
       draggable: true,
     }
   )
-
+  
   const onDrop = useCallback(acceptedFiles => {    
     const preview = URL.createObjectURL(acceptedFiles[0])
     setImage(acceptedFiles);
@@ -226,6 +228,7 @@ const Adddocument = ({ onClose, history }) => {
       const social = new FormData();
       const selfie = new FormData();
       const proof = new FormData();
+      console.log(documentdata, socialdata, selfiedata, proofdata)
 
       document.append('document', documentdata);
       social.append('enterprise', socialdata);
@@ -278,35 +281,32 @@ const Adddocument = ({ onClose, history }) => {
   })
 
   const saveAddress = (data, datadoc, dataselfie, dataproof, datasocial, typedoc) => {
+    info()
     api.put(`perfil/update/${us.id}`, data, {})
     .then((res) => {
-      saveDocument(datadoc)
+        saveDocument(datadoc)
+        setTimeout(function(){
+          saveSelfie(dataselfie)
+          saveProf(dataproof)  
+        }, 1500);
+
+        if (typedoc === 'cnpj') {
+          saveSocial(datasocial)
+        }
 
       setTimeout(function(){
-        saveSelfie(dataselfie)
-        saveProf(dataproof)  
-      }, 500);
-
-      if (typedoc === 'cnpj') {
-        saveSocial(datasocial)
-      }
-
-      success() 
-
-      setTimeout(function(){
-        //onClose()
-        Scroll(400, 400);
-
-
-      if (link !== '' && link !== null) {
-        //history.push(link)
-        window.location.replace(link);
-      } else {
-        window.location.replace('/');
-        //history.push('/')
-      }    
-
-      }, 3000);
+          Scroll(400, 400);
+          //onClose()
+          
+            if (link !== '' && link !== null) {
+              history.push(link)
+              window.location.replace(link);
+            } else {
+              window.location.replace('/');
+              history.push('/')
+            }
+              
+      }, 6000);
     })
     .catch((err) => {
 

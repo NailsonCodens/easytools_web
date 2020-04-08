@@ -33,15 +33,22 @@ const Footer = () => {
 						{
 							location === '/' ? 
 							(
-								<a
-								href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="_blank">
-									<br/>
-									<img src={whats} alt="Whats App EasyTools Logo" className="logo-whats"/>
-								</a>	 
+								''
 							)
 							:
 							('')
 						}
+						{
+							/*
+ 								
+							*/
+						}
+
+						<a
+						href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="_blank">
+							<br/>
+							<img src={whats} alt="Whats App EasyTools Logo" className="logo-whats"/>
+						</a>	
 					</div>
 					<div className="container">
 						<div className="columns is-desktop">
@@ -54,8 +61,8 @@ const Footer = () => {
 							</div>
 							<div className="column">
 								<Ul>
-									<li className="title-footer"><Link to={'/s/about-us'} onClick={event => Scrool() } >EasyTools</Link></li>
-									<li><Link to={'/s/signup?type=renter'} onClick={event => Scrool() } >Alugue o que precisa!</Link></li>
+									<li className="title-footer"><Link to={'/s/about-us'} onClick={event => Scrool(0,0) } >EasyTools</Link></li>
+									<li><Link to={'/signup?type=renter'} onClick={event => Scrool(0,0) } >Alugue o que precisa!</Link></li>
 									<li><Link to={'/s/about-us'} onClick={event => Scrool() } >Sobre a EasyTools</Link></li>
 									<li><Link to={'/s/help-me'} onClick={event => Scrool() } >Ajuda</Link></li>
 									<li>

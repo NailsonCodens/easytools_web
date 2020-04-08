@@ -33,6 +33,7 @@ import Mapbox from '../../../components/Map/Mapbox';
 import ReactGA, { set } from 'react-ga';
 import {Helmet} from 'react-helmet'
 import Adddocument from './adddocument';
+import Notification from '../../../utils/notification';
 
 import {
   isMobile
@@ -86,6 +87,23 @@ const Tool = ({history}) => {
   let {id} = useParams();
 
   let values = queryString.parse(useLocation().search);
+
+  const success = () => Notification(
+    'success',
+    'Tudo pronto, vamos seguir?!', 
+    {
+      autoClose: 4100,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
 
   const formik = useFormik({
     initialValues: {
@@ -142,12 +160,13 @@ const Tool = ({history}) => {
       if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
         if (perfil.type === 'Lessor') {
           Scrool()
-          history.push(`/lessor/perfil?e=cc`);
+          setAdddoc(true);
+          //history.push(`/lessor/perfil?e=cc`);
         } else {
           Scrool()
           setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
           history.push(`/s/adddocuments`);
-         // setAdddoc(true);
+         //setAdddoc(true);
         }
 
       }else {
@@ -160,7 +179,8 @@ const Tool = ({history}) => {
               } else {
                 setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
                 history.push(`/s/adddocuments`);
-              //setAdddoc(true);
+                //setAdddoc(true);
+                //console.log('aa')
               }
               dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
               //erro quando é cnpj       
@@ -193,11 +213,9 @@ const Tool = ({history}) => {
             } else {
               setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
               history.push(`/s/adddocuments`);
-            //  setAdddoc(true);
-
+              //setAdddoc(true);
               dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));  
             }
-
           }
         }else {
           Scrool()
@@ -206,7 +224,8 @@ const Tool = ({history}) => {
           } else {
             setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
             history.push(`/s/adddocuments`);
-           // setAdddoc(true);
+            //setAdddoc(true);
+            console.log('ee')
           }
           dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
         }
@@ -579,15 +598,16 @@ const Tool = ({history}) => {
             { text }
           </IntlProvider>
         </div>
-        <div className="column is-5">
+        <div className="column is-4">
           <p className="is-pulled-right">
             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
               <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
               { 
                 amount === undefined ? 'x 1 UN' : `x ${amount} UN` 
               }
-            </IntlProvider>            
+            </IntlProvider>           
           </p>
+          <br/><br/>
         </div>
       </div>
       <div className="columns">
@@ -627,6 +647,7 @@ const Tool = ({history}) => {
     //window.location.reload();
     loaddocumenttwo()
     setAdddoc(false)
+    success()
   }
 
 return (
@@ -1057,6 +1078,7 @@ return (
                       ) : 
                       ('')
                     }
+                    <br/>
                     <div className="pricefinal">
                       <Warningtext>*O valor final pode mudar de acordo com o período escolhido: diária, semanal, quizenal ou mensal.</Warningtext>
                     </div>

@@ -2,8 +2,7 @@ import React from 'react'
 
 const Terms = () => {
   return (
-    <div className="container">
-      <br/><br/>
+    <div className="container padding">
       <p className="title-about-us">Termo de uso</p>
       <br/><br/>
       Bem-vindo a Easytools!

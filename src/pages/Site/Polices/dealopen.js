@@ -2,8 +2,7 @@ import React from 'react'
 
 const Dealopen = () => {
   return (
-    <div className="container">
-      <br/><br/>
+    <div className="container padding">
       <p className="title-about-us">Contrato público</p>
       <br/><br/>
       CONTRATO DE LOCAÇÃO DE BEM MÓVEL

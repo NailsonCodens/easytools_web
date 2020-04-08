@@ -52,6 +52,7 @@
 .input-search {
   width: 370px !important;
   height: 40px !important;
+  background: rgb(243, 242, 242)!important;
   border: 2px solid #d8d8d8 !important;
   outline: none !important;
   font-family: 'Poppins', sans-serif !important;
@@ -218,6 +219,7 @@
 
   .input-search {
     margin-top: 14px;
+    width: 100% !important;
     border: 1px solid rgb(221, 221, 221) !important;
     border-radius: 100px !important;
     font-family: 'Poppins', sans-serif;

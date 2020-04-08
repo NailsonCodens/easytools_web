@@ -13,7 +13,8 @@ import { Link, useHistory } from 'react-router-dom';
 import ReactGA from 'react-ga';
 import {Helmet} from 'react-helmet'
 import { Button } from '../../../components/Form/Button';
-
+import Typewriter from 'typewriter-effect';
+ 
 const Dashboard = ({history, location}) => {
   let values = queryString.parse(useLocation().search);
 
@@ -92,7 +93,6 @@ const Dashboard = ({history, location}) => {
         />
         <meta name="keywords" content="Aluguel, ferramenta, equipamento, betoneira, aluguel de equipamento online"/>
       </Helmet>
-
       {
         values.t === 'unavailable' ? 
         (
@@ -120,10 +120,19 @@ const Dashboard = ({history, location}) => {
               <div className="image-index">
                 <div className="explorer has-text-centered">
                   <div className="">
-                  </div>                
-                  <br/><br/><br/>
-                  <h3>Alugar equipamentos e ferramentas nunca foi tão fácil. </h3>
-                  <p className="text-subtitle-index">Alugou, chegou!</p>
+                  </div>            
+                  <h3 className="title-index">
+                    <Typewriter
+                      options={{
+                        strings: ['Alugar é melhor que comprar!', 'Alugar equipamentos e ferramentas nunca foi tão fácil.'],
+                        autoStart: true,
+                        loop: true,
+                        delay: 50,
+                        deleteSpeed: 10
+                      }}
+                    />
+                  </h3>
+                  <p className="text-subtitle-index">Alugou, Chegou!🔧</p>
                   <br/><br/>
                   <Link
                     to={'/s/about-us'}

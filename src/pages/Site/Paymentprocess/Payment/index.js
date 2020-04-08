@@ -19,6 +19,8 @@ import Scroll from '../../../../utils/scroll';
 import {Helmet} from 'react-helmet';
 import Rentalbottombox from '../Rentalbottombox';
 import moment from 'moment';
+import Email from '../../../../utils/sendemail';
+
 import {
   isMobile
 } from "react-device-detect";
@@ -120,6 +122,45 @@ const Payment = ({history}) => {
     verifyAvailabletool()
   }
 
+
+  async function verifyAvailabletool() { 
+    const response = await api.get(`/tools_site/tool/${rentattempt.tool_id}`, {
+    });
+
+    var titletool = rentattempt.tool.title
+    var lessor = rentattempt.userlessor.name
+    var renter = rentattempt.userrenter.name
+    var tension = rentattempt.tension
+    var startdate = moment(rentattempt.startdate).format('DD/MM/YYYY');
+    var enddate = moment(rentattempt.enddate).format('DD/MM/YYYY');
+    var title = `${renter} alugou seu equipamento`;
+    var message = `Olá ${lessor}, ${renter} alugou sua ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}.`;
+    var maintext = 'Oba, aluguel novo!'
+    var urllabel = "Ver aluguel"  
+
+    var notification = {
+      rent_attempt_id: rentattempt.id,
+      user_recipient_id: rentattempt.user_lessor_id,
+      message: message,
+      title: title
+    }
+
+    Email(rentattempt.user_lessor_id, title, message, urllabel, maintext);
+
+    await api.post('/notifications/send', notification, {})
+    .then((res) => {
+      socketio.emit('notify',{ 
+        to : rentattempt.user_lessor_id,
+        title: title,
+        message : message
+      });
+      
+      history.push(`/s/payment/congrats/${rentattempt.id}`);
+    }).catch((err) => {
+      console.log(err.response)
+    }) 
+  }
+
   async function updateRentattemp () {
     var acq = ''
     var freightnew = '';
@@ -147,47 +188,12 @@ const Payment = ({history}) => {
 
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
     .then((res) => {
-      Tracking('Prosseguiu para finalizar e pagar', 'Prosseguiu para pagar', 'entrega')
-      history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      
+      Tracking('Finalizaou', 'Finalizou', 'entrega e finish')
+      verifyAvailabletool()
+      //history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      
     }).catch((err) => {
       console.log(err.response)
     })
-  }
-
-  async function verifyAvailabletool() { 
-    const response = await api.get(`/tools_site/tool/${rentattempt.tool_id}`, {
-    });
-
-    if (response.data.tool[0].availability === 'Y') {
-      var titletool = rentattempt.tool.title
-      var lessor = rentattempt.userlessor.name
-      var renter = rentattempt.userrenter.name
-      var tension = rentattempt.tension
-      var startdate = moment(rentattempt.startdate).format('DD/MM/YYYY');
-      var enddate = moment(rentattempt.enddate).format('DD/MM/YYYY');
-      var title = `${renter} alugou seu equipamento`;
-      var message = `Olá ${lessor}, ${renter} alugou sua ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}.`;
-  
-      var notification = {
-        rent_attempt_id: rentattempt.id,
-        user_recipient_id: rentattempt.user_lessor_id,
-        message: message,
-        title: title
-      }
-  
-      await api.post('/notifications/send', notification, {})
-      .then((res) => {
-        socketio.emit('notify',{
-          to : rentattempt.user_lessor_id,
-          title: title,
-          message : message
-        });
-      }).catch((err) => {
-        console.log(err.response)
-      }) 
-    } else {
-      history.push(`/?t=unavailable`);
-    }
   }
 
   const handleFreight = (event) => {
@@ -330,19 +336,18 @@ const Payment = ({history}) => {
                 freight === 'with' ? 
                 (
                   <>
-                    <p className="title-tool-only-little"> Custo de entrega </p>
+                    <p className="title-tool-only-little"> Delivery do equipamento </p>
                     <Warningtext>
                       Você receberá o equipamento, no endereço de uso informado.
                     </Warningtext>
                     <br/>
-                    <span className="valuefreight">Custo da entrega: </span>
+                    <span className="valuefreight">Taxa do delivery: </span>
                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                       <b><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
                     </IntlProvider>
                     <br/><br/> 
                     <Ul>
-                      <b className="title-politics">Entrega</b>
-                      <li> - Depois do pagamento confirmado, nós entregamos o equipamento no local solicitado. </li>
+                      <li> - Depois do pagamento confirmado, nós entregamos o equipamento no local solicitado em até 2 horas. </li>
                       <li> - No ato da entrega, um chekout será feito para mantermos a qualidade dos equipamentos alugados.</li>
                     </Ul>
                   </>
@@ -505,7 +510,8 @@ const Payment = ({history}) => {
               <Button 
                 type={'button'}
                 className={'button is-pulled-right bt-bottom color-logo'}
-                text={'Prosseguir'}                                    
+                disabled={rentattempt.finishprocess === "y" ? true : false}  
+                text={rentattempt.finishprocess === "y" ? 'Sendo processado' : 'Confirmar e alugar'}
                 onClick={event => paymentRent()}
               />
               <p className={ isMobile ? "is-pulled-left price-bottom" : "is-pulled-right price-bottom" }>

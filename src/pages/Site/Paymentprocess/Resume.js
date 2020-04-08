@@ -163,6 +163,7 @@ const Resume = ({history}) => {
                               { dayInit }
                             </div>
                           </div>
+                          <br/><br/>
                           <div className="column">
                             <p className="sub-title">Devolução</p>
                             <div className="box-date-rules is-pulled-left">
