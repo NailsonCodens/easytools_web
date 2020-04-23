@@ -20,6 +20,13 @@
   font-family: 'Poppins', sans-serif !important;
   font-weight: 600 !important;
   text-transform: capitalize;
+  z-index: 99;
+  position: relative;
+  top: -5px;
+}
+
+.div-t{
+  margin-top: -5px;
 }
 
 .title-tool{
@@ -45,10 +52,14 @@
 
 .image-index{
   margin-top: 0px;
-  margin-bottom: 60px;
+  margin-bottom: 1px;
   /*background: #fff url('../../../assets/images/background.png') no-repeat;*/
   background-position: center top;
   -webkit-font-smoothing: antialiased !important;
+}
+
+.rent-viewsearch{
+  margin-top: 10px;
 }
 
 .background-tools{
@@ -79,7 +90,7 @@
   margin-bottom: 60px;
   font-family: 'Poppins', sans-serif !important;
   font-weight: 600 !important;
-  font-size: 28px;
+  font-size: 24px;
   color: #000;
   opacity: 1;
 }
@@ -138,12 +149,190 @@
 }
 
 .title-index{
-  font-size: 37px !important;
+  font-size: 30px !important;
   font-family: 'OpenSans', sans-serif !important;
   font-weight: 600 !important;
 }
 
+.howwork{
+  margin-bottom: 80px !important;
+}
+
+.box-options{
+  text-align: center;
+}
+
+.box-options .column{
+  background: rgb(248, 248, 248);
+  height: 100px;
+  padding: 0px !important;
+  margin-bottom: 100px;
+  margin: 10px;
+  border-radius: 5px;
+  font-family: 'OpenSans', sans-serif !important;
+  font-weight: 600 !important;
+}
+
+.bricolagem{
+  width:100%;
+  border-radius: 5px;
+  background-position: center top;
+  -webkit-font-smoothing: antialiased !important;
+  color: #fff;
+  font-size: 25px;
+}
+
+.box-img{
+  width: 100px;
+  height: 100px !important;
+  background: transparent;
+
+}
+
+.text-options{
+  text-align: center !important;
+  padding: 35px;
+  font-family: 'Poppins', sans-serif !important;
+  color: #000;
+}
+
+.img-option {
+  width: 100%;
+  height: 100%;
+  -webkit-font-smoothing: antialiased !important;
+  object-fit:cover;
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.logo-enterprise{
+  background:#fff;
+  width: 35px !important;
+  height: 35px !important;
+  border-radius: 100px;
+  -webkit-font-smoothing: antialiased !important;
+  object-fit:cover;
+}
+
+.delivery-index{
+  font-size: 13px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 300 !important;
+  margin-top: -5px !important;
+  color: rgb(0, 0, 0) !important;
+}
+
+.km{
+  margin-top: 13px !important;
+  font-weight: 300 !important;
+  font-family: 'Poppins', sans-serif !important; 
+  color: rgb(0, 0, 0) !important;
+}
+
+.line-tools{
+}
+
+.box-delivery{
+  background: rgb(255, 255, 255) !important;
+}
+
+.box-km{
+  margin-top: 10px !important;
+}
+
+.icon-index{
+  font-size: 30px;
+}
+
+.input-geolocalization{
+  background: #fff;
+  width: 50% !important;
+  height: 50px !important;
+}
+
+.ul-howwork li{
+  font-family: 'Poppins', sans-serif !important; 
+  margin-top: 5px !important;
+  text-align: left !important;
+  color: rgb(156, 156, 156);
+  font-size: 17px;
+}
+
+.title-ul-how{
+  font-size: 23px !important;
+  font-weight: 600;
+  color: #60a8f1 !important;
+  margin-bottom: 20px;
+}
+
+.promo{
+  z-index: 9;
+  text-align: center;
+  position: relative;
+  background: rgb(0, 132, 255);
+  color: #fff;
+  padding: 3px;
+  top: -11px;
+}
+
+.ul-howwork li span{
+  font-size: 10px !important;
+}
+
+.geolo-bt{
+  position: 9;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 100% !important;
+  top: 5px;
+  margin-left: 10px;
+  background: rgb(255, 229, 134) !important;
+  color: rgb(255, 200, 0) !important;
+  border: none !important;
+}
+
+
+.size-cs-geolo{
+  font-size: 25px;
+}
+
+.title-search-geolo{
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 20px;
+  margin-top: -30px;
+  margin-bottom: 15px;
+}
+
+.father-address{
+  width: 100% !important;
+  background: red;
+}
+  
+.background-address{
+  background: #fff !important;
+  width: 50% !important;
+  text-align: left !important;
+  padding: 0px 10px;
+  margin: 0px auto !important;
+  z-index: 9;
+  position: absolute;
+  left: -50%;
+  right: -50%;
+}
+
 @media (max-width: 900px) {
+
+  .input-geolocalization{
+    background: #fff;
+    width: 100% !important;
+    height: 50px !important;
+  }
+
   .tool{
     margin: 10px 0px !important;
   }
@@ -155,7 +344,7 @@
 
   .image-index{
     margin-top: 0px;
-    margin-bottom: 60px;
+    margin-bottom: 1px !important;
     /*background: #fff url('../../../assets/images/background.png') no-repeat;*/
     background-position: center top;
     -webkit-font-smoothing: antialiased !important;

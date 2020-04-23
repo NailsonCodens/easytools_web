@@ -1,7 +1,6 @@
 import api from '../../services/api';
 
 async function linkpayment (idattempt, rent) {
-  console.log(rent)
 
   var title = "Aluguel de " + rent.tool.title;
 
@@ -24,8 +23,13 @@ async function linkpayment (idattempt, rent) {
   }
 
   const renderValuefinal = () => {
-    console.log((parseFloat(rent.cost) * 100) + (parseFloat(rent.freight) * 100))
-    return (parseFloat(rent.cost) * 100) + (parseFloat(rent.freight) * 100)
+    console.log(rent.cost)
+    console.log(rent.freight)
+
+    var final = parseFloat(rent.cost) * 100 + parseFloat(rent.freight) * 100;
+    console.log(final.toFixed(2))
+
+    return (final.toFixed(2))
   }
 
   const renderTypedocument = () => {
@@ -63,7 +67,7 @@ async function linkpayment (idattempt, rent) {
       {
         id: rent.tool.id,
         title: title,
-        unit_price: renderValuefinal(),
+        unit_price: renderValuefinal() * 1,
         quantity: rent.amount,
         tangible: "true"
       }

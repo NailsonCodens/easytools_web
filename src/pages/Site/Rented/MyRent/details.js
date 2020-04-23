@@ -176,6 +176,11 @@ export default function Rents({history}) {
     }
   }
 
+  const cancelRent = (idrent) => {
+    //talvez por aqui para abrir modal de cancelamento
+    console.log(idrent)
+  }
+  
   return (
     <div className="container container-page">
       <div className="columns is-desktop">
@@ -212,9 +217,20 @@ export default function Rents({history}) {
                     }
                     <div>
                             { 
-                              rent.accept === '0' && rent.paid === '0' ?
+                              rent.finishprocess !== 'y' ?
                               (
-                                <b className="new">Aluguel novo</b>
+                                <b className="incomplet">Reserva incompleta</b>
+                              )
+                              :
+                              (
+                                ''
+                              )
+                            }
+
+                            { 
+                              rent.accept === '0' && rent.paid === '0' && rent.finishprocess === 'y' ?
+                              (
+                                <b className="new">Processando seu aluguel</b>
                               )
                               :
                               (
@@ -242,7 +258,7 @@ export default function Rents({history}) {
                               )
                             }
                             { 
-                              rent.accept === '1' && rent.paid === '1' ?
+                              rent.accept === '1' && rent.paid === '1' && rent.finishprocess === 'y'?
                               (
                                 <b className="acceptandpaid">Aceito e Pago</b>
                               )
@@ -253,6 +269,23 @@ export default function Rents({history}) {
                             }
                           </div>
                           <div className="columns">
+                            {
+                              rent.paid !== '1' &&  rent.finishprocess !== '1' ? 
+                              (
+                                <>
+                                  {
+                                    <Button
+                                      type={'submit'}
+                                      className={'button is-danger is-small color-logo-lessor is-pulled-left'}
+                                      text={'Cancelar'}
+                                      onclick={event => cancelRent(rent.id)}
+                                    />
+                                  }
+                                </>
+                              )
+                              :
+                              ('')
+                            }
                             {/* <div className="column is-2">
                               { 
                                 rent.accept !== '0' || rent.accept === 'N' ?
@@ -290,8 +323,8 @@ export default function Rents({history}) {
                           </div>
                     <br/>
                     <p className="capitalize">
-                      { rent.tool.title } alugado para 
-                      <b> { rent.userrenter.name }</b>
+                      { rent.tool.title } alugado por 
+                      <b> { rent.userlessor.name }</b>
                     </p>
                   <div className="columns">
                     <div className="column">
@@ -379,7 +412,8 @@ export default function Rents({history}) {
                   </div>
                 </div>
               </div>
-            </div>                  
+              <hr/>
+            </div>
           ))
         }
         </div>        

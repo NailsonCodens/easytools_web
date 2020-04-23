@@ -142,6 +142,8 @@ const Paymentfinish = ({history}) => {
       enddate: rentattempt.enddate,
     }
 
+    console.log(rentupdate)
+
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
     .then((res) => {
       Tracking('Alugou, finalizou o processo', 'Alugou', 'processo final aluguel')

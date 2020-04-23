@@ -15,6 +15,7 @@ import document from './document';
 import proof from './proof';
 import selfie from './selfie';
 import social from './social';
+import viewsearch from './viewsearch';
 
 export default combineReducers({
   auth,
@@ -32,5 +33,6 @@ export default combineReducers({
   proof,
   selfie,
   social,
+  viewsearch,
   notifications
 });

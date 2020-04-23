@@ -11,6 +11,10 @@
   font-family: 'Poppins', sans-serif !important;
 }
 
+.incomplet{
+  color: orange;
+}
+
 
 .avatar-detail{
   height: 70px;

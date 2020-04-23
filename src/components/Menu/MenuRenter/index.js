@@ -13,6 +13,7 @@ import { useLocation } from 'react-router-dom';
 import Dropdown from '../Dropdown';
 import Dropdownpure from '../Dropdownpure';
 import './styleRenter.css'
+import {Viewsearch} from '../../../store/actions/viewsearch';
 import logo from '../../../assets/images/logo.png'
 import socketio from '../../../services/socketio';
 import Notifier from "react-desktop-notification";
@@ -29,7 +30,6 @@ import { useFormik } from 'formik';
 import { getCordinates } from '../../../services/mapbox';
 import { Notifications } from '../../../store/actions/notifications';
 import ReactGA from 'react-ga';
-
 
 import {
   isMobile
@@ -264,6 +264,7 @@ const MenuRenter = () => {
 	const searchTools = (event) => {
 		if (event === '') {
 			findTools('close')
+			('close')
 		}
 		setSearch(event)
 		setBettersearch(true)
@@ -277,8 +278,12 @@ const MenuRenter = () => {
 			Scrool(0,0)	
 		} else {
 			dispatch(Search(search))
+			dispatch(Viewsearch(true))
 			setBettersearch(false)
 			Scrool(0,0)	
+			if (history.location.pathname !== '/') {
+				history.push('/')
+			}
 		}
 	}
 

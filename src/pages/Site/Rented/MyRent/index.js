@@ -144,8 +144,12 @@ const Rents = ({ history }) => {
             <div className="column box-inter">
               {placeholder}
               {
-                rents.map((rent, index) => (
+                /*
+                  s/payment/resumebook?rent_attempt=7b1ae98e-858d-11ea-9234-0123456789ea&init=2020-05-03&finish=2020-05-04&tool=0ce8d71f-b00a-45d7-ba4d-f5163126ccc0&am=1&tension=220V&code_attempt=ULAZYVPYVC
+                */
+                rents.map((rent, index) => (                  
                   <div key={index} className="columns">
+
                     <div className="column">
                       <div className="columns mwd-item-container">
                         <div className="column is-3">
@@ -158,9 +162,19 @@ const Rents = ({ history }) => {
                           </p>
                           <div>
                             { 
-                              rent.accept === '0' && rent.paid === '0' ?
+                              rent.finishprocess !== 'y' ?
                               (
-                                <b className="new">Aluguel novo</b>
+                                <b className="incomplet">Reserva incompleta</b>
+                              )
+                              :
+                              (
+                                ''
+                              )
+                            }
+                            { 
+                              rent.accept === '0' && rent.paid === '0' && rent.finishprocess === 'y' ?
+                              (
+                                <b className="new">Processando seu aluguel</b>
                               )
                               :
                               (
@@ -178,7 +192,7 @@ const Rents = ({ history }) => {
                               )
                             }
                             { 
-                              rent.accept === '1' && rent.paid === '0' ?
+                              rent.accept === '1' && rent.paid === '0' && rent.finishprocess === 'y' ?
                               (
                                 <b className="acceptandwaitng">Aceito e aguardando pagamento</b>
                               )
@@ -188,7 +202,7 @@ const Rents = ({ history }) => {
                               )
                             }
                             { 
-                              rent.accept === '1' && rent.paid === '1' ?
+                              rent.accept === '1' && rent.paid === '1' && rent.finishprocess === 'y' ?
                               (
                                 <b className="acceptandpaid">Aceito e Pago</b>
                               )
@@ -202,10 +216,26 @@ const Rents = ({ history }) => {
                             <div className="column is-2">
                               <Button
                                 type={'submit'}
-                                className={'button is-info color-logo-lessor is-pulled-left'}
+                                className={'button is-info color-logo-lessor is-small is-pulled-left'}
                                 text={'Ver detalhes'}
                                 onClick={event => goDetail(rent.id)}
                               />
+                            </div>
+                            <div className="column is-2">
+                              {
+                                rent.finishprocess === 'y' ? 
+                                (
+                                  ''
+                                )
+                                :
+                                (
+                                  <>
+                                    <a href={`/s/payment/resumebook?rent_attempt=${rent.idf}&init=${rent.startdate}&finish=${rent.enddate}&tool=${rent.tool_id}&am=${rent.amount}&tension=${rent.tension}&code_attempt=${rent.codeattempt}`} className="button is-warning is-small is-pulled-left">
+                                      Concluir aluguel</a>
+                                    <br/>
+                                  </>
+                                )                 
+                              }
                               <br/><br/>
                             </div>
                             {/* <div className="column is-2">

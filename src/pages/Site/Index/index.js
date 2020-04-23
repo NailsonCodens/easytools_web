@@ -7,22 +7,37 @@ import Scroll from '../../../utils/scroll';
 import Title from '../../../utils/title';
 import desert2 from '../../../assets/images/desert2.svg'
 import './style.css';
+import {Viewsearch} from '../../../store/actions/viewsearch';
 import logo from '../../../assets/images/easytools_yellow.png'
+import bricolagem from '../../../assets/images/bricolagem.jpg'
+import construcao from '../../../assets/images/construcao.jpg'
+import limpeza from '../../../assets/images/limpeza.jpg'
+import estrutura from '../../../assets/images/estrutura.jpeg'
 import background from '../../../assets/images/background.png'
 import { Link, useHistory } from 'react-router-dom';
 import ReactGA from 'react-ga';
 import {Helmet} from 'react-helmet'
+import Notificationtost from '../../../utils/notification';
 import { Button } from '../../../components/Form/Button';
 import Typewriter from 'typewriter-effect';
- 
+import logo2 from '../../../assets/images/logo.png'
+import { getCordinates } from '../../../services/mapbox';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faMapMarkerAlt, faTruckLoading, faCalendarAlt, faMousePointer} from '@fortawesome/free-solid-svg-icons'
+library.add(faMapMarkerAlt, faTruckLoading, faCalendarAlt, faMousePointer);
+
 const Dashboard = ({history, location}) => {
   let values = queryString.parse(useLocation().search);
-
+  var viewsearch = useSelector(state => state.viewsearch);
   // eslint-disable-next-line
   const dispatch = useDispatch();
   // eslint-disable-next-line	
   const paramsearch = queryString.parse(useLocation().search).search;
   const [tools, setTools] = useState([]);
+  const [places, setPlaces] = useState([]);
+  const [view, setView] = useState([]);
+  const [myaddress, setMyaddress] = useState('');
 	const search = useSelector(state => state.search);
 	const latitude = useSelector(state => state.latitude);
   const longitude = useSelector(state => state.longitude);
@@ -42,6 +57,13 @@ const Dashboard = ({history, location}) => {
     loadCoords()
     */
 
+    async function loadFreight (userid) {
+      const response = await api.get(`/userconfig/${userid}`, {
+      });
+      console.log(response)
+    }
+
+
     async function loadTools(lat = '', lng = '') {
       var latcorrect = ''; 
       var lngcorrect = '';
@@ -54,7 +76,7 @@ const Dashboard = ({history, location}) => {
         lngcorrect = longitude;
       }*/
 
-      const response = await api.get(`/tools_site?search=${search}&distance=${1000}&lat=${latcorrect}&lng=${lngcorrect}`, {
+      const response = await api.get(`/tools_site?search=${search}&distance=${''}&lat=${latcorrect}&lng=${lngcorrect}`, {
         headers: { search }
       });
 
@@ -72,6 +94,15 @@ const Dashboard = ({history, location}) => {
     });
   }
 
+	const handleMyaddress = (event) => {
+    let query = event.target.value
+		setMyaddress(event.target.value)
+
+		getCordinates(query).then(res => {
+			setPlaces(res.data.features)
+		})
+  }  
+
   const goTool = (id,category, tool) => {
     Tracking(id, 'Clque na ferramenta', `Clique na (tools) ferramenta ${tool.id} ${tool.title}`)
 
@@ -81,6 +112,49 @@ const Dashboard = ({history, location}) => {
 
   const goIndex = () => {
     history.push(`/`);
+  }
+
+  const error = () => Notificationtost(
+    'error',
+    'Não conseguimos pegar sua localização. habilite a geolocalização em seu navegador.', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+  
+  async function findToolsM (lat, lng) {
+    const response = await api.get(`/tools_site?search=${search}&distance=${50}&lat=${lat}&lng=${lng}`, {
+      headers: { search }
+    });
+    setTools(response.data.tools)
+    dispatch(Viewsearch(true))
+  }
+
+  const Geoloc = () => {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+			position => {
+        findToolsM(position.coords.latitude, position.coords.longitude)
+      },
+			erroget => {
+				error()
+			},{ enableHighAccuracy: true });
+		}
+  }
+
+  const selectPlace = (place) => {
+    findToolsM(place.center[1], place.center[0])
+    setMyaddress(place.place_name)
+		setPlaces(false)
   }
 
   return (
@@ -114,48 +188,203 @@ const Dashboard = ({history, location}) => {
       }
       <div className="">
         <div className="">
-          {
-            search === '' ? 
-            (
-              <div className="image-index">
-                <div className="explorer has-text-centered">
-                  <div className="">
-                  </div>            
+          <div className="image-index">
+            <div className="explorer has-text-centered">
+              <div className="">
+              </div>            
+              {
+                viewsearch === ''? 
+                (
                   <h3 className="title-index">
-                    <Typewriter
-                      options={{
-                        strings: ['Alugar é melhor que comprar!', 'Alugar equipamentos e ferramentas nunca foi tão fácil.'],
-                        autoStart: true,
-                        loop: true,
-                        delay: 50,
-                        deleteSpeed: 10
-                      }}
-                    />
-                  </h3>
-                  <p className="text-subtitle-index">Alugou, Chegou!🔧</p>
-                  <br/><br/>
+                  <Typewriter
+                    options={{
+                      strings: ['Precisou? Alugue online e sem burocracia.', 'Alugar ferramentas e equipamentos nunca foi tão fácil.'],
+                      autoStart: true,
+                      loop: true,
+                      delay: 50,
+                      deleteSpeed: 10
+                    }}
+                  />
+                </h3>
+                )
+                :
+                ('')
+              }
+                {
+                  /*
+                    <p className="text-subtitle-index">Alugou, Chegou!🔧</p>                      
+                  */
+                }
+              <br/>
+              <p className="title-search-geolo">Precisou de uma furadeira? Encontre e alugue aqui!</p>
+              <input 
+                type="text" 
+                placeholder='Sua localização para achar equipamentos perto de você.' 
+                className="input input-geolocalization" 
+                onChange={event => handleMyaddress(event)}
+                value={myaddress}
+              />
+              <button 
+                type={'button'}
+                className={'button is-default geolo-bt'}
+                title="Sua localização"
+                onClick={event => Geoloc()}
+              >
+                <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="size-cs-geolo" size="2x"/>
+              </button>
+              <div className="father-address">
+                <ul className="">
+                {
+                  places.length > 0 ? 
+                  (
+                    <>
+                      <div className="background-address">
+                        <ul>
+                          {
+                            places.map((place, index) => (
+                              <li className="list-places" key={index} onClick={event => selectPlace(place)}>
+                                {place.place_name}
+                              </li>
+                            ))
+                          }
+                        </ul>
+                      </div>
+                    </>
+                  )
+                  :
+                  ('')
+                }
+                </ul>
+              </div>
+              {
+                /*
                   <Link
                     to={'/s/about-us'}
                     className={'button color-logo'}
                     onClick={event => Tracking('noid', 'Como funciona', `Como funciona?`) }  
                   >
                     Como funciona?
-                  </Link>
-                  <br/>
+                  </Link>                    
+                */
+              }
+              <br/>
+              {
+                viewsearch === ''? 
+                (
                   <img src={background}  alt="EasyTools Logo" className="background-tools"/>
+                )
+                :
+                ('')
+              }
+            </div>
+          </div>
+        </div>
+        {
+          viewsearch === ''? 
+          (
+            <div className="container howwork">
+              <p className="title-index has-text-centered">Como alugar na EasyTools?</p>
+              <div className="columns has-text-centered">
+                <div className="column">
+                  <ul className="ul-howwork">
+                    <li className="title-ul-how"> <FontAwesomeIcon icon={['fas', 'mouse-pointer']} className="icon-index" size="2x"/> Escolha o que deseja alugar.</li>
+                    <li>
+                      Acesse sua conta e escolha o equipamento desejado. Furadeira, Extratora, Wap. Temos tudo que você precisa.
+                      Aluguel na hora, sem demora e sem burocracia. Adeus orçamento!
+                    </li>
+                  </ul>
+                </div>
+                <div className="column">
+                  <ul className="ul-howwork">
+                    <li className="title-ul-how"><FontAwesomeIcon icon={['fas', 'calendar-alt']} className="icon-index" size="2x"/> Selecione o período de uso.</li>
+                    <li>
+                      Escolha o período que deseja usar o alugado. Os períodos são: diária
+                      , semanal, quinzenal e mensal. Finalize o seu pedido. E espere pelo retorno da Easytools sobre o aluguel. (10min)
+                    </li>
+                  </ul>
+                </div>
+                <div className="column">
+                  <ul className="ul-howwork">
+                    <li className="title-ul-how"><FontAwesomeIcon icon={['fas', 'truck-loading']} className="icon-index" size="2x"/> Receba em casa.</li>
+                    <li>
+                      Depois do pedido aceito, acesse meus alugados e pague o aluguel. Pagamento confirmado, preparamos o equipamento e 
+                      enviamos até você.
+                      Também buscamos! 
+                    </li>
+                  </ul>
                 </div>
               </div>
+            </div>  
+          )
+          :
+          ('')
+        }
+
+        <div className="container">
+          {
+            viewsearch === ''? 
+            (
+              <h3 className="title-index">O que você precisa alugar?</h3>
             )
             :
-            ('')
+            (
+              <h3 className="title-index">O que encontramos próximos à você.</h3>
+            )
           }
-        </div>
-        <div className="container">
-          <h3 className="title-index">O que você precisa alugar?</h3>
+          {
+            viewsearch === '' ? 
+            (
+              <>
+                {
+                  /*
+                      <div className="columns box-options">
+                        <div className="column">
+                          <div className="is-pulled-left">
+                            <p className="text-options">Casa</p>
+                          </div>
+                          <div className="is-pulled-right box-img">
+                            <img src={ bricolagem } alt="Bricolagem" className="img-option"/>
+                          </div>
+                        </div>
+                        <div className="column">
+                          <div className="is-pulled-left">
+                            <p className="text-options">Construção</p>
+                          </div>
+                          <div className="is-pulled-right box-img">
+                            <img src={ construcao } alt="Construção" className="img-option"/>
+                          </div>
+                        </div>
+                        <div className="column">
+                          <div className="is-pulled-left">
+                            <p className="text-options">Limpeza</p>
+                          </div>
+                          <div className="is-pulled-right box-img">
+                            <img src={ limpeza } alt="Limpeza" className="img-option"/>
+                          </div>
+                        </div>
+                        <div className="column">
+                          <div className="is-pulled-left">
+                            <p className="text-options">Estruturas</p>
+                          </div>
+                          <div className="is-pulled-right box-img">
+                            <img src={ estrutura } alt="Estruturas" className="img-option"/>
+                          </div>
+                        </div>
+                      </div>
+                      <br/><br/><br/><br/>
+                   */
+                }
+              </>
+            )
+            :
+            (
+              <></>
+            )
+          }
           <div className="columns is-desktop is-mobile is-multiline">
             {
               tools.map(tool => (
-                <div key={tool.id} className="column column-cs-mobile is-one-fifth">
+                <div key={tool.id} className="column column-cs-mobile is-one-quarter line-tools">
                   <span onClick={event => goTool(tool.id, tool.category, tool)}>
                     <div className="tool">
                       <div className="picture-tool"> 
@@ -176,20 +405,64 @@ const Dashboard = ({history, location}) => {
                         }
                       </div>                         
                       <b className="category">{tool.category}</b>
-                      <p className="title-tool">{tool.title}</p>
-                      <p className="text-price">Diária a partir de <span className="price">R$ { tool.prices.split(';')[0] }</span></p>
+                      <div className="div-t">
+                        <p className="title-tool">{tool.title}</p>
+                        <p className="text-price">Diária a partir de <span className="price">R$ { tool.prices.split(';')[0] }</span></p>
+                        <div>
+                          {
+                            viewsearch !== '' ?
+                            (
+                              <button 
+                                type={'button'}
+                                className={'button is-fullwidth is-default rent-viewsearch'}
+                              >
+                              Alugar
+                              </button>
+  
+                            )
+                            :
+                            ('')
+                          }
+                        </div>
+                        <div className="box-km">
+                          <div className="columns box-delivery">
+                            {
+                              /*
+                                <div className="column is-2">
+                                  <div className="logo-enterprise">
+                                    <img src={logo2}  alt="EasyTools Logo" className=""/>
+                                  </div> 
+                                </div>                              
+                              */
+                            }
+                            {
+                              /*
+                                <div className="column">
+                                  <span className="km"> { tool.distance.toFixed(1).replace(/\./gi,',').replace(/,/gi,',') } km de você. </span>
+                                  <br/>
+                                  <div className="delivery-index">Entrega R$ 15,00 | 2 Horas</div>
+                                </div>                              
+                              */
+                            }
+                            <div className="column">
+                              <span className="promo">Desconto entrega</span>
+                              <div className="delivery-index">Entrega R$ 15,00 | 2h | Curitiba e região.</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     {
-                        tool.prices.split(';')[3].trim() === '0,00'? 
-                        (
-                          <>
-                            <p className="soon">Em breve!</p>
-                          </>
-                        )
-                        :
-                        ('')
+                      tool.prices.split(';')[3].trim() === '0,00'? 
+                      (
+                        <>
+                          <p className="soon">Em breve!</p>
+                        </>
+                      )
+                      :
+                      ('')
 
-                      }
+                    }
                   </span>
                 </div>
               ))
@@ -213,6 +486,8 @@ const Dashboard = ({history, location}) => {
             )
           } 
         </div>
+
+        <br/><br/>
         <br/><br/>
         <div className="has-text-centered">
           <div className="columns">

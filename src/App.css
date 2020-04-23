@@ -520,7 +520,7 @@
   z-index:999;
   position: fixed;
   right: 10px;
-  bottom: 20px;
+  bottom: 65px;
 }
 
 .imagedoc{
@@ -547,6 +547,10 @@
 }
 
 @media (max-width: 900px) {
+  .born{
+    display: none!important;
+  }
+
   .button-congrats{
     z-index: 999;
     position: fixed;
@@ -661,6 +665,7 @@
 .is-black:hover{
   color:#fff !important;
 }
+
 
 @media screen and (max-width: 1023px){
   .navbar-menu {

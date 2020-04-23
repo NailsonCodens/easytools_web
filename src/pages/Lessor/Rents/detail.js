@@ -150,9 +150,9 @@ export default function Rents({history}) {
     var urllabel = 'Acessar o site e pagar';
 
     if (type === 'paymentlinkok') {
-      title = `Pagamento do aluguel - Olá, clique em para pagar pelo aluguel do equipamento, clique em pagar!`;
+      title = `Pagamento do aluguel - Olá, para finalizar sua reserva, falta apenas pagar.`;
       message = `
-        Está tudo ok com seu pedido, só falta pagar :). Clique em pagar para finalizarmos o seu pedido e o vizinho ${lessor} preparar o equipamento para você. 
+        Está tudo ok com seu pedido, só falta pagar :). Clique em "Acessar o site e pagar" pagar para finalizarmos o seu pedido e o vizinho ${lessor} preparar o equipamento para você. 
         Para pagar acesse o site, entre na sua conta e vá em Meus alugados -> Detalhes -> Link de pagamento https://pagarmeualuguel.easytools
         `;  
     }
@@ -200,9 +200,9 @@ export default function Rents({history}) {
 
 
       if (type === 'accept') {
-        title = `EasyTools -  Aluguel aceito. Seu aluguel foi aceito!`;
-        message = `Olá ${renter}, Seu aluguel foi aceito. Fique ligado, nós vamos te enviar o link de pagamento, que pode ser acessado na sua conta na Easytools direto no site. Você alugou: ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}. A entrega do equipamento, ocorrerá quando confirarmos o pagamento.`;  
-        maintext = 'Boa notícia! seu aluguel foi processado.'
+        title = `EasyTools - Seu aluguel foi aceito!`;
+        message = `Olá ${renter}, Seu aluguel foi aceito. Fique ligado, nós vamos liberar a opção de pagamento, que pode ser acessado na sua conta na Easytools direto no site. Você alugou: ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}. A entrega do equipamento, ocorrerá quando confirarmos o pagamento ou na data reservada.`;  
+        maintext = 'Boa notícia! seu aluguel foi processado sem problema.'
         urllabel = "Ver e pagar meu equipamento alugado"
       } else if (type === 'noacceptforpayment') {
         title = `EasyTools - Não conseguimos processar seu aluguel!`;
@@ -210,7 +210,7 @@ export default function Rents({history}) {
         maintext = 'Ops! Seu aluguel foi rejeitado, nós vamos te ligar.'
         urllabel = "Ver aluguel negado."
       }else if (type === 'paymentlinkok') {
-        title = `Pagamento do aluguel - Olá, clique em para pagar pelo aluguel do equipamento, clique em pagar!`;
+        title = `Pagamento do aluguel - Olá, Olá, para finalizar sua reserva, falta apenas pagar.`;
         message = `Está tudo ok com seu pedido, só falta pagar :). Clique em pagar para finalizarmos o seu aluguel e entregarmos o equipamento para você.`;  
         maintext = 'Estamos aguardando seu pagamento para ir entregar seu equipamento.'
         urllabel = "Pagar aluguel"
@@ -473,15 +473,7 @@ export default function Rents({history}) {
                               <p> { rent.userrenter.email } </p>
                               <p> { rent.userrenter.cpfcnpj } </p>
                               <br/>
-                              {
-                                rent.accept === '1' && rent.paid === '1' 
-                                ?
-                                (
-                                  <p> { rent.userrenter.phone } </p>
-                                )
-                                :
-                                (<p className="color-rent">Quando o aluguel for aceito e pago, você poderá acessar o telefone do locatário.</p>)
-                              }                              
+                              <p> { rent.userrenter.phone } </p>
                               { <p> <b>Nascimento:</b> { moment(rent.userrenter.birth_date).format('DD/MM/YYYY') } </p> }
                               <br/>
                             </div>

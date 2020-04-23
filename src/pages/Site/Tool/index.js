@@ -220,7 +220,7 @@ const Tool = ({history}) => {
         }else {
           Scrool()
           if (perfil.type === 'Lessor') { 
-            history.push(`/lessor/perfil/detail/${perfil.id}?e=nd`);
+            history.push(`/lessor/perfapiil/detail/${perfil.id}?e=nd`);
           } else {
             setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
             history.push(`/s/adddocuments`);
@@ -238,7 +238,6 @@ const Tool = ({history}) => {
   }
 
   async function saveRentattempt (attempt) {
-
     if (attempt.month > 0 && attempt.days > 0) {
       setModal2(true)
       Tracking('Tentativa de aluguel maior com mêses e dias falha', `Tentativa de aluguel maior com mêses e dias`, 'Tentativa de aluguel maior com mêses e dias')
@@ -270,6 +269,7 @@ const Tool = ({history}) => {
     async function loadTool() { 
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
+
 
       if (response.data.tool.length > 0 || response.data.tool[0].situation === 'Y') {
         setTool(response.data.tool[0])
@@ -591,14 +591,14 @@ const Tool = ({history}) => {
     
     return (
     <>
-      <div className="columns no-margin-top-columns2">
+      <div className="columns is-mobile no-margin-top-columns2">
         <div className="column">
           <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
             <FormattedNumber value={price.price} style="currency" currency="BRL" />
             { text }
           </IntlProvider>
         </div>
-        <div className="column is-4">
+        <div className="column">
           <p className="is-pulled-right">
             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
               <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
@@ -615,7 +615,7 @@ const Tool = ({history}) => {
           <Warningtext class="orange">{ text2 }</Warningtext>
         </div>
       </div>
-      <div className="columns">
+      <div className="columns is-mobile">
         <div className="column">
           <b>Total</b>
         </div>

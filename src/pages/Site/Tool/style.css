@@ -19,7 +19,7 @@
 }
 
 .title-tool{
-  font-size: 18px;
+  font-size: 15px !important;
   font-family: 'Poppins', sans-serif !important;
   font-weight: 700 !important;
 }
@@ -71,6 +71,7 @@
   font-family: 'Open Sans', sans-serif;
   color: #000;
   font-weight: 400;
+  white-space: pre-line !important;
 }
 
 .box-price-rent{
@@ -230,6 +231,19 @@
 }
 
 @media (max-width: 900px) {
+
+  .name-data-rules{
+    padding: 21px 20px !important;
+    height: 70px !important;
+    width: 150px !important;
+    font-size: 18px;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 600 !important;
+    background: rgb(233, 233, 233);
+    text-align: left !important;
+  }
+  
+
   .box-photos .column{
     margin-top:-23px;
     background: #c8c8c8 !important;

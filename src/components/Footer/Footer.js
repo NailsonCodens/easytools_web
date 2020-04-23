@@ -54,44 +54,43 @@ const Footer = () => {
 						<div className="columns is-desktop">
 							<div className="column">
 								<Ul>
-									<li><img src={logo} alt="EasyTools Logo" className="logo-footer"/></li>
-									<br/>
-									<p>Ferramenta fácil.</p>
-								</Ul>
-							</div>
-							<div className="column">
-								<Ul>
-									<li className="title-footer"><Link to={'/s/about-us'} onClick={event => Scrool(0,0) } >EasyTools</Link></li>
-									<li><Link to={'/signup?type=renter'} onClick={event => Scrool(0,0) } >Alugue o que precisa!</Link></li>
-									<li><Link to={'/s/about-us'} onClick={event => Scrool() } >Sobre a EasyTools</Link></li>
-									<li><Link to={'/s/help-me'} onClick={event => Scrool() } >Ajuda</Link></li>
 									<li>
-										<a
-										href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="_blank">
-											WhatsApp
-										</a>
+										<img src={logo} alt="EasyTools Logo" className="logo-footer"/>
+										<br/>
+										<p className="born">Nascemos da necessidade. <br/><br/> "Precisei um dia de uma chave para tirar o óleo do meu carro e não tinha, Também não queria comprar. Então pensei: eu poderia alugar em um app ou site!"
+											<br/>
+											E assim nasce a EasyTools ❤️
+										</p>
 									</li>
-									<li>easytools@gmail.com</li>
 								</Ul>
-						</div>
-							<div className="column">
-								<Ul>
-									<li className="title-footer"><a href={'https://www.instagram.com/easytoolsapp/?hl=pt-br'} target="blank" onClick={event => Scrool() } ><FontAwesomeIcon icon={['fab', 'instagram']} size="2x"/></a></li>
-									<li><a href="/s/terms" target="_blank">Termos de uso</a></li>
-									<li><a href="/s/privacyterms" target="_blank">Política de privacidade</a></li>
-									<li><a href="/s/dealopen" target="_blank">Contrato Público</a></li>
-								</Ul>					
 							</div>
 							<div className="column">
-								{
-									/*
+								<div className="columns">
+									<div className="column">
 										<Ul>
-											<li className="title-footer">EasyTools Blog</li>
-											<li>Últimos posts</li>
-											<li>Notícias</li>
-										</Ul>															
-									*/
-								}
+											<li className="title-footer"><Link to={'/s/about-us'} onClick={event => Scrool(0,0) } >EasyTools</Link></li>
+											<li><Link to={'/signup?type=renter'} onClick={event => Scrool(0,0) } >Alugue o que precisa!</Link></li>
+											<li><Link to={'/s/about-us'} onClick={event => Scrool() } >Sobre a EasyTools</Link></li>
+											<li><Link to={'/s/help-me'} onClick={event => Scrool() } >Ajuda</Link></li>
+											<li><a href="/s/terms" target="_blank">Termos de uso</a></li>
+											<li><a href="/s/privacyterms" target="_blank">Política de privacidade</a></li>
+											<li><a href="/s/dealopen" target="_blank">Contrato Público</a></li>
+										</Ul>
+									</div>
+									<div className="column">
+										<Ul>
+											<li className="title-footer">Quer falar com a gente?</li>
+											<li className="title-footer"><a href={'https://www.instagram.com/easytoolsapp/?hl=pt-br'} target="blank" onClick={event => Scrool() } ><FontAwesomeIcon icon={['fab', 'instagram']} size="2x"/></a></li>
+											<li>
+												<a
+												href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="_blank">
+													WhatsApp
+												</a>
+											</li>
+											<li>easytools@gmail.com</li>
+										</Ul>					
+									</div>
+								</div>
 							</div>
 						</div>
 						<Hr/>

@@ -5,6 +5,8 @@ const category = [
   { value: "Limpeza", label: "Limpeza" },
   { value: "Jardinagem", label: "Jardinagem" },
   { value: "Estrutura", label: "Estrutura" },
+  { value: "Corte", label: "Corte" },
+  { value: "Perfuração", label: "Perfuração" },
 ];
 
 export default category;

@@ -6,7 +6,18 @@
   color: red !important;
 }
 
+.offer{
+  padding-left: 60px !important;
+}
+
+
 @media (max-width: 900px) {
+  .offer{
+    margin: 0 auto;
+    width: 50%; /* Valor da Largura */
+    padding-left: 90px !important;
+  }
+  
   .workadd{
     background: #fff;
     height: 100%;

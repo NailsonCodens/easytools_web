@@ -181,7 +181,8 @@ const Payment = ({history}) => {
       freight: parseFloat(freightnew.toFixed(2)),
       startdate: rentattempt.startdate,
       enddate: rentattempt.enddate,
-      acquisition: acq
+      acquisition: acq,
+      finishprocess: 'y'
     }
 
     console.log(rentupdate)
@@ -260,6 +261,8 @@ const Payment = ({history}) => {
         costfreight = freight * kmcurrent;
     }
 
+    /* Promoção de entrega a 15 reais */
+    costfreight = 15;
 
     return costfreight
   }

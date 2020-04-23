@@ -177,7 +177,7 @@ const Doc = ({history}) => {
         <div className="columns">
           <div className="column">
             <div>
-              <h3 className="title-box-inter">RG ou CNH</h3>
+              <h3 className="title-box-inter">RG ou CNH (FRENTE E VERSO)</h3>
               <div>
                 <Document id={user.id}/>
               </div>
