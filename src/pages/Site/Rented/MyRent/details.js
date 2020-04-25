@@ -16,6 +16,8 @@ import socketio from '../../../../services/socketio';
 import Email from '../../../../utils/sendemail';
 import { Link } from 'react-router-dom';
 import { Warningtext } from '../../../../components/Warningtext';
+import ReactGA from 'react-ga';
+import Notification from '../../../../utils/notification';
 
 export default function Rents({history}) {
   document.title = Title('Detalhe aluguel');
@@ -26,9 +28,27 @@ export default function Rents({history}) {
   const [modal1, setModal1] = useState(false);
   const [modal2, setModal2] = useState(false);
   const [modal3, setModalthree] = useState(false);
+  const [show, setShow] = useState(false);
 
   let { id } = useParams();
   //let values = queryString.parse(useLocation().search);
+
+  const success = () => Notification(
+    'success',
+    'Só um momento, verificando endereço.', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
 
   useEffect(() => {
     async function loadRents () {
@@ -125,8 +145,11 @@ export default function Rents({history}) {
   //   })
   // }
 
-  async function reloadRents () {
-    const response = await api.get('/rents/', {});
+  async function reloadRents (id) {
+    console.log(id)
+    const response = await api.get('/rents/'+id, {});
+
+    console.log(response)
     setTimeout(() => {
       setRent(response.data.rentattempt);
     }, 300);     
@@ -176,9 +199,79 @@ export default function Rents({history}) {
     }
   }
 
-  const cancelRent = (idrent) => {
+  const cancelRent = () => {
     //talvez por aqui para abrir modal de cancelamento
-    console.log(idrent)
+    setShow(true);
+  }
+
+  const cancelEnd = (rent) => {
+    updateRentattemp(rent)
+  }
+
+  async function sendPushcancel(rentattempt) { 
+    var titletool = rentattempt.tool.title
+    var lessor = rentattempt.userlessor.name
+    var renter = rentattempt.userrenter.name
+    var tension = rentattempt.tension
+    var startdate = moment(rentattempt.startdate).format('DD/MM/YYYY');
+    var enddate = moment(rentattempt.enddate).format('DD/MM/YYYY');
+    var title = `${renter} cancelou a reserva de locação`;
+    var message = `Olá ${lessor}, ${renter} cancelou o aluguel de ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}.`;
+    var maintext = 'Que pena. Aluguel cancelado!'
+    var urllabel = "Ver"  
+
+    var notification = {
+      rent_attempt_id: rentattempt.id,
+      user_recipient_id: rentattempt.user_lessor_id,
+      message: message,
+      title: title
+    }
+
+    Email(rentattempt.user_lessor_id, title, message, urllabel, maintext);
+
+    await api.post('/notifications/send', notification, {})
+    .then((res) => {
+      socketio.emit('notify',{ 
+        to : rentattempt.user_lessor_id,
+        title: title,
+        message : message
+      });
+
+    }).catch((err) => {
+      console.log(err.response)
+    }) 
+  }
+
+  const Tracking = (category, action, label) => {
+    ReactGA.event({
+      category: category,
+      action: action,
+      label: label
+    });
+  }
+  
+  async function updateRentattemp (rent) {
+    var rentupdate = {
+      accept: 'c'
+    }
+
+    await api.put(`rent/attempt/updaterent/${id}`, rentupdate, {})
+    .then((res) => {
+      Tracking('Cancelou', 'Cancelou', 'cliente cancelou aluguel')
+      sendPushcancel(rent)
+      setShow(false)
+      success()
+      reloadRents(id)
+      //history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      
+    }).catch((err) => {
+      console.log(err.response)
+    })
+  }
+
+
+  const hideShow = () => {
+    setShow(false)
+    return show
   }
   
   return (
@@ -204,10 +297,28 @@ export default function Rents({history}) {
                     </b>
                     <br/><br/>
                     {
+                      rent.paid !== '1' && rent.accept !== 'c' ? 
+                      (
+                        <>
+                          {
+                            <Button
+                              type={'submit'}
+                              className={'button is-danger color-logo-lessor is-pulled-left'}
+                              text={'Cancelar aluguel'}
+                              onClick={event => cancelRent(rent.id)}
+                            />
+                          }
+                        </>
+                      )
+                      :
+                      ('')
+                    }
+                    {
                       rent.accept === '1' && rent.paid === '0' ?
                       (
                         <>
-                          <p><b>Link de pagamento</b> <a href={'/s/payment/payment-view/' + rent.id} target="_blank">https://pagarmeualuguel.easytools</a></p> 
+                          <span><a href={'/s/payment/payment-view/' + rent.id} className="button is-success payment-rent" target="_blank">Pagar meu alugado</a></span> 
+                          <br/>
                           <Warningtext>Você tem 30 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>                      
                           <br/>
                         </>
@@ -216,6 +327,17 @@ export default function Rents({history}) {
                       ('')
                     }
                     <div>
+                            {
+                             rent.accept === 'c' ? 
+                             (
+                               <>
+                                <br/><br/>
+                                <b className="incomplet">Cancelada por você.</b>
+                               </>
+                             )
+                             :
+                             ('') 
+                            }
                             { 
                               rent.finishprocess !== 'y' ?
                               (
@@ -230,7 +352,10 @@ export default function Rents({history}) {
                             { 
                               rent.accept === '0' && rent.paid === '0' && rent.finishprocess === 'y' ?
                               (
-                                <b className="new">Processando seu aluguel</b>
+                                <>
+                                  <br/><br/>
+                                  <b className="new">Processando seu aluguel</b>
+                                </>
                               )
                               :
                               (
@@ -269,23 +394,7 @@ export default function Rents({history}) {
                             }
                           </div>
                           <div className="columns">
-                            {
-                              rent.paid !== '1' &&  rent.finishprocess !== '1' ? 
-                              (
-                                <>
-                                  {
-                                    <Button
-                                      type={'submit'}
-                                      className={'button is-danger is-small color-logo-lessor is-pulled-left'}
-                                      text={'Cancelar'}
-                                      onclick={event => cancelRent(rent.id)}
-                                    />
-                                  }
-                                </>
-                              )
-                              :
-                              ('')
-                            }
+
                             {/* <div className="column is-2">
                               { 
                                 rent.accept !== '0' || rent.accept === 'N' ?
@@ -413,6 +522,37 @@ export default function Rents({history}) {
                 </div>
               </div>
               <hr/>
+              <Modal 
+                show={show} 
+                onCloseModal={hideShow}
+                closeOnEsc={true} 
+                closeOnOverlayClick={true}
+              >
+                <h2 className="title has-text-centered">Você tem certeza qeu deseja cancelar seu aluguel?</h2>
+                <div className="has-text-centered">
+
+                </div>
+                <div className="has-text-centered text-modal">
+                  <p>
+                    Ao clicar em cancelar, este aluguel automaticamente se torna invalido. 
+                    Assim precisando fazer outro aluguel quando desejar usar este equipamento.
+                  </p>
+                  <br/>
+                  <Button
+                    type={'submit'}
+                    className={'button is-danger color-logo-lessor is-pulled-right'}
+                    text={'Cancelar'}
+                    onClick={event => cancelEnd(rent)}
+                  />
+                  <Button
+                    type={'submit'}
+                    className={'button is-white color-logo-lessor is-pulled-right'}
+                    text={'Não'}
+                    onClick={event => hideShow(false)}
+                  />
+                </div>
+              </Modal>
+
             </div>
           ))
         }

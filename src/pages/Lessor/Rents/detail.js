@@ -288,6 +288,17 @@ export default function Rents({history}) {
                       'idf: ' + rent.idf 
                     }
                     <div>
+                      {
+                        rent.accept === 'c' ? 
+                        (
+                          <>
+                          <br/><br/>
+                          <b className="incomplet">Cancelada pelo usuário.</b>
+                          </>
+                        )
+                        :
+                        ('') 
+                      }
                       { 
                         rent.accept === '0' && rent.paid === '0' ?
                         (
@@ -359,7 +370,7 @@ export default function Rents({history}) {
                         </div>
                         <div className={ isMobile === true ? "column" : "column is-2"}>
                             { 
-                              rent.accept === 'N' || rent.accept === '1' ?
+                              rent.accept === 'N' || rent.accept === '1' || rent.accept === 'c'?
                               (
                                 ''
                               )
