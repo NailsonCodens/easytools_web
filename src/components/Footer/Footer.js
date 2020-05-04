@@ -70,6 +70,7 @@ const Footer = () => {
 										<Ul>
 											<li className="title-footer"><Link to={'/s/about-us'} onClick={event => Scrool(0,0) } >EasyTools</Link></li>
 											<li><Link to={'/signup?type=renter'} onClick={event => Scrool(0,0) } >Alugue o que precisa!</Link></li>
+											<li><a href={'https://docs.google.com/forms/u/1/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} target="_blank" onClick={event => Scrool() } >Seja vizinho na EasyTools</a></li>
 											<li><Link to={'/s/about-us'} onClick={event => Scrool() } >Sobre a EasyTools</Link></li>
 											<li><Link to={'/s/help-me'} onClick={event => Scrool() } >Ajuda</Link></li>
 											<li><a href="/s/terms" target="_blank">Termos de uso</a></li>
@@ -88,6 +89,11 @@ const Footer = () => {
 												</a>
 											</li>
 											<li>easytools@gmail.com</li>
+											<li>
+												<a href="https://ff.easytoolsapp.com/" target="_blank">
+													Nosso blog ❤️
+												</a>
+											</li>
 										</Ul>					
 									</div>
 								</div>

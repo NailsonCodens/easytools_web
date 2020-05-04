@@ -157,16 +157,21 @@ const Tool = ({history}) => {
 
   const next = (rentData) => {
     if (isAuthenticated()) {
+
+      console.log(document)
+
       if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
         if (perfil.type === 'Lessor') {
           Scrool()
           setAdddoc(true);
+          console.log('a')
           //history.push(`/lessor/perfil?e=cc`);
         } else {
           Scrool()
           setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
-          history.push(`/s/adddocuments`);
-         //setAdddoc(true);
+          //history.push(`/s/adddocuments`);
+         setAdddoc(true);
+         console.log('aa')
         }
 
       }else {
@@ -178,8 +183,9 @@ const Tool = ({history}) => {
                 history.push(`/lessor/perfil/detail/${perfil.id}?e=cs`);
               } else {
                 setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
-                history.push(`/s/adddocuments`);
-                //setAdddoc(true);
+                //history.push(`/s/adddocuments`);
+                setAdddoc(true);
+                console.log('aaa')
                 //console.log('aa')
               }
               dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
@@ -212,8 +218,9 @@ const Tool = ({history}) => {
               dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));  
             } else {
               setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
-              history.push(`/s/adddocuments`);
-              //setAdddoc(true);
+             // history.push(`/s/adddocuments`);
+              setAdddoc(true);
+              console.log('aaaa')
               dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));  
             }
           }
@@ -223,8 +230,8 @@ const Tool = ({history}) => {
             history.push(`/lessor/perfapiil/detail/${perfil.id}?e=nd`);
           } else {
             setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
-            history.push(`/s/adddocuments`);
-            //setAdddoc(true);
+            //history.push(`/s/adddocuments`);
+            setAdddoc(true);
             console.log('ee')
           }
           dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
@@ -637,9 +644,19 @@ const Tool = ({history}) => {
     setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, event.target.value)
   }
 
+
+  async function loadPerfil() {
+    if (isAuthenticated()) {
+      const response = await api.get(`/perfil`, {
+      });
+      setPerfil(response.data.user[0])  
+    }
+  }
+
   async function loaddocumenttwo () {
     const response = await api.get(`/documents/${current_user.id}`, {
     });
+    loadPerfil()
     setDocument(response.data.documentUser[0])
   }
 

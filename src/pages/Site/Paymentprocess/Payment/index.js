@@ -262,7 +262,7 @@ const Payment = ({history}) => {
     }
 
     /* Promoção de entrega a 15 reais */
-    costfreight = 15;
+//    costfreight = 15;
 
     return costfreight
   }

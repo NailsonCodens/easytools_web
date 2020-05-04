@@ -299,7 +299,7 @@ const Dashboard = ({history, location}) => {
                     <li className="title-ul-how"><FontAwesomeIcon icon={['fas', 'calendar-alt']} className="icon-index" size="2x"/> Selecione o período de uso.</li>
                     <li>
                       Escolha o período que deseja usar o alugado. Os períodos são: diária
-                      , semanal, quinzenal e mensal. Finalize o seu pedido. E espere pelo retorno da Easytools sobre o aluguel. (10min)
+                      , semanal, quinzenal e mensal. Finalize o seu pedido. E espere pelo retorno da Easytools sobre o aluguel. (5Min)
                     </li>
                   </ul>
                 </div>
@@ -335,44 +335,79 @@ const Dashboard = ({history, location}) => {
             viewsearch === '' ? 
             (
               <>
-                {
-                  /*
-                      <div className="columns box-options">
-                        <div className="column">
-                          <div className="is-pulled-left">
-                            <p className="text-options">Casa</p>
-                          </div>
-                          <div className="is-pulled-right box-img">
-                            <img src={ bricolagem } alt="Bricolagem" className="img-option"/>
-                          </div>
+                {  
+                /*
+                  <div>
+                    <div className="columns box-options">
+                      <div className="column">
+                        <div className="is-pulled-left">
+                          <p className="text-options">Casa</p>
                         </div>
-                        <div className="column">
-                          <div className="is-pulled-left">
-                            <p className="text-options">Construção</p>
-                          </div>
-                          <div className="is-pulled-right box-img">
-                            <img src={ construcao } alt="Construção" className="img-option"/>
-                          </div>
-                        </div>
-                        <div className="column">
-                          <div className="is-pulled-left">
-                            <p className="text-options">Limpeza</p>
-                          </div>
-                          <div className="is-pulled-right box-img">
-                            <img src={ limpeza } alt="Limpeza" className="img-option"/>
-                          </div>
-                        </div>
-                        <div className="column">
-                          <div className="is-pulled-left">
-                            <p className="text-options">Estruturas</p>
-                          </div>
-                          <div className="is-pulled-right box-img">
-                            <img src={ estrutura } alt="Estruturas" className="img-option"/>
-                          </div>
+                        <div className="is-pulled-right box-img">
+                          <img src={ bricolagem } alt="Bricolagem" className="img-option"/>
                         </div>
                       </div>
-                      <br/><br/><br/><br/>
-                   */
+                      <div className="column">
+                        <div className="is-pulled-left">
+                          <p className="text-options">Construção</p>
+                        </div>
+                        <div className="is-pulled-right box-img">
+                          <img src={ construcao } alt="Construção" className="img-option"/>
+                        </div>
+                      </div>
+                      <div className="column">
+                        <div className="is-pulled-left">
+                          <p className="text-options">Limpeza</p>
+                        </div>
+                        <div className="is-pulled-right box-img">
+                          <img src={ limpeza } alt="Limpeza" className="img-option"/>
+                        </div>
+                      </div>
+                      <div className="column">
+                        <div className="is-pulled-left">
+                          <p className="text-options">Estruturas</p>
+                        </div>
+                        <div className="is-pulled-right box-img">
+                          <img src={ estrutura } alt="Estruturas" className="img-option"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="columns box-options">
+                    <div className="column">
+                      <div className="is-pulled-left">
+                        <p className="text-options">Bricolagem</p>
+                      </div>
+                      <div className="is-pulled-right box-img">
+                        <img src={ bricolagem } alt="Bricolagem" className="img-option"/>
+                      </div>
+                    </div>
+                    <div className="column">
+                      <div className="is-pulled-left">
+                        <p className="text-options">Marcenaria</p>
+                      </div>
+                      <div className="is-pulled-right box-img">
+                        <img src={ construcao } alt="Construção" className="img-option"/>
+                      </div>
+                    </div>
+                    <div className="column">
+                      <div className="is-pulled-left">
+                        <p className="text-options">Limpeza</p>
+                      </div>
+                      <div className="is-pulled-right box-img">
+                        <img src={ limpeza } alt="Limpeza" className="img-option"/>
+                      </div>
+                    </div>
+                    <div className="column">
+                      <div className="is-pulled-left">
+                        <p className="text-options">Estruturas</p>
+                      </div>
+                      <div className="is-pulled-right box-img">
+                        <img src={ estrutura } alt="Estruturas" className="img-option"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                */
                 }
               </>
             )
@@ -444,10 +479,14 @@ const Dashboard = ({history, location}) => {
                                 </div>                              
                               */
                             }
-                            <div className="column">
-                              <span className="promo">Desconto entrega</span>
-                              <div className="delivery-index">Entrega R$ 15,00 | 2h | Curitiba e região.</div>
-                            </div>
+                            {
+                              /*
+                                <div className="column">
+                                  <span className="promo">Desconto entrega</span>
+                                  <div className="delivery-index">Entrega R$ 15,00 | 2h | Curitiba e região.</div>
+                                </div>
+                              */
+                            }
                           </div>
                         </div>
                       </div>

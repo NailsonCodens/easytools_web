@@ -146,8 +146,7 @@ export default function Rents({history}) {
   // }
 
   async function reloadRents (id) {
-    console.log(id)
-    const response = await api.get('/rents/'+id, {});
+    const response = await api.get('/renter/rents/'+id, {});
 
     console.log(response)
     setTimeout(() => {
@@ -319,7 +318,7 @@ export default function Rents({history}) {
                         <>
                           <span><a href={'/s/payment/payment-view/' + rent.id} className="button is-success payment-rent" target="_blank">Pagar meu alugado</a></span> 
                           <br/>
-                          <Warningtext>Você tem 30 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>                      
+                          <Warningtext>Você tem 15 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>                      
                           <br/>
                         </>
                       )

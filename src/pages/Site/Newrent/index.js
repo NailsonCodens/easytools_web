@@ -115,7 +115,7 @@ const Newrent = () => {
               </li>
             </ul>
             <br/>
-            <p className="time">* Todo esse processo demora em média 10 minutos! Aluguéis de equipamentos offline demoram em média 4/5 horas para acontecer.</p>
+            <p className="time">* Todo esse processo demora em média 10 minutos! Aluguéis de equipamentos offline demoram em média 1 dia, entre cadastro e aprovação, para acontecer.</p>
           </div>
         </div>
       </div>

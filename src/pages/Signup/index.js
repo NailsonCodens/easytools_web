@@ -9,7 +9,6 @@ import {Helmet} from 'react-helmet'
 import {Auth} from '../../store/actions/auth';
 
 import { login } from '../../services/auth';
-
 import { Form, Input } from '@rocketseat/unform';
 import Select from 'react-select';
 import { Field, Label } from '../../components/Form/Form';
@@ -145,6 +144,7 @@ const Singup = ({ history }) => {
   }
 
   const NoAcceptedTerms = () => {
+    Scrool(0,0);
     setModify('noaccepted');
     setTerms(false);
     setModal(true);
@@ -170,6 +170,7 @@ const Singup = ({ history }) => {
   }
 
   async function AcceptedTerms () {
+    Scrool(0,0)
     await api.post('user/create/', usernew, {})
     .then((res) => {
       let user = {
@@ -211,6 +212,7 @@ const Singup = ({ history }) => {
       let { id, email, name, type } = res.data.user;
       let { token } = res.data;
       dispatch(Auth(email, name, type, token, id));
+      Scrool(0,0);
       login(token, type);
       ReactGA.event({
         category: 'Autenticou depois do cadastro',

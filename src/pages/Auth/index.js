@@ -69,7 +69,7 @@ const Signin = ({ hs, url, closeModal }) => {
         Scrool()
         hs.push("/");
       }
-
+      Scrool()
       closeModal();
     })
     .catch((error) => {

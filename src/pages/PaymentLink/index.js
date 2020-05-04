@@ -1,4 +1,7 @@
 import api from '../../services/api';
+import moment from 'moment';
+import 'moment/locale/pt-br';
+import preciseDiff from 'moment-precise-range-plugin';
 
 async function linkpayment (idattempt, rent) {
 
@@ -22,12 +25,33 @@ async function linkpayment (idattempt, rent) {
     }
   }
 
+
+  var free_installments = 0;
+  var interest_rate = 0.01;
+  var max_installments = 1;
+  var enable = false;
+  var expires_in = 1;
+
+  var period = moment.preciseDiff( new Date(), rent.startdate, true);
+  console.log(period);
+
+  if (period.days > 2) {
+    enable = true;
+    expires_in = 2;
+  }
+
   const renderValuefinal = () => {
     console.log(rent.cost)
     console.log(rent.freight)
 
     var final = parseFloat(rent.cost) * 100 + parseFloat(rent.freight) * 100;
     console.log(final.toFixed(2))
+
+    if (final.toFixed(2) > 89) {
+      free_installments = 1;
+      interest_rate = 0.01;
+      max_installments = 4;
+    }
 
     return (final.toFixed(2))
   }
@@ -73,15 +97,15 @@ async function linkpayment (idattempt, rent) {
       }
     ],
     payment_config: {
-      /*boleto: {
-        enabled: true,
-        expires_in: 1
-      },*/
+      boleto: {
+        enabled: enable,
+        expires_in: expires_in
+      },
       credit_card: {
         enabled: true,
-        free_installments: 1,
-        interest_rate: 0.01,
-        max_installments: 1
+        free_installments: free_installments,
+        interest_rate: interest_rate,
+        max_installments: max_installments
       },
       default_payment_method: "credit_card"
     },

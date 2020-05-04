@@ -38,7 +38,7 @@ const Helpme = () => {
           <br/>
           Somos a primeira locadora online delivery de equipamentos sem loja física. Você aluga e nós entregamos em sua casa. Alugue qualquer equipamento e ferramenta que precisar, sem burocracia.
           <br/>
-          O processo de locação não demora mais que 30 minutos.
+          O processo de locação não demora mais que 15 minutos.
 
           </div>
         </div>
@@ -64,7 +64,7 @@ const Helpme = () => {
             <br/>
             3 - Pagamento
             <br/>
-            Logo após solicitar seu equipamento, nós analisaremos os dados e produto alugado em até 30 minutos nos primeiros 5 aluguéis, nos demais aluguéis a análise será quase instantânea. Você receberá uma confirmação do aluguel na sua conta e por e-mail e o link de pagamento, que também poderá ser acessado dentro da plataforma, basta ir em "Meus alugados" -> Detalhes e acessar o link. * Pagamento realizado, nós entregaremos o equipamento no endereço cadastrado em até 2 horas.
+            Logo após solicitar seu equipamento, nós analisaremos os dados e produto alugado em até 15 minutos nos primeiros 5 aluguéis, nos demais aluguéis a análise será quase instantânea. Você receberá uma confirmação do aluguel na sua conta e por e-mail e o link de pagamento, que também poderá ser acessado dentro da plataforma, basta ir em "Meus alugados" -> Detalhes e acessar o link. * Pagamento realizado, nós entregaremos o equipamento no endereço cadastrado em até 2 horas.
             Por enquanto, aceitamos apenas pagamentos em cartão de crédito, para a segurança de seus dados. 
             <br/>
             <br/>

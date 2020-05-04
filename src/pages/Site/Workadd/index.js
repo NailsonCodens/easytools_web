@@ -205,7 +205,7 @@ const Workadd = ({rent}) => {
     <div className="container workadd">
       <p className="title-infos-tool hack-padding-top">Estamos quase lá!</p>
       <p className="title-tool-only">
-        Onde você quer receber o equipamento?
+        Onde você deseja receber o equipamento?
       </p>
       <Warningtext>
         Para que tudo ocorra bem, é importante que você adicione o endereço onde o equipamento será usado. Não se preocupe, o endereço serve para que nós saibamos onde entregar e/ou onde o equipamento será usado, garantindo assim um atendimento personalizado a você. 

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import preciseDiff from 'moment-precise-range-plugin';
 import { Rentattempt } from '../../../store/actions/rentattempt.js';
   // eslint-disable-next-line
-import preciseDiff from 'moment-precise-range-plugin';
+
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import { Warningtext } from '../../../components/Warningtext';
 import api from '../../../services/api';

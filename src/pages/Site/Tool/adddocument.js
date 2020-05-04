@@ -296,15 +296,16 @@ const Adddocument = ({ onClose, history }) => {
 
       setTimeout(function(){
           Scroll(400, 400);
-          //onClose()
-          
+          onClose()
+          /*
             if (link !== '' && link !== null) {
-              history.push(link)
-              window.location.replace(link);
+              //history.push(link)
+              //window.location.replace(link);
             } else {
               window.location.replace('/');
               history.push('/')
             }
+            */
               
       }, 6000);
     })
