@@ -539,6 +539,9 @@ const MenuRenter = () => {
 											</Link>
 											*/
 										}
+										<Link to={'/'} className="navbar-item">
+											Explorar
+										</Link>
 										<Dropdownpure text="Notificações" countn={notificationrd} classMenu="classNotless" classCuston=" notification">
 											{ renderNotify() }
 										</Dropdownpure>
@@ -549,14 +552,17 @@ const MenuRenter = () => {
 								current_user.name === undefined || current_user.name === null ? 
 								(
 									<>
-										<Link to={'/signup?type=renter'} onClick={event => Tracking('Menu site - Alugue o que precisa', 'Clique menu alugue o que precisa', 'Menu site') } className="navbar-item button color-logo">
-											Alugue o que você precisa
+										<Link to={'/'} className="navbar-item">
+											Explorar
+										</Link>
+										<Link to={'/signup?type=renter'} onClick={event => Tracking('Menu site - Alugue o que precisa', 'Clique menu alugue o que precisa', 'Menu site') } className="navbar-item">
+											Alugar
 										</Link>
 										<a href={'https://docs.google.com/forms/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} onClick={event => Tracking('Menu site - Seja um locador', 'Clique seja um locador', 'Menu site') } className="navbar-item neighboor-nav" target="_blank">
 											Ser vizinho na EasyTools
 										</a>
 										<Link to={'/s/about-us'} onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site') } className="navbar-item">
-											Novo jeito de alugar!
+											Precisou? Alugue!
 										</Link>
 										<Link to={'/s/help-me'} onClick={event => Tracking('Menu site - dúvidas', 'Clique menu dúvidas', 'Menu site') } className="navbar-item">
 											Dúvidas

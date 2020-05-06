@@ -1,5 +1,5 @@
 .title-about-us{
-  font-size: 30px;
+  font-size: 45px;
   font-weight: 600;
   font-family: 'Poppins', sans-serif !important; 
   margin-bottom: -20px;
@@ -19,6 +19,10 @@
   margin-top: 60px;
 }
 
+.message-about{
+  text-align: justify !important;
+}
+
 .how-work-it-text{
   font-size: 25px; 
   margin-left: 20px;
@@ -27,10 +31,11 @@
 }
 
 .message-about{
-  font-size: 17px;
-  color: #60a8f1;
+  font-size: 20px;
   font-family: 'Open Sans', sans-serif;
-  font-weight: 600;
+  padding: 0px 200px;
+  text-align: justify;
+  color: #60a8f1;
 }
 
 .icons-about{
@@ -79,3 +84,29 @@
   margin-left: 20px;
   color: #60a8f1;
 }
+
+.text-how-work{
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif !important; 
+  margin-top: 20px;
+}
+
+
+@media (max-width: 900px) {
+  .title-about-us{
+    font-size: 25px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif !important; 
+    margin-bottom: -20px;
+  }
+
+
+  .message-about{
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+
+    padding: 0px 0px;
+    text-align: left !important;
+  }
+}
+

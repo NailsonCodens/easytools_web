@@ -168,14 +168,14 @@
   padding: 0px !important;
   margin-bottom: 100px;
   margin: 10px;
-  border-radius: 5px;
+
   font-family: 'OpenSans', sans-serif !important;
   font-weight: 600 !important;
 }
 
 .bricolagem{
   width:100%;
-  border-radius: 5px;
+
   background-position: center top;
   -webkit-font-smoothing: antialiased !important;
   color: #fff;
@@ -186,12 +186,10 @@
   width: 100px;
   height: 100px !important;
   background: transparent;
-
 }
 
 .text-options{
-  text-align: center !important;
-  padding: 35px;
+
   font-family: 'Poppins', sans-serif !important;
   color: #000;
 }
@@ -201,12 +199,9 @@
   height: 100%;
   -webkit-font-smoothing: antialiased !important;
   object-fit:cover;
-  -webkit-border-top-right-radius: 5px;
-  -webkit-border-bottom-right-radius: 5px;
-  -moz-border-radius-topright: 5px;
-  -moz-border-radius-bottomright: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
 }
 
 .logo-enterprise{
@@ -253,6 +248,11 @@
   width: 50% !important;
   height: 50px !important;
 }
+
+.container-new{
+  width: 70% !important;
+}
+
 
 .ul-howwork li{
   font-family: 'Poppins', sans-serif !important; 
@@ -310,12 +310,11 @@
 
 .father-address{
   width: 100% !important;
-  background: red;
 }
   
 .background-address{
   background: #fff !important;
-  width: 50% !important;
+  width: 68% !important;
   text-align: left !important;
   padding: 0px 10px;
   margin: 0px auto !important;
@@ -325,7 +324,68 @@
   right: -50%;
 }
 
+.slider-comment{
+  background: rgb(240, 240, 240);
+  height: 220px;
+}
+
+.client{
+  text-transform: uppercase;
+  margin: 10px;
+  font-weight: 600;
+}
+
+.message-client{
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1.2em !important;
+  margin-bottom: 30px;
+}
+
+.title-slick{
+  font-family: 'Poppins', sans-serif !important; 
+  font-size: 30px;
+  padding: 20px;
+  color: #60a8f1;
+}
+
+.field-cs{
+  display: flex;
+  justify-content: center !important;
+}
+
+
+.input-geolocalization{
+  background: #fff;
+  width: 100% !important;
+  height: 50px !important;
+}
+
+
 @media (max-width: 900px) {
+  .box-digi{
+    display: none !important;
+  }
+
+  .container-new{
+    width: 100% !important;
+  }
+  
+  .title-search-geolo{
+    margin-top: -60px;
+  }
+
+  .background-address{
+    background: #fff !important;
+    width: 100% !important;
+    text-align: left !important;
+    padding: 0px 10px;
+    margin: 0px auto !important;
+    z-index: 9;
+    position: absolute;
+    left: -50%;
+    right: -50%;
+  }
 
   .input-geolocalization{
     background: #fff;
@@ -356,7 +416,11 @@
 
   .title-index{
     margin-left: 20px;
+    margin-top: -20px;
+    margin-bottom: 10px;
+    font-size: 20px !important;
   }
+
 
   .text-subtitle-index{
     font-size: 20px !important;

@@ -19,13 +19,13 @@ const Congrats = () => {
       <br/>
       <p className="rentandnow">Aluguei e agora, como eu pago? </p>
       <p className="text-rentandnow">
-        Você também vai receber um link para pagamento. Junto com a notificação do seu aluguel, vem o link de pagamento que pode ser acessado aqui dentro da plataforma. 
+        Depois de aceito o seu aluguel, a plataforma enviará uma notificação a você liberando o acesso para você pagar pelo aluguel feito. 
         <br/>
-        Basta ir em "Meus alugados" -> Detalhes e acessar o link, ou acessar o link de pagamento pela notificação.
+        Caso queira achar esteBasta ir em "Meus alugados" -> Detalhes e acessar o link, ou acessar o link de pagamento pela notificação.
       </p>
       <br/>
       <p className="rentandnow">Quanto tempo demora ? </p>
-      <p>Nosso prazo de retorno é de 30 minutos nos primeiros 5 alugueis. Depois disso, seu aluguel será processado instântaneamente.</p>
+      <p>Nosso prazo de retorno é de 15 minutos nos primeiros 2 alugueis. Depois disso, seu aluguel será processado instântaneamente.</p>
       <br/><br/>
       <h3>
         Algumas dicas! 
@@ -39,7 +39,6 @@ const Congrats = () => {
               <li><FontAwesomeIcon icon={['fas', 'calendar-alt']} className="thumbup" size="2x"/> Preze sempre pela devolução do equipamento na data prevista;</li>
               <li><FontAwesomeIcon icon={['fas', 'check-circle']} className="thumbup" size="2x"/> Deixe a ferramenta pronta para devolução no dia previsto;</li>
               <li><FontAwesomeIcon icon={['fas', 'exclamation-triangle']} className="thumbup" size="2x"/> Use o equipamento com consciência para que possamos preservá-lo por mais tempo;</li>             
-              <li><FontAwesomeIcon icon={['fas', 'gift']} className="thumbup" size="2x"/> De vez em quando nós enviaremos alguns brindes junto aos equipamentos locados, então fica ligado sempre que receber um equipamento, beleza?</li>             
             </ul>
           </div>
           <br/>
@@ -48,7 +47,7 @@ const Congrats = () => {
       <div className="columns">
         <div className="column">
           <ul className="notice-congrats">
-            <li> Você pode ver as atualizações do seu pedido em "Notificações" no menu acima.</li>
+            <li> Você pode ver as atualizações do seu pedido em "Notificações".</li>
             <li> Caso queira ver os seus alugueis, clique em "Meus alugados.</li>
           </ul>
         </div>

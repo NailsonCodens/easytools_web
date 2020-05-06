@@ -410,8 +410,9 @@
 
 .explanation-rules{
   color: #60a8f1;
-  font-size: 13px;
+  font-size: 19px;
   font-weight: 700;
+  margin: 20px 0px;
 }
 
 .text-congrats{

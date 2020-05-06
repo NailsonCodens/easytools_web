@@ -10,6 +10,8 @@ import logo from '../../../assets/images/logo.png'
 library.add(faUserCircle, faIdCard, faCalendarWeek, faCreditCard, faTruck);
 
 const Newrent = () => {
+
+
   return (
     <>
       <Helmet>
@@ -22,100 +24,51 @@ const Newrent = () => {
       </Helmet>
       <div className="container">
         <div className="container">
-          <h3 className="title-about-us has-text-centered">Alugar não precisa ser burocrático e chato.</h3>
+          <br/><br/>
+          <h3 className="title-about-us has-text-centered">Precisou de ferramenta? Aluga na EasyTools!</h3>
           <br/>
           <p className="has-text-centered sub-title-about-us">Sem papél, sem burocracia, tudo digital.</p>
         </div>
       <br/><br/>
       <div className="text-intro">
         <div className="columns">
-          <div className="column cl-text">
+          <div className="column ">
             <p className="message-about">
               Se você pode pedir comida online, por que não equipamentos e ferramentas?
               <br/>
               Não temos loja física, por isso somos inovadores, atendemos somente online e fazemos delivery do equipamento onde você desejar.
             </p>
           </div>
-          <div className="column cl-image">
-            <div className="has-text-centered">
-              <img src={logo} alt="EasyTools Logo" className="logo-about"/>
-            </div>
-          </div>
+          {
+            /*
+              <div className="column cl-image">
+                <div className="has-text-centered">
+                  <img src={logo} alt="EasyTools Logo" className="logo-about"/>
+                </div>
+              </div> 
+            */
+          }
         </div>
       </div>
       <div className="how-work-it">
         <p className="how-work-it-text">Como funciona? </p>
+        <br/><br/>
         <div className="columns">
-          <div className="column">
-            <ul>
-              <li className="h-w-i-li">
-                <div className="columns">
-                  <div className="column is-1 cl-icons">
-                    <div className="has-text-centered">
-                      <FontAwesomeIcon icon={['fas', 'user-circle']} className={'icons-about'} size="2x"/> 
-                    </div>
-                  </div>
-                  <div className="column">
-                    Faça uma conta na EasyTools;
-                  </div>
-                </div>
-              </li>
-              <li className="h-w-i-li">
-                <div className="columns">
-                    <div className="column has-text-centered is-1 cl-icons">
-                      <div className="has-text-centered">
-                        <FontAwesomeIcon icon={['fas', 'id-card']} className={'icons-about'} size="2x"/>
-                      </div>
-                    </div>
-                    <div className="column">
-                      Adicione seus documentos;
-                    </div>
-                </div>
-              </li>
-              <li className="h-w-i-li">
-                <div className="columns">
-                  <div className="column has-text-centered  is-1 cl-icons">
-                    <div className="has-text-centered">
-                      <FontAwesomeIcon icon={['fas', 'calendar-week']} className={'icons-about'} size="2x"/>
-                    </div>
-                  </div>
-                  <div className="column">
-                    Escolha o equipamento e selecione o período que deseja usar;
-                  </div>
-                </div>
-              </li>
-              <li className="h-w-i-li"> 
-                <div className="columns">
-                  <div className="column has-text-centered  is-1 cl-icons">
-                    <div className="has-text-centered">
-                      <FontAwesomeIcon icon={['fas', 'credit-card']} className={'icons-about'} size="2x"/>
-                    </div>
-                  </div>
-                  <div className="column">
-                    Dentro de alguns minutos você receberá uma notificação confirmando seu aluguel e um link de pagamento;
-                  </div>
-                </div>  
-              </li>
-              <li className="h-w-i-li"> 
-                <div className="columns">
-                  <div className="column has-text-centered  is-1 cl-icons">
-                    <div className="has-text-centered">
-                      <FontAwesomeIcon icon={['fas', 'truck']} className={'icons-about'} size="2x"/>
-                    </div>
-                  </div>
-                  <div className="column">
-                    Pagamento feito, é só esperar que entregaremos o equipamento no endereço desejado;
-                  </div>
-                </div>
-              </li>  
-              <li>
-                <p className="just">
-                  Só isso? Sim, só isso!
-                </p>
-              </li>
-            </ul>
-            <br/>
-            <p className="time">* Todo esse processo demora em média 10 minutos! Aluguéis de equipamentos offline demoram em média 1 dia, entre cadastro e aprovação, para acontecer.</p>
+          <div className="column has-text-centered">
+            <FontAwesomeIcon icon={['fas', 'user-circle']} className={'icons-about'} size="3x"/> 
+            <p className="text-how-work">Faça uma conta na EasyTools e adicione seus documentos.</p>
+          </div>
+          <div className="column has-text-centered">
+            <FontAwesomeIcon icon={['fas', 'calendar-week']} className={'icons-about'} size="3x"/>
+            <p className="text-how-work">Escolha o equipamento e selecione o período que deseja usar.</p>
+          </div>
+          <div className="column has-text-centered">
+            <FontAwesomeIcon icon={['fas', 'credit-card']} className={'icons-about'} size="3x"/>
+            <p className="text-how-work">Dentro de alguns minutos seu aluguel será confirmado e você receberá a opção de pagamento.</p>
+          </div>
+          <div className="column has-text-centered">
+            <FontAwesomeIcon icon={['fas', 'truck']} className={'icons-about'} size="3x"/>
+            <p className="text-how-work">Pagamento feito, é só esperar que entregamos o equipamento em sua casa em até 2horas. Ah, também buscamos.</p>
           </div>
         </div>
       </div>
@@ -158,14 +111,10 @@ const Newrent = () => {
             </p>
           </li>
         </ul>
-        <br/><br/>
-        <Link to="/" className="button color-logo" onClick={event => Scrool(0,0)}>Alugar!</Link>
-          </div>
+          <br/><br/>
         </div>
-        <br/><br/>
-
+        </div>
       </div>
-      <br/><br/>
     </div>
     </>
   )

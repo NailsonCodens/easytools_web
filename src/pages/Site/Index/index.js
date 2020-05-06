@@ -24,10 +24,21 @@ import logo2 from '../../../assets/images/logo.png'
 import { getCordinates } from '../../../services/mapbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
+import "../../../../node_modules/slick-carousel/slick/slick.css"; 
+import "../../../../node_modules/slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 import { faMapMarkerAlt, faTruckLoading, faCalendarAlt, faMousePointer} from '@fortawesome/free-solid-svg-icons'
 library.add(faMapMarkerAlt, faTruckLoading, faCalendarAlt, faMousePointer);
 
 const Dashboard = ({history, location}) => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
+
   let values = queryString.parse(useLocation().search);
   var viewsearch = useSelector(state => state.viewsearch);
   // eslint-disable-next-line
@@ -190,8 +201,7 @@ const Dashboard = ({history, location}) => {
         <div className="">
           <div className="image-index">
             <div className="explorer has-text-centered">
-              <div className="">
-              </div>            
+              <div className="box-digi">
               {
                 viewsearch === ''? 
                 (
@@ -210,6 +220,7 @@ const Dashboard = ({history, location}) => {
                 :
                 ('')
               }
+              </div>            
                 {
                   /*
                     <p className="text-subtitle-index">Alugou, Chegou!🔧</p>                      
@@ -217,21 +228,29 @@ const Dashboard = ({history, location}) => {
                 }
               <br/>
               <p className="title-search-geolo">Precisou de uma furadeira? Encontre e alugue aqui!</p>
-              <input 
-                type="text" 
-                placeholder='Sua localização para achar equipamentos perto de você.' 
-                className="input input-geolocalization" 
-                onChange={event => handleMyaddress(event)}
-                value={myaddress}
-              />
-              <button 
-                type={'button'}
-                className={'button is-default geolo-bt'}
-                title="Sua localização"
-                onClick={event => Geoloc()}
-              >
-                <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="size-cs-geolo" size="2x"/>
-              </button>
+                <div className="container container-new">
+                  <div className="field field-cs has-addons">
+                    <div className="control is-expanded">
+                      <input 
+                        type="text" 
+                        placeholder='Sua localização para achar equipamentos perto de você.' 
+                        className="input input-geolocalization" 
+                        onChange={event => handleMyaddress(event)}
+                        value={myaddress}
+                      />
+                    </div>
+                    <div className="control">
+                      <button 
+                        type={'button'}
+                        className={'button is-default geolo-bt'}
+                        title="Sua localização"
+                        onClick={event => Geoloc()}
+                      >
+                        <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="size-cs-geolo" size="2x"/>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               <div className="father-address">
                 <ul className="">
                 {
@@ -328,7 +347,7 @@ const Dashboard = ({history, location}) => {
             )
             :
             (
-              <h3 className="title-index">O que encontramos próximos à você.</h3>
+              <h3 className="title-index">O que encontramos próximo a você.</h3>
             )
           }
           {
@@ -338,76 +357,46 @@ const Dashboard = ({history, location}) => {
                 {  
                 /*
                   <div>
-                    <div className="columns box-options">
+                    <div className="columns is-mobile">
                       <div className="column">
-                        <div className="is-pulled-left">
-                          <p className="text-options">Casa</p>
-                        </div>
-                        <div className="is-pulled-right box-img">
+                        <div className="box-img has-text-centered">
                           <img src={ bricolagem } alt="Bricolagem" className="img-option"/>
+                        <p className="text-options">Casa</p>
                         </div>
                       </div>
                       <div className="column">
-                        <div className="is-pulled-left">
+                        <div className="box-img has-text-centered">
+                          <img src={ limpeza } alt="Limpeza" className="img-option"/>
+                          <p className="text-options">Bricolagem</p>
+                        </div>
+                      </div>
+                      <div className="column">
+                        <div className="box-img has-text-centered">
+                          <img src={ limpeza } alt="Limpeza" className="img-option"/>
+                          <p className="text-options">Marcenaria</p>
+                        </div>
+                      </div>
+                      <div className="column">
+                        <div className="box-img has-text-centered">
+                          <img src={ construcao } alt="Construção" className="img-option"/>
                           <p className="text-options">Construção</p>
                         </div>
-                        <div className="is-pulled-right box-img">
-                          <img src={ construcao } alt="Construção" className="img-option"/>
-                        </div>
                       </div>
                       <div className="column">
-                        <div className="is-pulled-left">
+                        <div className="box-img has-text-centered">
+                          <img src={ limpeza } alt="Limpeza" className="img-option"/>
                           <p className="text-options">Limpeza</p>
                         </div>
-                        <div className="is-pulled-right box-img">
-                          <img src={ limpeza } alt="Limpeza" className="img-option"/>
-                        </div>
                       </div>
                       <div className="column">
-                        <div className="is-pulled-left">
+                        <div className="box-img has-text-centered">
+                          <img src={ estrutura } alt="Estruturas" className="img-option"/>
                           <p className="text-options">Estruturas</p>
                         </div>
-                        <div className="is-pulled-right box-img">
-                          <img src={ estrutura } alt="Estruturas" className="img-option"/>
-                        </div>
                       </div>
                     </div>
-                    <div className="columns box-options">
-                    <div className="column">
-                      <div className="is-pulled-left">
-                        <p className="text-options">Bricolagem</p>
-                      </div>
-                      <div className="is-pulled-right box-img">
-                        <img src={ bricolagem } alt="Bricolagem" className="img-option"/>
-                      </div>
-                    </div>
-                    <div className="column">
-                      <div className="is-pulled-left">
-                        <p className="text-options">Marcenaria</p>
-                      </div>
-                      <div className="is-pulled-right box-img">
-                        <img src={ construcao } alt="Construção" className="img-option"/>
-                      </div>
-                    </div>
-                    <div className="column">
-                      <div className="is-pulled-left">
-                        <p className="text-options">Limpeza</p>
-                      </div>
-                      <div className="is-pulled-right box-img">
-                        <img src={ limpeza } alt="Limpeza" className="img-option"/>
-                      </div>
-                    </div>
-                    <div className="column">
-                      <div className="is-pulled-left">
-                        <p className="text-options">Estruturas</p>
-                      </div>
-                      <div className="is-pulled-right box-img">
-                        <img src={ estrutura } alt="Estruturas" className="img-option"/>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                */
+                    <br/><br/><br/>
+                </div>*/
                 }
               </>
             )
@@ -562,6 +551,30 @@ const Dashboard = ({history, location}) => {
           </div>
         </div>
       </div>
+      <br/><br/>
+      <div className="slider-comment">
+      <div className="container">
+        <p className="has-text-centered title-slick">O que falam da Easy</p>
+        <Slider {...settings}>
+          <div className="has-text-centered">
+            <p className="client">Mara</p>
+            <h3 className="message-client">"Fácil de usar, pedi e chegou rapidinho em casa."</h3>
+          </div>
+          <div className="has-text-centered">
+            <p className="client">Gastão</p>
+            <h3 className="message-client">"Parabéns pela projeto, muito útil hoje em dia."</h3>
+          </div>
+          <div className="has-text-centered">
+            <p className="client">Ederson</p>
+            <h3 className="message-client">"Deu tudo certo, fui muito bem atendido pelo pessoal da EasyTools."</h3>
+          </div>
+          <div className="has-text-centered">
+            <p className="client">Fabiano</p>
+            <h3 className="message-client">"Locadoras convencionais não locam para pessoas comuns, a EasyTools sim."</h3>
+          </div>
+        </Slider>
+      </div>
+    </div>
     </>
   )
 }

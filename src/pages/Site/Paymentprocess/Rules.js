@@ -174,11 +174,11 @@ const Rules = ({ history }) => {
                             <p className="title-infos-tool hack-padding-top">Política de locação</p>
                             <Ul>
                               <b className="title-politics">Como funciona? </b>
-                              <li> - Você aluga o equipamento desejado;</li>
-                              <li> - Recebemos sua solicitação de aluguel; </li>
-                              <li> - Enviamos a confirmação do seu aluguel, via email, junto à um link de pagamento; </li>
-                              <li> - Equipamento locado, nós enviamos o contrato de locação via email. Tudo digital, chega de papel;</li>
-                              <li><i class="explanation-rules">Todo o processo de aluguel se resolve em menos de 15 minuto. (Após os 5 primeiros alugueis).</i></li> 
+                              <li> 1 Você aluga o equipamento desejado;</li>
+                              <li> 2 Recebemos sua solicitação de aluguel; </li>
+                              <li> 3 Enviamos a confirmação do seu aluguel, via email e site, junto com o acesso ao <b>pagamento</b>; </li>
+                              <li> 4 Pagamento feito, seerá enviado um contrato de locação que <b>não precisa ser assinado</b>, em seu email, <b>tudo digital</b>;</li>
+                              <li><p class="explanation-rules">Todo o processo de aluguel se resolve em menos de <b>10 minuto.</b> Em locadoras convencionais demora <b>24 horas</b>.</p></li> 
                             </Ul>
                             {
                               /*
@@ -200,15 +200,15 @@ const Rules = ({ history }) => {
                             }
                             <Ul>
                               <b className="title-politics">Prazos e períodos</b>
+                              <li> - Nós entregamos o equipamento alugado em até 2 horas;</li>
                               <li> - Respeitar os prazos e períodos contratados é a grande chave para nosso relacionamento;</li>
-                              <li> - O período escolhido para usar o equipamento alugado começa a contar em D+1, ou seja: pediu dia 14, a contagem dos dias começa dia 15. </li>
                             </Ul>
                             <br/>
                             <p className="title-infos-tool hack-padding-top">Contrato de locação</p>
                             <Ul>
                               <b className="title-politics">Contrato on-line</b>
-                              <li> - Apartir do momento em que você se cadastra na plataforma e aceita os termos de uso, você já acetia os termos do contrato de locação;</li>
-                              <li> - Este contrato é disponibilizado a você de forma totalmente on-line, via e-mail; </li>
+                              <li> - Apartir do momento em que você se <b>cadastra</b> na plataforma e <b>aceita os termos de uso</b>, você já <b>aceita os termos do contrato de locação</b>;</li>
+                              <li> - O contrato chegará por e-mail assim que você receber o equipamento; </li>
                             </Ul>
                             <br/>
                             {

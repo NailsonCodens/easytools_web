@@ -185,7 +185,11 @@ const Resume = ({history}) => {
                         <div className="columns nopadding">
                           { console.log(tool) }
                           <div className="column">
-                            <p><b>Marca</b>: { tool.brand }</p>
+                            {
+                              /*
+                                <p><b>Marca</b>: { tool.brand }</p>
+                              */
+                            }
                             <p><b>Categoria</b>: { tool.category }</p>
                             <p><b>Tipo</b>: { tool.type_spec }</p>
                             <p><b>Acessórios: </b>: { tool.accessory !== '' ? tool.accessory : 'Nenhum acessório disponível.'  }</p>

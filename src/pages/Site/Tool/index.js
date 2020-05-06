@@ -753,8 +753,8 @@ return (
                 <div className="columns">
                   <div className="column">
                     <Ul>
-                      <li><b>Marca</b></li>
-                      <li>{ tool.brand }</li>
+                      { /*<li><b>Marca</b></li>*/}
+                      {/*<li>{ tool.brand }</li>*/}
                       <li><b>Categoria</b></li>
                       <li>{ tool.category }</li>
                       <li><b>Tipo</b></li>
