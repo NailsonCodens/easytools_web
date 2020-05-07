@@ -533,9 +533,9 @@ const Dashboard = ({history, location}) => {
         <div className="neighboor-div">
           <div className="container">
   
-            <p className="title-index tl-neigh-cs">Quer ser um vizinho na Easytools?</p>
+            <p className="title-index tl-neigh-cs">Ganhe dinheiro com suas ferramentas paradas!</p>
             <p className="text-neigh-cs">
-              Vizinho é um apelido que, carinhosamente, damos aos nossos parceiros que disponibilizam seus equipamentos e ferramentas na Easytools. Quer ser um vizinho? Clique no botão a baixo e entre em contato conosco.
+              Seja um vizinho na EasyTools. Use suas ferramentas paradas para ganhar um dinheiro extra. Clique em quero ser um vizinho e que nós entraremos em contato.
             </p>
             <div className="columns">
               <div className="column">
@@ -544,7 +544,7 @@ const Dashboard = ({history, location}) => {
                   target="_blank"
                   className={'button is-default'}
                 >
-                  Quero ser um vizinho
+                  Renda extra
                 </a>
               </div>
             </div>

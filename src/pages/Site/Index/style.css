@@ -367,6 +367,10 @@
     display: none !important;
   }
 
+  .slick-arrow{
+    display: none !important;
+  }
+
   .container-new{
     width: 100% !important;
   }
