@@ -68,6 +68,8 @@ const Detail = ({history}) => {
       });
       document.title = Title(response.data.tool[0].title);
       setTool(response.data.tool[0])
+      console.log(response.data.tool[0].category);
+
       setPrices(response.data.tool[0].prices.split(';'))
     }
 

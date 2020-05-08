@@ -259,16 +259,7 @@ const MenuRenter = () => {
       pauseOnHover: true,
       draggable: true,
     }
-  )
-
-	const searchTools = (event) => {
-		if (event === '') {
-			findTools('close')
-			('close')
-		}
-		setSearch(event)
-		setBettersearch(true)
-	}
+	)
 
 	const findTools = (op = '') => {
 		if (op === 'close') {
@@ -285,6 +276,15 @@ const MenuRenter = () => {
 				history.push('/')
 			}
 		}
+	}
+
+	const searchTools = (event) => {
+		if (event === '') {
+			findTools('close')
+			('close')
+		}
+		setSearch(event)
+		setBettersearch(true)
 	}
 
 	const cancel = () => {

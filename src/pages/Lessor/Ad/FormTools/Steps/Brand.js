@@ -12,7 +12,7 @@ import categories from '../../../../../utils/categories';
 import feeds from '../../../../../utils/feeds';
 
 const Brand = ({nextStep, handleChange, prevStep, values}) => {
-
+  console.log(values.category)
   const formik = useFormik({
     initialValues: {
       brand: '',
@@ -49,9 +49,12 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
       }
     } else if (type === 'radio') {
       ev = event.target.checked === true ? 'Tri' : ''
-    }
-      else {
-      type === 'select' ? ev = event.value : ev = event.target.value
+    }else {
+        if (input === 'category') {
+          ev = event
+        } else{
+          type === 'select' ? ev = event.value : ev = event.target.value
+        }
     }
     switch(input){
       case 'brand': 
@@ -64,7 +67,15 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
         formik.values.feed = ev
         break;
         case 'category': 
-        formik.values.category = ev
+          var cat = [];
+          console.log(ev)
+          ev.map(function(categorie){
+            cat.push(categorie.value)
+          })
+
+          ev = cat.toString()
+
+          formik.values.category = ev
         break;
       case 'power': 
         formik.values.power = ev
@@ -165,12 +176,13 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
                 className={''}
                 options={categories}
                 isSearchable={true}
+                isMulti
                 placeholder={'Cortante'}
                 onChange={selectedOption => {
                   handleChangeBrand('category', selectedOption, 'select');
                   formik.handleChange("category");
                 }}
-                value={values.category}
+                defaultValue={values.category}
               />
             </Field>
           </div>

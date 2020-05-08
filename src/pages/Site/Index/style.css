@@ -361,10 +361,57 @@
   height: 50px !important;
 }
 
+.construction{
+  background: #fff url('../../../assets/images/construction.jpg') no-repeat !important;
+  background-position: right top !important;
+  background-size: cover !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+.gardening{
+  background: #fff url('../../../assets/images/gardening.jpg') no-repeat !important;
+  background-position: right top !important;
+  background-size: cover !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+.cleaner{
+  background: #fff url('../../../assets/images/cleaner.jpg') no-repeat !important;
+  background-position: left top !important;
+  background-size: cover !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+
+.box-categories{
+  background: #fff;
+  height: 250px;
+  border-radius: 10px 10px 10px 10px;
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.categories-names{
+  margin: 0 auto;
+  width: 60%;
+  background: #FFD237;
+  margin-top: 214px;
+  text-align: center;
+  color: #000;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif !important; 
+}
 
 @media (max-width: 900px) {
   .box-digi{
     display: none !important;
+  }
+
+
+  .box-categories{
+    margin-bottom: 25px;
   }
 
   .slick-arrow{

@@ -127,7 +127,16 @@ const Main = ({history, tool}) => {
           formik.values.description = tool.description
           formik.values.brand = tool.brand
           formik.values.type_spec = tool.type_spec
-          formik.values.category = { value: tool.category, label: tool.category }
+
+          var array = tool.category.split(',');
+          var arr = []
+
+          array.map(category => {
+            arr.push({ value: category, label: category });
+          })
+
+          formik.values.category = arr
+          
           formik.values.feed = { value: tool.feed, label: tool.feed }
           formik.values.power = tool.power
           tool.tension.split('/').map((tension, index) => {
@@ -214,7 +223,7 @@ const Main = ({history, tool}) => {
 
   const handleCategoryChange = (category) => {
     setCategory(category)
-    formik.values.category = { value: category, label: category }
+    formik.values.category = category
   }
 
   const handleFeedChange = (feed) => {
