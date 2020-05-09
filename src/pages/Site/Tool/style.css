@@ -74,6 +74,10 @@
   white-space: pre-line !important;
 }
 
+.brands-tools{
+  width: 200px;
+}
+
 .box-price-rent{
   padding-left: 10px !important;
   padding-right: 10px !important;

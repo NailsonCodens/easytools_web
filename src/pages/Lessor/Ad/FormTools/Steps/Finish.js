@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import api from '../../../../../services/api';
 
 const Finish = ({handleChange, prevStep, values}) => {
+  console.log(values.category)
   let { id } = useParams();
   let history = useHistory();
 
@@ -33,7 +34,8 @@ const Finish = ({handleChange, prevStep, values}) => {
   })
 
   async function saveTools (values) {
-    values.category = values.category.value
+    console.log(values.category)
+    values.category = values.category
     values.feed = values.feed.value
 
     if (id !== undefined) {
@@ -118,7 +120,15 @@ const Finish = ({handleChange, prevStep, values}) => {
             <div className="column">
               <p><b>Marca: </b>{ values.brand !== '' ? values.brand : 'Não informado' }</p>
               <p><b>Tipo: </b>{ values.type_spec !== '' ? values.type_spec : 'Não informado' }</p>
-              <p><b>Categoria: </b>{ values.category.value !== '' ? values.category.value : 'Não informado' }</p>
+              <p><b>Categorias: </b>{ 
+                values.category !== '' ? (
+                  <>
+                    {
+        
+                    }
+                  </>  
+                ) : ('Não informado') 
+              }</p>
               <p><b>Alimentação: </b>{ values.feed.value !== '' ? values.feed.value : 'Não informado' }</p>
               <p><b>Potência: </b>{ values.power !== '' ? values.power : 'Não informado' }</p>
               <p><b>Tensão: </b>{ values.tension1 !== '' ? values.tension1 : '' } { values.tension2 !== '' ? values.tension2 : '' } { values.tension3 !== '' ? 'Trifásico' : '' }</p>

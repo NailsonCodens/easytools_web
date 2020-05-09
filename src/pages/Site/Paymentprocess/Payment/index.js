@@ -20,6 +20,7 @@ import {Helmet} from 'react-helmet';
 import Rentalbottombox from '../Rentalbottombox';
 import moment from 'moment';
 import Email from '../../../../utils/sendemail';
+import brands from '../../../../assets/images/brand.png';
 
 import {
   isMobile
@@ -339,12 +340,12 @@ const Payment = ({history}) => {
                 freight === 'with' ? 
                 (
                   <>
-                    <p className="title-tool-only-little"> Delivery do equipamento </p>
+                    <p className="title-tool-only-little"> Entrega e busca do equipamento </p>
                     <Warningtext>
                       Você receberá o equipamento, no endereço de uso informado.
                     </Warningtext>
                     <br/>
-                    <span className="valuefreight">Taxa do delivery: </span>
+                    <span className="valuefreight">Taxa de entrega e busca: </span>
                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                       <b><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
                     </IntlProvider>
@@ -353,6 +354,14 @@ const Payment = ({history}) => {
                       <li> - Depois do pagamento confirmado, nós entregamos o equipamento no local solicitado em até 2 horas. </li>
                       <li> - No ato da entrega, um chekout será feito para mantermos a qualidade dos equipamentos alugados.</li>
                     </Ul>
+                    <br/><br/>
+                    <div>
+                      <b>Para pagamentos:</b>
+                      <br/>
+                      <img src={brands} alt={brands} className="brands-tools"/>
+                      <br/>
+                      <p>Cartão de <b>crédito</b> e <b>boleto</b> para reservas antecipadas em 3 dias.</p>
+                    </div>
                   </>
                 )
                 :

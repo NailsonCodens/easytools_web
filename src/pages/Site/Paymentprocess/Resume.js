@@ -95,7 +95,7 @@ const Resume = ({history}) => {
     });
     if (response.data.tool[0].availability === 'Y') {
       Tracking('Prosseguiu e foi para as regras', 'Prosseguiu para as regras', 'resume')
-      history.push(`/s/payment/rent-rules?rent_attempt=${values.rent_attempt}&init=${values.init}&finish=${values.finish}&tool=${values.tool}&am=${values.am}&tension=${values.tension}&code_attempt=${values.code_attempt}`)
+      history.push(`/s/payment/rent-rules?rent_attempt=${values.rent_attempt}&init=${values.init}&finish=${values.finish}&tool=${values.tool}&am=${values.am}&tension=127V&code_attempt=${values.code_attempt}`)
     } else {
       history.push(`/?t=unavailable`);
     }
@@ -105,9 +105,12 @@ const Resume = ({history}) => {
     //corrgiri e fazer salvar no banco os dados da tentiva de aluguel
     Scrool(0,0)
    
+    /*    
     if(!tool.tension.match(values.tension)){
+      
       history.push('/ops');
-    } else if (isNaN(parseInt(values.am))) {
+    } else*/
+     if (isNaN(parseInt(values.am))) {
       history.push('/ops');
     } else if (!moment(values.finish).isValid()) {
       history.push('/ops');
@@ -179,7 +182,21 @@ const Resume = ({history}) => {
                         <br/><br/>
                         <div className="columns nopadding">
                           <div className="column">
-                            <b className="tension-rules">Você está alugando um equipamento de tensão { tension === 'Tri' ? 'Trifásico' : tension }.</b>    
+                            <b className="tension-rules">Você está alugando um equipamento </b>
+                            {
+                              tool.tension !== '/' ? 
+                              (
+                                <>
+                                  <b>de tensão { tension === 'Tri' ? 'Trifásico' : tension }.</b>    
+                                </>
+                              )
+                              :
+                              (
+                                <>
+                                  <b>de potência { tool.power }</b>
+                                </>
+                              )
+                            }
                           </div>
                         </div>
                         <div className="columns nopadding">

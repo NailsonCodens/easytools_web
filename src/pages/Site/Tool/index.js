@@ -10,6 +10,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import './calendar.css'
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import brands from '../../../assets/images/brand.png';
   // eslint-disable-next-line
 import preciseDiff from 'moment-precise-range-plugin';
 import {IntlProvider, FormattedNumber} from 'react-intl';
@@ -196,7 +197,7 @@ const Tool = ({history}) => {
                 tool_id: tool.id,
                 startdate: moment(rentData.start).format('YYYY-MM-DD'),
                 enddate: moment(rentData.end).format('YYYY-MM-DD'),
-                tension: rentData.tension,
+                tension: rentData.tension || '-',
                 days: price.amount,
                 month: price.amountmonth,
                 amount: formik.values.amount,
@@ -207,6 +208,8 @@ const Tool = ({history}) => {
                 freight: 0,
                 accept: 0,
               }
+
+              console.log(attempt)
 
               saveRentattempt(attempt);      
             }
@@ -725,6 +728,13 @@ return (
           </div>
           <div className="columns">
             <div className="column is-two-thirds">
+              <div>
+                <b>Para pagamentos:</b>
+                <br/>
+                <img src={brands} alt={brands} className="brands-tools"/>
+                <br/>
+                <p>Cartão de <b>crédito</b> e <b>boleto</b> para reservas antecipadas em 3 dias.</p>
+              </div>
               <div className="description">
                 <p className="title-infos-tool">
                   Descrição
@@ -765,8 +775,17 @@ return (
                     <Ul>
                       <li><b>Potência</b></li>
                       <li>{ tool.power }</li>
-                      <li><b>Tensão</b></li>
-                      <li>{ tool.tension === '/Tri' ? 'Trifásico' : tool.tension }</li>
+                      {
+                        tool.tension !== '/' ? 
+                        (
+                          <>
+                            <li><b>Tensão</b></li>
+                            <li>{ tool.tension === '/Tri' ? 'Trifásico' : tool.tension }</li>
+                          </>
+                        )
+                        :
+                        ('')
+                      }
                       <li><b>Alimentação</b></li>
                       <li>{ tool.feed }</li>
                     </Ul>

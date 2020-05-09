@@ -9,6 +9,7 @@ import queryString from 'query-string';
 import { useDispatch, useSelector } from "react-redux";
 import { Rentinfo } from '../../../store/actions/rentinfo';
 import api from '../../../services/api';
+import brands from '../../../assets/images/brand.png';
 import localForage from "localforage";
 import { Warningtext } from '../../../components/Warningtext';
 import Rentruesblock from '../../Warnings/Rentrulesblock';
@@ -87,9 +88,11 @@ const Rules = ({ history }) => {
   }
   
   const goRent = () => {
-    if(!tool.tension.match(values.tension)){
+    /*if(!tool.tension.match(values.tension)){
       history.push('/ops');
-    } else if (isNaN(parseInt(values.am))) {
+    } else 
+    */
+    if (isNaN(parseInt(values.am))) {
       history.push('/ops');
     } else if (!moment(values.finish).isValid()) {
       history.push('/ops');
@@ -211,6 +214,17 @@ const Rules = ({ history }) => {
                               <li> - O contrato chegará por e-mail assim que você receber o equipamento; </li>
                             </Ul>
                             <br/>
+                            <Ul>
+                              <li>
+                                <div>
+                                  <b>Para pagamentos:</b>
+                                  <br/>
+                                  <img src={brands} alt={brands} className="brands-tools"/>
+                                  <br/>
+                                  <p>Cartão de <b>crédito</b> e <b>boleto</b> para reservas antecipadas em 3 dias.</p>
+                                </div>
+                              </li>
+                            </Ul>
                             {
                               /*
                                 <br/>
