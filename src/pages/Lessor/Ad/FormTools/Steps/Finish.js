@@ -40,7 +40,19 @@ const Finish = ({handleChange, prevStep, values}) => {
   })
 
   async function saveTools (values) {
-    values.category = values.category
+    console.log(values.category)
+    if (Array.isArray(values.category)) {
+      var cat = [];
+      values.category.map(function(categorie){
+        cat.push(categorie.value)
+      })
+      cat = cat.toString()
+      console.log(cat)
+      values.category = cat 
+    }else{
+      values.category = values.category
+    }
+
     values.feed = values.feed.value
 
     if (id !== undefined) {
