@@ -68,13 +68,13 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
         break;
         case 'category': 
           var cat = [];
-          console.log(ev)
-          ev.map(function(categorie){
-            cat.push(categorie.value)
-          })
 
-          ev = cat.toString()
-
+          if (ev !== null) {
+            ev.map(function(categorie){
+              cat.push(categorie.value)
+            })
+            ev = cat.toString()  
+          }
           formik.values.category = ev
         break;
       case 'power': 

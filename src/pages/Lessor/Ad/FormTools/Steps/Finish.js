@@ -40,7 +40,6 @@ const Finish = ({handleChange, prevStep, values}) => {
   })
 
   async function saveTools (values) {
-    console.log(values.category)
     values.category = values.category
     values.feed = values.feed.value
 

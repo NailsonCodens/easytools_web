@@ -128,14 +128,18 @@ const Main = ({history, tool}) => {
           formik.values.brand = tool.brand
           formik.values.type_spec = tool.type_spec
 
-          var array = tool.category.split(',');
-          var arr = []
-
-          array.map(category => {
-            arr.push({ value: category, label: category });
-          })
-
-          formik.values.category = arr
+          if (tool.category !== null) {
+            var array = tool.category.split(',');
+            var arr = []
+  
+            array.map(category => {
+              arr.push({ value: category, label: category });
+            })
+  
+            formik.values.category = arr
+          }else{
+            formik.values.category = ''
+          }
           
           formik.values.feed = { value: tool.feed, label: tool.feed }
           formik.values.power = tool.power
