@@ -75,7 +75,7 @@
 }
 
 .brands-tools{
-  width: 200px;
+  width: 280px;
 }
 
 .box-price-rent{
@@ -235,6 +235,9 @@
 }
 
 @media (max-width: 900px) {
+  .brands-tools{
+    width: 340px;
+  }  
 
   .name-data-rules{
     padding: 21px 20px !important;

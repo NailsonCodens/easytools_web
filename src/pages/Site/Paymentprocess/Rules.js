@@ -217,11 +217,13 @@ const Rules = ({ history }) => {
                             <Ul>
                               <li>
                                 <div>
-                                  <b>Para pagamentos:</b>
+                                  <b>Pagamentos:</b>
                                   <br/>
                                   <img src={brands} alt={brands} className="brands-tools"/>
                                   <br/>
-                                  <p>Cartão de <b>crédito</b> e <b>boleto</b> para reservas antecipadas em 3 dias.</p>
+                                  <p>Apenas cartão de <b>crédito</b>. 
+                                  <br/>
+                                  Para reservas com 3 dias de antecedências, disponível <b>boleto</b>.</p>
                                 </div>
                               </li>
                             </Ul>
