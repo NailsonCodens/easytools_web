@@ -240,7 +240,14 @@
 }
 
 .icon-index{
-  font-size: 30px;
+  padding: 20px;
+  font-size: 10px !important;
+  color: #fff;
+  background: #60a8f1;
+  padding: 10px;
+  border-radius: 200px 200px 200px 200px;
+  -moz-border-radius: 200px 200px 200px 200px;
+  -webkit-border-radius: 200px 200px 200px 200px;
 }
 
 .input-geolocalization{
@@ -378,6 +385,7 @@
   .title-search-geolo{
     margin-top: -60px;
   }
+
 
   .background-address{
     background: #fff !important;
