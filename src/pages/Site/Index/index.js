@@ -9,7 +9,6 @@ import desert2 from '../../../assets/images/desert2.svg'
 import './style.css';
 import {Viewsearch} from '../../../store/actions/viewsearch';
 import logo from '../../../assets/images/easytools_yellow.png'
-import gardening from '../../../assets/images/gardening.jpg';
 import bricolagem from '../../../assets/images/bricolagem.jpg'
 import construcao from '../../../assets/images/construcao.jpg'
 import limpeza from '../../../assets/images/limpeza.jpg'
@@ -74,6 +73,7 @@ const Dashboard = ({history, location}) => {
       });
       console.log(response)
     }
+
 
     async function loadTools(lat = '', lng = '') {
       var latcorrect = ''; 
@@ -166,10 +166,6 @@ const Dashboard = ({history, location}) => {
     findToolsM(place.center[1], place.center[0])
     setMyaddress(place.place_name)
 		setPlaces(false)
-  }
-
-  const goProduct = (category) => {
-    console.log(category)
   }
 
   return (
@@ -354,19 +350,151 @@ const Dashboard = ({history, location}) => {
               <h3 className="title-index">O que encontramos próximo a você.</h3>
             )
           }
-          <div className="columns">
-            <div className="column box-categories has-text-centered construction" onClick={event => goProduct('Construçao')}>
-              <p className="categories-names">Construção</p>
-            </div>
-            <div className="column box-categories has-text-centered cleaner" onClick={event => goProduct('Limpeza')}>
-              <p className="categories-names">Limpeza</p>
-            </div>
-            <div className="column box-categories has-text-centered gardening" onClick={event => goProduct('Jardinagem')}>
-              <p className="categories-names">Jardinagem</p>
-            </div>
-            <div className="column box-categories has-text-centered construction" onClick={event => goProduct('Bricolagem')}>
-              <p className="categories-names">Faça você mesmo</p>
-            </div>
+          {
+            viewsearch === '' ? 
+            (
+              <>
+                {  
+                /*
+                  <div>
+                    <div className="columns is-mobile">
+                      <div className="column">
+                        <div className="box-img has-text-centered">
+                          <img src={ bricolagem } alt="Bricolagem" className="img-option"/>
+                        <p className="text-options">Casa</p>
+                        </div>
+                      </div>
+                      <div className="column">
+                        <div className="box-img has-text-centered">
+                          <img src={ limpeza } alt="Limpeza" className="img-option"/>
+                          <p className="text-options">Bricolagem</p>
+                        </div>
+                      </div>
+                      <div className="column">
+                        <div className="box-img has-text-centered">
+                          <img src={ limpeza } alt="Limpeza" className="img-option"/>
+                          <p className="text-options">Marcenaria</p>
+                        </div>
+                      </div>
+                      <div className="column">
+                        <div className="box-img has-text-centered">
+                          <img src={ construcao } alt="Construção" className="img-option"/>
+                          <p className="text-options">Construção</p>
+                        </div>
+                      </div>
+                      <div className="column">
+                        <div className="box-img has-text-centered">
+                          <img src={ limpeza } alt="Limpeza" className="img-option"/>
+                          <p className="text-options">Limpeza</p>
+                        </div>
+                      </div>
+                      <div className="column">
+                        <div className="box-img has-text-centered">
+                          <img src={ estrutura } alt="Estruturas" className="img-option"/>
+                          <p className="text-options">Estruturas</p>
+                        </div>
+                      </div>
+                    </div>
+                    <br/><br/><br/>
+                </div>*/
+                }
+              </>
+            )
+            :
+            (
+              <></>
+            )
+          }
+          <div className="columns is-desktop is-mobile is-multiline">
+            {
+              tools.map(tool => (
+                <div key={tool.id} className="column column-cs-mobile is-one-quarter line-tools">
+                  <span onClick={event => goTool(tool.id, tool.category, tool)}>
+                    <div className="tool">
+                      <div className="picture-tool"> 
+                        {
+                          tool.picture.map(picture => (
+                            <span key={ picture.url } >
+                              {
+                                picture.main === '1' ?
+                                (
+                                  <img src={ picture.url } alt="EasyTools Logo" className="image-list ad-img"/>
+                                ):
+                                (
+                                  ''
+                                )
+                              }
+                            </span>
+                          ))
+                        }
+                      </div>                         
+                      <b className="category">{tool.category}</b>
+                      <div className="div-t">
+                        <p className="title-tool">{tool.title}</p>
+                        <p className="text-price">Diária a partir de <span className="price">R$ { tool.prices.split(';')[0] }</span></p>
+                        <div>
+                          {
+                            viewsearch !== '' ?
+                            (
+                              <button 
+                                type={'button'}
+                                className={'button is-fullwidth is-default rent-viewsearch'}
+                              >
+                              Alugar
+                              </button>
+  
+                            )
+                            :
+                            ('')
+                          }
+                        </div>
+                        <div className="box-km">
+                          <div className="columns box-delivery">
+                            {
+                              /*
+                                <div className="column is-2">
+                                  <div className="logo-enterprise">
+                                    <img src={logo2}  alt="EasyTools Logo" className=""/>
+                                  </div> 
+                                </div>                              
+                              */
+                            }
+                            {
+                              /*
+                                <div className="column">
+                                  <span className="km"> { tool.distance.toFixed(1).replace(/\./gi,',').replace(/,/gi,',') } km de você. </span>
+                                  <br/>
+                                  <div className="delivery-index">Entrega R$ 15,00 | 2 Horas</div>
+                                </div>                              
+                              */
+                            }
+                            {
+                              /*
+                                <div className="column">
+                                  <span className="promo">Desconto entrega</span>
+                                  <div className="delivery-index">Entrega R$ 15,00 | 2h | Curitiba e região.</div>
+                                </div>
+                              */
+                            }
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {
+                      tool.prices.split(';')[3].trim() === '0,00'? 
+                      (
+                        <>
+                          <p className="soon">Em breve!</p>
+                        </>
+                      )
+                      :
+                      ('')
+
+                    }
+                  </span>
+                </div>
+              ))
+            }
           </div>
           {
             tools.length > 0 ?
