@@ -52,6 +52,13 @@ const Paymentme = () => {
                 <div className="column is-4">
                   <p className="feedback">Pague e em seguida nos ajude com o seu feedback. Clique em "Feedback?"</p>
                   <img src={brands} alt="Payments allowed" className=""/>
+                  <div>
+                    <img src={brands} alt={brands} className="brands-tools"/>
+                    <br/>
+                    <p>Apenas cartão de <b>crédito</b>. 
+                    <br/>
+                    Para reservas com 3 dias de antecedências, disponível <b>boleto</b>.</p>
+                  </div>
               </div>
               </div>
             </div>
