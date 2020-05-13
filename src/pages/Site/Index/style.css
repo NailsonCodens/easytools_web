@@ -404,11 +404,25 @@
   font-family: 'Poppins', sans-serif !important; 
 }
 
+.title-stand{
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif !important; 
+  padding: 0px 20px;
+}
+
+.logo-color{
+  color: #60a8f1;
+  font-family: 'Poppins', sans-serif !important; 
+}
+
 @media (max-width: 900px) {
   .box-digi{
     display: none !important;
   }
 
+  .select-eqs{
+    margin: 0px 20px;
+  }
 
   .box-categories{
     margin-bottom: 25px;
@@ -445,7 +459,7 @@
   }
 
   .tool{
-    margin: 10px 0px !important;
+    margin: 10px 10px !important;
   }
   
   .column-cs-mobile{

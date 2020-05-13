@@ -7,6 +7,7 @@ import Scroll from '../../../utils/scroll';
 import Title from '../../../utils/title';
 import desert2 from '../../../assets/images/desert2.svg'
 import './style.css';
+import Scrool from '../../../utils/scroll';
 import {Viewsearch} from '../../../store/actions/viewsearch';
 import logo from '../../../assets/images/easytools_yellow.png'
 import gardening from '../../../assets/images/gardening.jpg';
@@ -169,7 +170,8 @@ const Dashboard = ({history, location}) => {
   }
 
   const goProduct = (category) => {
-    console.log(category)
+    Scrool(0,0)
+    history.push('/s/equipaments?category=' + category) 
   }
 
   return (
@@ -355,16 +357,16 @@ const Dashboard = ({history, location}) => {
             )
           }
           <div className="columns">
-            <div className="column box-categories has-text-centered construction" onClick={event => goProduct('category')}>
+            <div className="column box-categories has-text-centered construction" onClick={event => goProduct('construção')}>
               <p className="categories-names">Construção</p>
             </div>
-            <div className="column box-categories has-text-centered cleaner" onClick={event => goProduct('cleaner')}>
+            <div className="column box-categories has-text-centered cleaner" onClick={event => goProduct('limpeza')}>
               <p className="categories-names">Limpeza</p>
             </div>
-            <div className="column box-categories has-text-centered gardening" onClick={event => goProduct('gardening')}>
+            <div className="column box-categories has-text-centered gardening" onClick={event => goProduct('jardinagem')}>
               <p className="categories-names">Jardinagem</p>
             </div>
-            <div className="column box-categories has-text-centered construction" onClick={event => goProduct('diy')}>
+            <div className="column box-categories has-text-centered construction" onClick={event => goProduct('bricolagem')}>
               <p className="categories-names">Faça você mesmo</p>
             </div>
           </div>

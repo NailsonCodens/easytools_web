@@ -542,6 +542,9 @@ const MenuRenter = () => {
 										<Link to={'/'} className="navbar-item">
 											Explorar
 										</Link>
+										<Link to={'/s/about-us'} onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site') } className="navbar-item">
+											Precisou? Alugue!
+										</Link>
 										<Dropdownpure text="Notificações" countn={notificationrd} classMenu="classNotless" classCuston=" notification">
 											{ renderNotify() }
 										</Dropdownpure>
@@ -559,7 +562,7 @@ const MenuRenter = () => {
 											Alugar
 										</Link>
 										<a href={'https://docs.google.com/forms/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} onClick={event => Tracking('Menu site - Seja um locador', 'Clique seja um locador', 'Menu site') } className="navbar-item neighboor-nav" target="_blank">
-											Ser vizinho na EasyTools
+										  Anuncie sua ferramenta
 										</a>
 										<Link to={'/s/about-us'} onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site') } className="navbar-item">
 											Precisou? Alugue!
@@ -667,9 +670,9 @@ const MenuRenter = () => {
 		<div className="back-nav">
 			<nav className={"navbar nav-fixed " + setclass}>
 				<div className="navbar-brand">
-					<Link to={'/'} onClick={ event => findTools('close')}>
+					<a href={'/'} onClick={ event => findTools('close')}>
 						<img src={logo} alt="EasyTools Logo" className="logo"/>
-					</Link>	
+					</a>	
 					{
 						history.location.pathname === '/s/renter/perfil' || history.location.pathname === '/s/payment/resumebook' || history.location.pathname === '/s/payment/rent-rules' ? 
 						('') 

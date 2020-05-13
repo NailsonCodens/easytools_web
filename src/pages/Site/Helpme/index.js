@@ -29,7 +29,7 @@ const Helpme = () => {
       <section className="accordions">
         <article className={setaboutus === true ? 'accordion is-active ' : ' accordion ' }>
         <div className="accordion-header">
-          <p onClick={event => setAboutus(!setaboutus)} className="name-click">O que é a EasyTools</p>
+          <p onClick={event => setAboutus(!setaboutus)} className="name-click">O que é a <a href="/s/about-us">EasyTools</a></p>
           <button className="toggle" aria-label="toggle" onClick={event => setAboutus(!setaboutus)}></button>
         </div>
         <div className="accordion-body">
@@ -39,7 +39,8 @@ const Helpme = () => {
           Somos a primeira locadora online delivery de equipamentos sem loja física. Você aluga e nós entregamos em sua casa. Alugue qualquer equipamento e ferramenta que precisar, sem burocracia.
           <br/>
           O processo de locação não demora mais que 15 minutos.
-
+            <br/>
+           <a href="/s/about-us">Conheça a EasyTools</a>
           </div>
         </div>
       </article>
