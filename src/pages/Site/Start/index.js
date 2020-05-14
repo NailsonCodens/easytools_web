@@ -18,6 +18,7 @@ import Privacy from '../Polices/privacy_terms';
 import Terms from '../Polices/terms';
 import Adddocument from '../../Site/Tool/adddocument'
 import Products from '../../Site/Index/products';
+import List from '../../Site/Index/list';
 
 export default function Start({history}) {
   let { path } = useRouteMatch();
@@ -43,7 +44,8 @@ export default function Start({history}) {
       <Route path={`${path}/help-me`} component={Helpme}/>
       <Route path={`${path}/about-us`} component={Newrent}/>
       <Route path={`${path}/tool/:id`} component={Tool}/>
-      <Route path={`${path}/equipaments/`} component={Products}/>
+      <Route path={`${path}/equipaments/:category`} component={Products}/>
+      <Route path={`${path}/search/:category/:region/:title`} component={List}/>
       <PrivateRenter path={`${path}/payment`} component={Paymentprocess}/>
       <PrivateRenter path={`${path}/messages`} component={teste => ('asdsd')}/>
       <PrivateRenter path={`${path}/renter`} component={Rented}/>

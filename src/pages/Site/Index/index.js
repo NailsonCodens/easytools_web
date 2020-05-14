@@ -171,7 +171,7 @@ const Dashboard = ({history, location}) => {
 
   const goProduct = (category) => {
     Scrool(0,0)
-    history.push('/s/equipaments?category=' + category) 
+    history.push('/s/equipaments/' + category) 
   }
 
   return (
@@ -366,7 +366,7 @@ const Dashboard = ({history, location}) => {
             <div className="column box-categories has-text-centered gardening" onClick={event => goProduct('jardinagem')}>
               <p className="categories-names">Jardinagem</p>
             </div>
-            <div className="column box-categories has-text-centered construction" onClick={event => goProduct('bricolagem')}>
+            <div className="column box-categories has-text-centered bricolagem" onClick={event => goProduct('bricolagem')}>
               <p className="categories-names">Faça você mesmo</p>
             </div>
           </div>

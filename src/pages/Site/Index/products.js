@@ -5,18 +5,16 @@ import api from '../../../services/api';
 import desert2 from '../../../assets/images/desert2.svg'
 import Select from 'react-select';
 
-const Products = ({history}) => {
-  let values = queryString.parse(useLocation().search);
+const Products = ({history, props}) => {
+  let {category} = useParams();
 
   const [tools, setTools] = useState([]);
-  const [category, setCategory] = useState(values.category);
-
-  console.log(category)
+  const [categorys, setCategory] = useState(category);
 
   useEffect(() => {
     async function loadTools(lat = '', lng = '') {
-      var search = values.category;
-      const response = await api.get(`/tools_site?search=${category}&distance=${''}&lat=${''}&lng=${''}&type=1`, {
+      var search = categorys;
+      const response = await api.get(`/tools_site?search=${categorys}&distance=${''}&lat=${''}&lng=${''}&type=1`, {
         headers: { search }
       });
 
@@ -30,7 +28,7 @@ const Products = ({history}) => {
   }, [])
 
   async function loadTools2(category = '', lat = '', lng = '') {
-    var search = values.category;
+    var search = category;
     const response = await api.get(`/tools_site?search=${category}&distance=${''}&lat=${''}&lng=${''}&type=1`, {
       headers: { search }
     });
@@ -38,17 +36,20 @@ const Products = ({history}) => {
    setTools(response.data.tools)
   }
 
+  const goList = (title) => {
+    title = title.replace(/\s+/g, '-').toLowerCase();
+
+    history.push(`/s/search/${category}/region/${title}`);
+  }
 
   const handleChangeCategory = (category) => {
-    setCategory(category.value)
-    loadTools2(category.value)
+    window.location.href = '/s/equipaments/' + category.value
   }
 
   return (
     <div className="container">
-      <b className="category">{values.category}</b>
+      <b className="category">{category}</b>
       <br/><br/>
-
       <h3 className="title is-3 has-text-centered title-stand">Para 
         <span className="logo-color">
         { 
@@ -81,13 +82,13 @@ const Products = ({history}) => {
           onChange={selectedOption => {
             handleChangeCategory(selectedOption);
           }}
-          defaultValue={values.category}
+          defaultValue={category}
         />
       </div>
       <div className="columns is-desktop">
         {
           tools.map(tool => (
-            <div key={tool.id} className="column is-one-quarter">
+            <div key={tool.id} className="column is-one-quarter" onClick={event => goList(tool.title)}>
               <span>
                 <div className="tool">
                   <div className="picture-tool"> 
