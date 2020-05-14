@@ -184,7 +184,7 @@ const Resume = ({history}) => {
                           <div className="column">
                             <b className="tension-rules">Você está alugando um equipamento </b>
                             {
-                              tool.tension !== '/' ? 
+                              tool.tension !== '-' && tool.tension !== '/' ? 
                               (
                                 <>
                                   <b>de tensão { tension === 'Tri' ? 'Trifásico' : tension }.</b>    
@@ -213,7 +213,7 @@ const Resume = ({history}) => {
                           </div>
                           <div className="column">
                             <p><b>Potência</b>: { tool.power }</p>
-                            <p><b>Tensão</b>: { tension === 'Tri' ? 'Trifásico' : tension }</p>
+
                             <p><b>Alimentação</b>: { tool.feed }</p>
                             <p><b>Acompanha</b>: { tool.follow !== '' ? tool.follow : 'Não disponível' }</p>
                           </div>

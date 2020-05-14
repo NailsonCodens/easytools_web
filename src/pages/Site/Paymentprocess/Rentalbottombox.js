@@ -171,7 +171,7 @@ const Rentalbottombox = ({title, go, scroolView = 100, startDate, endDate, attem
               type: 'month', 
               amount: days, 
               amountmonth: 0, 
-              price: parseFloat(priceback[3].toFixed(2).replace(/\./gi,'').replace(/,/gi,'.')), 
+              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
               priceNoamount: parseFloat(pricefixednoamount.toFixed(2)),
               pricefull: parseFloat(costfixed.toFixed(2))
              })

@@ -207,7 +207,7 @@ const Payment = ({history}) => {
     var text = ''
     var days = rentattempt.days
     var weekend = 1
-    var months = rentattempt.amountmonth
+    var months = rentattempt.month
 
 
     if (rentattempt.period === 'days') {
@@ -230,7 +230,7 @@ const Payment = ({history}) => {
         if (rentattempt.days > 15 && rentattempt.days <= 31) {
           text = ` por 1 Mês`
         }else {
-          text = ` x ${days} Mêses`
+          text = ` x ${months} Mês(es)`
         }
       }
     }
@@ -428,16 +428,39 @@ const Payment = ({history}) => {
                     <b> Devolução </b> { end }                    
                   </div>
                 </div>
-                <div className="columns is-mobile no-margin-top-columns dates-payment">
-                  <div className="column">
-                    Tensão equip
-                  </div>
-                  <div className="column">
-                    <div className="is-pulled-right">
-                      { rentattempt.tension === 'Tri' ? 'Trifásico' : rentattempt.tension }
-                    </div>  
-                  </div>  
-              </div>
+                {
+                  tool.tension !== '-' && tool.tension !== '/' ? 
+                  (
+                    <>
+                      <div className="columns is-mobile no-margin-top-columns">
+                        <div className="column">
+                          Tensão
+                        </div>
+                        <div className="column">
+                          <div className="is-pulled-right">
+                            { rentattempt.tension === 'Tri' ? 'Trifásico' : rentattempt.tension }
+                          </div>
+                        </div>
+                      </div>    
+                    </>
+                  )
+                  :
+                  (
+                    <>
+                      <div className="columns is-mobile no-margin-top-columns">
+                        <div className="column">
+                          Potência
+                        </div>
+                        <div className="column">
+                          <div className="is-pulled-right">
+                            <b>{ tool.power }</b>
+                          </div>
+                        </div>
+                      </div>
+
+                    </>
+                  )
+                }
                 <div className="columns is-mobile no-margin-top-columns dates-payment">
                   <div className="column">
                   <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
