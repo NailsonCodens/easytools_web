@@ -369,10 +369,13 @@ const Tool = ({history}) => {
       var days = period.days;
       var months = period.months;
       if (period.months !== 0) {
+
+        console.log(priceback[3])
         setPrice({
           type: 'month', 
           amount: days, 
           amountmonth: months, 
+          priceNoamount: months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
           price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
           pricefull: (months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
         })
@@ -778,7 +781,7 @@ return (
                       <li><b>Potência</b></li>
                       <li>{ tool.power }</li>
                       {
-                        tool.tension !== '/' ? 
+                        tool.tension !== '-' && tool.tension !== '/' ? 
                         (
                           <>
                             <li><b>Tensão</b></li>

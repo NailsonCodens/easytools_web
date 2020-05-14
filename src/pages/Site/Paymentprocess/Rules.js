@@ -217,7 +217,7 @@ const Rules = ({ history }) => {
                             <Ul>
                               <li>
                                 <div>
-                                  <b>Para pagamentos:</b>
+                                  <b>Pagamentos:</b>
                                   <br/>
                                   <img src={brands} alt={brands} className="brands-tools"/>
                                   <br/>

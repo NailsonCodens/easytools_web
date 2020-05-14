@@ -59,9 +59,12 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
         periodat = 'month'
         amountmonth = months
 
-        pricefixednoamount = days * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
-        costfixed = (months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
 
+        pricefixednoamount = amountmonth * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
+
+        console.log(pricefixednoamount)
+
+        costfixed = (months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
 
         priceat = parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
         costat = parseFloat(costfixed.toFixed(2))
@@ -74,6 +77,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
           priceNoamount: parseFloat(pricefixednoamount.toFixed(2)), 
           pricefull: parseFloat(costfixed.toFixed(2))
         })
+
       } else if (period.days !== 0) {
         if (days < 7) {
           pricefixednoamount = days * parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.'))
@@ -93,7 +97,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
         } else if (days === 7) {
           periodat = 'weekend'
 
-          pricefixednoamount = days * parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.'))
+          pricefixednoamount = parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.'))
           costfixed = (1 * parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
   
 
@@ -109,7 +113,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
         } else if (days > 7 && days < 15) {
           periodat = 'biweekly'
 
-          pricefixednoamount = days * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))
+          pricefixednoamount = parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))
           costfixed = (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
   
 
@@ -126,7 +130,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
         } else if (days === 15) {
           periodat = 'biweekly'
 
-          pricefixednoamount = days * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))
+          pricefixednoamount = parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))
           costfixed = (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
   
 
@@ -143,25 +147,25 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
         } else if (days > 15) {
           periodat = 'month'
 
-
-          pricefixednoamount = days * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
+          pricefixednoamount = parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
           costfixed = (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
   
-
           priceat = parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
           costat = parseFloat(costfixed.toFixed(2))
 
           if (months === 0) {
+
             amountmonth = 0
             setPrice({
               type: 'month', 
               amount: days, 
               amountmonth: 0, 
-              price: parseFloat(priceback[3].toFixed(2).replace(/\./gi,'').replace(/,/gi,'.')), 
+              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
               priceNoamount: parseFloat(pricefixednoamount.toFixed(2)),
               pricefull: parseFloat(costfixed.toFixed(2))
              })
           } else {
+            console.log('asd')
             amountmonth = months
 
             setPrice({
@@ -175,7 +179,8 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
            }
         }
       }
-      
+
+
       dispatch(Rentattempt(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, 0, price.price, amountmonth))
 
       updateRentattemp(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, 0, price.price, amountmonth)
@@ -199,7 +204,6 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
     }
 
     if (attempt.id !== undefined) {
-      console.log(rentupdate)
       await api.put(`rent/attempt/updaterent/${attempt.id}`, rentupdate, {})
       .then((res) => {
       }).catch((err) => {
@@ -258,7 +262,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
           <div className="column is-6">
             <p className="is-pulled-right">
               <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
+                <FormattedNumber value={20} style="currency" currency="BRL" />
                 { 
                   values.am === undefined ? 'x 1 UN' : `x ${values.am} UN` 
                 }
@@ -273,16 +277,39 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
             </div>
           </div>*/
         }
-        <div className="columns is-mobile no-margin-top-columns">
-          <div className="column">
-            Tensão
-          </div>
-          <div className="column">
-            <div className="is-pulled-right">
-              { values.tension === 'Tri' ? 'Trifásico' : values.tension }
-            </div>
-          </div>
-        </div>
+        {
+          tool.tension !== '-' && tool.tension !== '/' ? 
+          (
+            <>
+              <div className="columns is-mobile no-margin-top-columns">
+                <div className="column">
+                  Tensão
+                </div>
+                <div className="column">
+                  <div className="is-pulled-right">
+                    { values.tension === 'Tri' ? 'Trifásico' : values.tension }
+                  </div>
+                </div>
+              </div>    
+            </>
+          )
+          :
+          (
+            <>
+              <div className="columns is-mobile no-margin-top-columns">
+                <div className="column">
+                  Potência
+                </div>
+                <div className="column">
+                  <div className="is-pulled-right">
+                    <b>{ tool.power }</b>
+                  </div>
+                </div>
+              </div>
+
+            </>
+          )
+        }
         <div className="columns is-mobile no-margin-top-columns">
           <div className="column">
             <b>Total</b>

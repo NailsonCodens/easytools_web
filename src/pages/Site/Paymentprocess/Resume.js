@@ -184,7 +184,7 @@ const Resume = ({history}) => {
                           <div className="column">
                             <b className="tension-rules">Você está alugando um equipamento </b>
                             {
-                              tool.tension !== '/' ? 
+                              tool.tension !== '-' && tool.tension !== '/' ? 
                               (
                                 <>
                                   <b>de tensão { tension === 'Tri' ? 'Trifásico' : tension }.</b>    
