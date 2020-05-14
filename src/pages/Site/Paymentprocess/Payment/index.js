@@ -87,7 +87,6 @@ const Payment = ({history}) => {
     }
     window.onscroll = () => showBottom()
 
-
     async function loadFreight (userid) {
       const response = await api.get(`/userconfig/${userid}`, {
       });
@@ -208,7 +207,6 @@ const Payment = ({history}) => {
     var days = rentattempt.days
     var weekend = 1
     var months = rentattempt.month
-
 
     if (rentattempt.period === 'days') {
       text = ` x ${days} Dia(s)`
