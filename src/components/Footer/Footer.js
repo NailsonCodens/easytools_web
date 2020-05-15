@@ -94,6 +94,9 @@ const Footer = () => {
 													Nosso blog ❤️
 												</a>
 											</li>
+											<li>
+												<a href="https://docs.google.com/forms/d/e/1FAIpQLSflhvjqDhcyO9fFkKSaQOXVPAaT3ggMesc4VEnNk5Mh_oUNUg/viewform?usp=sf_link" target="_blank">Relatar um problema</a>
+											</li>
 										</Ul>					
 									</div>
 								</div>
