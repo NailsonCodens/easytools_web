@@ -23,12 +23,15 @@ import Notificationtost from '../../../utils/notification';
 import { Button } from '../../../components/Form/Button';
 import Typewriter from 'typewriter-effect';
 import logo2 from '../../../assets/images/logo.png'
-import { getCordinates } from '../../../services/mapbox';
+import { getCordinates, getAddress } from '../../../services/mapbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import "../../../../node_modules/slick-carousel/slick/slick.css"; 
 import "../../../../node_modules/slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import {Latitude} from '../../../store/actions/latitude';
+import {Longitude} from '../../../store/actions/longitude';
+import {Distance} from '../../../store/actions/distance';
 import { faMapMarkerAlt, faTruckLoading, faCalendarAlt, faMousePointer} from '@fortawesome/free-solid-svg-icons'
 library.add(faMapMarkerAlt, faTruckLoading, faCalendarAlt, faMousePointer);
 
@@ -73,7 +76,6 @@ const Dashboard = ({history, location}) => {
     async function loadFreight (userid) {
       const response = await api.get(`/userconfig/${userid}`, {
       });
-      console.log(response)
     }
 
     async function loadTools(lat = '', lng = '') {
@@ -108,10 +110,14 @@ const Dashboard = ({history, location}) => {
 
 	const handleMyaddress = (event) => {
     let query = event.target.value
+  
 		setMyaddress(event.target.value)
 
 		getCordinates(query).then(res => {
-			setPlaces(res.data.features)
+      console.log(res.data.features)
+
+      //className
+      setPlaces(res.data.features)
 		})
   }  
 
@@ -155,7 +161,18 @@ const Dashboard = ({history, location}) => {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 			position => {
-        findToolsM(position.coords.latitude, position.coords.longitude)
+        Scroll(0,0)
+        dispatch(Latitude(position.coords.latitude))
+        dispatch(Longitude(position.coords.longitude))
+
+        getAddress(position.coords.longitude, position.coords.latitude).then(res => {
+          var city = res.data.features[1].text
+          city = city.replace(/\s+/g, '-').toLowerCase();
+        
+          history.push(`/s/search/all/equipaments/${city}`)
+        })
+
+        //findToolsM(position.coords.latitude, position.coords.longitude)
       },
 			erroget => {
 				error()
@@ -164,9 +181,20 @@ const Dashboard = ({history, location}) => {
   }
 
   const selectPlace = (place) => {
+    var city = place.context[0].text
+
+    city = city.replace(/\s+/g, '-').toLowerCase();
+
+    Scroll(0,0)
+
+    dispatch(Latitude(place.center[1]))
+    dispatch(Longitude(place.center[0]))
+
+    history.push(`/s/search/all/equipaments/${city}`)
+    /*
     findToolsM(place.center[1], place.center[0])
     setMyaddress(place.place_name)
-		setPlaces(false)
+		setPlaces(false)*/
   }
 
   const goProduct = (category) => {
@@ -239,7 +267,7 @@ const Dashboard = ({history, location}) => {
                     <div className="control is-expanded">
                       <input 
                         type="text" 
-                        placeholder='Sua localização para achar equipamentos perto de você.' 
+                        placeholder='Digite e clique no seu endereço.' 
                         className="input input-geolocalization" 
                         onChange={event => handleMyaddress(event)}
                         value={myaddress}
@@ -370,23 +398,6 @@ const Dashboard = ({history, location}) => {
               <p className="categories-names">Faça você mesmo</p>
             </div>
           </div>
-          {
-            tools.length > 0 ?
-            ('')
-            :
-            (
-              <>
-                <div className="columns is-mobile">
-                  <div className="column is-7">
-                    <p className="title-notfound">Não encontramos o que você deseja. Tente procurar novamente</p>
-                  </div>
-                  <div className="column has-text-centered">
-                    <img src={desert2} alt="Desert" className="svgnotfound2"/>
-                  </div>
-                </div>
-              </>
-            )
-          } 
         </div>
 
         <br/><br/>

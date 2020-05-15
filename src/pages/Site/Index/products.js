@@ -39,7 +39,7 @@ const Products = ({history, props}) => {
   const goList = (title) => {
     title = title.replace(/\s+/g, '-').toLowerCase();
 
-    history.push(`/s/search/${category}/region/${title}`);
+    history.push(`/s/search/${category}/${title}/region`);
   }
 
   const handleChangeCategory = (category) => {

@@ -273,7 +273,7 @@ const MenuRenter = () => {
 			setBettersearch(false)
 			Scrool(0,0)	
 			if (history.location.pathname !== '/') {
-				history.push('/')
+				history.push('/s/search/all/' + search)
 			}
 		}
 	}

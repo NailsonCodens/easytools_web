@@ -442,16 +442,25 @@
 }
 
 .box-text{
+  padding-top: 5px !important;
 }
 
 .money-tl{
-  color: #60a8f1;
+  color: #000000;
   font-family: 'Poppins', sans-serif !important; 
   font-weight: 600;
   font-size: 20px;
 }
 
-.money-tl span{
+.freight-tl{
+  color: #707070;
+  font-family: 'Poppins', sans-serif !important; 
+  font-weight: 600;
+  font-size: 17px;
+  margin-top: 5px;
+}
+
+.money-tl span, .freight-tl span{
   font-family: 'Poppins', sans-serif !important; 
   font-weight: 100;
   font-size: 14px; 
@@ -487,12 +496,15 @@
 .logo-tl{
   width: 20px;
   height: 20px;
-  margin-left: 10px;
+  margin-left: 0px;
 }
 
 .name-logo-tl{
+  z-index: 9;
+  position: relative;
+  top: -5px;
   margin-left: 10px;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 @media (max-width: 900px) {

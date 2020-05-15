@@ -45,7 +45,7 @@ export default function Start({history}) {
       <Route path={`${path}/about-us`} component={Newrent}/>
       <Route path={`${path}/tool/:id`} component={Tool}/>
       <Route path={`${path}/equipaments/:category`} component={Products}/>
-      <Route path={`${path}/search/:category/:region/:title`} component={List}/>
+      <Route path={`${path}/search/:category/:title/:region`} component={List}/>
       <PrivateRenter path={`${path}/payment`} component={Paymentprocess}/>
       <PrivateRenter path={`${path}/messages`} component={teste => ('asdsd')}/>
       <PrivateRenter path={`${path}/renter`} component={Rented}/>

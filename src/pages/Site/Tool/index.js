@@ -1212,7 +1212,7 @@ return (
           <Auth hs={history} url={''} closeModal={event => setModal(false)}></Auth>
         </Modal>
       </div>
-  
+
       )
     }
   </>
