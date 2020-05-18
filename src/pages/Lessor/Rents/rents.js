@@ -232,7 +232,7 @@ const Rents = ({ history }) => {
                         }
                         <div className={ isMobile === true ? "column" : "column is-5"}>
                           {
-                            console.log(rent.tool)
+                            console.log(rent)
                           }
                           {
                             rent.tool.picture.length > 0 ?
