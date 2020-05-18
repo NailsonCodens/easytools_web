@@ -58,7 +58,7 @@ const Terms = () => {
       <br/><br/>
       <b><i>Aluguel</i></b>
       <br/><br/>
-      Alugueis feito após as 20:00 horas da noite, serão respondidos e processados no processados.  
+      Alugueis feito após as 20:00 horas da noite, serão respondidos e processados na primeira hora, às 8h00 do próximo dia.  
       <br/><br/>
       <b><i>Uso da plataforma</i></b> 
       <br/><br/>
