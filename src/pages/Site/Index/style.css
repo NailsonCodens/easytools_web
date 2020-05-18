@@ -417,7 +417,7 @@
 .box-filters{
  background: #f1f1f1;
  margin-top: -20px;
- height: 60px;
+ height: 45px;
  padding: 0px 5px;
 }
 
@@ -520,11 +520,30 @@
 }
 
 .div-filters{
-  padding-top: 10px;
+  padding-top: 8px;
 }
 
 .div-filters{
   margin-left: 5px;
+}
+
+.youare{
+  background: #fff;
+}
+
+.button.is-info:hover{
+  color: #fff !important;
+}
+
+.showneighboor{
+  font-family: 'Poppins', sans-serif !important;
+  color: #60a8f1;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.region-choose{
+  font-weight: 600 !important;
 }
 
 @media (max-width: 900px) {

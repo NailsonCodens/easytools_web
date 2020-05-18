@@ -165,6 +165,9 @@ const Dashboard = ({history, location}) => {
         dispatch(Latitude(position.coords.latitude))
         dispatch(Longitude(position.coords.longitude))
 
+        localStorage.setItem('@lt', position.coords.latitude);
+        localStorage.setItem('@lg', position.coords.longitude);
+
         getAddress(position.coords.longitude, position.coords.latitude).then(res => {
           var city = res.data.features[1].text
           city = city.replace(/\s+/g, '-').toLowerCase();
@@ -189,6 +192,9 @@ const Dashboard = ({history, location}) => {
 
     dispatch(Latitude(place.center[1]))
     dispatch(Longitude(place.center[0]))
+
+    localStorage.setItem('@lt', place.center[1]);
+    localStorage.setItem('@lg', place.center[0]);
 
     history.push(`/s/search/all/equipaments/${city}`)
     /*

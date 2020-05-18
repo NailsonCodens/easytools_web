@@ -26,6 +26,7 @@ const List = ({history}) => {
   const [tools, setTools] = useState('');
   const [places, setPlaces] = useState('');
   const [modal, setModal] = useState(false);
+  const [showneighbor, setShowNeighboor] = useState(false);
 
   const latitude = useSelector(state => state.latitude);
   const longitude = useSelector(state => state.longitude);
@@ -127,6 +128,10 @@ const List = ({history}) => {
 			},{ enableHighAccuracy: true });
   }
 
+  const openModal= () => {
+    setModal(true)
+    setShowNeighboor(true)
+  }
 
   const error = () => Notificationtost(
     'error',
@@ -149,7 +154,7 @@ const List = ({history}) => {
     <>
       <div className="box-filters">
         <div className="div-filters">
-          <button className="button is-outlined bt-filter cptalizze c">
+          <button className="button is-small is-outlined bt-filter cptalizze c">
             { 
               category === 'all' ? 
               (
@@ -163,8 +168,8 @@ const List = ({history}) => {
               )
             }
           </button>
-          <button className="button is-outlined bt-filter div-filters">35Km</button>
-          <button className="button is-outlined bt-filter cptalizze div-filters">
+          <button className="button is-outlined is-small bt-filter div-filters">35Km</button>
+          <button className="button is-outlined is-small bt-filter cptalizze div-filters">
             { 
               titlest.replace('-', ' ').toLowerCase() === 'equipaments' ?
               (
@@ -178,9 +183,9 @@ const List = ({history}) => {
               )
             }
           </button>
-          <span>
+          <button className="button is-info youareregion is-outlined is-small bt-filter cptalizze div-filters" onClick={event => openModal()}>
             Você está em { region }
-          </span>
+          </button>
         </div>
       </div>
       <div className="container">
@@ -238,8 +243,11 @@ const List = ({history}) => {
         closeEscAllowed={false} 
         closeOnAllowed={false}
       >
-        <h3 className="has-text-centered title is-4">Onde você esta?</h3>
+        <h3 className="has-text-centered title is-4">Onde você está?</h3>
         <br/>
+        <div className="showneighboor">
+          Você está em <span className="region-choose">{ region }</span>. Gostaría de mudar? 
+        </div>
         <div className="field">
           <p className="control has-icons-left has-icons-right">
             <input 
