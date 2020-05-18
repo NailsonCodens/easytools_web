@@ -539,9 +539,6 @@ const MenuRenter = () => {
 											</Link>
 											*/
 										}
-										<Link to={'/'} className="navbar-item">
-											Explorar
-										</Link>
 										<Dropdownpure text="Notificações" countn={notificationrd} classMenu="classNotless" classCuston=" notification">
 											{ renderNotify() }
 										</Dropdownpure>
