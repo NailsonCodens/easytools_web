@@ -231,7 +231,19 @@ const Rents = ({ history }) => {
                           )
                         }
                         <div className={ isMobile === true ? "column" : "column is-5"}>
-                          <img src={rent.tool.picture[0].url} alt={rent.tool.picture[0].url} className="image-tool-rent"/>
+                          {
+                            console.log(rent.tool)
+                          }
+                          {
+                            rent.tool.picture.length > 0 ?
+                            (
+                              <img src={rent.tool.picture[0].url} alt={rent.tool.picture[0].url} className="image-tool-rent"/>
+                            )
+                            :
+                            (
+                                ''
+                              )
+                          }
                         </div>
                         <div className="column">
                           <div>

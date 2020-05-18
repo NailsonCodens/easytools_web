@@ -56,7 +56,10 @@ const Terms = () => {
       <br/><br/>
       Para utilizar grande parte dos Serviços, você deve registrar-se e manter uma conta pessoal de usuário de Serviços (“Conta”). Você deve ter pelo menos 18 anos para registrar uma Conta. O registro de Conta exige que a Easytools colete determinados dados pessoais, que podem incluir seu nome, endereço, número de telefone celular e data de nascimento, assim como pelo menos um método de pagamento válido (cartão de crédito ou parceiro de pagamento aceito pela Easytools). Você concorda em manter informações corretas, completas e atualizadas em sua Conta. Se você não mantiver informações corretas, completas e atualizadas em sua Conta, inclusive se o método de pagamento informado for inválido ou expirado, você poderá ficar impossibilitado(a) de acessar e usar os Serviços ou da Easytools poderá resolver estes Termos. Você é responsável por todas as atividades realizadas na sua Conta e concorda em manter sempre a segurança e confidencialidade do nome de usuário e senha da sua Conta. A menos que diversamente permitido pela Easytools por escrito, você poderá manter apenas uma Conta.
       <br/><br/>
-      
+      <b><i>Aluguel</i></b>
+      <br/><br/>
+      Alugueis feito após as 20:00 horas da noite, serão respondidos e processados no processados.  
+      <br/><br/>
       <b><i>Uso da plataforma</i></b> 
       <br/><br/>
       A plataforma é uma ambiente para anúncio e aluguel de equipamentos de ferramentas online. O intuito é facilitar e desburocratizar o setor de locação de equipamentos e ferramentas. Você como cliente poderá ser locatário(Parte que aluga o equipamento de outro), ou locador (Parte que disponibilizar seus equipamentos para outros). O aluguel de equipamentos é feito de forma online, e nós fazemos o delivery deste equipamento no local desejado por você, para que a entrega seja realizada, nós cobramos uma taxa de entrega com base na localidade e no km. Não temos lojas físicas por isso fica inviável ir buscar os equipamentos.

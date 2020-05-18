@@ -70,7 +70,7 @@ const Helpme = () => {
             <br/>
             4 - Entrega do equipamento
             <br/>
-            Nós enviaremos um e-mail confirmando a entrega do equipamento em seu endereço. * Nós realizaremos um check-in junto com você quando formos entregar o equipamento e um check-out na devolução.
+            Nós enviaremos um e-mail confirmando a entrega do equipamento em seu endereço. * Nós realizaremos um check-in junto com você quando formos entregar o equipamento e um check-out na devolução. Alugueis solicitados após a 20:00 horas, serão processados no primeiro horário do próximo dia.
           </div>
         </div>
       </article>
