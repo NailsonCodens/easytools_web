@@ -507,6 +507,26 @@
   font-size: 15px;
 }
 
+.address-list{
+  width: 100% !important;
+}
+
+.bkad-tl{
+  width: 100% !important;
+}
+
+.cptalizze{
+  text-transform: capitalize;
+}
+
+.div-filters{
+  padding-top: 10px;
+}
+
+.div-filters{
+  margin-left: 5px;
+}
+
 @media (max-width: 900px) {
   .box-digi{
     display: none !important;

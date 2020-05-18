@@ -168,7 +168,7 @@ const Dashboard = ({history, location}) => {
         getAddress(position.coords.longitude, position.coords.latitude).then(res => {
           var city = res.data.features[1].text
           city = city.replace(/\s+/g, '-').toLowerCase();
-        
+          Scroll(-10,-10)
           history.push(`/s/search/all/equipaments/${city}`)
         })
 

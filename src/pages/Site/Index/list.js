@@ -1,63 +1,173 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faMapMarkedAlt, faStopwatch } from '@fortawesome/free-solid-svg-icons'
-import { useSelector } from "react-redux";
+import { faMapMarkedAlt, faStopwatch, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { useDispatch, useSelector } from "react-redux";
+import Modal from '../../../components/Modal';
+import {Latitude} from '../../../store/actions/latitude';
+import {Longitude} from '../../../store/actions/longitude';
+import {Distance} from '../../../store/actions/distance';
+import Notificationtost from '../../../utils/notification';
+import { getCordinates, getAddress, getGeolocalization } from '../../../services/mapbox';
+import { useParams, useLocation } from "react-router-dom";
+import Scroll from '../../../utils/scroll';
+import api from '../../../services/api';
 import logo from '../../../assets/images/logo.png';
-library.add(faMapMarkedAlt, faStopwatch);
+library.add(faMapMarkedAlt, faStopwatch, faSearch);
 
+const List = ({history}) => {
+  const dispatch = useDispatch();
+  let {category, title, region } = useParams();
 
-const List = () => {
   const [categorys, setCategory] = useState('');
-  
+  const [titlest, setTitlest] = useState(title);
+  const [myaddress, setMyaddress] = useState('');
+  const [tools, setTools] = useState('');
+  const [places, setPlaces] = useState('');
+  const [modal, setModal] = useState(false);
+
   const latitude = useSelector(state => state.latitude);
   const longitude = useSelector(state => state.longitude);
   
-  console.log(latitude)
-  console.log(longitude)
-
-  const handleChangeCategory = (category) => {
-    console.log('aa')
+  const hideRedirectlogin = () => {
+    return modal
   }
+
+  useEffect(() => {
+    async function loadModal() {
+      if (region === 'region') {
+        setModal(true)
+      }
+    }
+    loadModal()
+
+    async function loadTools(lat = '', lng = '') {
+      var search = category;
+      const response = await api.get(`/tools_site?search=${category}&distance=${''}&lat=${''}&lng=${''}&type=1`, {
+        headers: { search }
+      });
+  
+     setTools(response.data.tools)
+    }
+    loadTools()    
+
+    return () => {
+      setTools('');  
+    }
+  }, [])
+
+	const handleMyaddress = (event) => {
+    let query = event.target.value
+  
+		setMyaddress(event.target.value)
+
+		getCordinates(query).then(res => {
+      setPlaces(res.data.features)
+		})
+  }  
+
+  const selectPlace = (place) => {
+    var city = place.context[0].text
+
+    city = city.replace(/\s+/g, '-').toLowerCase();
+
+    dispatch(Latitude(place.center[1]))
+    dispatch(Longitude(place.center[0]))
+
+    localStorage.setItem('@lt', place.center[1]);
+    localStorage.setItem('@lg', place.center[0]);
+
+    setMyaddress(place.place_name)
+
+    history.push(`/s/search/${category}/${titlest}/${city}`)
+
+    setPlaces(false)
+    setModal(false)
+  }
+
+  const getGeolocalization = () => {
+    navigator.geolocation.getCurrentPosition(
+			position => {
+        //Scroll(0,0)
+        dispatch(Latitude(position.coords.latitude))
+        dispatch(Longitude(position.coords.longitude))
+
+        localStorage.setItem('@lt', position.coords.latitude);
+        localStorage.setItem('@lg', position.coords.longitude);
+
+        getAddress(position.coords.longitude, position.coords.latitude).then(res => {
+          var city = res.data.features[1].text
+          city = city.replace(/\s+/g, '-').toLowerCase();
+                })
+          setModal(false);
+
+          getAddress(position.coords.longitude, position.coords.latitude).then(res => {
+            var city = res.data.features[1].text
+            city = city.replace(/\s+/g, '-').toLowerCase();
+            history.push(`/s/search/${category}/${titlest}/${city}`)
+          })
+        //findToolsM(position.coords.latitude, position.coords.longitude)
+      },
+			erroget => {
+				error()
+			},{ enableHighAccuracy: true });
+  }
+
+
+  const error = () => Notificationtost(
+    'error',
+    'Não conseguimos pegar sua localização. habilite a geolocalização em seu navegador.', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
 
   return (
     <>
       <div className="box-filters">
-        <div className="columns is-mobile">
-          <div className="column is-1-desktop is-4-mobile">
-            <button className="button is-outlined bt-filter">Lavadora...</button>
-            {
-              /*
-                <input className="input radius-b" type="text" placeholder="Experimente Furadeira"/>              
-              */
+        <div className="div-filters">
+          <button className="button is-outlined bt-filter cptalizze c">
+            { 
+              category === 'all' ? 
+              (
+                'Todos'
+              )
+              :
+              (
+                <>
+                  { category }
+                </>
+              )
             }
-          </div>
-          <div className="column is-1-desktop is-4-mobile">
-            <button className="button is-outlined bt-filter">Categorias</button>
-            {
-              /*
-                <Select
-                  className={''}
-                  options={[
-                    {value: 'Construção', label: 'Construção'},
-                    {value: 'Limpeza', label: 'Limpeza'},
-                    {value: 'Jardinagem', label: 'Jardinagem'},
-                    {value: 'Bricolagem', label: 'Bricolagem'}
-                  ]}
-                  isSearchable={true}
-                  placeholder={'Selecione'}
-                  onChange={selectedOption => {
-                    handleChangeCategory(selectedOption);
-                  }}
-                  defaultValue={categorys}
-                />              
-              */
+          </button>
+          <button className="button is-outlined bt-filter div-filters">35Km</button>
+          <button className="button is-outlined bt-filter cptalizze div-filters">
+            { 
+              titlest.replace('-', ' ').toLowerCase() === 'equipaments' ?
+              (
+                'Equipamentos'
+              )
+              :
+              (
+                <>
+                  {titlest.replace('-', ' ').toLowerCase()}
+                </>
+              )
             }
-          </div>
-          <div className="column is-1-desktop is-2-mobile">
-            <button className="button is-outlined bt-filter">Km</button>
-          </div>
+          </button>
+          <span>
+            Você está em { region }
+          </span>
         </div>
       </div>
       <div className="container">
@@ -109,6 +219,63 @@ const List = () => {
           </div>
         </div>
       </div>
+      <Modal 
+        show={modal} 
+        onCloseModal={hideRedirectlogin}
+        closeEscAllowed={false} 
+        closeOnAllowed={false}
+      >
+        <h3 className="has-text-centered title is-4">Onde você esta?</h3>
+        <br/>
+        <div className="field">
+          <p className="control has-icons-left has-icons-right">
+            <input 
+              className="input" 
+              type="text" 
+              placeholder="Buscar endereço" 
+              onChange={event => handleMyaddress(event)}
+              value={myaddress}
+            />
+            <span className="icon is-small is-left">
+              <FontAwesomeIcon icon={['fas', 'search']} className="icon-tl" size="2x"/>
+            </span>
+          </p>
+        </div>
+        {
+          <div className="father-address address-list">
+            <ul className="">
+            {
+              places.length > 0 ? 
+              (
+                <>
+                  <div className="background-address bkad-tl">
+                    <ul>
+                      {
+                        places.map((place, index) => (
+                          <li className="list-places" key={index} onClick={event => selectPlace(place)}>
+                            {place.place_name}
+                          </li>
+                        ))
+                      }
+                    </ul>
+                  </div>
+                </>
+              )
+              :
+              ('')
+            }
+            </ul>
+          </div>
+        }
+        <div className="field">
+          <button className="button is-outlined is-fullwidth color-logo" onClick={event => getGeolocalization()}>
+            <div className="is-pull-left">
+              <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="2x"/> 
+              Minha localização
+            </div>
+            </button>
+        </div>
+      </Modal>
     </>
   )
 }
