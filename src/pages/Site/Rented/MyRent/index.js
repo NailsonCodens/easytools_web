@@ -153,7 +153,16 @@ const Rents = ({ history }) => {
                     <div className="column">
                       <div className="columns mwd-item-container">
                         <div className="column is-3">
-                          <img src={rent.tool.picture[0].url} alt={rent.tool.picture[0].url} className="image-tool-rent"/>
+                        {
+                            rent.tool.picture.length > 0 ?
+                            (
+                              <img src={rent.tool.picture[0].url} alt={rent.tool.picture[0].url} className="image-tool-rent"/>
+                            )
+                            :
+                            (
+                                ''
+                              )
+                          }
                         </div>
                         <div className="column mwd-content-right">
                         <p className="capitalize">

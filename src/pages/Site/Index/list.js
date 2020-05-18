@@ -36,7 +36,20 @@ const List = ({history}) => {
 
   useEffect(() => {
     async function loadModal() {
-      if (region === 'region') {
+
+      var lat = localStorage.getItem('@lt')
+      var lng = localStorage.getItem('@lg')
+
+      getAddress(lng, lat).then(res => {
+        console.log(res)
+        var city = res.data.features[1].text
+        city = city.replace(/\s+/g, '-').toLowerCase();
+        history.push(`/s/search/${category}/${titlest}/${city}`)
+      })
+
+      if (lat !== null) {
+        setModal(false)
+      } else {
         setModal(true)
       }
     }
