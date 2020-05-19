@@ -46,11 +46,13 @@ export default function Document({history, id}) {
       if (id !== undefined) {
         const response = await api.get(`/documents/${id}`, {
         });
-        
+
         if (response.data.documentUser.length > 0) {
+          if (response.data.documentUser[0].document !== null) {
           setShowcheck(true);
-          setDocument(response.data.documentUser[0].urldoc);
-          setNamedocument(response.data.documentUser[0].document);
+            setNamedocument(response.data.documentUser[0].document);  
+            setDocument(response.data.documentUser[0].urldoc);
+          }
         }
       }
     }
@@ -122,7 +124,14 @@ export default function Document({history, id}) {
               <img src={document} alt={document} className="imagedoc"/>
             )
           }
-          <EllipsisText text={namedocument} length={20}/>
+          {
+            namedocument !== null ? 
+            (
+              <EllipsisText text={namedocument} length={20}/>
+            )
+            :
+            ('')
+          }
           { 
             showcheck === true ?
             (<span className="check-photo"></span>)

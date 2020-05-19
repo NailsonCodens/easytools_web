@@ -159,8 +159,6 @@ const Tool = ({history}) => {
   const next = (rentData) => {
     if (isAuthenticated()) {
 
-      console.log(document)
-
       if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
         if (perfil.type === 'Lessor') {
           Scrool()
