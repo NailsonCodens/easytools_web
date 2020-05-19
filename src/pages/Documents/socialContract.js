@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import {Social} from '../../store/actions/social';
 import Resizer from 'react-image-file-resizer';
+import pdf from '../../assets/images/file.png';
 
 export default function SocialContract({id}) {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ export default function SocialContract({id}) {
 
         if (response.data.documentUser.length > 0) {
           if (response.data.documentUser[0].enterprise !== null) {
+            console.log('asd')
             setNamesocial(response.data.documentUser[0].enterprise);
             setSocial(response.data.documentUser[0].urlenterprise)
             setShowcheck(true)  
@@ -90,11 +92,13 @@ export default function SocialContract({id}) {
     };
   }, [id])
 
+  console.log(namesocial)
+
   const onDrop = useCallback(acceptedFiles => {    
     var preview = URL.createObjectURL(acceptedFiles[0])
 
     if (acceptedFiles[0].type !== 'image/jpeg' && acceptedFiles[0].type !== 'image/png') {
-      setSocial(preview)
+      setSocial(pdf)
       setImage(acceptedFiles[0]);
       dispatch(Social(acceptedFiles[0]));
     } else {
