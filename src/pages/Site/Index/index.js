@@ -170,8 +170,12 @@ const Dashboard = ({history, location}) => {
 
         getAddress(position.coords.longitude, position.coords.latitude).then(res => {
           var city = res.data.features[1].text
-          city = city.replace(/\s+/g, '-').toLowerCase();
+
+          const getCity = res.data.features.find(city => city.id.includes('place'));
+
+          city = getCity.text.replace(/\s+/g, '-').toLowerCase();
           Scroll(-10,-10)
+
           history.push(`/s/search/all/equipaments/${city}`)
         })
 
@@ -186,7 +190,11 @@ const Dashboard = ({history, location}) => {
   const selectPlace = (place) => {
     var city = place.context[0].text
 
-    city = city.replace(/\s+/g, '-').toLowerCase();
+    const getCity = place.context.find(city => city.id.includes('place'));
+
+    city = getCity.text.replace(/\s+/g, '-').toLowerCase();
+
+    console.log(city)
 
     Scroll(0,0)
 

@@ -40,15 +40,16 @@ const List = ({history}) => {
 
       var lat = localStorage.getItem('@lt')
       var lng = localStorage.getItem('@lg')
-
-      getAddress(lng, lat).then(res => {
-        console.log(res)
-        var city = res.data.features[1].text
-        city = city.replace(/\s+/g, '-').toLowerCase();
-        history.push(`/s/search/${category}/${titlest}/${city}`)
-      })
-
+      
       if (lat !== null) {
+        getAddress(lng, lat).then(res => {
+          var city = ''
+          const getCity = res.data.features.find(city => city.id.includes('place'));
+  
+          city = getCity.text.replace(/\s+/g, '-').toLowerCase();
+          history.push(`/s/search/${category}/${titlest}/${city}`)
+        })
+    
         setModal(false)
       } else {
         setModal(true)
@@ -82,9 +83,11 @@ const List = ({history}) => {
   }  
 
   const selectPlace = (place) => {
-    var city = place.context[0].text
+    var city = ''
 
-    city = city.replace(/\s+/g, '-').toLowerCase();
+    const getCity = place.context.find(city => city.id.includes('place'));
+
+    city = getCity.text.replace(/\s+/g, '-').toLowerCase();
 
     dispatch(Latitude(place.center[1]))
     dispatch(Longitude(place.center[0]))
@@ -184,7 +187,20 @@ const List = ({history}) => {
             }
           </button>
           <button className="button is-info youareregion is-outlined is-small bt-filter cptalizze div-filters" onClick={event => openModal()}>
-            Você está em { region }
+            {
+              region === 'region' ? 
+              (
+                <>
+                  Onde você está agora?
+                </>
+              )
+              :
+              (
+                <>
+                  Você está em { region.replace('-', ' ') }
+                </>
+              )
+            }
           </button>
         </div>
       </div>
@@ -193,7 +209,7 @@ const List = ({history}) => {
           <div className="column">
             <div className="columns">
               <div className="column is-3 has-text-left tool-list">
-                <img src={'https://www.casasbahia-imagens.com.br/Ferramentas/LavadorasdePressaoFerramentas/LavadoradePressaoFerramentas/7244/28087300/lavadora-de-alta-pressao-wap-bravo-1740-libras-7244.jpg'} alt="EasyTools Logo" className=""/>
+                <img src={'https://www.casasbahia-imagens.com.br/Ferramentas/LavadorasdePressaoFerramentas/LavadoradePressaoFerramentas/7244/28087300/lavadora-de-alta-pressao-wap-bravo-1740-libras-7244.jpg'} alt="EasyTools Logo" className="t-list"/>
               </div>
               <div className="column is-8 box-text">
                 <div className="has-text-left text-list">
@@ -246,7 +262,19 @@ const List = ({history}) => {
         <h3 className="has-text-centered title is-4">Onde você está?</h3>
         <br/>
         <div className="showneighboor">
-          Você está em <span className="region-choose">{ region }</span>. Gostaría de mudar? 
+            {
+              region === 'region'?
+              (
+                'Adicione seu endereço para achar as ferramentas perto de você.'
+              )
+              :
+              (
+                <>
+                  Você está em <span className="region-choose">{ region.replace('-', ' ') }</span>. Gostaría de mudar? 
+                </>
+              )
+            }
+
         </div>
         <div className="field">
           <p className="control has-icons-left has-icons-right">

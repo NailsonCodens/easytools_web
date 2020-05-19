@@ -539,11 +539,11 @@
   font-family: 'Poppins', sans-serif !important;
   color: #60a8f1;
   text-align: center;
-  text-transform: capitalize;
 }
 
 .region-choose{
   font-weight: 600 !important;
+  text-transform: capitalize;
 }
 
 @media (max-width: 900px) {
@@ -626,4 +626,20 @@
   .title-notfound{
     font-size: 20px !important;
   }
+
+  .youareregion{
+    margin-top: 3px;
+  }
+
+  .box-filters{
+    background: #f1f1f1;
+    margin-top: -20px;
+    height: 80px;
+    padding: 0px 5px;
+   }
+
+   .t-list{
+      width: 100%;
+      height: 100%;
+   }
 }
