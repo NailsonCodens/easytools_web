@@ -51,6 +51,7 @@ const List = ({history}) => {
         })
     
         setModal(false)
+        setMyaddress('')
       } else {
         setModal(true)
       }
@@ -83,11 +84,17 @@ const List = ({history}) => {
   }  
 
   const selectPlace = (place) => {
+
     var city = ''
 
     const getCity = place.context.find(city => city.id.includes('place'));
 
-    city = getCity.text.replace(/\s+/g, '-').toLowerCase();
+    if (getCity === undefined) {
+      city = place.text.replace(/\s+/g, '-').toLowerCase();
+    } else {
+      city = getCity.text.replace(/\s+/g, '-').toLowerCase();
+
+    }
 
     dispatch(Latitude(place.center[1]))
     dispatch(Longitude(place.center[0]))
@@ -101,6 +108,7 @@ const List = ({history}) => {
 
     setPlaces(false)
     setModal(false)
+    setMyaddress('')
   }
 
   const getGeolocalization = () => {
@@ -118,7 +126,7 @@ const List = ({history}) => {
           city = city.replace(/\s+/g, '-').toLowerCase();
                 })
           setModal(false);
-
+          setMyaddress('')
           getAddress(position.coords.longitude, position.coords.latitude).then(res => {
             var city = res.data.features[1].text
             city = city.replace(/\s+/g, '-').toLowerCase();

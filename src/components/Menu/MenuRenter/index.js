@@ -272,16 +272,14 @@ const MenuRenter = () => {
 			dispatch(Viewsearch(true))
 			setBettersearch(false)
 			Scrool(0,0)	
-			if (history.location.pathname !== '/') {
-				history.push('/s/search/all/' + search)
-			}
 		}
+
+		history.push('/s/search/all/' + search + '/region')	
 	}
 
 	const searchTools = (event) => {
 		if (event === '') {
-			findTools('close')
-			('close')
+			findTools()
 		}
 		setSearch(event)
 		setBettersearch(true)
