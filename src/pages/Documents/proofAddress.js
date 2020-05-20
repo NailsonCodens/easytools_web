@@ -84,6 +84,7 @@ export default function Proofaddress({id}) {
             setNameproof(response.data.documentUser[0].proof)
             stProof(response.data.documentUser[0].urlproof)
             setShowcheck(true)   
+            dispatch(Proof('ok'));
           }
         }
       }
@@ -160,7 +161,18 @@ export default function Proofaddress({id}) {
               (<span>{ proof }</span>)
               :
               (
-                <img src={proof} alt={proof} className="imagedoc"/>
+                <>
+                  {
+                    proof.split('.')[1] === 'pdf' ? 
+                    (
+                      <img src={pdf} alt={pdf} className="imagedoc"/>
+                    )
+                    :
+                    (
+                      <img src={proof} alt={proof} className="imagedoc"/>
+                    )
+                  }
+                </>
               )
             }
             <EllipsisText text={nameproof} length={20}/>
@@ -171,21 +183,12 @@ export default function Proofaddress({id}) {
               ('')
             }           
             </div>
-            {
-              location === '/s/renter/perfil/documents' ? 
-              (
-                ''
-              )
-              :
-              (
-                <div className="column box-inter">
-                  <div {...getRootProps()} className="drag-photo upload">
-                    <input {...getInputProps()} />
-                      Anexar
-                  </div>
-                </div>
-              )
-            }
+            <div className="column box-inter">
+              <div {...getRootProps()} className="drag-photo upload">
+                <input {...getInputProps()} />
+                  Anexar
+              </div>
+            </div>
 
             {
               isactive === true ?

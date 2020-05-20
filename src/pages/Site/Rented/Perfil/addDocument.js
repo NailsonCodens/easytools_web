@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Document from '../../../Documents/document';
 import Proofaddress from '../../../Documents/proofAddress';
 import SocialContract from '../../../Documents/socialContract';
@@ -11,12 +11,23 @@ import queryString from 'query-string';
 import Scroll from '../../../../utils/scroll';
 import { Button } from '../../../../components/Form/Button';
 import { useSelector } from "react-redux";
+import { Form, Input } from '@rocketseat/unform';
+import { Field, Label } from '../../../../components/Form/Form';
+import { useFormik } from 'formik';
+import Notification from '../../../../utils/notification';
 
 const Doc = ({history}) => {
+  const [documenttype, setSelectedDocument] = useState({value: 'cpf', label: 'CPF' });
+  const [image, setImage] = useState('');
+  const [isactive, setActive] = useState([]);
+  const [documentimg, setDocument] = useState('Não adicionado.');
+  const [selfieimg, setSelfie] = useState('Não adicionado.'); 
+  
   const documentdata = useSelector(state => state.document);
   const proofdata = useSelector(state => state.proof);
   const selfiedata = useSelector(state => state.selfie);
   const socialdata = useSelector(state => state.social);
+  const us = useSelector(state => state.auth);
 
   let values = queryString.parse(useLocation().search);
 
@@ -24,10 +35,111 @@ const Doc = ({history}) => {
   const [cpfcnpj, setCnpj] = useState('')
   const [war, setWar] = useState('');
 
+  const info = () => Notification(
+    'info',
+    'Salvando seus documentos, só um momento.', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 4800,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+
+  const info2 = () => Notification(
+    'success',
+    'Pronto!, clique no botão exporar para alugar o que você precisa.', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 4800,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+  
+  const onDrop = useCallback(acceptedFiles => {    
+    const preview = URL.createObjectURL(acceptedFiles[0])
+    setImage(acceptedFiles);
+    setDocument(preview)
+    setActive(true)
+  }, [])
+
+  const formik = useFormik({
+    initialValues: {
+    },
+
+    onSubmit: value => {
+      const document = new FormData();
+      const social = new FormData();
+      const selfie = new FormData();
+      const proof = new FormData();
+      console.log(documentdata, socialdata, selfiedata, proofdata)
+
+      document.append('document', documentdata);
+      social.append('enterprise', socialdata);
+      selfie.append('selfie', selfiedata);
+      proof.append('proof', proofdata);
+
+      if (documentdata === '') {
+        setWar('Adicione seu documento.');
+        return 
+      } else {
+        if (documentdata !== 'ok') {
+          if (documentdata.type !== 'application/pdf' && documentdata.type !== 'image/jpeg' && documentdata.type !== 'image/png') {
+            setWar('Só são permitidos pdf e images jpg para documento.');
+            return
+          }
+        }        
+      }
+
+      if (selfiedata === '') {
+        setWar('Adicione uma selfie.');
+        return 
+      } else {
+        if (selfiedata !== 'ok') {
+          if (selfiedata.type !== 'application/pdf' && selfiedata.type !== 'image/jpeg' && selfiedata.type !== 'image/png') {
+            setWar('Só são permitidos images jpg para selfie.');
+            return 
+          }  
+        }
+      }
+
+      if (proofdata === '') {
+        setWar('Adicione o comprovante de endereço.');
+        return
+      } else {
+        if (proofdata !== 'ok') {
+          if (proofdata.type !== 'application/pdf' && proofdata.type !== 'image/jpeg'  && proofdata.type !== 'image/png') {
+            setWar('Só são permitidos pdf e images jpg para comprovante de endereço.');
+            return 
+          }  
+        }
+      }
+
+      setWar('')
+      saveAddress(value, document, selfie, proof, social, documenttype.value)
+    }
+  })
+
+
   useEffect(() => {
     async function loadPerfil() { 
       const response = await api.get(`/perfil`, {
       });
+
+
       if (response.data.user.length > 0) {
         setCnpj(response.data.user[0].cpfcnpj)
         setUser(response.data.user[0])  
@@ -47,62 +159,103 @@ const Doc = ({history}) => {
   const goBack = () => {
     Scroll(0,0);
     history.push('/')
-  }
+  }  
 
-  const saveDocument = () => {
-    const document = new FormData();
-    const social = new FormData();
-    const selfie = new FormData();
-    const proof = new FormData();
+  const saveAddress = (data, datadoc, dataselfie, dataproof, datasocial, typedoc) => {
 
-    document.append('document', documentdata);
-    social.append('enterprise', socialdata);
-    selfie.append('selfie', selfiedata);
-    proof.append('proof', proofdata);
+    var dc, sd, pd, ss = '';
 
-    if (cpfcnpj !== null && cpfcnpj.length > 14) {
-      setWar('Você precisa adicionar o contrato social da sua empresa.');
-    } else {
-      if (documentdata === '') {
-        setWar('Adicione seu documento.');
-        return 
-      } else {
-        if (documentdata.type !== 'application/pdf' && documentdata.type !== 'image/jpeg' && documentdata.type !== 'image/png') {
-          setWar('Só são permitidos pdf e images jpg para documento.');
-          return
-        }
-      }
 
-      if (selfiedata === '') {
-        setWar('Adicione uma selfie.');
-        return 
-      } else {
-        if (selfiedata.type !== 'application/pdf' && selfiedata.type !== 'image/jpeg' && selfiedata.type !== 'image/png') {
-          setWar('Só são permitidos pdf e images jpg para documento.');
-          return 
-        }
-      }
-
-      if (proofdata === '') {
-        setWar('Adicione o comprovante de endereço.');
-        return
-      } else {
-        if (proofdata.type !== 'application/pdf' && proofdata.type !== 'image/jpeg'  && proofdata.type !== 'image/png') {
-          setWar('Só são permitidos pdf e images jpg para comprovante de endereço.');
-          return 
-        }
-      }
-
-      if (socialdata.value === 'cnpj' && socialdata !== '') {
-        if (socialdata.type !== 'application/pdf' && socialdata.type !== 'image/jpeg') {
-          setWar('Só são permitidos pdf e images jpg para contrato social.');
-          return 
-        }
-      }
-      setWar('')
+    if (documentdata !== 'ok') {
+      saveDocument(datadoc)
+      dc = 'y'
     }
+
+    setTimeout(function(){
+      if (selfiedata !== 'ok') {
+        saveSelfie(dataselfie)
+        sd = 'y'
+      }
+
+      if (proofdata !== 'ok') {
+        saveProf(dataproof)
+        pd = 'y'
+      }
+    }, 1700);
+
+    if (cpfcnpj.length > 14) { 
+      if (socialdata === 'ok') {
+        setWar('Você não adicionou nenhum dos documentos exigidos para alterar');
+      }       
+    }else {
+      if (documentdata === 'ok' && selfiedata === 'ok' && proofdata === 'ok') {
+        setWar('Você não adicionou nenhum dos documentos exigidos para alterar');
+      }   
+    }
+
+    if (cpfcnpj.length > 14) { 
+      if (socialdata !== 'ok') {
+        saveSocial(datasocial)
+        ss = 'y'
+      }
+
+      if (dc === 'y' || sd === 'y' || pd === 'y' || ss === 'y') {
+        info()
+      }
+
+    }else {
+
+    }
+
+    setTimeout(function(){
+      info2()
+
+      //Scroll(400, 400);
+        /*
+          if (link !== '' && link !== null) {
+            //history.push(link)
+            //window.location.replace(link);
+          } else {
+            window.location.replace('/');
+            history.push('/')
+          }
+          */
+            
+    }, 6500);
   }
-  
+
+  async function saveDocument (document) {
+    await api.put(`documents/document/${us.id}`, document, {})
+    .then((res) => {
+    })
+    .catch((err) => {
+    })
+  }
+
+  async function saveSelfie (selfie) {
+    await api.put(`documents/selfie/${us.id}`, selfie, {})
+    .then((res) => {
+    })
+    .catch((err) => {
+    })
+  }
+
+  async function saveProf (proof) {
+    await api.put(`documents/proof/${us.id}`, proof, {})
+    .then((res) => {
+    })
+    .catch((err) => {
+    })
+  }
+
+  async function saveSocial (enterprise, typedoc) {
+    await api.put(`documents/enterprise/${us.id}`, enterprise, {})
+    .then((res) => {
+    })
+    .catch((err) => {
+    })
+  }
+
   return (
     <>
       {
@@ -159,7 +312,7 @@ const Doc = ({history}) => {
         
         <Button
           type={'submit'}
-          className={'button back-perfil color-logo-lessor'} 
+          className={'button back-perfil'} 
           text={'Explorar'}
           onClick={event => goBack()}
         />
@@ -213,6 +366,21 @@ const Doc = ({history}) => {
             ('')
           }
         </div>
+      </div>
+      <div className="has-text-centered">
+        <Form
+          onSubmit={ (e, values) => {
+            formik.handleSubmit(values)
+          }}
+          noValidate          
+        >
+            <Button
+              type={'submit'}
+              className={'button color-logo-lessor'} 
+              text={'Salvar documentos'}
+              onClick={event => Scroll(400, 400)}
+            />
+        </Form>
       </div>
     </>
   );
