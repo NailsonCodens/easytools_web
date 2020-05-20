@@ -223,7 +223,6 @@ const Edit = ({history}) => {
 
   }, [formik.values, id]);
 
-  console.log(namesocial)
 
   const handleNameChange = (name) => {
     formik.values.name = name;
@@ -314,10 +313,10 @@ const Edit = ({history}) => {
 
   const goBack = () => {
     Scroll(0,0);
-    if (localStorage.getItem('@lkt') !== "") {
+    if (localStorage.getItem('@lkt') !== "" && localStorage.getItem('@lkt') !== null) {
       history.push(localStorage.getItem('@lkt'))
     } else {
-      history.push('/')      
+      window.location.href = '/'      
     }    
   }
 
@@ -347,7 +346,7 @@ const Edit = ({history}) => {
                   <Button
                     type={'submit'}
                     className={'button color-logo-lessor back-perfil'} 
-                    text={'Voltar de onde eu parei'}
+                    text={'Explorar e alugar'}
                     onClick={event => goBack()}
                   />
 
