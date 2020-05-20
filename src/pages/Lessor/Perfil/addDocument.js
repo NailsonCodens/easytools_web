@@ -4,17 +4,34 @@ import Proofaddress from '../../Documents/proofAddress';
 import SocialContract from '../../Documents/socialContract';
 import Selfie from '../../Documents/selfie';
 import api from '../../../services/api';
+import { useSelector } from "react-redux";
 import { Warningtext } from '../../../components/Warningtext';
 import Warninggeneral from '../../Warnings/Warninggeneral';
 import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import Scroll from '../../../utils/scroll';
+import { Form, Input } from '@rocketseat/unform';
+import { Field, Label } from '../../../components/Form/Form';
+import { useFormik } from 'formik';
+import { Button } from '../../../components/Form/Button';
 
 const Doc = ({history}) => {
   let values = queryString.parse(useLocation().search);
 
   const [user, setUser] = useState('')
   const [cpfcnpj, setCnpj] = useState('')
+
+  const documentdata = useSelector(state => state.document);
+  const proofdata = useSelector(state => state.proof);
+  const selfiedata = useSelector(state => state.selfie);
+  const socialdata = useSelector(state => state.social);
+
+  console.log(documentdata, proofdata, selfiedata, socialdata);
+
+  const formik = useFormik({
+    initialValues: {
+    },
+  })
 
   useEffect(() => {
     async function loadPerfil() { 
@@ -131,7 +148,19 @@ const Doc = ({history}) => {
             </div>
         </div>
       </div>
-
+      <Form
+        onSubmit={ (e, values) => {
+          formik.handleSubmit(values)
+        }}
+        noValidate          
+      >
+          <Button
+            type={'submit'}
+            className={'button is-fullwidth color-logo-lessor'} 
+            text={'Salvar documentos'}
+            onClick={event => Scroll(400, 400)}
+          />
+      </Form>
     </>
   );
 };

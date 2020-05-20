@@ -77,10 +77,10 @@ export default function SocialContract({id}) {
 
         if (response.data.documentUser.length > 0) {
           if (response.data.documentUser[0].enterprise !== null) {
-            console.log('asd')
             setNamesocial(response.data.documentUser[0].enterprise);
             setSocial(response.data.documentUser[0].urlenterprise)
             setShowcheck(true)  
+            dispatch(Social('ok'));
           }
         }
       }
@@ -156,7 +156,18 @@ export default function SocialContract({id}) {
                 (<span>{ social }</span>)
                 :
                 (
-                  <img src={social} alt={social} className="imagedoc"/>
+                  <>
+                    {
+                      social.split('.')[1] === 'pdf' ? 
+                      (
+                        <img src={pdf} alt={pdf} className="imagedoc"/>
+                      )
+                      :
+                      (
+                        <img src={social} alt={social} className="imagedoc"/>
+                      )
+                    }
+                  </>
                 )
               }
               <EllipsisText text={namesocial} length={20}/>

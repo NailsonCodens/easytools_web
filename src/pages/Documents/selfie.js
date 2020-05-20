@@ -48,6 +48,7 @@ export default function Selfie({id}) {
             setNameselfie(response.data.documentUser[0].selfie);
             setSelfie(response.data.documentUser[0].urlselfie)
             setShowcheck(true)   
+            dispatch(Selfieus('ok'));
           }
         }
       }
@@ -118,7 +119,18 @@ export default function Selfie({id}) {
               (<span>{ selfie }</span>)
               :
               (
-                <img src={selfie} alt={selfie} className="imagedoc"/>
+                <>
+                  {
+                    selfie.split('.')[1] === 'pdf' ? 
+                    (
+                      <img src={pdf} alt={pdf} className="imagedoc"/>
+                    )
+                    :
+                    (
+                      <img src={selfie} alt={selfie} className="imagedoc"/>
+                    )
+                  }
+                </>
               )
             }
             <EllipsisText text={nameselfie} length={20}/>
@@ -129,21 +141,12 @@ export default function Selfie({id}) {
               ('')
             }     
             </div>
-            {
-              location === '/s/renter/perfil/documents' ? 
-              (
-                ''
-              )
-              :
-              (
-                <div className="column box-inter">
-                  <div {...getRootProps()} className="drag-photo upload">
-                    <input {...getInputProps()} />
-                      Anexar
-                  </div>
-                </div>
-              )
-            }
+            <div className="column box-inter">
+              <div {...getRootProps()} className="drag-photo upload">
+                <input {...getInputProps()} />
+                  Anexar
+              </div>
+            </div>
             {
               isactive === true ?
               (

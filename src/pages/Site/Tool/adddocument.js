@@ -253,7 +253,7 @@ const Adddocument = ({ onClose, history }) => {
           return 
         } else {
           if (selfiedata.type !== 'application/pdf' && selfiedata.type !== 'image/jpeg' && selfiedata.type !== 'image/png') {
-            setWar('Só são permitidos pdf e images jpg para documento.');
+            setWar('Só são permitidos images jpg para selfie.');
             return 
           }
         }

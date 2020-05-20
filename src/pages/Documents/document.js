@@ -52,6 +52,7 @@ export default function Document({history, id}) {
             setShowcheck(true);
             setNamedocument(response.data.documentUser[0].document);
             setDocument(response.data.documentUser[0].urldoc);
+            dispatch(Doc('ok'));
           }
         }
       }
@@ -121,7 +122,18 @@ export default function Document({history, id}) {
             (<span>{ document }</span>)
             :
             (
-              <img src={document} alt={document} className="imagedoc"/>
+              <>
+                {
+                  document.split('.')[1] === 'pdf' ? 
+                  (
+                    <img src={pdf} alt={pdf} className="imagedoc"/>
+                  )
+                  :
+                  (
+                    <img src={document} alt={document} className="imagedoc"/>
+                  )
+                }
+              </>
             )
           }
           {
@@ -141,21 +153,12 @@ export default function Document({history, id}) {
           } 
           </div>
 
-          {
-            location === '/s/renter/perfil/documents' ? 
-            (
-              ''
-            )
-            :
-            (
-              <div className="column box-inter">
-                <div {...getRootProps()} className="drag-photo upload">
-                  <input {...getInputProps()} />
-                    Anexar
-                </div>
-              </div>
-            )
-          }
+          <div className="column box-inter">
+            <div {...getRootProps()} className="drag-photo upload">
+              <input {...getInputProps()} />
+                Anexar
+            </div>
+          </div>
           {
             isactive === true ?
             (
