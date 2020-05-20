@@ -242,9 +242,11 @@ const Adddocument = ({ onClose, history }) => {
           setWar('Adicione seu documento.');
           return 
         } else {
-          if (documentdata.type !== 'application/pdf' && documentdata.type !== 'image/jpeg' && documentdata.type !== 'image/png') {
-            setWar('Só são permitidos pdf e images jpg para documento.');
-            return
+          if (documentdata !== 'ok') {
+            if (documentdata.type !== 'application/pdf' && documentdata.type !== 'image/jpeg' && documentdata.type !== 'image/png') {
+              setWar('Só são permitidos pdf e images jpg para dasd.');
+              return
+            }
           }
         }
 
@@ -252,9 +254,11 @@ const Adddocument = ({ onClose, history }) => {
           setWar('Adicione uma selfie.');
           return 
         } else {
-          if (selfiedata.type !== 'application/pdf' && selfiedata.type !== 'image/jpeg' && selfiedata.type !== 'image/png') {
-            setWar('Só são permitidos images jpg para selfie.');
-            return 
+          if (selfiedata !== 'ok') {
+            if (selfiedata.type !== 'application/pdf' && selfiedata.type !== 'image/jpeg' && selfiedata.type !== 'image/png') {
+              setWar('Só são permitidos images jpg para selfie.');
+              return 
+            }
           }
         }
 
@@ -262,16 +266,20 @@ const Adddocument = ({ onClose, history }) => {
           setWar('Adicione o comprovante de endereço.');
           return
         } else {
-          if (proofdata.type !== 'application/pdf' && proofdata.type !== 'image/jpeg'  && proofdata.type !== 'image/png') {
-            setWar('Só são permitidos pdf e images jpg para comprovante de endereço.');
-            return 
+          if (proofdata !== 'ok') {
+            if (proofdata.type !== 'application/pdf' && proofdata.type !== 'image/jpeg'  && proofdata.type !== 'image/png') {
+              setWar('Só são permitidos pdf e images jpg para comprovante de endereço.');
+              return 
+            }
           }
         }
 
         if (socialdata.value === 'cnpj' && socialdata !== '') {
-          if (socialdata.type !== 'application/pdf' && socialdata.type !== 'image/jpeg') {
-            setWar('Só são permitidos pdf e images jpg para contrato social.');
-            return 
+          if (documentdata !== 'ok') {
+            if (socialdata.type !== 'application/pdf' && socialdata.type !== 'image/jpeg') {
+              setWar('Só são permitidos pdf e images jpg para contrato social.');
+              return 
+            }  
           }
         }
         setWar('')
@@ -284,14 +292,23 @@ const Adddocument = ({ onClose, history }) => {
     info()
     api.put(`perfil/update/${us.id}`, data, {})
     .then((res) => {
+      if(documentdata !== 'ok') {
         saveDocument(datadoc)
+      }
+      
         setTimeout(function(){
-          saveSelfie(dataselfie)
-          saveProf(dataproof)  
+          if (selfiedata !== 'ok') {
+            saveSelfie(dataselfie)
+          }
+          if (proofdata !== 'ok') {
+            saveProf(dataproof)              
+          }
         }, 1500);
 
         if (typedoc === 'cnpj') {
-          saveSocial(datasocial)
+          if (socialdata !== 'ok') {
+            saveSocial(datasocial)
+          }
         }
 
       setTimeout(function(){

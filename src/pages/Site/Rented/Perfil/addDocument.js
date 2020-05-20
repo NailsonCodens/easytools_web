@@ -52,9 +52,9 @@ const Doc = ({history}) => {
     }
   )
 
-  const info2 = () => Notification(
+  const info2 = (text) => Notification(
     'success',
-    'Pronto!, clique no botão exporar para alugar o que você precisa.', 
+    text, 
     {
       autoClose: 3000,
       draggable: false,
@@ -128,6 +128,15 @@ const Doc = ({history}) => {
         }
       }
 
+      if (socialdata.value === 'cnpj' && socialdata !== '') {
+        if (proofdata !== 'ok') {
+          if (socialdata.type !== 'application/pdf' && socialdata.type !== 'image/jpeg') {
+            setWar('Só são permitidos pdf e images jpg para contrato social.');
+            return 
+          }
+        }
+      }
+
       setWar('')
       saveAddress(value, document, selfie, proof, social, documenttype.value)
     }
@@ -165,11 +174,11 @@ const Doc = ({history}) => {
 
     var dc, sd, pd, ss = '';
 
-
     if (documentdata !== 'ok') {
       saveDocument(datadoc)
       dc = 'y'
     }
+
 
     setTimeout(function(){
       if (selfiedata !== 'ok') {
@@ -193,6 +202,7 @@ const Doc = ({history}) => {
       }   
     }
 
+
     if (cpfcnpj.length > 14) { 
       if (socialdata !== 'ok') {
         saveSocial(datasocial)
@@ -201,27 +211,60 @@ const Doc = ({history}) => {
 
       if (dc === 'y' || sd === 'y' || pd === 'y' || ss === 'y') {
         info()
+        setTimeout(function(){
+          if (cpfcnpj.length === 0) {
+            info2('Aproveite e complete seu cadastro')
+           history.push('/s/renter/perfil/edit');
+          }else {
+            info2('Pronto, Clique em explorar para escolher o que deseja alugar.')
+          }
+    
+          //      
+    
+          //Scroll(400, 400);
+            /*
+              if (link !== '' && link !== null) {
+                //history.push(link)
+                //window.location.replace(link);
+              } else {
+                window.location.replace('/');
+                history.push('/')
+              }
+              */
+                
+        }, 6500);    
       }
-
     }else {
+
+      if (dc === 'y' || sd === 'y' || pd === 'y' || ss === 'y') {
+        info()
+        setTimeout(function(){
+          if (cpfcnpj.length === 0) {
+            info2('Aproveite e complete seu cadastro')
+            history.push('/s/renter/perfil/edit');
+           }else{
+            info2('Pronto, Clique em explorar para escolher o que deseja alugar.')
+           }
+     
+          //      info2()
+    
+          //Scroll(400, 400);
+            /*
+              if (link !== '' && link !== null) {
+                //history.push(link)
+                //window.location.replace(link);
+              } else {
+                window.location.replace('/');
+                history.push('/')
+              }
+              */
+                
+        }, 6500);
+    
+      }
 
     }
 
-    setTimeout(function(){
-      info2()
-
-      //Scroll(400, 400);
-        /*
-          if (link !== '' && link !== null) {
-            //history.push(link)
-            //window.location.replace(link);
-          } else {
-            window.location.replace('/');
-            history.push('/')
-          }
-          */
-            
-    }, 6500);
   }
 
   async function saveDocument (document) {
@@ -377,7 +420,7 @@ const Doc = ({history}) => {
             <Button
               type={'submit'}
               className={'button color-logo-lessor'} 
-              text={'Salvar documentos'}
+              text={cpfcnpj.length === 0 ? 'Salvar e ir para perfil' : 'Salvar documentos'}
               onClick={event => Scroll(400, 400)}
             />
         </Form>
