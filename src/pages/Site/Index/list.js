@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -11,22 +11,35 @@ import {Distance} from '../../../store/actions/distance';
 import Notificationtost from '../../../utils/notification';
 import { getCordinates, getAddress, getGeolocalization } from '../../../services/mapbox';
 import { useParams, useLocation } from "react-router-dom";
+import 'bulma-slider/dist/css/bulma-slider.min.css';
+import Slider from 'react-input-slider';
 import Scroll from '../../../utils/scroll';
 import api from '../../../services/api';
 import logo from '../../../assets/images/logo.png';
+import useOutsideClick from "../../../utils/outsideclick";
+import useOutsideClickCategory from "../../../utils/outsideclick";
+import useOutsideClickEquipament from "../../../utils/outsideclick";
+
 library.add(faMapMarkedAlt, faStopwatch, faSearch);
 
 const List = ({history}) => {
+  const ref = useRef();
+  const refcategory = useRef();
+  const refequipament = useRef();
   const dispatch = useDispatch();
   let {category, title, region } = useParams();
 
+  const [search, setSearch] = useState('');
+  const [state, setState] = useState({ x: 35});
   const [categorys, setCategory] = useState('');
   const [titlest, setTitlest] = useState(title);
+  const [equipament, setEquipament] = useState('');
   const [myaddress, setMyaddress] = useState('');
   const [tools, setTools] = useState('');
   const [places, setPlaces] = useState('');
   const [modal, setModal] = useState(false);
   const [showneighbor, setShowNeighboor] = useState(false);
+  const [km, setKm] = useState(false);
 
   const latitude = useSelector(state => state.latitude);
   const longitude = useSelector(state => state.longitude);
@@ -34,6 +47,18 @@ const List = ({history}) => {
   const hideRedirectlogin = () => {
     return modal
   }
+
+  useOutsideClick(ref, () => {
+    if (km) setKm(false);
+  });
+
+  useOutsideClickCategory(refcategory, () => {
+    if (categorys) setCategory(false);
+  });
+
+  useOutsideClickEquipament(refequipament, () => {
+    if (equipament) setEquipament(false);
+  });
 
   useEffect(() => {
     async function loadModal() {
@@ -57,7 +82,7 @@ const List = ({history}) => {
       }
     }
     loadModal()
-
+    
     async function loadTools(lat = '', lng = '') {
       var search = category;
       const response = await api.get(`/tools_site?search=${category}&distance=${''}&lat=${''}&lng=${''}&type=1`, {
@@ -71,7 +96,11 @@ const List = ({history}) => {
     return () => {
       setTools('');  
     }
-  }, [])
+  }, []);
+
+  const handleSearch = (event) => {
+    console.log(event)
+  }
 
 	const handleMyaddress = (event) => {
     let query = event.target.value
@@ -83,6 +112,10 @@ const List = ({history}) => {
 		})
   }  
 
+  const handleChangeCategory = (category) => {
+    console.log('sdd')
+  }
+
   const selectPlace = (place) => {
 
     var city = ''
@@ -93,7 +126,6 @@ const List = ({history}) => {
       city = place.text.replace(/\s+/g, '-').toLowerCase();
     } else {
       city = getCity.text.replace(/\s+/g, '-').toLowerCase();
-
     }
 
     dispatch(Latitude(place.center[1]))
@@ -122,14 +154,16 @@ const List = ({history}) => {
         localStorage.setItem('@lg', position.coords.longitude);
 
         getAddress(position.coords.longitude, position.coords.latitude).then(res => {
-          var city = res.data.features[1].text
-          city = city.replace(/\s+/g, '-').toLowerCase();
-                })
+          var city = ''
+          const getCity = res.data.features.find(city => city.id.includes('place'));
+          city = getCity.text.replace(/\s+/g, '-').toLowerCase();
+        })
           setModal(false);
           setMyaddress('')
           getAddress(position.coords.longitude, position.coords.latitude).then(res => {
-            var city = res.data.features[1].text
-            city = city.replace(/\s+/g, '-').toLowerCase();
+            var city = ''
+            const getCity = res.data.features.find(city => city.id.includes('place'));
+            city = getCity.text.replace(/\s+/g, '-').toLowerCase();  
             history.push(`/s/search/${category}/${titlest}/${city}`)
           })
         //findToolsM(position.coords.latitude, position.coords.longitude)
@@ -165,7 +199,7 @@ const List = ({history}) => {
     <>
       <div className="box-filters">
         <div className="div-filters">
-          <button className="button is-small is-outlined bt-filter cptalizze c">
+          <button className="button is-small is-outlined bt-filter cptalizze c" onClick={event => {setCategory(!categorys); setEquipament(false); setKm(false)}}>
             { 
               category === 'all' ? 
               (
@@ -179,8 +213,67 @@ const List = ({history}) => {
               )
             }
           </button>
-          <button className="button is-outlined is-small bt-filter div-filters">35Km</button>
-          <button className="button is-outlined is-small bt-filter cptalizze div-filters">
+          {
+            categorys === true ? 
+            (
+              <div className="box-km" ref={refcategory}>
+                <p className="title-box-options">Selecione a categoria</p>
+                <br/>
+                <Select
+                  className={''}
+                  options={[
+                    {value: 'Construção', label: 'Construção'},
+                    {value: 'Limpeza', label: 'Limpeza'},
+                    {value: 'Jardinagem', label: 'Jardinagem'},
+                    {value: 'Bricolagem', label: 'Bricolagem'}
+                  ]}
+                  isSearchable={true}
+                  placeholder={'Selecione a categoria'}
+                  onChange={selectedOption => {
+                    handleChangeCategory(selectedOption);
+                  }}
+                  defaultValue={category}
+                />
+                <br/><br/>
+                <div className="is-pulled-right div-bt-box">
+                  <button className="button color-logo">
+                    Salvar
+                  </button>                  
+                </div>
+              </div>  
+            )
+            :
+            (
+              ''
+            )
+          }
+          <button className="button is-outlined is-small bt-filter div-filters" onClick={event => {setKm(!km); setEquipament(false)}}>{ state.x } km</button>
+          {
+            km === true ? 
+            (
+              <div className="box-km" ref={ref}>
+                <p className="title-box-options">Km a distância de você.</p>
+                <br/>
+                <span className="km-text">{state.x} km</span>
+                <Slider
+                  axis="x"
+                  x={state.x}
+                  onChange={({ x }) => setState(state => ({ ...state, x }))}
+                />
+                <br/><br/>
+                <div className="is-pulled-right div-bt-box">
+                  <button className="button color-logo">
+                    Salvar
+                  </button>                  
+                </div>
+              </div>  
+            )
+            :
+            (
+              ''
+            )
+          }
+          <button className="button is-outlined is-small bt-filter cptalizze div-filters" onClick={event => setEquipament(!equipament)}>
             { 
               titlest.replace('-', ' ').toLowerCase() === 'equipaments' ?
               (
@@ -194,25 +287,52 @@ const List = ({history}) => {
               )
             }
           </button>
+          {
+            equipament === true ? 
+            (
+              <div className="box-km" ref={refequipament}>
+                <p className="title-box-options">Selecione</p>
+                <br/>
+                <input 
+                  type="text" 
+                  placeholder='Experimente furadeira.' 
+                  className="input input-geolocalization" 
+                  onChange={event => handleSearch(event)}
+                  value={search}
+                />
+                <br/><br/>
+                <div className="is-pulled-right div-bt-box">
+                  <button className="button color-logo">
+                    Pesquisar
+                  </button>                  
+                </div>
+              </div>  
+            )
+            :
+            (
+              ''
+            )
+          }
           <button className="button is-info youareregion is-outlined is-small bt-filter cptalizze div-filters" onClick={event => openModal()}>
             {
               region === 'region' ? 
               (
                 <>
-                  Onde você está agora?
+                  Onde você está?
                 </>
               )
               :
               (
                 <>
-                  Você está em { region.replace('-', ' ') }
+                    <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="1x"/>
+                  { region.replace('-', ' ') }
                 </>
               )
             }
           </button>
         </div>
       </div>
-      <div className="container">
+      <div className="container lt-box">
         <div className="columns">
           <div className="column">
             <div className="columns">
