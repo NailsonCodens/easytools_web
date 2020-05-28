@@ -547,6 +547,69 @@
   padding: 0px 30px;
 }
 
+.icon-payment{
+  width: 30px;
+  margin-right: 10px;
+  z-index: 99;
+  position: relative;
+  top: 3px;
+}
+
+.box-payment-form{
+  background: #60a8f1;
+}
+
+.text-payment-not{
+  text-align: center !important;
+  color:#fff;
+}
+
+.is-danger{
+  background: rgb(253, 82, 82) !important;
+}
+
+.box-option-payment{
+  padding: 10px;
+}
+
+.line-option-payment{
+  border-bottom: 1px solid rgb(206, 206, 206);
+  height: 45px;
+  cursor: pointer;
+}
+
+.line-option-payment-no{
+  margin-right: 20px;
+}
+
+.line-option-payment span{
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px;
+}
+
+.line-option-payment p{
+  font-size: 11px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600;
+  color: #808080;
+}
+
+.icon-payment-check{
+  font-size: 22px;
+  color: rgb(31, 253, 87);
+  margin-top: 5px;
+}
+
+.coin{
+  margin-top: 20px;
+  height: 30px;
+  background: #fff;
+}
+
+.money-line{
+  height: 120px;
+}
+
 @media (max-width: 900px) {
   .born{
     display: none!important;

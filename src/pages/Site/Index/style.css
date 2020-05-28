@@ -348,6 +348,30 @@
   color: #60a8f1;
 }
 
+
+.title-slick{
+  font-family: 'Poppins', sans-serif !important; 
+  font-size: 30px;
+  padding: 20px;
+  color: #60a8f1;
+}
+
+.field-cs{
+  display: flex;
+  justify-content: center !important;
+}
+
+.input-geolocalization{
+  background: #fff;
+  width: 100% !important;
+  height: 50px !important;
+}
+
+.obs-delivery{
+  font-size: 11px;
+  color: #000;
+}
+
 .field-cs{
   display: flex;
   justify-content: center !important;

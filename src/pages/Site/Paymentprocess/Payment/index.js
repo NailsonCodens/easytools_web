@@ -21,11 +21,20 @@ import Rentalbottombox from '../Rentalbottombox';
 import moment from 'moment';
 import Email from '../../../../utils/sendemail';
 import brands from '../../../../assets/images/brand.png';
-
+import mastercard from '../../../../assets/images/mastercard.png';
+import machine from '../../../../assets/images/machine2.png';
+import boleto from '../../../../assets/images/boleto-icon.png';
+import money from '../../../../assets/images/money.png';
+import CurrencyInput from 'react-currency-input';
 import {
   isMobile
 } from "react-device-detect";
 import 'moment/locale/pt-br';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+library.add(faCheckCircle);
+
 moment.locale('pt-BR');
 
 const Payment = ({history}) => {
@@ -41,6 +50,11 @@ const Payment = ({history}) => {
   const [workadd, setWorkadd] = useState([]);
   const [valuewithfreigh, setValuewithfreigh] = useState(0);
   const [setclass, setClass] = useState('bottom-no-box');
+  const [openpayment, setOpenpayment] = useState(false);
+  const [typepayment, setTypepayment] = useState(false);
+  const [colorbt, setColorbt] = useState('is-info');
+  const [coloractive, setColoractive] = useState('');
+  const [coin, setCoin] = useState('');
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -106,7 +120,32 @@ const Payment = ({history}) => {
   }, [current_user])
 
   const paymentRent = () => {
-    updateRentattemp()
+    if (typepayment === false) {
+      setColorbt('is-danger')
+
+      if (typepayment === false) {
+        if (isMobile) {
+          window.scrollTo(530, 530)
+        }else {
+          window.scrollTo(130, 130)
+        }
+      }
+    } else {
+      updateRentattemp()
+    }
+  }
+
+  const Choosepayment = (payment) => {
+    if (payment === 'creditcard') {
+      setTypepayment('creditcard')
+    } else if (payment === 'money') {
+      setTypepayment('money')
+    } else if (payment === 'machine') {
+      setTypepayment('machine')
+    } else if (payment === 'boleto') {
+      setTypepayment('boleto')
+    }
+    setColoractive('active-payment')
   }
 
   const Tracking = (category, action, label) => {
@@ -154,11 +193,21 @@ const Payment = ({history}) => {
         title: title,
         message : message
       });
-      
+      Tracking('Finalizaou', 'Finalizou', 'entrega e finish')
       history.push(`/s/payment/congrats/${rentattempt.id}`);
     }).catch((err) => {
       console.log(err.response)
     }) 
+  }
+
+  const Openpayment = () => {
+    setOpenpayment(!openpayment)
+
+    if (isMobile) {
+      window.scrollTo(700, 700)
+    }else {
+      window.scrollTo(320, 320)
+    }
   }
 
   async function updateRentattemp () {
@@ -182,16 +231,15 @@ const Payment = ({history}) => {
       startdate: rentattempt.startdate,
       enddate: rentattempt.enddate,
       acquisition: acq,
-      finishprocess: 'y'
+      finishprocess: 'y',
+      coin: coin,
+      typepayment: typepayment
     }
-
-    console.log(rentupdate)
 
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
     .then((res) => {
-      Tracking('Finalizaou', 'Finalizou', 'entrega e finish')
       verifyAvailabletool()
-      //history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      
+      history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      
     }).catch((err) => {
       console.log(err.response)
     })
@@ -233,6 +281,10 @@ const Payment = ({history}) => {
       }
     }
     return text
+  }
+
+  const handleChangeCoin = (coin) => {
+    setCoin(coin)
   }
 
   const renderCalc = () => {
@@ -356,11 +408,25 @@ const Payment = ({history}) => {
                     <div>
                       <b>Pagamentos:</b>
                       <br/>
-                      <img src={brands} alt={brands} className="brands-tools"/>
-                      <br/>
-                      <p>Apenas cartão de <b>crédito</b>. 
-                      <br/>
-                      Para reservas com 3 dias de antecedências, disponível <b>boleto</b>.</p>
+                      <div className="columns box-option-payment">
+                        <div className="colunm line-option-payment-no">
+                          <img src={mastercard} className="icon-payment"/>
+                          <span><b>Cartão de crédito</b></span>
+                        </div>
+                        <div className="colunm line-option-payment-no">
+                          <img src={machine} className="icon-payment"/>
+                          <span><b>Maquininha</b></span>
+                        </div>
+                        <div className="colunm line-option-payment-no">
+                          <img src={money} className="icon-payment"/>
+                          <span><b>Dinheiro</b></span>
+                        </div>
+                        <div className="colunm line-option-payment-no">
+                          <img src={boleto} className="icon-payment"/>
+                          <span><b>Boleto</b></span>
+                        </div>
+                      </div>
+                      <p>Reservas 3 dias antes do uso, disponível boleto.</p>
                     </div>
                   </>
                 )
@@ -510,10 +576,174 @@ const Payment = ({history}) => {
                 :
                 ('')
               }
-              <div className="columns">
-                <div className="column">
-                  <br/><br/>
-                </div>
+              <p></p>
+              <button className={`button is-fullwidth box-payment-form ${colorbt}`} onClick={event=> Openpayment()}>
+                <p className="text-payment-not">
+                  {
+                    colorbt === 'is-danger' ? 
+                    (
+                      <>
+                        Escolha a forma de pagamento
+                      </>  
+                    )
+                    :
+                    (
+                      <>Forma de pagamento</>
+                    )
+                  }
+                </p>
+              </button>
+              {
+                openpayment === true ? 
+                (
+                  <>
+                    <div className="columnss box-option-payment">
+                      <div className={`colunm line-option-payment`} onClick={event => Choosepayment('creditcard')}>
+                        <img src={mastercard} className="icon-payment"/>
+                        <span>Cartão de crédito</span>
+                        {
+                          typepayment === 'creditcard' ? 
+                          (
+                            <>
+                              <span className="is-pulled-right">
+                                <FontAwesomeIcon icon={['fas', 'check-circle']} size="1x" className="icon-payment-check"/>
+                              </span>
+                            </>
+                          )
+                          :
+                          (
+                            <>
+                            </>
+                          )
+                        }
+                        <p>Na plataforma</p>
+                      </div>
+                      <div className="colunm line-option-payment" onClick={event => Choosepayment('machine')}>
+                        <img src={machine} className="icon-payment"/>
+                        <span>Maquininha</span>
+                        {
+                          typepayment === 'machine' ? 
+                          (
+                            <>
+                              <span className="is-pulled-right">
+                                <FontAwesomeIcon icon={['fas', 'check-circle']} size="1x" className="icon-payment-check"/>
+                              </span>
+                            </>
+                          )
+                          :
+                          (
+                            <>
+                            </>
+                          )
+                        }
+                        <p>Crédito e Débito no recebimento do equipamento</p>
+                      </div>
+                      <div className={`colunm line-option-payment ${typepayment === 'money' ? 'money-line' : ''}`} onClick={event => Choosepayment('money')}>
+                        <img src={money} className="icon-payment"/>
+                        <span>Dinheiro</span>
+                        {
+                          typepayment === 'money' ? 
+                          (
+                            <>
+                              <span className="is-pulled-right">
+                                <FontAwesomeIcon icon={['fas', 'check-circle']} size="1x" className="icon-payment-check"/>
+                              </span>
+                            </>
+                          )
+                          :
+                          (
+                            <>
+                            </>
+                          )
+                        }
+                        <p>No recebimento do equipamento.</p>
+                        {
+                          typepayment === 'money' ? 
+                          (
+                            <>
+                              <div className="coin">
+                                <p>Troco para quanto? </p>
+                                <CurrencyInput
+                                  name="price2"
+                                  type="text"
+                                  decimalSeparator="," thousandSeparator="."
+                                  placeholder="Ex: R$ 30,00"
+                                  className={'input is-small'}
+                                  onChange={event => handleChangeCoin(event)}
+                                  value={coin}
+                                />
+                              </div>
+                            </>
+                          )
+                          :
+                          (<></>)
+                        }
+                      </div>
+                      {
+                        moment.preciseDiff( new Date(), moment(start).format('YYYY-DD-MM'), true).days > 2 ? 
+                        (
+                          <>
+                            <div className="colunm line-option-payment" onClick={event => Choosepayment('boleto')}>
+                              <img src={boleto} className="icon-payment"/>
+                              <span>Boleto</span>
+                              {
+                                typepayment === 'boleto' ? 
+                                (
+                                  <>
+                                    <span className="is-pulled-right">
+                                      <FontAwesomeIcon icon={['fas', 'check-circle']} size="1x" className="icon-payment-check"/>
+                                    </span>
+                                  </>
+                                )
+                                :
+                                (
+                                  <>
+
+                                  </>
+                                )
+                              }
+                              <p>Reservas com 3 dias de antecedências, disponível boleto.</p>
+                            </div>
+                          </>
+                        )
+                        :
+                        (
+                          <>
+                            <div className="colunm line-option-payment">
+                              <img src={boleto} className="icon-payment"/>
+                              <span>Boleto</span>
+                              {
+                                typepayment === 'boleto' ? 
+                                (
+                                  <>
+                                    <span className="is-pulled-right">
+                                      <FontAwesomeIcon icon={['fas', 'check-circle']} size="1x" className="icon-payment-check"/>
+                                    </span>
+                                  </>
+                                )
+                                :
+                                (
+                                  <>
+
+                                  </>
+                                )
+                              }
+                              <p>Data indisponível para boleto.</p>
+                            </div>
+                          </>
+                        )
+                      }
+                    </div>
+                  </>
+                )
+                :
+                (
+                  <>
+                  </>
+                )
+              }
+              <div>
+
               </div>
               </div>
             </div>
