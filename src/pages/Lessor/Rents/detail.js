@@ -458,6 +458,7 @@ export default function Rents({history}) {
                           }
                           <br/><br/>
                           <b>Forma de pagamento:</b>
+                          { console.log(rent) }
                           <span>{ rent.typepayment === 'money' ? ' Dinheiro' : '' }</span>
                           <span>{ rent.typepayment === 'creditcard' ? ' Cartão de crédito' : '' }</span>
                           <span>{ rent.typepayment === 'machine' ? ' Maquininha' : '' }</span>

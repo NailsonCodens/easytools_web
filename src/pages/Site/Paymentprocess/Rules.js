@@ -21,6 +21,10 @@ import Scroll from '../../../utils/scroll';
 import ReactGA from 'react-ga';
 import {Helmet} from 'react-helmet';
 import Rentalbottombox from './Rentalbottombox';
+import mastercard from '../../../assets/images/mastercard.png';
+import machine from '../../../assets/images/machine2.png';
+import boleto from '../../../assets/images/boleto-icon.png';
+import money from '../../../assets/images/money.png';
 
 const Rules = ({ history }) => {
   let values = queryString.parse(useLocation().search);
@@ -218,12 +222,25 @@ const Rules = ({ history }) => {
                               <li>
                                 <div>
                                   <b>Pagamentos:</b>
-                                  <br/>
-                                  <img src={brands} alt={brands} className="brands-tools"/>
-                                  <br/>
-                                  <p>Apenas cartão de <b>crédito</b>. 
-                                  <br/>
-                                  Para reservas com 3 dias de antecedências, disponível <b>boleto</b>.</p>
+                                  <div className="columns">
+                                    <div className="colunm line-option-payment-no">
+                                    <img src={mastercard} className="icon-payment"/>
+                                    <span><b>Cartão de crédito</b></span>
+                                    </div>
+                                    <div className="colunm line-option-payment-no">
+                                    <img src={machine} className="icon-payment"/>
+                                    <span><b>Maquininha</b></span>
+                                    </div>
+                                    <div className="colunm line-option-payment-no">
+                                    <img src={money} className="icon-payment"/>
+                                    <span><b>Dinheiro</b></span>
+                                    </div>
+                                    <div className="colunm line-option-payment-no">
+                                    <img src={boleto} className="icon-payment"/>
+                                    <span><b>Boleto</b></span>
+                                    </div>
+                                  </div>
+                                  <p>Reservas 3 dias antes do uso, disponível boleto.</p>
                                 </div>
                               </li>
                             </Ul>
