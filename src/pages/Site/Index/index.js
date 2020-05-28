@@ -451,22 +451,14 @@ const Dashboard = ({history, location}) => {
                         <div className="box-km">
                           <div className="columns box-delivery">
                             {
-                              /*
-                                <div className="column is-2">
-                                  <div className="logo-enterprise">
-                                    <img src={logo2}  alt="EasyTools Logo" className=""/>
-                                  </div> 
-                                </div>                              
-                              */
-                            }
-                            {
-                              /*
-                                <div className="column">
+                              <div className="column">
+                                {/*
                                   <span className="km"> { tool.distance.toFixed(1).replace(/\./gi,',').replace(/,/gi,',') } km de você. </span>
-                                  <br/>
-                                  <div className="delivery-index">Entrega R$ 15,00 | 2 Horas</div>
-                                </div>                              
-                              */
+                                */} 
+                                <br/>
+                                <div className="delivery-index">Taxa de entrega a partir R$ 15,00 | 2 Horas</div>
+                                <p className="obs-delivery">* Valor final do delivery pode variar conforme distância do endereço de entrega.</p>
+                              </div>                              
                             }
                             {
                               /*
@@ -556,6 +548,10 @@ const Dashboard = ({history, location}) => {
       <div className="container">
         <p className="has-text-centered title-slick">O que falam da Easy</p>
         <Slider {...settings}>
+          <div className="has-text-centered">
+            <p className="client">Fernanda</p>
+            <h3 className="message-client">"Muito anteciosos em resolver meu problema. Recomendo e muito a EasyTools."</h3>
+          </div>
           <div className="has-text-centered">
             <p className="client">Mara</p>
             <h3 className="message-client">"Fácil de usar, pedi e chegou rapidinho em casa."</h3>

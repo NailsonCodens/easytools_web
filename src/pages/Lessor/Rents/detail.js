@@ -455,7 +455,18 @@ export default function Rents({history}) {
                             )
                             :
                             ('')
-                          }                           
+                          }
+                          <br/><br/>
+                          <b>Forma de pagamento:</b>
+                          <span>{ rent.typepayment === 'money' ? ' Dinheiro' : '' }</span>
+                          <span>{ rent.typepayment === 'creditcard' ? ' Cartão de crédito' : '' }</span>
+                          <span>{ rent.typepayment === 'machine' ? ' Maquininha' : '' }</span>
+                          <span>{ rent.typepayment === 'boleto' ? ' Boleto' : '' }</span>
+                          <br/>
+                          <b>Dinheiro pra troco: </b>
+                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                            <FormattedNumber value={parseFloat(rent.coin)} style="currency" currency="BRL" />
+                          </IntlProvider>
                         </div>
                         <div className="column">
                           {

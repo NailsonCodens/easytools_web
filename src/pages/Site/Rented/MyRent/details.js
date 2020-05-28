@@ -488,6 +488,12 @@ export default function Rents({history}) {
                                 <FormattedNumber value={parseFloat(rent.freight)} style="currency" currency="BRL" />
                               </IntlProvider>
                               <br/><br/>
+                              <b>Forma de pagamento:</b>
+                              <span>{ rent.typepayment === 'money' ? ' Dinheiro' : '' }</span>
+                              <span>{ rent.typepayment === 'creditcard' ? ' Cartão de crédito' : '' }</span>
+                              <span>{ rent.typepayment === 'machine' ? ' Maquininha' : '' }</span>
+                              <span>{ rent.typepayment === 'boleto' ? ' Boleto' : '' }</span>
+                              <br/><br/>
                               {
                                 rent.freight > 0 ? 
                                 (<b>Valores do aluguel + Custo de entrega: </b>)

@@ -368,6 +368,10 @@
   height: 50px !important;
 }
 
+.obs-delivery{
+  font-size: 11px;
+  color: #000;
+}
 
 @media (max-width: 900px) {
   .box-digi{
