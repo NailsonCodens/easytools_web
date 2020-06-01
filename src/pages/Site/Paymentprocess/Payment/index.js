@@ -125,7 +125,7 @@ const Payment = ({history}) => {
 
       if (typepayment === false) {
         if (isMobile) {
-          window.scrollTo(530, 530)
+          window.scrollTo(630, 630)
         }else {
           window.scrollTo(130, 130)
         }
@@ -304,7 +304,6 @@ const Payment = ({history}) => {
     var kmcurrent = workadd.distance;
     var costfreight = 0;
 
-    console.log(kmcurrent, freight, minfreight)
 
     if (kmregional > kmcurrent) {
         costfreight  = minfreight
@@ -577,7 +576,7 @@ const Payment = ({history}) => {
                 ('')
               }
               <p></p>
-              <button className={`button is-fullwidth box-payment-form ${colorbt}`} onClick={event=> Openpayment()}>
+              <button className={`button is-fullwidth box-payment-form ${colorbt}`} onClick={event=> Openpayment()} id="teste">
                 <p className="text-payment-not">
                   {
                     colorbt === 'is-danger' ? 
@@ -668,7 +667,8 @@ const Payment = ({history}) => {
                                   type="text"
                                   decimalSeparator="," thousandSeparator="."
                                   placeholder="Ex: R$ 30,00"
-                                  className={'input is-small'}
+                                  className={'input'}
+                                  foc
                                   onChange={event => handleChangeCoin(event)}
                                   value={coin}
                                 />

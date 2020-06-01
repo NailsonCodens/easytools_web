@@ -316,15 +316,25 @@ export default function Rents({history}) {
                       rent.accept === '1' && rent.paid === '0' ?
                       (
                         <>
-                          <span><a href={'/s/payment/payment-view/' + rent.id} className="button is-success payment-rent" target="_blank">Pagar meu alugado</a></span> 
-                          <br/>
-                          <Warningtext>Você tem 15 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>                      
-                          <br/>
+                          {
+                           rent.typepayment === 'creditcard' || rent.typepayment === 'boleto'  ? 
+                           (
+                             <>
+                              <span><a href={'/s/payment/payment-view/' + rent.id} className="button is-success payment-rent" target="_blank">Pagar meu alugado</a></span> 
+                              <br/>
+                              <Warningtext>Você tem 15 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>                      
+                             </>
+                           )
+                           :
+                           ('')
+
+                          }
                         </>
                       )
                       :
                       ('')
                     }
+                    <br/><br/>
                     <div>
                             {
                              rent.accept === 'c' ? 
@@ -487,6 +497,12 @@ export default function Rents({history}) {
                               <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                 <FormattedNumber value={parseFloat(rent.freight)} style="currency" currency="BRL" />
                               </IntlProvider>
+                              <br/><br/>
+                              <b>Forma de pagamento:</b>
+                              <span>{ rent.typepayment === 'money' ? ' Dinheiro' : '' }</span>
+                              <span>{ rent.typepayment === 'creditcard' ? ' Cartão de crédito' : '' }</span>
+                              <span>{ rent.typepayment === 'machine' ? ' Maquininha' : '' }</span>
+                              <span>{ rent.typepayment === 'boleto' ? ' Boleto' : '' }</span>
                               <br/><br/>
                               {
                                 rent.freight > 0 ? 
