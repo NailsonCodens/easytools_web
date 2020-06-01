@@ -113,18 +113,25 @@ export default function Rents({history}) {
   }
 
   const accept = (id) => {
-    Paymentlink(id, rent[0]).then(function (response){
+    if (rent[0].typepayment === 'creditcard' || rent[0].typepayment === 'boleto') {
+      Paymentlink(id, rent[0]).then(function (response){
+        sendNotification(id, 'accept', rent)
+        ChangeAccept('accept', id).then((res) => {
+          reloadRents(id)
+        })
+        sendNotificationPayment(id, 'paymentlinkok')
+      }).catch(function (err) {
+        ChangeAccept('notaccept', id).then((res) => {
+          reloadRents(id)
+          sendNotification(id, 'noacceptforpayment')
+        })
+      }) 
+    } else {
       sendNotification(id, 'accept', rent)
       ChangeAccept('accept', id).then((res) => {
         reloadRents(id)
       })
-      sendNotificationPayment(id, 'paymentlinkok')
-    }).catch(function (err) {
-      ChangeAccept('notaccept', id).then((res) => {
-        reloadRents(id)
-        sendNotification(id, 'noacceptforpayment')
-      })
-    })
+    }
   }
 
   const noaccept = (id) => {
@@ -198,16 +205,22 @@ export default function Rents({history}) {
       var maintext = '';
       var urllabel = '';
 
-
-      if (type === 'accept') {
-        title = `EasyTools - Seu aluguel foi aceito!`;
-        message = `Olá ${renter}, Seu aluguel foi aceito. Fique ligado, nós vamos liberar a opção de pagamento, que pode ser acessado na sua conta na Easytools direto no site. Você alugou: ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}. A entrega do equipamento, ocorrerá quando confirarmos o pagamento ou na data reservada.`;  
-        maintext = 'Boa notícia! seu aluguel foi processado sem problema.'
-        urllabel = "Ver e pagar meu equipamento alugado"
+      if (type === 'accept') { 
+        if (rent[0].typepayment === 'creditcard' || rent[0].typepayment === 'boleto') {
+          title = `EasyTools - Seu aluguel foi aceito!`;
+          message = `Olá ${renter}, Seu aluguel foi aceito. Fique ligado, . Você alugou: ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}. A entrega do equipamento, ocorrerá quando confirarmos o pagamento ou na data reservada.`;  
+          maintext = 'Boa notícia! seu aluguel foi processado!'
+          urllabel = "Ver e pagar meu equipamento alugado"
+        } else {
+          title = `EasyTools - Seu aluguel foi aceito!`;
+          message = `Olá ${renter}, Seu aluguel foi aceito. Fique ligado, quando o entregador chegar com o equipamento, pague conforme a sua escolha de pagamento na hora da reserva. Você alugou: ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}. A entrega do equipamento, ocorrerá quando confirarmos o pagamento ou na data reservada.`;  
+          maintext = 'Boa notícia! seu aluguel foi processado!'
+          urllabel = "Ver meu equipamento alugado"          
+        }
       } else if (type === 'noacceptforpayment') {
         title = `EasyTools - Não conseguimos processar seu aluguel!`;
         message = `Olá existe algum problema com seus dados, entre em contato cosnoco, ou espere que nós entraremos em contato.`;  
-        maintext = 'Ops! Seu aluguel foi rejeitado, nós vamos te ligar.'
+        maintext = 'Ops! Seu aluguel foi rejeitado, nós vamos entrar em contato com você.'
         urllabel = "Ver aluguel negado."
       }else if (type === 'paymentlinkok') {
         title = `Pagamento do aluguel - Olá, Olá, para finalizar sua reserva, falta apenas pagar.`;

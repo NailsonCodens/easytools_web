@@ -316,15 +316,25 @@ export default function Rents({history}) {
                       rent.accept === '1' && rent.paid === '0' ?
                       (
                         <>
-                          <span><a href={'/s/payment/payment-view/' + rent.id} className="button is-success payment-rent" target="_blank">Pagar meu alugado</a></span> 
-                          <br/>
-                          <Warningtext>Você tem 15 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>                      
-                          <br/>
+                          {
+                           rent.typepayment === 'creditcard' || rent.typepayment === 'boleto'  ? 
+                           (
+                             <>
+                              <span><a href={'/s/payment/payment-view/' + rent.id} className="button is-success payment-rent" target="_blank">Pagar meu alugado</a></span> 
+                              <br/>
+                              <Warningtext>Você tem 15 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>                      
+                             </>
+                           )
+                           :
+                           ('')
+
+                          }
                         </>
                       )
                       :
                       ('')
                     }
+                    <br/><br/>
                     <div>
                             {
                              rent.accept === 'c' ? 
