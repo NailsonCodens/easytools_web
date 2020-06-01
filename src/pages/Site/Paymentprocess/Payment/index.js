@@ -404,6 +404,8 @@ const Payment = ({history}) => {
                       <li> - No ato da entrega, um chekout será feito para mantermos a qualidade dos equipamentos alugados.</li>
                     </Ul>
                     <br/>
+                    <p className="title-tool-only-little">Horário de recebimento:</p>
+                    <br/>
                     <div>
                       <b>Pagamentos:</b>
                       <br/>
