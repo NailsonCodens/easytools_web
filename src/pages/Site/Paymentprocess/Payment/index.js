@@ -398,7 +398,7 @@ const Payment = ({history}) => {
                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                       <b><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
                     </IntlProvider>
-                    <br/><br/> 
+                    <br/>
                     <Ul>
                       <li> - Depois do pagamento confirmado, nós entregamos o equipamento no local solicitado em até 2 horas. </li>
                       <li> - No ato da entrega, um chekout será feito para mantermos a qualidade dos equipamentos alugados.</li>
