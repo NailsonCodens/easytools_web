@@ -403,7 +403,7 @@ const Payment = ({history}) => {
                       <li> - Depois do pagamento confirmado, nós entregamos o equipamento no local solicitado em até 2 horas. </li>
                       <li> - No ato da entrega, um chekout será feito para mantermos a qualidade dos equipamentos alugados.</li>
                     </Ul>
-                    <br/><br/>
+                    <br/>
                     <div>
                       <b>Pagamentos:</b>
                       <br/>
