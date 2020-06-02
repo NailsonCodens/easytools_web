@@ -295,7 +295,7 @@ const Rules = ({ history }) => {
         ('')
         :
         (
-          <Rentalbottombox title={tool.title} go={goRent} attempt={attempt} startDate={values.init} endDate={values.finish} scroolView={-10}/>
+          <Rentalbottombox title={tool.title} go={goRent} attempt={attempt} startDate={values.init} endDate={values.finish} scroolView={-210}/>
         )
       }
     </>
