@@ -19,6 +19,8 @@ import logo from '../../../assets/images/logo.png';
 import useOutsideClick from "../../../utils/outsideclick";
 import useOutsideClickCategory from "../../../utils/outsideclick";
 import useOutsideClickEquipament from "../../../utils/outsideclick";
+import distance from '../../../store/reducers/distance';
+import {IntlProvider, FormattedNumber} from 'react-intl';
 
 library.add(faMapMarkedAlt, faStopwatch, faSearch);
 
@@ -35,7 +37,7 @@ const List = ({history}) => {
   const [titlest, setTitlest] = useState(title);
   const [equipament, setEquipament] = useState('');
   const [myaddress, setMyaddress] = useState('');
-  const [tools, setTools] = useState('');
+  const [tools, setTools] = useState([]);
   const [places, setPlaces] = useState('');
   const [modal, setModal] = useState(false);
   const [showneighbor, setShowNeighboor] = useState(false);
@@ -84,12 +86,19 @@ const List = ({history}) => {
     loadModal()
     
     async function loadTools(lat = '', lng = '') {
-      var search = category;
-      const response = await api.get(`/tools_site?search=${category}&distance=${''}&lat=${''}&lng=${''}&type=1`, {
+      var lat = localStorage.getItem('@lt')
+      var lng = localStorage.getItem('@lg')
+
+      var search = titlest.replace('-', ' ').toLowerCase();
+
+      var search = search.replace('-', ' ').toLowerCase();
+  
+      const response = await api.get(`/tools_site?search=${search}&distance=${state.x}&lat=${lat}&lng=${lng}&type=0&category=${category}`, {
         headers: { search }
       });
-  
-     setTools(response.data.tools)
+
+      console.log(response)
+      setTools(response.data.tools)
     }
     loadTools()    
 
@@ -291,7 +300,7 @@ const List = ({history}) => {
             equipament === true ? 
             (
               <div className="box-km" ref={refequipament}>
-                <p className="title-box-options">Selecione</p>
+                <p className="title-box-options">Pesquise</p>
                 <br/>
                 <input 
                   type="text" 
@@ -335,49 +344,76 @@ const List = ({history}) => {
       <div className="container lt-box">
         <div className="columns">
           <div className="column">
-            <div className="columns">
-              <div className="column is-3 has-text-left tool-list">
-                <img src={'https://www.casasbahia-imagens.com.br/Ferramentas/LavadorasdePressaoFerramentas/LavadoradePressaoFerramentas/7244/28087300/lavadora-de-alta-pressao-wap-bravo-1740-libras-7244.jpg'} alt="EasyTools Logo" className="t-list"/>
-              </div>
-              <div className="column is-8 box-text">
-                <div className="has-text-left text-list">
-                  <p className="title-tl"> Lavadora de Altapressão 127V </p>
-                  <p className="accessories">Acessórios: Pista, Galão para espuma </p>
-                  <p className="take-a-back">
-                    Leva e Busca
-                  </p>
-                  <p className="tab-info">
-                    <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="2x"/> 
-                    <span>Curitiba</span>
-                  </p>
-                  <p className="tab-info">
-                    <FontAwesomeIcon icon={['fas', 'stopwatch']} className="icon-tl" size="2x"/>
-                    <span>Em até 2 horas</span>
-                  </p>
-                  <p>
-                    <span>
-                      <img src={logo} alt="logo-easy" className="logo-tl"/>
-                    </span> 
-                    <span className="name-logo-tl">
-                      EasyTools
-                    </span>
-                  </p>
-                  <div className="columns">
-                    <div className="column">
-                      <p className="money-tl"> R$ 50,00<span>/Diária</span></p>
-                    </div>
-                    <div className="column">
-                      <div className="tab-info">
-                        <p className="freight-tl">15<span> KM</span> R$ 20,00<span> Delivery</span></p>
+            {
+              tools.map((tool, index) => (
+                <div className="columns" key={index}>
+                  <div className="column is-3 has-text-left tool-list">
+                    {
+                      tool.picture.map((pic, index) => (
+                        <>
+                          {
+                            index === 0 ? 
+                            (
+                              <>
+                                <img src={pic.url} alt="EasyTools Logo" className="t-list"/>
+                              </>
+                            )
+                            :
+                            (
+                              <>
+                              </>
+                            ) 
+                          }
+                        </>
+                      ))
+                    }  
+                  </div>
+                  <div className="column is-8 box-text">
+                    <div className="has-text-left text-list">
+                      <p className="title-tl"> { tool.title } </p>
+                      <p className="accessories">Acessórios: { tool.accessory } </p>
+                      <p className="take-a-back">
+                        Leva e Busca
+                      </p>
+                      <p className="tab-info">
+                        <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="2x"/> 
+                        <span>Curitiba</span>
+                      </p>
+                      <p className="tab-info">
+                        <FontAwesomeIcon icon={['fas', 'stopwatch']} className="icon-tl" size="2x"/>
+                        <span>Em até 2 horas</span>
+                      </p>
+                      <p>
+                        <span>
+                          <img src={logo} alt="logo-easy" className="logo-tl"/>
+                        </span> 
+                        <span className="name-logo-tl">
+                          EasyTools
+                        </span>
+                      </p>
+                      <div className="columns">
+                        <div className="column">
+                          <p className="money-tl"> 
+                          { console.log(tool.prices.split(';')[0]) }
+                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                            <b><FormattedNumber value={parseFloat(tool.prices.split(';')[0])} style="currency" currency="BRL" /></b>
+                          </IntlProvider>
+                          <span>/Diária</span></p>
+                        </div>
+                        <div className="column">
+                          <div className="tab-info">
+                            <p className="freight-tl">{ tool.distance.toFixed(2) }<span> KM</span> R$ 20,00<span> Delivery</span></p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              ))
+            }            
           </div>
-          <div className="column is-4">
-              asdsd
+          <div className="column">
+            sdasd
           </div>
         </div>
       </div>
