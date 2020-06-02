@@ -121,6 +121,16 @@ const List = ({history}) => {
 		})
   }  
 
+  const renderDelivery = (km) => {
+    var perkm = 1.60;
+    var delivery = km * perkm;
+    var teste = delivery;    
+
+    console.log(teste)
+
+    return 'R$ ' + delivery
+  }
+
   const handleChangeCategory = (category) => {
     console.log('sdd')
   }
@@ -355,7 +365,7 @@ const List = ({history}) => {
                             index === 0 ? 
                             (
                               <>
-                                <img src={pic.url} alt="EasyTools Logo" className="t-list"/>
+                                <img src={pic.url} alt={pic.url} className="t-list"/>
                               </>
                             )
                             :
@@ -402,7 +412,12 @@ const List = ({history}) => {
                         </div>
                         <div className="column">
                           <div className="tab-info">
-                            <p className="freight-tl">{ tool.distance.toFixed(2) }<span> KM</span> R$ 20,00<span> Delivery</span></p>
+                            <p className="freight-tl">
+                              { tool.distance.toFixed(2) }<span> km </span> 
+                              <br/>
+                              { renderDelivery(tool.distance.toFixed(2)) }
+                              <span> Delivery</span>
+                            </p>
                           </div>
                         </div>
                       </div>
