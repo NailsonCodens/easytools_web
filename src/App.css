@@ -610,6 +610,12 @@
   height: 120px;
 }
 
+
+.warning{
+  color: red;
+}
+
+
 @media (max-width: 900px) {
   .born{
     display: none!important;
