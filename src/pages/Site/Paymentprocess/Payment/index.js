@@ -457,7 +457,7 @@ const Payment = ({history}) => {
                         )
                     }
                     <br/><br/>
-                    ATENÇÃO: OS ENTREGADORES BUSCARÃO O EQUIPAMENTO NA DATA PREVISTA NO MESMO HOŔARIO DA ENTREGA.
+                    <b>HORÁRIO DE DEVOLUÇÃO: NO MESMO HORÁRIO DA ENTREGA.</b>
                     <br/><br/>
                     <div>
                       <b>Pagamentos:</b>
