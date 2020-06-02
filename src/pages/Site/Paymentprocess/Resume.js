@@ -244,7 +244,7 @@ const Resume = ({history}) => {
         )
       }
     </div>
-      <Rentalbottombox title={tool.title} go={goRules} attempt={attempt} startDate={values.init} endDate={values.finish} scroolView={-10}/>
+      <Rentalbottombox title={tool.title} go={goRules} attempt={attempt} startDate={values.init} endDate={values.finish} scroolView={-210}/>
     </>
   );
 };

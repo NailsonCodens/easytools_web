@@ -456,6 +456,23 @@ export default function Rents({history}) {
                       </div>
                       <div className="columns">
                         <div className="column">
+                        <b>Horário para entrega:</b>
+                        <br/>
+                        { 
+                          rent.periodhour === '' ?
+                          (
+                            <>
+                              Levar hoje em até 2 horas após o pedido de reserva.
+                            </>
+                          )
+                          :
+                          (
+                            <>
+                              { rent.periodhour }
+                            </>
+                          )
+                        }
+                        <br/><br/>
                           {
                             rent.freight > 0 ? 
                             (
@@ -477,9 +494,22 @@ export default function Rents({history}) {
                           <span>{ rent.typepayment === 'boleto' ? ' Boleto' : '' }</span>
                           <br/>
                           <b>Dinheiro pra troco: </b>
-                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                            <FormattedNumber value={parseFloat(rent.coin)} style="currency" currency="BRL" />
-                          </IntlProvider>
+                          {
+                            rent.coin === '' ? 
+                            (
+                              <>
+                                Não precisa
+                              </>
+                            )
+                            :
+                            (
+                              <>
+                                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                                  <FormattedNumber value={parseFloat(rent.coin)} style="currency" currency="BRL" />
+                                </IntlProvider>
+                              </>
+                            )
+                          }
                         </div>
                         <div className="column">
                           {

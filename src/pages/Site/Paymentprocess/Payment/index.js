@@ -16,6 +16,7 @@ import Paymentme from './paymentme';
 import { Ul } from '../../../../components/List';
 import ReactGA from 'react-ga';
 import Scroll from '../../../../utils/scroll';
+import Select from 'react-select';
 import {Helmet} from 'react-helmet';
 import Rentalbottombox from '../Rentalbottombox';
 import moment from 'moment';
@@ -55,6 +56,8 @@ const Payment = ({history}) => {
   const [colorbt, setColorbt] = useState('is-info');
   const [coloractive, setColoractive] = useState('');
   const [coin, setCoin] = useState('');
+  const [period, setPeriod ] = useState('');
+  const [periodwarning, setPeriodwiarning] = useState('');
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -93,13 +96,9 @@ const Payment = ({history}) => {
 
     async function showBottom () {
       //verificar mobile
-      if (document.documentElement.scrollTop > -10) {
         setClass('bottom-box')
-      }else{
-        setClass('bottom-no-box')
-      }
     }
-    window.onscroll = () => showBottom()
+    showBottom()
 
     async function loadFreight (userid) {
       const response = await api.get(`/userconfig/${userid}`, {
@@ -120,18 +119,28 @@ const Payment = ({history}) => {
   }, [current_user])
 
   const paymentRent = () => {
-    if (typepayment === false) {
-      setColorbt('is-danger')
-
-      if (typepayment === false) {
-        if (isMobile) {
-          window.scrollTo(630, 630)
-        }else {
-          window.scrollTo(130, 130)
-        }
+    if (new Date(moment(start).format('YYYY-DD-MM')) > new Date() === true && period === '') {
+      setPeriodwiarning(true)
+      if (isMobile) {
+        window.scrollTo(370, 370)
+      }else {
+        window.scrollTo(130, 130)
       }
-    } else {
-      updateRentattemp()
+    }else{
+      setPeriodwiarning('')
+      if (typepayment === false) {
+        setColorbt('is-danger')
+  
+        if (typepayment === false) {
+          if (isMobile) {
+            window.scrollTo(820, 820)
+          }else {
+            window.scrollTo(130, 130)
+          }
+        }
+      } else {
+        updateRentattemp()
+      }
     }
   }
 
@@ -200,6 +209,10 @@ const Payment = ({history}) => {
     }) 
   }
 
+  const handleChangePeriod = (option) => {
+    setPeriod(option.value);
+  }
+
   const Openpayment = () => {
     setOpenpayment(!openpayment)
 
@@ -233,7 +246,8 @@ const Payment = ({history}) => {
       acquisition: acq,
       finishprocess: 'y',
       coin: coin,
-      typepayment: typepayment
+      typepayment: typepayment,
+      periodhour: period
     }
 
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
@@ -242,7 +256,7 @@ const Payment = ({history}) => {
       history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      
     }).catch((err) => {
       console.log(err.response)
-    })
+    })   
   }
 
   const handleFreight = (event) => {
@@ -404,8 +418,47 @@ const Payment = ({history}) => {
                       <li> - No ato da entrega, um chekout será feito para mantermos a qualidade dos equipamentos alugados.</li>
                     </Ul>
                     <br/>
-                    <p className="title-tool-only-little">Horário de recebimento:</p>
+                    <p className="title-tool-only-little">Deseja receber o equipamento em qual horário? </p>
                     <br/>
+                    {
+                         new Date(moment(start).format('YYYY-DD-MM')) > new Date() === false ?
+                        (
+                          <>
+                           Em até 2 horas a partir da solicitação de reserva
+                          </>
+                        )
+                        :
+                        (
+                          <>
+                            <Select
+                              className={''}
+                              options={[
+                                {label: 'Começo da manhã - 08:00 às 10:00', value: 'Começo da manhã - 08:00 às 10:00'}, 
+                                {label: 'Fim da manhã - 08:00 às 10:00', value: 'Fim da manhã - 11:00 às 12:00'},
+                                {label: 'Início da tarde - 13:00 às 15:00', value: 'Ìnicio da tarde - 15:00 às 17:00'},
+                                {label: 'Extra noite - 17:00 às 19:00', value: 'Extra noite - 17:00 às 19:00'},
+                              ]}
+                              isSearchable={true}
+                              placeholder={'Começo da manhã - 08:00 às 10:00'}
+                              onChange={selectedOption => {
+                                handleChangePeriod(selectedOption);
+                              }}
+                              value={values.category}
+                            />
+                            <p class="warning">
+                              {
+                                periodwarning === true ? 
+                                ('Por favor, escolha em qual período deseja receber o alugado')
+                                :
+                                ('')
+                              }
+                            </p>
+                          </>
+                        )
+                    }
+                    <br/><br/>
+                    ATENÇÃO: OS ENTREGADORES BUSCARÃO O EQUIPAMENTO NA DATA PREVISTA NO MESMO HOŔARIO DA ENTREGA.
+                    <br/><br/>
                     <div>
                       <b>Pagamentos:</b>
                       <br/>
@@ -730,7 +783,7 @@ const Payment = ({history}) => {
                                   </>
                                 )
                               }
-                              <p>Data indisponível para boleto.</p>
+                              <p style={{ color: 'red'}}>Data indisponível para boleto.</p>
                             </div>
                           </>
                         )

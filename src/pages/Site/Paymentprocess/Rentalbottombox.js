@@ -12,7 +12,7 @@ import {
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
 
-const Rentalbottombox = ({title, go, scroolView = 100, startDate, endDate, attempt}) => {
+const Rentalbottombox = ({title, go, scroolView = 0, startDate, endDate, attempt}) => {
   let values = queryString.parse(useLocation().search);
   const [tool, setTool] = useState([]);
   const [price, setPrice] = useState({});
@@ -23,13 +23,10 @@ const Rentalbottombox = ({title, go, scroolView = 100, startDate, endDate, attem
 
     async function showBottom () {
       //verificar mobile
-      if (document.documentElement.scrollTop > scroolView) {
         setClass('bottom-box')
-      }else{
-        setClass('bottom-no-box')
-      }
+
     }
-    window.onscroll = () => showBottom()
+    showBottom()
 
     async function loadInfochoose() {
       const response = await api.get(`/tools_site/tool/${values.tool}`, {
