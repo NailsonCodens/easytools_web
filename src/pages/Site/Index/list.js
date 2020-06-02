@@ -123,12 +123,12 @@ const List = ({history}) => {
 
   const renderDelivery = (km) => {
     var perkm = 1.60;
-    var delivery = km * perkm;
-    var teste = delivery;    
+    var kmdelivery = parseFloat(km).toFixed(2);
+    var delivery =  kmdelivery * perkm;
 
-    console.log(teste)
+    var deliveryfinal = delivery.toFixed(2).replace(/\./gi,',').replace(/,/gi,',')
 
-    return 'R$ ' + delivery
+    return 'R$ ' + deliveryfinal
   }
 
   const handleChangeCategory = (category) => {
@@ -256,7 +256,7 @@ const List = ({history}) => {
                 <br/><br/>
                 <div className="is-pulled-right div-bt-box">
                   <button className="button color-logo">
-                    Salvar
+                    Pesquisar
                   </button>                  
                 </div>
               </div>  
@@ -282,7 +282,7 @@ const List = ({history}) => {
                 <br/><br/>
                 <div className="is-pulled-right div-bt-box">
                   <button className="button color-logo">
-                    Salvar
+                    Pesquisar
                   </button>                  
                 </div>
               </div>  
@@ -357,7 +357,7 @@ const List = ({history}) => {
             {
               tools.map((tool, index) => (
                 <div className="columns" key={index}>
-                  <div className="column is-3 has-text-left tool-list">
+                  <div className="column is-4 has-text-left tool-list">
                     {
                       tool.picture.map((pic, index) => (
                         <>
@@ -411,10 +411,15 @@ const List = ({history}) => {
                           <span>/Diária</span></p>
                         </div>
                         <div className="column">
-                          <div className="tab-info">
+                          <div className="">
                             <p className="freight-tl">
                               { tool.distance.toFixed(2) }<span> km </span> 
-                              <br/>
+                            </p>
+                          </div>
+                        </div>
+                        <div className="column">
+                          <div className="tab-info">
+                            <p className="freight-tl">
                               { renderDelivery(tool.distance.toFixed(2)) }
                               <span> Delivery</span>
                             </p>
