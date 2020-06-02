@@ -535,7 +535,6 @@ const Payment = ({history}) => {
                   </div>
                 </div>
                 <p className="title-tool-rules">{ tool.title }</p>
-                <b className="category">{ tool.category }</b>
                 <div className="columns">
                   <div className="column">
                     <b> Aluguel </b> { start }

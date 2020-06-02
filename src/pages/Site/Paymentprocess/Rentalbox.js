@@ -343,7 +343,6 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
             </div>
           </div>
             <p className="title-tool-rules">{ tool.title }</p>
-            <b className="category">{ rentinfo.category }</b>
             {
               Object.entries(price).length > 0 ? 
               (
