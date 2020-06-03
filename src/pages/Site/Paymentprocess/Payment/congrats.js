@@ -19,13 +19,18 @@ const Congrats = () => {
       <br/>
       <p className="rentandnow">Aluguei e agora, como eu pago? </p>
       <p className="text-rentandnow">
-        Fique tranquilo, seu pedido está sendo processado. Você receberá uma notificação para pagamento quando seu aluguel for aprovado.
+        Fique tranquilo, seu pedido está sendo processado. 
+        <b>Para cartão de crédito e boleto direto na plataforma</b>
+        Você receberá uma notificação para pagamento quando seu aluguel for aprovado.
         <br/>
-        Caso queira ver, ou cancelar, ou pagar seu aluguel basta ir em "Meus alugados" -> Detalhes e acessar o seu alugado.
+        <b>Para maquininha ou dinheiro</b>
+        Neste caso seu, o seu pagamento só será processado quando entrar o valor ao entregador do equipamento ou passar seu cartão na maquininha.
+        <br/><br/>
+        Caso queira ver, ou <b>cancelar</b>, ou <b>pagar em caso de cartão de crédito ou boleto direto na plataforma</b> seu aluguel basta ir em <b>"Meus alugados" -> Detalhes e acessar o seu alugado</b>.
       </p>
       <br/>
       <p className="rentandnow">Quanto tempo demora ? </p>
-      <p>Nosso prazo de retorno é de 10 minutos no primeiro aluguel. Depois disso, seu aluguel será processado instântaneamente.</p>
+      <p>Nosso prazo de retorno é de 10 minutos no primeiro aluguel. Nos próximos alugueis, será processado instântaneamente.</p>
       <br/><br/>
       <h3>
         Algumas dicas! 

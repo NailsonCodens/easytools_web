@@ -35,7 +35,7 @@ export default function Rents({history}) {
 
   const success = () => Notification(
     'success',
-    'Só um momento, verificando endereço.', 
+    'Seu aluguel foi cancelado com sucesso.', 
     {
       autoClose: 3000,
       draggable: false,
@@ -489,6 +489,24 @@ export default function Rents({history}) {
                       </div>
                       <div className="columns">
                         <div className="column">
+                        <b>Horário para entrega:</b>
+                        <br/>
+                        { 
+                          rent.periodhour === '' ?
+                          (
+                            <>
+                              Levar hoje em até 2 horas após o pedido de reserva.
+                            </>
+                          )
+                          :
+                          (
+                            <>
+                              { rent.periodhour }
+                            </>
+                          )
+                        }
+                        <br/><br/>
+
                           {
                             rent.freight > 0 ? 
                             (
