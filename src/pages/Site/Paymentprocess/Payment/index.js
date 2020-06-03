@@ -58,6 +58,8 @@ const Payment = ({history}) => {
   const [coin, setCoin] = useState('');
   const [period, setPeriod ] = useState('');
   const [periodwarning, setPeriodwiarning] = useState('');
+  const [startam, setStartAm] = useState('');
+  const [endam, setEndAm] = useState('');
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -70,6 +72,9 @@ const Payment = ({history}) => {
       if (response.data.rentattempt.length > 0) {
         loadWorkadduser(response.data.rentattempt[0].id, response.data.rentattempt[0].tool.lat, response.data.rentattempt[0].tool.lng)  
         setRentattemp(response.data.rentattempt[0]);
+
+        setStartAm(moment(response.data.rentattempt[0].startdate).format('YYYY-MM-DD'));
+        setEndAm(moment(response.data.rentattempt[0].enddate).format('YYYY-MM-DD'));
 
         setStart(moment(response.data.rentattempt[0].startdate).format('DD/MM/YYYY'));
         setEnd(moment(response.data.rentattempt[0].enddate).format('DD/MM/YYYY'));
@@ -119,7 +124,7 @@ const Payment = ({history}) => {
   }, [current_user])
 
   const paymentRent = () => {
-    if (new Date(moment(start).format('YYYY-DD-MM')) > new Date() === true && period === '') {
+    if (new Date(moment(startam).format('YYYY-MM-DD')) > new Date(moment().format('YYYY-MM-DD')) === true && period === '') {
       setPeriodwiarning(true)
       if (isMobile) {
         window.scrollTo(370, 370)
@@ -418,23 +423,17 @@ const Payment = ({history}) => {
                       <li> - No ato da entrega, um chekout será feito para mantermos a qualidade dos equipamentos alugados.</li>
                     </Ul>
                     <br/>
-                    <p className="title-tool-only-little">Deseja receber o equipamento em qual horário? </p>
+                    <p className="title-tool-only-little">Horário de recebimento do equipamento</p>
                     <br/>
                     {
-                         new Date(moment(start).format('YYYY-DD-MM')) > new Date() === false ?
-                        (
-                          <>
-                           Em até 2 horas a partir da solicitação de reserva
-                          </>
-                        )
-                        :
+                         new Date(moment(startam).format('YYYY-MM-DD')) > new Date(moment().format('YYYY-MM-DD')) === true ?
                         (
                           <>
                             <Select
                               className={''}
                               options={[
                                 {label: 'Começo da manhã - 08:00 às 10:00', value: 'Começo da manhã - 08:00 às 10:00'}, 
-                                {label: 'Fim da manhã - 08:00 às 10:00', value: 'Fim da manhã - 11:00 às 12:00'},
+                                {label: 'Fim da manhã - 11:00 às 12:00', value: 'Fim da manhã - 11:00 às 12:00'},
                                 {label: 'Início da tarde - 13:00 às 15:00', value: 'Ìnicio da tarde - 15:00 às 17:00'},
                                 {label: 'Extra noite - 17:00 às 19:00', value: 'Extra noite - 17:00 às 19:00'},
                               ]}
@@ -455,9 +454,15 @@ const Payment = ({history}) => {
                             </p>
                           </>
                         )
+                        :
+                        (
+                          <>
+                            Em até 2 horas a partir da solicitação de reserva
+                          </>
+                        )
                     }
                     <br/><br/>
-                    <b>HORÁRIO DE DEVOLUÇÃO: NO MESMO HORÁRIO DA ENTREGA.</b>
+                    <b>HORÁRIO DE DEVOLUÇÃO NO MESMO HORÁRIO DA ENTREGA.</b>
                     <br/><br/>
                     <div>
                       <b>Pagamentos:</b>
@@ -734,7 +739,7 @@ const Payment = ({history}) => {
                         }
                       </div>
                       {
-                        moment.preciseDiff( new Date(), moment(start).format('YYYY-DD-MM'), true).days > 2 ? 
+                        moment.preciseDiff( new Date(), moment(startam).format('YYYY-MM-DD'), true).days > 2 ? 
                         (
                           <>
                             <div className="colunm line-option-payment" onClick={event => Choosepayment('boleto')}>
