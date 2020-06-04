@@ -550,7 +550,7 @@
 .icon-payment{
   width: 30px;
   margin-right: 10px;
-  z-index: 99;
+  z-index: 0;
   position: relative;
   top: 3px;
 }

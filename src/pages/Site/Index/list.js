@@ -31,8 +31,7 @@ const List = ({history}) => {
   const dispatch = useDispatch();
   let {category, title, region } = useParams();
 
-  const [search, setSearch] = useState('');
-  const [state, setState] = useState({ x: 35});
+  const [state, setState] = useState({ x: 55});
   const [categorys, setCategory] = useState('');
   const [titlest, setTitlest] = useState(title);
   const [equipament, setEquipament] = useState('');
@@ -42,10 +41,11 @@ const List = ({history}) => {
   const [modal, setModal] = useState(false);
   const [showneighbor, setShowNeighboor] = useState(false);
   const [km, setKm] = useState(false);
-
+  const [search, setSearch] = useState(titlest);
   const latitude = useSelector(state => state.latitude);
   const longitude = useSelector(state => state.longitude);
-  
+  const [setclass, setClass] = useState('box-filters');
+
   const hideRedirectlogin = () => {
     return modal
   }
@@ -85,18 +85,39 @@ const List = ({history}) => {
     }
     loadModal()
     
+    async function showBottom () {
+      //verificar mobile
+      if (document.documentElement.scrollTop > 100) {
+        setClass('box-filters')
+      }else{
+        setClass('box-filters')
+      }
+    }
+    window.onscroll = () => showBottom()
+
     async function loadTools(lat = '', lng = '') {
       var lat = localStorage.getItem('@lt')
       var lng = localStorage.getItem('@lg')
 
       var search = titlest.replace('-', ' ').toLowerCase();
-
       var search = search.replace('-', ' ').toLowerCase();
-  
-      const response = await api.get(`/tools_site?search=${search}&distance=${state.x}&lat=${lat}&lng=${lng}&type=0&category=${category}`, {
+
+      var sh = search
+
+      if (sh === 'equipaments') {
+        sh = '';
+      }
+
+      var cat = category
+      
+      if (cat === 'all') {
+        cat = '';
+      }
+
+
+      const response = await api.get(`/tools_site?search=${sh}&distance=${state.x}&lat=${lat}&lng=${lng}&type=&category=${cat}`, {
         headers: { search }
       });
-
       console.log(response)
       setTools(response.data.tools)
     }
@@ -107,8 +128,40 @@ const List = ({history}) => {
     }
   }, []);
 
-  const handleSearch = (event) => {
+  const searchDistance = (event) => {
     console.log(event)
+  }
+
+  const searchTool = (event) => {
+    console.log(event)
+  }
+
+  const handleChangeCategory = (category) => {
+    setSearch('equipaments')
+    setTitlest('equipaments')
+    find(category.value)
+    history.push(`/s/search/${category.value}/${'equipaments'}/${'adas'}`)
+  }
+    
+  async function find(category) {
+    var lat = localStorage.getItem('@lt')
+    var lng = localStorage.getItem('@lg')
+
+    var sh  = search
+    if (sh === 'equipaments') {
+      sh = ''
+    }
+    
+    var sh = sh.replace('-', ' ').toLowerCase();
+    var sh = sh.replace('-', ' ').toLowerCase();
+
+
+    const response = await api.get(`/tools_site?search=${sh}&distance=${state.x}&lat=${lat}&lng=${lng}&type=&category=${category}`, {
+      headers: { search }
+    });
+
+    console.log(response)
+    setTools(response.data.tools)
   }
 
 	const handleMyaddress = (event) => {
@@ -129,10 +182,6 @@ const List = ({history}) => {
     var deliveryfinal = delivery.toFixed(2).replace(/\./gi,',').replace(/,/gi,',')
 
     return 'R$ ' + deliveryfinal
-  }
-
-  const handleChangeCategory = (category) => {
-    console.log('sdd')
   }
 
   const selectPlace = (place) => {
@@ -216,7 +265,7 @@ const List = ({history}) => {
 
   return (
     <>
-      <div className="box-filters">
+      <div className={setclass}>
         <div className="div-filters">
           <button className="button is-small is-outlined bt-filter cptalizze c" onClick={event => {setCategory(!categorys); setEquipament(false); setKm(false)}}>
             { 
@@ -253,12 +302,6 @@ const List = ({history}) => {
                   }}
                   defaultValue={category}
                 />
-                <br/><br/>
-                <div className="is-pulled-right div-bt-box">
-                  <button className="button color-logo">
-                    Pesquisar
-                  </button>                  
-                </div>
               </div>  
             )
             :
@@ -281,7 +324,7 @@ const List = ({history}) => {
                 />
                 <br/><br/>
                 <div className="is-pulled-right div-bt-box">
-                  <button className="button color-logo">
+                  <button className="button color-logo" onClick={event => searchDistance(event)}>
                     Pesquisar
                   </button>                  
                 </div>
@@ -292,11 +335,12 @@ const List = ({history}) => {
               ''
             )
           }
+
           <button className="button is-outlined is-small bt-filter cptalizze div-filters" onClick={event => setEquipament(!equipament)}>
             { 
               titlest.replace('-', ' ').toLowerCase() === 'equipaments' ?
               (
-                'Equipamentos'
+                'Pesquisar'
               )
               :
               (
@@ -316,7 +360,7 @@ const List = ({history}) => {
                   type="text" 
                   placeholder='Experimente furadeira.' 
                   className="input input-geolocalization" 
-                  onChange={event => handleSearch(event)}
+                  onChange={event => searchTool(event)}
                   value={search}
                 />
                 <br/><br/>
@@ -351,12 +395,16 @@ const List = ({history}) => {
           </button>
         </div>
       </div>
-      <div className="container lt-box">
-        <div className="columns">
-          <div className="column">
-            {
-              tools.map((tool, index) => (
-                <div className="columns" key={index}>
+      <div className="container-fluid-cs lt-box">
+        <br/><br/>
+        <div>
+          <p className="title-tl-page">Ferramentas em Campina Grande do Sul</p>
+        </div>
+        <div className="columns is-desktop is-multiline">
+          {
+            tools.map((tool, index) => (
+              <div className="column column-cs-mobile is-half line-tools">
+                <div className="columns box-ads-lt" key={index}>
                   <div className="column is-4 has-text-left tool-list">
                     {
                       tool.picture.map((pic, index) => (
@@ -365,7 +413,7 @@ const List = ({history}) => {
                             index === 0 ? 
                             (
                               <>
-                                <img src={pic.url} alt={pic.url} className="t-list"/>
+                                <img src={pic.url} alt={pic.url} className=""/>
                               </>
                             )
                             :
@@ -378,21 +426,9 @@ const List = ({history}) => {
                       ))
                     }  
                   </div>
-                  <div className="column is-8 box-text">
+                  <div className="column is-9 box-text">
                     <div className="has-text-left text-list">
                       <p className="title-tl"> { tool.title } </p>
-                      <p className="accessories">Acessórios: { tool.accessory } </p>
-                      <p className="take-a-back">
-                        Leva e Busca
-                      </p>
-                      <p className="tab-info">
-                        <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="2x"/> 
-                        <span>Curitiba</span>
-                      </p>
-                      <p className="tab-info">
-                        <FontAwesomeIcon icon={['fas', 'stopwatch']} className="icon-tl" size="2x"/>
-                        <span>Em até 2 horas</span>
-                      </p>
                       <p>
                         <span>
                           <img src={logo} alt="logo-easy" className="logo-tl"/>
@@ -401,40 +437,38 @@ const List = ({history}) => {
                           EasyTools
                         </span>
                       </p>
-                      <div className="columns">
+                      <p className="take-a-back">
+                        Leva e Busca
+                      </p>
+                      <div className="text-infos-tl">
+                        <span className="freight-tl tl-km">
+                          <span>A</span> { tool.distance.toFixed(2) }<span> km de você </span> 
+                        </span>
+                        <span className="freight-tl ">
+                          { renderDelivery(tool.distance.toFixed(2)) }
+                            <span> Delivery</span>
+                        </span>
+                        <span className="freight-tl tl-hour">
+                          <FontAwesomeIcon icon={['fas', 'stopwatch']} className="icon-tl" size="2x"/>
+                          <span>2 horas</span>
+                        </span>
+                      </div>
+                      <div className="columns box-values">
                         <div className="column">
-                          <p className="money-tl"> 
-                          { console.log(tool.prices.split(';')[0]) }
+                          <p className="money-tl is-pulled-left"> 
                           <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                             <b><FormattedNumber value={parseFloat(tool.prices.split(';')[0])} style="currency" currency="BRL" /></b>
                           </IntlProvider>
                           <span>/Diária</span></p>
                         </div>
-                        <div className="column">
-                          <div className="">
-                            <p className="freight-tl">
-                              { tool.distance.toFixed(2) }<span> km </span> 
-                            </p>
-                          </div>
-                        </div>
-                        <div className="column">
-                          <div className="tab-info">
-                            <p className="freight-tl">
-                              { renderDelivery(tool.distance.toFixed(2)) }
-                              <span> Delivery</span>
-                            </p>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              ))
-            }            
-          </div>
-          <div className="column">
-            sdasd
-          </div>
+                <hr className="borderline"></hr>
+              </div> 
+            ))
+          }            
         </div>
       </div>
       <Modal 
