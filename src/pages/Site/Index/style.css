@@ -518,7 +518,7 @@
 }
 
 .take-a-back{
-  margin-top: 15px;
+  margin-top: 5px;
   margin-bottom: -15px;
   font-style: unset;
   color: #60a8f1;
@@ -624,8 +624,8 @@
 }
 
 .box-ads-lt{
-  padding-bottom: 20px;
-  padding-top: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
   cursor: pointer;
 }
 
@@ -642,7 +642,7 @@ border: 1px solid rgb(230, 230, 230);
 }
 
 .box-values{
-  padding-top: 30px;
+  padding-top: 40px;
 }
 
 .container-fluid-cs{
@@ -660,6 +660,23 @@ border: 1px solid rgb(230, 230, 230);
   color: #000;
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+.box-values-prod{
+  background: rgb(0, 0, 0);
+  padding: 2px 5px;
+  margin-left: 15px;
+  color: #fff;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+}
+
+.box-vl-prod{
+  background: red;
+  position: absolute;
+  width: 200px;
+  height: 80px;
 }
 
 @media (max-width: 900px) {

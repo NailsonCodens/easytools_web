@@ -19,6 +19,7 @@ import logo from '../../../assets/images/logo.png';
 import useOutsideClick from "../../../utils/outsideclick";
 import useOutsideClickCategory from "../../../utils/outsideclick";
 import useOutsideClickEquipament from "../../../utils/outsideclick";
+import useOutsideClickProd from "../../../utils/outsideclick";
 import distance from '../../../store/reducers/distance';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 
@@ -28,6 +29,7 @@ const List = ({history}) => {
   const ref = useRef();
   const refcategory = useRef();
   const refequipament = useRef();
+  const refprod = useRef();
   const dispatch = useDispatch();
   let {category, title, region } = useParams();
 
@@ -35,6 +37,7 @@ const List = ({history}) => {
   const [categorys, setCategory] = useState('');
   const [titlest, setTitlest] = useState(title);
   const [equipament, setEquipament] = useState('');
+  const [prod, setProd] = useState('');
   const [myaddress, setMyaddress] = useState('');
   const [tools, setTools] = useState([]);
   const [places, setPlaces] = useState('');
@@ -60,6 +63,10 @@ const List = ({history}) => {
 
   useOutsideClickEquipament(refequipament, () => {
     if (equipament) setEquipament(false);
+  });
+
+  useOutsideClickProd(refprod, () => {
+   if (prod) setProd(false);  
   });
 
   useEffect(() => {
@@ -398,7 +405,7 @@ const List = ({history}) => {
       <div className="container-fluid-cs lt-box">
         <br/><br/>
         <div>
-          <p className="title-tl-page">Ferramentas em Campina Grande do Sul</p>
+          <p className="title-tl-page">Ferramentas em {region.replace('-', ' ')}</p>
         </div>
         <div className="columns is-desktop is-multiline">
           {
@@ -456,10 +463,29 @@ const List = ({history}) => {
                       <div className="columns box-values">
                         <div className="column">
                           <p className="money-tl is-pulled-left"> 
-                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                            <b><FormattedNumber value={parseFloat(tool.prices.split(';')[0])} style="currency" currency="BRL" /></b>
-                          </IntlProvider>
-                          <span>/Diária</span></p>
+                            <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                              <b><FormattedNumber value={parseFloat(tool.prices.split(';')[0])} style="currency" currency="BRL" /></b>
+                            </IntlProvider>
+                            <span>/Diária</span>
+                            <span className="box-values-prod" title="Outros valores" onClick={event => setProd(!prod+tool.id)}>
+                              Períodos
+                            </span> 
+                            {
+                              prod+tool.id === true ? 
+                              (
+                                <>
+                                  <div className="box-vl-prod" ref={refprod}>
+                                    sdasdas
+                                  </div>                             
+                                </>
+                              )
+                              :
+                              (
+                                <>
+                                </>
+                              )
+                            }
+                          </p>
                         </div>
                       </div>
                     </div>
