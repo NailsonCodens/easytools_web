@@ -28,7 +28,14 @@
 .button-enter{
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
-  color: #60a8f1;
+  color: #fff;
+}
+
+.button-enter2{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: #fff;
+  text-align: center !important;
 }
 
 .terms{

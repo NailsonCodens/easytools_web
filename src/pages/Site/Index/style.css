@@ -1,15 +1,24 @@
 .tool{
   cursor: pointer !important;
+  background: #fff;
+  -webkit-box-shadow: 0px 0px 3px 0px rgb(202, 202, 202);
+  -moz-box-shadow: 0px 0px 3px 0px rgb(202, 202, 202);
+  box-shadow: 0px 0px 3px 0px rgb(202, 202, 202);
 }
 
 .picture-tool{
   widows: 100%;
   height: 220px;
+  margin-bottom: 25px !important;
   background: rgb(209, 209, 209);
   color:#fff;
   text-align: center;
   border-radius: 6px;
   margin-bottom: 6px;
+}
+
+.text-pd{
+  margin: 20px 10px;
 }
 
 .category{
@@ -60,6 +69,9 @@
 
 .rent-viewsearch{
   margin-top: 10px;
+  background: rgb(202, 202, 202) !important;
+  color: rgb(75, 75, 75) !important;
+  font-weight: bold !important;
 }
 
 .background-tools{
@@ -110,7 +122,7 @@
 
 .tool{
   cursor: pointer !important;
-  margin: 10px !important;
+  margin: 0px !important;
 }
 
 .text-subtitle-index{
@@ -240,7 +252,7 @@
 }
 
 .icon-index{
-  padding: 20px;
+  padding: 0px;
   font-size: 10px !important;
   color: #fff;
   background: #60a8f1;
@@ -254,6 +266,7 @@
   background: #fff;
   width: 50% !important;
   height: 50px !important;
+  border: 1px solid rgb(173, 173, 173) !important;
 }
 
 .container-new{
@@ -292,16 +305,18 @@
 
 .geolo-bt{
   position: 9;
-  width: 40px !important;
-  height: 40px !important;
-  border-radius: 100% !important;
-  top: 5px;
-  margin-left: 10px;
-  background: rgb(255, 229, 134) !important;
-  color: rgb(255, 200, 0) !important;
+  color: rgb(46, 46, 46) !important;
+  background: rgb(255, 200, 0) !important;
   border: none !important;
 }
 
+.container-address{
+  padding: 0px 90px;
+}
+
+.bt-ad{
+  padding:5px 0px !important;
+}
 
 .size-cs-geolo{
   font-size: 25px;
@@ -310,7 +325,7 @@
 .title-search-geolo{
   font-family: 'Poppins', sans-serif !important;
   font-weight: 500 !important;
-  font-size: 20px;
+  font-size: 25px;
   margin-top: -30px;
   margin-bottom: 15px;
 }
@@ -373,9 +388,21 @@
   color: #000;
 }
 
+.bt-ad-geo{
+  padding-left: 20px !important;
+}
+
 @media (max-width: 900px) {
+  .bt-ad-geo{
+    padding-left: 0px !important;
+  }
+
   .box-digi{
     display: none !important;
+  }
+
+  .container-address{
+    padding: 0px 0px;
   }
 
   .slick-arrow{
@@ -427,6 +454,7 @@
   }
   .background-tools{
     width: 100%;
+    display: none !important;
     margin-top: -150px !important;
   }
 

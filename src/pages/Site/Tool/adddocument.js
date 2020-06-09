@@ -12,6 +12,7 @@ import { Span } from '../../../components/Span';
 import rg from '../../../assets/images/rg.png'
 import InputMask from 'react-input-mask';
 import { Button } from '../../../components/Form/Button';
+import ScrollableAnchor from 'react-scrollable-anchor'
 import api from '../../../services/api';
 import Document from '../../Documents/document';
 import Proofaddress from '../../Documents/proofAddress';
@@ -93,10 +94,11 @@ const Adddocument = ({ onClose, history }) => {
           }
   
           setAddress(perfil.address)
-          formik.values.address = perfil.address
+          formik.values.address = perfil.address !== null ? perfil.address : '' 
+
           setLocation(perfil.location)
-          formik.values.location = perfil.location
-          
+          formik.values.location = perfil.location !== null ? perfil.location : ''
+
           if (perfil.neighboor === null) {
             setNeighboor('')
             formik.values.neighboor = ''  
@@ -119,13 +121,12 @@ const Adddocument = ({ onClose, history }) => {
             formik.values.complement = perfil.complement  
           }
           setUf(perfil.uf)
-          formik.values.uf = perfil.uf
+          formik.values.uf = perfil.uf !== null ? perfil.uf : ''
           setCity(perfil.city)
-          formik.values.city = perfil.city
+          formik.values.city = perfil.city !== null ? perfil.city : ''
   
           return ''
         })
-
       }
     }
     loadPerfil();
@@ -385,26 +386,12 @@ const Adddocument = ({ onClose, history }) => {
       <div className="columns">
         <div className="column">
           <h3 className="title-tool-only">
-            Precisamos que nos envie fotos de seus documentos para completar seu cadastro, é bem rapido.
+            Envie seus documentos para completar seu cadastro, é bem rapido.
             <br/>
-            Você só precisa fazer isso uma vez.
-            <br/>
-            <Warningtext>Fique tranquilo, seus dados estão seguros conosco. Não os compartilharemos, venderemos ou usaremos indevidamente; </Warningtext>
           </h3>
-          <div className="columns">
-            <div className="column">
-              <h3 className="title-box-inter">Os documentos são:</h3>
-              <p>CPF ou CPNJ em caso de empresa;</p> 
-              <p>Foto do RG ou CNH;</p>
-              <p>Uma selfie sua;</p>
-              <p>E o comprovante de endereço;</p>
-              <p>Se for empresa, foto do contrato;</p>
-              <p>Endereço.</p>
-            </div>
-          </div>
+          <p>Você só precisa fazer isso uma vez.</p>
         </div>
       </div>
-      <br/>
       <Form
         onSubmit={ (e, values) => {
           formik.handleSubmit(values)
@@ -415,6 +402,9 @@ const Adddocument = ({ onClose, history }) => {
           <div className="column">
             <div className="columns">
               <div className="column is-6">
+                <ScrollableAnchor id={'docs'}>
+                  <div> </div>
+                </ScrollableAnchor>
                 <h3 className="title-box-inter">Documento</h3>
                 <div className="columns">
                   <div className="column is-5">
@@ -702,7 +692,7 @@ const Adddocument = ({ onClose, history }) => {
             type={'submit'}
             className={'button is-fullwidth color-logo-lessor'} 
             text={'Salvar Informações'}
-            onClick={event => Scroll(400, 400)}
+            onClick={event => Scroll(600, 600)}
           />
         </Field>
       </Form>

@@ -16,6 +16,7 @@ import Paymentme from './paymentme';
 import { Ul } from '../../../../components/List';
 import ReactGA from 'react-ga';
 import Scroll from '../../../../utils/scroll';
+import ScrollableAnchor from 'react-scrollable-anchor'
 import Select from 'react-select';
 import {Helmet} from 'react-helmet';
 import Rentalbottombox from '../Rentalbottombox';
@@ -49,6 +50,7 @@ const Payment = ({history}) => {
   const [acquisition, setAcquisition] = useState('');
   const [userconfig, setUserconfig] = useState([]);
   const [workadd, setWorkadd] = useState([]);
+  const [workaddshow, setWorkaddshow] = useState(0);
   const [valuewithfreigh, setValuewithfreigh] = useState(0);
   const [setclass, setClass] = useState('bottom-no-box');
   const [openpayment, setOpenpayment] = useState(false);
@@ -116,6 +118,7 @@ const Payment = ({history}) => {
       const responseworkadd = await api.get(`/workadd/${rentid}?lat=${lat}&lng=${lng}`, {
       });
 
+      setWorkaddshow(responseworkadd.data.workadd[0].distance.toFixed(2))
       setWorkadd(responseworkadd.data.workadd[0])
     }
 
@@ -127,9 +130,9 @@ const Payment = ({history}) => {
     if (new Date(moment(startam).format('YYYY-MM-DD')) > new Date(moment().format('YYYY-MM-DD')) === true && period === '') {
       setPeriodwiarning(true)
       if (isMobile) {
-        window.scrollTo(370, 370)
+        window.location.href = "#"+"hour";
       }else {
-        window.scrollTo(130, 130)
+        window.location.href = "#"+"hour";
       }
     }else{
       setPeriodwiarning('')
@@ -138,9 +141,9 @@ const Payment = ({history}) => {
   
         if (typepayment === false) {
           if (isMobile) {
-            window.scrollTo(820, 820)
+            window.location.href = "#"+"formpayment";
           }else {
-            window.scrollTo(130, 130)
+            window.location.href = "#"+"formpayment";
           }
         }
       } else {
@@ -222,9 +225,9 @@ const Payment = ({history}) => {
     setOpenpayment(!openpayment)
 
     if (isMobile) {
-      window.scrollTo(700, 700)
+      window.location.href = "#"+"choose";
     }else {
-      window.scrollTo(320, 320)
+      window.location.href = "#"+"choose";
     }
   }
 
@@ -311,7 +314,7 @@ const Payment = ({history}) => {
     var kmregional = 5
 
     var freight = '';
-    var minfreight = '';
+    var minfreight = ''; 
 
     if (userconfig !== undefined) {
       freight = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1;
@@ -321,14 +324,28 @@ const Payment = ({history}) => {
       minfreight = 30;
     }
     var kmcurrent = workadd.distance;
+
+    var fr = 0;
+
+    if (kmcurrent > 5 && kmcurrent < 10) {
+      fr = 2.20
+    } else if (kmcurrent > 30) {
+      fr = 1.45
+    } else {
+      fr = freight
+    }
+
     var costfreight = 0;
 
 
     if (kmregional > kmcurrent) {
-        costfreight  = minfreight
+        costfreight = minfreight
     } else {
-        costfreight = freight * kmcurrent;
+        costfreight = fr * kmcurrent;
     }
+
+
+    console.log(freight)
 
     /* Promoção de entrega a 15 reais */
 //    costfreight = 15;
@@ -347,14 +364,6 @@ const Payment = ({history}) => {
         (
           <div className="columns">
             <div className="column is-two-thirds">
-              <p className="title-tool-only"> Estamos quase lá!</p>
-              {
-                /*
-                    <p className="title-tool-only-little">
-                      Escolha de que forma você deseja obter o equipamento.
-                    </p>
-                */
-              }
               <div className="columns">
                 <div className="column">
                   <Field>
@@ -408,22 +417,21 @@ const Payment = ({history}) => {
                 freight === 'with' ? 
                 (
                   <>
-                    <p className="title-tool-only-little"> Entrega e busca do equipamento </p>
-                    <Warningtext>
-                      Você receberá o equipamento, no endereço de uso informado.
-                    </Warningtext>
+                    <ScrollableAnchor id={'hour'}>
+                      <div></div>
+                    </ScrollableAnchor>
                     <br/>
-                    <span className="valuefreight">Taxa de entrega e busca: </span>
+                    <p className="title-tool-only-little"> Entrega e busca do equipamento </p>
+                    <br/>
+                    <span className="valuefreight">Distância do seu endereço: </span>
+                    <span className="vlkm">{workaddshow} km</span>;
+                    <br/>
+                    <span className="distance">Taxa de entrega e busca: </span>
                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                       <b><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
-                    </IntlProvider>
-                    <br/>
-                    <Ul>
-                      <li> - Depois do pagamento confirmado, nós entregamos o equipamento no local solicitado em até 2 horas. </li>
-                      <li> - No ato da entrega, um chekout será feito para mantermos a qualidade dos equipamentos alugados.</li>
-                    </Ul>
-                    <br/>
-                    <p className="title-tool-only-little">Horário de recebimento do equipamento</p>
+                    </IntlProvider>;
+                    <hr/>
+                    <p className="title-tl-input">Recebimento do equipamento</p>
                     <br/>
                     {
                          new Date(moment(startam).format('YYYY-MM-DD')) > new Date(moment().format('YYYY-MM-DD')) === true ?
@@ -461,32 +469,8 @@ const Payment = ({history}) => {
                           </>
                         )
                     }
-                    <br/><br/>
-                    <b>HORÁRIO DE DEVOLUÇÃO NO MESMO HORÁRIO DA ENTREGA.</b>
-                    <br/><br/>
-                    <div>
-                      <b>Pagamentos:</b>
-                      <br/>
-                      <div className="columns box-option-payment">
-                        <div className="colunm line-option-payment-no">
-                          <img src={mastercard} className="icon-payment"/>
-                          <span><b>Cartão de crédito</b></span>
-                        </div>
-                        <div className="colunm line-option-payment-no">
-                          <img src={machine} className="icon-payment"/>
-                          <span><b>Maquininha</b></span>
-                        </div>
-                        <div className="colunm line-option-payment-no">
-                          <img src={money} className="icon-payment"/>
-                          <span><b>Dinheiro</b></span>
-                        </div>
-                        <div className="colunm line-option-payment-no">
-                          <img src={boleto} className="icon-payment"/>
-                          <span><b>Boleto</b></span>
-                        </div>
-                      </div>
-                      <p>Reservas 3 dias antes do uso, disponível boleto.</p>
-                    </div>
+                    <br/>
+                    <b>* Horário de devolução no mesmo horário da entrega.</b>
                   </>
                 )
                 :
@@ -526,6 +510,9 @@ const Payment = ({history}) => {
                 )
               }
             </div>
+            <ScrollableAnchor id={'formpayment'}>
+              <div></div>
+            </ScrollableAnchor>
             <div className="column">
               <div className="rental-box">
                 <div className="columns is-desktop is-mobile">
@@ -540,12 +527,10 @@ const Payment = ({history}) => {
                   </div>
                 </div>
                 <p className="title-tool-rules">{ tool.title }</p>
-                <div className="columns">
+                <div className="columns is-mobile">
                   <div className="column">
                     <b> Aluguel </b> { start }
                   </div>
-                </div>
-                <div className="columns no-margin-top-columns dates-payment">
                   <div className="column">
                     <b> Devolução </b> { end }                    
                   </div>
@@ -603,6 +588,9 @@ const Payment = ({history}) => {
                     </p>
                   </div>
                 </div>
+                <ScrollableAnchor id={'choose'}>
+                  <div></div>
+                </ScrollableAnchor>
               <div className="columns is-mobile no-margin-top-columns">
                 <div className="column">
                   <b>Total</b>
@@ -634,7 +622,6 @@ const Payment = ({history}) => {
                 :
                 ('')
               }
-              <p></p>
               <button className={`button is-fullwidth box-payment-form ${colorbt}`} onClick={event=> Openpayment()} id="teste">
                 <p className="text-payment-not">
                   {
@@ -822,7 +809,7 @@ const Payment = ({history}) => {
           :
           (
             <>
-              <div className="column is-hidden-bottom">
+              <div className="column biis-hidden-bottom">
                 <p>Aluguel de <span className="titlerentbox">{ tool.title }</span></p>
               </div>
             </>

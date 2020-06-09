@@ -227,10 +227,10 @@ const Dashboard = ({history, location}) => {
                   */
                 }
               <br/>
-              <p className="title-search-geolo">Precisou de uma furadeira? Encontre e alugue aqui!</p>
-                <div className="container container-new">
-                  <div className="field field-cs has-addons">
-                    <div className="control is-expanded">
+              <p className="title-search-geolo">Encontre e alugue aqui!</p>
+                <div className="container container-address">
+                  <div className="columns">
+                    <div className="column is-four-fifths-desktop bt-ad">
                       <input 
                         type="text" 
                         placeholder='Sua localização para achar equipamentos perto de você.' 
@@ -239,15 +239,24 @@ const Dashboard = ({history, location}) => {
                         value={myaddress}
                       />
                     </div>
-                    <div className="control">
+                    <div className="column is-2-desktop bt-ad bt-ad-geo">
                       <button 
                         type={'button'}
-                        className={'button is-default geolo-bt'}
+                        className={'button is-medium is-fullwidth is-default geolo-bt'}
                         title="Sua localização"
                         onClick={event => Geoloc()}
                       >
-                        <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="size-cs-geolo" size="2x"/>
+                        Encontrar
                       </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="container container-new">
+                  <div className="field field-cs has-addons">
+                    <div className="control is-expanded">
+                    </div>
+                    <div className="control">
+
                     </div>
                   </div>
                 </div>
@@ -298,47 +307,6 @@ const Dashboard = ({history, location}) => {
             </div>
           </div>
         </div>
-        {
-          viewsearch === ''? 
-          (
-            <div className="container howwork">
-              <p className="title-index has-text-centered">Como alugar na EasyTools?</p>
-              <div className="columns has-text-centered">
-                <div className="column">
-                  <ul className="ul-howwork">
-                    <li className="title-ul-how"> <FontAwesomeIcon icon={['fas', 'mouse-pointer']} className="icon-index" size="2x"/> Escolha o que deseja alugar.</li>
-                    <li>
-                      Acesse sua conta e escolha o equipamento desejado. Furadeira, Extratora, Wap. Temos tudo que você precisa.
-                      Aluguel na hora, sem demora e sem burocracia. Adeus orçamento!
-                    </li>
-                  </ul>
-                </div>
-                <div className="column">
-                  <ul className="ul-howwork">
-                    <li className="title-ul-how"><FontAwesomeIcon icon={['fas', 'calendar-alt']} className="icon-index" size="2x"/> Selecione o período de uso.</li>
-                    <li>
-                      Escolha o período que deseja usar o alugado. Os períodos são: diária
-                      , semanal, quinzenal e mensal. Finalize o seu pedido. E espere pelo retorno da Easytools sobre o aluguel. (5Min)
-                    </li>
-                  </ul>
-                </div>
-                <div className="column">
-                  <ul className="ul-howwork">
-                    <li className="title-ul-how"><FontAwesomeIcon icon={['fas', 'truck-loading']} className="icon-index" size="2x"/> Receba em casa.</li>
-                    <li>
-                      Depois do pedido aceito, acesse meus alugados e pague o aluguel. Pagamento confirmado, preparamos o equipamento e 
-                      enviamos até você.
-                      Também buscamos! 
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>  
-          )
-          :
-          ('')
-        }
-
         <div className="container">
           {
             viewsearch === ''? 
@@ -408,7 +376,7 @@ const Dashboard = ({history, location}) => {
           <div className="columns is-desktop is-mobile is-multiline">
             {
               tools.map(tool => (
-                <div key={tool.id} className="column column-cs-mobile is-one-quarter line-tools">
+                <div key={tool.id} className="column column-cs-mobile is-one-fifth line-tools">
                   <span onClick={event => goTool(tool.id, tool.category, tool)}>
                     <div className="tool">
                       <div className="picture-tool"> 
@@ -427,50 +395,58 @@ const Dashboard = ({history, location}) => {
                             </span>
                           ))
                         }
-                      </div>                         
-                      <b className="category">{tool.category}</b>
-                      <div className="div-t">
-                        <p className="title-tool">{tool.title}</p>
-                        <p className="text-price">Diária a partir de <span className="price">R$ { tool.prices.split(';')[0] }</span></p>
-                        <div>
-                          {
-                            viewsearch !== '' ?
-                            (
-                              <button 
-                                type={'button'}
-                                className={'button is-fullwidth is-default rent-viewsearch'}
-                              >
-                              Alugar
-                              </button>
-  
-                            )
-                            :
-                            ('')
-                          }
-                        </div>
-                        <div className="box-km">
-                          <div className="columns box-delivery">
+                      </div> 
+                      <div className="text-pd">
+                        <b className="category">{tool.category}</b>
+                        <div className="div-t">
+                          <p className="title-tool">{tool.title}</p>
+                          <p className="text-price">Diária <span className="price">R$ { tool.prices.split(';')[0] }</span></p>
+                          <div>
                             {
-                              <div className="column">
-                                {/*
-                                  <span className="km"> { tool.distance.toFixed(1).replace(/\./gi,',').replace(/,/gi,',') } km de você. </span>
-                                */} 
-                                <br/>
-                                <div className="delivery-index">Taxa de entrega a partir R$ 15,00 | 2 Horas</div>
-                                <p className="obs-delivery">* Valor final do delivery pode variar conforme distância do endereço de entrega.</p>
-                              </div>                              
-                            }
-                            {
-                              /*
-                                <div className="column">
-                                  <span className="promo">Desconto entrega</span>
-                                  <div className="delivery-index">Entrega R$ 15,00 | 2h | Curitiba e região.</div>
-                                </div>
-                              */
+                              viewsearch !== '' ?
+                              (
+                                <button 
+                                  type={'button'}
+                                  className={'button is-fullwidth is-default rent-viewsearch'}
+                                >
+                                Alugar
+                                </button>
+    
+                              )
+                              :
+                              ('')
                             }
                           </div>
+                          <br/>
+                          {
+                            /*
+                          <div className="box-km">
+                            <div className="columns box-delivery">
+                              {
+                                <div className="column">
+                                  {/*
+                                    <span className="km"> { tool.distance.toFixed(1).replace(/\./gi,',').replace(/,/gi,',') } km de você. </span>
+                                  } 
+                                  <br/>
+                                  <div className="delivery-index">Taxa de entrega a partir R$ 15,00 | 2 Horas</div>
+                                  <p className="obs-delivery">* Valor final do delivery pode variar conforme distância do endereço de entrega.</p>
+                                </div>                              
+                              }
+                              {
+                                /*
+                                  <div className="column">
+                                    <span className="promo">Desconto entrega</span>
+                                    <div className="delivery-index">Entrega R$ 15,00 | 2h | Curitiba e região.</div>
+                                  </div>
+                            
+                              }
+                            </div>
+                          </div>
+                          */
+                          }
                         </div>
-                      </div>
+                      
+                      </div>                        
                     </div>
                     {
                       tool.prices.split(';')[3].trim() === '0,00'? 
@@ -506,7 +482,47 @@ const Dashboard = ({history, location}) => {
             )
           } 
         </div>
-
+        <br/><br/>
+        {
+          viewsearch === ''? 
+          (
+            <div className="container howwork">
+              <p className="title-index has-text-centered">Como alugar na EasyTools?</p>
+              <div className="columns has-text-centered">
+                <div className="column">
+                  <ul className="ul-howwork">
+                    <li className="title-ul-how"> Escolha o que deseja alugar.</li>
+                    <li>
+                      Acesse sua conta e escolha o equipamento desejado. Furadeira, Extratora, Wap. Temos tudo que você precisa.
+                      Aluguel na hora, sem demora e sem burocracia. Adeus orçamento!
+                    </li>
+                  </ul>
+                </div>
+                <div className="column">
+                  <ul className="ul-howwork">
+                    <li className="title-ul-how">Selecione o período de uso.</li>
+                    <li>
+                      Escolha o período que deseja usar o alugado. Os períodos são: diária
+                      , semanal, quinzenal e mensal. Finalize o seu pedido. E espere pelo retorno da Easytools sobre o aluguel. (5Min)
+                    </li>
+                  </ul>
+                </div>
+                <div className="column">
+                  <ul className="ul-howwork">
+                    <li className="title-ul-how"> Receba em casa.</li>
+                    <li>
+                      Depois do pedido aceito, acesse meus alugados e pague o aluguel. Pagamento confirmado, preparamos o equipamento e 
+                      enviamos até você.
+                      Também buscamos! 
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>  
+          )
+          :
+          ('')
+        }
         <br/><br/>
         <br/><br/>
         <div className="has-text-centered">
@@ -550,7 +566,7 @@ const Dashboard = ({history, location}) => {
         <Slider {...settings}>
           <div className="has-text-centered">
             <p className="client">Fernanda</p>
-            <h3 className="message-client">"Muito anteciosos em resolver meu problema. Recomendo e muito a EasyTools."</h3>
+            <h3 className="message-client">"Atendimento incrível! Muito atenciosos em resolver meu problema. Recomendo e muito a EasyTools."</h3>
           </div>
           <div className="has-text-centered">
             <p className="client">Mara</p>

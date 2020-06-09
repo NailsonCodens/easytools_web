@@ -42,7 +42,7 @@
 }
 
 .head-infos-tool{
-  padding-top: 30px !important;
+  padding-top: 10px !important;
 }
 
 .name-neighbor{
@@ -78,6 +78,7 @@
   width: 280px;
 }
 
+
 .box-price-rent{
   padding-left: 10px !important;
   padding-right: 10px !important;
@@ -104,9 +105,6 @@
   width: 46%;
 }
 
-.DateInput_input:focus{
-  border: none !important;
-}
 
 .price-others{
   font-size: 14px !important;
@@ -191,6 +189,8 @@
 
 .orange{
   color: rgb(0, 132, 255) !important;
+  margin-top: -35px;
+  margin-bottom: -10px;
 }
 
 
@@ -234,7 +234,65 @@
   font-size: 20px;
 }
 
+.teset{
+  border:1px solid red !important;
+}
+
+.clqt{
+  margin-top: 0px !important;
+}
+
+.mg-button-rt{
+  margin-top: 0px;
+}
+
+.cost-cl{
+  margin-top: -30px !important;
+  background: red !important;
+}
+
+.no-top-total{
+  margin-top: -30px !important;
+}
+
+.no-padding-tt{
+  padding:0px 10px !important;
+  margin-bottom: -20px;
+}
+
+.DateInput_input:focus{
+  border-bottom: 3px solid rgb(0, 132, 255) !important;
+}
+
+.DateInput_input__focused{
+  border-bottom: 3px solid rgb(0, 132, 255) !important;
+}
+
+.DateInput_input::placeholder{
+  color: rgb(0, 0, 0) !important;
+}
+
+.DateInput_input{
+  font-weight: 500 !important;
+}
+
+.DateRangePickerInput__withBorder{
+  border: 1px solid rgb(163, 163, 163);
+}
+
+.border-black{
+  border: 1px solid rgb(163, 163, 163) !important;
+}
+
 @media (max-width: 900px) {
+  .mg-button-rt{
+    margin-top: -16px;
+  }
+ 
+  .clqt{
+    margin-top: -20px !important;
+  }
+
   .brands-tools{
     width: 340px;
   }  

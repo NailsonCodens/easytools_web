@@ -3,9 +3,6 @@
   justify-content: center !important;
   padding-left: 10px;
   padding-bottom: 0px;
-  -webkit-box-shadow: 0px 0px 1px 0px rgba(168,168,168,1);
-  -moz-box-shadow: 0px 0px 1px 0px rgba(168,168,168,1);
-  box-shadow: 0px 0px 1px 0px rgba(168,168,168,1);
   border-bottom: 1px solid rgb(218, 218, 218);
 }
 
@@ -53,12 +50,12 @@
   width: 370px !important;
   height: 40px !important;
   background: rgb(243, 242, 242)!important;
-  border: 2px solid #d8d8d8 !important;
+  border: 1px solid #d8d8d8 !important;
   outline: none !important;
   font-family: 'Poppins', sans-serif !important;
   font-weight: 600 !important;
   padding-left: 20px !important;
-  margin-top: 17px;
+  margin-top: 4px;
   margin-left: -15px;
 }
 
@@ -90,7 +87,7 @@
 }
 
 .back-nav{
-  padding-bottom: 85px;
+  padding-bottom: 65px;
 }
 
 .localization{
@@ -133,7 +130,12 @@
 }
 
 .buttonsaddress{
-  border-radius: 100px !important;
+  margin-top: 4px;
+  margin-left: -30px;
+}
+
+.icon-search-bt{
+  color: #fff;
 }
 
 .navbar-item-2{
@@ -185,19 +187,41 @@
 }
 
 .menu-small img{
-  width: 40px !important;
+  width: 45px !important;
 }
 
 .menu-small .input-search {
   height: 30px !important;
-  margin-top: 10px;
+  margin-top: -1px;
+}
+
+.menu-small .buttonsaddress{
+  margin-top: -10px;
+  padding: 0px 10px !important;
+  margin-top: -1px;
+  height: 30px !important;
+}
+
+.buttonsaddress:hover{
+  color: #fff !important;
 }
 
 @media (max-width: 900px) {
+  .navbar-menu.is-active{
+    display: inline !important;
+  }
+  
+  .buttonsaddress{
+    float: right !important;
+    margin-top: -10px;
+    padding: 0px 10px !important;
+    margin-top: -1px;
+    height: 30px !important;
+  }
+
   .navbar{
     height: 25px !important;
   }
-
   
   .navbar-brand{
     margin-top: -1px !important;
@@ -216,14 +240,18 @@
   }
 
   .input-search {
-    margin-top: 14px;
+    margin-top: 0px;
     width: 100% !important;
-    border: 1px solid rgb(221, 221, 221) !important;
     border-radius: 100px !important;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
     padding-left:20px !important;
     height: 30px !important;
+    margin-left: 0px;
+  }
+
+  .input-right-mobile{
+
   }
 
   .navbar-burger{
@@ -351,7 +379,6 @@
   }
 
   .dropdown-user{
-    background:  red;
     width: 100% !important;
     margin-top: -420px !important;
   }
