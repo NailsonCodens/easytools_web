@@ -30,6 +30,7 @@ const Dashboard = ({history}) => {
 
     async function loadResults(){
       const response = await api.get(`/dashboard/results`, {})
+
       setResults(response.data.results)
     }
     loadResults()

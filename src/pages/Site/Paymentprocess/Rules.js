@@ -174,18 +174,19 @@ const Rules = ({ history }) => {
                         <p className="title-tool-only">Politicas & Regras do aluguel </p>
                       </div>
                     </div>
-                    <div className="columns">
+                    <div className="columns invert">
+                      <div className="column">
+                        <div className="column has-centered-text">
+                          <Rentalbox attempt={attempt} startDate={values.init} endDate={values.finish}></Rentalbox>
+                        </div>
+                      </div>
                       <div className="column is-two-thirds">
                         <div className="columns noppadding">
                           <div className="column">
                             <p className="title-infos-tool hack-padding-top">Política de locação</p>
                             <Ul>
                               <b className="title-politics">Como funciona? </b>
-                              <li> 1 Você aluga o equipamento desejado;</li>
-                              <li> 2 Recebemos sua solicitação de aluguel; </li>
-                              <li> 3 Enviamos a confirmação do seu aluguel, via email e site, junto com o acesso ao <b>pagamento</b>; </li>
-                              <li> 4 Pagamento feito, seerá enviado um contrato de locação que <b>não precisa ser assinado</b>, em seu email, <b>tudo digital</b>;</li>
-                              <li><p class="explanation-rules">Todo o processo de aluguel se resolve em menos de <b>10 minuto.</b> Em locadoras convencionais demora <b>24 horas</b>.</p></li> 
+                              <li> Você escolhe o produto, a data de uso, a forma de pagamento e nós aceitamos seu aluguel;</li>
                             </Ul>
                             {
                               /*
@@ -208,13 +209,11 @@ const Rules = ({ history }) => {
                             <Ul>
                               <b className="title-politics">Prazos e períodos</b>
                               <li> - Nós entregamos o equipamento alugado em até 2 horas;</li>
-                              <li> - Respeitar os prazos e períodos contratados é a grande chave para nosso relacionamento;</li>
                             </Ul>
                             <br/>
                             <p className="title-infos-tool hack-padding-top">Contrato de locação</p>
                             <Ul>
                               <b className="title-politics">Contrato on-line</b>
-                              <li> - Apartir do momento em que você se <b>cadastra</b> na plataforma e <b>aceita os termos de uso</b>, você já <b>aceita os termos do contrato de locação</b>;</li>
                               <li> - O contrato chegará por e-mail assim que você receber o equipamento; </li>
                             </Ul>
                             <br/>
@@ -261,11 +260,6 @@ const Rules = ({ history }) => {
                             }
                             </div>
                           </div>
-                      </div>
-                      <div className="column">
-                        <div className="column has-centered-text">
-                          <Rentalbox attempt={attempt} startDate={values.init} endDate={values.finish}></Rentalbox>
-                        </div>
                       </div>
                     </div>
                     <div className="columns">

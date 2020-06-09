@@ -1,16 +1,25 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap');
 
+body{
+  background: #FAFAF8 !important;
+}
+
 .container-bottom{
   padding: 20px;
 }
+
+.invert{
+  flex-direction: row-reverse !important;
+}
+
 
 *:focus {
   border-color: inherit !important;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   border: none !important;
-  border: 1px solid #d8d8d8 !important;
+  border: 1px solid #d8d8d8;
 }
 
 .input, .button .select{
@@ -37,7 +46,7 @@
 }
 
 .validation-warning{
-  color:#ff8e38;
+  color:red;
   text-align: left !important;
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
@@ -351,6 +360,7 @@
   font-size: 20px;
   font-family: 'Poppins', sans-serif !important;
   font-weight: 500 !important;
+  margin-top: -30px;
 }
 
 .list-info-payment{
@@ -363,10 +373,16 @@
 }
 
 .valuefreight{
-  font-size: 16px;
+  font-size: 20px;
   font-family: 'Poppins', sans-serif !important;
   font-weight: 500 !important;
   color: #60A8F1;
+  margin-top: 15px;
+}
+
+.title-tl-input{
+  font-size: 18px;
+  margin-bottom: -10px;
 }
 
 .container-notfound{
@@ -610,11 +626,24 @@
   height: 120px;
 }
 
-
 .warning{
   color: red;
 }
 
+.dt-sd{
+  margin-top: 10px;
+}
+
+.distance{
+  color: #60A8F1;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 300 !important;
+}
+
+.vlkm{
+  font-weight: 600;
+  color: #4a4a4a;
+}
 
 @media (max-width: 900px) {
   .born{

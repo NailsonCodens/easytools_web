@@ -259,7 +259,16 @@ const MenuRenter = () => {
       pauseOnHover: true,
       draggable: true,
     }
-	)
+  )
+
+	const searchTools = (event) => {
+		if (event === '') {
+			findTools('close')
+			('close')
+		}
+		setSearch(event)
+		setBettersearch(true)
+	}
 
 	const findTools = (op = '') => {
 		if (op === 'close') {
@@ -272,17 +281,10 @@ const MenuRenter = () => {
 			dispatch(Viewsearch(true))
 			setBettersearch(false)
 			Scrool(0,0)	
+			if (history.location.pathname !== '/') {
+				history.push('/')
+			}
 		}
-
-		history.push('/s/search/all/' + search + '/region')	
-	}
-
-	const searchTools = (event) => {
-		if (event === '') {
-			findTools()
-		}
-		setSearch(event)
-		setBettersearch(true)
 	}
 
 	const cancel = () => {
@@ -331,11 +333,11 @@ const MenuRenter = () => {
 				<>
 					<div className={"navbar-item"}>
 						<div className="buttons">
-							<Link to={'/'}  onClick={event => Tracking('Menu site - explorar', 'Clique menu explorar', 'Menu site') } className="navbar-item">
+							<Link to={'/'}  onClick={event => Tracking('Menu site - Início', 'Clique menu Início', 'Menu site') } className="navbar-item">
 									<div className="box-icons-mobile">
 										<FontAwesomeIcon icon={['fas', 'search']} className={history.location.pathname === '/' ? "menu-icons-active" : "menu-icons" } size="1x"/>
 										<div className="text-box">
-											Explorar
+											Início
 										</div>
 									</div>
 							</Link>
@@ -453,7 +455,7 @@ const MenuRenter = () => {
 											<div className="box-icons-mobile">
 													<FontAwesomeIcon icon={['fas', 'handshake']} className="menu-icons" size="1x"/>
 													<div className="text-box">
-														Alugar!
+														Cadastre-se!
 													</div>
 												</div>
 										</Link>
@@ -519,8 +521,8 @@ const MenuRenter = () => {
 											current_user.type_user === 'Renter' ? 
 											(
 												<>
-													<Link to={'/'} onClick={event => Tracking('Menu site - explorar', 'Clique menu explorar', 'Menu site', 400, 400) } className="navbar-item">
-														Explorar
+													<Link to={'/'} onClick={event => Tracking('Menu site - Início', 'Clique menu Início', 'Menu site', 400, 400) } className="navbar-item">
+														Início
 													</Link>
 													<Link to={'/s/renter/myrent'} onClick={event => Tracking('Menu site - meus alugado', 'Clique menu meus alugados', 'Menu site') } className="navbar-item">
 														Meus alugados
@@ -537,12 +539,6 @@ const MenuRenter = () => {
 											</Link>
 											*/
 										}
-										<Link to={'/'} className="navbar-item">
-											Explorar
-										</Link>
-										<Link to={'/s/about-us'} onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site') } className="navbar-item">
-											Precisou? Alugue!
-										</Link>
 										<Dropdownpure text="Notificações" countn={notificationrd} classMenu="classNotless" classCuston=" notification">
 											{ renderNotify() }
 										</Dropdownpure>
@@ -554,13 +550,13 @@ const MenuRenter = () => {
 								(
 									<>
 										<Link to={'/'} className="navbar-item">
-											Explorar
+											Início
 										</Link>
 										<Link to={'/signup?type=renter'} onClick={event => Tracking('Menu site - Alugue o que precisa', 'Clique menu alugue o que precisa', 'Menu site') } className="navbar-item">
-											Alugar
+											Cadastre-se
 										</Link>
 										<a href={'https://docs.google.com/forms/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} onClick={event => Tracking('Menu site - Seja um locador', 'Clique seja um locador', 'Menu site') } className="navbar-item neighboor-nav" target="_blank">
-										  Anuncie sua ferramenta
+											Ser vizinho na EasyTools
 										</a>
 										<Link to={'/s/about-us'} onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site') } className="navbar-item">
 											Precisou? Alugue!
@@ -668,205 +664,40 @@ const MenuRenter = () => {
 		<div className="back-nav">
 			<nav className={"navbar nav-fixed " + setclass}>
 				<div className="navbar-brand">
-					<a href={'/'} onClick={ event => findTools('close')}>
+					<Link to={'/'} onClick={ event => findTools('close')}>
 						<img src={logo} alt="EasyTools Logo" className="logo"/>
-					</a>	
+					</Link>	
 					{
 						history.location.pathname === '/s/renter/perfil' || history.location.pathname === '/s/payment/resumebook' || history.location.pathname === '/s/payment/rent-rules' ? 
 						('') 
 						:
 						(
 							<>
-								<div>
-									<input 
-										type="text" 
-										placeholder='Equipamentos e ferramentas' 
-										className="input input-search" 
-										value={search}
-										onKeyPress={event => {
-											if (event.key === 'Enter') {
-												findTools()
-											}
-										}}
-										onChange={event => searchTools(event.target.value)} 
-									/>
-									{
-										location === true ?
-										(
-											<Button 
-												type={'button'}
-												className={'button is-default localization'}
-												text={'S'}                            
-												onClick={event => getLocation()}
-											/>	
-										)
-										:
-										('')
-									}
-									<div className="is-clearfix"></div>	
-									<div>
-										{
-											isMobile ? 
-											(
-												<span	type={'button'} className={'button is-small is-default localization'} onClick={event => setBettersearch(!bettersearch)}>
-													<FontAwesomeIcon icon={['fas', 'search']} size="1x" />
-												</span>
-											)
-											:
-											(
-												<>
-												{
-													/*
-													<Button 
-														type={'button'}
-														className={'button is-small is-default localization'}
-														text={'Melhorar minha busca'}                            
-														onClick={event => setBettersearch(!bettersearch)}
-													/>
-													*/
-												}
-												</>
-											)
-										}
-									</div>
-									{
-										bettersearch === true && search !== ''? 
-										(
-											<>
-												<div className="newaddress" ref={wrapperRef}>
-													<div className="columns">
-														<div className="column">
-																<Button 
-																	type={'button'}
-																	className={'button is-small is-info buttonsaddress'}
-																	text={'Buscar'}
-																	onClick={event => findTools()}
-																/>
-														</div>
-													</div>
-													{
-														/*
-															<p>Refine sua busca.</p>
-															<Warningtext class="welcome-user">
-																Adicione o endereço onde o equipamento ou ferramenta, será usado.
-															</Warningtext>
-															<Form
-																onSubmit={ (e, values) => {
-																	formik.handleSubmit(values)
-																}} 
-																noValidate
-															>
-																<Input
-																	name="neighboor"
-																	type="text"
-																	placeholder="Rua, número complemento - Estado - Cidade"
-																	className={'input input-small'}
-																	onChange={event => handleMyaddress(event)}
-																	value={myaddress}
-																/>
-																{
-																	places.length > 0 ? 
-																	(
-																		<>
-																			<div className="box-places">
-																				<ul>
-																					{
-																						places.map((place, index) => (
-																							<li className="list-places" key={index} onClick={event => selectPlace(place)}>
-																								{place.place_name}
-																							</li>
-																						))
-																					}
-																				</ul>
-																			</div>
-																		</>
-																	)
-																	:
-																	('')
-																}
-																<br/>
-																<p>Distância</p>
-																	<input 
-																					className="is-checkradio"
-																					type="radio"
-																					id={'10'}
-																					name="distance" 
-																					value="10"
-																					onChange={event => handleDistance(event)}
-																			/>
-																				<Label for={'10'}>10Km</Label>
-																				<input 
-																					className="is-checkradio"
-																					type="radio"
-																					id={'20'}
-																					name="distance" 
-																					value="20"
-
-																					onChange={event => handleDistance(event)}
-																			/>
-																				<Label for={'20'}>20Km</Label>
-																				<input 
-																					className="is-checkradio"
-																					type="radio"
-																					id={'30'}
-																					name="distance" 
-																					value="30"
-																					onChange={event => handleDistance(event)}
-																			/>
-																				<Label for={'30'}>30Km</Label>
-																				<input 
-																					className="is-checkradio"
-																					type="radio"
-																					id={'50'}
-																					name="distance" 
-																					value="50"
-																					onChange={event => handleDistance(event)}
-																			/>
-																				<Label for={'50'}>50Km</Label>
-																<br/>
-																{
-																	/*
-																		<p>Categoria</p>
-																		<Select
-																		className={''}
-																		options={categories}
-																		isSearchable={true}
-																		placeholder={'Cortante'}
-																		onChange={selectedOption => {
-																			handleChangeCategory('category', selectedOption, 'select');
-																			formik.handleChange("category");
-																		}}
-																		value={category}
-																		/>
-																		<br/><br/>
-																	
-																}
-																<br/><br/>
-																<div className="is-pulled-right">
-																	<Button 
-																		type={'button'}
-																		className={'button is-small is-info buttonsaddress'}
-																		text={'Pronto'}
-																		disabled={coordiantevalue.length === undefined ? true : false}                       
-																		onClick={event => goOn()}
-																	/>
-																	<Button 
-																		type={'button'}
-																		className={'button is-small is-default buttonsaddress'}
-																		text={'Fechar'}                            
-																		onClick={event => cancel()}
-																	/>
-																</div>
-															</Form>
-														
-														*/
+								<div className="input-right-mobile">
+									<div className="columns is-mobile">
+										<div className="column is-8-desktop is-10-mobile">
+												<input 
+												type="text" 
+												placeholder='Pesquisar' 
+												className="input input-search" 
+												value={search}
+												onKeyPress={event => {
+													if (event.key === 'Enter') {
+														findTools()
 													}
-												</div>
-											</>
-										)
-										:
-										('')
-									}
+												}}
+												onChange={event => searchTools(event.target.value)} 
+											/>
+										</div>
+										<div className="column">
+										<a 
+										className={'button buttonsaddress is-info'}
+										onClick={event => findTools(search)}
+										>
+											<FontAwesomeIcon icon={['fas', 'search']}  size="1x" />
+										</a>
+										</div>
+									</div>
 								</div>
 							</>
 						)

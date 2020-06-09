@@ -12,6 +12,7 @@ import moment from 'moment';
 import 'moment/locale/pt-br';
 import brands from '../../../assets/images/brand.png';
   // eslint-disable-next-line
+import ScrollableAnchor from 'react-scrollable-anchor'
 import preciseDiff from 'moment-precise-range-plugin';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import { useFormik } from 'formik';
@@ -45,8 +46,8 @@ import {
 } from "react-device-detect";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
-library.add(faStar);
+import { faStar, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
+library.add(faStar, faCalendarAlt);
 
 const Tracking = (category, action, label) => {
   Scrool()
@@ -68,6 +69,7 @@ const Tool = ({history}) => {
   const [pictures, setPictures] = useState([]);
   const [prices, setPrices] = useState([]);
   const [focus, setFocus] = useState('');
+  const [errodate, setErrodate] = useState('');
   // eslint-disable-next-line
   const [startDate, setStartdate] = useState(null);
   // eslint-disable-next-line
@@ -110,19 +112,40 @@ const Tool = ({history}) => {
     }
   )
 
+  const danger = () => Notification(
+    'error',
+    'Ops! Insira as datas para alugar', 
+    {
+      autoClose: 4100,
+      draggable: false,
+    },
+    {
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+
+  
   const formik = useFormik({
     initialValues: {
       startDate:null,
       endDate: null,
       amount: amount !== undefined ? amount : 1,
     },
-    validationSchema: Yup.object({
-      startDate: Yup.string()
-        .required('Adicione a data do aluguel.'),
-        endDate: Yup.string()
-        .required('Adicione a data da devolução.'),
-    }),
     onSubmit: value => {
+      console.log(value)
+
+      if (value.startDate === null || value.endDate === null) {
+        setErrodate(true)
+        danger()
+        window.location.href = "#"+"dates";
+        return 
+      }
+
       loaddocumenttwo()
 
       var tensionChoose = ''
@@ -156,6 +179,7 @@ const Tool = ({history}) => {
     }
   })
 
+  
   const setLsItem = (url) => {
     localStorage.setItem('@lkt', url);
   }
@@ -438,6 +462,9 @@ const Tool = ({history}) => {
     }
   }
 
+  const showDanger = () => {
+  }
+
   const setDates = (dates, amountreceive) => {
     var amounttool = 1
     amounttool = amountreceive !== undefined ? amountreceive : formik.values.amount  
@@ -607,13 +634,13 @@ const Tool = ({history}) => {
     return (
     <>
       <div className="columns is-mobile no-margin-top-columns2">
-        <div className="column">
+        <div className="column no-padding-tt">
           <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
             <FormattedNumber value={price.price} style="currency" currency="BRL" />
             { text }
           </IntlProvider>
         </div>
-        <div className="column">
+        <div className="column no-padding-tt">
           <p className="is-pulled-right">
             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
               <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
@@ -625,12 +652,12 @@ const Tool = ({history}) => {
           <br/><br/>
         </div>
       </div>
-      <div className="columns">
-        <div className="no-padding-text">
-          <Warningtext class="orange">{ text2 }</Warningtext>
-        </div>
-      </div>
-      <div className="columns is-mobile">
+      {
+        /*
+          <Warningtext class="orange">{ text2 }</Warningtext>        
+        */
+      }
+      <div className="columns is-mobile no-top-total">
         <div className="column">
           <b>Total</b>
         </div>
@@ -731,131 +758,10 @@ return (
               </div>
             </div>
           </div>
-          <div className="columns">
-            <div className="column is-two-thirds">
-              <div>
-                <b>Pagamentos:</b>
-                <br/>
-                <div className="columns box-option-payment">
-                  <div className="colunm line-option-payment-no">
-                    <img src={mastercard} className="icon-payment"/>
-                    <span><b>Cartão de crédito</b></span>
-                  </div>
-                  <div className="colunm line-option-payment-no">
-                    <img src={machine} className="icon-payment"/>
-                    <span><b>Maquininha</b></span>
-                  </div>
-                  <div className="colunm line-option-payment-no">
-                    <img src={money} className="icon-payment"/>
-                    <span><b>Dinheiro</b></span>
-                  </div>
-                  <div className="colunm line-option-payment-no">
-                    <img src={boleto} className="icon-payment"/>
-                    <span><b>Boleto</b></span>
-                  </div>
-                </div>
-                <p>Reservas 3 dias antes do uso, disponível boleto.</p>
-              </div>
-              <div className="description">
-                <p className="title-infos-tool">
-                  Descrição
-                </p>
-                <p className="text-simple-info-tool">
-                  { tool.description }
-                </p>
-              </div>
-              <div className="description">
-                <p className="title-infos-tool">
-                  Uso indicado <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
-                </p>
-                <p className="text-simple-info-tool">
-                  { tool.use_indication }
-                </p>
-              </div>
-              <Hr/>
-              <div className="specification">
-                <div className="columns">
-                  <div className="column">
-                    <p className="title-infos-tool hack-padding-top">Especificações</p>
-                  </div>
-                  <div className="column">
-                  </div>
-                </div>
-                <div className="columns">
-                  <div className="column">
-                    <Ul>
-                      { /*<li><b>Marca</b></li>*/}
-                      {/*<li>{ tool.brand }</li>*/}
-                      <li><b>Categoria</b></li>
-                      <li>{ tool.category }</li>
-                      <li><b>Tipo</b></li>
-                      <li>{ tool.type_spec }</li>
-                    </Ul>
-                  </div>
-                  <div className="column">
-                    <Ul>
-                      <li><b>Potência</b></li>
-                      <li>{ tool.power }</li>
-                      {
-                        tool.tension !== '-' && tool.tension !== '/' ? 
-                        (
-                          <>
-                            <li><b>Tensão</b></li>
-                            <li>{ tool.tension === '/Tri' ? 'Trifásico' : tool.tension }</li>
-                          </>
-                        )
-                        :
-                        ('')
-                      }
-                      <li><b>Alimentação</b></li>
-                      <li>{ tool.feed }</li>
-                    </Ul>
-                  </div>
-                </div>
-                <div className="columns">
-                  <div className="column">
-                    <p className="title-infos-tool hack-padding-top">Acessórios e Acompanhamentos <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
-                    </p>   
-                    <div className="columns">
-                      <div className="column">
-                        <Ul>
-                          <li><b>Acessórios</b></li>
-                          <li>{ tool.accessory !== '' ? tool.accessory : 'Nenhum acessório disponível.'  }</li>
-                        </Ul>
-                      </div>
-                      <div className="column">
-                        <Ul>
-                          <li><b>Acompanha</b></li>
-                        <li>{ tool.follow !== '' ? tool.follow : 'Não disponível disponível' }</li>
-                        </Ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <Hr/>
-              <div className="columns">
-                <div className="column">
-                  {
-                    /*<p className="title-infos-tool hack-padding-top">Onde nós temos este equipamento ({ tool.title })</p>*/
-                  }
-                  {
-                   tool.lat !== undefined && tool.lng !== undefined ? 
-                   (
-                     <>
-                      {
-                        /*<Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture[0].url} title={tool.title}/> */                                   
-                      }
-                     </>
-                   )
-                   : 
-                   (
-                     ''
-                   )
-                  }
-                </div>
-              </div>
-            </div>
+          <div className="columns invert">
+            <ScrollableAnchor id={'dates'}>
+              <div> </div>
+            </ScrollableAnchor>
             <div  className={`column has-centered-text`}>
               <div  className={`pai has-centered-text sticky `}>
                 <div className="rental-box sticky-inner">
@@ -956,7 +862,7 @@ return (
                     }
                     <Field>
                       <Label className="label label-period" for={'title'}>
-                        Período de uso
+                        Período de uso <FontAwesomeIcon icon={['fas', 'calendar-alt']} className="" size="1x"/>
                       </Label> 
                       <br/>
                       <div className="dt-range-picker-tool no-margin-top-columns2">
@@ -979,7 +885,7 @@ return (
                         />
                         <Span className={'validation-warning'}>
                           {
-                            formik.touched.startDate && formik.errors.startDate 
+                            errodate == true  
                           ? 
                             (<div>Por favor insira as datas de aluguel e devolução.</div>) 
                           : 
@@ -1111,13 +1017,12 @@ return (
                           :
                           ('')
                         }
-  
                       </div>
-                      <div className="column is-4">
+                      <div className="column is-4 clqt">
                         <Field>
                           <Label className="label" for={'amount'}>Quantide</Label>
                           <Input
-                            className="input"
+                            className="input border-black"
                             name="amount"
                             type="number"
                             placeholder=""
@@ -1131,15 +1036,27 @@ return (
                     {
                       Object.entries(price).length > 0 ? 
                       (
-                        <div className="container">
+                        <div className="">
                           {renderPrice()}
                         </div>
                       ) : 
                       ('')
                     }
-                    <br/>
                     <div className="pricefinal">
-                      <Warningtext>*O valor final pode mudar de acordo com o período escolhido: diária, semanal, quizenal ou mensal.</Warningtext>
+                      {
+                        isMobile === true ? 
+                        (
+                          <>
+                         
+                          </>
+                        )
+                        :
+                        (
+                          <>
+                            <Warningtext>*O valor final pode mudar de acordo com o período escolhido: diária, semanal, quizenal ou mensal.</Warningtext>
+                          </>
+                        ) 
+                      }
                     </div>
                     {
                       modal2 === true ? 
@@ -1148,7 +1065,7 @@ return (
                           <Button
                             disabled={true}
                             type={'submit'}
-                            className={'button is-fullwidth color-logo'}
+                            className={'button is-fullwidth color-logo mg-button-rt'}
                             text={'Altere a data para prosseguir'}
                           />
                         </>
@@ -1159,8 +1076,9 @@ return (
                           <Button
                             disabled={tool.availability === "Y" ? false : true}
                             type={'submit'}
-                            className={'button is-fullwidth color-logo'}
+                            className={'button is-fullwidth color-logo mg-button-rt'}
                             text={tool.availability === "Y" ? 'Alugar' : 'Não disponível para locação'}
+                            onClick={event => showDanger()}
                           />
                         </>
                       )
@@ -1170,6 +1088,128 @@ return (
                     </div>
                   </Form>
                 </div>     
+              </div>
+            </div>
+            <div className="column is-two-thirds">
+              <div>
+                <b>Pagamentos:</b>
+                <br/>
+                <div className="columns box-option-payment">
+                  <div className="colunm line-option-payment-no">
+                    <img src={mastercard} className="icon-payment"/>
+                    <span><b>Cartão de crédito</b></span>
+                  </div>
+                  <div className="colunm line-option-payment-no">
+                    <img src={machine} className="icon-payment"/>
+                    <span><b>Maquininha</b></span>
+                  </div>
+                  <div className="colunm line-option-payment-no">
+                    <img src={money} className="icon-payment"/>
+                    <span><b>Dinheiro</b></span>
+                  </div>
+                  <div className="colunm line-option-payment-no">
+                    <img src={boleto} className="icon-payment"/>
+                    <span><b>Boleto</b></span>
+                  </div>
+                </div>
+                <p>Reservas 3 dias antes do uso, disponível boleto.</p>
+              </div>
+              <div className="description">
+                <p className="title-infos-tool">
+                  Descrição
+                </p>
+                <p className="text-simple-info-tool">
+                  { tool.description }
+                </p>
+              </div>
+              <div className="description">
+                <p className="title-infos-tool">
+                  Uso indicado <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
+                </p>
+                <p className="text-simple-info-tool">
+                  { tool.use_indication }
+                </p>
+              </div>
+              <Hr/>
+              <div className="specification">
+                <div className="columns">
+                  <div className="column">
+                    <p className="title-infos-tool hack-padding-top">Especificações</p>
+                  </div>
+                </div>
+                <div className="columns">
+                  <div className="column">
+                    <Ul>
+                      { /*<li><b>Marca</b></li>*/}
+                      {/*<li>{ tool.brand }</li>*/}
+                      <li><b>Categoria</b></li>
+                      <li>{ tool.category }</li>
+                      <li><b>Tipo</b></li>
+                      <li>{ tool.type_spec }</li>
+                    </Ul>
+                  </div>
+                  <div className="column">
+                    <Ul>
+                      <li><b>Potência</b></li>
+                      <li>{ tool.power }</li>
+                      {
+                        tool.tension !== '-' && tool.tension !== '/' ? 
+                        (
+                          <>
+                            <li><b>Tensão</b></li>
+                            <li>{ tool.tension === '/Tri' ? 'Trifásico' : tool.tension }</li>
+                          </>
+                        )
+                        :
+                        ('')
+                      }
+                      <li><b>Alimentação</b></li>
+                      <li>{ tool.feed }</li>
+                    </Ul>
+                  </div>
+                </div>
+                <div className="columns">
+                  <div className="column">
+                    <p className="title-infos-tool hack-padding-top">Acessórios e Acompanhamentos <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
+                    </p>   
+                    <div className="columns">
+                      <div className="column">
+                        <Ul>
+                          <li><b>Acessórios</b></li>
+                          <li>{ tool.accessory !== '' ? tool.accessory : 'Nenhum acessório disponível.'  }</li>
+                        </Ul>
+                      </div>
+                      <div className="column">
+                        <Ul>
+                          <li><b>Acompanha</b></li>
+                        <li>{ tool.follow !== '' ? tool.follow : 'Não disponível' }</li>
+                        </Ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <Hr/>
+              <div className="columns">
+                <div className="column">
+                  {
+                    /*<p className="title-infos-tool hack-padding-top">Onde nós temos este equipamento ({ tool.title })</p>*/
+                  }
+                  {
+                   tool.lat !== undefined && tool.lng !== undefined ? 
+                   (
+                     <>
+                      {
+                        /*<Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture[0].url} title={tool.title}/> */                                   
+                      }
+                     </>
+                   )
+                   : 
+                   (
+                     ''
+                   )
+                  }
+                </div>
               </div>
             </div>
           </div>
@@ -1220,7 +1260,6 @@ return (
           <br/>
           <Button className="button color-logo" onClick={event => setModal2(false)} text={'Mudar data'}/>
         </Modal>
-  
         <Modal
           show={modal} 
           onCloseModal={hideModal} 

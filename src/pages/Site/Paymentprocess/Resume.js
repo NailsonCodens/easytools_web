@@ -144,13 +144,18 @@ const Resume = ({history}) => {
                 <div className="padding-pages-intern">
                   <div className="column nopadding">
                     <div className="column">
-                      <p className="title-tool-only">Aluguel de { tool.title }</p>
+                      <p className="title-tool-only">Resumo do aluguel de { tool.title }</p>
                       <br/>
                       <Warningtext>* Revise e confirme o equipamento/ferramenta que você está alugando.</Warningtext>
                     </div>
                   </div>
                 </div>
-                <div className="columns">
+                <div className="columns invert">
+                  <div className="column has-centered-text">
+                    <div  className={``}>
+                      <Rentalbox attempt={attempt} startDate={values.init} endDate={values.finish}></Rentalbox>
+                    </div>
+                  </div>
                   <div className="column is-two-thirds">
                     <div className="columns">
                       <div className="column">
@@ -200,13 +205,7 @@ const Resume = ({history}) => {
                           </div>
                         </div>
                         <div className="columns nopadding">
-                          { console.log(tool) }
                           <div className="column">
-                            {
-                              /*
-                                <p><b>Marca</b>: { tool.brand }</p>
-                              */
-                            }
                             <p><b>Categoria</b>: { tool.category }</p>
                             <p><b>Tipo</b>: { tool.type_spec }</p>
                             <p><b>Acessórios: </b>: { tool.accessory !== '' ? tool.accessory : 'Nenhum acessório disponível.'  }</p>
@@ -220,13 +219,6 @@ const Resume = ({history}) => {
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="column">
-                  <div className="column has-centered-text">
-                    <div  className={``}>
-                      <Rentalbox attempt={attempt} startDate={values.init} endDate={values.finish}></Rentalbox>
-                    </div>
-                  </div>
                   </div>
                 </div>
                 <div className="columns">

@@ -284,16 +284,10 @@
 
 .geolo-bt{
   position: 9;
-  width: 40px !important;
-  height: 40px !important;
-  border-radius: 100% !important;
-  top: 5px;
-  margin-left: 10px;
-  background: rgb(255, 229, 134) !important;
-  color: rgb(255, 200, 0) !important;
+  color: rgb(46, 46, 46) !important;
+  background: rgb(255, 200, 0) !important;
   border: none !important;
 }
-
 
 .size-cs-geolo{
   font-size: 25px;
@@ -450,7 +444,7 @@
 
 .box-filters{
   background: #f1f1f1;
-  margin-top: -20px;
+  margin-top: 0px;
   height: 45px;
   padding: 0px 5px;
   z-index: 999;

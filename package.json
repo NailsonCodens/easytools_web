@@ -39,6 +39,7 @@
     "react-responsive-modal": "^4.0.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "react-scrollable-anchor": "^0.6.1",
     "react-select": "^3.0.8",
     "react-slick": "^0.25.2",
     "react-toastify": "^5.4.1",

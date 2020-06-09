@@ -278,23 +278,23 @@ const Dashboard = ({history, location}) => {
               <p className="title-search-geolo">Precisou de uma furadeira? Encontre e alugue aqui!</p>
                 <div className="container container-new">
                   <div className="field field-cs has-addons">
-                    <div className="control is-expanded">
+                    <div className="column is-four-fifths-desktop bt-ad">
                       <input 
                         type="text" 
-                        placeholder='Digite e clique no seu endereço.' 
+                        placeholder='Sua localização para achar equipamentos perto de você.' 
                         className="input input-geolocalization" 
                         onChange={event => handleMyaddress(event)}
                         value={myaddress}
                       />
                     </div>
-                    <div className="control">
+                    <div className="column is-2-desktop bt-ad bt-ad-geo">
                       <button 
                         type={'button'}
-                        className={'button is-default geolo-bt'}
+                        className={'button is-medium is-fullwidth is-default geolo-bt'}
                         title="Sua localização"
                         onClick={event => Geoloc()}
                       >
-                        <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="size-cs-geolo" size="2x"/>
+                        Encontrar
                       </button>
                     </div>
                   </div>
@@ -346,6 +346,33 @@ const Dashboard = ({history, location}) => {
             </div>
           </div>
         </div>
+        <div className="container">
+          {
+            viewsearch === ''? 
+            (
+              <h3 className="title-index">O que você precisa alugar?</h3>
+            )
+            :
+            (
+              <h3 className="title-index">O que encontramos próximo a você.</h3>
+            )
+          }
+          <div className="columns">
+            <div className="column box-categories has-text-centered construction" onClick={event => goProduct('construção')}>
+              <p className="categories-names">Construção</p>
+            </div>
+            <div className="column box-categories has-text-centered cleaner" onClick={event => goProduct('limpeza')}>
+              <p className="categories-names">Limpeza</p>
+            </div>
+            <div className="column box-categories has-text-centered gardening" onClick={event => goProduct('jardinagem')}>
+              <p className="categories-names">Jardinagem</p>
+            </div>
+            <div className="column box-categories has-text-centered bricolagem" onClick={event => goProduct('bricolagem')}>
+              <p className="categories-names">Faça você mesmo</p>
+            </div>
+          </div>
+        </div>
+        <br/><br/>
         {
           viewsearch === ''? 
           (
@@ -386,35 +413,6 @@ const Dashboard = ({history, location}) => {
           :
           ('')
         }
-
-        <div className="container">
-          {
-            viewsearch === ''? 
-            (
-              <h3 className="title-index">O que você precisa alugar?</h3>
-            )
-            :
-            (
-              <h3 className="title-index">O que encontramos próximo a você.</h3>
-            )
-          }
-          <div className="columns">
-            <div className="column box-categories has-text-centered construction" onClick={event => goProduct('construção')}>
-              <p className="categories-names">Construção</p>
-            </div>
-            <div className="column box-categories has-text-centered cleaner" onClick={event => goProduct('limpeza')}>
-              <p className="categories-names">Limpeza</p>
-            </div>
-            <div className="column box-categories has-text-centered gardening" onClick={event => goProduct('jardinagem')}>
-              <p className="categories-names">Jardinagem</p>
-            </div>
-            <div className="column box-categories has-text-centered bricolagem" onClick={event => goProduct('bricolagem')}>
-              <p className="categories-names">Faça você mesmo</p>
-            </div>
-          </div>
-        </div>
-
-        <br/><br/>
         <br/><br/>
         <div className="has-text-centered">
           <div className="columns">
