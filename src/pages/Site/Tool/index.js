@@ -178,6 +178,7 @@ const Tool = ({history}) => {
       next(rentData)  
     }
   })
+
   
   const setLsItem = (url) => {
     localStorage.setItem('@lkt', url);
@@ -1019,7 +1020,7 @@ return (
                       </div>
                       <div className="column is-4 clqt">
                         <Field>
-                          <Label className="label" for={'amount'}>Quantide</Label>
+                          <Label className="label" for={'amount'}>Quant. item</Label>
                           <Input
                             className="input border-black"
                             name="amount"
