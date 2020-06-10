@@ -213,7 +213,11 @@ const Dashboard = ({history, location}) => {
 
   const goProduct = (category) => {
     Scrool(0,0)
-    history.push('/s/equipaments/' + category) 
+
+    //all/equipaments/campina-grande-do-sul
+//    history.push(`/s/search/${category}/${title}/region`);
+
+    history.push('/s/search/' + category + '/equipaments/region') 
   }
 
   return (

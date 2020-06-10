@@ -44,7 +44,7 @@ const List = ({history}) => {
   const [modal, setModal] = useState(false);
   const [showneighbor, setShowNeighboor] = useState(false);
   const [km, setKm] = useState(false);
-  const [search, setSearch] = useState(titlest);
+  const [search, setSearch] = useState(titlest === 'equipaments' ? '' : titlest);
   const latitude = useSelector(state => state.latitude);
   const longitude = useSelector(state => state.longitude);
   const [setclass, setClass] = useState('box-filters');
@@ -106,6 +106,11 @@ const List = ({history}) => {
       var lat = localStorage.getItem('@lt')
       var lng = localStorage.getItem('@lg')
 
+      if (lat === null) {
+        lat = ''
+        lng = ''
+      }
+
       var search = titlest.replace('-', ' ').toLowerCase();
       var search = search.replace('-', ' ').toLowerCase();
 
@@ -121,11 +126,9 @@ const List = ({history}) => {
         cat = '';
       }
 
-
       const response = await api.get(`/tools_site?search=${sh}&distance=${state.x}&lat=${lat}&lng=${lng}&type=&category=${cat}`, {
         headers: { search }
       });
-      console.log(response)
       setTools(response.data.tools)
     }
     loadTools()    
@@ -136,21 +139,37 @@ const List = ({history}) => {
   }, []);
 
   const searchDistance = (event) => {
-    console.log(event)
+    find()
+    setKm(false)
   }
 
   const searchTool = (event) => {
-    console.log(event)
+    setSearch(event.target.value)
+  }
+
+  const searchEquipaments = (event) => {
+    find()
+    setEquipament(false)
   }
 
   const handleChangeCategory = (category) => {
     setSearch('equipaments')
     setTitlest('equipaments')
     find(category.value)
-    history.push(`/s/search/${category.value}/${'equipaments'}/${'adas'}`)
+
+    var lat = localStorage.getItem('@lt')
+    var lng = localStorage.getItem('@lg')
+
+    getAddress(lng, lat).then(res => {
+      var city = ''
+      const getCity = res.data.features.find(city => city.id.includes('place'));
+
+      city = getCity.text.replace(/\s+/g, '-').toLowerCase();
+      history.push(`/s/search/${category.value}/${'equipaments'}/${city}`)
+    })
   }
     
-  async function find(category) {
+  async function find(ctg = category) {
     var lat = localStorage.getItem('@lt')
     var lng = localStorage.getItem('@lg')
 
@@ -162,12 +181,9 @@ const List = ({history}) => {
     var sh = sh.replace('-', ' ').toLowerCase();
     var sh = sh.replace('-', ' ').toLowerCase();
 
-
-    const response = await api.get(`/tools_site?search=${sh}&distance=${state.x}&lat=${lat}&lng=${lng}&type=&category=${category}`, {
+    const response = await api.get(`/tools_site?search=${sh}&distance=${state.x}&lat=${lat}&lng=${lng}&type=&category=${ctg}`, {
       headers: { search }
     });
-
-    console.log(response)
     setTools(response.data.tools)
   }
 
@@ -295,7 +311,7 @@ const List = ({history}) => {
                 <p className="title-box-options">Selecione a categoria</p>
                 <br/>
                 <Select
-                  className={''}
+                  className={'select-list'}
                   options={[
                     {value: 'Construção', label: 'Construção'},
                     {value: 'Limpeza', label: 'Limpeza'},
@@ -361,18 +377,18 @@ const List = ({history}) => {
             equipament === true ? 
             (
               <div className="box-km" ref={refequipament}>
-                <p className="title-box-options">Pesquise</p>
+                <p className="title-box-options">Experimente furadeira</p>
                 <br/>
                 <input 
                   type="text" 
-                  placeholder='Experimente furadeira.' 
+                  placeholder='Pesquise aqui.' 
                   className="input input-geolocalization" 
                   onChange={event => searchTool(event)}
                   value={search}
                 />
-                <br/><br/>
+                <br/>
                 <div className="is-pulled-right div-bt-box">
-                  <button className="button color-logo">
+                  <button className="button color-logo" onClick={event => searchEquipaments(event)}>
                     Pesquisar
                   </button>                  
                 </div>
@@ -405,12 +421,29 @@ const List = ({history}) => {
       <div className="container-fluid-cs lt-box">
         <br/><br/>
         <div>
-          <p className="title-tl-page">Ferramentas em {region.replace('-', ' ')}</p>
+          {
+            region !== 'region' ? 
+            (
+              <>
+                <p className="title-tl-page">Ferramentas em 
+                {
+                  region.replace('-', ' ')
+                }
+                </p>
+              </>
+            )
+            :
+            (
+              <>
+                <p className="title-tl-page">Ferramentas e equipamentos</p>
+              </>
+            )
+          }
         </div>
         <div className="columns is-desktop is-multiline">
           {
             tools.map((tool, index) => (
-              <div className="column column-cs-mobile is-half line-tools">
+              <div className="column column-cs-mobile is-half line-tools" onClick={event => goPageTool()}>
                 <div className="columns box-ads-lt" key={index}>
                   <div className="column is-4 has-text-left tool-list">
                     {
@@ -470,6 +503,11 @@ const List = ({history}) => {
                             <span className="box-values-prod" title="Outros valores" onClick={event => setProd(!prod+tool.id)}>
                               Períodos
                             </span> 
+                            <div className="is-pulled-right box-rent">
+                              <button className="button color-logo is-middle" title="Outros valores" onClick={event => setProd(!prod+tool.id)}>
+                                Alugar
+                              </button>
+                            </div>
                             {
                               prod+tool.id === true ? 
                               (
