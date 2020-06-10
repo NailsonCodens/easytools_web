@@ -178,7 +178,6 @@ const Tool = ({history}) => {
       next(rentData)  
     }
   })
-
   
   const setLsItem = (url) => {
     localStorage.setItem('@lkt', url);

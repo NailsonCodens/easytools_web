@@ -294,7 +294,7 @@ const Dashboard = ({history, location}) => {
                     <div className="column is-2-desktop bt-ad bt-ad-geo">
                       <button 
                         type={'button'}
-                        className={'button is-medium is-fullwidth is-default geolo-bt'}
+                        className={'button is-fullwidth is-default geolo-bt'}
                         title="Sua localização"
                         onClick={event => Geoloc()}
                       >

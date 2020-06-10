@@ -153,7 +153,7 @@ const List = ({history}) => {
   }
 
   const handleChangeCategory = (category) => {
-    setSearch('equipaments')
+    setSearch('')
     setTitlest('equipaments')
     find(category.value)
 
@@ -285,6 +285,10 @@ const List = ({history}) => {
       draggable: true,
     }
   )
+
+  const goPageTool = (id, category) => {
+    window.open(`/s/tool/${id}?ctg=${category}`, '_blank');
+  }
 
   return (
     <>
@@ -443,7 +447,7 @@ const List = ({history}) => {
         <div className="columns is-desktop is-multiline">
           {
             tools.map((tool, index) => (
-              <div className="column column-cs-mobile is-half line-tools" onClick={event => goPageTool(tool)}>
+              <div className="column is-half line-tools" onClick={event => goPageTool(tool.id, tool.category)}>
                 <div className="columns box-ads-lt" key={index}>
                   <div className="column is-4 has-text-left tool-list">
                     {
