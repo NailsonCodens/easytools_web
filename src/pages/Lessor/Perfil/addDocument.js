@@ -119,7 +119,7 @@ const Doc = ({history}) => {
           </div>
           <div className="column">
             <div>
-              <h3 className="title-box-inter">Uma Selfie</h3>
+              <h3 className="title-box-inter">Uma Foto do seu rosto</h3>
               <div>
                 <Selfie id={user.id}/>
               </div>            

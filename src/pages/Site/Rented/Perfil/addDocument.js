@@ -364,7 +364,7 @@ const Doc = ({history}) => {
           <div className="column">
             <h3 className="title-box-inter">Os documentos são:</h3> 
             <p>Foto do RG ou CNH.</p>
-            <p>Uma selfie sua.</p>
+            <p>Uma foto do seu rosto.</p>
             <p>E o comprovante de endereço.</p>
             <p>Se for empresa, foto do contrato.</p>
           </div>
@@ -380,7 +380,7 @@ const Doc = ({history}) => {
           </div>
           <div className="column">
             <div>
-              <h3 className="title-box-inter">Uma Selfie</h3>
+              <h3 className="title-box-inter">Foto do seu rosto</h3>
               <div>
                 <Selfie id={user.id}/>
               </div>            
