@@ -660,7 +660,7 @@ const Adddocument = ({ onClose, history }) => {
                     <Document id={us.id}/>
                   </div>
                   <div className="column">
-                    <h3 className="title-box-inter">Selfie</h3>
+                    <h3 className="title-box-inter">Foto do seu rosto</h3>
                     <Selfie id={us.id}/>
                   </div>
                 </div>

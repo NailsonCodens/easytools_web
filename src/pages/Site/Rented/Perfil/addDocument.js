@@ -346,7 +346,7 @@ const Doc = ({history}) => {
           <div className="column">
             <br/><br/>
             <h3 className="title-tool-only">
-              Precisamos que nos envie fotos de seus documentos para completar seu cadastro, é bem rapido.
+              Nos envie seus documentos para completar seu cadastro, é bem rapido.
               <br/><br/>
               Você só precisa fazer isso uma vez.
             </h3>
@@ -364,10 +364,9 @@ const Doc = ({history}) => {
           <div className="column">
             <h3 className="title-box-inter">Os documentos são:</h3> 
             <p>Foto do RG ou CNH.</p>
-            <p>Uma selfie sua.</p>
+            <p>Uma foto do seu rosto.</p>
             <p>E o comprovante de endereço.</p>
             <p>Se for empresa, foto do contrato.</p>
-            <Warningtext>Fique tranquilo, seus dados estão seguros conosco. Não os compartilharemos, venderemos ou usaremos indevidamente. </Warningtext>
           </div>
         </div>
         <div className="columns">
@@ -381,7 +380,7 @@ const Doc = ({history}) => {
           </div>
           <div className="column">
             <div>
-              <h3 className="title-box-inter">Uma Selfie</h3>
+              <h3 className="title-box-inter">Foto do seu rosto</h3>
               <div>
                 <Selfie id={user.id}/>
               </div>            
