@@ -569,7 +569,7 @@
 }
 
 .div-filters{
-  padding-top: 8px;
+  padding-top: 0px;
 }
 
 .div-filters{
@@ -692,10 +692,31 @@ border: 1px solid rgb(230, 230, 230);
   padding-top: 6px !important;
 }
 
+.box-values-prod{
+  z-index: 9 !important;
+  position: relative !important;
+}
+
+.findyou{
+  font-size: 15px;
+  color: rgb(110, 110, 110) !important;
+  margin-top: 24px;
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.findyou span{
+  font-weight: bold;
+}
+
 @media (max-width: 900px) {
   .container-fluid-cs{
     margin: 0px !important;
     padding: 0px 10px;
+  }
+
+  .box-values{
+    padding-top: 0px !important;
   }
 
   .money-tl{
@@ -718,7 +739,7 @@ border: 1px solid rgb(230, 230, 230);
     background: #fff;
     margin: 1px !important;
     padding: 0px;
-    padding-bottom: 70px !important;
+    padding-bottom: 95px !important;
     border: 1px solid rgb(173, 173, 173);
   }
   

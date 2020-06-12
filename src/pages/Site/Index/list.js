@@ -227,6 +227,7 @@ const List = ({history}) => {
 
     setMyaddress(place.place_name)
 
+    find()
     history.push(`/s/search/${category}/${titlest}/${city}`)
 
     setPlaces(false)
@@ -255,6 +256,7 @@ const List = ({history}) => {
             var city = ''
             const getCity = res.data.features.find(city => city.id.includes('place'));
             city = getCity.text.replace(/\s+/g, '-').toLowerCase();  
+            find()
             history.push(`/s/search/${category}/${titlest}/${city}`)
           })
         //findToolsM(position.coords.latitude, position.coords.longitude)
@@ -444,6 +446,7 @@ const List = ({history}) => {
             )
           }
         </div>
+        <p className="findyou"> <span>{ tools.length }</span> encontrados na categoria <span>{ category }</span> </p>
         <div className="columns is-desktop is-multiline">
           {
             tools.map((tool, index) => (
