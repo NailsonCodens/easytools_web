@@ -251,7 +251,8 @@
   }
 
   .input-right-mobile{
-
+    float: right !important;
+    margin-right: 0px;
   }
 
   .navbar-burger{

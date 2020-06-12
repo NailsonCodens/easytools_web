@@ -111,7 +111,7 @@ export default function SocialContract({id}) {
       1024,
       1024,
       'JPEG',
-      29,
+      38,
       0,
       uri => {
         var filenew = new File([uri], acceptedFiles[0].name, {type: acceptedFiles[0].type})

@@ -440,7 +440,6 @@
 .box-filters-mg{
   background: #f1f1f1;
   margin-top: -35px;
-  height: 45px;
   padding: 0px 5px;
   z-index: 0;
   position: fixed;
@@ -450,8 +449,8 @@
 .box-filters{
   background: #f1f1f1;
   margin-top: 0px;
-  height: 45px;
   padding: 0px 5px;
+  padding-bottom: 5px;
   z-index: 99;
   position: fixed;
   width: 100%;
@@ -549,7 +548,7 @@
 }
 
 .name-logo-tl{
-  z-index: 9;
+  z-index: 0;
   position: relative;
   top: -5px;
   margin-left: 10px;
@@ -693,7 +692,7 @@ border: 1px solid rgb(230, 230, 230);
 }
 
 .box-values-prod{
-  z-index: 9 !important;
+  z-index: 0 !important;
   position: relative !important;
 }
 
@@ -707,12 +706,21 @@ border: 1px solid rgb(230, 230, 230);
 
 .findyou span{
   font-weight: bold;
+  text-transform: capitalize;
 }
 
 @media (max-width: 900px) {
   .container-fluid-cs{
     margin: 0px !important;
     padding: 0px 10px;
+  }
+  
+  .title-tl-page{
+    margin-top: -20px;
+  }
+
+  .title-search-geolo{
+    margin-top: -30px !important;
   }
 
   .box-values{
@@ -758,7 +766,7 @@ border: 1px solid rgb(230, 230, 230);
   .box-km{
     width: 100% !important;
     left: 0 !important;
-    top: 63px;
+    top: 50px;
   }
 
   .select-eqs{
@@ -843,8 +851,8 @@ border: 1px solid rgb(230, 230, 230);
 
   .box-filters{
     background: #f1f1f1;
-    margin-top: -20px;
-    height: 80px;
+    margin-top: 6px;
+    padding-top: 20px !important;
     padding: 0px 5px;
    }
 
@@ -864,7 +872,7 @@ border: 1px solid rgb(230, 230, 230);
       z-index: 9;
       position: fixed;
       width: 100%;
-      height: 74px;
+      padding-bottom: 10px;
       background: #f1f1f1;
     }  
 }

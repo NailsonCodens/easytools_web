@@ -281,7 +281,7 @@ const Dashboard = ({history, location}) => {
               <br/>
               <p className="title-search-geolo">Precisou de uma furadeira? Encontre e alugue aqui!</p>
                 <div className="container container-new">
-                  <div className="field field-cs has-addons">
+                  <div className="columns ">
                     <div className="column is-four-fifths-desktop bt-ad">
                       <input 
                         type="text" 
