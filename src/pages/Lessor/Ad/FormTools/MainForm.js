@@ -9,7 +9,7 @@ import api from '../../../../services/api';
 import { useFormik } from 'formik';
 import Warning from '../../Warning';
 import './Steps/style.css';
-
+import { useSelector } from "react-redux";
 import StepViewer from '../../../../components/StepViewer/StepViewer';
 
 const Main = ({history, tool}) => {
@@ -77,6 +77,8 @@ const Main = ({history, tool}) => {
   // eslint-disable-next-line
   const [edit, setEdit] = useState(false);
 
+	const current_user = useSelector(state => state.auth);
+
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -111,7 +113,7 @@ const Main = ({history, tool}) => {
       lat: 0,
       lng: 0,
       availability: 'Y',
-      situation: 'Y',
+      situation: current_user.email === 'easytoolsapp@gmail.com'? 'Y': 'N',
     },
     onSubmit: value => {
     }

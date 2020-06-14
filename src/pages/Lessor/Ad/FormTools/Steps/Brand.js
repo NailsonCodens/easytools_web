@@ -7,12 +7,14 @@ import { Button } from '../../../../../components/Form/Button';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import { Span } from '../../../../../components/Span';
 import Scroll from '../../../../../utils/scroll';
-
+import { useSelector } from "react-redux";
 import categories from '../../../../../utils/categories';
+import types from '../../../../../utils/types';
 import feeds from '../../../../../utils/feeds';
 
 const Brand = ({nextStep, handleChange, prevStep, values}) => {
-  console.log(values.category)
+  const current_user = useSelector(state => state.auth)
+
   const formik = useFormik({
     initialValues: {
       brand: '',
@@ -166,52 +168,84 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
                 }
               </Span>
             </Field>
-          </div>
+          </div>      
+          {
+            current_user.email === 'easytoolsapp@gmail.com'? 
+            (
+              <>
+                <div className="column">
+                  <Field className={'field'}>
+                    <Label for={'category'}>
+                      <b>Categoria</b>
+                    </Label>
+                    <Select
+                      className={''}
+                      options={categories}
+                      isSearchable={true}
+                      isMulti
+                      placeholder={'Cortante'}
+                      onChange={selectedOption => {
+                        handleChangeBrand('category', selectedOption, 'select');
+                        formik.handleChange("category");
+                      }}
+                      defaultValue={values.category}
+                    />
+                  </Field>
+                </div>
+              </>
+            )
+            :
+            ('')
+          }
+        </div>
+        <div className="columns column-address">
           <div className="column">
             <Field className={'field'}>
               <Label for={'category'}>
-                <b>Categoria</b>
+                <b>Tipo da ferramenta</b>
               </Label>
               <Select
                 className={''}
-                options={categories}
+                options={types}
                 isSearchable={true}
                 isMulti
-                placeholder={'Cortante'}
+                placeholder={'Furadeira'}
                 onChange={selectedOption => {
-                  handleChangeBrand('category', selectedOption, 'select');
-                  formik.handleChange("category");
+                  handleChangeBrand('type', selectedOption, 'select');
+                  formik.handleChange("type");
                 }}
-                defaultValue={values.category}
+                defaultValue={values.type}
               />
             </Field>
           </div>
-        </div>
-        <div className="columns column-address">
-            <div className="column">
-              <Field>
-                <Label className="label-perfil" for={'type_spec'}>
-                  <b>Tipo</b>
-                </Label>
-                <Input
-                  name="type_spec"
-                  type="text"
-                  placeholder=""
-                  className={'input'}
-                  onChange={event => handleChangeBrand('type_spec', event)}
-                  value={values.type_spec}
-                />
-                <Span className={'validation-warning'}>
-                  {
-                    formik.touched.brand && formik.errors.brand 
-                  ? 
-                    (<div>{formik.errors.brand}</div>) 
-                  : 
-                    null
-                  }
-                </Span>
-              </Field>
-            </div>
+          {
+            /*
+              <div className="column">
+                <Field>
+                  <Label className="label-perfil" for={'type_spec'}>
+                    <b>Tipo</b>
+                  </Label>
+                  <Input
+                    name="type_spec"
+                    type="text"
+                    placeholder=""
+                    className={'input'}
+                    onChange={event => handleChangeBrand('type_spec', event)}
+                    value={values.type_spec}
+                  />
+                  <Span className={'validation-warning'}>
+                    {
+                      formik.touched.brand && formik.errors.brand 
+                    ? 
+                      (<div>{formik.errors.brand}</div>) 
+                    : 
+                      null
+                    }
+                  </Span>
+                </Field>
+              </div>  
+            */
+          }
             <div className="column">
               <Field className={'field'}>
                 <Label for={'feeding'}>
@@ -232,7 +266,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
             </div>
         </div>
         <div className="columns column-address">
-          <div className="column">
+          <div className="column is-5">
             <Field>
               <Label className="label-perfil" for={'power'}>
                 <b>Potência</b>
@@ -271,7 +305,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
                   className={'checkbox check'}
                   onChange={event => handleChangeBrand('tension1', event, 'checkbox')}
                 />
-                <span>110V/127V </span> 
+                <span>127V </span> 
               </Label>
               <Label className="checkbox padding-checkbox">
                 <Input
@@ -293,7 +327,27 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
                   className={'checkbox check'}
                   onChange={event => handleChangeBrand('tension3', event, 'radio')}
                 />
-                <span>ou Trifásico </span> 
+                <span>Trifásico </span> 
+              </Label>
+              <Span className={'validation-warning'}>
+                {
+                  formik.touched.tension && formik.errors.tension 
+                ? 
+                  (<div>{formik.errors.tension}</div>) 
+                : 
+                  null
+                }
+              </Span>
+              <Label className="checkbox padding-checkbox">
+                <Input
+                  name="tension3"
+                  type="radio"
+                  placeholder=""
+                  checked={values.tension3 === 'Tri' ? true : false}
+                  className={'checkbox check'}
+                  onChange={event => handleChangeBrand('tension3', event, 'radio')}
+                />
+                <span>Nenhum </span> 
               </Label>
               <Span className={'validation-warning'}>
                 {

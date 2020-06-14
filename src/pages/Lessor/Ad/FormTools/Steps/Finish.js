@@ -12,7 +12,6 @@ import { useParams } from "react-router-dom";
 import api from '../../../../../services/api';
 
 const Finish = ({handleChange, prevStep, values}) => {
-  console.log(values.category)
   let { id } = useParams();
   let history = useHistory();
 

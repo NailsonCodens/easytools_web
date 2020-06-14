@@ -254,24 +254,17 @@ const Dashboard = ({history, location}) => {
           <div className="image-index">
             <div className="explorer has-text-centered">
               <div className="box-digi">
-              {
-                viewsearch === ''? 
-                (
-                  <h3 className="title-index">
-                  <Typewriter
-                    options={{
-                      strings: ['Precisou? Alugue online e sem burocracia.', 'Alugar ferramentas e equipamentos nunca foi tão fácil.'],
-                      autoStart: true,
-                      loop: true,
-                      delay: 50,
-                      deleteSpeed: 10
-                    }}
-                  />
-                </h3>
-                )
-                :
-                ('')
-              }
+              <h3 className="title-index">
+                <Typewriter
+                  options={{
+                    strings: ['Precisou? Alugue online e sem burocracia.', 'Alugar ferramentas e equipamentos nunca foi tão fácil.'],
+                    autoStart: true,
+                    loop: true,
+                    delay: 50,
+                    deleteSpeed: 10
+                  }}
+                />
+              </h3>
               </div>            
                 {
                   /*

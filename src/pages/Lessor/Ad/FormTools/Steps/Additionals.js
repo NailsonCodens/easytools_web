@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Input } from '@rocketseat/unform';
@@ -9,8 +9,11 @@ import { Hr } from '../../../../../components/Hr';
 import Scroll from '../../../../../utils/scroll';
 import CurrencyInput from 'react-currency-input';
 import { Span } from '../../../../../components/Span';
+import 'bulma-slider/dist/css/bulma-slider.min.css';
+import Slider from 'react-input-slider';
 
 const Additionals = ({nextStep, handleChange, prevStep, values}) => {
+  const [state, setState] = useState({ x: 55});
 
   const formik = useFormik({
     initialValues: {
@@ -150,6 +153,13 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
                   null
                 }
               </Span>
+              <span className="km-text">R$ {state.x}</span>
+                <Slider
+                  axis="x"
+                  x={state.x}
+                  onChange={({ x }) => setState(state => ({ ...state, x }))}
+                />
+                <br/><br/>
             </Field>
           </div>
           <div className="column">
@@ -204,79 +214,83 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
         <Hr/>
         <b>Informações o aluguel do equipamento ou ferramenta</b>
         <br/><br/>
-        <div className="columns column-address">
-          <div className="column">
-            <div className="offer">  
-              <Label className="label-perfil" for={'contract'}>
-                <p>Contrato</p>
-              </Label> 
-              <CheckboxIOS 
-                onChange={event => handleChangeAdditionals('contract', event, 'checkbox')}
-                name="contract"
-                value={values.contract}
-                bind="checkcontract" 
-                id="checkcontract"
-                ch={values.contract === 'Y' ? true : false}
-                off="Não" 
-                on="Sim"
-              />
+        {
+          /*
+          <div className="columns column-address">
+            <div className="column">
+              <div className="offer">  
+                <Label className="label-perfil" for={'contract'}>
+                  <p>Contrato</p>
+                </Label> 
+                <CheckboxIOS 
+                  onChange={event => handleChangeAdditionals('contract', event, 'checkbox')}
+                  name="contract"
+                  value={values.contract}
+                  bind="checkcontract" 
+                  id="checkcontract"
+                  ch={values.contract === 'Y' ? true : false}
+                  off="Não" 
+                  on="Sim"
+                />
+              </div>
+            </div>
+            <div className="column">
+              <div className="offer">  
+                <Label className="label-perfil" for={'price3'}>
+                  <p>Seguro</p>
+                </Label> 
+                <CheckboxIOS 
+                  onChange={event => handleChangeAdditionals('insurance', event, 'checkbox')}
+                  name="insurance"
+                  value={values.insurance}
+                  bind="checkinsurance" 
+                  ch={values.insurance === 'Y' ? true : false}
+                  id="checkinsurance" 
+                  off="Não" 
+                  on="Sim"
+                />
+              </div>
             </div>
           </div>
-          <div className="column">
-            <div className="offer">  
-              <Label className="label-perfil" for={'price3'}>
-                <p>Seguro</p>
-              </Label> 
-              <CheckboxIOS 
-                onChange={event => handleChangeAdditionals('insurance', event, 'checkbox')}
-                name="insurance"
-                value={values.insurance}
-                bind="checkinsurance" 
-                ch={values.insurance === 'Y' ? true : false}
-                id="checkinsurance" 
-                off="Não" 
-                on="Sim"
-              />
+          <br/>
+          <div className="columns">
+            <div className="column">
+              <div className="offer">  
+                <Label className="label-perfil" for={'delivery'}>
+                  <p>Entrega</p>
+                </Label> 
+                <CheckboxIOS 
+                  onChange={event => handleChangeAdditionals('delivery', event, 'checkbox')}
+                  name="check_delivery"
+                  value={values.delivery}
+                  bind="checkdelivery" 
+                  ch={values.delivery === 'Y' ? true : false}
+                  id="checkdelivery" 
+                  off="Não" 
+                  on="Sim"
+                />
+              </div>
+            </div>
+            <div className="column">
+              <div className="offer">  
+                <Label className="label-perfil" for={'devolution'}>
+                  <p>Devolução</p>
+                </Label> 
+                <CheckboxIOS 
+                  onChange={event => handleChangeAdditionals('devolution', event, 'checkbox')}
+                  name="check_devolution"
+                  value={values.devolution}
+                  bind="checkdevolution"
+                  ch={values.devolution === 'Y' ? true : false}
+                  id="checkdevolution" 
+                  off="Não" 
+                  on="Sim"
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <br/>
-        <div className="columns">
-          <div className="column">
-            <div className="offer">  
-              <Label className="label-perfil" for={'delivery'}>
-                <p>Entrega</p>
-              </Label> 
-              <CheckboxIOS 
-                onChange={event => handleChangeAdditionals('delivery', event, 'checkbox')}
-                name="check_delivery"
-                value={values.delivery}
-                bind="checkdelivery" 
-                ch={values.delivery === 'Y' ? true : false}
-                id="checkdelivery" 
-                off="Não" 
-                on="Sim"
-              />
-            </div>
-          </div>
-          <div className="column">
-            <div className="offer">  
-              <Label className="label-perfil" for={'devolution'}>
-                <p>Devolução</p>
-              </Label> 
-              <CheckboxIOS 
-                onChange={event => handleChangeAdditionals('devolution', event, 'checkbox')}
-                name="check_devolution"
-                value={values.devolution}
-                bind="checkdevolution"
-                ch={values.devolution === 'Y' ? true : false}
-                id="checkdevolution" 
-                off="Não" 
-                on="Sim"
-              />
-            </div>
-          </div>
-        </div>
+        */
+        }
         <Button
           type={'button'}
           className={'button color-logo-lessor is-pulled-right'}

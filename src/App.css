@@ -162,7 +162,7 @@ body{
 }
 
 .container-page{
-  padding-top:0px !important;
+  margin-top:-90px !important;
   padding-bottom: 100px !important;
 }
 
@@ -226,7 +226,7 @@ body{
 }
 
 .menu-from-lessor, .menu-from-renter{
-  margin-top: 12px !important;
+  margin-top: -10px !important;
 }
 
 .user-dropdown{
@@ -765,6 +765,9 @@ body{
   color:#fff !important;
 }
 
+.input:focus{
+  border: 1px solid rgb(121, 121, 121) !important;
+}
 
 @media screen and (max-width: 1023px){
   .navbar-menu {

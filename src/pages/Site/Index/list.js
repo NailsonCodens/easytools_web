@@ -431,10 +431,7 @@ const List = ({history}) => {
             region !== 'region' ? 
             (
               <>
-                <p className="title-tl-page">Ferramentas em 
-                {
-                  region.replace('-', ' ')
-                }
+                <p className="title-tl-page">Ferramentas em { ' ' + region.replace('-', ' ')}
                 </p>
               </>
             )
@@ -446,7 +443,12 @@ const List = ({history}) => {
             )
           }
         </div>
-        <p className="findyou"> <span>{ tools.length }</span> encontrados na categoria <span>{ category }</span> </p>
+        <p className="findyou"> <span>{ tools.length }</span> encontrados na categoria <span>{ 
+        category === 'all' ? 
+        ('Todos')
+        :
+        (<>{category}</>) 
+        }</span> </p>
         <div className="columns is-desktop is-multiline">
           {
             tools.map((tool, index) => (
@@ -478,14 +480,14 @@ const List = ({history}) => {
                       <p className="title-tl"> { tool.title } </p>
                       <p>
                         <span>
-                          <img src={logo} alt="logo-easy" className="logo-tl"/>
+                          <img src={tool.user.url} alt="logo-easy" className="logo-tl"/>
                         </span> 
                         <span className="name-logo-tl">
-                          EasyTools
+                          {tool.user.name}
                         </span>
                       </p>
                       <p className="take-a-back">
-                        Leva e Busca
+                        Leva e Traz
                       </p>
                       <div className="text-infos-tl">
                         <span className="freight-tl tl-km">

@@ -42,13 +42,6 @@ export default function Index({history}) {
             <Titlepage>Meus Anúncios</Titlepage>
           </div>
           <div className="column has-text-right">
-            <Link to={'/lessor/ad/create'} className="is-info create-ad">
-              <Button
-                type={'submit'}
-                className={'button is-info color-logo-lessor'} 
-                text={'Cadastrar Anúncio'}
-              />
-            </Link>
           </div>
         </div>
         <div className="columns is-desktop">
