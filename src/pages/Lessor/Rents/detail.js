@@ -300,6 +300,15 @@ export default function Rents({history}) {
                     {
                       'idf: ' + rent.idf 
                     }
+                    <br/>
+                    <br/>
+                    {
+                      'Criação:' + moment(rent.createdAt).format('DD/MM/YYYY hh:mm:ss')
+                    }
+                    <br/>
+                    {
+                      'Atualização:' + moment(rent.updatedAt).format('DD/MM/YYYY hh:mm:ss')
+                    }
                     <div>
                       {
                         rent.accept === 'c' ? 
