@@ -21,7 +21,7 @@ const Basic = ({nextStep, handleChange, values}) => {
         .required('Descrição é obrigatório.'),
     }),
     onSubmit: value => {
-      nextStep()
+      nextStep("#"+"brand")
     }
   })
 

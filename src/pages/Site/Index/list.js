@@ -22,19 +22,22 @@ import useOutsideClickEquipament from "../../../utils/outsideclick";
 import useOutsideClickProd from "../../../utils/outsideclick";
 import distance from '../../../store/reducers/distance';
 import {IntlProvider, FormattedNumber} from 'react-intl';
+import { set } from 'react-ga';
 
 library.add(faMapMarkedAlt, faStopwatch, faSearch);
 
 const List = ({history}) => {
+  const user = useSelector(state => state.auth);
   const ref = useRef();
   const refcategory = useRef();
   const refequipament = useRef();
   const refprod = useRef();
   const dispatch = useDispatch();
   let {category, title, region } = useParams();
-
+  const [search, setSearch] = useState('');
+  const [userconfig, setUserconfig] = useState('');
   const [state, setState] = useState({ x: 55});
-  const [categorys, setCategory] = useState('');
+  const [categorys, setCategory] = useState(false);
   const [titlest, setTitlest] = useState(title);
   const [equipament, setEquipament] = useState('');
   const [prod, setProd] = useState('');
@@ -44,7 +47,6 @@ const List = ({history}) => {
   const [modal, setModal] = useState(false);
   const [showneighbor, setShowNeighboor] = useState(false);
   const [km, setKm] = useState(false);
-  const [search, setSearch] = useState(titlest === 'equipaments' ? '' : titlest);
   const latitude = useSelector(state => state.latitude);
   const longitude = useSelector(state => state.longitude);
   const [setclass, setClass] = useState('box-filters');
@@ -83,7 +85,6 @@ const List = ({history}) => {
           city = getCity.text.replace(/\s+/g, '-').toLowerCase();
           history.push(`/s/search/${category}/${titlest}/${city}`)
         })
-    
         setModal(false)
         setMyaddress('')
       } else {
@@ -91,7 +92,14 @@ const List = ({history}) => {
       }
     }
     loadModal()
-    
+
+    async function loadFreight (id) {
+      const response = await api.get(`/userconfig/${user.id}`, {
+      });
+      setUserconfig(response.data.userconfig[0]) 
+    }
+    loadFreight()
+ 
     async function showBottom () {
       //verificar mobile
       if (document.documentElement.scrollTop > 100) {
@@ -121,11 +129,12 @@ const List = ({history}) => {
       }
 
       var cat = category
-      
+
       if (cat === 'all') {
         cat = '';
       }
 
+      console.log(sh)
       const response = await api.get(`/tools_site?search=${sh}&distance=${state.x}&lat=${lat}&lng=${lng}&type=&category=${cat}`, {
         headers: { search }
       });
@@ -133,10 +142,7 @@ const List = ({history}) => {
     }
     loadTools()    
 
-    return () => {
-      setTools('');  
-    }
-  }, []);
+  }, [user]);
 
   const searchDistance = (event) => {
     find()
@@ -148,14 +154,39 @@ const List = ({history}) => {
   }
 
   const searchEquipaments = (event) => {
-    find()
+    var lat = localStorage.getItem('@lt')
+    var lng = localStorage.getItem('@lg')
+    
+    if (lat !== null) {
+      getAddress(lng, lat).then(res => {
+        var city = ''
+        const getCity = res.data.features.find(city => city.id.includes('place'));
+
+        city = getCity.text.replace(/\s+/g, '-').toLowerCase();
+        if (search === '') {
+          setTitlest('Pesquisar')
+          find(category, 'equipaments')
+          history.push(`/s/search/${category}/${'equipaments'}/${city}`)
+        } else {
+          setTitlest(search)
+          find(category, search)
+          history.push(`/s/search/${category}/${search}/${city}`)
+        }
+      })
+      setModal(false)
+      setMyaddress('')
+    }
     setEquipament(false)
   }
 
-  const handleChangeCategory = (category) => {
-    setSearch('')
-    setTitlest('equipaments')
-    find(category.value)
+  const handleChangeCategory = (category) => { 
+    Scroll(0,0)
+    setTitlest('Pesquisar')
+    if (category.value === 'all') {
+      find('', 'equipaments')
+    } else {
+      find(category.value, 'equipaments')
+    }
 
     var lat = localStorage.getItem('@lt')
     var lng = localStorage.getItem('@lg')
@@ -169,38 +200,62 @@ const List = ({history}) => {
     })
   }
     
-  async function find(ctg = category) {
+  async function find(ctg = category, srch = search) {
     var lat = localStorage.getItem('@lt')
     var lng = localStorage.getItem('@lg')
 
-    var sh  = search
+    var sh  = srch
+ 
     if (sh === 'equipaments') {
       sh = ''
+    }
+    console.log(srch)
+
+    if (ctg === 'all') {
+      ctg = ''
+    } else {
+      ctg = ctg
     }
     
     var sh = sh.replace('-', ' ').toLowerCase();
     var sh = sh.replace('-', ' ').toLowerCase();
 
     const response = await api.get(`/tools_site?search=${sh}&distance=${state.x}&lat=${lat}&lng=${lng}&type=&category=${ctg}`, {
-      headers: { search }
+      headers: { srch }
     });
+    console.log(response)
     setTools(response.data.tools)
   }
 
 	const handleMyaddress = (event) => {
     let query = event.target.value
-  
-		setMyaddress(event.target.value)
-
-		getCordinates(query).then(res => {
+    setMyaddress(event.target.value)
+    
+    getCordinates(query).then(res => {
       setPlaces(res.data.features)
 		})
-  }  
+  }
 
   const renderDelivery = (km) => {
-    var perkm = 1.60;
+    var kmregional = 5
+
+    var minfreight = userconfig.min !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 18;
+
+    var perkm = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1.85;
     var kmdelivery = parseFloat(km).toFixed(2);
-    var delivery =  kmdelivery * perkm;
+
+    if (kmdelivery > 5 && kmdelivery < 10) {
+      perkm = 2.20
+    }
+
+    var delivery = 0;
+
+    if (kmregional > kmdelivery) {
+      delivery = minfreight
+    } else {
+      delivery = kmdelivery * perkm;
+    }
+    
 
     var deliveryfinal = delivery.toFixed(2).replace(/\./gi,',').replace(/,/gi,',')
 
@@ -210,7 +265,6 @@ const List = ({history}) => {
   const selectPlace = (place) => {
 
     var city = ''
-
     const getCity = place.context.find(city => city.id.includes('place'));
 
     if (getCity === undefined) {
@@ -227,7 +281,7 @@ const List = ({history}) => {
 
     setMyaddress(place.place_name)
 
-    find()
+    find(category, titlest)
     history.push(`/s/search/${category}/${titlest}/${city}`)
 
     setPlaces(false)
@@ -238,7 +292,6 @@ const List = ({history}) => {
   const getGeolocalization = () => {
     navigator.geolocation.getCurrentPosition(
 			position => {
-        //Scroll(0,0)
         dispatch(Latitude(position.coords.latitude))
         dispatch(Longitude(position.coords.longitude))
 
@@ -256,8 +309,8 @@ const List = ({history}) => {
             var city = ''
             const getCity = res.data.features.find(city => city.id.includes('place'));
             city = getCity.text.replace(/\s+/g, '-').toLowerCase();  
-            find()
             history.push(`/s/search/${category}/${titlest}/${city}`)
+            find(category, titlest)
           })
         //findToolsM(position.coords.latitude, position.coords.longitude)
       },
@@ -319,16 +372,16 @@ const List = ({history}) => {
                 <Select
                   className={'select-list'}
                   options={[
+                    {value: 'all', label: 'Todos'},
                     {value: 'Construção', label: 'Construção'},
                     {value: 'Limpeza', label: 'Limpeza'},
                     {value: 'Jardinagem', label: 'Jardinagem'},
                     {value: 'Bricolagem', label: 'Bricolagem'}
                   ]}
+                  autoFocus={true}
                   isSearchable={true}
                   placeholder={'Selecione a categoria'}
-                  onChange={selectedOption => {
-                    handleChangeCategory(selectedOption);
-                  }}
+                  onChange={selectedOption => handleChangeCategory(selectedOption)}
                   defaultValue={category}
                 />
               </div>  
@@ -390,6 +443,7 @@ const List = ({history}) => {
                   placeholder='Pesquise aqui.' 
                   className="input input-geolocalization" 
                   onChange={event => searchTool(event)}
+                  autoFocus={true}
                   value={search}
                 />
                 <br/>
@@ -491,7 +545,7 @@ const List = ({history}) => {
                       </p>
                       <div className="text-infos-tl">
                         <span className="freight-tl tl-km">
-                          <span>A</span> { tool.distance.toFixed(2) }<span> km de você </span> 
+                          <span>A</span> { tool.distance.toFixed(2) < 5 ? '4.0' : tool.distance.toFixed(2) }<span> km de você </span> 
                         </span>
                         <span className="freight-tl ">
                           { renderDelivery(tool.distance.toFixed(2)) }
@@ -508,10 +562,7 @@ const List = ({history}) => {
                             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                               <b><FormattedNumber value={parseFloat(tool.prices.split(';')[0])} style="currency" currency="BRL" /></b>
                             </IntlProvider>
-                            <span>/Diária</span>
-                            <span className="box-values-prod" title="Outros valores" onClick={event => setProd(!prod+tool.id)}>
-                              Períodos
-                            </span> 
+                            <span>/Diária</span> 
                             <div className="is-pulled-right box-rent">
                               <button className="button color-logo is-middle" title="Outros valores" onClick={event => setProd(!prod+tool.id)}>
                                 Alugar

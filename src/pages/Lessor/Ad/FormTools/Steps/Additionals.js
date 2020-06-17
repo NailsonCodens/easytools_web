@@ -11,9 +11,10 @@ import CurrencyInput from 'react-currency-input';
 import { Span } from '../../../../../components/Span';
 import 'bulma-slider/dist/css/bulma-slider.min.css';
 import Slider from 'react-input-slider';
-
+import ScrollableAnchor from 'react-scrollable-anchor'
+import {IntlProvider, FormattedNumber } from 'react-intl';
 const Additionals = ({nextStep, handleChange, prevStep, values}) => {
-  const [state, setState] = useState({ x: 55});
+  const [state, setState] = useState({ x: 30});
 
   const formik = useFormik({
     initialValues: {
@@ -39,6 +40,11 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
     e.preventDefault();
     Scroll(100, 100);
     prevStep();
+  }
+
+  const choosePrice1 = (state, x) => {
+    setState(state, x)
+    values.price1 = state.x
   }
 
   const handleChangeAdditionals = (input, event, type) => {
@@ -96,6 +102,9 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
 
   return (
     <>
+      <ScrollableAnchor id={'3'}>
+      <div> </div>
+      </ScrollableAnchor>
       <SubTitlepages>Estamos quase terminando. Adicione as informações o aluguel do equipamento.</SubTitlepages>
       <br></br>
       <Form
@@ -135,12 +144,13 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
               <Label className="label-perfil" for={'price1'}>
                 <b>Diária</b>
               </Label>
+              <br/>
               <CurrencyInput
                 name="price1"
                 type="text"
                 decimalSeparator="," thousandSeparator="."
                 placeholder="R$ 50,00"
-                className={formik.touched.price1 && formik.errors.price1 ? 'input border-warning' : 'input'}
+                className={formik.touched.price1 && formik.errors.price1 ? 'input border-warning is-small' : 'input is-small'}
                 onChange={event => handleChangeAdditionals('price1', event, 'price')}
                 value={values.price1}
               />
@@ -152,14 +162,27 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
                 : 
                   null
                 }
-              </Span>
-              <span className="km-text">R$ {state.x}</span>
-                <Slider
-                  axis="x"
-                  x={state.x}
-                  onChange={({ x }) => setState(state => ({ ...state, x }))}
-                />
-                <br/><br/>
+              </Span>                 
+              {
+                
+                /*                
+             <span className="km-text">
+                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                      <FormattedNumber value={state.x} style="currency" currency="BRL"/>
+                    </IntlProvider>
+                  </span>
+                  <Slider
+                    xstep={1}
+                    xmin={30}
+                    xmax={40}
+                    axis="x"
+                    x={state.x}
+                    onChange={x => choosePrice1(x)}
+                  />
+                  <br/><br/>
+                
+                */
+              } 
             </Field>
           </div>
           <div className="column">
@@ -178,7 +201,9 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
               />
             </Field>
           </div>
-          <div className="column">
+        </div>
+        <div className="columns">
+        <div className="column">
             <Field>
               <Label className="label-perfil" for={'price3'}>
                 <b>Quinzenal</b>
@@ -212,10 +237,11 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
           </div>
         </div>
         <Hr/>
-        <b>Informações o aluguel do equipamento ou ferramenta</b>
-        <br/><br/>
         {
           /*
+        <b>Informações o aluguel do equipamento ou ferramenta</b>
+        <br/><br/>
+
           <div className="columns column-address">
             <div className="column">
               <div className="offer">  

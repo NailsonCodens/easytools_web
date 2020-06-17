@@ -70,6 +70,7 @@ const Tool = ({history}) => {
   const [prices, setPrices] = useState([]);
   const [focus, setFocus] = useState('');
   const [errodate, setErrodate] = useState('');
+  const [rent, setRent] = useState(false);
   // eslint-disable-next-line
   const [startDate, setStartdate] = useState(null);
   // eslint-disable-next-line
@@ -735,7 +736,6 @@ return (
             <div className="column is-two-thirds">
               <div>
                 <h3 className="title-tool-only">{tool.title}</h3>
-                <b className="category">{ tool.category }</b>
               </div>
             </div>
             <div className="column">
@@ -744,7 +744,9 @@ return (
                   {
                     dataLessor.map((lessor, index) => (
                       <div key={index}>
-                        <img src={lessor.url} alt={lessor.url} className="logo-neighbor"/>
+                        <span className="logo-neighbor">
+                          <img src={lessor.url} alt={lessor.url}/>
+                        </span>
                         <span className="name-neighbor"> { lessor.name }</span>          
                       </div>
                     ))
@@ -760,11 +762,19 @@ return (
           </div>
           <div className="columns invert">
             <ScrollableAnchor id={'dates'}>
-              <div> </div>
+              <div></div>
             </ScrollableAnchor>
-            <div  className={`column has-centered-text`}>
-              <div  className={`pai has-centered-text sticky `}>
+
+            <div className={ isMobile === false ? `column has-centered-text` : rent === true ? `page-full-date` : `page-dates`}>
+              <div  className={isMobile === false ? `pai has-centered-text sticky` : `pai has-centered-text`}>
+                <span className={ isMobile === false ? `hd-mobile-tool` : rent === true ? `close-rent` : ``} onClick={event => setRent(false)}>
+                  Voltar
+                </span>
                 <div className="rental-box sticky-inner">
+                  <p className={ isMobile === false ? `hd-mobile-tool` : rent === true ? `title-rent is-pulled-left` : `show-mobile`}>
+                    Selecione as datas de aluguel e devolução
+                  </p>
+                  <br/><br/>
                   <Form
                     onSubmit={ (e, values) => {
                       formik.handleSubmit(values)
@@ -1077,7 +1087,7 @@ return (
                             disabled={tool.availability === "Y" ? false : true}
                             type={'submit'}
                             className={'button is-fullwidth color-logo mg-button-rt'}
-                            text={tool.availability === "Y" ? 'Alugar' : 'Não disponível para locação'}
+                            text={tool.availability === "Y" ? 'Prosseguir' : 'Não disponível para locação'}
                             onClick={event => showDanger()}
                           />
                         </>
@@ -1137,21 +1147,15 @@ return (
                     <p className="title-infos-tool hack-padding-top">Especificações</p>
                   </div>
                 </div>
-                <div className="columns">
-                  <div className="column">
-                    <Ul>
-                      { /*<li><b>Marca</b></li>*/}
-                      {/*<li>{ tool.brand }</li>*/}
-                      <li><b>Categoria</b></li>
-                      <li>{ tool.category }</li>
-                      <li><b>Tipo</b></li>
-                      <li>{ tool.type_spec }</li>
-                    </Ul>
-                  </div>
+                <div className="columns is-desktop is-mobile">
                   <div className="column">
                     <Ul>
                       <li><b>Potência</b></li>
                       <li>{ tool.power }</li>
+                    </Ul>
+                  </div>
+                  <div className="column">
+                    <Ul>
                       {
                         tool.tension !== '-' && tool.tension !== '/' ? 
                         (
@@ -1172,7 +1176,7 @@ return (
                   <div className="column">
                     <p className="title-infos-tool hack-padding-top">Acessórios e Acompanhamentos <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
                     </p>   
-                    <div className="columns">
+                    <div className="columns is-desktop is-mobile">
                       <div className="column">
                         <Ul>
                           <li><b>Acessórios</b></li>
@@ -1247,6 +1251,9 @@ return (
             </div>
           </div>*/
           }
+        </div>
+        <div className={isMobile === false ? "hd-mobile" : "div-button-rent"}>
+          <a className="button is-fullwidth color-logo" onClick={event => setRent(true)}>Reservar</a>
         </div>
         <Modal
           show={modal2} 

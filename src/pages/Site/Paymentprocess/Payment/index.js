@@ -317,8 +317,8 @@ const Payment = ({history}) => {
     var minfreight = ''; 
 
     if (userconfig !== undefined) {
-      freight = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1;
-      minfreight = userconfig.freight !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 30;
+      freight = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1.85;
+      minfreight = userconfig.freight !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 18;
     } else {
       freight = 1;
       minfreight = 30;

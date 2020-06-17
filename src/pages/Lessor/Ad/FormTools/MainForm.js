@@ -197,9 +197,11 @@ const Main = ({history, tool}) => {
     }
   }, [formik.values, id]);
 
-  const nextStep = () => {
+  const nextStep = (stepanchor) => {
     const stepnew  = step
     setStep(stepnew + 1)
+    var teste = stepnew + 1
+    window.location.href = "#" + ''+ teste +'';
   }
 
   const prevStep = () => {

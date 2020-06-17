@@ -650,6 +650,10 @@ body{
     display: none!important;
   }
 
+  .error{
+    z-index: 9999999 !important;
+  }
+
   .button-congrats{
     z-index: 999;
     position: fixed;

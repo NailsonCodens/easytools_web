@@ -27,7 +27,7 @@ import { Warningtext } from '../../../components/Warningtext';
 import { Form, Input } from '@rocketseat/unform';
 import { Label } from '../../../components/Form/Form';
 import { useFormik } from 'formik';
-import { getCordinates } from '../../../services/mapbox';
+import { getCordinates, getAddress } from '../../../services/mapbox';
 import { Notifications } from '../../../store/actions/notifications';
 import ReactGA from 'react-ga';
 
@@ -263,8 +263,7 @@ const MenuRenter = () => {
 
 	const searchTools = (event) => {
 		if (event === '') {
-			findTools('close')
-			('close')
+			findTools('')
 		}
 		setSearch(event)
 		setBettersearch(true)
@@ -280,8 +279,21 @@ const MenuRenter = () => {
 			dispatch(Search(search))
 			dispatch(Viewsearch(true))
 			setBettersearch(false)
-			Scrool(0,0)	
-			history.push('/s/search/all/' + search + '/region') 
+			Scrool(0,0)
+			var lat = localStorage.getItem('@lt')
+      var lng = localStorage.getItem('@lg')
+      
+      if (lat !== null) {
+        getAddress(lng, lat).then(res => {
+          var city = ''
+					const getCity = res.data.features.find(city => city.id.includes('place'));
+  
+          city = getCity.text.replace(/\s+/g, '-').toLowerCase();
+					window.location.href = '/s/search/all/' + search + '/'+ city; 
+        })
+      }else {
+				window.location.href = '/s/search/all/' + search + '/region'; 
+			}
 		}
 	}
 

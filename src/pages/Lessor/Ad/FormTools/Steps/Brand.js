@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import categories from '../../../../../utils/categories';
 import types from '../../../../../utils/types';
 import feeds from '../../../../../utils/feeds';
+import ScrollableAnchor from 'react-scrollable-anchor'
 
 const Brand = ({nextStep, handleChange, prevStep, values}) => {
   const current_user = useSelector(state => state.auth)
@@ -30,7 +31,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
     },
 
     onSubmit: value => {
-      nextStep()
+      nextStep("#"+"prices")
     }
   })
 
@@ -39,6 +40,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
     Scroll(100, 100);
     prevStep();
   }
+
 
   const handleChangeBrand = (input, event, type) => {
     let ev = ''
@@ -105,6 +107,10 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
 
   return (
     <>
+      <ScrollableAnchor id={'2'}>
+      <div> </div>
+      </ScrollableAnchor>
+      <br/>
       <SubTitlepages>Adicione as informações como marca do equipamento, categoria e para que usar.</SubTitlepages>
       <Form
         onSubmit={ (e, values) => {
@@ -169,34 +175,25 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
               </Span>
             </Field>
           </div>      
-          {
-            current_user.email === 'easytoolsapp@gmail.com'? 
-            (
-              <>
-                <div className="column">
-                  <Field className={'field'}>
-                    <Label for={'category'}>
-                      <b>Categoria</b>
-                    </Label>
-                    <Select
-                      className={''}
-                      options={categories}
-                      isSearchable={true}
-                      isMulti
-                      placeholder={'Cortante'}
-                      onChange={selectedOption => {
-                        handleChangeBrand('category', selectedOption, 'select');
-                        formik.handleChange("category");
-                      }}
-                      defaultValue={values.category}
-                    />
-                  </Field>
-                </div>
-              </>
-            )
-            :
-            ('')
-          }
+          <div className="column">
+            <Field className={'field'}>
+              <Label for={'category'}>
+                <b>Categoria</b>
+              </Label>
+              <Select
+                className={''}
+                options={categories}
+                isSearchable={true}
+                isMulti
+                placeholder={'Cortante'}
+                onChange={selectedOption => {
+                  handleChangeBrand('category', selectedOption, 'select');
+                  formik.handleChange("category");
+                }}
+                defaultValue={values.category}
+              />
+            </Field>
+          </div>
         </div>
         <div className="columns column-address">
           <div className="column">
@@ -328,26 +325,6 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
                   onChange={event => handleChangeBrand('tension3', event, 'radio')}
                 />
                 <span>Trifásico </span> 
-              </Label>
-              <Span className={'validation-warning'}>
-                {
-                  formik.touched.tension && formik.errors.tension 
-                ? 
-                  (<div>{formik.errors.tension}</div>) 
-                : 
-                  null
-                }
-              </Span>
-              <Label className="checkbox padding-checkbox">
-                <Input
-                  name="tension3"
-                  type="radio"
-                  placeholder=""
-                  checked={values.tension3 === 'Tri' ? true : false}
-                  className={'checkbox check'}
-                  onChange={event => handleChangeBrand('tension3', event, 'radio')}
-                />
-                <span>Nenhum </span> 
               </Label>
               <Span className={'validation-warning'}>
                 {
