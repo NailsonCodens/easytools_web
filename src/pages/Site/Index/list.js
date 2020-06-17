@@ -132,13 +132,11 @@ const List = ({history}) => {
       if (cat === 'all') {
         cat = '';
       }
-
-      console.log(sh)
       const response = await api.get(`/tools_site?search=${sh}&distance=${state.x}&lat=${lat}&lng=${lng}&type=&category=${cat}`, {
         headers: { search }
       });
       setTools(response.data.tools)
-      loadFreight(response.data.tools.UserId)
+      loadFreight(response.data.tools[0].UserId)
     }
     loadTools()    
 
@@ -209,7 +207,6 @@ const List = ({history}) => {
     if (sh === 'equipaments') {
       sh = ''
     }
-    console.log(srch)
 
     if (ctg === 'all') {
       ctg = ''
@@ -223,7 +220,6 @@ const List = ({history}) => {
     const response = await api.get(`/tools_site?search=${sh}&distance=${state.x}&lat=${lat}&lng=${lng}&type=&category=${ctg}`, {
       headers: { srch }
     });
-    console.log(response)
     setTools(response.data.tools)
   }
 
@@ -239,13 +235,15 @@ const List = ({history}) => {
   const renderDelivery = (km) => {
     var kmregional = 5
 
-    var minfreight = userconfig.min !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 18;
+    var minfreight = userconfig.min !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 16;
 
-    var perkm = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1.85;
+    var perkm = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1.55;
     var kmdelivery = parseFloat(km).toFixed(2);
 
     if (kmdelivery > 5 && kmdelivery < 10) {
-      perkm = 2.20
+      perkm = 1.80
+    }else if (kmdelivery > 25) {
+      perkm = 1.45
     }
 
     var delivery = 0;
@@ -255,7 +253,6 @@ const List = ({history}) => {
     } else {
       delivery = kmdelivery * perkm;
     }
-    
 
     var deliveryfinal = delivery.toFixed(2).replace(/\./gi,',').replace(/,/gi,',')
 

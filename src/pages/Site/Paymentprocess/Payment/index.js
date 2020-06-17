@@ -317,8 +317,8 @@ const Payment = ({history}) => {
     var minfreight = ''; 
 
     if (userconfig !== undefined) {
-      freight = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1.85;
-      minfreight = userconfig.freight !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 18;
+      freight = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1.55;
+      minfreight = userconfig.freight !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 16;
     } else {
       freight = 1;
       minfreight = 5;
@@ -328,8 +328,8 @@ const Payment = ({history}) => {
     var fr = 0;
 
     if (kmcurrent > 5 && kmcurrent < 10) {
-      fr = 2.20
-    } else if (kmcurrent > 30) {
+      fr = 1.80
+    } else if (kmcurrent > 25) {
       fr = 1.45
     } else {
       fr = freight
