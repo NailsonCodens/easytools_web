@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import api from '../../../../../services/api';
 
 const Finish = ({handleChange, prevStep, values}) => {
+  console.log(values)
   let { id } = useParams();
   let history = useHistory();
 
@@ -20,7 +21,7 @@ const Finish = ({handleChange, prevStep, values}) => {
   if (values.tension1 === '' && values.tension2 === '' && values.tension3 === '') {
     values.tension = `${values.tension1}/${values.tension2}${values.tension3}` 
   } else {
-    values.tension = '-' 
+    values.tension = '-asdsad' 
   }
   
   let contract = values.contract === 'Y' ? 'SIM' : 'NÃO'
