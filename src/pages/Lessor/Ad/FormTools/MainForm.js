@@ -113,7 +113,7 @@ const Main = ({history, tool}) => {
       lat: 0,
       lng: 0,
       availability: 'Y',
-      situation: current_user.email === 'easytoolsapp@gmail.com'? 'Y': 'N',
+      situation: 'Y',
     },
     onSubmit: value => {
     }

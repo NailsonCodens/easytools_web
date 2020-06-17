@@ -321,7 +321,7 @@ const Payment = ({history}) => {
       minfreight = userconfig.freight !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 18;
     } else {
       freight = 1;
-      minfreight = 30;
+      minfreight = 5;
     }
     var kmcurrent = workadd.distance;
 
@@ -423,8 +423,12 @@ const Payment = ({history}) => {
                     <br/>
                     <p className="title-tool-only-little"> Entrega e busca do equipamento </p>
                     <br/>
-                    <span className="valuefreight">Distância do seu endereço: </span>
-                    <span className="vlkm">{workaddshow} km</span>;
+                    <span className="valuefreight">Aproximadamente </span>
+                    <span className="vlkm">{
+                      workaddshow < 5 ? '4.0 km ' : workaddshow + ' km'
+
+                    }</span>
+                    <span className="valuefreight"> de você.</span>
                     <br/>
                     <span className="distance">Taxa de entrega e busca: </span>
                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
@@ -529,10 +533,10 @@ const Payment = ({history}) => {
                 <p className="title-tool-rules">{ tool.title }</p>
                 <div className="columns is-mobile">
                   <div className="column">
-                    <b> Aluguel </b> { start }
+                    <b> Aluguel </b> <br/> { start }
                   </div>
                   <div className="column">
-                    <b> Devolução </b> { end }                    
+                    <b> Devolução </b> <br/> { end }                    
                   </div>
                 </div>
                 {

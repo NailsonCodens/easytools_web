@@ -107,9 +107,6 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
 
   return (
     <>
-      <ScrollableAnchor id={'2'}>
-      <div> </div>
-      </ScrollableAnchor>
       <br/>
       <SubTitlepages>Adicione as informações como marca do equipamento, categoria e para que usar.</SubTitlepages>
       <Form

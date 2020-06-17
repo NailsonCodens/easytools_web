@@ -267,7 +267,7 @@
   .navbar-end-rent{
     background: #fff;
     height: 60px;
-    bottom: 0px;
+    bottom: -2px;
     padding-top: 10px;
     left: 0px;
     width: 100% !important;

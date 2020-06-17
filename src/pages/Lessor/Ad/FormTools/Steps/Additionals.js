@@ -102,9 +102,6 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
 
   return (
     <>
-      <ScrollableAnchor id={'3'}>
-      <div> </div>
-      </ScrollableAnchor>
       <SubTitlepages>Estamos quase terminando. Adicione as informações o aluguel do equipamento.</SubTitlepages>
       <br></br>
       <Form
@@ -150,7 +147,7 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
                 type="text"
                 decimalSeparator="," thousandSeparator="."
                 placeholder="R$ 50,00"
-                className={formik.touched.price1 && formik.errors.price1 ? 'input border-warning is-small' : 'input is-small'}
+                className={formik.touched.price1 && formik.errors.price1 ? 'input border-warning' : 'input'}
                 onChange={event => handleChangeAdditionals('price1', event, 'price')}
                 value={values.price1}
               />

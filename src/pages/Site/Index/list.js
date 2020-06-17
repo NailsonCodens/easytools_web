@@ -94,11 +94,10 @@ const List = ({history}) => {
     loadModal()
 
     async function loadFreight (id) {
-      const response = await api.get(`/userconfig/${user.id}`, {
+      const response = await api.get(`/userconfig/${id}`, {
       });
       setUserconfig(response.data.userconfig[0]) 
     }
-    loadFreight()
  
     async function showBottom () {
       //verificar mobile
@@ -139,6 +138,7 @@ const List = ({history}) => {
         headers: { search }
       });
       setTools(response.data.tools)
+      loadFreight(response.data.tools.UserId)
     }
     loadTools()    
 
@@ -288,6 +288,7 @@ const List = ({history}) => {
     setModal(false)
     setMyaddress('')
   }
+
 
   const getGeolocalization = () => {
     navigator.geolocation.getCurrentPosition(

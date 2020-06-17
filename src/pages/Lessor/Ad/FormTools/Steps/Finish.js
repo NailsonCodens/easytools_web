@@ -17,11 +17,17 @@ const Finish = ({handleChange, prevStep, values}) => {
   let history = useHistory();
 
   values.prices =  `${values.price1}; ${values.price2}; ${values.price3}; ${values.price4}`
- 
-  if (values.tension1 === '' && values.tension2 === '' && values.tension3 === '') {
-    values.tension = `${values.tension1}/${values.tension2}${values.tension3}` 
-  } else {
-    values.tension = '-asdsad' 
+
+
+
+  values.tension = `${values.tension1}/${values.tension2}${values.tension3}`
+
+  if (values.tension === '-/') { 
+    values.tension  = '-'
+  }else if (values.tension === '/'){
+    values.tension  = '-'
+  }else if (values.tension === '-') {
+    values.tension  = '-'
   }
   
   let contract = values.contract === 'Y' ? 'SIM' : 'NÃO'
