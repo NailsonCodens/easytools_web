@@ -52,7 +52,7 @@ const Rules = ({ history }) => {
     async function loadRentattempt () {
       const response = await api.get(`rent/attempt/${values.rent_attempt}/${values.code_attempt}`, {
       });
-      
+
       if (response.data.rentattempt.length > 0) {
         setAttempt(response.data.rentattempt[0]);
         setOkAttempt(true)
@@ -103,6 +103,8 @@ const Rules = ({ history }) => {
     } else if (!moment(values.init).isValid()) {
       history.push('/ops');
     } else {
+
+      console.log(rentattempt.freight)
 
       var attemptvalues = {
         user_lessor_id: tool.user_id,
@@ -177,7 +179,7 @@ const Rules = ({ history }) => {
                     <div className="columns invert">
                       <div className="column">
                         <div className="column has-centered-text">
-                          <Rentalbox attempt={attempt} startDate={values.init} endDate={values.finish}></Rentalbox>
+                          <Rentalbox attempt={attempt} startDate={values.init} endDate={values.finish} freight={rentattempt.freight}></Rentalbox>
                         </div>
                       </div>
                       <div className="column is-two-thirds">

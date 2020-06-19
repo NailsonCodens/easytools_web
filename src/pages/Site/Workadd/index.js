@@ -203,6 +203,7 @@ const Workadd = ({rent}) => {
 
   return (
     <div className="container workadd">
+      <br/><br/>
       <p className="title-infos-tool hack-padding-top">Falta só mais um pouquinho!</p>
       <p className="title-tool-only">
         Onde você deseja receber o equipamento?

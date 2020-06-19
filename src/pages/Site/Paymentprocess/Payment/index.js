@@ -441,7 +441,7 @@ const Payment = ({history}) => {
                               className={''}
                               options={[
                                 {label: 'Começo da manhã - 08:00 às 10:00', value: 'Começo da manhã - 08:00 às 10:00'}, 
-                                {label: 'Fim da manhã - 11:00 às 12:00', value: 'Fim da manhã - 11:00 às 12:00'},
+                                {label: 'Fim da manhã - 10:00 às 12:00', value: 'Fim da manhã - 10:00 às 12:00'},
                                 {label: 'Início da tarde - 13:00 às 15:00', value: 'Ìnicio da tarde - 15:00 às 17:00'},
                                 {label: 'Extra noite - 17:00 às 19:00', value: 'Extra noite - 17:00 às 19:00'},
                               ]}
