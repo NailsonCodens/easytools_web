@@ -542,6 +542,7 @@ const List = ({history}) => {
                       <p className="take-a-back">
                         Leva e Traz
                       </p>
+                      <p className="rentper">Alugado por: { tool.user.name }, entrega e devolução: EasyTools </p>
                       <div className="text-infos-tl">
                         <span className="freight-tl tl-km">
                           <span>A</span> { tool.distance.toFixed(2) < 5 ? '4.0' : tool.distance.toFixed(2) }<span> km de você </span> 

@@ -764,7 +764,6 @@ return (
             <ScrollableAnchor id={'dates'}>
               <div></div>
             </ScrollableAnchor>
-
             <div className={ isMobile === false ? `column has-centered-text` : rent === true ? `page-full-date` : `page-dates`}>
               <div  className={isMobile === false ? `pai has-centered-text sticky` : `pai has-centered-text`}>
                 <span className={ isMobile === false ? `hd-mobile-tool` : rent === true ? `close-rent` : ``} onClick={event =>(setRent(false), Scrool(0,0))}>
@@ -774,7 +773,6 @@ return (
                   <p className={ isMobile === false ? `hd-mobile-tool` : rent === true ? `title-rent is-pulled-left` : `show-mobile`}>
                     Selecione as datas de aluguel e devolução
                   </p>
-                  <br/><br/>
                   <Form
                     onSubmit={ (e, values) => {
                       formik.handleSubmit(values)

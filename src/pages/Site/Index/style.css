@@ -701,6 +701,11 @@ border: 1px solid rgb(230, 230, 230);
   position: relative !important;
 }
 
+.rentper{
+  font-size: 13px !important;
+  margin-top: 14px;
+}
+
 .findyou{
   font-size: 15px;
   color: rgb(110, 110, 110) !important;
