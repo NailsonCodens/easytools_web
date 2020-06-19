@@ -288,6 +288,7 @@ const List = ({history}) => {
 
 
   const getGeolocalization = () => {
+    Scroll(0, 0);
     navigator.geolocation.getCurrentPosition(
 			position => {
         dispatch(Latitude(position.coords.latitude))

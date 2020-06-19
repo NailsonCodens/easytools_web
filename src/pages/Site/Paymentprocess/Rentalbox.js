@@ -13,7 +13,6 @@ import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
    
 const Rentalbox = ({startDate, endDate, attempt}) => {
-  
   const rentinfo = useSelector(state => state.rentinfo);
   const [tool, setTool] = useState([]);
   const [price, setPrice] = useState({});
@@ -181,9 +180,9 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
       }
 
 
-      dispatch(Rentattempt(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, 0, price.price, amountmonth))
+      dispatch(Rentattempt(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, attempt.freight || 16, price.price, amountmonth))
 
-      updateRentattemp(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, 0, price.price, amountmonth)
+      updateRentattemp(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, attempt.freight || 16, price.price, amountmonth)
     }else {
       //por aqui um redirect para erro 404
     }

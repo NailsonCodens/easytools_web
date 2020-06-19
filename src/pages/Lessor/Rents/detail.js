@@ -593,9 +593,30 @@ export default function Rents({history}) {
                               <p className="is-text">Baixar</p>
                               */
                             }
-                            
                             <br/>
-                            <img src={documentr.urldoc} alt={documentr.urldoc} />
+                            {
+                              documentr.urldoc !== undefined ? 
+                              (
+                                <>
+                                  {
+                                    documentr.urldoc.split('.')[1] === 'pdf' ? 
+                                    (
+                                      <>
+                                        <embed src={documentr.urldoc} type="application/pdf" width="100%" height="400px" />
+                                      </>
+                                    )
+                                    :
+                                    (
+                                      <>
+                                        <img src={documentr.urldoc} alt={documentr.urldoc} />
+                                      </>
+                                    )
+                                  }
+                                </>
+                              )
+                              :
+                              ('')
+                            }
                           </Modal>
                             
                           <Modal
@@ -612,7 +633,29 @@ export default function Rents({history}) {
                             }
                             
                             <br/>
-                            <img src={documentr.urlselfie} alt={documentr.urlselfie} />
+                            {
+                              documentr.urlselfie !== undefined ? 
+                              (
+                                <>
+                                  {
+                                    documentr.urlselfie.split('.')[1] === 'pdf' ? 
+                                    (
+                                      <>
+                                        <embed src={documentr.urlselfie} type="application/pdf" width="100%" height="400px" />
+                                      </>
+                                    )
+                                    :
+                                    (
+                                      <>
+                                        <img src={documentr.urlselfie} alt={documentr.urlselfie} />
+                                      </>
+                                    )
+                                  }
+                                </>
+                              )
+                              :
+                              ('')
+                            }
                           </Modal>
 
                           <Modal
@@ -629,7 +672,29 @@ export default function Rents({history}) {
                             }
                             
                             <br/>
-                            <img src={documentr.urlproof} alt={documentr.urlproof} />
+                            {
+                              documentr.urlproof !== undefined ? 
+                              (
+                                <>
+                                  {
+                                    documentr.urlproof.split('.')[1] === 'pdf' ? 
+                                    (
+                                      <>
+                                        <embed src={documentr.urlproof} type="application/pdf" width="100%" height="400px" />
+                                      </>
+                                    )
+                                    :
+                                    (
+                                      <>
+                                        <img src={documentr.urlproof} alt={documentr.urlproof} />
+                                      </>
+                                    )
+                                  }
+                                </>
+                              )
+                              :
+                              ('')
+                            }
                           </Modal>
                         </div>
                       </div>

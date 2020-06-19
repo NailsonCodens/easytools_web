@@ -767,7 +767,7 @@ return (
 
             <div className={ isMobile === false ? `column has-centered-text` : rent === true ? `page-full-date` : `page-dates`}>
               <div  className={isMobile === false ? `pai has-centered-text sticky` : `pai has-centered-text`}>
-                <span className={ isMobile === false ? `hd-mobile-tool` : rent === true ? `close-rent` : ``} onClick={event => setRent(false)}>
+                <span className={ isMobile === false ? `hd-mobile-tool` : rent === true ? `close-rent` : ``} onClick={event =>(setRent(false), Scrool(0,0))}>
                   Voltar
                 </span>
                 <div className="rental-box sticky-inner">
@@ -1253,7 +1253,7 @@ return (
           }
         </div>
         <div className={isMobile === false ? "hd-mobile" : "div-button-rent"}>
-          <a className="button is-fullwidth color-logo" onClick={event => setRent(true)}>Reservar</a>
+          <a className="button is-fullwidth color-logo" onClick={event => (setRent(true), Scrool(0,0))}>Reservar</a>
         </div>
         <Modal
           show={modal2} 
