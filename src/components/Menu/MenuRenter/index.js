@@ -671,7 +671,7 @@ const MenuRenter = () => {
 	}
 
 	return (
-		<div className="back-nav">
+		<div className="back-nav back-nav-renter">
 			<nav className={"navbar nav-fixed " + setclass}>
 				<div className="navbar-brand">
 					<Link to={'/'} onClick={ event => findTools('close')}>

@@ -293,9 +293,17 @@
   display: none !important;
 }
 
+.adddocument{
+  margin-top:70px !important;
+}
+
 @media (max-width: 900px) {
   .mg-button-rt{
     margin-top: -16px;
+  }
+
+  .adddocument{
+    margin-top:10px !important;
   }
 
   .page-full-date{

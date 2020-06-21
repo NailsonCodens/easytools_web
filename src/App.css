@@ -345,7 +345,7 @@ body{
   color: #000;
   padding: 5px;
   padding-top: -40px !important;
-  margin-top: -32px;
+  margin-top: -2px;
 }
 
 .close-unavailable{
@@ -771,6 +771,10 @@ body{
 
 .input:focus{
   border: 1px solid rgb(121, 121, 121) !important;
+}
+
+.styles_overlay__CLSq-{
+  z-index: 9999999 !important;
 }
 
 @media screen and (max-width: 1023px){
