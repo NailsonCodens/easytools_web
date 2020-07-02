@@ -257,6 +257,7 @@ const Signin = ({ hs, url, closeModal }) => {
                     <FacebookLogin
                       appId="564259971027569"
                       autoLoad={false}
+                      redirectUri={'https://easytoolsapp.com/'}
                       callback={responseFacebook}
                       textButton={'Acessar com facebook'}
                       fields="name,email,picture"
