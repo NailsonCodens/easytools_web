@@ -38,9 +38,9 @@ import Slider from "react-slick";
 import {Latitude} from '../../../store/actions/latitude';
 import {Longitude} from '../../../store/actions/longitude';
 import {Distance} from '../../../store/actions/distance';
-import { faMapMarkerAlt, faTruckLoading, faCalendarAlt, faMousePointer} from '@fortawesome/free-solid-svg-icons'
+import { faMapMarkerAlt, faTruckLoading, faCalendarAlt, faMapPin, faMousePointer} from '@fortawesome/free-solid-svg-icons'
 import { isMobile } from 'react-device-detect';
-library.add(faMapMarkerAlt, faTruckLoading, faCalendarAlt, faMousePointer);
+library.add(faMapMarkerAlt, faTruckLoading, faCalendarAlt, faMousePointer, faMapPin);
 
 const Dashboard = ({history, location}) => {
   const settings = {
@@ -288,25 +288,31 @@ const Dashboard = ({history, location}) => {
               <p className="title-search-geolo">Precisou de uma furadeira? Encontre e alugue aqui!</p>
                 <div className="container container-new">
                   <div className="columns ">
-                    <div className="column is-four-fifths-desktop bt-ad">
+                    <div className="column  bt-ad">
                       <input 
                         type="text" 
-                        placeholder='Seu endere&ccedil;o.' 
+                        placeholder='Procure ferramentas perto do seu endereço.' 
                         className="input input-geolocalization" 
                         onChange={event => handleMyaddress(event)}
                         value={myaddress}
                       />
                     </div>
-                    <div className="column is-2-desktop bt-ad bt-ad-geo">
+{
+  /*
+                    <div className="column is-1-desktop bt-ad bt-ad-geo">
                       <button 
                         type={'button'}
                         className={'button is-fullwidth is-default geolo-bt'}
                         title="Sua localização"
                         onClick={event => Geoloc()}
                       >
-                        Encontrar
+                        <b>Próx de mim</b>
                       </button>
                     </div>
+  
+  */
+}
+
                   </div>
                   <div className="container-fluid">
                     <div className="explanation_box">

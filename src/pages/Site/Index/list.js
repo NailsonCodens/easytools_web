@@ -106,7 +106,7 @@ const List = ({history}) => {
         },{ enableHighAccuracy: true });
     }
 
-    geoReload()
+    /*geoReload()*/
 
     async function loadModal() {
       var lat = localStorage.getItem('@lt')

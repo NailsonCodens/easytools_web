@@ -292,9 +292,15 @@
 
 .geolo-bt{
   position: 9;
+  font-size: 14px !important;
   color: rgb(46, 46, 46) !important;
   background: rgb(255, 200, 0) !important;
   border: none !important;
+}
+
+.icon-map{
+  color: #000 !important;
+  margin-top: -2px;
 }
 
 .size-cs-geolo{
@@ -764,7 +770,7 @@ border: 1px solid rgb(230, 230, 230);
 .explanation_box{
   background:#FFD237;
   padding: 25px 0px;
-  width: 97%;
+  width: 100%;
   margin-top: 0px;
   text-align: center !important;
 }
@@ -773,7 +779,7 @@ border: 1px solid rgb(230, 230, 230);
   .explanation_box{
     background: transparent;
     padding: 25px 0px;
-    width: 97%;
+    width: 100%;
     margin-top: 0px;
     text-align: center !important;
   }
