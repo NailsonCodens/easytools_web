@@ -285,7 +285,7 @@ const Tool = ({history}) => {
         var codeattempt = res.data.rentattempt.codeattempt
         Scrool()
         Tracking('Tentativa de aluguel', ` Tentativa de aluguel criada idbooking: ${idbooking} codeattempt: ${codeattempt}`, 'Tentativa de aluguel')
-        history.push(`/s/payment/resumebook?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${formik.values.amount}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
+        history.push(`/s/payment/rent-rules?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${formik.values.amount}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
       }).catch((err) => {
         console.log(err.response)
       })
@@ -355,8 +355,8 @@ const Tool = ({history}) => {
     }
 
     async function verifyDocumentrent(){
-      if (isAuthenticated()) {
-        if (current_user.id !== undefined) {
+      if (isAuthenticated() === true) {
+        if (current_user.length !== 0) {
           const response = await api.get(`/documents/${current_user.id}`, {
           });
           setDocument(response.data.documentUser[0])  
@@ -578,6 +578,15 @@ const Tool = ({history}) => {
     )
   }
 
+  const blockDays = (day) => {
+    const dayString = day.format('YYYY-MM-DD');
+    console.log(dayString)
+    var arr = ["2020-06-12", "2020-06-13", "2020-06-23", "2020-06-24", "2020-06-26", "2020-06-27", "2020-06-29", "2020-06-30"];
+    return arr.some(date => dayString === date)   
+
+//    return dayString === '2020-06-26' || dayString ==='2020-06-27'
+  }
+
   const hideModal = () => {
     setModal(false)
     return modal
@@ -690,10 +699,14 @@ const Tool = ({history}) => {
   }
 
   async function loaddocumenttwo () {
-    const response = await api.get(`/documents/${current_user.id}`, {
-    });
-    loadPerfil()
-    setDocument(response.data.documentUser[0])
+    if (isAuthenticated() === true) {
+      if (current_user.length !== 0) {
+        const response = await api.get(`/documents/${current_user.id}`, {
+        });
+        loadPerfil()
+        setDocument(response.data.documentUser[0])  
+      }  
+    }
   }
 
   const closeAdd = () => {
@@ -706,12 +719,12 @@ const Tool = ({history}) => {
 return (
   <>
     <Helmet>
-      <title>{ tool.title }</title>
+      <title>{ 'Aluguel de ' + tool.title + ' | Easytools ' }</title>
       <meta
         name="description"
-        content={ 'Aluguel de ' + tool.title + ' | Easytools ' }
+        content={ 'Alugue de ' + tool.title + ' | Easytools ' }
       />
-      <meta name="keywords" content={tool.title}/>
+      <meta name="keywords" content={'Aluguel, ' + tool.title + ', '}/>
     </Helmet>
     {
       adddoc === true ? 
@@ -878,6 +891,7 @@ return (
                           anchorDirection="left"
                           displayFormat={'DD/MM/YYYY'}
                           minimumNights={1}
+//                          isDayBlocked={(day) => blockDays(day)}
                           numberOfMonths={isMobile === true ? 1 : 2}
                           startDate={formik.values.startDate} // momentPropTypes.momentObj or null,
                           startDateId={'start'} // PropTypes.string.isRequired,

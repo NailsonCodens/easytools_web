@@ -211,7 +211,7 @@ const Payment = ({history}) => {
         message : message
       });
       Tracking('Finalizaou', 'Finalizou', 'entrega e finish')
-      history.push(`/s/payment/congrats/${rentattempt.id}`);
+      history.push(`/s/payment/congrats/${rentattempt.idf}?tool=${values.tool}&code_attempt=${rentattempt.codeattempt}`);
     }).catch((err) => {
       console.log(err.response)
     }) 
@@ -328,24 +328,20 @@ const Payment = ({history}) => {
     var fr = 0;
 
     if (kmcurrent > 5 && kmcurrent < 10) {
-      fr = 1.80
+      fr = 1.95
     } else if (kmcurrent > 25) {
-      fr = 1.45
+      fr = 1.55
     } else {
       fr = freight
     }
 
     var costfreight = 0;
 
-
     if (kmregional > kmcurrent) {
         costfreight = minfreight
     } else {
         costfreight = fr * kmcurrent;
     }
-
-
-    console.log(freight)
 
     /* Promoção de entrega a 15 reais */
 //    costfreight = 15;

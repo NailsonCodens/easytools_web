@@ -112,6 +112,20 @@ export default function Rents({history}) {
     return modal3
   }
 
+  async function paid(id) {
+    var rentattempt = {
+      paid: 1,
+    }
+
+    await api.put(`rent/attempt/updatepaid/${id}`, rentattempt, {})
+    .then((res) => {
+      console.log(res)
+      reloadRents(id)
+    }).catch((err) => {
+      console.log(err.response)
+    })    
+  }
+  
   const accept = (id) => {
     if (rent[0].typepayment === 'creditcard' || rent[0].typepayment === 'boleto') {
       Paymentlink(id, rent[0]).then(function (response){
@@ -160,7 +174,7 @@ export default function Rents({history}) {
       title = `Pagamento do aluguel - Olá, para finalizar sua reserva, falta apenas pagar.`;
       message = `
         Está tudo ok com seu pedido, só falta pagar :). Clique em "Acessar o site e pagar" pagar para finalizarmos o seu pedido e o vizinho ${lessor} preparar o equipamento para você. 
-        Para pagar acesse o site, entre na sua conta e vá em Meus alugados -> Detalhes -> Link de pagamento https://pagarmeualuguel.easytools
+        Para pagar acesse o site, entre na sua conta e vá em Meus alugados -> Detalhes -> Pagamento https://pagarmeualuguel.easytools
         `;  
     }
 
@@ -290,7 +304,7 @@ export default function Rents({history}) {
                   </div>
                   <div className="column">
                     <b>
-                      Informações do aluguél:
+                      Informações do aluguel:
                     </b>
                     <br/>
                     {
@@ -354,7 +368,16 @@ export default function Rents({history}) {
                       { 
                         rent.accept === '1' && rent.paid === '0' ?
                         (
-                          <b className="acceptandwaitng">Aceito e aguardando pagamento</b>
+                          <>
+                            <b className="acceptandwaitng">Aceito e aguardando pagamento</b>
+                            <br/>
+                            <Button
+                              type={'submit'}
+                              className={"button is-success color-logo-lessor" + isMobile === true ? "" : "button is-success color-logo-lessor"}
+                              text={'Concluir'}
+                              onClick={event => paid(rent.id)}
+                            />
+                          </> 
                         )
                         :
                         (

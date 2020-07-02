@@ -18,9 +18,9 @@ const Helpme = () => {
         <title>Tem alguma dúvida? | EasyTools</title>
         <meta
           name="description"
-          content="Tire suas dúvidas aqui, quer alugar um equipamento ou ferramenta? EasyTools."
+          content="Tire suas dúvidas sobre a Easytools aqui."
         />
-        <meta name="keywords" content="Ajuda EasyTools, Ajuda ferramenta fácil"/>
+        <meta name="keywords" content="Ajuda EasyTools, Ajuda ferramenta fácil, Dúvidas EasyTools, como funciona a easytools"/>
       </Helmet>
       <div className="container">
       <br/><br/>
@@ -65,7 +65,7 @@ const Helpme = () => {
             <br/>
             3 - Pagamento
             <br/>
-            Logo após solicitar seu equipamento, nós analisaremos os dados e produto alugado em até 15 minutos nos primeiros 5 aluguéis, nos demais aluguéis a análise será quase instantânea. Você receberá uma confirmação do aluguel na sua conta e por e-mail e o link de pagamento, que também poderá ser acessado dentro da plataforma, basta ir em "Meus alugados" -> Detalhes e acessar o link. * Pagamento realizado, nós entregaremos o equipamento no endereço cadastrado em até 2 horas.
+            Logo após solicitar seu equipamento, nós analisaremos os dados e produto alugado em até 15 minutos nos primeiros 5 aluguéis, nos demais aluguéis a análise será quase instantânea. Você receberá uma confirmação do aluguel na sua conta e por e-mail e a opção de pagamento, que também poderá ser acessado dentro da plataforma, basta ir em "Meus alugados" -> Detalhes e acessar o link. * Pagamento realizado, nós entregaremos o equipamento no endereço cadastrado em até 2 horas.
             Por enquanto, aceitamos apenas pagamentos em cartão de crédito, para a segurança de seus dados. 
             <br/>
             <br/>

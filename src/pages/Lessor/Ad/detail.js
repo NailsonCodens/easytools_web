@@ -5,16 +5,26 @@ import { Button } from '../../../components/Form/Button';
 import { Form } from '@rocketseat/unform';
 import Notification from '../../../utils/notification';
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Warningtext } from '../../../components/Warningtext';
 import api from '../../../services/api';
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import Title from '../../../utils/title';
 import { getAddress } from '../../../services/mapbox';
 import Availability from './btAvailability';
+import Resizer from 'react-image-file-resizer';
+import {Photo1} from '../../../store/actions/photo1';
+import {Photo2} from '../../../store/actions/photo2';
+import {Photo3} from '../../../store/actions/photo3';
 
 const Detail = ({history}) => {
   let { id } = useParams();
 
+  const pt1 = useSelector(state => state.photo1);
+  const pt2 = useSelector(state => state.photo2);
+  const pt3 = useSelector(state => state.photo3);
+  
+  const dispatch = useDispatch();
   const [tool, setTool] = useState({});
   const [prices, setPrices] = useState({});
   const [listphoto, setListphoto] = useState([]);
@@ -27,6 +37,9 @@ const Detail = ({history}) => {
   const [neighboor, setNeighboor] = useState('');
   const [city, setCity] = useState('');
   const [uf, setUf] = useState('');
+  const [photo1, setPhoto1] = useState('');
+  const [photo2, setPhoto2] = useState('');
+  const [photo3, setPhoto3] = useState('');
 
   const success = () => Notification(
     'success',
@@ -89,44 +102,94 @@ const Detail = ({history}) => {
     loadImages();
   }, [id]);
 
-
   const onDrop = useCallback(acceptedFiles => {
-    const arrPreview = []
+    var prod1 = ''; 
 
-    let newarray = []
-    if (acceptedFiles.length > 3) {
-     let img0 = acceptedFiles[0]
-     let img1 = acceptedFiles[1]
-     let img2 = acceptedFiles[2]
+    if (acceptedFiles[0] !== undefined) {
+      prod1 = Resizer.imageFileResizer(
+        acceptedFiles[0],
+        600,
+        600,
+        'JPEG',
+        60,
+        0,
+        uri => {
+          var filenew = new File([uri], acceptedFiles[0].name, {type: acceptedFiles[0].type})
+          dispatch(Photo1(filenew));
+        },
+        'blob'
+      );
+    }  
 
-     newarray.push(img0, img1, img2)
-    } else {
-      newarray = acceptedFiles
+    var prod2 = '';
+
+    if (acceptedFiles[1] !== undefined) {
+      prod2 = Resizer.imageFileResizer(
+        acceptedFiles[1],
+        600,
+        600,
+        'JPEG',
+        60,
+        0,
+        uri => {
+          var filenew = new File([uri], acceptedFiles[1].name, {type: acceptedFiles[1].type})
+          //preview = URL.createObjectURL(filenew)
+          setPhoto2(filenew)
+          dispatch(Photo2(filenew));
+        },
+        'blob'
+      );
     }
 
-    setActive(newarray);
-    newarray.map(file => {
+    var prod3 = '';
+
+    if (acceptedFiles[2] !== undefined) {
+      prod3 = Resizer.imageFileResizer(
+        acceptedFiles[2],
+        600,
+        600,
+        'JPEG',
+        60,
+        0,
+        uri => {
+          var filenew = new File([uri], acceptedFiles[2].name, {type: acceptedFiles[2].type})
+          //preview = URL.createObjectURL(filenew)
+          setPhoto3(filenew)
+          dispatch(Photo3(filenew));
+        },
+        'blob'
+      );
+    }
+
+    const newarray = []
+    const arrPreview = []
+
+    acceptedFiles.map(file => {
       const preview = URL.createObjectURL(file)
       arrPreview.push(preview)
       setListphoto(arrPreview)
+      setActive(arrPreview); 
       return ''
     })
   }, [])
-  
+
+  console.log(listphoto)
+
   const {getRootProps, getInputProps} = useDropzone({onDrop, accept: 'image/jpeg'})
 
   const saveImages = () => {
     const data = new FormData();
-  
-    isactive.map(image => {
+
+    const arrpt = [pt1, pt2, pt3]; 
+
+    arrpt.map(image => {
       data.append('pictures', image);
       return ''
     })
-    savedb(data)
+    savedb(data)  
   }
 
   async function savedb (pictures) {
-
     if (imgtool.length > 0) {
       await api.put(`tools/images/update/`, pictures, {
         headers: { 
@@ -332,6 +395,9 @@ const Detail = ({history}) => {
               <Warningtext>* A EasyTools aceita apenas imagem JPG ou JPEG</Warningtext>
               <div className="columns">
                 <div className="column">
+                  {
+                    console.log(isactive.length)
+                  }
                   {
                     isactive.length > 0 ?
                     (

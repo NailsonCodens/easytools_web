@@ -416,10 +416,11 @@ const Doc = ({history}) => {
           }}
           noValidate          
         >
+
             <Button
               type={'submit'}
               className={'button color-logo-lessor'} 
-              text={cpfcnpj.length === 0 ? 'Salvar e ir para perfil' : 'Salvar documentos'}
+              text={cpfcnpj === 0 ? 'Salvar e ir para perfil' : 'Salvar documentos'}
               onClick={event => Scroll(400, 400)}
             />
         </Form>

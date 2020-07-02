@@ -82,7 +82,7 @@ const Rents = ({ history }) => {
 
       if (type === 'accept') {
         title = `EasyTools -  Aluguel aceito. Seu aluguel foi aceito!`;
-        message = `Olá ${renter}, Seu aluguel foi aceito. Fique ligado, nós vamos te enviar o link de pagamento, que pode ser acessado na sua conta na Easytools direto no site. Você alugou: ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}. A entrega do equipamento, ocorrerá quando confirarmos o pagamento.`;  
+        message = `Olá ${renter}, Seu aluguel foi aceito. Fique ligado, nós vamos te enviar a opção de pagamento, que pode ser acessado na sua conta na Easytools direto no site. Você alugou: ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}. A entrega do equipamento, ocorrerá quando confirarmos o pagamento.`;  
         maintext = 'Boa notícia! seu aluguel foi processado.'
         urllabel = "Ver e pagar meu equipamento alugado"
       } else if (type === 'noacceptforpayment') {
@@ -139,7 +139,7 @@ const Rents = ({ history }) => {
         title = `Pagamento do aluguel - Olá, clique em para pagar pelo aluguel do equipamento, clique em pagar!`;
         message = `
           Está tudo ok com seu pedido, só falta pagar :). Clique em pagar para finalizarmos o seu pedido e o vizinho ${lessor} preparar o equipamento para você. 
-          Para pagar acesse o site, entre na sua conta e vá em Meus alugados -> Detalhes -> Link de pagamento https://pagarmeualuguel.easytools
+          Para pagar acesse o site, entre na sua conta e vá em Meus alugados -> Detalhes -> Pagamento https://pagarmeualuguel.easytools
           `;  
       }
   
@@ -247,6 +247,17 @@ const Rents = ({ history }) => {
                         </div>
                         <div className="column">
                           <div>
+                            {
+                              rent.accept === 'c' ? 
+                              (
+                                <>
+                                <br/><br/>
+                                <b className="incomplet">Cancelada pelo usuário.</b>
+                                </>
+                              )
+                              :
+                              ('') 
+                            }
                             { 
                               rent.accept === '0' && rent.paid === '0' ?
                               (
@@ -384,7 +395,7 @@ const Rents = ({ history }) => {
                         <div className="columns">
                           <div className="column">
                             <b>
-                              Informações do aluguél:
+                              Informações do aluguel:
                             </b>
                             <p>
                               Tensão: { rent.tension === 'Tri' ? 'Trifásico' : rent.tension }

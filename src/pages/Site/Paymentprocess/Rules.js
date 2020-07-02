@@ -251,7 +251,7 @@ const Rules = ({ history }) => {
                                 <p className="title-infos-tool hack-padding-top">Pagamento</p>
                                 <Ul>
                                   <b className="title-politics"> Pagamento online </b>
-                                  <li> Para facilitar sua vida, nós enviamos um link de pagamento à você. </li>
+                                  <li> Para facilitar sua vida, nós enviamos um. </li>
                                   <li>Este link ficará acessível para você em sua conta no campo "Meus alugados ? Detalhes". Você também pode acessar este link pela notificação.</li>
                                 </Ul>
                                 <Ul>

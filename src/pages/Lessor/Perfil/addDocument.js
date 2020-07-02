@@ -37,6 +37,7 @@ const Doc = ({history}) => {
     async function loadPerfil() { 
       const response = await api.get(`/perfil`, {
       });
+
       if (response.data.user.length > 0) {
         setCnpj(response.data.user[0].cpfcnpj)
         setUser(response.data.user[0])  

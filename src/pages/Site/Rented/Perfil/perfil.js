@@ -15,7 +15,6 @@ const Pserfil = ({history}) => {
       const response = await api.get(`/perfil`, {
       });
       setUser(response.data.user[0])
-
     }
     loadPerfil();
   }, []);

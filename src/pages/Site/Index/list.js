@@ -11,9 +11,11 @@ import {Distance} from '../../../store/actions/distance';
 import Notificationtost from '../../../utils/notification';
 import { getCordinates, getAddress, getGeolocalization } from '../../../services/mapbox';
 import { useParams, useLocation } from "react-router-dom";
+import EllipsisText from "react-ellipsis-text";
 import 'bulma-slider/dist/css/bulma-slider.min.css';
 import Slider from 'react-input-slider';
 import Scroll from '../../../utils/scroll';
+import apiextern from '../../../services/apiextern';
 import api from '../../../services/api';
 import logo from '../../../assets/images/logo.png';
 import useOutsideClick from "../../../utils/outsideclick";
@@ -23,6 +25,7 @@ import useOutsideClickProd from "../../../utils/outsideclick";
 import distance from '../../../store/reducers/distance';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import { set } from 'react-ga';
+import {Helmet} from 'react-helmet'
 
 library.add(faMapMarkedAlt, faStopwatch, faSearch);
 
@@ -51,8 +54,8 @@ const List = ({history}) => {
   const longitude = useSelector(state => state.longitude);
   const [setclass, setClass] = useState('box-filters');
 
-  const hideRedirectlogin = () => {
-    return modal
+  const hideRedirect = () => {
+    setModal(false)
   }
 
   useOutsideClick(ref, () => {
@@ -72,8 +75,40 @@ const List = ({history}) => {
   });
 
   useEffect(() => {
-    async function loadModal() {
+    async function geoReload() {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          if (localStorage.getItem('@lt') !== null) {
+            dispatch(Latitude(position.coords.latitude))
+            dispatch(Longitude(position.coords.longitude))
+    
+            localStorage.setItem('@lt', position.coords.latitude);
+            localStorage.setItem('@lg', position.coords.longitude);
+    
+            getAddress(position.coords.longitude, position.coords.latitude).then(res => {
+              var city = ''
+              const getCity = res.data.features.find(city => city.id.includes('place'));
+              city = getCity.text.replace(/\s+/g, '-').toLowerCase();
+            })
+            setModal(false);
+            setMyaddress('')
+            getAddress(position.coords.longitude, position.coords.latitude).then(res => {
+              var city = ''
+              const getCity = res.data.features.find(city => city.id.includes('place'));
+              city = getCity.text.replace(/\s+/g, '-').toLowerCase();  
+              history.push(`/s/search/${category}/${titlest}/${city}`)
+              find(category, titlest)
+            })  
+          }
+        },
+        erroget => {
+          error()
+        },{ enableHighAccuracy: true });
+    }
 
+    geoReload()
+
+    async function loadModal() {
       var lat = localStorage.getItem('@lt')
       var lng = localStorage.getItem('@lg')
       
@@ -94,7 +129,7 @@ const List = ({history}) => {
     loadModal()
 
     async function loadFreight (id) {
-      const response = await api.get(`/userconfig/${id}`, {
+      const response = await apiextern.get(`/userconfigsite/${id}`, {
       });
       setUserconfig(response.data.userconfig[0]) 
     }
@@ -136,7 +171,9 @@ const List = ({history}) => {
         headers: { search }
       });
       setTools(response.data.tools)
-      loadFreight(response.data.tools[0].UserId)
+      if (response.data.tools.length > 0) {
+        loadFreight(response.data.tools[0].UserId)
+      }
     }
     loadTools()    
 
@@ -199,6 +236,8 @@ const List = ({history}) => {
   }
     
   async function find(ctg = category, srch = search) {
+
+    console.log(search)
     var lat = localStorage.getItem('@lt')
     var lng = localStorage.getItem('@lg')
 
@@ -217,9 +256,12 @@ const List = ({history}) => {
     var sh = sh.replace('-', ' ').toLowerCase();
     var sh = sh.replace('-', ' ').toLowerCase();
 
+    console.log(sh)
     const response = await api.get(`/tools_site?search=${sh}&distance=${state.x}&lat=${lat}&lng=${lng}&type=&category=${ctg}`, {
       headers: { srch }
     });
+    console.log(srch)
+    console.log(response)
     setTools(response.data.tools)
   }
 
@@ -241,9 +283,9 @@ const List = ({history}) => {
     var kmdelivery = parseFloat(km).toFixed(2);
 
     if (kmdelivery > 5 && kmdelivery < 10) {
-      perkm = 1.80
+      perkm = 1.95
     }else if (kmdelivery > 25) {
-      perkm = 1.45
+      perkm = 1.55
     }
 
     var delivery = 0;
@@ -253,7 +295,7 @@ const List = ({history}) => {
     } else {
       delivery = kmdelivery * perkm;
     }
-
+    
     var deliveryfinal = delivery.toFixed(2).replace(/\./gi,',').replace(/,/gi,',')
 
     return 'R$ ' + deliveryfinal
@@ -346,6 +388,16 @@ const List = ({history}) => {
 
   return (
     <>
+      <Helmet>
+        <title> { titlest === 'equipaments' ? ' Ferramentas e equipamentos em ' : titlest + ' em ' } { region === 'region'  ? ' na sua região ' : region.charAt(0).toUpperCase() + region.slice(1) } | EasyTools</title>
+        <meta
+          name="description"
+          content={titlest === 'equipaments' ? 'Alugue ferramentas e equipamentos' : 'Alugue ' + titlest + ' em ' + region}
+        />
+        <meta name="keywords" content={
+          titlest === 'equipaments' ? ' ferramentas e equipamentos ' : 'Aluguel, ' + titlest + ', ' + region
+        }/>
+      </Helmet>    
       <div className={setclass}>
         <div className="div-filters">
           <button className="button is-small is-outlined bt-filter cptalizze c" onClick={event => {setCategory(!categorys); setEquipament(false); setKm(false)}}>
@@ -372,7 +424,7 @@ const List = ({history}) => {
                   className={'select-list'}
                   options={[
                     {value: 'all', label: 'Todos'},
-                    {value: 'Construção', label: 'Construção'},
+                    {value: 'Construcao', label: 'Construção'},
                     {value: 'Limpeza', label: 'Limpeza'},
                     {value: 'Jardinagem', label: 'Jardinagem'},
                     {value: 'Bricolagem', label: 'Bricolagem'}
@@ -470,7 +522,7 @@ const List = ({history}) => {
               (
                 <>
                     <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="1x"/>
-                  { region.replace('-', ' ') }
+                    <EllipsisText text={region.replace('-', ' ')} length={10}/>
                 </>
               )
             }
@@ -505,7 +557,7 @@ const List = ({history}) => {
         <div className="columns is-desktop is-multiline">
           {
             tools.map((tool, index) => (
-              <div className="column is-half line-tools" onClick={event => goPageTool(tool.id, tool.category)}>
+              <div className="column is-half line-tools" key={index} onClick={event => goPageTool(tool.id, tool.category)}>
                 <div className="columns box-ads-lt" key={index}>
                   <div className="column is-4 has-text-left tool-list">
                     {
@@ -543,6 +595,7 @@ const List = ({history}) => {
                         Leva e Traz
                       </p>
                       <p className="rentper">Alugado por: { tool.user.name }, entrega e devolução: EasyTools </p>
+                      <p className="approximately">Valor aproximado do delivery</p>
                       <div className="text-infos-tl">
                         <span className="freight-tl tl-km">
                           <span>A</span> { tool.distance.toFixed(2) < 5 ? '4.0' : tool.distance.toFixed(2) }<span> km de você </span> 
@@ -597,9 +650,10 @@ const List = ({history}) => {
       </div>
       <Modal 
         show={modal} 
-        onCloseModal={hideRedirectlogin}
-        closeEscAllowed={false} 
-        closeOnAllowed={false}
+        onCloseModal={hideRedirect}
+        closeEscAllowed={localStorage.getItem('@lt') !== null ? true : false} 
+        closeOnAllowed={localStorage.getItem('@lt') !== null ? true : false}
+        showCloseIcon={localStorage.getItem('@lt') !== null ? true : false}
       >
         <h3 className="has-text-centered title is-4">Onde você está?</h3>
         <br/>

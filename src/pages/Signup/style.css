@@ -25,10 +25,10 @@
   margin-top: -20px;
 }
 
-.button-enter{
+.button-enter-2{
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
-  color: #60a8f1;
+  color: #60a8f1 !important;
 }
 
 .terms{

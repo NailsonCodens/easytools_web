@@ -1,6 +1,6 @@
 const category = [
   { value: "Bricolagem", label: "Bricolagem" },
-  { value: "Construção", label: "Construção" },
+  { value: "Construcao", label: "Construção" },
   { value: "Demolição", label: "Demolição" },
   { value: "Limpeza", label: "Limpeza" },
   { value: "Jardinagem", label: "Jardinagem" },
@@ -8,7 +8,7 @@ const category = [
   { value: "Corte", label: "Corte" },
   { value: "Perfuração", label: "Perfuração" },
   { value: "Polimento", label: "Polimento" },
-  { value: "Kit Híbrido", label: "Kit Híbrido" },
+  { value: "Kit Hibrido", label: "Kit Híbrido" },
   { value: "Kit Limpeza", label: "Kit Limpeza" },
 ];
 

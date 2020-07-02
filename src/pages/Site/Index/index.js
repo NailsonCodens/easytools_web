@@ -10,6 +10,12 @@ import './style.css';
 import Scrool from '../../../utils/scroll';
 import {Viewsearch} from '../../../store/actions/viewsearch';
 import logo from '../../../assets/images/easytools_yellow.png'
+import lixadeira from '../../../assets/images/lixadeira.jpg'; 
+import furadeira from '../../../assets/images/furadeira.jpg'; 
+import martelete from '../../../assets/images/martelete.jpg'; 
+import rocadeira from '../../../assets/images/rocadeira.jpg';
+import wap from '../../../assets/images/wap.jpg';
+import extratora from '../../../assets/images/extratora.jpg'; 
 import gardening from '../../../assets/images/gardening.jpg';
 import bricolagem from '../../../assets/images/bricolagem.jpg'
 import construcao from '../../../assets/images/construcao.jpg'
@@ -33,6 +39,7 @@ import {Latitude} from '../../../store/actions/latitude';
 import {Longitude} from '../../../store/actions/longitude';
 import {Distance} from '../../../store/actions/distance';
 import { faMapMarkerAlt, faTruckLoading, faCalendarAlt, faMousePointer} from '@fortawesome/free-solid-svg-icons'
+import { isMobile } from 'react-device-detect';
 library.add(faMapMarkerAlt, faTruckLoading, faCalendarAlt, faMousePointer);
 
 const Dashboard = ({history, location}) => {
@@ -213,22 +220,27 @@ const Dashboard = ({history, location}) => {
 
   const goProduct = (category) => {
     Scrool(0,0)
-
     //all/equipaments/campina-grande-do-sul
 //    history.push(`/s/search/${category}/${title}/region`);
 
     history.push('/s/search/' + category + '/equipaments/region') 
   }
 
+  const goUsed = (prod) => {
+    console.log(prod)
+    Scrool(0,0)
+    history.push('/s/search/all/' + prod + '/region') 
+  }
+
   return (
     <>
       <Helmet>
         <title>Aluguel on-line de equipamentos e ferramentas! | EasyTools</title>
-        <meta
-          name="description"
-          content="EasyTools, Aluguel online de ferramentas e equipamentos que você e seu negócio precisam! A primeira locadora de equipamentos e ferrmanetas totalmente on-line."
-        />
-        <meta name="keywords" content="Aluguel, ferramenta, equipamento, betoneira, aluguel de equipamento online"/>
+        <meta name="description" content="EasyTools, Alugue ferramentas fácil e equipamentos que voc&ecirc; e seu neg&oacute;cio precisam! Precisou furar uma parede, consertar o guarda-roupa e não tem a ferramenta necessária? Alugue na EasyTools."/> 
+        <meta name="keywords" content="Ferramenta fácil, Aluguel, Roçadeira, Aluguel Roçadeira, Aluguel de equipamentos em Curitiba, ALuguel de lixadeira, aluguel de extratora, limpa sofá curitiba, alugar furadeira, alugar aspirador, alugar martelete, Aluguel equipamento curitiba, Aluguel motossera, Aluguel extratora, aluguel limpadora de sofá, aluguel de ferramentas, furadeira, app d ealuguel, aplicativo de aluguel de ferramentas,  Aluguel Online, Aluguel On-line, Aluguel furdeira, aluguel aspirador de pó, aluguel ferramenta, equipamento, betoneira, aluguel de equipamento online, locação, construção civil, extratora de sujeira, limpeza de sofá, locação curitiba, locacao curitiba, aluguel de ferramentas, aluguel de equipamentos, aluguel, alugar objetos, alugar produtos, allugator, olx, locação, classificados, alugar, grátis, anuncie, anúncios, alugue, equipamentos, construção, como ganhar uma renda extra,  aluguel compartilhado,  o que alugar para ganhar dinheiro,  aluguel de objetos,  aluguel de produtos,  olx aluguel, olx, alooga, allugator, easyrental."/> 
+        <meta name="robots" content=""/> 
+        <meta name="revisit-after" content="1 day"/> <meta name="language" content="Portuguese"/>
+        <meta charset="utf-8"/>
       </Helmet>
       {
         values.t === 'unavailable' ? 
@@ -278,7 +290,7 @@ const Dashboard = ({history, location}) => {
                     <div className="column is-four-fifths-desktop bt-ad">
                       <input 
                         type="text" 
-                        placeholder='Sua localização para achar equipamentos perto de você.' 
+                        placeholder='Seu endere&ccedil;o.' 
                         className="input input-geolocalization" 
                         onChange={event => handleMyaddress(event)}
                         value={myaddress}
@@ -293,6 +305,21 @@ const Dashboard = ({history, location}) => {
                       >
                         Encontrar
                       </button>
+                    </div>
+                  </div>
+                  <div className="container-fluid">
+                    <div className="explanation_box">
+                      <h2 className="minutesrent">Alugue em 15 minutos, <br/> receba em até 2 horas!</h2>
+                      <p class="without">Sem consultas, sem burocracias, sem 24 horas para aprovação.</p>
+                      <br/>
+                      <a
+                        rel ="noreferrer"
+                        href="https://docs.google.com/forms/d/e/1FAIpQLSfRH_Gi5cIoSdaaUxdT8KN0t9eQ3kOcRloiIJJkrnkkweOQmA/viewform" 
+                        target="_blank"
+                        className={'button is-black'}
+                      >
+                        Como alugar?
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -333,12 +360,13 @@ const Dashboard = ({history, location}) => {
               }
               <br/>
               {
+                /*
                 viewsearch === ''? 
                 (
                   <img src={background}  alt="EasyTools Logo" className="background-tools"/>
                 )
                 :
-                ('')
+                ('')*/
               }
             </div>
           </div>
@@ -354,18 +382,49 @@ const Dashboard = ({history, location}) => {
               <h3 className="title-index">O que encontramos próximo a você.</h3>
             )
           }
-          <div className="columns">
-            <div className="column box-categories has-text-centered construction" onClick={event => goProduct('construção')}>
-              <p className="categories-names">Construção</p>
+          <div className={ isMobile === true ? 'table-container' : '' }>
+            <div className="columns is-multiple is-desktop is-mobile">
+              <div className="column is-8-mobile box-categories has-text-centered construction" onClick={event => goProduct('construcao')}>
+                <p className="categories-names">Construção</p>
+              </div>
+              <div className="column is-8-mobile box-categories has-text-centered cleaner" onClick={event => goProduct('limpeza')}>
+                <p className="categories-names">Limpeza</p>
+              </div>
+              <div className="column is-8-mobile box-categories has-text-centered gardening" onClick={event => goProduct('jardinagem')}>
+                <p className="categories-names">Jardinagem</p>
+              </div>
+              <div className="column is-8-mobile box-categories has-text-centered bricolagem" onClick={event => goProduct('bricolagem')}>
+                <p className="categories-names">Faça você</p>
+              </div>
             </div>
-            <div className="column box-categories has-text-centered cleaner" onClick={event => goProduct('limpeza')}>
-              <p className="categories-names">Limpeza</p>
-            </div>
-            <div className="column box-categories has-text-centered gardening" onClick={event => goProduct('jardinagem')}>
-              <p className="categories-names">Jardinagem</p>
-            </div>
-            <div className="column box-categories has-text-centered bricolagem" onClick={event => goProduct('bricolagem')}>
-              <p className="categories-names">Faça você mesmo</p>
+          </div>
+          <br/>
+        </div>
+        <br/><br/>
+        <div className="container">
+          <p className="title-index"> Os mais alugados do mês</p>
+          <div className={isMobile === true ? 'table-container' : ''}>
+            <div className="columns is-mobile is-desktop">
+              <div className="column is-7-mobile has-text-centered prodused" onClick={event => goUsed('extratora')}>
+                <img src={extratora}  alt="EasyTools Logo" className=""/>
+                <p>Extratora</p>
+              </div>
+              <div className="column is-7-mobile has-text-centered prodused" onClick={event => goUsed('lavadora')}>
+              <img src={wap}  alt="EasyTools Logo" className=""/>
+              <p>Lavadora de alta pressão</p>
+              </div>
+              <div className="column is-7-mobile has-text-centered prodused" onClick={event => goUsed('lixadeira')}>
+                <img src={lixadeira}  alt="EasyTools Logo" className=""/>
+              <p>Lixadeira Orbital</p>
+              </div>
+              <div className="column is-7-mobile has-text-centered prodused" onClick={event => goUsed('furadeira')}>
+                <img src={furadeira}  alt="EasyTools Logo" className=""/>
+                <p>Furadeira de Impacto</p>
+              </div>
+              <div className="column is-7-mobile has-text-centered prodused" onClick={event => goUsed('martelete')}>
+                <img src={martelete}  alt="EasyTools Logo" className=""/>
+                <p>Martelete</p>
+              </div>
             </div>
           </div>
         </div>
@@ -380,8 +439,8 @@ const Dashboard = ({history, location}) => {
                   <ul className="ul-howwork">
                     <li className="title-ul-how"> <FontAwesomeIcon icon={['fas', 'mouse-pointer']} className="icon-index" size="2x"/> Escolha o que deseja alugar.</li>
                     <li>
-                      Acesse sua conta e escolha o equipamento desejado. Furadeira, Extratora, Wap. Temos tudo que você precisa.
-                      Aluguel na hora, sem demora e sem burocracia. Adeus orçamento!
+                      Escolha o que deseja alugar.
+                      Acesse sua conta e escolha o equipamento desejado: furadeira, extratora, Wap... Temos tudo que você precisa. Aluguel na hora, sem demora e sem burocracia. Adeus orçamento!
                     </li>
                   </ul>
                 </div>
@@ -389,8 +448,8 @@ const Dashboard = ({history, location}) => {
                   <ul className="ul-howwork">
                     <li className="title-ul-how"><FontAwesomeIcon icon={['fas', 'calendar-alt']} className="icon-index" size="2x"/> Selecione o período de uso.</li>
                     <li>
-                      Escolha o período que deseja usar o alugado. Os períodos são: diária
-                      , semanal, quinzenal e mensal. Finalize o seu pedido. E espere pelo retorno da Easytools sobre o aluguel. (5Min)
+                      Selecione o período de uso.
+                      Escolha o período que deseja usar o item alugado. Os períodos são: diária, semanal, quinzenal e mensal. Finalize o seu pedido e espere pelo retorno da EasyTools sobre o aluguel (em média 5 min).
                     </li>
                   </ul>
                 </div>
@@ -398,9 +457,7 @@ const Dashboard = ({history, location}) => {
                   <ul className="ul-howwork">
                     <li className="title-ul-how"><FontAwesomeIcon icon={['fas', 'truck-loading']} className="icon-index" size="2x"/> Receba em casa.</li>
                     <li>
-                      Depois do pedido aceito, acesse meus alugados e pague o aluguel. Pagamento confirmado, preparamos o equipamento e 
-                      enviamos até você.
-                      Também buscamos! 
+                      Depois do pedido aceito, acesse "Meus alugados" e pague o aluguel. Pagamento confirmado, preparamos o equipamento e levamos até você. Também buscamos!
                     </li>
                   </ul>
                 </div>
@@ -417,9 +474,10 @@ const Dashboard = ({history, location}) => {
               <a
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfRH_Gi5cIoSdaaUxdT8KN0t9eQ3kOcRloiIJJkrnkkweOQmA/viewform" 
                 target="_blank"
+                rel="noreferrer"
                 className={'button is-black'}
               >
-                O que você precisa e não achou aqui?
+                Do que você precisa, e não achou por aqui?
               </a>
             </div>
           </div>
@@ -429,11 +487,12 @@ const Dashboard = ({history, location}) => {
   
             <p className="title-index tl-neigh-cs">Ganhe dinheiro com suas ferramentas paradas!</p>
             <p className="text-neigh-cs">
-              Seja um vizinho na EasyTools. Use suas ferramentas paradas para ganhar um dinheiro extra. Clique em quero ser um vizinho e que nós entraremos em contato.
+             Seja um vizinho na EasyTools. Use suas ferramentas paradas para ganhar um dinheiro extra. Clique em "Ser vizinho na EasyTool" e nós entraremos em contato.
             </p>
             <div className="columns">
               <div className="column">
                 <a
+                  rel ="noreferrer"
                   href="https://docs.google.com/forms/d/e/1FAIpQLSfRH_Gi5cIoSdaaUxdT8KN0t9eQ3kOcRloiIJJkrnkkweOQmA/viewform" 
                   target="_blank"
                   className={'button is-default'}

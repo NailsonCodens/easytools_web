@@ -13,7 +13,6 @@ import pdf from '../../assets/images/file.png';
 
 import Resizer from 'react-image-file-resizer';
 
-
 export default function Document({history, id}) {
 	let location = useLocation().pathname;
 
@@ -93,6 +92,8 @@ export default function Document({history, id}) {
 
       );
   }, [])
+
+  console.log(image)
 
   const {getRootProps, getInputProps} = useDropzone({onDrop})
  

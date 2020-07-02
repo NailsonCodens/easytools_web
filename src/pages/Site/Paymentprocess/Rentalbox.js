@@ -21,6 +21,8 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
   
   let values = queryString.parse(useLocation().search);
 
+  console.log(values)
+
   useEffect(() => {
     async function loadInfochoose() {
       const response = await api.get(`/tools_site/tool/${values.tool}`, {

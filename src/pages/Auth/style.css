@@ -53,6 +53,12 @@
   opacity: .7;
 }
 
+.my-facebook-button-class{
+  background:#4064AD !important;
+  color: #fff !important;
+  font-family: 'Poppins', sans-serif;
+}
+
 @media (max-width: 900px) {
   .singin{
     background: #fff;

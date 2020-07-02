@@ -15,12 +15,12 @@ const Newrent = () => {
   return (
     <>
       <Helmet>
-        <title>Alugar não precisa ser burocrático e chato</title>
+        <title>Alugar não precisa ser burocrático e chato | EasyTools</title>
         <meta
           name="description"
-          content="EasyTools, Aluguel online de ferramentas e equipamentos que você e seu negócio precisam! A primeira locadora de equipamentos e ferrmanetas totalmente on-line."
+          content="Conheça por que e para que nós existimos. Conheça nossa história"
         />
-        <meta name="keywords" content="Aluguel online, equipamentos, construção cívil"/>
+        <meta name="keywords" content="Sobre EasyTools, EasyTools Sobre EasyTools about, o que é a easytools, o que é easytools, onde alugar equipamentos e ferramentas"/>
       </Helmet>
       <div className="container">
         <div className="container">
@@ -36,7 +36,7 @@ const Newrent = () => {
             <p className="message-about">
               Se você pode pedir comida online, por que não equipamentos e ferramentas?
               <br/>
-              Não temos loja física, por isso somos inovadores, atendemos somente online e fazemos delivery do equipamento onde você desejar.
+              Não temos loja física e por isso somos inovadores, atendemos somente online e entregamos em sua casa o produto alugado.
             </p>
           </div>
           {
@@ -64,11 +64,11 @@ const Newrent = () => {
           </div>
           <div className="column has-text-centered">
             <FontAwesomeIcon icon={['fas', 'credit-card']} className={'icons-about'} size="3x"/>
-            <p className="text-how-work">Dentro de alguns minutos seu aluguel será confirmado e você receberá a opção de pagamento.</p>
+            <p className="text-how-work">Dentro de alguns minutos, seu aluguel será confirmado e você receberá a opção de pagamento.</p>
           </div>
           <div className="column has-text-centered">
             <FontAwesomeIcon icon={['fas', 'truck']} className={'icons-about'} size="3x"/>
-            <p className="text-how-work">Pagamento feito, é só esperar que entregamos o equipamento em sua casa em até 2horas. Ah, também buscamos.</p>
+            <p className="text-how-work">Pagamento feito, é só esperar que entregaremos o equipamento em sua casa, em até 2horas. Ah, nós buscamos também.</p>
           </div>
         </div>
       </div>

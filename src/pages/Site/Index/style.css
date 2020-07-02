@@ -446,16 +446,6 @@
   width: 100%;
 }
 
-.box-filters{
-  background: #f1f1f1;
-  margin-top: 0px;
-  padding: 0px 5px;
-  padding-bottom: 5px;
-  z-index: 99;
-  position: fixed;
-  width: 100%;
-}
-
 .tool-list{
   background:#fff;
   height:183px;
@@ -689,11 +679,7 @@ border: 1px solid rgb(230, 230, 230);
 }
 
 .box-rent{
-  margin-left: 170px;
-}
-
-.box-filters{
-  padding-top: 6px !important;
+  margin-left: 150px;
 }
 
 .box-values-prod{
@@ -719,7 +705,78 @@ border: 1px solid rgb(230, 230, 230);
   text-transform: capitalize;
 }
 
+
+.box-filters{
+  background: #f1f1f1;
+  margin-top: -20px !important;
+  padding-top: 6px !important;
+  padding: 0px 5px;
+  padding-bottom: 5px;
+  z-index: 99;
+  position: fixed;
+  width: 100%;
+}
+
+.approximately{
+  margin-top: 10px;
+  margin-bottom: -17px;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px;
+  font-weight: bold !important;
+  color: #60a8f1;
+}
+
+.prodused{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.prodused img{
+  width: 100% !important;
+  object-fit:cover;
+  height: 200px !important;
+  border-radius: 10px;
+  -webkit-box-shadow: -1px 0px 3px 0px rgba(166,166,166,1);
+  -moz-box-shadow: -1px 0px 3px 0px rgba(166,166,166,1);
+  box-shadow: -1px 0px 3px 0px rgba(166,166,166,1);
+}
+
+.prodused p{
+  color: #000 !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.minutesrent{
+  font-size: 45px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600;
+  color: #000;
+}
+
+.without{
+  font-family: 'Poppins', sans-serif !important;
+  color: #000;
+  font-size: 17px;
+}
+
+.explanation_box{
+  background:#FFD237;
+  padding: 25px 0px;
+  width: 97%;
+  margin-top: 0px;
+  text-align: center !important;
+}
+
 @media (max-width: 900px) {
+  .explanation_box{
+    background: transparent;
+    padding: 25px 0px;
+    width: 97%;
+    margin-top: 0px;
+    text-align: center !important;
+  }
+  
   .container-fluid-cs{
     margin: 0px !important;
     padding: 0px 10px;
@@ -758,7 +815,7 @@ border: 1px solid rgb(230, 230, 230);
     margin: 1px !important;
     padding: 0px;
     padding-bottom: 95px !important;
-    border: 1px solid rgb(173, 173, 173);
+    border: 1px solid rgb(209, 209, 209);
   }
   
   .line-tools{
@@ -859,13 +916,6 @@ border: 1px solid rgb(230, 230, 230);
     margin-top: 3px;
   }
 
-  .box-filters{
-    background: #f1f1f1;
-    margin-top: 6px;
-    padding-top: 20px !important;
-    padding: 0px 5px;
-   }
-
    .lt-box{
       padding-top: 40px;
       background: #fff;
@@ -878,9 +928,9 @@ border: 1px solid rgb(230, 230, 230);
    }
 
    .box-filters{
-      margin-top: -20px;
       z-index: 9;
       position: fixed;
+      margin-top: -35px !important;
       width: 100%;
       padding-bottom: 10px;
       background: #f1f1f1;

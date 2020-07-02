@@ -470,7 +470,7 @@ const Singup = ({ history }) => {
               <Hr/>
               <div className="">
                 <Span>Já tem conta na EasyTools? </Span>
-                <Link to="/?redirect"><Span className="button-enter">Entrar</Span></Link>
+                <Link to="/?redirect"><Span className="button-enter-2">Entrar</Span></Link>
               </div>
             </div>
             <Modal 
@@ -551,7 +551,7 @@ const Singup = ({ history }) => {
                 <b><i>Uso da plataforma</i></b> 
                 <br/><br/>
                 A plataforma é uma ambiente para anúncio e aluguel de equipamentos de ferramentas online. O intuito é facilitar e desburocratizar o setor de locação de equipamentos e ferramentas. Você como cliente poderá ser locatário(Parte que aluga o equipamento de outro), ou locador (Parte que disponibilizar seus equipamentos para outros). O aluguel de equipamentos é feito de forma online, e nós fazemos o delivery deste equipamento no local desejado por você, para que a entrega seja realizada, nós cobramos uma taxa de entrega com base na localidade e no km. Não temos lojas físicas por isso fica inviável ir buscar os equipamentos.
-                Você pode locar quanto equipamentos e desejar, não temos limite. Após escolher e seguir os procedimentos de locação, você receberá um link de pagamento para que possamos finalizar o processo de locação e entregar o equipamento escolhido no endereço desejado.
+                Você pode locar quanto equipamentos e desejar, não temos limite. Após escolher e seguir os procedimentos de locação, você receberá a opção de pagamento para que possamos finalizar o processo de locação e entregar o equipamento escolhido no endereço desejado.
                 <br/><br/>
                 Pagamento feito, nós entregamos o equipamento e só buscaremos na data de devolução.
                 <br/><br/>

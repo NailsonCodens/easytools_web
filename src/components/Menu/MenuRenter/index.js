@@ -262,6 +262,7 @@ const MenuRenter = () => {
   )
 
 	const searchTools = (event) => {
+		Scrool(0,0)
 		if (event === '') {
 			findTools('')
 		}
@@ -565,7 +566,7 @@ const MenuRenter = () => {
 										<Link to={'/signup?type=renter'} onClick={event => Tracking('Menu site - Alugue o que precisa', 'Clique menu alugue o que precisa', 'Menu site') } className="navbar-item">
 											Cadastre-se
 										</Link>
-										<a href={'https://docs.google.com/forms/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} onClick={event => Tracking('Menu site - Seja um locador', 'Clique seja um locador', 'Menu site') } className="navbar-item neighboor-nav" target="_blank">
+										<a href={'https://docs.google.com/forms/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} rel ="noreferrer" onClick={event => Tracking('Menu site - Seja um locador', 'Clique seja um locador', 'Menu site') } className="navbar-item neighboor-nav" rel ="noreferrer" target="_blank">
 											Ser vizinho na EasyTools
 										</a>
 										<Link to={'/s/about-us'} onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site') } className="navbar-item">
