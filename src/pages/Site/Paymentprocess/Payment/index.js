@@ -138,6 +138,7 @@ const Payment = ({history}) => {
       setPeriodwiarning('')
       if (typepayment === false) {
         setColorbt('is-danger')
+        setOpenpayment(!openpayment)
   
         if (typepayment === false) {
           if (isMobile) {
@@ -428,7 +429,7 @@ const Payment = ({history}) => {
                     <br/>
                     <span className="distance">Taxa de entrega e busca: </span>
                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                      <b><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
+                      <b className="number-delivery"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
                     </IntlProvider>;
                     <hr/>
                     <p className="title-tl-input">Recebimento do equipamento</p>
@@ -442,7 +443,8 @@ const Payment = ({history}) => {
                               options={[
                                 {label: 'Começo da manhã - 08:00 às 10:00', value: 'Começo da manhã - 08:00 às 10:00'}, 
                                 {label: 'Fim da manhã - 10:00 às 12:00', value: 'Fim da manhã - 10:00 às 12:00'},
-                                {label: 'Início da tarde - 13:00 às 15:00', value: 'Ìnicio da tarde - 15:00 às 17:00'},
+                                {label: 'Início da tarde - 13:00 às 15:00', value: 'Ìnicio da tarde - 13:00 às 17:00'},
+                                {label: 'Fim da tarde - 15:00 às 17:00', value: 'Fim da tarde - 15:00 às 17:00'},
                                 {label: 'Extra noite - 17:00 às 19:00', value: 'Extra noite - 17:00 às 19:00'},
                               ]}
                               isSearchable={true}
@@ -510,9 +512,6 @@ const Payment = ({history}) => {
                 )
               }
             </div>
-            <ScrollableAnchor id={'formpayment'}>
-              <div></div>
-            </ScrollableAnchor>
             <div className="column">
               <div className="rental-box">
                 <div className="columns is-desktop is-mobile">
@@ -587,6 +586,9 @@ const Payment = ({history}) => {
                       </IntlProvider>            
                     </p>
                   </div>
+                  <ScrollableAnchor id={'formpayment'}>
+                    <div></div>
+                  </ScrollableAnchor>
                 </div>
                 <ScrollableAnchor id={'choose'}>
                   <div></div>
@@ -820,7 +822,7 @@ const Payment = ({history}) => {
             <div className="column">
               <Button 
                 type={'button'}
-                className={'button is-pulled-right bt-bottom color-logo'}
+                className={'button is-pulled-right color-logo bt-app2 bt-confirm'}
                 disabled={rentattempt.finishprocess === "y" ? true : false}  
                 text={rentattempt.finishprocess === "y" ? 'Sendo processado' : 'Confirmar e alugar'}
                 onClick={event => paymentRent()}

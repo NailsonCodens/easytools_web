@@ -333,6 +333,7 @@ const List = ({history}) => {
     Scroll(0, 0);
     navigator.geolocation.getCurrentPosition(
 			position => {
+        console.log(position)
         dispatch(Latitude(position.coords.latitude))
         dispatch(Longitude(position.coords.longitude))
 
@@ -356,6 +357,7 @@ const List = ({history}) => {
         //findToolsM(position.coords.latitude, position.coords.longitude)
       },
 			erroget => {
+        console.log(erroget)
 				error()
 			},{ enableHighAccuracy: true });
   }
@@ -591,18 +593,19 @@ const List = ({history}) => {
                           {tool.user.name}
                         </span>
                       </p>
-                      <p className="take-a-back">
-                        Leva e Traz
-                      </p>
-                      <p className="rentper">Alugado por: { tool.user.name }, entrega e devolução: EasyTools </p>
-                      <p className="approximately">Valor aproximado do delivery</p>
+                      {
+                        /*
+                          <p className="rentper">Alugado por: { tool.user.name }, entrega e devolução: EasyTools </p>                        
+                        */
+                      }
+                      <p className="approximately">Valor aproximado do leva e traz</p>
                       <div className="text-infos-tl">
                         <span className="freight-tl tl-km">
-                          <span>A</span> { tool.distance.toFixed(2) < 5 ? '4.0' : tool.distance.toFixed(2) }<span> km de você </span> 
+                          <span>A</span> { tool.distance.toFixed(2) < 5 ? '4.0' : tool.distance.toFixed(2) }<span> km </span> 
                         </span>
                         <span className="freight-tl ">
                           { renderDelivery(tool.distance.toFixed(2)) }
-                            <span> Delivery</span>
+                            <span> Leva & traz</span>
                         </span>
                         <span className="freight-tl tl-hour">
                           <FontAwesomeIcon icon={['fas', 'stopwatch']} className="icon-tl" size="2x"/>
@@ -616,9 +619,9 @@ const List = ({history}) => {
                               <b><FormattedNumber value={parseFloat(tool.prices.split(';')[0])} style="currency" currency="BRL" /></b>
                             </IntlProvider>
                             <span>/Diária</span> 
-                            <div className="is-pulled-right box-rent">
-                              <button className="button color-logo is-middle" title="Outros valores" onClick={event => setProd(!prod+tool.id)}>
-                                Alugar
+                            <div className="container-mobile is-pulled-right box-rent">
+                              <button className="button color-logo is-fullwidth" title="Outros valores" onClick={event => setProd(!prod+tool.id)}>
+                                Ver mais
                               </button>
                             </div>
                             {
@@ -661,7 +664,7 @@ const List = ({history}) => {
             {
               region === 'region'?
               (
-                'Adicione seu endereço para achar as ferramentas perto de você.'
+                'Adicione seu endereço ou clique em minha localização.'
               )
               :
               (
@@ -677,7 +680,7 @@ const List = ({history}) => {
             <input 
               className="input" 
               type="text" 
-              placeholder="Buscar endereço" 
+              placeholder="Buscar meu endereço" 
               onChange={event => handleMyaddress(event)}
               value={myaddress}
             />
@@ -716,7 +719,7 @@ const List = ({history}) => {
           <button className="button is-outlined is-fullwidth color-logo" onClick={event => getGeolocalization()}>
             <div className="is-pull-left">
               <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="2x"/> 
-              Minha localização
+              Ou minha localização
             </div>
             </button>
         </div>

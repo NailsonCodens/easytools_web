@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
@@ -7,7 +7,9 @@ import { useFormik } from 'formik';
 import InputMask from 'react-input-mask';
 import {Helmet} from 'react-helmet'
 import {Auth} from '../../store/actions/auth';
-
+import moment from 'moment';
+import 'moment/locale/pt-br';
+import Notification from '../../utils/notification';
 import { login } from '../../services/auth';
 import { Form, Input } from '@rocketseat/unform';
 import Select from 'react-select';
@@ -20,7 +22,7 @@ import { Hr } from '../../components/Hr';
 import Modal from '../../components/Modal';
 
 import Scrool from '../../utils/scroll';
-
+import localForage from "localforage";
 import api from '../../services/api';
 
 import years from '../../utils/years';
@@ -31,11 +33,67 @@ import logo_blue from '../../assets/images/logo_blue.png';
 import logo_yellow from '../../assets/images/logo.png';
 import baby from '../../assets/images/baby.svg';
 import man from '../../assets/images/man.svg';
+
 import ReactGA from 'react-ga';
 import './style.css';
-
 const Singup = ({ history }) => {
-  let type = queryString.parse(useLocation().search).type;
+  const infochoose = useSelector(state => state.rentaltool);
+  const rentattempt = useSelector(state => state.rentattempt);
+  const [rentattemptuse, setRentattemp] = useState({}); 
+  const [infouse, setInfo] = useState({}); 
+
+  const info = () => Notification(
+    'info',
+    'Só um momento...', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+
+  const success = () => Notification(
+    'success',
+    'Tudo pronto, vamos prosseguir?', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+
+    const loadLinkstop = () => {
+        var info = localStorage.getItem('@lkst');
+        var rentattempt = localStorage.getItem('@obr');
+        setInfo(JSON.parse(info))
+        setRentattemp(JSON.parse(rentattempt))
+    }
+    loadLinkstop()
+  }, [infochoose, rentattempt])
+
+  let paramns = queryString.parse(useLocation().search);
+  
+  let type = paramns.type 
+  let red = paramns.redirect
+  console.log(red)
+
   let logo = logo_yellow;
   let typeuser = 'Renter';
 
@@ -149,7 +207,8 @@ const Singup = ({ history }) => {
     setTerms(false);
     setModal(true);
   }
-  
+
+
   function handSubmit(values) { 
     let { year, month, day } = values
     let birth_date = year + "-" + month + "-" + day;
@@ -171,6 +230,7 @@ const Singup = ({ history }) => {
 
   async function AcceptedTerms () {
     Scrool(0,0)
+    info()
     await api.post('user/create/', usernew, {})
     .then((res) => {
       let user = {
@@ -205,6 +265,49 @@ const Singup = ({ history }) => {
     setPhone(event.target.value)
     formik.values.phone = event.target.value
   }
+
+  async function saveTentative(userid){
+    var attempt = {
+      user_lessor_id: userid,
+      tool_id: infouse.tool,
+      startdate: moment(infouse.start).format('YYYY-MM-DD'),
+      enddate: moment(infouse.end).format('YYYY-MM-DD'),
+      tension: rentattemptuse.tension || '-',
+      days: rentattemptuse.amount,
+      month: rentattemptuse.amountmonth || 0,
+      amount: infouse.am,
+      period: rentattemptuse.type,
+      price: rentattemptuse.priceNoamount.toFixed(2),
+      cost: rentattemptuse.pricefull,
+      priceperiod: rentattemptuse.price.toFixed(2),
+      freight: 0,
+      accept: 0,
+    }
+
+    if (attempt.month > 0 && attempt.days > 0){
+      history.push('/')
+      console.log('sem mes e sem data')
+      //Tracking('Tentativa de aluguel maior com mêses e dias falha', `Tentativa de aluguel maior com mêses e dias`, 'Tentativa de aluguel maior com mêses e dias')
+    } else {
+      await api.post('rent/attempt/add/', attempt, {})
+      .then((res) => {
+        var idbooking = res.data.rentattempt.idf
+        var codeattempt = res.data.rentattempt.codeattempt
+        Scrool()
+        //Tracking('Tentativa de aluguel', ` Tentativa de aluguel criada idbooking: ${idbooking} codeattempt: ${codeattempt}`, 'Tentativa de aluguel')
+        
+        if (red === 'backp') {
+          success()
+          history.push(`/s/payment/rent-rules?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${infouse.am}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
+        } else {
+          history.push('/')
+        }
+      }).catch((err) => {
+        history.push('/')
+        console.log(err.response)
+      })
+    }
+  }
   
   async function Authregister (user) {
     await api.post('auth/token/', user, {})
@@ -219,7 +322,8 @@ const Singup = ({ history }) => {
         action: `Usuário ${id} ${email} logou na easytools`,
         label: 'Sign'
       });
-      history.push("/");
+  
+      saveTentative(id)
     })
     .catch((error) => {
     })

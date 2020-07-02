@@ -239,7 +239,7 @@ const Rentalbottombox = ({title, go, scroolView = 0, startDate, endDate, attempt
             <div className="column">
               <Button 
                 type={'button'}
-                className={'button is-pulled-right bt-bottom color-logo'}
+                className={'button is-pulled-right bt-bottom bt-app-2 color-logo'}
                 text={'Prosseguir'}                                    
                 onClick={event => go()}
               />

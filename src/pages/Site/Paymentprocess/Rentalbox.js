@@ -181,7 +181,6 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
         }
       }
 
-
       dispatch(Rentattempt(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, attempt.freight || 16, price.price, amountmonth))
 
       updateRentattemp(price.priceNoamount, price.amount, price.pricefull, amountat, price.type, attempt.freight || 16, price.price, amountmonth)
@@ -189,6 +188,8 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
       //por aqui um redirect para erro 404
     }
   }
+
+  console.log(price)
 
   async function updateRentattemp (price, days, cost, amount, period, freight, priceperiod, month) {
     var rentupdate = {
@@ -203,6 +204,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
       startdate: startDate,
       enddate: endDate
     }
+    console.log(rentupdate)
 
     if (attempt.id !== undefined) {
       await api.put(`rent/attempt/updaterent/${attempt.id}`, rentupdate, {})
@@ -263,9 +265,9 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
           <div className="column is-6">
             <p className="is-pulled-right">
               <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                <FormattedNumber value={20} style="currency" currency="BRL" />
+                <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
                 { 
-                  values.am === undefined ? 'x 1 UN' : `x ${values.am} UN` 
+                  values.am === undefined ? ' x 1 UN ' : ` x ${values.am} UN` 
                 }
               </IntlProvider>            
             </p>

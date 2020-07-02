@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import {Auth} from '../../store/actions/auth';
 import FacebookLogin from 'react-facebook-login';
 import { Link } from 'react-router-dom';
-
+import moment from 'moment';
+import 'moment/locale/pt-br';
 import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../components/Form/Form';
 import { Button } from '../../components/Form/Button';
 import { Span } from '../../components/Span';
 import Modal from '../../components/Modal';
-
+import Notification from '../../utils/notification';
 import api from '../../services/api';
 import { login } from '../../services/auth';
 
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
-import Scrool from '../../utils/scroll';
+import scrollTop from '../../utils/scroll';
 
 import './style.css';
  
@@ -25,6 +26,27 @@ const Signin = ({ hs, url, closeModal }) => {
   const currentuser = useSelector(state => state.auth);
 
   const [nologin, setNologin] = useState(false);
+
+  const infochoose = useSelector(state => state.rentaltool);
+  const rentattempt = useSelector(state => state.rentattempt);
+
+  const success = () => Notification(
+    'success',
+    'Tudo pronto, vamos prosseguir?', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+
 
   const hideNologin = () => {
     setNologin(false)
@@ -62,13 +84,13 @@ const Signin = ({ hs, url, closeModal }) => {
       login(token, type);
 
       if (url !== undefined) {
-        Scrool()
+        scrollTop()
       } else {
-        Scrool()
+        scrollTop()
         window.location.href = '/'
         //hs.push("/");
       }
-      Scrool()
+      scrollTop()
       closeModal();
     })
     .catch((error) => {
@@ -86,17 +108,62 @@ const Signin = ({ hs, url, closeModal }) => {
 
       login(token, type);
 
-      if (url !== undefined) {
-        Scrool()
+      if (url === 'authproduct') {
+        saveAttempt(id)  
       } else {
-        Scrool()
-        hs.push("/");
+        hs.push('/')
       }
-      Scrool()
+
+      scrollTop()
       closeModal();
     })
     .catch((error) => {
     })
+  }
+
+  async function saveAttempt(id){
+    var info = JSON.parse(localStorage.getItem('@lkst'));
+    var rentattempt = JSON.parse(localStorage.getItem('@obr'));
+
+    var attempt = {
+      user_lessor_id: id,
+      tool_id: info.tool,
+      startdate: moment(info.start).format('YYYY-MM-DD'),
+      enddate: moment(info.end).format('YYYY-MM-DD'),
+      tension: rentattempt.tension || '-',
+      days: rentattempt.amount,
+      month: rentattempt.amountmonth || 0,
+      amount: info.am,
+      period: rentattempt.type,
+      price: rentattempt.priceNoamount.toFixed(2),
+      cost: rentattempt.pricefull,
+      priceperiod: rentattempt.price.toFixed(2),
+      freight: 0,
+      accept: 0,
+    }
+
+    console.log(attempt)
+
+
+    if (attempt.month > 0 && attempt.days > 0){
+      hs.push('/')
+      console.log('sem mes e sem data')
+      //Tracking('Tentativa de aluguel maior com mêses e dias falha', `Tentativa de aluguel maior com mêses e dias`, 'Tentativa de aluguel maior com mêses e dias')
+    } else {
+
+      await api.post('rent/attempt/add/', attempt, {})
+      .then((res) => {
+        var idbooking = res.data.rentattempt.idf
+        var codeattempt = res.data.rentattempt.codeattempt
+        scrollTop()
+        //Tracking('Tentativa de aluguel', ` Tentativa de aluguel criada idbooking: ${idbooking} codeattempt: ${codeattempt}`, 'Tentativa de aluguel')
+        success()
+        hs.push(`/s/payment/rent-rules?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${attempt.amount}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
+      }).catch((err) => {
+        hs.push('/')
+        console.log(err.response)
+      })
+    }
   }
 
   async function authFacebook(response, fb, newuserfb) {
@@ -107,15 +174,22 @@ const Signin = ({ hs, url, closeModal }) => {
       setNologin(false)
       dispatch(Auth(email, name, type, token, id));
 
-      login(token, type);
+      login(token, type); 
 
-      if (url !== undefined) {
-        Scrool()
+      if (url === 'authproduct') {
+        saveAttempt(id)      
       } else {
-        Scrool()
-        hs.push("/");
+        hs.push('/')
       }
-      Scrool()
+
+/*
+      if (url !== undefined) {
+        scrollTop()
+      } else {
+        scrollTop()
+        hs.push("/");
+      }*/
+      scrollTop()
       closeModal();
       if (newuserfb !== 'yes') {
         api.put(`perfil/update/${response.data.user[0].id}`, {
@@ -157,31 +231,36 @@ const Signin = ({ hs, url, closeModal }) => {
         setTimeout(() => {
           authFacebookNew(response, fb, 'yes')
         }, 100);  
-      })
-      
-      .catch((err) => {
+      }).catch((err) => {
         console.log(err.response)
       })
     }
   }
-
   
   /*
-  
-            let { id, email, name, type } = res.data.user;
-          let { token } = res.data;
-          console.log(token)
-          dispatch(Auth(email, name, type, token, id));
-          Scrool(0,0);
-          login(token, type);
-          hs.push("/");
-          Scrool()
-          closeModal();
+      let { id, email, name, type } = res.data.user;
+    let { token } = res.data;
+    console.log(token)
+    dispatch(Auth(email, name, type, token, id));
+    Scrool(0,0);
+    login(token, type);
+    hs.push("/");
+    scrollTop()
+    closeModal();
   */
 
   const responseFacebook = (response) => {
-    console.log('aqui')
     getUser(response);
+  }
+
+  const goRegister = () => {
+    scrollTop()
+    localStorage.setItem('@link', document.URL)
+    if (url === 'authproduct'){
+      hs.push('/signup?redirect=backp')
+    }else{
+      hs.push('/signup')      
+    }
   }
   
   return (
@@ -196,7 +275,7 @@ const Signin = ({ hs, url, closeModal }) => {
               <br/>
               <Form 
                 onSubmit={ values => {
-                  Scrool();
+                  scrollTop();
                   formik.handleSubmit(values);
                 }} 
                 noValidate
@@ -254,18 +333,20 @@ const Signin = ({ hs, url, closeModal }) => {
                   </Label>
                 </Field>
                 {
-                    <FacebookLogin
-                      appId="564259971027569"
-                      autoLoad={false}
-                      redirectUri={'https://easytoolsapp.com/'}
-                      callback={responseFacebook}
-                      textButton={'Acessar com facebook'}
-                      fields="name,email,picture"
-                      cssClass="my-facebook-button-class button is-fullwidth fb-cs"
-                      render={renderProps => (
-                        <button onClick={renderProps.onClick}>Logar com Facebook</button>
-                      )}
-                    />                    
+                  <FacebookLogin
+                    appId={process.env.NODE_ENV === 'production' ? process.env.REACT_APP_IDFACEBOOK_BUILD : process.env.REACT_APP_IDFACEBOOK_DEV }
+                    autoLoad={false}
+                    disableMobileRedirect={true}
+                    isMobile={false}
+                    //redirectUri={'https://easytoolsapp.com/'}
+                    callback={responseFacebook}
+                    textButton={'Acessar com facebook'}
+                    fields="name,email,picture"
+                    cssClass="my-facebook-button-class button is-fullwidth fb-cs"
+                    render={renderProps => (
+                      <button onClick={renderProps.onClick}>Logar com Facebook</button>
+                    )}
+                  />                    
                 }
               </Form>
             </div>
@@ -273,11 +354,11 @@ const Signin = ({ hs, url, closeModal }) => {
           <br/>
           <div className="has-text-centered">
             <Span>Ainda não tem uma conta na EasyTools? </Span>
-            <a onClick={event => Scrool()} href="/signup" className="button is-fullwidth is-info"><Span className="button-enter">Cadastre-se</Span></a>
+            <p onClick={event => goRegister()} className="button is-fullwidth is-info"><Span className="button-enter">Cadastre-se</Span></p>
           </div>
           <div className="has-text-centered mwd-opacity-low">
             <Span>Esqueci minha senha! </Span>
-            <a onClick={event => Scrool()} href="/password-recover"><Span className="button-enter2">Recuperar Senha.</Span></a>
+            <a onClick={event => scrollTop()} href="/password-recover"><Span className="button-enter2">Recuperar Senha.</Span></a>
           </div>               
         </div>
         <Modal 

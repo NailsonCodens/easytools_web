@@ -53,7 +53,7 @@ const Congrats = () => {
           <title>{ 'Parabéns, seu aluguel foi enviado' }</title>
         </Helmet>
         <div className="container">
-          <h1 className="reserve">Sua reserva de aluguel foi enviada! </h1>
+          <h1 className="reserve">Sua reserva de aluguel foi enviada, aguarde. </h1>
         </div>
         <div className="columns invert">
           <div className="column is-4">
@@ -219,13 +219,6 @@ const Congrats = () => {
               <br/><br/>
               <div className="columns">
                 <div className="column">
-                  <Link
-                  to="/"
-                  onClick={event => Scrool(0,0)}
-                    className={'button is-pulled-left color-logo button-congrats'}                                
-                  >
-                    Pronto!
-                  </Link>
                   <br/><br/>
                 </div>
               </div>

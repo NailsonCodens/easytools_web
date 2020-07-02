@@ -19,6 +19,7 @@ import viewsearch from './viewsearch';
 import photo1 from './photo1';
 import photo2 from './photo2';
 import photo3 from './photo3';
+import rentclient from './rentclient';
 
 export default combineReducers({
   auth,
@@ -40,5 +41,6 @@ export default combineReducers({
   notifications,
   photo1,
   photo2,
-  photo3
+  photo3,
+  rentclient
 });

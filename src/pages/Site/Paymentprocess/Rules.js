@@ -49,6 +49,9 @@ const Rules = ({ history }) => {
   }
 
   useEffect(() => {
+
+    Scroll()
+
     async function loadRentattempt () {
       const response = await api.get(`rent/attempt/${values.rent_attempt}/${values.code_attempt}`, {
       });

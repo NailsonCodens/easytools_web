@@ -3,11 +3,13 @@ import { useParams, useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import { useDispatch, useSelector } from "react-redux";
 import { Rentaltool } from '../../../store/actions/rentaltool';
+import { Rentclient } from '../../../store/actions/rentclient';
 import { Link } from '../../../store/actions/link';
 import 'react-dates/initialize';
 import { DateRangePicker, toMomentObject } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import './calendar.css'
+import { Rentattempt } from '../../../store/actions/rentattempt.js';
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import brands from '../../../assets/images/brand.png';
@@ -138,8 +140,6 @@ const Tool = ({history}) => {
       amount: amount !== undefined ? amount : 1,
     },
     onSubmit: value => {
-      console.log(value)
-
       if (value.startDate === null || value.endDate === null) {
         setErrodate(true)
         danger()
@@ -173,9 +173,20 @@ const Tool = ({history}) => {
           moment(value.endDate).format('YYYY-MM-DD'),
           tool.prices.split(';'),
           tensionChoose,
-          formik.values.amount
+          formik.values.amount,
+          tool.id
         )
-      );    
+      );
+
+      var obj = { 
+        start: moment(value.startDate).format('YYYY-MM-DD'), 
+        end: moment(value.endDate).format('YYYY-MM-DD'),
+        price: tool.prices.split(';'),
+        am: formik.values.amount,
+        tool: tool.id
+      }
+
+      localStorage.setItem('@lkst', JSON.stringify(obj));
       next(rentData)  
     }
   })
@@ -187,21 +198,17 @@ const Tool = ({history}) => {
 
   const next = (rentData) => {
     if (isAuthenticated()) {
-
       if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
         if (perfil.type === 'Lessor') {
           Scrool()
           setAdddoc(true);
-          console.log('a')
           //history.push(`/lessor/perfil?e=cc`);
         } else {
           Scrool()
           setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
           //history.push(`/s/adddocuments`);
          setAdddoc(true);
-         console.log('aa')
         }
-
       }else {
         if (document !== undefined) {
           if (document.document !== null && document.selfie !== null && document.proof !== null) {
@@ -236,9 +243,7 @@ const Tool = ({history}) => {
                 accept: 0,
               }
 
-              console.log(attempt)
-
-              saveRentattempt(attempt);      
+              saveRentattempt(attempt);
             }
           } else {
             Scrool()
@@ -397,7 +402,6 @@ const Tool = ({history}) => {
       var months = period.months;
       if (period.months !== 0) {
 
-        console.log(priceback[3])
         setPrice({
           type: 'month', 
           amount: days, 
@@ -484,6 +488,15 @@ const Tool = ({history}) => {
       var days = period.days;
       var months = period.months;
 
+      var objrent = { 
+        type: '',
+        amount: '',
+        amountmonth: 0,
+        price: '',
+        priceNoamount: '',
+        pricefull: '', 
+      }
+
       if (period.months !== 0) {
         if (days > 0) {
             setModal2(true)
@@ -495,6 +508,15 @@ const Tool = ({history}) => {
               priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
               pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
             })
+
+            objrent = {
+              type: 'month', 
+              amount: days, 
+              amountmonth: months, 
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+              priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+            }
           } else {
           setPrice({
             type: 'month', 
@@ -504,9 +526,18 @@ const Tool = ({history}) => {
             priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
             pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
           })
+          objrent = {
+            type: 'month', 
+            amount: days, 
+            amountmonth: months, 
+            price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
+            pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+          }
+
         }
-      } else if (period.days !== 0) {
-        if (days < 7)
+      }else if (period.days !== 0) {
+        if (days < 7){
           setPrice({
             type: 'days', 
             amount: days, 
@@ -514,7 +545,14 @@ const Tool = ({history}) => {
             priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')),
             pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
           })
-        else if (days === 7)
+          objrent = {
+            type: 'days', 
+            amount: days, 
+            price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')),
+            pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+          }
+        }else if (days === 7){
           setPrice({
             type: 'weekend', 
             amount: days, 
@@ -522,7 +560,15 @@ const Tool = ({history}) => {
             priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')),
             pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
           })
-        else if (days > 7 && days < 15)
+          objrent = {
+            type: 'weekend', 
+            amount: days, 
+            price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')),
+            pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+          }
+        }else if (days > 7 && days < 15){
+          console.log('sssssss')
           setPrice({
             type: 'biweekly', 
             amount: days, 
@@ -530,16 +576,31 @@ const Tool = ({history}) => {
             priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')),
             pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
           })
-        else if (days === 15)
-        setPrice({
-          type: 'biweekly', 
-          amount: days, 
-          price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')), 
-          priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')),
-          pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
-        })
-        else if (days > 15){
+          objrent = {
+            type: 'biweekly', 
+            amount: days, 
+            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')),
+            pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+          }
+        }else if (days === 15){
+          setPrice({
+            type: 'biweekly', 
+            amount: days, 
+            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')),
+            pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+          })
+          objrent = {
+            type: 'biweekly', 
+            amount: days, 
+            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')),
+            pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+          }
+        }else if (days > 15){
           if (months === 0) {
+            console.log('gg')
             setPrice({
               type: 'month', 
               amount: days, 
@@ -548,7 +609,17 @@ const Tool = ({history}) => {
               priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
               pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
             })
+
+            objrent = {
+              type: 'month', 
+              amount: days, 
+              amountmonth: 0, 
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+            }
           } else {
+            console.log('adas')
             setPrice({
               type: 'month', 
               amount: days, 
@@ -557,9 +628,20 @@ const Tool = ({history}) => {
               priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
               pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
             })
-           }
+            objrent = {
+              type: 'month', 
+              amount: days, 
+              amountmonth: 0, 
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+            }
+          }
         }
       }
+      dispatch(Rentattempt(objrent.priceNoamount, objrent.amount, objrent.pricefull, 
+        amounttool, objrent.type, 0, objrent.price, objrent.amountmonth))
+        localStorage.setItem('@obr', JSON.stringify(objrent));
     }
   }
 
@@ -900,8 +982,8 @@ return (
                           onDatesChange={({ startDate, endDate }) => setDates({ startDate, endDate })} // PropTypes.func.isRequired,
                           focusedInput={focus.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
                           onFocusChange={focusedInput => setFocus({ focusedInput })} // PropTypes.func.isRequired,
-                          startDatePlaceholderText="Aluguel"
-                          endDatePlaceholderText="Devolução"
+                          startDatePlaceholderText="Data Aluguel"
+                          endDatePlaceholderText="Data Devolução"
                           readOnly
                           hideKeyboardShortcutsPanel
                         />
@@ -1098,7 +1180,7 @@ return (
                           <Button
                             disabled={tool.availability === "Y" ? false : true}
                             type={'submit'}
-                            className={'button is-fullwidth color-logo mg-button-rt'}
+                            className={'button is-fullwidth color-logo bt-pr-t mg-button-rt bt-app'}
                             text={tool.availability === "Y" ? 'Prosseguir' : 'Não disponível para locação'}
                             onClick={event => showDanger()}
                           />
@@ -1113,29 +1195,6 @@ return (
               </div>
             </div>
             <div className="column is-two-thirds">
-              <div>
-                <b>Pagamentos:</b>
-                <br/>
-                <div className="columns box-option-payment">
-                  <div className="colunm line-option-payment-no">
-                    <img src={mastercard} className="icon-payment"/>
-                    <span><b>Cartão de crédito</b></span>
-                  </div>
-                  <div className="colunm line-option-payment-no">
-                    <img src={machine} className="icon-payment"/>
-                    <span><b>Maquininha</b></span>
-                  </div>
-                  <div className="colunm line-option-payment-no">
-                    <img src={money} className="icon-payment"/>
-                    <span><b>Dinheiro</b></span>
-                  </div>
-                  <div className="colunm line-option-payment-no">
-                    <img src={boleto} className="icon-payment"/>
-                    <span><b>Boleto</b></span>
-                  </div>
-                </div>
-                <p>Reservas 3 dias antes do uso, disponível boleto.</p>
-              </div>
               <div className="description">
                 <p className="title-infos-tool">
                   Descrição
@@ -1285,7 +1344,7 @@ return (
           closeOnEsc={true} 
           closeOnOverlayClick={true}
         > 
-          <Auth hs={history} url={''} closeModal={event => setModal(false)}></Auth>
+          <Auth hs={history} url={'authproduct'} closeModal={event => setModal(false)}></Auth>
         </Modal>
       </div>
   

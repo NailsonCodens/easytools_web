@@ -67,6 +67,7 @@ const Dashboard = ({history, location}) => {
   const distance = useSelector(state => state.distance);
 
   useEffect(() => {
+    Scrool()
     /*
     async function loadCoords () {
       navigator.geolocation.getCurrentPosition(
@@ -312,14 +313,18 @@ const Dashboard = ({history, location}) => {
                       <h2 className="minutesrent">Alugue em 15 minutos, <br/> receba em até 2 horas!</h2>
                       <p class="without">Sem consultas, sem burocracias, sem 24 horas para aprovação.</p>
                       <br/>
-                      <a
-                        rel ="noreferrer"
-                        href="https://docs.google.com/forms/d/e/1FAIpQLSfRH_Gi5cIoSdaaUxdT8KN0t9eQ3kOcRloiIJJkrnkkweOQmA/viewform" 
-                        target="_blank"
-                        className={'button is-black'}
-                      >
-                        Como alugar?
-                      </a>
+                      {
+                        /*
+                          <a
+                            el ="noreferrer"
+                            href="https://docs.google.com/forms/d/e/1FAIpQLSfRH_Gi5cIoSdaaUxdT8KN0t9eQ3kOcRloiIJJkrnkkweOQmA/viewform" 
+                            target="_blank"
+                            className={'button is-black'}
+                          >
+                            Como alugar?
+                          </a> 
+                        */
+                      }
                     </div>
                   </div>
                 </div>
