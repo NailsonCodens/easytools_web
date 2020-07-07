@@ -198,79 +198,36 @@ const Tool = ({history}) => {
 
   const next = (rentData) => {
     if (isAuthenticated()) {
-      if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
-        if (perfil.type === 'Lessor') {
-          Scrool()
-          setAdddoc(true);
-          //history.push(`/lessor/perfil?e=cc`);
-        } else {
-          Scrool()
-          setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
-          //history.push(`/s/adddocuments`);
-         setAdddoc(true);
-        }
-      }else {
-        if (document !== undefined) {
-          if (document.document !== null && document.selfie !== null && document.proof !== null) {
-            if (perfil.cpfcnpj.length > 14 && document.enterprise === null) { 
-              Scrool()
-              if (perfil.type === 'Lessor') {
-                history.push(`/lessor/perfil/detail/${perfil.id}?e=cs`);
-              } else {
-                setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
-                //history.push(`/s/adddocuments`);
-                setAdddoc(true);
-                console.log('aaa')
-                //console.log('aa')
-              }
-              dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
-              //erro quando é cnpj       
-            } else {
-              var attempt = {
-                user_lessor_id: tool.user_id,
-                tool_id: tool.id,
-                startdate: moment(rentData.start).format('YYYY-MM-DD'),
-                enddate: moment(rentData.end).format('YYYY-MM-DD'),
-                tension: rentData.tension || '-',
-                days: price.amount,
-                month: price.amountmonth,
-                amount: formik.values.amount,
-                period: price.type,
-                price: price.priceNoamount.toFixed(2),
-                cost: price.pricefull.toFixed(2),
-                priceperiod: price.price,
-                freight: 0,
-                accept: 0,
-              }
+      if (perfil.type === 'Lessor') {
+        Scrool()
+//          setAdddoc(true);
+        history.push(`/lessor/perfil?e=cc`);
+      } else {
+        Scrool()
+        setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
+        //history.push(`/s/adddocuments`);
+//        setAdddoc(true);
 
-              saveRentattempt(attempt);
-            }
-          } else {
-            Scrool()
-            if (perfil.type === 'Lessor') {
-              history.push(`/lessor/perfil/detail/${perfil.id}?e=df`);
+      console.log('aaa')
+      var attempt = {
+        user_lessor_id: tool.user_id,
+        tool_id: tool.id,
+        startdate: moment(rentData.start).format('YYYY-MM-DD'),
+        enddate: moment(rentData.end).format('YYYY-MM-DD'),
+        tension: rentData.tension || '-',
+        days: price.amount,
+        month: price.amountmonth,
+        amount: formik.values.amount,
+        period: price.type,
+        price: price.priceNoamount.toFixed(2),
+        cost: price.pricefull.toFixed(2),
+        priceperiod: price.price,
+        freight: 0,
+        accept: 0,
+      }
 
-              dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));  
-            } else {
-              setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
-             // history.push(`/s/adddocuments`);
-              setAdddoc(true);
-              console.log('aaaa')
-              dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));  
-            }
-          }
-        }else {
-          Scrool()
-          if (perfil.type === 'Lessor') { 
-            history.push(`/lessor/perfapiil/detail/${perfil.id}?e=nd`);
-          } else {
-            setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
-            //history.push(`/s/adddocuments`);
-            setAdddoc(true);
-            console.log('ee')
-          }
-          dispatch(Link(`/s/tool/${id}?ctg=${values.ctg}`));
-        }
+      saveRentattempt(attempt);
+
       }
     } else {
       Scrool()
@@ -1344,7 +1301,7 @@ return (
           closeOnEsc={true} 
           closeOnOverlayClick={true}
         > 
-          <Auth hs={history} url={'authproduct'} closeModal={event => setModal(false)}></Auth>
+          <Auth hs={history} url={'authproduct'} className={'superior'} closeModal={event => setModal(false)}></Auth>
         </Modal>
       </div>
   

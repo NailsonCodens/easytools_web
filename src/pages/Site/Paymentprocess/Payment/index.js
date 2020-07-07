@@ -12,7 +12,10 @@ import {IntlProvider, FormattedNumber} from 'react-intl';
 import { Warningtext } from '../../../../components/Warningtext';
 import { Field, Label } from '../../../../components/Form/Form';
 import Mapbox from '../../../../components/Map/Mapbox';
+import Notification from '../../../../utils/notification';
 import Paymentme from './paymentme';
+import Adddocument from '../../Tool/adddocument';
+import { isAuthenticated } from "../../../../services/auth";
 import { Ul } from '../../../../components/List';
 import ReactGA from 'react-ga';
 import Scroll from '../../../../utils/scroll';
@@ -62,11 +65,16 @@ const Payment = ({history}) => {
   const [periodwarning, setPeriodwiarning] = useState('');
   const [startam, setStartAm] = useState('');
   const [endam, setEndAm] = useState('');
+  const [perfil, setPerfil] = useState([]);
+  const [document, setDocument] = useState({})
+  const [adddoc, addDoc] = useState(false)
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
   const current_user = useSelector(state => state.auth);
   useEffect(() => {
+    Scroll()
+
     async function loadRentattempt () {
       const response = await api.get(`rent/attempt/${values.rent_attempt}/${values.code_attempt}`, {
       });
@@ -86,6 +94,27 @@ const Payment = ({history}) => {
       }
     }
     loadRentattempt();
+
+    async function loadPerfil() {
+      if (isAuthenticated()) {
+        const response = await api.get(`/perfil`, {
+        });
+        console.log(response.data)
+        setPerfil(response.data.user[0])  
+      }
+    }
+    loadPerfil();
+
+    async function verifyDocumentrent(){
+      if (isAuthenticated() === true) {
+        if (current_user.length !== 0) {
+          const response = await api.get(`/documents/${current_user.id}`, {
+          });
+          setDocument(response.data.documentUser[0])  
+        }  
+      }
+    }
+    verifyDocumentrent();
 
     async function loadTool() { 
       const response = await api.get(`/tools_site/tool/${values.tool}`, {
@@ -126,6 +155,24 @@ const Payment = ({history}) => {
     };
   }, [current_user])
 
+
+  const success = () => Notification(
+    'success',
+    'Oba! Sua reserva está feita.', 
+    {
+      autoClose: 4100,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )  
+
   const paymentRent = () => {
     if (new Date(moment(startam).format('YYYY-MM-DD')) > new Date(moment().format('YYYY-MM-DD')) === true && period === '') {
       setPeriodwiarning(true)
@@ -148,7 +195,25 @@ const Payment = ({history}) => {
           }
         }
       } else {
-        updateRentattemp()
+        if (document !== undefined) {
+          if (document.document !== null && document.selfie !== null && document.proof !== null) {
+            if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
+              Scroll()
+              addDoc(true)
+            } else {
+              if (perfil.cpfcnpj.length > 14 && document.enterprise === null) { 
+                Scroll()
+                addDoc(true)
+              }else{
+                updateRentattemp()    
+              }
+            }
+          }
+        } else {
+          Scroll()
+          addDoc(true)
+        }
+//        
       }
     }
   }
@@ -173,6 +238,33 @@ const Payment = ({history}) => {
       action: action,
       label: label
     });
+  }
+
+  async function loadPerfil() {
+    if (isAuthenticated()) {
+      const response = await api.get(`/perfil`, {
+      });
+      setPerfil(response.data.user[0])  
+    }
+  }
+
+  async function loaddocumenttwo () {
+    if (isAuthenticated() === true) {
+      if (current_user.length !== 0) {
+        const response = await api.get(`/documents/${current_user.id}`, {
+        });
+        loadPerfil()
+        setDocument(response.data.documentUser[0])  
+      }  
+    }
+  }
+
+
+  const closeAdd = () => {
+    //window.location.reload();
+    loaddocumenttwo()
+   // addDoc(false)
+    success()
   }
 
   async function sendNotification () {
@@ -236,6 +328,8 @@ const Payment = ({history}) => {
     var acq = ''
     var freightnew = '';
 
+    loaddocumenttwo()
+
     if (acquisition === '') {
       acq = 'with';
     } else {
@@ -262,7 +356,7 @@ const Payment = ({history}) => {
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
     .then((res) => {
       verifyAvailabletool()
-      history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      
+      //      history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      
     }).catch((err) => {
       console.log(err.response)
     })   
@@ -355,7 +449,15 @@ const Payment = ({history}) => {
         <Helmet>
           <title>{ 'Entrega e custo' }</title>
         </Helmet>
-        <div className="container">
+        <div className={adddoc === false ? "container" : ""}>
+      {
+        adddoc === true ? 
+        (
+          <Adddocument onClose={closeAdd} rent={rentattempt.id} confirmRent={updateRentattemp}/>
+        )
+        :
+        (
+          <>
       {
         okattempt === true ? 
         (
@@ -802,41 +904,59 @@ const Payment = ({history}) => {
           <Rentruesblock/>
         )
       }
+
+          </>
+        )
+      }
     </div>
-    <div className={setclass}>
-      <div className="columns">
-        {
-          isMobile ?
-          ('')
-          :
-          (
-            <>
-              <div className="column biis-hidden-bottom">
-                <p>Aluguel de <span className="titlerentbox">{ tool.title }</span></p>
+    {
+        adddoc === true ? 
+        (
+          <>
+          </>
+        )
+        :
+        (
+          <>
+            <div className={setclass}>
+              <div className="columns">
+                {
+                  isMobile ?
+                  ('')
+                  :
+                  (
+                    <>
+                      <div className="column biis-hidden-bottom">
+                        <p>Aluguel de <span className="titlerentbox">{ tool.title }</span></p>
+                      </div>
+                    </>
+                  ) 
+                }
+                <>
+                  <div className="column">
+                    <div className="columns is-mobile">
+                      <div className="column">
+                        <Button 
+                          type={'button'}
+                          className={'button is-pulled-right color-logo bt-app2 bt-confirm'}
+                          disabled={rentattempt.finishprocess === "y" ? true : false}  
+                          text={rentattempt.finishprocess === "y" ? 'Sendo processado' : 'Confirmar e alugar'}
+                          onClick={event => paymentRent()}
+                        />
+                        <p className={ isMobile ? "is-pulled-left price-bottom" : "is-pulled-right price-bottom" }>
+                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                            <b>Total: <FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
+                          </IntlProvider>            
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </>
               </div>
-            </>
-          ) 
-        }
-        <div className="column">
-          <div className="columns is-mobile">
-            <div className="column">
-              <Button 
-                type={'button'}
-                className={'button is-pulled-right color-logo bt-app2 bt-confirm'}
-                disabled={rentattempt.finishprocess === "y" ? true : false}  
-                text={rentattempt.finishprocess === "y" ? 'Sendo processado' : 'Confirmar e alugar'}
-                onClick={event => paymentRent()}
-              />
-              <p className={ isMobile ? "is-pulled-left price-bottom" : "is-pulled-right price-bottom" }>
-                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                  <b>Total: <FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
-                </IntlProvider>            
-              </p>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </>
+        )
+      }
     </>
   );
 };

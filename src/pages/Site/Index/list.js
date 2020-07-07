@@ -180,7 +180,7 @@ const List = ({history}) => {
   }, [user]);
 
   const searchDistance = (event) => {
-    find()
+    find(category, titlest)
     setKm(false)
   }
 

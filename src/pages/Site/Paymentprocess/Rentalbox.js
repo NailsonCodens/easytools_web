@@ -21,7 +21,6 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
   
   let values = queryString.parse(useLocation().search);
 
-  console.log(values)
 
   useEffect(() => {
     async function loadInfochoose() {
@@ -63,7 +62,6 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
 
         pricefixednoamount = amountmonth * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))
 
-        console.log(pricefixednoamount)
 
         costfixed = (months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')) * amount)
 
@@ -166,7 +164,6 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
               pricefull: parseFloat(costfixed.toFixed(2))
              })
           } else {
-            console.log('asd')
             amountmonth = months
 
             setPrice({
@@ -189,7 +186,6 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
     }
   }
 
-  console.log(price)
 
   async function updateRentattemp (price, days, cost, amount, period, freight, priceperiod, month) {
     var rentupdate = {
@@ -204,7 +200,6 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
       startdate: startDate,
       enddate: endDate
     }
-    console.log(rentupdate)
 
     if (attempt.id !== undefined) {
       await api.put(`rent/attempt/updaterent/${attempt.id}`, rentupdate, {})

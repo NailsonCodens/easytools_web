@@ -304,6 +304,14 @@
   font-family: 'Poppins', sans-serif !important;
 }
 
+.warning-address{
+  font-size: 18px;
+  color: #1959c0 !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: bold;
+  margin: 10px 0px;
+}
+
 @media (max-width: 900px) {
   .mg-button-rt{
     margin-top: -16px;
@@ -414,7 +422,7 @@
   .title-rent{
     font-family: 'Poppins', sans-serif !important;
     margin-top: -5px;
-    margin-bottom: 45px;
+    margin-bottom: 15px;
     color: #60A8F1;
     font-size: 23px;
     font-weight: 400;

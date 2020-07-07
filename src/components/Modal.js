@@ -1,7 +1,7 @@
 import React from 'react';
 import ModalApp from 'react-responsive-modal';
 
-const Modal = ({ onCloseModal, show, closeEscAllowed, closeOnAllowed, children, showCloseIcon }) => {
+const Modal = ({ onCloseModal, show, className, closeEscAllowed, closeOnAllowed, children, showCloseIcon }) => {
   return (
     <>
       <ModalApp 
@@ -11,7 +11,7 @@ const Modal = ({ onCloseModal, show, closeEscAllowed, closeOnAllowed, children, 
         showCloseIcon={showCloseIcon}
         closeOnOverlayClick={closeOnAllowed} 
         center 
-        className="modal-app"
+        className={ className !== 'superior' ? "modal-app" : "modal-app superior"}
       >
         { children }
       </ModalApp>

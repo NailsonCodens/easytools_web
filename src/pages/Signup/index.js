@@ -92,7 +92,6 @@ const Singup = ({ history }) => {
   
   let type = paramns.type 
   let red = paramns.redirect
-  console.log(red)
 
   let logo = logo_yellow;
   let typeuser = 'Renter';
@@ -247,8 +246,10 @@ const Singup = ({ history }) => {
         Scrool(0,0);
         Authregister(user);
       }, 1000);      
+      console.log(res)
     })
     .catch((err) => {
+      console.log(err)
       if (err.response.data.fields.email) {
         ReactGA.event({
           category: 'Erro no cadastro do usuário',
@@ -284,9 +285,9 @@ const Singup = ({ history }) => {
       accept: 0,
     }
 
-    if (attempt.month > 0 && attempt.days > 0){
-      history.push('/')
+    if (red !== 'backp'){
       console.log('sem mes e sem data')
+      window.location.href = '/'
       //Tracking('Tentativa de aluguel maior com mêses e dias falha', `Tentativa de aluguel maior com mêses e dias`, 'Tentativa de aluguel maior com mêses e dias')
     } else {
       await api.post('rent/attempt/add/', attempt, {})
@@ -295,13 +296,8 @@ const Singup = ({ history }) => {
         var codeattempt = res.data.rentattempt.codeattempt
         Scrool()
         //Tracking('Tentativa de aluguel', ` Tentativa de aluguel criada idbooking: ${idbooking} codeattempt: ${codeattempt}`, 'Tentativa de aluguel')
-        
-        if (red === 'backp') {
-          success()
-          history.push(`/s/payment/rent-rules?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${infouse.am}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
-        } else {
-          history.push('/')
-        }
+        success()
+        history.push(`/s/payment/rent-rules?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${infouse.am}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
       }).catch((err) => {
         history.push('/')
         console.log(err.response)
@@ -322,9 +318,14 @@ const Singup = ({ history }) => {
         action: `Usuário ${id} ${email} logou na easytools`,
         label: 'Sign'
       });
+
+      if (red === 'backup') {
+        saveTentative(id)
+      } else{
+        window.location.href = '/'
+      }
   
-      saveTentative(id)
-    })
+   })
     .catch((error) => {
     })
   }
@@ -426,7 +427,7 @@ const Singup = ({ history }) => {
                   <Field className={'field'}>
                     <Label for={'phone'}>
                       <InputMask
-                        name="location"
+                        name="phone"
                         type="text"
                         mask="(99) 9 9999-9999" 
                         maskChar=" "

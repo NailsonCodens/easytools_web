@@ -14,15 +14,26 @@ import { getCordinates } from '../../../services/mapbox';
 import Notification from '../../../utils/notification';
 import { useLocation, useHistory } from 'react-router-dom';
 import queryString from 'query-string';
+import { useDispatch, useSelector } from "react-redux";
 import { CheckboxIOS } from '../../../components/Form/Button';
 import ReactGA from 'react-ga';
+import ViaCep from 'react-via-cep';
+import notification from '../../../store/reducers/notification';
 
 const Workadd = ({rent}) => {
   let valuesroute = queryString.parse(useLocation().search);
-
+  const current_user = useSelector(state => state.auth);
   const [address, setAddress] = useState('N');
   const [perfil, setPerfil] = useState([]);
   const [notifice, setNotice] = useState(false);
+  const [cep, setCep] = useState('');
+  const [cepload, setCepload] = useState('');
+  const [neighload, setNeighload] = useState('');
+  const [addressload, setAddressload] = useState('');
+  const [numberload, setNumberload] = useState('');
+  const [complementload, setComplementload] = useState('');
+  const [cityload, setCityload] = useState('');
+  const [ufload, setUfload] = useState('');
 
   let history = useHistory();
 
@@ -39,12 +50,29 @@ const Workadd = ({rent}) => {
     async function loadAddress (addresschoose) {
       const response = await api.get(`/perfil`, {
       });
-      console.log(response.data.user[0])
 
       if (response.data.user[0].address !== null 
         || response.data.user[0].location !== null || response.data.user[0].uf !== null
         || response.data.user[0].city !== null){
-        setPerfil(response.data.user[0])
+          console.log(response.data.user[0])
+          setAddress('Y')
+          setPerfil(response.data.user[0])
+          setCepload(response.data.user[0].location)
+          setNeighload(response.data.user[0].neighboor)
+          setAddressload(response.data.user[0].address)
+          setNumberload(response.data.user[0].number)
+          setComplementload(response.data.user[0].complement)
+          setCityload(response.data.user[0].city)
+          setUfload(response.data.user[0].uf)
+            
+          formik.values.location = response.data.user[0].location
+          formik.values.neighboor = response.data.user[0].neighboor
+          formik.values.address = response.data.user[0].address
+          formik.values.number = response.data.user[0].number
+          formik.values.complement = response.data.user[0].complement
+          formik.values.city = response.data.user[0].city
+          formik.values.uf = response.data.user[0].uf
+        
       } else {
         setNotice(true)
       }
@@ -54,40 +82,6 @@ const Workadd = ({rent}) => {
     return () => {
     };
   }, [])
-
-  const info = () => Notification(
-    'info',
-    'Só um momento, verificando endereço.', 
-    {
-      autoClose: 3000,
-      draggable: false,
-    },
-    {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: true,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-    }
-  )
-  
-  const warning = () => Notification(
-    'warning',
-    'Não encontramos este endereço, verifique por favor.', 
-    {
-      autoClose: 1500,
-      draggable: false,
-    },
-    {
-      position: "top-center",
-      autoClose: 1500,
-      hideProgressBar: true,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-    }
-  ) 
 
   const formik = useFormik({
     initialValues: {
@@ -140,6 +134,47 @@ const Workadd = ({rent}) => {
     }
   })
 
+
+  const info = () => Notification(
+    'info',
+    'Só um momento, verificando endereço.', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+  
+  const warning = () => Notification(
+    'warning',
+    'Não encontramos este endereço, verifique por favor.', 
+    {
+      autoClose: 1500,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 1500,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  ) 
+
+  const handleChangeCep = (teste) => {
+    setCep(teste)
+  }
+
+  console.log(perfil.id)
+  
   async function saveWorkadd (values) {
     values['rent_attempt_id'] = rent
 
@@ -152,12 +187,25 @@ const Workadd = ({rent}) => {
 
       await api.put(`/workadd/update/${workaddrentid}/${workaddid}`, values, {})
       .then((res) => {
+        const addruser = api.put(`perfil/update/${current_user.id}`, values, {})
+        .then((res) => {
+          console.log(res)
+        })
+
+        console.log(addruser)
         verifyAvailabletool()
       }).catch((err) => {
       })
     } else {
       await api.post('/workadd/add/', values, {})
       .then((res) => {
+        const addruser = api.put(`perfil/update/${current_user.id}`, values, {})
+        .then((res) => {
+          console.log(res)
+        })
+
+        console.log(addruser)
+
         verifyAvailabletool()
       }).catch((err) => {
       })
@@ -174,6 +222,15 @@ const Workadd = ({rent}) => {
     } else {
       history.push(`/?t=unavailable`);
     }
+  }
+
+  const fillsForm = (data) => {
+    formik.values.location = data.cep
+    formik.values.address = data.logradouro
+    formik.values.neighboor = data.bairro
+    formik.values.city = data.localidade
+    formik.values.uf = data.uf
+
   }
 
   const handleCheckIOS = event => {
@@ -237,9 +294,7 @@ const Workadd = ({rent}) => {
               <Warningtext>
               </Warningtext>     
               <p className="red-text">
-                Você ainda não colocou seu endereço de cadastro, faça isso assim que possível clicando no seu nome no canto inferior direito -> perfil. 
-                <br/>
-                Para seguite, adicione o seu endereço de uso.
+                Adicione seu CEP para que possamos achar seu endereço de uso.
               </p>
             </>
           )
@@ -247,197 +302,433 @@ const Workadd = ({rent}) => {
           ('')
         }
       </div>
-      <Form
-        onSubmit={ values => {
-          formik.handleSubmit(values);
-        }}
-        noValidate
-      >
-      <div className="columns column-address">
-          <div className="column">
-            <Field>
-              <Label className="label-perfil" for={'location'}>
-                <b>CEP</b>
-              </Label>
-              <InputMask
-                name="location"
-                type="text"
-                mask="99.999-999" 
-                maskChar=" "
-                placeholder="00.000-000"
-                className={formik.touched.location && formik.errors.location ? 'input border-warning' : 'input'}
-                onChange={event => formik.handleChange(event)}
-                value={formik.values.location}
-              />
-              <Span className={'validation-warning'}>
-                {
-                  formik.touched.location && formik.errors.location 
-                ? 
-                  (<div>{formik.errors.location}</div>) 
-                : 
-                  null
-                }
-              </Span>
-            </Field>
-          </div>
-          <div className="column">
-            <Field>
-              <Label className="label-perfil" for={'Bairro'}>
-                <b>Bairro</b>
-              </Label>
-              <Input
-                name="neighboor"
-                type="text"
-                placeholder="Bairro"
-                className={formik.touched.neighboor && formik.errors.neighboor ? 'input border-warning' : 'input'}
-                onChange={event => formik.handleChange(event)}
-                value={formik.values.neighboor}
-              />
-              <Span className={'validation-warning'}>
-                {
-                  formik.touched.neighboor && formik.errors.neighboor 
-                ? 
-                  (<div>{formik.errors.neighboor}</div>) 
-                : 
-                  null
-                }
-              </Span>
-            </Field>
-          </div>
-        </div>
+    {
+      address === 'Y'? 
+      (
+        <>
+          <Form
+            onSubmit={ values => {
+              formik.handleSubmit(values);
+            }}
+            noValidate
+          >
+          <div className="columns column-address">
+              <div className="column">
+                <Field>
+                  <Label className="label-perfil" for={'location'}>
+                    <b>CEP</b>
+                  </Label>
+                  <InputMask
+                    name="location"
+                    type="text"
+                    mask="99.999-999" 
+                    maskChar=" "
+                    placeholder="00.000-000"
+                    className={formik.touched.location && formik.errors.location ? 'input border-warning' : 'input'}
+                    onChange={event => formik.handleChange(event)}
+                    value={formik.values.location || cepload}
+                  />
+                  <Span className={'validation-warning'}>
+                    {
+                      formik.touched.location && formik.errors.location 
+                    ? 
+                      (<div>{formik.errors.location}</div>) 
+                    : 
+                      null
+                    }
+                  </Span>
+                </Field>
+              </div>
+              <div className="column">
+                <Field>
+                  <Label className="label-perfil" for={'Bairro'}>
+                    <b>Bairro</b>
+                  </Label>
+                  <Input
+                    name="neighboor"
+                    type="text"
+                    placeholder="Bairro"
+                    className={formik.touched.neighboor && formik.errors.neighboor ? 'input border-warning' : 'input'}
+                    onChange={event => formik.handleChange(event)}
+                    value={formik.values.neighboor || neighload}
+                  />
+                  <Span className={'validation-warning'}>
+                    {
+                      formik.touched.neighboor && formik.errors.neighboor 
+                    ? 
+                      (<div>{formik.errors.neighboor}</div>) 
+                    : 
+                      null
+                    }
+                  </Span>
+                </Field>
+              </div>
+            </div>
 
-        <div className="columns column-address">
-          <div className="column">
-            <Field>
-              <Label className="label-perfil" for={'address'}>
-                <b>Endereço</b>
-              </Label>
-              <Input
-                name="address"
-                type="text"
-                placeholder="Endereço"
-                className={formik.touched.address && formik.errors.address ? 'input border-warning' : 'input'}
-                onChange={event => formik.handleChange(event)}
-                value={formik.values.address}
+            <div className="columns column-address">
+              <div className="column">
+                <Field>
+                  <Label className="label-perfil" for={'address'}>
+                    <b>Endereço</b>
+                  </Label>
+                  <Input
+                    name="address"
+                    type="text"
+                    placeholder="Endereço"
+                    className={formik.touched.address && formik.errors.address ? 'input border-warning' : 'input'}
+                    onChange={event => formik.handleChange(event)}
+                    value={formik.values.address || addressload}
+                  />
+                  <Span className={'validation-warning'}>
+                    {
+                      formik.touched.address && formik.errors.address 
+                    ? 
+                      (<div>{formik.errors.address}</div>) 
+                    : 
+                      null
+                    }
+                  </Span>
+                </Field>
+              </div>
+              <div className="column is-3">
+                <Field>
+                  <Label className="label-perfil" for={'number'}>
+                    <b>Número</b>
+                  </Label>
+                  <Input
+                    name="number"
+                    type="text"
+                    placeholder="000"
+                    className={formik.touched.number && formik.errors.number ? 'input border-warning' : 'input'}
+                    onChange={event => formik.handleChange(event)}
+                    value={formik.values.number || numberload}
+                  />
+                  <Span className={'validation-warning'}>
+                    {
+                      formik.touched.number && formik.errors.number 
+                    ? 
+                      (<div>{formik.errors.number}</div>) 
+                    : 
+                      null
+                    }
+                  </Span>
+                </Field>
+              </div>
+              <div className="column is-3">
+                <Field>
+                  <Label className="label-perfil" for={'complement'}>
+                    <b>Complemento</b>
+                  </Label>
+                  <Input
+                    name="complement"
+                    type="text"
+                    placeholder="Complemento"
+                    className={formik.touched.complement && formik.errors.complement ? 'input border-warning' : 'input'}
+                    onChange={event => formik.handleChange(event)}
+                    value={formik.values.complement || complementload}
+                  />
+                  <Span className={'validation-warning'}>
+                    {
+                      formik.touched.complement && formik.errors.complement 
+                    ? 
+                      (<div>{formik.errors.complement}</div>) 
+                    : 
+                      null
+                    }
+                  </Span>
+                </Field>
+              </div>
+            </div>
+            <div className="columns">
+              <div className="column">
+                <Field>
+                  <Label className="label-perfil" for={'estado'}>
+                    <b>Estado</b>
+                  </Label>
+                  <Input
+                    name="uf"
+                    type="text"
+                    placeholder="Estado"
+                    className={formik.touched.uf && formik.errors.uf ? 'input border-warning' : 'input'}
+                    onChange={event => formik.handleChange(event)}
+                    value={formik.values.uf || ufload}
+                  />
+                </Field>
+                <Span className={'validation-warning'}>
+                  {
+                    formik.touched.uf && formik.errors.uf 
+                  ? 
+                    (<div>{formik.errors.uf}</div>) 
+                  : 
+                    null
+                  }
+                </Span>
+              </div>
+              <div className="column">
+                <Field>
+                  <Label className="label-perfil" for={'city'}>
+                    <b>Cidade e Região</b>
+                  </Label>
+                  <Input
+                    name="city"
+                    type="text"
+                    placeholder="Cidade"
+                    className={formik.touched.city && formik.errors.city ? 'input border-warning' : 'input'}
+                    onChange={event => formik.handleChange(event)}
+                    value={formik.values.city || cityload}
+                  />
+                  <Span className={'validation-warning'}>
+                    {
+                      formik.touched.city && formik.errors.city 
+                    ? 
+                      (<div>{formik.errors.city}</div>) 
+                    : 
+                      null
+                    }
+                  </Span>
+                </Field>
+              </div>
+            </div>
+            <Field className="is-pulled-right">
+              <Button
+                type={'submit'}
+                className={'button color-logo'}
+                text={'Enviar endereço'}
               />
-              <Span className={'validation-warning'}>
-                {
-                  formik.touched.address && formik.errors.address 
-                ? 
-                  (<div>{formik.errors.address}</div>) 
-                : 
-                  null
-                }
-              </Span>
             </Field>
-          </div>
-          <div className="column is-3">
-            <Field>
-              <Label className="label-perfil" for={'number'}>
-                <b>Número</b>
-              </Label>
-              <Input
-                name="number"
-                type="text"
-                placeholder="000"
-                className={formik.touched.number && formik.errors.number ? 'input border-warning' : 'input'}
-                onChange={event => formik.handleChange(event)}
-                value={formik.values.number}
-              />
-              <Span className={'validation-warning'}>
-                {
-                  formik.touched.number && formik.errors.number 
-                ? 
-                  (<div>{formik.errors.number}</div>) 
-                : 
-                  null
-                }
-              </Span>
-            </Field>
-          </div>
-          <div className="column is-3">
-            <Field>
-              <Label className="label-perfil" for={'complement'}>
-                <b>Complemento</b>
-              </Label>
-              <Input
-                name="complement"
-                type="text"
-                placeholder="Complemento"
-                className={formik.touched.complement && formik.errors.complement ? 'input border-warning' : 'input'}
-                onChange={event => formik.handleChange(event)}
-                value={formik.values.complement}
-              />
-              <Span className={'validation-warning'}>
-                {
-                  formik.touched.complement && formik.errors.complement 
-                ? 
-                  (<div>{formik.errors.complement}</div>) 
-                : 
-                  null
-                }
-              </Span>
-            </Field>
-          </div>
-        </div>
-        <div className="columns">
-          <div className="column">
-            <Field>
-              <Label className="label-perfil" for={'estado'}>
-                <b>Estado</b>
-              </Label>
-              <Input
-                name="uf"
-                type="text"
-                placeholder="Estado"
-                className={formik.touched.uf && formik.errors.uf ? 'input border-warning' : 'input'}
-                onChange={event => formik.handleChange(event)}
-                value={formik.values.uf}
-              />
-            </Field>
-            <Span className={'validation-warning'}>
-              {
-                formik.touched.uf && formik.errors.uf 
-              ? 
-                (<div>{formik.errors.uf}</div>) 
-              : 
-                null
+          </Form>
+        </>
+      )
+      :
+      (
+        <>
+          <ViaCep cep={cep} lazy>
+            { ({ data, loading, error, fetch }) => {
+              console.log(data)
+              if (loading) {
+                return <p className="search-address">Buscando endereço...</p>
               }
-            </Span>
-          </div>
-          <div className="column">
-            <Field>
-              <Label className="label-perfil" for={'city'}>
-                <b>Cidade e Região</b>
-              </Label>
-              <Input
-                name="city"
-                type="text"
-                placeholder="Cidade"
-                className={formik.touched.city && formik.errors.city ? 'input border-warning' : 'input'}
-                onChange={event => formik.handleChange(event)}
-                value={formik.values.city}
-              />
-              <Span className={'validation-warning'}>
-                {
-                  formik.touched.city && formik.errors.city 
-                ? 
-                  (<div>{formik.errors.city}</div>) 
-                : 
-                  null
-                }
-              </Span>
-            </Field>
-          </div>
-        </div>
-        <Field className="is-pulled-right">
-          <Button
-            type={'submit'}
-            className={'button color-logo'}
-            text={'Enviar endereço'}
-          />
-        </Field>
-      </Form>
+              console.log(data)
+
+          if (data) {
+                
+                fillsForm(data)
+
+                return <div>
+                <Form
+                  onSubmit={ values => {
+                    formik.handleSubmit(values);
+                  }}
+                  noValidate
+                >
+                <div className="columns column-address">
+                    <div className="column">
+                      <Field>
+                        <Label className="label-perfil" for={'location'}>
+                          <b>CEP</b>
+                        </Label>
+                        <InputMask
+                          name="location"
+                          type="text"
+                          mask="99.999-999" 
+                          maskChar=" "
+                          placeholder="00.000-000"
+                          className={formik.touched.location && formik.errors.location ? 'input border-warning' : 'input'}
+                          onChange={event => formik.handleChange(event)}
+                          value={formik.values.location}
+                        />
+                        <Span className={'validation-warning'}>
+                          {
+                            formik.touched.location && formik.errors.location 
+                          ? 
+                            (<div>{formik.errors.location}</div>) 
+                          : 
+                            null
+                          }
+                        </Span>
+                      </Field>
+                    </div>
+                    <div className="column">
+                      <Field>
+                        <Label className="label-perfil" for={'Bairro'}>
+                          <b>Bairro</b>
+                        </Label>
+                        <Input
+                          name="neighboor"
+                          type="text"
+                          placeholder="Bairro"
+                          className={formik.touched.neighboor && formik.errors.neighboor ? 'input border-warning' : 'input'}
+                          onChange={event => formik.handleChange(event)}
+                          value={formik.values.neighboor}
+                        />
+                        <Span className={'validation-warning'}>
+                          {
+                            formik.touched.neighboor && formik.errors.neighboor 
+                          ? 
+                            (<div>{formik.errors.neighboor}</div>) 
+                          : 
+                            null
+                          }
+                        </Span>
+                      </Field>
+                    </div>
+                  </div>
+
+                  <div className="columns column-address">
+                    <div className="column">
+                      <Field>
+                        <Label className="label-perfil" for={'address'}>
+                          <b>Endereço</b>
+                        </Label>
+                        <Input
+                          name="address"
+                          type="text"
+                          placeholder="Endereço"
+                          className={formik.touched.address && formik.errors.address ? 'input border-warning' : 'input'}
+                          onChange={event => formik.handleChange(event)}
+                          value={formik.values.address}
+                        />
+                        <Span className={'validation-warning'}>
+                          {
+                            formik.touched.address && formik.errors.address 
+                          ? 
+                            (<div>{formik.errors.address}</div>) 
+                          : 
+                            null
+                          }
+                        </Span>
+                      </Field>
+                    </div>
+                    <div className="column is-3">
+                      <Field>
+                        <Label className="label-perfil" for={'number'}>
+                          <b>Número</b>
+                        </Label>
+                        <Input
+                          name="number"
+                          type="text"
+                          placeholder="000"
+                          className={formik.touched.number && formik.errors.number ? 'input border-warning' : 'input'}
+                          onChange={event => formik.handleChange(event)}
+                          value={formik.values.number}
+                        />
+                        <Span className={'validation-warning'}>
+                          {
+                            formik.touched.number && formik.errors.number 
+                          ? 
+                            (<div>{formik.errors.number}</div>) 
+                          : 
+                            null
+                          }
+                        </Span>
+                      </Field>
+                    </div>
+                    <div className="column is-3">
+                      <Field>
+                        <Label className="label-perfil" for={'complement'}>
+                          <b>Complemento</b>
+                        </Label>
+                        <Input
+                          name="complement"
+                          type="text"
+                          placeholder="Complemento"
+                          className={formik.touched.complement && formik.errors.complement ? 'input border-warning' : 'input'}
+                          onChange={event => formik.handleChange(event)}
+                          value={formik.values.complement}
+                        />
+                        <Span className={'validation-warning'}>
+                          {
+                            formik.touched.complement && formik.errors.complement 
+                          ? 
+                            (<div>{formik.errors.complement}</div>) 
+                          : 
+                            null
+                          }
+                        </Span>
+                      </Field>
+                    </div>
+                  </div>
+                  <div className="columns">
+                    <div className="column">
+                      <Field>
+                        <Label className="label-perfil" for={'estado'}>
+                          <b>Estado</b>
+                        </Label>
+                        <Input
+                          name="uf"
+                          type="text"
+                          placeholder="Estado"
+                          className={formik.touched.uf && formik.errors.uf ? 'input border-warning' : 'input'}
+                          onChange={event => formik.handleChange(event)}
+                          value={formik.values.uf}
+                        />
+                      </Field>
+                      <Span className={'validation-warning'}>
+                        {
+                          formik.touched.uf && formik.errors.uf 
+                        ? 
+                          (<div>{formik.errors.uf}</div>) 
+                        : 
+                          null
+                        }
+                      </Span>
+                    </div>
+                    <div className="column">
+                      <Field>
+                        <Label className="label-perfil" for={'city'}>
+                          <b>Cidade e Região</b>
+                        </Label>
+                        <Input
+                          name="city"
+                          type="text"
+                          placeholder="Cidade"
+                          className={formik.touched.city && formik.errors.city ? 'input border-warning' : 'input'}
+                          onChange={event => formik.handleChange(event)}
+                          value={formik.values.city}
+                        />
+                        <Span className={'validation-warning'}>
+                          {
+                            formik.touched.city && formik.errors.city 
+                          ? 
+                            (<div>{formik.errors.city}</div>) 
+                          : 
+                            null
+                          }
+                        </Span>
+                      </Field>
+                    </div>
+                  </div>
+                  <Field className="is-pulled-right">
+                    <Button
+                      type={'submit'}
+                      className={'button color-logo'}
+                      text={'Enviar endereço'}
+                    />
+                  </Field>
+                </Form>
+                </div>
+              }
+              return (
+                <div>
+                  <br/>
+                  <div class="field has-addons">
+                    <div class="control">
+                      <input onChange={event => handleChangeCep(event.target.value)} value={cep} className="input" placeholder="CEP" type="text"/>
+                    </div>
+                    <div class="control">
+                      <a class="button is-info" onClick={fetch}>
+                        Pesquisar
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                )
+            }}
+          </ViaCep>
+        </>
+      )
+    }
+
     </div>
   );
 };

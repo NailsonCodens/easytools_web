@@ -11532,6 +11532,11 @@ react-transition-group@^4, react-transition-group@^4.0.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
+react-via-cep@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/react-via-cep/-/react-via-cep-2.0.8.tgz#efd00a7fd3f4124cc66f8649d23db1c5f1d04c29"
+  integrity sha512-AsRhVI9xMball4ZO9si9Tab/X18O3Qsf4SkeTR3+mD8RmF3NavoPplb9ekRS+i7vj3MqitffC7gSTH5iEISHhg==
+
 react-virtualized-auto-sizer@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.2.tgz#a61dd4f756458bbf63bd895a92379f9b70f803bd"

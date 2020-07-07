@@ -315,23 +315,6 @@ const Dashboard = ({history, location}) => {
 
                   </div>
                   <div className="container-fluid">
-                    <div className="explanation_box">
-                      <h2 className="minutesrent">Alugue em 15 minutos, <br/> receba em até 2 horas!</h2>
-                      <p class="without">Sem consultas, sem burocracias, sem 24 horas para aprovação.</p>
-                      <br/>
-                      {
-                        /*
-                          <a
-                            el ="noreferrer"
-                            href="https://docs.google.com/forms/d/e/1FAIpQLSfRH_Gi5cIoSdaaUxdT8KN0t9eQ3kOcRloiIJJkrnkkweOQmA/viewform" 
-                            target="_blank"
-                            className={'button is-black'}
-                          >
-                            Como alugar?
-                          </a> 
-                        */
-                      }
-                    </div>
                   </div>
                 </div>
               <div className="father-address">
@@ -357,6 +340,25 @@ const Dashboard = ({history, location}) => {
                   ('')
                 }
                 </ul>
+              </div>
+              <div className="container container-new">
+                <div className="explanation_box">
+                  <h2 className="minutesrent">Alugue em 15 minutos, <br/> receba em até 2 horas!</h2>
+                  <p class="without">Sem consultas, sem burocracias, sem 24 horas para aprovação.</p>
+                  <br/>
+                  {
+                    /*
+                      <a
+                        el ="noreferrer"
+                        href="https://docs.google.com/forms/d/e/1FAIpQLSfRH_Gi5cIoSdaaUxdT8KN0t9eQ3kOcRloiIJJkrnkkweOQmA/viewform" 
+                        target="_blank"
+                        className={'button is-black'}
+                      >
+                        Como alugar?
+                      </a> 
+                    */
+                  }
+                </div>
               </div>
               {
                 /*
