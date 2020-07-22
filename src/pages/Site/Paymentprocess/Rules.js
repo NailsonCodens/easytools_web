@@ -35,7 +35,7 @@ const Rules = ({ history }) => {
   const [attempt, setAttempt] = useState([]);
   const [ok, setOk] = useState(true);
   const [okattempt, setOkAttempt] = useState(true);
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(true);
   const [namelessor, setNamelessor] = useState('')
   const [dataLessor, setDatalessor] = useState([]);
 

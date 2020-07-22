@@ -774,44 +774,20 @@ return (
       :
       (
         <div className="container-fluid">
-        <div className="columns box-photos is-mobile is-desktop">
-          {
-            pictures.map((picture, index) => (
-              <div className="column" key={index}>
-                <img src={picture.url} alt={picture.url} className="" />
-              </div>  
-            ))
-          }
-        </div>
-        <div className="container container-bottom">
-          <div className="columns head-infos-tool">
-            <div className="column is-two-thirds">
-              <div>
-                <h3 className="title-tool-only">{tool.title}</h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="columns">
-                <div className="">
-                  {
-                    dataLessor.map((lessor, index) => (
-                      <div key={index}>
-                        <span className="logo-neighbor">
-                          <img src={lessor.url} alt={lessor.url}/>
-                        </span>
-                        <span className="name-neighbor"> { lessor.name }</span>          
-                      </div>
-                    ))
-                  }
-                  <div>
-                    <span>
-                      { /*renderConfiglessor()*/ }
-                    </span>        
-                  </div>
-                </div>
-              </div>
-            </div>
+        {
+          /*
+          <div className="columns box-photos is-mobile is-desktop">
+            {
+              pictures.map((picture, index) => (
+                <div className="column" key={index}>
+                  <img src={picture.url} alt={picture.url} className="" />
+                </div>  
+              ))
+            }
           </div>
+          */
+        }
+        <div className="container container-bottom">
           <div className="columns invert">
             <ScrollableAnchor id={'dates'}>
               <div></div>
@@ -1114,7 +1090,6 @@ return (
                         :
                         (
                           <>
-                            <Warningtext>*O valor final pode mudar de acordo com o período escolhido: diária, semanal, quizenal ou mensal.</Warningtext>
                           </>
                         ) 
                       }
@@ -1152,6 +1127,19 @@ return (
               </div>
             </div>
             <div className="column is-two-thirds">
+              <div>
+                <h3 className="title-tool-only">{tool.title}</h3>
+                <br/>
+                <div className="columns box-photos is-mobile is-desktop">
+                  {
+                    pictures.map((picture, index) => (
+                      <div className="column" key={index}>
+                        <img src={picture.url} alt={picture.url} className="" />
+                      </div>  
+                    ))
+                  }
+                </div>
+              </div>
               <div className="description">
                 <p className="title-infos-tool">
                   Descrição

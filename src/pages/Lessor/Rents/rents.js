@@ -247,6 +247,17 @@ const Rents = ({ history }) => {
                         </div>
                         <div className="column">
                           <div>
+                          {
+                              rent.accept === 'd' ? 
+                              (
+                                <>
+                                <br/><br/>
+                                <b className="quit">Cliente desistiu.</b>
+                                </>
+                              )
+                              :
+                              ('') 
+                            }
                             {
                               rent.accept === 'c' ? 
                               (
@@ -337,7 +348,7 @@ const Rents = ({ history }) => {
                             </div>
                             <div className={ isMobile === true ? "column is-4" : "column is-2"}>
                                 { 
-                                  rent.accept === 'N' || rent.accept === '1' ?
+                                  rent.accept === 'N' || rent.accept === '1' ||rent.accept === 'd' ||rent.accept === 'c' ?
                                   (
                                     ''
                                   )

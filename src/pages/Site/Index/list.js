@@ -275,27 +275,43 @@ const List = ({history}) => {
   }
 
   const renderDelivery = (km) => {
-    var kmregional = 5
+    var kmregional = 7
 
-    var minfreight = userconfig.min !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 16;
+    var minfreight = userconfig.min !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 14;
 
-    var perkm = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1.55;
+    var perkm = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1.40;
     var kmdelivery = parseFloat(km).toFixed(2);
-
-    if (kmdelivery > 5 && kmdelivery < 10) {
-      perkm = 1.95
-    }else if (kmdelivery > 25) {
-      perkm = 1.55
-    }
 
     var delivery = 0;
 
-    if (kmregional > kmdelivery) {
-      delivery = minfreight
-    } else {
-      delivery = kmdelivery * perkm;
-    }
+
+      if (kmdelivery > 0 && kmdelivery < 7) {
+        delivery = minfreight;
+        console.log('a')
+      }else{
+        if (kmdelivery > 7.1 && kmdelivery < 8) {
+          perkm = 2.00
+        }
+
+        if (kmdelivery > 8.1 && kmdelivery < 10) {
+          perkm = 1.95
+        }
     
+        if (kmdelivery > 10 && kmdelivery < 15) {
+          perkm = 1.55
+        }
+        
+        if (kmdelivery > 15) {
+          perkm = 1.43
+        }
+    
+        if (kmdelivery > 20.0) {
+          perkm = 1.35      
+        }
+
+        delivery = kmdelivery * perkm;
+      }
+
     var deliveryfinal = delivery.toFixed(2).replace(/\./gi,',').replace(/,/gi,',')
 
     return 'R$ ' + deliveryfinal
@@ -598,14 +614,15 @@ const List = ({history}) => {
                           <p className="rentper">Alugado por: { tool.user.name }, entrega e devolução: EasyTools </p>                        
                         */
                       }
-                      <p className="approximately">Valor aproximado do leva e traz</p>
+                      <p className="approximately">Valor aproximado do Entrega e coleta</p>
+                      <p className="toolcity">Esta ferramenta está em <span>{ tool.city }</span></p>
                       <div className="text-infos-tl">
                         <span className="freight-tl tl-km">
-                          <span>A</span> { tool.distance.toFixed(2) < 5 ? '4.0' : tool.distance.toFixed(2) }<span> km </span> 
+                          <span>A</span> { tool.distance.toFixed(2) < 4 ? '4.0' : tool.distance.toFixed(2) }<span> km </span> 
                         </span>
                         <span className="freight-tl ">
                           { renderDelivery(tool.distance.toFixed(2)) }
-                            <span> Leva & traz</span>
+                            <span> Entrega & Coleta</span>
                         </span>
                         <span className="freight-tl tl-hour">
                           <FontAwesomeIcon icon={['fas', 'stopwatch']} className="icon-tl" size="2x"/>
@@ -680,7 +697,7 @@ const List = ({history}) => {
             <input 
               className="input" 
               type="text" 
-              placeholder="Buscar meu endereço" 
+              placeholder="Digite o nome da sua rua..." 
               onChange={event => handleMyaddress(event)}
               value={myaddress}
             />

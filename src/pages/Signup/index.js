@@ -86,6 +86,7 @@ const Singup = ({ history }) => {
         setRentattemp(JSON.parse(rentattempt))
     }
     loadLinkstop()
+
   }, [infochoose, rentattempt])
 
   let paramns = queryString.parse(useLocation().search);
@@ -267,9 +268,14 @@ const Singup = ({ history }) => {
     formik.values.phone = event.target.value
   }
 
-  async function saveTentative(userid){
+  async function saveTentative(){
+    const response = await api.get(`/tools_site/tool/${infouse.tool}`, {
+    });
+
+    var useridt =  response.data.tool[0].user_id
+
     var attempt = {
-      user_lessor_id: userid,
+      user_lessor_id: useridt,
       tool_id: infouse.tool,
       startdate: moment(infouse.start).format('YYYY-MM-DD'),
       enddate: moment(infouse.end).format('YYYY-MM-DD'),
@@ -287,7 +293,8 @@ const Singup = ({ history }) => {
 
     if (red !== 'backp'){
       console.log('sem mes e sem data')
-      window.location.href = '/'
+//      window.location.href = '/'
+      console.log('caindo aqui')
       //Tracking('Tentativa de aluguel maior com mêses e dias falha', `Tentativa de aluguel maior com mêses e dias`, 'Tentativa de aluguel maior com mêses e dias')
     } else {
       await api.post('rent/attempt/add/', attempt, {})
@@ -299,7 +306,7 @@ const Singup = ({ history }) => {
         success()
         history.push(`/s/payment/rent-rules?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${infouse.am}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
       }).catch((err) => {
-        history.push('/')
+       // history.push('/')
         console.log(err.response)
       })
     }
@@ -319,7 +326,7 @@ const Singup = ({ history }) => {
         label: 'Sign'
       });
 
-      if (red === 'backup') {
+      if (red === 'backp') {
         saveTentative(id)
       } else{
         window.location.href = '/'

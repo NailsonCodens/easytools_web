@@ -61,6 +61,12 @@ const Footer = () => {
 											<br/>
 											E assim nasce a EasyTools ❤️
 										</p>
+										<br/>
+										<p class="makeit">
+											Em Curitiba - PR
+											<br/>
+											Escritório - Rua alvares de azevedo, 298
+										</p>
 									</li>
 								</Ul>
 							</div>

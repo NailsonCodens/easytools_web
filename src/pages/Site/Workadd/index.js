@@ -16,9 +16,11 @@ import { useLocation, useHistory } from 'react-router-dom';
 import queryString from 'query-string';
 import { useDispatch, useSelector } from "react-redux";
 import { CheckboxIOS } from '../../../components/Form/Button';
+import * as cepSearch from 'cep-promise';
 import ReactGA from 'react-ga';
 import ViaCep from 'react-via-cep';
 import notification from '../../../store/reducers/notification';
+
 
 const Workadd = ({rent}) => {
   let valuesroute = queryString.parse(useLocation().search);
@@ -34,6 +36,15 @@ const Workadd = ({rent}) => {
   const [complementload, setComplementload] = useState('');
   const [cityload, setCityload] = useState('');
   const [ufload, setUfload] = useState('');
+  const [cepsearch, setCepsearch] = useState('');
+  const [cepsh, setCepsh] = useState('');
+
+
+  const [ceppromise, setCeppromise] = useState('');
+  const [neighboorpromise, setNeighboorpromise] = useState('');
+  const [addresspromise, setAddresspromise] = useState('');
+  const [ufpromise, setUfpromise] = useState('');
+  const [citypromise, setCitypromisse] = useState('');
 
   let history = useHistory();
 
@@ -54,7 +65,6 @@ const Workadd = ({rent}) => {
       if (response.data.user[0].address !== null 
         || response.data.user[0].location !== null || response.data.user[0].uf !== null
         || response.data.user[0].city !== null){
-          console.log(response.data.user[0])
           setAddress('Y')
           setPerfil(response.data.user[0])
           setCepload(response.data.user[0].location)
@@ -85,7 +95,7 @@ const Workadd = ({rent}) => {
 
   const formik = useFormik({
     initialValues: {
-      location: '',
+      location: cepload,
       neighboor: '',
       address: '',
       number: '',
@@ -112,7 +122,10 @@ const Workadd = ({rent}) => {
     }),
 
     onSubmit: values => {
-      let query = `${values.address} ${values.number} ${values.uf} ${values.city}`
+      /*
+        ${values.uf} 
+      */
+      let query = `${values.address} ${values.number} ${values.city}`
       info()     
       setTimeout(function(){
         getCordinates(query).then(res => {
@@ -134,6 +147,14 @@ const Workadd = ({rent}) => {
     }
   })
 
+  const handleCepsearch = (event) => {
+    console.log(event.target.value)
+    setCepsearch(event.target.value)
+    formik.values.location = event.target.value
+    console.log(formik.values.location)
+  }
+
+  console.log(formik.values.location)
 
   const info = () => Notification(
     'info',
@@ -169,14 +190,33 @@ const Workadd = ({rent}) => {
     }
   ) 
 
-  const handleChangeCep = (teste) => {
-    setCep(teste)
+  const handleChangeCep = () => {
+    var cepclean = cep.replace('.', '')
+    cepSearch(cepclean)
+    .then(function (address) {
+      setCeppromise(address.cep)
+      setNeighboorpromise(address.neighborhood)
+      setAddresspromise(address.street)
+      setCitypromisse(address.city)
+      setUfpromise(address.state)
+
+      formik.values.location = address.cep
+      formik.values.neighboor = address.neighborhood
+      formik.values.address = address.street
+      formik.values.city = address.city
+      formik.values.uf = address.state
+      setCepsh(true)
+    })
   }
 
   console.log(perfil.id)
   
   async function saveWorkadd (values) {
     values['rent_attempt_id'] = rent
+
+    console.log(values)
+
+//    return 
 
     const responseworkadd = await api.get(`workadd/${rent}`, {
     });
@@ -225,6 +265,7 @@ const Workadd = ({rent}) => {
   }
 
   const fillsForm = (data) => {
+    console.log(data)
     formik.values.location = data.cep
     formik.values.address = data.logradouro
     formik.values.neighboor = data.bairro
@@ -240,13 +281,13 @@ const Workadd = ({rent}) => {
     setAddress(addresschoose)
 
     if (addresschoose === 'Y') {
-      formik.values.location = perfil.location
+/*      formik.values.location = perfil.location
       formik.values.neighboor = perfil.neighboor
       formik.values.address = perfil.address
       formik.values.number = perfil.number
       formik.values.complement = perfil.complement
       formik.values.uf = perfil.uf
-      formik.values.city = perfil.city
+      formik.values.city = perfil.city*/
     } else {
       formik.values.location = ''
       formik.values.neighboor = ''
@@ -260,7 +301,7 @@ const Workadd = ({rent}) => {
 
   return (
     <div className="container workadd">
-      <br/><br/>
+      
       <p className="title-infos-tool hack-padding-top">Falta só mais um pouquinho!</p>
       <p className="title-tool-only">
         Onde você deseja receber o equipamento?
@@ -281,7 +322,7 @@ const Workadd = ({rent}) => {
               value={address} 
               bind="checksignup"
               ch={address === 'Y' ? true : false}
-              off="Adicionar novo endereço." 
+              off="Novo endereço." 
               on="Usar meu endereço."
             />
           )
@@ -325,7 +366,10 @@ const Workadd = ({rent}) => {
                     maskChar=" "
                     placeholder="00.000-000"
                     className={formik.touched.location && formik.errors.location ? 'input border-warning' : 'input'}
-                    onChange={event => formik.handleChange(event)}
+                    onChange={event => { 
+                      formik.handleChange(event);
+                      setCepload(event.target.value);
+                    }}
                     value={formik.values.location || cepload}
                   />
                   <Span className={'validation-warning'}>
@@ -349,7 +393,10 @@ const Workadd = ({rent}) => {
                     type="text"
                     placeholder="Bairro"
                     className={formik.touched.neighboor && formik.errors.neighboor ? 'input border-warning' : 'input'}
-                    onChange={event => formik.handleChange(event)}
+                    onChange={event =>{
+                      formik.handleChange(event);
+                      setNeighload(event.target.value)
+                    }}
                     value={formik.values.neighboor || neighload}
                   />
                   <Span className={'validation-warning'}>
@@ -376,7 +423,10 @@ const Workadd = ({rent}) => {
                     type="text"
                     placeholder="Endereço"
                     className={formik.touched.address && formik.errors.address ? 'input border-warning' : 'input'}
-                    onChange={event => formik.handleChange(event)}
+                    onChange={event => { 
+                      formik.handleChange(event);
+                      setAddressload(event.target.value);
+                    }}
                     value={formik.values.address || addressload}
                   />
                   <Span className={'validation-warning'}>
@@ -400,7 +450,10 @@ const Workadd = ({rent}) => {
                     type="text"
                     placeholder="000"
                     className={formik.touched.number && formik.errors.number ? 'input border-warning' : 'input'}
-                    onChange={event => formik.handleChange(event)}
+                    onChange={event => { 
+                      formik.handleChange(event); 
+                      setNumberload(event.target.value);
+                    }}
                     value={formik.values.number || numberload}
                   />
                   <Span className={'validation-warning'}>
@@ -424,7 +477,10 @@ const Workadd = ({rent}) => {
                     type="text"
                     placeholder="Complemento"
                     className={formik.touched.complement && formik.errors.complement ? 'input border-warning' : 'input'}
-                    onChange={event => formik.handleChange(event)}
+                    onChange={event => { 
+                      formik.handleChange(event);
+                      setComplementload(event.target.value);
+                    }}
                     value={formik.values.complement || complementload}
                   />
                   <Span className={'validation-warning'}>
@@ -450,7 +506,10 @@ const Workadd = ({rent}) => {
                     type="text"
                     placeholder="Estado"
                     className={formik.touched.uf && formik.errors.uf ? 'input border-warning' : 'input'}
-                    onChange={event => formik.handleChange(event)}
+                    onChange={event => { 
+                      formik.handleChange(event);
+                      setUfload(event.target.value);
+                    }}
                     value={formik.values.uf || ufload}
                   />
                 </Field>
@@ -474,7 +533,10 @@ const Workadd = ({rent}) => {
                     type="text"
                     placeholder="Cidade"
                     className={formik.touched.city && formik.errors.city ? 'input border-warning' : 'input'}
-                    onChange={event => formik.handleChange(event)}
+                    onChange={event => { 
+                      formik.handleChange(event);
+                      setCityload(event.target.value);
+                    }}
                     value={formik.values.city || cityload}
                   />
                   <Span className={'validation-warning'}>
@@ -502,19 +564,32 @@ const Workadd = ({rent}) => {
       :
       (
         <>
-          <ViaCep cep={cep} lazy>
-            { ({ data, loading, error, fetch }) => {
-              console.log(data)
-              if (loading) {
-                return <p className="search-address">Buscando endereço...</p>
-              }
-              console.log(data)
-
-          if (data) {
-                
-                fillsForm(data)
-
-                return <div>
+          <div>
+            <br/>
+            <div class="field has-addons">
+              <div class="control">
+                <InputMask
+                  name="location"
+                  type="text"
+                  mask="99.999-999" 
+                  maskChar=" "
+                  placeholder="CEP"
+                  className={formik.touched.location && formik.errors.location ? 'input border-warning' : 'input'}
+                  onChange={event => setCep(event.target.value)}
+                  value={cep}
+                />
+              </div>
+              <div class="control">
+                <a class="button is-info" onClick={event=> handleChangeCep()}>
+                  Pesquisar
+                </a>
+              </div>
+            </div>
+          </div>
+          {
+            cepsh === true ? 
+            (
+              <>
                 <Form
                   onSubmit={ values => {
                     formik.handleSubmit(values);
@@ -533,15 +608,17 @@ const Workadd = ({rent}) => {
                           mask="99.999-999" 
                           maskChar=" "
                           placeholder="00.000-000"
-                          className={formik.touched.location && formik.errors.location ? 'input border-warning' : 'input'}
-                          onChange={event => formik.handleChange(event)}
-                          value={formik.values.location}
+                          className={ceppromise === '' ? 'input border-warning' : 'input'}
+                          onChange={event => 
+                            setCeppromise(event.target.value)
+                          }
+                          value={ceppromise}
                         />
                         <Span className={'validation-warning'}>
                           {
-                            formik.touched.location && formik.errors.location 
+                            ceppromise === ''
                           ? 
-                            (<div>{formik.errors.location}</div>) 
+                            (<div>Cep é obrigatório</div>) 
                           : 
                             null
                           }
@@ -557,15 +634,18 @@ const Workadd = ({rent}) => {
                           name="neighboor"
                           type="text"
                           placeholder="Bairro"
-                          className={formik.touched.neighboor && formik.errors.neighboor ? 'input border-warning' : 'input'}
-                          onChange={event => formik.handleChange(event)}
-                          value={formik.values.neighboor}
+                          className={neighboorpromise === '' ? 'input border-warning' : 'input'}
+                          onChange={event =>{ 
+                            setNeighboorpromise(event.target.value);
+                            formik.handleChange(event)
+                          }}
+                          value={neighboorpromise}
                         />
                         <Span className={'validation-warning'}>
                           {
-                            formik.touched.neighboor && formik.errors.neighboor 
+                            neighboorpromise === ''  
                           ? 
-                            (<div>{formik.errors.neighboor}</div>) 
+                            (<div>Bairro é obrigatório</div>) 
                           : 
                             null
                           }
@@ -584,15 +664,18 @@ const Workadd = ({rent}) => {
                           name="address"
                           type="text"
                           placeholder="Endereço"
-                          className={formik.touched.address && formik.errors.address ? 'input border-warning' : 'input'}
-                          onChange={event => formik.handleChange(event)}
-                          value={formik.values.address}
+                          className={ addresspromise === '' ? 'input border-warning' : 'input'}
+                          onChange={event => {
+                            setAddresspromise(event.target.value);
+                            formik.handleChange(event);
+                          }}
+                          value={addresspromise}
                         />
                         <Span className={'validation-warning'}>
                           {
-                            formik.touched.address && formik.errors.address 
+                            addresspromise === '' 
                           ? 
-                            (<div>{formik.errors.address}</div>) 
+                            (<div>Endereço é obrigatório</div>) 
                           : 
                             null
                           }
@@ -658,16 +741,16 @@ const Workadd = ({rent}) => {
                           name="uf"
                           type="text"
                           placeholder="Estado"
-                          className={formik.touched.uf && formik.errors.uf ? 'input border-warning' : 'input'}
-                          onChange={event => formik.handleChange(event)}
-                          value={formik.values.uf}
+                          className={ufpromise === '' ? 'input border-warning' : 'input'}
+                          onChange={event => setUfpromise(event.target.value)}
+                          value={ufpromise}
                         />
                       </Field>
                       <Span className={'validation-warning'}>
                         {
-                          formik.touched.uf && formik.errors.uf 
+                          ufpromise === '' 
                         ? 
-                          (<div>{formik.errors.uf}</div>) 
+                          (<div>Estado é obrigatório</div>) 
                         : 
                           null
                         }
@@ -682,15 +765,15 @@ const Workadd = ({rent}) => {
                           name="city"
                           type="text"
                           placeholder="Cidade"
-                          className={formik.touched.city && formik.errors.city ? 'input border-warning' : 'input'}
-                          onChange={event => formik.handleChange(event)}
-                          value={formik.values.city}
+                          className={citypromise === '' ? 'input border-warning' : 'input'}
+                          onChange={event => setCitypromisse(event.target.value)}
+                          value={citypromise}
                         />
                         <Span className={'validation-warning'}>
                           {
-                            formik.touched.city && formik.errors.city 
+                            citypromise === ''
                           ? 
-                            (<div>{formik.errors.city}</div>) 
+                            (<div>Cidade é obrigatório</div>) 
                           : 
                             null
                           }
@@ -706,25 +789,16 @@ const Workadd = ({rent}) => {
                     />
                   </Field>
                 </Form>
-                </div>
-              }
-              return (
-                <div>
-                  <br/>
-                  <div class="field has-addons">
-                    <div class="control">
-                      <input onChange={event => handleChangeCep(event.target.value)} value={cep} className="input" placeholder="CEP" type="text"/>
-                    </div>
-                    <div class="control">
-                      <a class="button is-info" onClick={fetch}>
-                        Pesquisar
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                )
-            }}
-          </ViaCep>
+
+              </>
+            )
+            :
+            (
+              <>
+              </>
+            )
+          }
+
         </>
       )
     }

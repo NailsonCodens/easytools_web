@@ -125,8 +125,13 @@ const Signin = ({ hs, url, closeModal }) => {
     var info = JSON.parse(localStorage.getItem('@lkst'));
     var rentattempt = JSON.parse(localStorage.getItem('@obr'));
 
+    const response = await api.get(`/tools_site/tool/${info.tool}`, {
+    });
+
+    var useridt =  response.data.tool[0].user_id
+
     var attempt = {
-      user_lessor_id: id,
+      user_lessor_id: useridt,
       tool_id: info.tool,
       startdate: moment(info.start).format('YYYY-MM-DD'),
       enddate: moment(info.end).format('YYYY-MM-DD'),
@@ -141,9 +146,6 @@ const Signin = ({ hs, url, closeModal }) => {
       freight: 0,
       accept: 0,
     }
-
-    console.log(attempt)
-
 
     if (attempt.month > 0 && attempt.days > 0){
       hs.push('/')

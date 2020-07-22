@@ -13,7 +13,11 @@ import logo from '../../../assets/images/easytools_yellow.png'
 import lixadeira from '../../../assets/images/lixadeira.jpg'; 
 import furadeira from '../../../assets/images/furadeira.jpg'; 
 import martelete from '../../../assets/images/martelete.jpg'; 
-import rocadeira from '../../../assets/images/rocadeira.jpg';
+import roçadeira from '../../../assets/images/roçadeira.jpg';
+import esmerilhadeira from '../../../assets/images/esmerilhadeira.jpg';
+import plaina from '../../../assets/images/plaina.jpg';
+import ticotico from '../../../assets/images/ticotico.jpg';
+import aspirador from '../../../assets/images/aspirador.jpg';
 import wap from '../../../assets/images/wap.jpg';
 import extratora from '../../../assets/images/extratora.jpg'; 
 import gardening from '../../../assets/images/gardening.jpg';
@@ -24,6 +28,7 @@ import estrutura from '../../../assets/images/estrutura.jpeg'
 import background from '../../../assets/images/background.png'
 import { Link, useHistory } from 'react-router-dom';
 import ReactGA from 'react-ga';
+import ScrollableAnchor from 'react-scrollable-anchor'
 import {Helmet} from 'react-helmet'
 import Notificationtost from '../../../utils/notification';
 import { Button } from '../../../components/Form/Button';
@@ -219,6 +224,10 @@ const Dashboard = ({history, location}) => {
 		setPlaces(false)*/
   }
 
+  const clickMap = () =>{
+    window.location.href = "#"+"atuation";
+  }
+
   const goProduct = (category) => {
     Scrool(0,0)
     //all/equipaments/campina-grande-do-sul
@@ -241,7 +250,6 @@ const Dashboard = ({history, location}) => {
         <meta name="keywords" content="Ferramenta fácil, Aluguel, Roçadeira, Aluguel Roçadeira, Aluguel de equipamentos em Curitiba, ALuguel de lixadeira, aluguel de extratora, limpa sofá curitiba, alugar furadeira, alugar aspirador, alugar martelete, Aluguel equipamento curitiba, Aluguel motossera, Aluguel extratora, aluguel limpadora de sofá, aluguel de ferramentas, furadeira, app d ealuguel, aplicativo de aluguel de ferramentas,  Aluguel Online, Aluguel On-line, Aluguel furdeira, aluguel aspirador de pó, aluguel ferramenta, equipamento, betoneira, aluguel de equipamento online, locação, construção civil, extratora de sujeira, limpeza de sofá, locação curitiba, locacao curitiba, aluguel de ferramentas, aluguel de equipamentos, aluguel, alugar objetos, alugar produtos, allugator, olx, locação, classificados, alugar, grátis, anuncie, anúncios, alugue, equipamentos, construção, como ganhar uma renda extra,  aluguel compartilhado,  o que alugar para ganhar dinheiro,  aluguel de objetos,  aluguel de produtos,  olx aluguel, olx, alooga, allugator, easyrental."/> 
         <meta name="robots" content=""/> 
         <meta name="revisit-after" content="1 day"/> <meta name="language" content="Portuguese"/>
-        <meta charset="utf-8"/>
       </Helmet>
       {
         values.t === 'unavailable' ? 
@@ -289,13 +297,17 @@ const Dashboard = ({history, location}) => {
                 <div className="container container-new">
                   <div className="columns ">
                     <div className="column  bt-ad">
-                      <input 
-                        type="text" 
-                        placeholder='Procure ferramentas perto do seu endereço.' 
-                        className="input input-geolocalization" 
-                        onChange={event => handleMyaddress(event)}
-                        value={myaddress}
-                      />
+                      {
+                        /*
+                          <input 
+                            type="text" 
+                            placeholder="Digite o nome da sua rua..."
+                            className="input input-geolocalization" 
+                            onChange={event => handleMyaddress(event)}
+                            value={myaddress}
+                          />
+                        */
+                      }
                     </div>
 {
   /*
@@ -344,7 +356,7 @@ const Dashboard = ({history, location}) => {
               <div className="container container-new">
                 <div className="explanation_box">
                   <h2 className="minutesrent">Alugue em 15 minutos, <br/> receba em até 2 horas!</h2>
-                  <p class="without">Sem consultas, sem burocracias, sem 24 horas para aprovação.</p>
+                  <p className="without">Sem consultas, sem burocracias, sem 24 horas para aprovação.</p>
                   <br/>
                   {
                     /*
@@ -359,6 +371,23 @@ const Dashboard = ({history, location}) => {
                     */
                   }
                 </div>
+                <br/>
+                <Link
+                  to={'/s/about-us'}
+                  className={'button is-dark padding-bt'}
+                  onClick={event => Tracking('noid', 'Como funciona', `Como funciona?`) }  
+                >
+                  Como funciona
+                </Link>    
+                <button
+                  className={'button is-dark padding-bt'}
+                  onClick={event => {
+                    Tracking('noid', 'Aréa de atuação', `Aréa de atuação`);
+                    clickMap() }
+                  }  
+                >
+                  Veja nossa área de atuação
+                </button>    
               </div>
               {
                 /*
@@ -412,34 +441,6 @@ const Dashboard = ({history, location}) => {
             </div>
           </div>
           <br/>
-        </div>
-        <br/><br/>
-        <div className="container">
-          <p className="title-index"> Os mais alugados do mês</p>
-          <div className={isMobile === true ? 'table-container' : ''}>
-            <div className="columns is-mobile is-desktop">
-              <div className="column is-7-mobile has-text-centered prodused" onClick={event => goUsed('extratora')}>
-                <img src={extratora}  alt="EasyTools Logo" className=""/>
-                <p>Extratora</p>
-              </div>
-              <div className="column is-7-mobile has-text-centered prodused" onClick={event => goUsed('lavadora')}>
-              <img src={wap}  alt="EasyTools Logo" className=""/>
-              <p>Lavadora de alta pressão</p>
-              </div>
-              <div className="column is-7-mobile has-text-centered prodused" onClick={event => goUsed('lixadeira')}>
-                <img src={lixadeira}  alt="EasyTools Logo" className=""/>
-              <p>Lixadeira Orbital</p>
-              </div>
-              <div className="column is-7-mobile has-text-centered prodused" onClick={event => goUsed('furadeira')}>
-                <img src={furadeira}  alt="EasyTools Logo" className=""/>
-                <p>Furadeira de Impacto</p>
-              </div>
-              <div className="column is-7-mobile has-text-centered prodused" onClick={event => goUsed('martelete')}>
-                <img src={martelete}  alt="EasyTools Logo" className=""/>
-                <p>Martelete</p>
-              </div>
-            </div>
-          </div>
         </div>
         <br/><br/>
         {
@@ -516,6 +517,14 @@ const Dashboard = ({history, location}) => {
             </div>
           </div>
         </div>
+      </div>
+      <br/><br/>
+      <div className="container has-text-centered">
+      <ScrollableAnchor id={'atuation'}>
+        <div></div>
+      </ScrollableAnchor>
+        <p className="title-index has-text-centered">Conheça nossa área de atuação no Paraná?</p>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d230539.1567424101!2d-49.3660441!3d-25.4658539!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xf0641216f68afbf6!2sEasyTools!5e0!3m2!1spt-BR!2sbr!4v1595343737440!5m2!1spt-BR!2sbr" width="800" height="350" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
       </div>
       <br/><br/>
       <div className="slider-comment">

@@ -776,12 +776,29 @@ border: 1px solid rgb(230, 230, 230);
   text-align: center !important;
 }
 
+.toolcity{
+  margin-top: 20px;
+  margin-bottom: -15px;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.toolcity span{
+  text-transform: uppercase !important;
+  font-weight: bold !important;
+}
+
+.padding-bt{
+  margin: 10px !important;
+}
+
 @media (max-width: 900px) {
   .explanation_box{
     background: transparent;
     padding: 25px 0px;
     width: 100%;
-    margin-top: 0px;
+    margin-top: -110px;
     text-align: center !important;
   }
   
@@ -803,6 +820,7 @@ border: 1px solid rgb(230, 230, 230);
 
   .title-search-geolo{
     margin-top: -30px !important;
+    display: none !important;
   }
 
   .box-values{
@@ -869,6 +887,7 @@ border: 1px solid rgb(230, 230, 230);
   
   .title-search-geolo{
     margin-top: -60px;
+    display: none !important;
   }
 
   .background-address{
@@ -894,7 +913,6 @@ border: 1px solid rgb(230, 230, 230);
   }
   
   .column-cs-mobile{
-    width: 50% !important;
     padding: 0.50em !important;
   }
 

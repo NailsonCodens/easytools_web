@@ -148,6 +148,8 @@ const Payment = ({history}) => {
       });
 
       setWorkaddshow(responseworkadd.data.workadd[0].distance.toFixed(2))
+
+      console.log(responseworkadd.data.workadd[0])
       setWorkadd(responseworkadd.data.workadd[0])
     }
 
@@ -342,6 +344,7 @@ const Payment = ({history}) => {
       freightnew = renderCalc()
     }
 
+
     var rentupdate = {
       freight: parseFloat(freightnew.toFixed(2)),
       startdate: rentattempt.startdate,
@@ -411,32 +414,56 @@ const Payment = ({history}) => {
     var freight = '';
     var minfreight = ''; 
 
+
     if (userconfig !== undefined) {
-      freight = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1.55;
-      minfreight = userconfig.freight !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 16;
+      freight = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1.40;
+      minfreight = userconfig.freight !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 14;
     } else {
       freight = 1;
       minfreight = 5;
     }
+
     var kmcurrent = workadd.distance;
 
+    
     var fr = 0;
-
-    if (kmcurrent > 5 && kmcurrent < 10) {
-      fr = 1.95
-    } else if (kmcurrent > 25) {
-      fr = 1.55
-    } else {
-      fr = freight
-    }
 
     var costfreight = 0;
 
-    if (kmregional > kmcurrent) {
+    if (kmcurrent > minfreight) {
         costfreight = minfreight
     } else {
         costfreight = fr * kmcurrent;
     }
+
+
+    if (kmcurrent > 0 && kmcurrent < 7) {
+      costfreight = minfreight;
+      console.log('a')
+    }else{
+      if (kmcurrent > 7.1 && kmcurrent < 8) {
+        fr = 2.00
+      }
+
+      if (kmcurrent > 8.1 && kmcurrent < 10) {
+        fr = 1.95
+      }
+  
+      if (kmcurrent > 10 && kmcurrent < 15) {
+        fr = 1.55
+      }
+      
+      if (kmcurrent > 15) {
+        fr = 1.43
+      }
+  
+      if (kmcurrent > 20.0) {
+        fr = 1.35      
+      }
+
+      costfreight = fr * kmcurrent;
+    }
+
 
     /* Promoção de entrega a 15 reais */
 //    costfreight = 15;
@@ -461,7 +488,7 @@ const Payment = ({history}) => {
       {
         okattempt === true ? 
         (
-          <div className="columns">
+          <div className="columns rent-paymentt">
             <div className="column is-two-thirds">
               <div className="columns">
                 <div className="column">
@@ -519,8 +546,7 @@ const Payment = ({history}) => {
                     <ScrollableAnchor id={'hour'}>
                       <div></div>
                     </ScrollableAnchor>
-                    <br/>
-                    <p className="title-tool-only-little"> Entrega e busca do equipamento </p>
+                    <p className="title-tool-only-little"> Entrega e coleta do equipamento </p>
                     <br/>
                     <span className=""></span>
                     <span className="valuefreight">{
@@ -529,7 +555,7 @@ const Payment = ({history}) => {
                     }</span>
                     <span className="valuefreight"> de você.</span>
                     <br/>
-                    <span className="distance">Taxa de entrega e busca: </span>
+                    <span className="distance">Taxa de entrega e coleta: </span>
                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                       <b className="number-delivery"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
                     </IntlProvider>;
@@ -712,7 +738,7 @@ const Payment = ({history}) => {
                 (
                   <div className="columns is-mobile no-margin-top-columns">
                     <div className="column">
-                      <b>Total com frete</b>
+                      <b>+ Entrega&Coleta</b>
                     </div>
                     <div className="column">
                       <p className="is-pulled-right">

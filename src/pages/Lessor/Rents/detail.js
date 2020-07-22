@@ -49,8 +49,11 @@ export default function Rents({history}) {
     async function loadDocumentrenter (idrenter) {
       if (idrenter !== undefined) {
         const responsew = await api.get(`documents/${idrenter}`, {});
-        setDocument(responsew.data.documentUser[0])
-      }
+
+        if (responsew.data.documentUser.length > 0) {
+          setDocument(responsew.data.documentUser[0])
+        }
+     }
     }
     loadDocumentrenter();
     
@@ -325,6 +328,17 @@ export default function Rents({history}) {
                     }
                     <div>
                       {
+                        rent.accept === 'd' ? 
+                        (
+                          <>
+                          <br/><br/>
+                          <b className="quit">Cliente desistiu.</b>
+                          </>
+                        )
+                        :
+                        ('') 
+                      }
+                      {
                         rent.accept === 'c' ? 
                         (
                           <>
@@ -398,7 +412,7 @@ export default function Rents({history}) {
                       <div className="columns">
                         <div className={ isMobile === true ? "column" : "column is-2"}>
                           { 
-                            rent.accept !== '0' || rent.accept === 'N' ?
+                            rent.accept === 'N' || rent.accept === '1' ||rent.accept === 'd' ||rent.accept === 'c' ?
                             (
                               ''
                             )
@@ -618,7 +632,7 @@ export default function Rents({history}) {
                             }
                             <br/>
                             {
-                              documentr.urldoc !== undefined ? 
+                              Object.keys(documentr).length > 0 ? 
                               (
                                 <>
                                   {
@@ -638,7 +652,7 @@ export default function Rents({history}) {
                                 </>
                               )
                               :
-                              ('')
+                              ('asda')
                             }
                           </Modal>
                             

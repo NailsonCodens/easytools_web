@@ -62,7 +62,8 @@ const MenuRenter = () => {
 	const [setclass, setClass] = useState('normal');
 
 	let values = queryString.parse(useLocation().search);
-  
+	let locationhistory = useLocation().pathname;
+	
 	const trackingId = "UA-160397692-1"; // Replace with your Google Analytics tracking ID
 	ReactGA.initialize(trackingId);
 	ReactGA.set({
@@ -338,167 +339,182 @@ const MenuRenter = () => {
 	}	
 
 	const renderEndmenu = () => {
-		
+
 		if (isMobile) {
 			return (
 				<>
-					<div className={"navbar-item"}>
-						<div className="buttons">
-							<Link to={'/'}  onClick={event => Tracking('Menu site - Início', 'Clique menu Início', 'Menu site') } className="navbar-item">
-									<div className="box-icons-mobile">
-										<FontAwesomeIcon icon={['fas', 'search']} className={history.location.pathname === '/' ? "menu-icons-active" : "menu-icons" } size="1x"/>
-										<div className="text-box">
-											Início
-										</div>
-									</div>
-							</Link>
-							{
-								isAuthenticated() === true ? 
-								(
-									<>
-										<div onClick={event => Tracking('Menu site - Notificação', 'Clique menu notificação', 'Menu site') } className="navbar-item">
-											<div className="box-icons-mobile box-icons-mobile-cs ">
-												<Dropdownpure text="Notificações" countn={notificationrd} classMenu="classNotless" classCuston=" notification">
-													{ renderNotify() }
-												</Dropdownpure>
-											</div>
-										</div>
-										{
-											current_user.type_user === 'Lessor'? 
-											(
-												<Link to={'/lessor/dashboard'} onClick={event => Tracking('Menu site - Aluguéis', 'Clique menu aluguéis', 'Menu site') } className="navbar-item">
-														<div className="box-icons-mobile">
-															<FontAwesomeIcon icon={['fas', 'tags']} className="menu-icons" size="1x"/>
-															<div className="text-box">
-																Aluguéis
-															</div>
-														</div>
-												</Link>
-											)
-											:
-											(
-												<>
-													<Link to={'/s/renter/myrent'} onClick={event => Tracking('Menu site - meus alugados', 'Clique menu meus alugados', 'Menu site') } className="navbar-item">
-															<div className="box-icons-mobile">
-																<FontAwesomeIcon icon={['fas', 'handshake']} className={history.location.pathname === '/s/renter/myrent' ? "menu-icons-active" : "menu-icons" }  size="1x"/>
-																<div className="text-box">
-																	Meus alugados
-																</div>
-															</div>
-													</Link>
-												</>
-											)
-										}
-										<div onClick={event => Scrool() } className="navbar-item">
-											{
-												current_user.type_user === 'Lessor'? 
-												(
-													<div className="box-icons-mobile box-icons-mobile-cs box-icons-mobile-cs-user">
-														<Dropdown classCuston="menu-from-lessor menus">
-															<li className="li-drop">
-																<Link to={'/lessor/perfil'} onClick={event => Tracking('Menu site - perfil', 'Clique menu perfil', 'Menu site') } className="navbar-item">
-																	Perfil
-																</Link>
-															</li>
-															<li className="li-drop">
-																<Link to={'/lessor/account'} onClick={event => Tracking('Menu site - conta', 'Clique menu conta', 'Menu site') } className="navbar-item">
-																	Conta
-																</Link>
-															</li>
-															<li className="li-drop">
-																<Link to={'/lessor/dashboard'} onClick={event => Tracking('Menu site - meus aluguéis dropdown', 'Clique menu meus aluguéis dropdown', 'Menu site') } className="navbar-item">
-																	Meus alugueis
-																</Link>
-															</li>
-															{
-																/*
-																	<li className="li-drop">
-																		<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
-																			Como ser um bom vizinho?
-																		</Link>
-																	</li>																
-																*/
-															}
-														</Dropdown>
-													</div>
-												)
-												:
-												(
-													<div className="box-icons-mobile box-icons-mobile-cs box-icons-mobile-cs-user">
-														<Dropdown classCuston=" menu-from-renter menus">
-															<li className="li-drop">
-																<Link to={'/s/renter/perfil'} onClick={event => Tracking('Menu site - perfil', 'Clique menu meus perfil dropdown', 'Menu site') } className="navbar-item">
-																	Perfil
-																</Link>
-															</li>
-															{
-															/*
-															<li className="li-drop">
-																<Link to={'/s/renter/account'} onClick={event => Scrool() } className="navbar-item">
-																	Conta
-																</Link>
-					
-															</li>
-																*/
-															}
-														</Dropdown>
-													</div>
-												)
-											}
-										</div>
-									</>
-								)
-								:
-								(
-									<>
-										{
-											/*
-												<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
-														<div className="box-icons-mobile">
-															<div className="text-box">
-															Seja um vizinho
-															</div>
-														</div>
-												</Link>
-											*/
-										}
-										<Link to={'/signup?type=renter'} onClick={event => Tracking('Menu site - alugar', 'Clique menu alugar', 'Menu site') } className="navbar-item">
-											<div className="box-icons-mobile">
-													<FontAwesomeIcon icon={['fas', 'handshake']} className="menu-icons" size="1x"/>
-													<div className="text-box">
-														Cadastre-se!
-													</div>
-												</div>
-										</Link>
-										<div onClick={event => Tracking('Menu site - Modal entrar', 'Clique menu modal entrar', 'Menu site') } className="navbar-item" onClick={signLink}>
-												<div className="box-icons-mobile">
-													<FontAwesomeIcon icon={['fas', 'user-circle']} className="menu-icons" size="1x"/>
-													<div className="text-box">
-														Entrar
-													</div>
-												</div>
-										</div>
-										<Link to={'/s/help-me'} onClick={event => Tracking('Menu site - alugar', 'Clique menu alugar', 'Menu site') } className="navbar-item">
-												<div className="box-icons-mobile">
-														<FontAwesomeIcon icon={['fas', 'info']} className="menu-icons" size="1x"/>
+					{
+						locationhistory === '/' || locationhistory.indexOf('congrats') ? 
+						(
+							<>
+								<div className={"navbar-end-rent"}>
+									<div className={"navbar-item"}>
+										<div className="buttons">
+											<Link to={'/'}  onClick={event => Tracking('Menu site - Início', 'Clique menu Início', 'Menu site') } className="navbar-item">
+													<div className="box-icons-mobile">
+														<FontAwesomeIcon icon={['fas', 'search']} className={history.location.pathname === '/' ? "menu-icons-active" : "menu-icons" } size="1x"/>
 														<div className="text-box">
-															Dúvidas
+															Início
 														</div>
 													</div>
 											</Link>
-									</>
-								)
-							}
-							<Modal
-								show={modal} 
-								onCloseModal={hideModal} 
-								closeOnEsc={true} 
-								closeOnOverlayClick={true}
-							> 
-								<Auth hs={history} closeModal={event => setModal(false)}></Auth>
-							</Modal>
-						</div>
-					</div>
+											{
+												isAuthenticated() === true ? 
+												(
+													<>
+														<div onClick={event => Tracking('Menu site - Notificação', 'Clique menu notificação', 'Menu site') } className="navbar-item">
+															<div className="box-icons-mobile box-icons-mobile-cs ">
+																<Dropdownpure text="Notificações" countn={notificationrd} classMenu="classNotless" classCuston=" notification">
+																	{ renderNotify() }
+																</Dropdownpure>
+															</div>
+														</div>
+														{
+															current_user.type_user === 'Lessor'? 
+															(
+																<Link to={'/lessor/dashboard'} onClick={event => Tracking('Menu site - Aluguéis', 'Clique menu aluguéis', 'Menu site') } className="navbar-item">
+																		<div className="box-icons-mobile">
+																			<FontAwesomeIcon icon={['fas', 'tags']} className="menu-icons" size="1x"/>
+																			<div className="text-box">
+																				Aluguéis
+																			</div>
+																		</div>
+																</Link>
+															)
+															:
+															(
+																<>
+																	<Link to={'/s/renter/myrent'} onClick={event => Tracking('Menu site - meus alugados', 'Clique menu meus alugados', 'Menu site') } className="navbar-item">
+																			<div className="box-icons-mobile">
+																				<FontAwesomeIcon icon={['fas', 'handshake']} className={history.location.pathname === '/s/renter/myrent' ? "menu-icons-active" : "menu-icons" }  size="1x"/>
+																				<div className="text-box">
+																					Meus alugados
+																				</div>
+																			</div>
+																	</Link>
+																</>
+															)
+														}
+														<div onClick={event => Scrool() } className="navbar-item">
+															{
+																current_user.type_user === 'Lessor'? 
+																(
+																	<div className="box-icons-mobile box-icons-mobile-cs box-icons-mobile-cs-user">
+																		<Dropdown classCuston="menu-from-lessor menus">
+																			<li className="li-drop">
+																				<Link to={'/lessor/perfil'} onClick={event => Tracking('Menu site - perfil', 'Clique menu perfil', 'Menu site') } className="navbar-item">
+																					Perfil
+																				</Link>
+																			</li>
+																			<li className="li-drop">
+																				<Link to={'/lessor/account'} onClick={event => Tracking('Menu site - conta', 'Clique menu conta', 'Menu site') } className="navbar-item">
+																					Conta
+																				</Link>
+																			</li>
+																			<li className="li-drop">
+																				<Link to={'/lessor/dashboard'} onClick={event => Tracking('Menu site - meus aluguéis dropdown', 'Clique menu meus aluguéis dropdown', 'Menu site') } className="navbar-item">
+																					Meus alugueis
+																				</Link>
+																			</li>
+																			{
+																				/*
+																					<li className="li-drop">
+																						<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
+																							Como ser um bom vizinho?
+																						</Link>
+																					</li>																
+																				*/
+																			}
+																		</Dropdown>
+																	</div>
+																)
+																:
+																(
+																	<div className="box-icons-mobile box-icons-mobile-cs box-icons-mobile-cs-user">
+																		<Dropdown classCuston=" menu-from-renter menus">
+																			<li className="li-drop">
+																				<Link to={'/s/renter/perfil'} onClick={event => Tracking('Menu site - perfil', 'Clique menu meus perfil dropdown', 'Menu site') } className="navbar-item">
+																					Perfil
+																				</Link>
+																			</li>
+																			{
+																			/*
+																			<li className="li-drop">
+																				<Link to={'/s/renter/account'} onClick={event => Scrool() } className="navbar-item">
+																					Conta
+																				</Link>
+									
+																			</li>
+																				*/
+																			}
+																		</Dropdown>
+																	</div>
+																)
+															}
+														</div>
+													</>
+												)
+												:
+												(
+													<>
+														{
+															/*
+																<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
+																		<div className="box-icons-mobile">
+																			<div className="text-box">
+																			Seja um vizinho
+																			</div>
+																		</div>
+																</Link>
+															*/
+														}
+														<Link to={'/signup?type=renter'} onClick={event => Tracking('Menu site - alugar', 'Clique menu alugar', 'Menu site') } className="navbar-item">
+															<div className="box-icons-mobile">
+																	<FontAwesomeIcon icon={['fas', 'handshake']} className="menu-icons" size="1x"/>
+																	<div className="text-box">
+																		Cadastre-se!
+																	</div>
+																</div>
+														</Link>
+														<div onClick={event => Tracking('Menu site - Modal entrar', 'Clique menu modal entrar', 'Menu site') } className="navbar-item" onClick={signLink}>
+																<div className="box-icons-mobile">
+																	<FontAwesomeIcon icon={['fas', 'user-circle']} className="menu-icons" size="1x"/>
+																	<div className="text-box">
+																		Entrar
+																	</div>
+																</div>
+														</div>
+														<Link to={'/s/help-me'} onClick={event => Tracking('Menu site - alugar', 'Clique menu alugar', 'Menu site') } className="navbar-item">
+																<div className="box-icons-mobile">
+																		<FontAwesomeIcon icon={['fas', 'info']} className="menu-icons" size="1x"/>
+																		<div className="text-box">
+																			Dúvidas
+																		</div>
+																	</div>
+															</Link>
+													</>
+												)
+											}
+											<Modal
+												show={modal} 
+												onCloseModal={hideModal} 
+												closeOnEsc={true} 
+												closeOnOverlayClick={true}
+											> 
+												<Auth hs={history} closeModal={event => setModal(false)}></Auth>
+											</Modal>
+										</div>
+									</div>
+
+								</div>							
+							</>
+						)
+						:
+						(
+							<>
+							</>
+						)
+					}
 				</>
 			)
 		} else {
@@ -730,11 +746,9 @@ const MenuRenter = () => {
 				<div className={menu === true ? "navbar-menu is-active" : "navbar-menu"}>
 					<div className="navbar-start">
 					</div>
-					<div className={"navbar-end-rent"}>
 						{
 							renderEndmenu()
 						}
-					</div> 
 				</div>     
 			</nav>
 		</div>

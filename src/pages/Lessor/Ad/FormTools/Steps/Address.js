@@ -133,6 +133,7 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
   })
 
   const handleChangeAddress = (input, event, type) => {
+    console.log(event.target.value)
     let ev = event.target.value
     switch(input){
       case 'location': 

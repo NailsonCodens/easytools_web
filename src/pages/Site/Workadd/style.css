@@ -16,7 +16,20 @@
   font-size: 25px;
 }
 
+.checkbox-label{
+  font-size: 15px !important;
+}
+
+.checkbox-label:after{
+  color: black !important;
+}
+
 @media (max-width: 900px) {
+  .toggles{
+    background: red !important;
+  }
+
+
   .offer{
     margin: 0 auto;
     width: 100%; /* Valor da Largura */
@@ -28,6 +41,6 @@
     height: 100%;
     width: 100%;
     padding: 40px 15px;
-    margin-top: -95px;
+    margin-top: -5px;
   }
 }
