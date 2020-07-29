@@ -19,6 +19,7 @@ import Terms from '../Polices/terms';
 import Adddocument from '../../Site/Tool/adddocument'
 import Products from '../../Site/Index/products';
 import List from '../../Site/Index/list';
+import Cancelmentrent from '../../Site/Cancelmentrent/index'
 
 export default function Start({history}) {
   let { path } = useRouteMatch();
@@ -42,6 +43,7 @@ export default function Start({history}) {
 
       <Route path={`${path}/`} exact component={Index}/>
       <Route path={`${path}/help-me`} component={Helpme}/>
+      <Route path={`${path}/cancelmentrent`} component={Cancelmentrent}/>
       <Route path={`${path}/about-us`} component={Newrent}/>
       <Route path={`${path}/tool/:id`} component={Tool}/>
       <Route path={`${path}/equipaments/:category`} component={Products}/>

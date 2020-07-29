@@ -49,6 +49,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faStar, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
+import { storage } from 'firebase';
 library.add(faStar, faCalendarAlt);
 
 const Tracking = (category, action, label) => {
@@ -60,6 +61,27 @@ const Tracking = (category, action, label) => {
   });
 }
 
+
+const renderPromo = (title) => {
+  if (title.indexOf('Lavadora')){
+    return 70
+  }
+
+  if (title.indexOf('Extratora')) {
+    return 75
+  }
+
+  if (title.indexOf('Lâmina')) {
+    return 60
+  }
+
+  if (title.indexOf('Nylon')) {
+    return 70
+  }
+}
+
+
+
 const Tool = ({history}) => {
   const dispatch = useDispatch();
 
@@ -68,6 +90,7 @@ const Tool = ({history}) => {
 
   const [adddoc, setAdddoc] = useState(false);
   const [tool, setTool] = useState({});
+  const [promo, setPromo] = useState(true);
   const [pictures, setPictures] = useState([]);
   const [prices, setPrices] = useState([]);
   const [focus, setFocus] = useState('');
@@ -75,6 +98,7 @@ const Tool = ({history}) => {
   const [rent, setRent] = useState(false);
   // eslint-disable-next-line
   const [startDate, setStartdate] = useState(null);
+  const [startdt, setStartdt] = useState(null);
   // eslint-disable-next-line
   const [endDate, setEnddate] = useState(null);
   const [price, setPrice] = useState({});
@@ -83,6 +107,7 @@ const Tool = ({history}) => {
   const [tensionshow, setTensionshow] = useState([]);
   const [modal, setModal] = useState(false);
   const [modal2, setModal2] = useState(false);
+  const [modal3, setModal3] = useState(false);
   //const [url, setUrl] = useState('');
   const [isSticky, setSticky] = useState(false);
   const [dataLessor, setDatalessor] = useState([]);
@@ -92,6 +117,8 @@ const Tool = ({history}) => {
   const [namelessor, setNamelessor] = useState('')
   const [document, setDocument] = useState({})
   const [configlessor, setConfiglessor ] = useState('');
+  const [disconcert, setDisconcert] = useState('');
+  const [promotional, setPromotional] = useState('');
   const ref = useRef(null);
 
   let {id} = useParams();
@@ -208,7 +235,6 @@ const Tool = ({history}) => {
         //history.push(`/s/adddocuments`);
 //        setAdddoc(true);
 
-      console.log('aaa')
       var attempt = {
         user_lessor_id: tool.user_id,
         tool_id: tool.id,
@@ -424,7 +450,9 @@ const Tool = ({history}) => {
     }
   }
 
-  const showDanger = () => {
+  const showDanger = (tool) => {
+
+    Tracking(`Tentou alugar um equipamento indisponível: ${tool}`, `Tentou alugar um equipamento indisponível: ${tool}`, `Tentou alugar um equipamento indisponível: ${tool}`)
   }
 
   const setDates = (dates, amountreceive) => {
@@ -436,8 +464,21 @@ const Tool = ({history}) => {
     setStartdate(dates.startDate)
     setEnddate(dates.endDate)
 
+
     var startdate = moment(dates.startDate).format('YYYY-MM-DD');
     var enddate = moment(dates.endDate).format('YYYY-MM-DD');
+
+    if (dates.endDate === null && moment(dates.startDate).format('dddd') === 'Sábado') {
+      console.log('preço promocinal aberto')
+      setStartdt(dates.startDate);
+      setModal3(true);
+
+    }else{
+
+    }
+
+    /*console.log(startdate).day();
+    console.log(enddate).day();*/
 
     if (dates.endDate !== null) {
       var period = moment.preciseDiff(startdate, enddate, true);
@@ -525,7 +566,6 @@ const Tool = ({history}) => {
             pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
           }
         }else if (days > 7 && days < 15){
-          console.log('sssssss')
           setPrice({
             type: 'biweekly', 
             amount: days, 
@@ -557,7 +597,6 @@ const Tool = ({history}) => {
           }
         }else if (days > 15){
           if (months === 0) {
-            console.log('gg')
             setPrice({
               type: 'month', 
               amount: days, 
@@ -576,7 +615,6 @@ const Tool = ({history}) => {
               pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
             }
           } else {
-            console.log('adas')
             setPrice({
               type: 'month', 
               amount: days, 
@@ -619,9 +657,17 @@ const Tool = ({history}) => {
 
   const blockDays = (day) => {
     const dayString = day.format('YYYY-MM-DD');
-    console.log(dayString)
-    var arr = ["2020-06-12", "2020-06-13", "2020-06-23", "2020-06-24", "2020-06-26", "2020-06-27", "2020-06-29", "2020-06-30"];
-    return arr.some(date => dayString === date)   
+    //    var arr = ["Sunday"];
+    console.log(moment.weekdays(moment(new Date()).weekday()) === 'Sábado')
+
+    if (moment.weekdays(moment(new Date()).weekday()) === 'Sábado' && moment(new Date()).format('H:mm') === '12:00') {
+      return moment.weekdays(day.weekday()) === 'Sábado' || moment.weekdays(day.weekday()) === 'Domingo'
+    } else {
+      return moment.weekdays(day.weekday()) === 'Domingo'
+    }
+
+    //var arr = ["2020-06-12", "2020-06-13", "2020-06-23", "2020-06-24", "2020-06-26", "2020-06-27", "2020-06-29", "2020-06-30"];
+   // return arr.some(date => dayString === date)   
 
 //    return dayString === '2020-06-26' || dayString ==='2020-06-27'
   }
@@ -634,6 +680,85 @@ const Tool = ({history}) => {
   const hideModal2 = () => {
     setModal2(false)
     return modal2
+  }
+
+  const hideModal3 = () => {
+    setModal3(false)
+    return modal3
+  }
+
+  const activeDiscorcert = () => {
+    setModal3(false)    
+    setPromotional(true)
+    var stdt = moment(startdt)
+
+    var end = stdt.add(2, 'days')
+    setEnddate(end)
+    setDates({ startDate: startDate, endDate: end })
+
+    setPrice({
+      type: 'days', 
+      amount: 2, 
+      price: localStorage.getItem('@fv') / 2,
+      priceNoamount: 2 * parseFloat(localStorage.getItem('@fv')) / 2, 
+      pricefull: 2 * parseFloat(localStorage.getItem('@fv') / 2) * formik.values.amount
+    })
+
+  }
+
+  const desactiveDisconcert = () => {
+    setModal3(false)
+    setFocus({focusedInput: "endDate"})
+  }
+
+  const renderDisconcert = () => {
+    if (prices[0] !== undefined) {
+      var priceone = parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'));
+      var valuedefaultprimary = priceone * 1
+      var valuedefault = priceone * 2
+      var percent = 25
+      var valuedisconcertrimary = valuedefaultprimary / 100 * percent
+      var valuedisconcert = valuedefault / 100 * percent
+
+      var valuefinal = valuedefault - valuedisconcert
+      var valuefinaldisconcert = valuedefaultprimary - valuedisconcertrimary
+      localStorage.setItem('@fv', valuefinal)
+
+      return (
+        <>
+          <div className="columns invert">
+            <div className="column has-text-centered">
+              <p className="discorcerttext">Com desconto </p>
+              Para diárias
+              <p className="valuefinal">
+                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                <FormattedNumber value={valuefinaldisconcert} style="currency" currency="BRL" />
+                </IntlProvider>
+              </p>
+              <Button className="button is-info" onClick={event => activeDiscorcert(false)} text={'Ativar desconto'}/>
+            </div>
+            <div className="column has-text-centered">
+              <p className="discorcerttext">Sem desconto </p>
+              Para diárias
+              <p className="valuedefaultpromo">
+                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                <FormattedNumber value={valuedefaultprimary} style="currency" currency="BRL" />
+                </IntlProvider>
+              </p>
+              <Button className="button is-danger choosedevolut" onClick={event => desactiveDisconcert(false)} text={'Escolher data de devolução'}/>
+            </div>
+          </div>
+          <div className="columns has-text-centered">
+            <div className="column warning-devolut">
+              <b>Fim de semana: </b> Aluguel começa no sábado, devolve na segunda
+              <br/>
+              <b>* horário de entrega escolhido no final do processo*</b>
+            </div>
+          </div>
+        </>
+      )
+      console.log(valuedisconcert)
+    }
   }
 
   const renderPrice = () => {
@@ -710,13 +835,57 @@ const Tool = ({history}) => {
         <div className="column">
           <b>Total</b>
         </div>
-        <div className="column">
-          <p className="is-pulled-right">
-            <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-              <b><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
-            </IntlProvider>            
-          </p>
-        </div>
+        {
+          promo === true && tool.title.indexOf('Lâmina') > -1 || promo === true && tool.title.indexOf('Nylon') > -1 || promo === true && tool.title.indexOf('Extratora') > -1  || promo === true && tool.title.indexOf('Lavadora') > -1 ? 
+          (
+            <>
+            {
+              /*
+                <span className="money-promo2">
+                  <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                    <b><FormattedNumber value={renderPromo(tool.title)} style="currency" currency="BRL" /></b>
+                  </IntlProvider>
+                  <span>/Diária</span>                            
+                </span>   
+              */
+            }
+
+            </>
+          )
+          :
+          (
+            <>
+            </>
+          )
+        }
+
+        {
+          promotional === '' ? 
+          (
+            <div className="column">
+              <p className="is-pulled-right">
+                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                  <b><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
+                </IntlProvider>            
+              </p>
+            </div>  
+          )
+          :
+          (
+            <div className="column">
+              <span class="pricefds">
+                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                  <b><FormattedNumber value={parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) * 2} style="currency" currency="BRL" /></b>
+                </IntlProvider>      
+              </span>
+              <p className="is-pulled-right color-promotional">
+                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                  <b><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
+                </IntlProvider>            
+              </p>
+            </div>  
+          )
+        }
       </div>
     </>
   )
@@ -906,7 +1075,7 @@ return (
                           anchorDirection="left"
                           displayFormat={'DD/MM/YYYY'}
                           minimumNights={1}
-//                          isDayBlocked={(day) => blockDays(day)}
+                          isDayBlocked={(day) => blockDays(day)}
                           numberOfMonths={isMobile === true ? 1 : 2}
                           startDate={formik.values.startDate} // momentPropTypes.momentObj or null,
                           startDateId={'start'} // PropTypes.string.isRequired,
@@ -939,7 +1108,7 @@ return (
                             <>
                               <Field>
                                 <Label  className="label" for={'tension'}>Tensão</Label>
-                                <div className="columns">
+                                <div className="columns tension-dv">
                                   <div className="column has-text-centered">
                                     <Field>
                                       <input 
@@ -1033,7 +1202,7 @@ return (
                               <Field>
                                 <Label  className="label" for={'tension'}>Tensão</Label>
                                 <div className="columns">
-                                  <div className="column has-text-centered">
+                                  <div className="column has-text-centered tension-dvv">
                                     <Field>
                                       <input 
                                         className="is-checkradio"
@@ -1114,7 +1283,7 @@ return (
                             type={'submit'}
                             className={'button is-fullwidth color-logo bt-pr-t mg-button-rt bt-app'}
                             text={tool.availability === "Y" ? 'Prosseguir' : 'Não disponível para locação'}
-                            onClick={event => showDanger()}
+                            onClick={event => showDanger(tool.title)}
                           />
                         </>
                       )
@@ -1271,6 +1440,15 @@ return (
         <div className={isMobile === false ? "hd-mobile" : "div-button-rent"}>
           <a className="button is-fullwidth color-logo" onClick={event => (setRent(true), Scrool(0,0))}>Reservar</a>
         </div>
+        <Modal
+          show={modal3} 
+          onCloseModal={hideModal3} 
+          closeOnEsc={true} 
+          closeOnOverlayClick={true}
+        > 
+          <p class="title-disconcert">Preço de fim de semana.</p>
+          { renderDisconcert() }
+        </Modal>
         <Modal
           show={modal2} 
           onCloseModal={hideModal2} 

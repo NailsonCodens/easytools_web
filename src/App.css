@@ -396,6 +396,23 @@ body{
   width: 250px;
 }
 
+.unffortunily{
+  font-size: 37px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;  
+}
+
+.svgnotfound3{
+  width: 100px;
+  margin: 30px;
+}
+
+.understand{
+  font-size: 17px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;  
+}
+
 .title-notfound{
   font-size: 37px;
   font-family: 'Poppins', sans-serif !important;
@@ -661,6 +678,10 @@ body{
   z-index: 9999999999999 !important;
 }
 
+.DateInput_1{
+  width:44% !important;
+}
+
 @media (max-width: 900px) {
   .born{
     display: none!important;
@@ -813,6 +834,29 @@ body{
   font-size: 30px;
   font-weight: 600 !important;
   text-align: center !important;
+}
+
+.styles_modalCenter__L9F2w .styles_closeButton__20ID4{
+  display: none !important;
+}
+
+.valueaditional{
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.valueadtotal{
+  font-size: 22px;
+  color:rgb(30, 223, 126);
+}
+
+.span-adiciontal{
+  margin: 20px;
+}
+
+.text-adiciontal{
+  font-weight: 100 !important;
+  margin: 0px 25px;
 }
 
 @media screen and (max-width: 1023px){

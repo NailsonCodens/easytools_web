@@ -296,7 +296,7 @@ export default function Rents({history}) {
                     </b>
                     <br/><br/>
                     {
-                      rent.paid !== '1' && rent.accept !== 'c' ? 
+                      rent.paid !== '1' && rent.accept !== 'c' && rent.accept !== 'F' ? 
                       (
                         <>
                           {
@@ -336,6 +336,18 @@ export default function Rents({history}) {
                     }
                     <br/><br/>
                     <div>
+                            {
+                              rent.accept === 'F' ? 
+                              (
+                                <>
+                                <br/><br/>
+                                <b className="incomplet">Você cancelou este aluguel por conta da taxa de entrega para regiões metropolitanas.</b>
+                                </>
+                              )
+                              :
+                              ('') 
+                            }
+
                             {
                              rent.accept === 'c' ? 
                              (

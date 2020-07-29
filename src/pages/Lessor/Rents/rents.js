@@ -259,6 +259,17 @@ const Rents = ({ history }) => {
                               ('') 
                             }
                             {
+                              rent.accept === 'F' ? 
+                              (
+                                <>
+                                <br/><br/>
+                                <b className="incomplet">Cancelada pelo usuário por frete.</b>
+                                </>
+                              )
+                              :
+                              ('') 
+                            }
+                            {
                               rent.accept === 'c' ? 
                               (
                                 <>
@@ -348,7 +359,7 @@ const Rents = ({ history }) => {
                             </div>
                             <div className={ isMobile === true ? "column is-4" : "column is-2"}>
                                 { 
-                                  rent.accept === 'N' || rent.accept === '1' ||rent.accept === 'd' ||rent.accept === 'c' ?
+                                  rent.accept === 'N' || rent.accept === '1' ||rent.accept === 'd' ||rent.accept === 'c' || rent.accept === 'F' ?
                                   (
                                     ''
                                   )

@@ -19,6 +19,7 @@ import apiextern from '../../../services/apiextern';
 import api from '../../../services/api';
 import logo from '../../../assets/images/logo.png';
 import useOutsideClick from "../../../utils/outsideclick";
+import promoeasy from '../../../assets/images/promoeasy.jpg';
 import useOutsideClickCategory from "../../../utils/outsideclick";
 import useOutsideClickEquipament from "../../../utils/outsideclick";
 import useOutsideClickProd from "../../../utils/outsideclick";
@@ -38,6 +39,7 @@ const List = ({history}) => {
   const dispatch = useDispatch();
   let {category, title, region } = useParams();
   const [search, setSearch] = useState('');
+  const [promo, setPromo] = useState(true);
   const [userconfig, setUserconfig] = useState('');
   const [state, setState] = useState({ x: 55});
   const [categorys, setCategory] = useState(false);
@@ -285,16 +287,15 @@ const List = ({history}) => {
     var delivery = 0;
 
 
-      if (kmdelivery > 0 && kmdelivery < 7) {
+      if (kmdelivery >= 0 && kmdelivery < 7) {
         delivery = minfreight;
-        console.log('a')
       }else{
         if (kmdelivery > 7.1 && kmdelivery < 8) {
           perkm = 2.00
         }
 
         if (kmdelivery > 8.1 && kmdelivery < 10) {
-          perkm = 1.95
+          perkm = 1.90
         }
     
         if (kmdelivery > 10 && kmdelivery < 15) {
@@ -381,6 +382,24 @@ const List = ({history}) => {
   const openModal= () => {
     setModal(true)
     setShowNeighboor(true)
+  }
+
+  const renderPromo = (title) => {
+    if (title.indexOf('Lavadora')){
+      return 70
+    }
+
+    if (title.indexOf('Extratora')) {
+      return 75
+    }
+
+    if (title.indexOf('Lâmina')) {
+      return 60
+    }
+
+    if (title.indexOf('Nylon')) {
+      return 70
+    }
   }
 
   const error = () => Notificationtost(
@@ -549,6 +568,10 @@ const List = ({history}) => {
       </div>
       <div className="container-fluid-cs lt-box">
         <br/><br/>
+        <div className="container">
+          <img src={promoeasy}  alt="Promo20 Logo" className="promoeasy"/>
+        </div>
+        <br/>        
         <div>
           {
             region !== 'region' ? 
@@ -631,7 +654,26 @@ const List = ({history}) => {
                       </div>
                       <div className="columns box-values">
                         <div className="column">
-                          <p className="money-tl is-pulled-left"> 
+                          <p className="money-tl is-pulled-left">
+                            {
+                              promo === true && tool.title.indexOf('Lâmina') > -1 || promo === true && tool.title.indexOf('Nylon') > -1 || promo === true && tool.title.indexOf('Extratora') > -1  || promo === true && tool.title.indexOf('Lavadora') > -1 ? 
+                              (
+                                <>
+                                  <span className="money-promo">
+                                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                                      <b><FormattedNumber value={renderPromo(tool.title)} style="currency" currency="BRL" /></b>
+                                    </IntlProvider>
+                                    <span>/Diária</span>                            
+                                  </span> 
+                                </>
+                              )
+                              :
+                              (
+                                <>
+
+                                </>
+                              )
+                            }
                             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                               <b><FormattedNumber value={parseFloat(tool.prices.split(';')[0])} style="currency" currency="BRL" /></b>
                             </IntlProvider>
@@ -697,10 +739,11 @@ const List = ({history}) => {
             <input 
               className="input" 
               type="text" 
-              placeholder="Digite o nome da sua rua..." 
+              placeholder="Digite o nome da sua rua, número e cidade..." 
               onChange={event => handleMyaddress(event)}
               value={myaddress}
             />
+            <p class="or"> Ou clique em </p>
             <span className="icon is-small is-left">
               <FontAwesomeIcon icon={['fas', 'search']} className="icon-tl" size="2x"/>
             </span>
@@ -736,7 +779,7 @@ const List = ({history}) => {
           <button className="button is-outlined is-fullwidth color-logo" onClick={event => getGeolocalization()}>
             <div className="is-pull-left">
               <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="2x"/> 
-              Ou minha localização
+              Minha localização
             </div>
             </button>
         </div>

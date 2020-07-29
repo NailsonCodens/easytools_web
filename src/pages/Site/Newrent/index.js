@@ -54,14 +54,6 @@ const Newrent = ({history}) => {
       <br/><br/>
       <div className="text-intro">
         <div className="columns">
-          <div className="column">
-            asa
-          </div>
-          <div className="column">
-            ss
-          </div>
-        </div>
-        <div className="columns">
           <div className="column ">
             <p className="message-about">
               Se você pode pedir comida online, por que não equipamentos e ferramentas?

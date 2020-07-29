@@ -18,6 +18,7 @@ import Adddocument from '../../Tool/adddocument';
 import { isAuthenticated } from "../../../../services/auth";
 import { Ul } from '../../../../components/List';
 import ReactGA from 'react-ga';
+import Modal from '../../../../components/Modal';
 import Scroll from '../../../../utils/scroll';
 import ScrollableAnchor from 'react-scrollable-anchor'
 import Select from 'react-select';
@@ -68,6 +69,10 @@ const Payment = ({history}) => {
   const [perfil, setPerfil] = useState([]);
   const [document, setDocument] = useState({})
   const [adddoc, addDoc] = useState(false)
+  const [modal, setModal] = useState(false);
+  const [aditional, setAditional] = useState(false);
+  const [cancel, setCancel] = useState(false);
+  const [valueaditional, setValueaditional] = useState(14);
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -107,11 +112,16 @@ const Payment = ({history}) => {
 
     async function verifyDocumentrent(){
       if (isAuthenticated() === true) {
-        if (current_user.length !== 0) {
+        
+        if (Object.keys(current_user).length > 0) {
+          console.log(current_user.id)
+          
           const response = await api.get(`/documents/${current_user.id}`, {
           });
           setDocument(response.data.documentUser[0])  
-        }  
+        }else{
+          console.log('asdsa')
+        }
       }
     }
     verifyDocumentrent();
@@ -144,13 +154,20 @@ const Payment = ({history}) => {
     }
 
     async function loadWorkadduser (rentid, lat, lng) {
+
       const responseworkadd = await api.get(`/workadd/${rentid}?lat=${lat}&lng=${lng}`, {
       });
-
       setWorkaddshow(responseworkadd.data.workadd[0].distance.toFixed(2))
-
-      console.log(responseworkadd.data.workadd[0])
       setWorkadd(responseworkadd.data.workadd[0])
+      var cityverify = responseworkadd.data.workadd[0]
+
+      if (cityverify.city === 'São José dos Pinhais' || 
+      cityverify.city === 'Colombo' 
+      || cityverify.city === 'Piraquara' || cityverify.city === 'Araucária' || cityverify.city === 'Quatro Barras'
+      || cityverify.city === 'Campina Grande do Sul' || cityverify.city === 'Almirante Tamandaré' || cityverify.city === 'Campo Magro'
+      || cityverify.city === 'Fazenda Rio Grande' || cityverify.city === 'Campo Largo') {
+        setModal(true)
+      }
     }
 
     return () => {
@@ -326,7 +343,7 @@ const Payment = ({history}) => {
     }
   }
 
-  async function updateRentattemp () {
+  async function updateRentattemp (operation) {
     var acq = ''
     var freightnew = '';
 
@@ -344,25 +361,47 @@ const Payment = ({history}) => {
       freightnew = renderCalc()
     }
 
-
-    var rentupdate = {
-      freight: parseFloat(freightnew.toFixed(2)),
-      startdate: rentattempt.startdate,
-      enddate: rentattempt.enddate,
-      acquisition: acq,
-      finishprocess: 'y',
-      coin: coin,
-      typepayment: typepayment,
-      periodhour: period
+    if (operation === 'cancel') {
+      var rentupdate = {
+        freight: parseFloat(freightnew.toFixed(2)),
+        startdate: rentattempt.startdate,
+        enddate: rentattempt.enddate,
+        acquisition: acq,
+        finishprocess: 'y',
+        coin: coin,
+        typepayment: typepayment,
+        periodhour: period,
+        accept: 'F'
+      }  
+    } else {
+      var rentupdate = {
+        freight: parseFloat(freightnew.toFixed(2)),
+        startdate: rentattempt.startdate,
+        enddate: rentattempt.enddate,
+        acquisition: acq,
+        finishprocess: 'y',
+        coin: coin,
+        typepayment: typepayment,
+        periodhour: period
+      }  
     }
 
     await api.put(`rent/attempt/updaterent/${rentattempt.id}`, rentupdate, {})
     .then((res) => {
-      verifyAvailabletool()
+      console.log(operation)
+      if (operation === 'cancel') {
+        goLinkbye()
+      } else {
+        verifyAvailabletool()
+      }
       //      history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      
     }).catch((err) => {
       console.log(err.response)
     })   
+  }
+
+  const goLinkbye = () => {
+    history.push(`/s/cancelmentrent`)      
   }
 
   const handleFreight = (event) => {
@@ -403,6 +442,44 @@ const Payment = ({history}) => {
     return text
   }
 
+  const renderOption = () => {
+    var opt = [
+
+    ]
+
+    var time =  moment(new Date()).format('HH:mm')
+    if (time >= '08:00' && time <= '10:00') {
+      opt.push({label: 'Manhã - 08:00 às 10:00', value: 'Manhã - 08:00 às 10:00'})
+    }
+
+    if (time >= '10:00' && time <= '12:00') {
+      opt.push({label: 'Manhã - 10:00 às 12:00', value: 'Manhã - 10:00 às 12:00'})
+    }
+
+    if (time >= '12:00' && time <= '13:00') {
+      opt.push({label: 'Meio dia - 12:00 às 13:00', value: 'Meio dia - 12:00 às 13:00'})
+    }
+
+    if (time >= '13:00' && time <= '15:00') {
+      opt.push({label: 'Tarde - 13:00 às 15:00', value: 'Tarde - 13:00 às 15:00'})
+    }
+
+    if (time >= '15:00' && time <= '17:00') {
+      opt.push({label: 'Tarde - 15:00 às 17:00', value: 'Tarde - 15:00 às 17:00'})
+    }
+
+    if (time >= '17:00' && time <= '19:00') {
+      opt.push({label: 'Noite - 17:00 às 19:00', value: 'Noite - 17:00 às 19:00'})
+    }
+
+    if (time >= '19:00' && time <= '23:59') {
+      opt.push({label: 'Não temos horário para hoje', value: 'Não temos horário para hoje'})
+    }
+
+    return opt;
+   
+  }
+
   const handleChangeCoin = (coin) => {
     setCoin(coin)
   }
@@ -425,28 +502,18 @@ const Payment = ({history}) => {
 
     var kmcurrent = workadd.distance;
 
-    
     var fr = 0;
-
     var costfreight = 0;
 
-    if (kmcurrent > minfreight) {
-        costfreight = minfreight
-    } else {
-        costfreight = fr * kmcurrent;
-    }
-
-
-    if (kmcurrent > 0 && kmcurrent < 7) {
+    if (kmcurrent >= 0 && kmcurrent < 7) {
       costfreight = minfreight;
-      console.log('a')
     }else{
       if (kmcurrent > 7.1 && kmcurrent < 8) {
         fr = 2.00
       }
 
       if (kmcurrent > 8.1 && kmcurrent < 10) {
-        fr = 1.95
+        fr = 1.90
       }
   
       if (kmcurrent > 10 && kmcurrent < 15) {
@@ -461,14 +528,38 @@ const Payment = ({history}) => {
         fr = 1.35      
       }
 
+      console.log(fr)
+      console.log(kmcurrent)
+
       costfreight = fr * kmcurrent;
     }
 
+    console.log(costfreight)
 
     /* Promoção de entrega a 15 reais */
-//    costfreight = 15;
+    //    costfreight = 15;
+    
+
+    if (aditional === true) {
+      costfreight = costfreight + valueaditional
+    }
+
 
     return costfreight
+  }
+
+  const hideRedirect = () => {
+    setModal(false)
+  }
+
+  const nextStep = () => {
+    setAditional(true)
+    setModal(false)
+  }
+
+  const cancelStep = () => {
+    setModal(false)
+    updateRentattemp('cancel')
   }
 
   return (
@@ -569,11 +660,11 @@ const Payment = ({history}) => {
                             <Select
                               className={''}
                               options={[
-                                {label: 'Começo da manhã - 08:00 às 10:00', value: 'Começo da manhã - 08:00 às 10:00'}, 
-                                {label: 'Fim da manhã - 10:00 às 12:00', value: 'Fim da manhã - 10:00 às 12:00'},
-                                {label: 'Início da tarde - 13:00 às 15:00', value: 'Ìnicio da tarde - 13:00 às 17:00'},
-                                {label: 'Fim da tarde - 15:00 às 17:00', value: 'Fim da tarde - 15:00 às 17:00'},
-                                {label: 'Extra noite - 17:00 às 19:00', value: 'Extra noite - 17:00 às 19:00'},
+                                {label: 'Manhã - 08:00 às 10:00', value: 'Manhã - 08:00 às 10:00'}, 
+                                {label: 'Manhã - 10:00 às 12:00', value: 'Manhã - 10:00 às 12:00'},
+                                {label: 'Tarde - 13:00 às 15:00', value: 'Tarde - 13:00 às 15:00'},
+                                {label: 'Tarde - 15:00 às 17:00', value: 'Tarde - 15:00 às 17:00'},
+                                {label: 'Noite - 17:00 às 19:00', value: 'Noite - 17:00 às 19:00'},
                               ]}
                               isSearchable={true}
                               placeholder={'Começo da manhã - 08:00 às 10:00'}
@@ -582,7 +673,7 @@ const Payment = ({history}) => {
                               }}
                               value={values.category}
                             />
-                            <p class="warning">
+                            <p className="warning">
                               {
                                 periodwarning === true ? 
                                 ('Por favor, escolha em qual período deseja receber o alugado')
@@ -595,7 +686,24 @@ const Payment = ({history}) => {
                         :
                         (
                           <>
-                            Em até 2 horas a partir da solicitação de reserva
+                            <Select
+                              className={''}
+                              options={renderOption()}
+                              isSearchable={true}
+                              placeholder={'Começo da manhã - 08:00 às 10:00'}
+                              onChange={selectedOption => {
+                                handleChangePeriod(selectedOption);
+                              }}
+                              value={values.category}
+                            />
+                            <p className="warning">
+                              {
+                                periodwarning === true ? 
+                                ('Por favor, escolha em qual período deseja receber o alugado')
+                                :
+                                ('')
+                              }
+                            </p>
                           </>
                         )
                     }
@@ -978,6 +1086,57 @@ const Payment = ({history}) => {
                     </div>
                   </div>
                 </>
+              </div>
+              <div className="modal-paymenrent">
+                <Modal 
+                  show={modal} 
+                  onCloseModal={hideRedirect}
+                  closeEscAllowed={false} 
+                  closeOnAllowed={false}
+                >
+                  <h3 className="has-text-centered title is-4">Seu aluguel é para uma região na qual não atuamos :(</h3>
+                  <p>Para que possamos entregar o equipamento neste local, será necessário acrescentar R$ 14,00 no valor da entrega & coleta.</p>
+                  <br/>
+                  <div className="has-text-centered">
+                  <span className="text-adiciontal">
+                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                      <b className="number-delivery">Taxa</b>
+                    </IntlProvider>                    
+                  </span>
+                  <span className="text-adiciontal">
+                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                      <b className="number-delivery">Adicional</b>
+                    </IntlProvider>     
+                  </span>
+                  </div>
+                  <div className="has-text-centered">
+                  <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                    <b className="number-delivery"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
+                  </IntlProvider>
+                    <span className="span-adiciontal">+</span>
+                  <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                    <b className="number-delivery"><FormattedNumber value={14} style="currency" currency="BRL" /></b>
+                  </IntlProvider>     
+                  <br/><span class="valueadtotal">
+                    = <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                      <b className="number-delivery"><FormattedNumber value={renderCalc()+ 14} style="currency" currency="BRL" /></b>
+                    </IntlProvider>.
+                    </span> 
+                  </div>
+                  <br/>
+                  <div className="columns invert">
+                    <div className="column has-text-centered">
+                      <button className={`button is-fullwidth is-primary`} onClick={event=> nextStep()} id="teste">
+                        Ok, Prosseguir
+                      </button>
+                    </div>
+                    <div className="column has-text-centered">
+                      <button className={`button is-fullwidth is-danger`} onClick={event=> cancelStep()}>
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                </Modal>             
               </div>
             </div>
           </>
