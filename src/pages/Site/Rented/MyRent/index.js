@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import socketio from '../../../../services/socketio';
 import Email from '../../../../utils/sendemail';
 import Scroll from '../../../../utils/scroll';
+import Modal from '../../../../components/Modal';
 
 //import ChangeAccept from './conditionsRent';
 
@@ -18,6 +19,10 @@ const Rents = ({ history }) => {
   document.title = Title('Meus alugados');
 
   const [rents, setRents] = useState([]);
+  const [modal, setModal] = useState('');
+  const [rentmodal, setRentmodal] = useState('');
+  const [renttool, setRenttool] = useState('');
+  const [rentpicture, setRentpicture] = useState('');
 
   useEffect(() => {
     async function loadRents () {
@@ -33,6 +38,19 @@ const Rents = ({ history }) => {
   const goDetail = (id) => {
     Scroll()
     history.push(`/s/renter/myrent/details/${id}`);
+  }
+
+  const hideModal = () => {
+    setModal(false)
+    return modal
+  } 
+
+  const goExtend = (id, rent) => {
+    setRentmodal(rent)
+    setRenttool(rent.tool)
+    setRentpicture(rent.tool.picture)
+    setModal(true)
+
   }
 
   // const accept = (id, rent) => {
@@ -165,8 +183,10 @@ const Rents = ({ history }) => {
                           }
                         </div>
                         <div className="column mwd-content-right">
+                        <span className="codeattempt">[#{rent.codeattempt}]</span>
+                        <br/>
                         <p className="capitalize">
-                            { rent.tool.title } 
+                         { rent.tool.title }
                             {/* <b> { rent.userrenter.name }</b> */}
                           </p>
                           <div>
@@ -230,7 +250,6 @@ const Rents = ({ history }) => {
                                 onClick={event => goDetail(rent.id)}
                               />
                             </div>
-                            <div className="column is-2">
                               {
                                 rent.finishprocess === 'y' ? 
                                 (
@@ -239,13 +258,37 @@ const Rents = ({ history }) => {
                                 :
                                 (
                                   <>
-                                    <a href={`/s/payment/resumebook?rent_attempt=${rent.idf}&init=${rent.startdate}&finish=${rent.enddate}&tool=${rent.tool_id}&am=${rent.amount}&tension=${rent.tension}&code_attempt=${rent.codeattempt}`} className="button is-warning is-small is-pulled-left">
-                                      Concluir aluguel</a>
-                                    <br/>
+                                    <div className="column is-2">
+                                      <a href={`/s/payment/resumebook?rent_attempt=${rent.idf}&init=${rent.startdate}&finish=${rent.enddate}&tool=${rent.tool_id}&am=${rent.amount}&tension=${rent.tension}&code_attempt=${rent.codeattempt}`} className="button is-warning is-small is-pulled-left">
+                                        Concluir aluguel</a>
+                                      <br/>
+                                    </div>
                                   </>
                                 )                 
                               }
                               <br/><br/>
+                            <div className="column is-2">
+                              {
+                                /*
+                                
+                                rent.accept === '1' ? 
+                                (
+                                  <>
+                                    <Button
+                                      type={'submit'}
+                                      className={'button is-success color-logo-lessor is-small is-pulled-left'}
+                                      text={'Estender minha reserva'}
+                                      onClick={event => goExtend(rent.id, rent)}
+                                    />                                    
+                                  </>
+                                )
+                                :
+                                (
+                                  <>
+                                  </>
+                                ) 
+                                */                            
+                              }
                             </div>
                             {/* <div className="column is-2">
                               { 
@@ -301,7 +344,7 @@ const Rents = ({ history }) => {
                           <div className="column">
                             {/* <p className="sub-title">Devolução: <span className="datefull">{moment(rent.enddate).format('DD/MM/YYYY')}</span></p> */}
                             <div className="box-date-rules is-pulled-left">
-                              {moment(rent.enddate).format('DD')}
+                              {moment(rent.endfdate).format('DD')}
                               <br/>
                               {moment(rent.enddate).format('MMM')}
                             </div>
@@ -356,6 +399,65 @@ const Rents = ({ history }) => {
           </div>
         </div>
       </div>
+      <Modal 
+            show={modal} 
+						onCloseModal={hideModal}
+          >
+            <h2 className="title has-text-centered">Extensão do seu alugado </h2>
+            <h3 className="has-text-centered">{ renttool.title }</h3>
+            <div className="">
+              <div className="container-full">
+                <div className="columns">
+                  <div className="column">
+                    <div className="columns">
+                      <div className="column">
+                      {
+                        rentpicture.length > 0 ?
+                        (
+                          <img src={rentpicture[0].url} alt={rentpicture[0].url} className="image-tool-rent"/>
+                        )
+                        :
+                        (
+                          ''
+                        )
+                      }
+                      </div>
+                      <div className="column">
+                        <b>Aluguel: </b>
+                        <br/>
+                        <div className="box-date-rules-small is-pulled-left">
+                          {moment(rentmodal.startdate).format('DD')}
+                          <br/>
+                          {moment(rentmodal.startdate).format('MMM')}
+                        </div>
+                        <div className="name-data-rules-small is-pulled-left">
+                          {moment(rentmodal.startdate).format('dddd')}
+                        </div>
+                        <br/>
+                        <b>Devolução: </b>
+                        <br/>
+                        <div className="box-date-rules-small is-pulled-left">
+                          {moment(rentmodal.enddate).format('DD')}
+                          <br/>
+                          {moment(rentmodal.enddate).format('MMM')}
+                        </div>
+                        <div className="name-data-rules-small is-pulled-left">
+                          {moment(rentmodal.enddate).format('dddd')}
+                        </div>
+                      </div>
+                      <div className="column">
+                          asdsdadsadasdsadasdasddsadsa
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br/>
+            <div className="">
+            </div>
+          </Modal>
+
     </div>
   )
 }

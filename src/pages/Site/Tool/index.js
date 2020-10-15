@@ -35,7 +35,7 @@ import Modal from '../../../components/Modal';
 import localForage from "localforage";
 import Mapbox from '../../../components/Map/Mapbox';
 import ReactGA, { set } from 'react-ga';
-import {Helmet} from 'react-helmet'
+import {Helmet} from 'react-helmet';
 import Adddocument from './adddocument';
 import Notification from '../../../utils/notification';
 import mastercard from '../../../assets/images/mastercard.png';
@@ -171,7 +171,7 @@ const Tool = ({history}) => {
         setErrodate(true)
         danger()
         window.location.href = "#"+"dates";
-        return 
+        return
       }
 
       loaddocumenttwo()
@@ -212,6 +212,8 @@ const Tool = ({history}) => {
         am: formik.values.amount,
         tool: tool.id
       }
+
+      window.location = 'https://api.whatsapp.com/send?phone=41984381802&text=Ol%C3%A1,%20tem%20gente%20no%20site%20tentando%20fazer%20um%20aluguel%20hehe.';
 
       localStorage.setItem('@lkst', JSON.stringify(obj));
       next(rentData)  
@@ -345,9 +347,10 @@ const Tool = ({history}) => {
     async function verifyDocumentrent(){
       if (isAuthenticated() === true) {
         if (current_user.length !== 0) {
-          const response = await api.get(`/documents/${current_user.id}`, {
+          /*const response = await api.get(`/documents/${current_user.id}`, {
           });
-          setDocument(response.data.documentUser[0])  
+          setDocument(response.data.documentUser[0]) 
+          */ 
         }  
       }
     }
@@ -378,7 +381,7 @@ const Tool = ({history}) => {
 
       var startdate = moment(dates.startDate).format('YYYY-MM-DD');
       var enddate = moment(dates.endDate).format('YYYY-MM-DD');
-  
+
       var period = moment.preciseDiff(startdate, enddate, true);
 
       var days = period.days;
@@ -450,9 +453,10 @@ const Tool = ({history}) => {
     }
   }
 
-  const showDanger = (tool) => {
-
-    Tracking(`Tentou alugar um equipamento indisponível: ${tool}`, `Tentou alugar um equipamento indisponível: ${tool}`, `Tentou alugar um equipamento indisponível: ${tool}`)
+  const showDanger = (tool, availability) => {
+    if (availability === 'Y') {
+      Tracking(`Tentou alugar um equipamento indisponível: ${tool}`, `Tentou alugar um equipamento indisponível: ${tool}`, `Tentou alugar um equipamento indisponível: ${tool}`)
+    }
   }
 
   const setDates = (dates, amountreceive) => {
@@ -463,7 +467,6 @@ const Tool = ({history}) => {
     formik.values.endDate = dates.endDate
     setStartdate(dates.startDate)
     setEnddate(dates.endDate)
-
 
     var startdate = moment(dates.startDate).format('YYYY-MM-DD');
     var enddate = moment(dates.endDate).format('YYYY-MM-DD');
@@ -481,8 +484,8 @@ const Tool = ({history}) => {
     console.log(enddate).day();*/
 
     if (dates.endDate !== null) {
-      var period = moment.preciseDiff(startdate, enddate, true);
 
+      var period = moment.preciseDiff(startdate, enddate, true);
       var days = period.days;
       var months = period.months;
 
@@ -658,7 +661,7 @@ const Tool = ({history}) => {
   const blockDays = (day) => {
     const dayString = day.format('YYYY-MM-DD');
     //    var arr = ["Sunday"];
-    console.log(moment.weekdays(moment(new Date()).weekday()) === 'Sábado')
+    //console.log(moment.weekdays(moment(new Date()).weekday()) === 'Sábado')
 
     if (moment.weekdays(moment(new Date()).weekday()) === 'Sábado' && moment(new Date()).format('H:mm') === '12:00') {
       return moment.weekdays(day.weekday()) === 'Sábado' || moment.weekdays(day.weekday()) === 'Domingo'
@@ -703,7 +706,21 @@ const Tool = ({history}) => {
       priceNoamount: 2 * parseFloat(localStorage.getItem('@fv')) / 2, 
       pricefull: 2 * parseFloat(localStorage.getItem('@fv') / 2) * formik.values.amount
     })
+  }
 
+  const deliveryToday = () => {
+    formik.values.endDate = startDate;
+    setEnddate(startDate);
+    setPrice({
+      type: 'days', 
+      amount: 1, 
+      amountmonth: 0, 
+      price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')), 
+      priceNoamount: 1 * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')),
+      pricefull: (1 * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * formik.values.amount
+    })
+
+    setModal3(false);
   }
 
   const desactiveDisconcert = () => {
@@ -736,6 +753,18 @@ const Tool = ({history}) => {
                 </IntlProvider>
               </p>
               <Button className="button is-info" onClick={event => activeDiscorcert(false)} text={'Ativar desconto'}/>
+              <p className="has-text-center">Aluga no sábado ganha desconto e usa até segunda.</p>
+            </div>
+            <div className="column has-text-centered">
+              <p className="discorcerttext">Sem desconto </p>
+              Para diárias
+              <p className="valuedefaultpromo-day ">
+                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                <FormattedNumber value={valuedefaultprimary} style="currency" currency="BRL" />
+                </IntlProvider>
+              </p>
+              <Button className="button is-warning choosedevolut" onClick={event => deliveryToday(false)} text={'Entregar no mesmo dia'}/>
+              <p className="has-text-center">Aluga e entrega o equipamento no mesmo dia até 18hrs.</p>
             </div>
             <div className="column has-text-centered">
               <p className="discorcerttext">Sem desconto </p>
@@ -745,12 +774,14 @@ const Tool = ({history}) => {
                 <FormattedNumber value={valuedefaultprimary} style="currency" currency="BRL" />
                 </IntlProvider>
               </p>
-              <Button className="button is-danger choosedevolut" onClick={event => desactiveDisconcert(false)} text={'Escolher data de devolução'}/>
+              <Button className="button is-danger choosedevolut" onClick={event => desactiveDisconcert(false)} text={'Escolher devolução.'}/>
+              <p className="has-text-center">Aluga no sábado e escolhe quando quer devolver, exceto domingo.</p>
             </div>
           </div>
+          <br/><br/>
           <div className="columns has-text-centered">
             <div className="column warning-devolut">
-              <b>Fim de semana: </b> Aluguel começa no sábado, devolve na segunda
+              <b>Fim de semana: </b> Aluguel começa no <b>sábado</b>, devolve na <b>segunda</b>
               <br/>
               <b>* horário de entrega escolhido no final do processo*</b>
             </div>
@@ -1283,7 +1314,7 @@ return (
                             type={'submit'}
                             className={'button is-fullwidth color-logo bt-pr-t mg-button-rt bt-app'}
                             text={tool.availability === "Y" ? 'Prosseguir' : 'Não disponível para locação'}
-                            onClick={event => showDanger(tool.title)}
+                            onClick={event => showDanger(tool.title, tool.availability)}
                           />
                         </>
                       )

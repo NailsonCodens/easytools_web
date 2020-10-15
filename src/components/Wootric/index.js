@@ -6,7 +6,7 @@ const Wootric = () => {
 
   useEffect(() => {
     async function Startwootric () {
-      console.log(current_user)
+
       let setupScript = document.createElement('script');
       setupScript.type = 'text/javascript';
       setupScript.async = true;
@@ -16,7 +16,7 @@ const Wootric = () => {
         window.wootricSettings = {
           email: '${current_user.email}',
           created_at: 1234567890,
-          account_token: 'NPS-d2b930e4'
+          account_token: 'NPS-921f842f'
         };
       `;
       document.body.appendChild(setupScript);

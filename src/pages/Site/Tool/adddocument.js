@@ -298,6 +298,7 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
           }
         }
 
+/*       
         if (proofdata === '') {
           setWar('Adicione o comprovante de endereço.');
           return
@@ -309,6 +310,7 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
             }
           }
         }
+*/
 
         if (socialdata.value === 'cnpj' && socialdata !== '') {
           if (documentdata !== 'ok') {
@@ -480,6 +482,9 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                 <div className="columns">
                   <div className="column">
                     <Field>
+                      <Label for={''}>
+                        <b>Celular</b>
+                      </Label>
                       <Label for={'phone'}>
                         <InputMask
                           name="location"
@@ -740,29 +745,34 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                     <Document id={us.id}/>
                   </div>
                   <div className="column">
-                    <h3 className="title-box-inter">Foto do seu rosto</h3>
+                    <h3 className="title-box-inter">Foto do seu rosto (Selfie)</h3>
                     <Selfie id={us.id}/>
                   </div>
                 </div>
-                <div className="columns">
-                  <div className="column">
-                    <h3 className="title-box-inter">Comprovante de residência</h3>
-                    <Proofaddress id={us.id}/>
-                  </div>
-                  <div className="column">
-                    {
-                      documenttype.value === 'cnpj' ? 
-                      (
-                        <>
-                          <h3 className="title-box-inter">Contrato social</h3>
-                          <SocialContract id={us.id}/>
-                        </>
-                      )
-                      :
-                      ('')
-                    } 
-                  </div>
-                </div>
+                {
+                  /*
+                    <div className="columns">
+                      <div className="column">
+                        <h3 className="title-box-inter">Comprovante de residência</h3>
+                        <Proofaddress id={us.id}/>
+                      </div>
+                      <div className="column">
+                        {
+                          documenttype.value === 'cnpj' ? 
+                          (
+                            <>
+                              <h3 className="title-box-inter">Contrato social</h3>
+                              <SocialContract id={us.id}/>
+                            </>
+                          )
+                          :
+                          ('')
+                        } 
+                      </div>
+                    </div>                  
+                  
+                  */
+                }
               </div>
             </div>
           </div>

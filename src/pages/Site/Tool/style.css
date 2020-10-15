@@ -141,11 +141,34 @@
   font-weight: 600 !important;
 }
 
+.box-date-rules-small{
+  background: #60A8F1;
+  width:40px !important;
+  height: 50px !important;
+  text-align: center !important;
+  padding: 5px;
+  color: #fff;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+}
+
 .name-data-rules{
   padding: 21px 20px !important;
   height: 70px !important;
   width: 200px !important;
   font-size: 18px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  background: rgb(233, 233, 233);
+  text-align: left !important;
+}
+
+.name-data-rules-small{
+  padding: 10px 10px !important;
+  height: 50px !important;
+  width: 120px !important;
+  font-size: 15px;
   font-family: 'Poppins', sans-serif !important;
   font-weight: 600 !important;
   background: rgb(233, 233, 233);
@@ -326,6 +349,15 @@
   font-weight: 600;
   text-align: center;
 }
+
+.valuedefaultpromo-day{
+  color: #1959c0;
+  font-size: 27px;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600;
+  text-align: center;
+}
+
 
 .discorcerttext{
   color: rgb(92, 92, 92);

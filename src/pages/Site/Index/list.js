@@ -20,6 +20,7 @@ import api from '../../../services/api';
 import logo from '../../../assets/images/logo.png';
 import useOutsideClick from "../../../utils/outsideclick";
 import promoeasy from '../../../assets/images/promoeasy.jpg';
+import cashback from '../../../assets/images/cashback.jpg';
 import useOutsideClickCategory from "../../../utils/outsideclick";
 import useOutsideClickEquipament from "../../../utils/outsideclick";
 import useOutsideClickProd from "../../../utils/outsideclick";
@@ -39,7 +40,7 @@ const List = ({history}) => {
   const dispatch = useDispatch();
   let {category, title, region } = useParams();
   const [search, setSearch] = useState('');
-  const [promo, setPromo] = useState(true);
+  const [promo, setPromo] = useState(false);
   const [userconfig, setUserconfig] = useState('');
   const [state, setState] = useState({ x: 55});
   const [categorys, setCategory] = useState(false);
@@ -47,6 +48,7 @@ const List = ({history}) => {
   const [equipament, setEquipament] = useState('');
   const [prod, setProd] = useState('');
   const [myaddress, setMyaddress] = useState('');
+  const [metropolitan, setMetropolitan] = useState(false);
   const [tools, setTools] = useState([]);
   const [places, setPlaces] = useState('');
   const [modal, setModal] = useState(false);
@@ -55,9 +57,19 @@ const List = ({history}) => {
   const latitude = useSelector(state => state.latitude);
   const longitude = useSelector(state => state.longitude);
   const [setclass, setClass] = useState('box-filters');
+  const [modalmetropolitan, setModalmetropolitan] = useState(false);
 
+
+  const nextStep = () => {
+    setModalmetropolitan(false)
+  }
+  
   const hideRedirect = () => {
     setModal(false)
+  }
+
+  const hideRedirectmetropolian = () => {
+    setModalmetropolitan(false)
   }
 
   useOutsideClick(ref, () => {
@@ -172,6 +184,27 @@ const List = ({history}) => {
       const response = await api.get(`/tools_site?search=${sh}&distance=${state.x}&lat=${lat}&lng=${lng}&type=&category=${cat}`, {
         headers: { search }
       });
+
+
+      if (lat !== null) {
+        getAddress(lng, lat).then(res => {
+          var city = ''
+          const getCity = res.data.features.find(city => city.id.includes('place'));  
+
+          if (getCity.text == 'São José dos Pinhais' || 
+          getCity.text == 'Colombo' 
+          || getCity.text == 'Piraquara' || getCity.text == 'Araucária' || getCity.text === 'Quatro Barras'
+          || getCity.text == 'Campina Grande Do Sul' || getCity.text == 'Almirante Tamandaré' || getCity.text == 'Campo Magro'
+          || getCity.text == 'Fazenda Rio Grande' || getCity.text == 'Campo Largo') {
+            localStorage.setItem('@mtp', true);
+            setMetropolitan(true)
+          }else{
+            localStorage.setItem('@mtp', false);
+            setMetropolitan(false)
+          }
+        })
+      }
+
       setTools(response.data.tools)
       if (response.data.tools.length > 0) {
         loadFreight(response.data.tools[0].UserId)
@@ -200,6 +233,7 @@ const List = ({history}) => {
         const getCity = res.data.features.find(city => city.id.includes('place'));
 
         city = getCity.text.replace(/\s+/g, '-').toLowerCase();
+        
         if (search === '') {
           setTitlest('Pesquisar')
           find(category, 'equipaments')
@@ -209,6 +243,7 @@ const List = ({history}) => {
           find(category, search)
           history.push(`/s/search/${category}/${search}/${city}`)
         }
+        
       })
       setModal(false)
       setMyaddress('')
@@ -239,7 +274,7 @@ const List = ({history}) => {
     
   async function find(ctg = category, srch = search) {
 
-    console.log(search)
+
     var lat = localStorage.getItem('@lt')
     var lng = localStorage.getItem('@lg')
 
@@ -258,11 +293,11 @@ const List = ({history}) => {
     var sh = sh.replace('-', ' ').toLowerCase();
     var sh = sh.replace('-', ' ').toLowerCase();
 
-    console.log(sh)
+
     const response = await api.get(`/tools_site?search=${sh}&distance=${state.x}&lat=${lat}&lng=${lng}&type=&category=${ctg}`, {
       headers: { srch }
     });
-    console.log(srch)
+
     console.log(response)
     setTools(response.data.tools)
   }
@@ -277,6 +312,8 @@ const List = ({history}) => {
   }
 
   const renderDelivery = (km) => {
+
+    
     var kmregional = 7
 
     var minfreight = userconfig.min !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 14;
@@ -290,43 +327,63 @@ const List = ({history}) => {
       if (kmdelivery >= 0 && kmdelivery < 7) {
         delivery = minfreight;
       }else{
-        if (kmdelivery > 7.1 && kmdelivery < 8) {
-          perkm = 2.00
+        if (kmdelivery > 7.0 && kmdelivery < 8) {
+          perkm = 2.20
         }
 
-        if (kmdelivery > 8.1 && kmdelivery < 10) {
-          perkm = 1.90
+        if (kmdelivery > 8.0 && kmdelivery < 10) {
+          perkm = 2.00
         }
     
         if (kmdelivery > 10 && kmdelivery < 15) {
-          perkm = 1.55
+          perkm = 2.00
         }
         
         if (kmdelivery > 15) {
-          perkm = 1.43
+          perkm = 1.56
         }
     
         if (kmdelivery > 20.0) {
-          perkm = 1.35      
+          perkm = 1.48     
         }
 
         delivery = kmdelivery * perkm;
+
       }
 
-    var deliveryfinal = delivery.toFixed(2).replace(/\./gi,',').replace(/,/gi,',')
+      var lat = localStorage.getItem('@lt')
+      var lng = localStorage.getItem('@lg')
 
+         
+      var deliveryteste = delivery.toFixed(2).replace(/\./gi,',').replace(/,/gi,',')
+    
+      if (localStorage.getItem('@mtp') === 'true') {
+        var aditional = 10.0;
+        delivery = delivery + aditional;
+      }else {
+        delivery = delivery;
+      }
+
+      console.log(deliveryteste)
+      var deliveryfinal = delivery.toFixed(2).replace(/\./gi,',').replace(/,/gi,',')
+
+      console.log(deliveryfinal)
+    
     return 'R$ ' + deliveryfinal
   }
 
   const selectPlace = (place) => {
 
     var city = ''
+    var citymetropolitan = ''
     const getCity = place.context.find(city => city.id.includes('place'));
 
     if (getCity === undefined) {
       city = place.text.replace(/\s+/g, '-').toLowerCase();
+      citymetropolitan = place.text;
     } else {
       city = getCity.text.replace(/\s+/g, '-').toLowerCase();
+      citymetropolitan = getCity.text
     }
 
     dispatch(Latitude(place.center[1]))
@@ -338,6 +395,21 @@ const List = ({history}) => {
     setMyaddress(place.place_name)
 
     find(category, titlest)
+
+
+
+    if (citymetropolitan === 'São José dos Pinhais' || 
+    citymetropolitan === 'Colombo' 
+    || citymetropolitan === 'Piraquara' || citymetropolitan === 'Araucária' || citymetropolitan === 'Quatro Barras'
+    || citymetropolitan === 'Campina Grande Do Sul' || citymetropolitan === 'Almirante Tamandaré' || citymetropolitan === 'Campo Magro'
+    || citymetropolitan === 'Fazenda Rio Grande' || citymetropolitan === 'Campo Largo') {
+      setModalmetropolitan(true)
+      localStorage.setItem('@mtp', true);
+    }else{
+      localStorage.setItem('@mtp', false);
+      setModalmetropolitan(false)
+    }
+
     history.push(`/s/search/${category}/${titlest}/${city}`)
 
     setPlaces(false)
@@ -350,7 +422,7 @@ const List = ({history}) => {
     Scroll(0, 0);
     navigator.geolocation.getCurrentPosition(
 			position => {
-        console.log(position)
+
         dispatch(Latitude(position.coords.latitude))
         dispatch(Longitude(position.coords.longitude))
 
@@ -361,6 +433,19 @@ const List = ({history}) => {
           var city = ''
           const getCity = res.data.features.find(city => city.id.includes('place'));
           city = getCity.text.replace(/\s+/g, '-').toLowerCase();
+
+          if (getCity.text == 'São José dos Pinhais' || 
+          getCity.text == 'Colombo' 
+          || getCity.text == 'Piraquara' || getCity.text == 'Araucária' || getCity.text === 'Quatro Barras'
+          || getCity.text == 'Campina Grande Do Sul' || getCity.text == 'Almirante Tamandaré' || getCity.text == 'Campo Magro'
+          || getCity.text == 'Fazenda Rio Grande' || getCity.text == 'Campo Largo') {
+            localStorage.setItem('@mtp', true);
+            setMetropolitan(true)
+          }else{
+            localStorage.setItem('@mtp', false);
+            setMetropolitan(false)
+          }
+
         })
           setModal(false);
           setMyaddress('')
@@ -368,6 +453,19 @@ const List = ({history}) => {
             var city = ''
             const getCity = res.data.features.find(city => city.id.includes('place'));
             city = getCity.text.replace(/\s+/g, '-').toLowerCase();  
+
+            if (getCity.text == 'São José dos Pinhais' || 
+            getCity.text == 'Colombo' 
+            || getCity.text == 'Piraquara' || getCity.text == 'Araucária' || getCity.text === 'Quatro Barras'
+            || getCity.text == 'Campina Grande Do Sul' || getCity.text == 'Almirante Tamandaré' || getCity.text == 'Campo Magro'
+            || getCity.text == 'Fazenda Rio Grande' || getCity.text == 'Campo Largo') {
+              localStorage.setItem('@mtp', true);
+              setMetropolitan(true)
+            }else{
+              localStorage.setItem('@mtp', false);
+              setMetropolitan(false)
+            }
+
             history.push(`/s/search/${category}/${titlest}/${city}`)
             find(category, titlest)
           })
@@ -385,19 +483,22 @@ const List = ({history}) => {
   }
 
   const renderPromo = (title) => {
-    if (title.indexOf('Lavadora')){
+    if (title.indexOf('Lavadora') > -1){
       return 70
     }
 
-    if (title.indexOf('Extratora')) {
+    if (title.indexOf('Extratora') > -1) {
+      console.log('as')
       return 75
     }
 
-    if (title.indexOf('Lâmina')) {
+    if (title.indexOf('Lâmina') > -1) {
+      console.log('as')
       return 60
     }
 
-    if (title.indexOf('Nylon')) {
+    if (title.indexOf('Nylon')  > -1) {
+      console.log('aasdasdsadasdasd')
       return 70
     }
   }
@@ -568,10 +669,23 @@ const List = ({history}) => {
       </div>
       <div className="container-fluid-cs lt-box">
         <br/><br/>
-        <div className="container">
-          <img src={promoeasy}  alt="Promo20 Logo" className="promoeasy"/>
-        </div>
-        <br/>        
+        {
+          promo === true  ?
+          (
+            <>
+              <div className="container">
+                <img src={cashback}  alt="Promo20 Logo" className="promoeasy"/>
+              </div>
+              <br/>        
+
+            </>
+          )
+          :
+          (
+            <>
+            </>
+          )
+        }
         <div>
           {
             region !== 'region' ? 
@@ -626,6 +740,7 @@ const List = ({history}) => {
                       <p className="title-tl"> { tool.title } </p>
                       <p>
                         <span>
+                          {}
                           <img src={tool.user.url} alt="logo-easy" className="logo-tl"/>
                         </span> 
                         <span className="name-logo-tl">
@@ -637,7 +752,7 @@ const List = ({history}) => {
                           <p className="rentper">Alugado por: { tool.user.name }, entrega e devolução: EasyTools </p>                        
                         */
                       }
-                      <p className="approximately">Valor aproximado do Entrega e coleta</p>
+                      <p className="approximately">Valor aproximado da Entrega e coleta</p>
                       <p className="toolcity">Esta ferramenta está em <span>{ tool.city }</span></p>
                       <div className="text-infos-tl">
                         <span className="freight-tl tl-km">
@@ -649,14 +764,14 @@ const List = ({history}) => {
                         </span>
                         <span className="freight-tl tl-hour">
                           <FontAwesomeIcon icon={['fas', 'stopwatch']} className="icon-tl" size="2x"/>
-                          <span>2 horas</span>
+                          <span>1 hora</span>
                         </span>
                       </div>
                       <div className="columns box-values">
                         <div className="column">
                           <p className="money-tl is-pulled-left">
                             {
-                              promo === true && tool.title.indexOf('Lâmina') > -1 || promo === true && tool.title.indexOf('Nylon') > -1 || promo === true && tool.title.indexOf('Extratora') > -1  || promo === true && tool.title.indexOf('Lavadora') > -1 ? 
+                              promo === 'true' && tool.title.indexOf('Lâmina') > -1 || promo === 'true' && tool.title.indexOf('Nylon') > -1 || promo === 'true' && tool.title.indexOf('Extratora') > -1  || promo === 'true' && tool.title.indexOf('Lavadora') > -1 ? 
                               (
                                 <>
                                   <span className="money-promo">
@@ -719,6 +834,7 @@ const List = ({history}) => {
       >
         <h3 className="has-text-centered title is-4">Onde você está?</h3>
         <br/>
+        <p class="has-text-centered sub-title-modal-address">Digite seu endereço para encontrar a ferramenta mais próxima de você.</p>
         <div className="showneighboor">
             {
               region === 'region'?
@@ -762,6 +878,7 @@ const List = ({history}) => {
                         places.map((place, index) => (
                           <li className="list-places" key={index} onClick={event => selectPlace(place)}>
                             {place.place_name}
+                            <hr className="hr-list-address"/>
                           </li>
                         ))
                       }
@@ -784,6 +901,26 @@ const List = ({history}) => {
             </button>
         </div>
       </Modal>
+      <Modal 
+        show={modalmetropolitan} 
+        onCloseModal={hideRedirectmetropolian}
+        closeEscAllowed={false} 
+        closeOnAllowed={false}
+      >
+        <h3 className="has-text-centered title is-4">Oi, tudo bem?</h3>
+        <p>Os valores de entrega&coleta podem variar para regiões muito distantes e metropolitanas. </p>
+        <br/>
+        <div className="has-text-centered">
+        </div>
+        <div className="has-text-centered">
+        </div>
+        <br/>
+        <div className="columns invert">
+          <button className={`button is-fullwidth color-logo`} onClick={event=> nextStep()} id="teste">
+            Entendi
+          </button>
+        </div>
+      </Modal>     
     </>
   )
 }

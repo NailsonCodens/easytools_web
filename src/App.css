@@ -70,6 +70,15 @@ body{
   font-size: 1.0em;
 }
 
+.av-delivery{
+  color: rgb(255, 70, 70);
+  font-size: 13px;
+}
+
+.codeattempt{
+  font-weight: 900;
+}
+
 .color-logo{
   background: #FFD237;
   color: #000;
@@ -671,6 +680,16 @@ body{
 
 .superior{
   z-index: 999999999 !important;
+}
+
+.box-form-pay{
+
+}
+
+.know{
+  color: #60A8F1;
+  font-weight: bold;
+  font-size: 25px;
 }
 
 

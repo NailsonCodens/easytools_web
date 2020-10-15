@@ -35,7 +35,9 @@ const Newrent = ({history}) => {
   }
 
   return (
-    <>
+    <> 
+
+    {
       <Helmet>
         <title>Alugar não precisa ser burocrático e chato | EasyTools</title>
         <meta
@@ -43,7 +45,13 @@ const Newrent = ({history}) => {
           content="Conheça por que e para que nós existimos. Conheça nossa história"
         />
         <meta name="keywords" content="Sobre EasyTools, EasyTools Sobre EasyTools about, o que é a easytools, o que é easytools, onde alugar equipamentos e ferramentas"/>
+        <meta property="og:url" content="easytoolsapp.com/s/about-us"/>
+        <meta property="og:title" content="Sobre nós | EasyTools"/>
+        <meta property="og:site_name" content="EasyTools - Aluguel de ferramentas"></meta>
+        <meta property="og:description" content="Conheça por que e para que nós existimos. Conheça nossa história"/>
+        <meta property="og:type" content="website"/>
       </Helmet>
+    }
       <div className="container">
         <div className="container">
           <br/><br/>
@@ -139,7 +147,7 @@ const Newrent = ({history}) => {
             <div></div>
           </ScrollableAnchor>
             <p className="title-index has-text-centered">Conheça nossa área de atuação no Paraná?</p>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d230539.1567424101!2d-49.3660441!3d-25.4658539!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xf0641216f68afbf6!2sEasyTools!5e0!3m2!1spt-BR!2sbr!4v1595343737440!5m2!1spt-BR!2sbr" width="800" height="350" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d230539.1567424101!2d-49.3660441!3d-25.4658539!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xf0641216f68afbf6!2sEasyTools!5e0!3m2!1spt-BR!2sbr!4v1595343737440!5m2!1spt-BR!2sbr" width="100%" height="350" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
           </div>
           <br/><br/>
           <div className="container">

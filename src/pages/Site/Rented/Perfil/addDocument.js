@@ -116,7 +116,7 @@ const Doc = ({history}) => {
         }
       }
 
-      if (proofdata === '') {
+      /*if (proofdata === '') {
         setWar('Adicione o comprovante de endereço.');
         return
       } else {
@@ -126,7 +126,7 @@ const Doc = ({history}) => {
             return 
           }  
         }
-      }
+      }*/
 
       if (socialdata.value === 'cnpj' && socialdata !== '') {
         if (proofdata !== 'ok') {
@@ -365,7 +365,6 @@ const Doc = ({history}) => {
             <h3 className="title-box-inter">Os documentos são:</h3> 
             <p>Foto do RG ou CNH.</p>
             <p>Uma foto do seu rosto.</p>
-            <p>E o comprovante de endereço.</p>
             <p>Se for empresa, foto do contrato.</p>
           </div>
         </div>
@@ -373,6 +372,7 @@ const Doc = ({history}) => {
           <div className="column">
             <div>
               <h3 className="title-box-inter">RG ou CNH próximo ao rosto </h3>
+              
               <div>
                 <Document id={user.id}/>
               </div>
@@ -386,12 +386,16 @@ const Doc = ({history}) => {
               </div>            
             </div>
           </div>
+          {
+            /*
           <div className="column">
             <h3 className="title-box-inter">Comprovante de endereço</h3>
             <div>
               <Proofaddress id={user.id}/>
             </div>
-          </div>
+          </div>            
+            */
+          }
           {
             cpfcnpj !== null && cpfcnpj.length > 14  ? 
             (

@@ -79,10 +79,9 @@ const Rents = ({ history }) => {
       var maintext = '';
       var urllabel = '';
 
-
       if (type === 'accept') {
         title = `EasyTools -  Aluguel aceito. Seu aluguel foi aceito!`;
-        message = `Olá ${renter}, Seu aluguel foi aceito. Fique ligado, nós vamos te enviar a opção de pagamento, que pode ser acessado na sua conta na Easytools direto no site. Você alugou: ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}. A entrega do equipamento, ocorrerá quando confirarmos o pagamento.`;  
+        message = `Olá ${renter}, Seu aluguel foi aceito. Fique ligado, nós vamos te enviar a opção de pagamento, que pode ser acessado na sua conta na Easytools direto no site. Você alugou: ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}. A entrega do equipamento, ocorrerá quando confirmamos o pagamento. Se você escolheu maquininha ou dinheiro cmo forma de pagamento, você deverá fazer o pagamento ao entregador no ato da entrega do equipamento.`;  
         maintext = 'Boa notícia! seu aluguel foi processado.'
         urllabel = "Ver e pagar meu equipamento alugado"
       } else if (type === 'noacceptforpayment') {

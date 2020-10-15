@@ -111,7 +111,7 @@ const Signin = ({ hs, url, closeModal }) => {
       if (url === 'authproduct') {
         saveAttempt(id)  
       } else {
-        hs.push('/')
+        window.location.href = '/'
       }
 
       scrollTop()
@@ -148,7 +148,7 @@ const Signin = ({ hs, url, closeModal }) => {
     }
 
     if (attempt.month > 0 && attempt.days > 0){
-      hs.push('/')
+      window.location.href = '/'
       console.log('sem mes e sem data')
       //Tracking('Tentativa de aluguel maior com mêses e dias falha', `Tentativa de aluguel maior com mêses e dias`, 'Tentativa de aluguel maior com mêses e dias')
     } else {
@@ -162,7 +162,7 @@ const Signin = ({ hs, url, closeModal }) => {
         success()
         hs.push(`/s/payment/rent-rules?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${attempt.amount}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
       }).catch((err) => {
-        hs.push('/')
+        window.location.href = '/'
         console.log(err.response)
       })
     }
@@ -181,7 +181,7 @@ const Signin = ({ hs, url, closeModal }) => {
       if (url === 'authproduct') {
         saveAttempt(id)      
       } else {
-        hs.push('/')
+        window.location.href = '/'
       }
 
 /*

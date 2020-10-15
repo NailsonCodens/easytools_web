@@ -4,6 +4,7 @@ import {Helmet} from 'react-helmet';
 import Rentalbox from '../Rentalbox';
 import Scrool from '../../../../utils/scroll';
 import api from '../../../../services/api';
+import { Button } from '../../../../components/Form/Button';
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,6 +13,7 @@ import queryString from 'query-string';
 import { Rentinfo } from '../../../../store/actions/rentinfo';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import moment from 'moment';
+import Wootric from '../../../../components/Wootric';
 import { faHandshake, faTools, faCommentDots, faCalendarAlt, faCheckCircle, faExclamationTriangle, faGift} from '@fortawesome/free-solid-svg-icons'
 library.add(faHandshake, faTools, faCommentDots, faCalendarAlt, faCheckCircle, faExclamationTriangle, faGift);
 
@@ -21,7 +23,8 @@ const Congrats = () => {
   const [attempt, setAttempt] = useState([]);
   const [tool, setTool] = useState([]);
   const dispatch = useDispatch();
-  
+  const [setopennps, setOpennps] = useState(false);
+
   useEffect(() => {
     async function loadRentattempt () {
       const response = await api.get(`rent/attempt/${id}/${values.code_attempt}`, {
@@ -47,6 +50,11 @@ const Congrats = () => {
     loadTool() 
   }, []);
 
+    
+  const openNps = () => {
+    setOpennps(true)
+  }
+
   return (
     <div className="container">
         <Helmet>
@@ -60,6 +68,7 @@ const Congrats = () => {
             <div className="column has-centered-text">
             <div className="column">
               <div className="rental-box">
+                Código do alugado: { attempt.codeattempt }
                 <div className="columns is-desktop is-mobile">
                   <div className="column">
                     <img src={tool.picture1} alt={tool.picture1} className="" />
@@ -168,6 +177,7 @@ const Congrats = () => {
           </div>
           <div className="column">
             <div className="explorer">
+              <b>Código do alugado: { attempt.codeattempt }</b>
               <h1 className="rentandnow">Aguarde, estamos processando seu aluguel, você será notificado em até 10 minutos.</h1>
               <p className="text-congrats">Fique ligado, você vai receber uma notificação aqui na plataforma e por e-mail quando o pedido for processado.</p>
               <br/>
@@ -226,6 +236,7 @@ const Congrats = () => {
 
           </div>
         </div>
+        <Wootric/>
     </div>
   )
 }

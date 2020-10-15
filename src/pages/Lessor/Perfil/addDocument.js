@@ -103,7 +103,6 @@ const Doc = ({history}) => {
             <h3 className="title-box-inter">Os documentos são:</h3> 
             <p>Foto do RG ou CNH.</p>
             <p>Uma selfie sua.</p>
-            <p>E o comprovante de endereço.</p>
             <p>Se for empresa, foto do contrato.</p>
             <Warningtext>Fique tranquilo, seus dados estão seguros. Não compartilhammos, vendemos ou usamos indevidamente os seus dados". </Warningtext>
           </div>
@@ -126,7 +125,9 @@ const Doc = ({history}) => {
               </div>            
             </div>
           </div>
-          <div className="column">
+          {
+            /*
+            <div className="column">
             <h3 className="title-box-inter">Comprovante de endereço</h3>
             <div>
               <Proofaddress id={user.id}/>
@@ -147,6 +148,9 @@ const Doc = ({history}) => {
                 ('')
               }
             </div>
+            
+            */
+          }
         </div>
       </div>
       <Form

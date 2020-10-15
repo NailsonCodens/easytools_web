@@ -10,9 +10,14 @@ import Auth from '../../../pages/Auth/index';
 import Modal from '../../../components/Modal';
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
+import { Span } from '../../../components/Span';
+import * as Yup from 'yup';
 import Dropdown from '../Dropdown';
 import Dropdownpure from '../Dropdownpure';
+import InputMask from 'react-input-mask';
+import { Field } from '../../../components/Form/Form';
 import './styleRenter.css'
+import { logout } from '../../../services/auth';
 import {Viewsearch} from '../../../store/actions/viewsearch';
 import logo from '../../../assets/images/logo.png'
 import socketio from '../../../services/socketio';
@@ -55,12 +60,16 @@ const MenuRenter = () => {
 	const [bettersearch, setBettersearch] = useState(false);
 	const [myaddress, setMyaddress] = useState('');
 	const [places, setPlaces] = useState([]);
+	const [erroPhone, seterroPhone] = useState('');
 	const [category, setCategory] = useState([]);
 	const [distancevalue, setDistancevalue] = useState('');
 	const [coordiantevalue, setCoordinatevalue] = useState({});
 	const [categoryvalue, setCategoryvalue] = useState('');
 	const [setclass, setClass] = useState('normal');
-
+	const [terms, setTerms] = useState([]);
+	const [perfil, setPerfil] = useState([]);
+	const [phone, setPhone] = useState('');
+	
 	let values = queryString.parse(useLocation().search);
 	let locationhistory = useLocation().pathname;
 	
@@ -71,6 +80,8 @@ const MenuRenter = () => {
 		// any data that is relevant to the user session
 		// that you would like to track with google analytics
 	})
+
+	console.log(current_user.id)
 
 	const Tracking = (category, action, label) => {
 		Scrool()
@@ -96,6 +107,7 @@ const MenuRenter = () => {
    
     }
   })
+
 
   const wrapperRef = useRef(null);
 	useOutsideAlerter(wrapperRef);
@@ -123,6 +135,13 @@ const MenuRenter = () => {
 			console.log('estou passando notificação');
 		});
 
+    async function loadPerfil() { 
+      const response = await api.get(`/perfil`, {
+			});
+			setPerfil(response.data.user[0])
+		}
+    loadPerfil();
+
 		async function loadAsknotification () {
 
 		}
@@ -145,7 +164,6 @@ const MenuRenter = () => {
 		}
 		verifyDevice()
 		
-
 		async function loadRedirect () {
 			if (values.r === 'redirect') {
 				setModal(true)
@@ -191,6 +209,7 @@ const MenuRenter = () => {
 
 		};
 	}, [])
+
 
   const renderNotify = () => {
     return (
@@ -260,7 +279,41 @@ const MenuRenter = () => {
       pauseOnHover: true,
       draggable: true,
     }
-  )
+	)
+	
+  const NoAcceptedTerms = () => {
+		logout()
+		Scrool(0,0);
+		setTerms(false);
+		setModal(false);
+    history.push("/");
+  }
+
+  async function AcceptedTerms () {
+		if (phone === '') {
+			seterroPhone(true)
+		}else{
+			var userupdate = {
+				terms: 'Y',
+				phone: phone
+			}
+	
+			Scrool(0,0)
+			//info()
+			api.put(`perfil/update/${current_user.id}`, userupdate, {})
+			.then((res) => {
+				setTerms(false);
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		}
+  }
+
+  const hideTerms = () => {
+    setTerms(false)
+    return terms
+  }
 
 	const searchTools = (event) => {
 		Scrool(0,0)

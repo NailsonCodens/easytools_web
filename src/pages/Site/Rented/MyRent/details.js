@@ -9,6 +9,11 @@ import 'moment/locale/pt-br';
 import Title from '../../../../utils/title';
 import {Titlepage} from '../../../../components/Titles/Titlepages';
 import './myrent.css';
+import { DateRangePicker, toMomentObject } from 'react-dates';
+import {
+  isMobile
+} from "react-device-detect";
+import preciseDiff from 'moment-precise-range-plugin';
 import Modal from '../../../../components/Modal';
 import { Button } from '../../../../components/Form/Button';
 //import ChangeAccept from './conditionsRent';
@@ -16,7 +21,7 @@ import socketio from '../../../../services/socketio';
 import Email from '../../../../utils/sendemail';
 import { Link } from 'react-router-dom';
 import { Warningtext } from '../../../../components/Warningtext';
-import ReactGA from 'react-ga';
+import ReactGA, { set } from 'react-ga';
 import Notification from '../../../../utils/notification';
 
 export default function Rents({history}) {
@@ -27,8 +32,18 @@ export default function Rents({history}) {
   const [documentr, setDocument] = useState([]);
   const [modal1, setModal1] = useState(false);
   const [modal2, setModal2] = useState(false);
+  const [modalrediret, setModalredirect] = useState(false);
   const [modal3, setModalthree] = useState(false);
   const [show, setShow] = useState(false);
+  const [modaldate, setModaldate] = useState(false);
+  const [focus, setFocus] = useState('');
+  const [startDate, setStartdate] = useState(null);
+  const [endDate, setEnddate] = useState(null);
+  const [period, setPeriod] = useState();
+  const [oldstart, setOldstart] = useState(null);
+  const [oldend, setOldend] = useState(null);
+  const [datesshow, setDatesShow] = useState({});
+  const [prices, setPrices] = useState([]);
 
   let { id } = useParams();
   //let values = queryString.parse(useLocation().search);
@@ -49,6 +64,113 @@ export default function Rents({history}) {
       draggable: true,
     }
   )
+
+  const successalter = () => Notification(
+    'success',
+    'As datas do seu alugado foram alteradas com sucesso.', 
+    {
+      autoClose: 3000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+
+  const alterDates = (id) => {
+    updateRentdates(id)
+  }
+
+  async function updateRentdates (id) {
+    var rentupdate = {
+      startdate: moment(startDate).format('YYYY-MM-DD'),
+      enddate: moment(endDate).format('YYYY-MM-DD')
+    }
+
+    await api.put(`rent/attempt/updaterent/${id}`, rentupdate, {})
+    .then((res) => {
+      Tracking('Alterou a data do alugado', 'Alterou a data do alugado', 'Cliente alterou a data do alugado')
+      //console.log() 
+      console.log(rent[0].user_lessor_id)
+      Email(rent[0].user_lessor_id, `O cliente ${rent[0].userrenter.name} alterou a data do seu alugado.`, 
+      `O cliente ${rent[0].userrenter.name} alterou a data do seu alugado para uma data futura. Que tinha início em ${moment(oldstart).format('DD/MM/YYYY')} e fim em ${moment(oldend).format('DD/MM/YYYY')} Para início: ${moment(startDate).format('DD/MM/YYYY')} e fim em: ${moment(endDate).format('DD/MM/YYYY')}`, "Ver", ' Veja a alteração em sua conta.');
+      Email(rent[0].user_renter_id, `Você alterou a data do seu alugado.`, 
+      `Você alterou a data do seu alugado. Que tinha início em ${moment(oldstart).format('DD/MM/YYYY')} e fim em ${moment(oldend).format('DD/MM/YYYY')} Para início: ${moment(startDate).format('DD/MM/YYYY')} e fim em: ${moment(endDate).format('DD/MM/YYYY')}`, "Ver", ' Veja a alteração em sua conta.');
+      successalter()
+      //mandar email para o cliente e para nós de que foi mudado
+      reloadRent()
+      setModaldate(false)
+    }).catch((err) => {
+      console.log(err.response)
+    })
+  }
+
+  async function reloadRent ($id) {
+    const response = await api.get(`renter/rents/${id}`, {});
+    setRent(response.data.rentattempt);
+
+    if (response.data.rentattempt.length > 0) {
+      const responsew = await api.get(`/workadd/workadd/${response.data.rentattempt[0].id}`, {});
+      if (responsew.data.workadd.length > 0){
+        setWorkadd(responsew.data.workadd[0])
+      }
+    }
+  }  
+
+  const setDates = (dates, amountreceive) => {
+    setStartdate(dates.startDate)
+    setEnddate(dates.endDate)
+
+    var startdate = moment(dates.startDate).format('YYYY-MM-DD');
+    var enddate = moment(dates.endDate).format('YYYY-MM-DD');
+
+    setDatesShow({'startdate': startDate, 'enddate': enddate })
+
+    if (dates.endDate != null) {
+      var periodnow = moment.preciseDiff(startdate, enddate, true);
+
+      if (period.days === periodnow.days) {
+        console.log('ok')
+      } else{              
+        //searchTool()
+        
+        setModalredirect(true)
+        
+        console.log('vai precisar alterar o valor')
+      }
+    }
+  }
+
+  async function searchTool () {
+    const response = await api.get(`/tools_site/tool/${rent[0].tool_id}`, {
+    });
+
+    var prices = response.data.tool[0].prices.split(';');
+    setPrices(prices);
+  }
+
+
+  const blockDays = (day) => {
+    const dayString = day.format('YYYY-MM-DD');
+    //    var arr = ["Sunday"];
+//    console.log(moment.weekdays(moment(new Date()).weekday()) === 'Sábado')
+
+    if (moment.weekdays(moment(new Date()).weekday()) === 'Sábado' && moment(new Date()).format('H:mm') === '12:00') {
+      return moment.weekdays(day.weekday()) === 'Sábado' || moment.weekdays(day.weekday()) === 'Domingo'
+    } else {
+      return moment.weekdays(day.weekday()) === 'Domingo'
+    }
+
+    //var arr = ["2020-06-12", "2020-06-13", "2020-06-23", "2020-06-24", "2020-06-26", "2020-06-27", "2020-06-29", "2020-06-30"];
+   // return arr.some(date => dayString === date)   
+
+//    return dayString === '2020-06-26' || dayString ==='2020-06-27'
+  }
 
   useEffect(() => {
     async function loadRents () {
@@ -76,6 +198,17 @@ export default function Rents({history}) {
     return () => {
     };
   }, [])
+
+  const OpenmodaldatesetModaldate = (modal, datestart, dateend) => {
+    setModaldate(modal);
+    console.log(datestart, dateend)
+
+    var period = moment.preciseDiff(datestart, dateend, true);
+    console.log(period)
+    setPeriod(period);
+    setOldstart(datestart)
+    setOldend(dateend)
+  }
 
   const renderPeriod = (period, days, month) => {
     var periodChoose = period
@@ -147,8 +280,6 @@ export default function Rents({history}) {
 
   async function reloadRents (id) {
     const response = await api.get('/renter/rents/'+id, {});
-
-    console.log(response)
     setTimeout(() => {
       setRent(response.data.rentattempt);
     }, 300);     
@@ -196,6 +327,22 @@ export default function Rents({history}) {
     } else {
       history.push(`/lessor/renter/detail/${id}?e=unavailable`);
     }
+  }
+
+
+  async function redictReservation () {
+    const response = await api.get(`/tools_site/tool/${rent[0].tool_id}`, {
+    });
+
+    window.location.href = '/s/tool/'+ response.data.tool[0].id +'?ctg=' + response.data.tool[0].category;
+  }
+
+  const redirectTool = () => {
+    Email(rent[0].user_renter_id, `O cliente ${rent[0].userrenter.name} vai refazer a reserva para usar em outro período.`, 
+    `O cliente tentou alterar as datas, mas ele deseja para outro período maior do que o tal. Por isso ele precisa fazer outra reserva.`, "Ver", ' Veja a alteração em sua conta.');
+    setTimeout(() => {
+      redictReservation()      
+    }, 400);
   }
 
   const cancelRent = () => {
@@ -272,6 +419,16 @@ export default function Rents({history}) {
     setShow(false)
     return show
   }
+
+  const hideShow2 = () => {
+    setModaldate(false)
+    return modaldate
+  }
+
+  const hideShow3 = () => {
+    setModalredirect(false)
+    return modalrediret
+  }
   
   return (
     <div className="container container-page">
@@ -296,47 +453,6 @@ export default function Rents({history}) {
                     </b>
                     <br/><br/>
                     {
-                      rent.paid !== '1' && rent.accept !== 'c' && rent.accept !== 'F' ? 
-                      (
-                        <>
-                          {
-                            <Button
-                              type={'submit'}
-                              className={'button is-danger color-logo-lessor is-pulled-left'}
-                              text={'Cancelar aluguel'}
-                              onClick={event => cancelRent(rent.id)}
-                            />
-                          }
-                        </>
-                      )
-                      :
-                      ('')
-                    }
-                    {
-                      rent.accept === '1' && rent.paid === '0' ?
-                      (
-                        <>
-                          {
-                           rent.typepayment === 'creditcard' || rent.typepayment === 'boleto'  ? 
-                           (
-                             <>
-                              <span><a href={'/s/payment/payment-view/' + rent.id} className="button is-success payment-rent" target="_blank">Pagar meu alugado</a></span> 
-                              <br/>
-                              <Warningtext>Você tem 15 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>                      
-                             </>
-                           )
-                           :
-                           ('')
-
-                          }
-                        </>
-                      )
-                      :
-                      ('')
-                    }
-                    <br/><br/>
-                    <div>
-                            {
                               rent.accept === 'F' ? 
                               (
                                 <>
@@ -413,6 +529,66 @@ export default function Rents({history}) {
                                 ''
                               )
                             }
+                            <br/><br/>
+                    {
+                      rent.paid !== '1' && rent.accept !== 'c' && rent.accept !== 'F' ? 
+                      (
+                        <>
+                          {
+                            <Button
+                              type={'submit'}
+                              className={'button is-small is-danger color-logo-lessor is-pulled-left'}
+                              text={'Cancelar aluguel'}
+                              onClick={event => cancelRent(rent.id)}
+                            />
+                          }
+                        </>
+                      )
+                      :
+                      ('')
+                    }
+                    {
+                      rent.accept === '1' && (moment(new Date()).format('dd') < moment(rent.enddate).format('dd')) ?
+                      (
+                        <>
+                            <Button
+                              type={'submit'}
+                              className={'button is-small is-info color-logo-lessor is-pulled-left padding-left-bt-detail'}
+                              text={'Alterar data da reserva'}
+                              onClick={event => OpenmodaldatesetModaldate(true, moment(rent.startdate).format('YYYY-MM-DD'), moment(rent.enddate).format('YYYY-MM-DD'))}
+                            />             
+                        </>
+                      )
+                      :
+                      (
+                        <>
+                        </>
+                      ) 
+                    }
+                    <br/>
+                    {
+                      rent.accept === '1' && rent.paid === '0' ?
+                      (
+                        <>
+                          {
+                           rent.typepayment === 'creditcard' || rent.typepayment === 'boleto'  ? 
+                           (
+                             <>
+                              <span><a href={'/s/payment/payment-view/' + rent.id} className="button is-success payment-rent" target="_blank">Pagar meu alugado</a></span> 
+                              <br/>
+                              <Warningtext>Você tem 15 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>                      
+                             </>
+                           )
+                           :
+                           ('')
+
+                          }
+                        </>
+                      )
+                      :
+                      ('')
+                    }
+                    <div>
                           </div>
                           <div className="columns">
 
@@ -595,6 +771,108 @@ export default function Rents({history}) {
                     text={'Não'}
                     onClick={event => hideShow(false)}
                   />
+                </div>
+              </Modal>
+
+              <Modal 
+                show={modalrediret} 
+                onCloseModal={hideShow3}
+                closeOnEsc={true} 
+                closeOnOverlayClick={true}
+              >
+                <h2 className="title has-text-centered">Você está tentando mudar seu aluguel para um período mais longo.</h2>
+                <div className="has-text-centered">
+                  <p>Para mudar o período de locação para mais dias, você precisa solicitar outra reserva e automaticamente esta será cancelada.</p>
+                  <div className="columns">
+                  </div>
+                  <div className="columns">
+                    <div className="column before">
+
+                    </div>
+                    <div className="column after">
+                    </div>
+                  </div>
+                </div>
+                <br/>
+                <div className="has-text-centered text-modal">
+                  <Button
+                    type={'submit'}
+                    className={'button is-fullwidth is-info color-logo-lessor'}
+                    text={'Solicitar reserva com período diferente'}
+                    onClick={event => redirectTool(rent.id)}
+                  />                      
+                </div>
+              </Modal>
+
+
+
+              <Modal 
+                show={modaldate} 
+                onCloseModal={hideShow2}
+                closeOnEsc={true} 
+                closeOnOverlayClick={true}
+              >
+                <h2 className="title has-text-centered">Mudança de data da reserva</h2>
+                <div className="has-text-centered">
+                  <p>Selecione uma nova data de aluguel e devolução clicando no campo abaixo.</p>
+                  <div className="columns">
+                    <div className="column">
+                      <b>Aluguel</b>
+                    </div>
+                    <div className="column">
+                      <b>Devolução</b>
+                    </div>
+                  </div>
+                  <DateRangePicker
+                    anchorDirection="left"
+                    displayFormat={'DD/MM/YYYY'}
+                    minimumNights={1}
+                    isDayBlocked={(day) => blockDays(day)}
+                    numberOfMonths={isMobile === true ? 1 : 2}
+                    startDate={startDate} // momentPropTypes.momentObj or null,
+                    startDateId={'start'} // PropTypes.string.isRequired,
+                    endDate={endDate} // momentPropTypes.momentObj or null,
+                    endDateId={'end'} // PropTypes.string.isRequired,
+                    onDatesChange={({ startDate, endDate }) => setDates({ startDate, endDate })} // PropTypes.func.isRequired,
+                    focusedInput={focus.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
+                    onFocusChange={focusedInput => setFocus({ focusedInput })} // PropTypes.func.isRequired,
+                    startDatePlaceholderText="Data Aluguel"
+                    endDatePlaceholderText="Data Devolução"
+                    readOnly
+                    hideKeyboardShortcutsPanel
+                  />
+                  <hr/>
+                  <div className="columns">
+                    <div className="column before">
+                      <p className="has-text-left"><b>Período anterior:</b></p>
+                      <div className="has-text-left">
+                        Aluguel:
+                        <b> { moment(oldstart).format('DD/MM/YYYY') }</b>
+                        <br/>
+                        Devolução:
+                        <b> { moment(oldend).format('DD/MM/YYYY') }</b>
+                      </div>
+                    </div>
+                    <div className="column after">
+                      <p className="has-text-left"><b>Período novo:</b></p>
+                      <div className="has-text-left">
+                        Aluguel:
+                        <b> { endDate !== null ? moment(datesshow.startdate).format('DD/MM/YYYY') : ' - ' }</b>
+                        <br/>
+                        Devolução:
+                        <b> { endDate !== null ? moment(datesshow.enddate).format('DD/MM/YYYY') : ' - ' }</b>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br/>
+                <div className="has-text-centered text-modal">
+                  <Button
+                    type={'submit'}
+                    className={'button is-small is-fullwidth is-success color-logo-lessor'}
+                    text={'Concluir'}
+                    onClick={event => alterDates(rent.id)}
+                  />                      
                 </div>
               </Modal>
 

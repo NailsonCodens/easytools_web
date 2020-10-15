@@ -77,7 +77,9 @@
     ]
   },
   "devDependencies": {
-    "react-snap": "^1.23.0",
+    "@babel/helper-call-delegate": "^7.11.4",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4",
     "redux-devtools": "^3.5.0"
   }
 }

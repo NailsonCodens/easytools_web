@@ -337,6 +337,11 @@
   height: 220px;
 }
 
+.hr-list-address{
+  margin-top: 0px;
+  margin-bottom: -3px;
+}
+
 .client{
   text-transform: uppercase;
   margin: 10px;
@@ -730,8 +735,15 @@ border: 1px solid rgb(230, 230, 230);
   margin-bottom: -17px;
   font-family: 'Poppins', sans-serif !important;
   font-size: 12px;
-  font-weight: bold !important;
+  font-weight: 600 !important;
   color: #60a8f1;
+}
+
+.sub-title-modal-address{
+  margin-top: -30px;
+  font-size: 17px;
+  font-weight: 500;
+  margin-bottom: 20px;
 }
 
 .prodused{

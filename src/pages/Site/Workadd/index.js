@@ -206,6 +206,8 @@ const Workadd = ({rent}) => {
       formik.values.city = address.city
       formik.values.uf = address.state
       setCepsh(true)
+    }).catch(function (error){
+      warning()
     })
   }
 
@@ -306,6 +308,8 @@ const Workadd = ({rent}) => {
       <p className="title-tool-only">
         Onde você deseja receber o equipamento?
       </p>
+
+      <b>Este endereço precisa ser verdadeiro, e ter relação com você ou seu trabalho. <br/> O endereço informado será verificado e em caso de não conformidade com a verdade, <br/> seu aluguel correrá o risco de ser rejeitado.</b>
       <div className="offer">
         <br/>
         {

@@ -13,6 +13,8 @@ import ChangeAccept from './conditionsRent';
 import socketio from '../../../services/socketio';
 import Email from '../../../utils/sendemail';
 import { Paymentlink }from '../../PaymentLink/index';
+import { Form, Input } from '@rocketseat/unform';
+import { useFormik } from 'formik';
 
 import {
   isMobile
@@ -60,6 +62,20 @@ export default function Rents({history}) {
     return () => {
     };
   }, [])
+
+  const formik = useFormik({
+    initialValues: {
+      comment: ''
+    },
+
+    onSubmit: values => {
+      handSubmit(values)
+    }
+  });
+
+  function handSubmit(values) {
+    console.log('')
+  }
 
   const renderPeriod = (period, days, month) => {
     var periodChoose = period
@@ -301,7 +317,33 @@ export default function Rents({history}) {
                             ''
                           )
                         }
-                        <img src={rent.tool.picture[0].url} alt={rent.tool.picture[0].url} />
+                        {
+                          rent.tool.picture[0].url !== undefined ? 
+                          (
+                            <>
+                              <img src={rent.tool.picture[0].url} alt={rent.tool.picture[0].url} />
+                              <Form 
+                              onSubmit={ values => {
+                                formik.handleSubmit(values);
+                              }} 
+                              noValidate
+                              >
+                                <label className="label">Comentário do aluguel</label>
+                                <input className="input" text="comment" name="comment"/>
+                                <button type={'submit'} className={'button is-fullwidth color-logo'}> Adicionar </button>
+                              </Form>                              
+                              <br/>
+                              <div>
+                                Comentários
+                              </div>
+                            </>
+                          )
+                          :
+                          (
+                            <>
+                            </>
+                          )
+                        }
                       </div>
                     </div>
                   </div>
@@ -309,6 +351,7 @@ export default function Rents({history}) {
                     <b>
                       Informações do aluguel:
                     </b>
+  
                     <br/>
                     {
                       'id: ' + rent.id
@@ -625,9 +668,13 @@ export default function Rents({history}) {
                               <div className="column is-3">
                                 <span className="is-text" onClick={event => showselfie()}>Ver selfie</span>
                               </div>
-                              <div className="column is-3">
-                                <span className="is-text" onClick={event => showproof()}>Ver Endereço de uso</span>
-                              </div>
+                              {
+                                /*
+                                  <div className="column is-3">
+                                    <span className="is-text" onClick={event => showproof()}>Ver Endereço de uso</span>
+                                  </div>                                
+                                */
+                              }
                           </div>
                           <Modal
                             show={modal1} 

@@ -10,6 +10,7 @@ import './style.css';
 import {Selfie as Selfieus} from '../../store/actions/selfie';
 import { useLocation } from "react-router-dom";
 import pdf from '../../assets/images/file.png';
+import selfiedoc from '../../assets/images/selfiedoc.png'
 import Resizer from 'react-image-file-resizer';
 
 export default function Selfie({id}) {
@@ -114,6 +115,10 @@ export default function Selfie({id}) {
       <div className="columns">
       <div className="column has-text-centered">
         <div className="has-text-centered"> 
+        <img src={selfiedoc} alt={'Selfie'} className="selfiedoc"/>
+        <p class="has-text-centered">Tire uma selfie sua segurando seu documento aberto.
+        Por favor, retire o documento do plastico.</p>
+        <br/>
             {
               selfie === 'Não adicionado.' ? 
               (<span>{ selfie }</span>)

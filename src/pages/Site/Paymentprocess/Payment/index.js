@@ -72,7 +72,7 @@ const Payment = ({history}) => {
   const [modal, setModal] = useState(false);
   const [aditional, setAditional] = useState(false);
   const [cancel, setCancel] = useState(false);
-  const [valueaditional, setValueaditional] = useState(14);
+  const [valueaditional, setValueaditional] = useState(10);
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -166,7 +166,9 @@ const Payment = ({history}) => {
       || cityverify.city === 'Piraquara' || cityverify.city === 'Araucária' || cityverify.city === 'Quatro Barras'
       || cityverify.city === 'Campina Grande do Sul' || cityverify.city === 'Almirante Tamandaré' || cityverify.city === 'Campo Magro'
       || cityverify.city === 'Fazenda Rio Grande' || cityverify.city === 'Campo Largo') {
-        setModal(true)
+        localStorage.setItem('@mtp', true);
+      }else{
+        localStorage.setItem('@mtp', false);
       }
     }
 
@@ -215,7 +217,7 @@ const Payment = ({history}) => {
         }
       } else {
         if (document !== undefined) {
-          if (document.document !== null && document.selfie !== null && document.proof !== null) {
+          if (document.document !== null && document.selfie !== null) {
             if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
               Scroll()
               addDoc(true)
@@ -302,7 +304,8 @@ const Payment = ({history}) => {
     var startdate = moment(rentattempt.startdate).format('DD/MM/YYYY');
     var enddate = moment(rentattempt.enddate).format('DD/MM/YYYY');
     var title = `${renter} alugou seu equipamento`;
-    var message = `Olá ${lessor}, ${renter} alugou sua ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}.`;
+    var message = `Olá ${lessor}, ${renter} alugou sua ${titletool} com tensão em ${tension} para o período de ${startdate} á ${enddate}.
+    `;
     var maintext = 'Oba, aluguel novo!'
     var urllabel = "Ver aluguel"  
 
@@ -450,22 +453,37 @@ const Payment = ({history}) => {
     var time =  moment(new Date()).format('HH:mm')
     if (time >= '08:00' && time <= '10:00') {
       opt.push({label: 'Manhã - 08:00 às 10:00', value: 'Manhã - 08:00 às 10:00'})
+      opt.push({label: 'Manhã - 10:00 às 12:00', value: 'Manhã - 10:00 às 12:00'})
+      opt.push({label: 'Meio dia - 12:00 às 13:00', value: 'Meio dia - 12:00 às 13:00'})
+      opt.push({label: 'Tarde - 13:00 às 15:00', value: 'Tarde - 13:00 às 15:00'})
+      opt.push({label: 'Tarde - 15:00 às 17:00', value: 'Tarde - 15:00 às 17:00'})
+      opt.push({label: 'Noite - 17:00 às 19:00', value: 'Noite - 17:00 às 19:00'})
     }
 
     if (time >= '10:00' && time <= '12:00') {
       opt.push({label: 'Manhã - 10:00 às 12:00', value: 'Manhã - 10:00 às 12:00'})
+      opt.push({label: 'Meio dia - 12:00 às 13:00', value: 'Meio dia - 12:00 às 13:00'})
+      opt.push({label: 'Tarde - 13:00 às 15:00', value: 'Tarde - 13:00 às 15:00'})
+      opt.push({label: 'Tarde - 15:00 às 17:00', value: 'Tarde - 15:00 às 17:00'})
+      opt.push({label: 'Noite - 17:00 às 19:00', value: 'Noite - 17:00 às 19:00'})
     }
 
     if (time >= '12:00' && time <= '13:00') {
       opt.push({label: 'Meio dia - 12:00 às 13:00', value: 'Meio dia - 12:00 às 13:00'})
+      opt.push({label: 'Tarde - 13:00 às 15:00', value: 'Tarde - 13:00 às 15:00'})
+      opt.push({label: 'Tarde - 15:00 às 17:00', value: 'Tarde - 15:00 às 17:00'})
+      opt.push({label: 'Noite - 17:00 às 19:00', value: 'Noite - 17:00 às 19:00'})
     }
 
     if (time >= '13:00' && time <= '15:00') {
       opt.push({label: 'Tarde - 13:00 às 15:00', value: 'Tarde - 13:00 às 15:00'})
+      opt.push({label: 'Tarde - 15:00 às 17:00', value: 'Tarde - 15:00 às 17:00'})
+      opt.push({label: 'Noite - 17:00 às 19:00', value: 'Noite - 17:00 às 19:00'})
     }
 
     if (time >= '15:00' && time <= '17:00') {
       opt.push({label: 'Tarde - 15:00 às 17:00', value: 'Tarde - 15:00 às 17:00'})
+      opt.push({label: 'Noite - 17:00 às 19:00', value: 'Noite - 17:00 às 19:00'})
     }
 
     if (time >= '17:00' && time <= '19:00') {
@@ -473,7 +491,7 @@ const Payment = ({history}) => {
     }
 
     if (time >= '19:00' && time <= '23:59') {
-      opt.push({label: 'Não temos horário para hoje', value: 'Não temos horário para hoje'})
+      opt.push({label: 'Sua entrega será feita amanhã no primeiro horário', value: 'Sua entrega será feita amanhã no primeiro horário'})
     }
 
     return opt;
@@ -502,39 +520,40 @@ const Payment = ({history}) => {
 
     var kmcurrent = workadd.distance;
 
+    console.log(workadd.distance)
+
+
     var fr = 0;
     var costfreight = 0;
 
     if (kmcurrent >= 0 && kmcurrent < 7) {
+      console.log('não t')
       costfreight = minfreight;
     }else{
-      if (kmcurrent > 7.1 && kmcurrent < 8) {
-        fr = 2.00
+      if (kmcurrent > 7.0 && kmcurrent < 8) {
+        fr = 2.20
       }
 
-      if (kmcurrent > 8.1 && kmcurrent < 10) {
-        fr = 1.90
+      if (kmcurrent > 8.0 && kmcurrent < 10) {
+        fr = 2.00
       }
   
       if (kmcurrent > 10 && kmcurrent < 15) {
-        fr = 1.55
+        fr = 1.60
       }
       
       if (kmcurrent > 15) {
-        fr = 1.43
+        fr = 1.56
       }
   
       if (kmcurrent > 20.0) {
-        fr = 1.35      
+        fr = 1.46      
       }
-
-      console.log(fr)
-      console.log(kmcurrent)
-
       costfreight = fr * kmcurrent;
+
+
     }
 
-    console.log(costfreight)
 
     /* Promoção de entrega a 15 reais */
     //    costfreight = 15;
@@ -543,6 +562,14 @@ const Payment = ({history}) => {
     if (aditional === true) {
       costfreight = costfreight + valueaditional
     }
+
+    if (localStorage.getItem('@mtp') === 'true') {
+      var aditional = 10.0;
+      costfreight = costfreight + aditional;
+    }else {
+      costfreight = costfreight;
+    }
+
 
 
     return costfreight
@@ -708,7 +735,12 @@ const Payment = ({history}) => {
                         )
                     }
                     <br/>
+                    <p className="know">Algumas coisas que você precisa saber:</p>
+                    <br/>
                     <b>* Horário de devolução no mesmo horário da entrega.</b>
+                    <br/>
+                    <br/>
+                    <b>*Pagamento na maquininha e no dinheiro serão pagos diretamente ao entregador no ato da entrega do equipamento.*</b>
                   </>
                 )
                 :
@@ -881,6 +913,9 @@ const Payment = ({history}) => {
                 (
                   <>
                     <div className="columnss box-option-payment">
+                      <div className="box-form-pay">
+                        ** O pagamento se for na maquininha ou no dinheiro, é feito diretamente ao entregador **
+                      </div>
                       <div className={`colunm line-option-payment`} onClick={event => Choosepayment('creditcard')}>
                         <img src={mastercard} className="icon-payment"/>
                         <span>Cartão de crédito</span>
@@ -1088,55 +1123,68 @@ const Payment = ({history}) => {
                 </>
               </div>
               <div className="modal-paymenrent">
-                <Modal 
-                  show={modal} 
-                  onCloseModal={hideRedirect}
-                  closeEscAllowed={false} 
-                  closeOnAllowed={false}
-                >
-                  <h3 className="has-text-centered title is-4">Seu aluguel é para uma região na qual não atuamos :(</h3>
-                  <p>Para que possamos entregar o equipamento neste local, será necessário acrescentar R$ 14,00 no valor da entrega & coleta.</p>
-                  <br/>
-                  <div className="has-text-centered">
-                  <span className="text-adiciontal">
-                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                      <b className="number-delivery">Taxa</b>
-                    </IntlProvider>                    
-                  </span>
-                  <span className="text-adiciontal">
-                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                      <b className="number-delivery">Adicional</b>
-                    </IntlProvider>     
-                  </span>
-                  </div>
-                  <div className="has-text-centered">
-                  <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                    <b className="number-delivery"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
-                  </IntlProvider>
-                    <span className="span-adiciontal">+</span>
-                  <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                    <b className="number-delivery"><FormattedNumber value={14} style="currency" currency="BRL" /></b>
-                  </IntlProvider>     
-                  <br/><span class="valueadtotal">
-                    = <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                      <b className="number-delivery"><FormattedNumber value={renderCalc()+ 14} style="currency" currency="BRL" /></b>
-                    </IntlProvider>.
-                    </span> 
-                  </div>
-                  <br/>
-                  <div className="columns invert">
-                    <div className="column has-text-centered">
-                      <button className={`button is-fullwidth is-primary`} onClick={event=> nextStep()} id="teste">
-                        Ok, Prosseguir
-                      </button>
-                    </div>
-                    <div className="column has-text-centered">
-                      <button className={`button is-fullwidth is-danger`} onClick={event=> cancelStep()}>
-                        Cancelar
-                      </button>
-                    </div>
-                  </div>
-                </Modal>             
+                {
+                  rentattempt.finishprocess === "y" ? 
+                  (
+                    <>
+                    </>
+                  )
+                  :
+                  (
+                    <>
+                      <Modal 
+                        show={modal} 
+                        onCloseModal={hideRedirect}
+                        closeEscAllowed={false} 
+                        closeOnAllowed={false}
+                      >
+                        <h3 className="has-text-centered title is-4">Seu aluguel é para uma região na qual não atuamos :(</h3>
+                        <p>Para que possamos entregar o equipamento neste local, será necessário acrescentar R$ 10,00 no valor da entrega & coleta.</p>
+                        <br/>
+                        <div className="has-text-centered">
+                        <span className="text-adiciontal">
+                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                            <b className="number-delivery">Taxa</b>
+                          </IntlProvider>                    
+                        </span>
+                        <span className="text-adiciontal">
+                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                            <b className="number-delivery">Adicional</b>
+                          </IntlProvider>     
+                        </span>
+                        </div>
+                        <div className="has-text-centered">
+                        <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                          <b className="number-delivery"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
+                        </IntlProvider>
+                          <span className="span-adiciontal">+</span>
+                        <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                          <b className="number-delivery"><FormattedNumber value={10} style="currency" currency="BRL" /></b>
+                        </IntlProvider>     
+                        <br/><span class="valueadtotal">
+                          = <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                            <b className="number-delivery"><FormattedNumber value={renderCalc()+ 10} style="currency" currency="BRL" /></b>
+                          </IntlProvider>.
+                          </span> 
+                        </div>
+                        <br/>
+                        <div className="columns invert">
+                          <div className="column has-text-centered">
+                            <button className={`button is-fullwidth is-primary`} onClick={event=> nextStep()} id="teste">
+                              Ok, Prosseguir
+                            </button>
+                          </div>
+                          <div className="column has-text-centered">
+                            <button className={`button is-fullwidth is-danger`} onClick={event=> cancelStep()}>
+                              Cancelar
+                            </button>
+                          </div>
+                        </div>
+                      </Modal>             
+
+                    </>
+                  )
+                }
               </div>
             </div>
           </>

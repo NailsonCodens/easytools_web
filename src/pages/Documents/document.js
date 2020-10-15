@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {Document as Doc} from '../../store/actions/document';
 import { useLocation } from 'react-router-dom';
 import pdf from '../../assets/images/file.png';
-
+import documentcn from '../../assets/images/documentcn.png';
 import Resizer from 'react-image-file-resizer';
 
 export default function Document({history, id}) {
@@ -117,6 +117,9 @@ export default function Document({history, id}) {
       <div className="columns">
       <div className="column has-text-centered">
         <div className="has-text-centered">
+        <img src={documentcn} alt={'Documento'} className="selfiedoc"/>
+        <p class="has-text-centered">Tire uma selfie sua segurando seu documento aberto.
+        Por favor, retire o documento do plastico.</p>
 
           {
             document === 'Não adicionado.' ? 

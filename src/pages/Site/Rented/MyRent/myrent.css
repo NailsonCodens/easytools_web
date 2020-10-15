@@ -15,8 +15,24 @@
   color: orange;
 }
 
+.before{
+  font-family: 'Poppins', sans-serif !important;
+  background: #FDECF0;
+  color: #F24C60;
+}
+
+.after{
+  font-family: 'Poppins', sans-serif !important;
+  background: #EBFDFC;
+  color: #64D261;
+}
+
 .quit{
   color: red;
+}
+
+.padding-left-bt-detail{
+  margin-left: 15px;
 }
 
 
