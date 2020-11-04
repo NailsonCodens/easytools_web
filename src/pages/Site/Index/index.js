@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../../services/api';
+import ReactDOM from "react-dom";
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import queryString from 'query-string';
@@ -363,8 +364,8 @@ const Dashboard = ({history, location}) => {
                     strings: ['Precisou? Alugue online e sem burocracia.', 'Alugar ferramentas e equipamentos nunca foi tão fácil.'],
                     autoStart: true,
                     loop: true,
-                    delay: 50,
-                    deleteSpeed: 10
+                    delay: 60,
+                    deleteSpeed: 20
                   }}
                 />
               </h3>
@@ -375,7 +376,11 @@ const Dashboard = ({history, location}) => {
                   */
                 }
               <br/>
-              <p className="title-search-geolo">Precisou de uma furadeira? Encontre e alugue aqui!</p>
+              {
+                /*
+                <p className="title-search-geolo">Precisou de ferramentas ou equipamentos? Encontre e alugue aqui!</p>                
+                */
+              }
                 <div className="container container-new">
                   <div className="columns ">
                     <div className="column  bt-ad">
@@ -435,11 +440,18 @@ const Dashboard = ({history, location}) => {
                 }
                 </ul>
               </div>
-              <div className="container container-new">
+              <div className="container">
                 <div className="explanation_box">
-                  <h2 className="minutesrent">Alugue em 5 minutos, <br/> receba em até 1 hora!</h2>
-                  <p className="without">Sem burocracias, sem 24 horas para aprovação.</p>
-                  <br/>
+                  <div className="columns">
+                    <div className="column">
+                      <h2 className="minutesrent">Use ferramentas e só pague pelo tempo que usar!</h2>
+                      <p className="without">Sem burocracias, alugue em 5 minutos e receba em até 2 horas.</p>
+                      <br/>
+                    </div>
+                    <div className="column">
+                      imagem da easy
+                    </div>
+                  </div>
                   {
                     /*
                       <a
@@ -456,13 +468,13 @@ const Dashboard = ({history, location}) => {
                 <br/>
                 <Link
                   to={'/s/about-us'}
-                  className={'button is-dark padding-bt'}
+                  className={'button is-info padding-bt'}
                   onClick={event => Tracking('noid', 'Como funciona', `Como funciona?`) }  
                 >
                   Como funciona
                 </Link>    
                 <button
-                  className={'button is-dark padding-bt'}
+                  className={'button is-info padding-bt'}
                   onClick={event => {
                     Tracking('noid', 'Aréa de atuação', `Aréa de atuação`);
                     clickMap() }
@@ -539,6 +551,12 @@ const Dashboard = ({history, location}) => {
                 <p className="categories-names">Faça você</p>
               </div>
             </div>
+          </div>
+          <br/><br/>
+          <div className="has-text-centered">
+            <a className={`button is-info`} href="https://easytoolsapp.com/s/search/all/equipaments/region">
+              Ver todas ferramentas e equipamentos
+            </a>
           </div>
           <br/>
         </div>
@@ -712,7 +730,6 @@ const Dashboard = ({history, location}) => {
         </Slider>
       </div>
     </div>
-    { console.log(perfil.terms) }
     {
       perfil.terms === null ? 
       (

@@ -96,7 +96,7 @@ const Footer = () => {
 											</li>
 											<li>easytools@gmail.com</li>
 											<li>
-												<a rel="noreferrer" href="https://ff.easytoolsapp.com/" target="_blank">
+												<a rel="noreferrer" href="https://blog.easytoolsapp.com/" target="_blank">
 													Nosso blog ❤️
 												</a>
 											</li>

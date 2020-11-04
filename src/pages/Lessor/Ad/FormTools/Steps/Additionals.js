@@ -128,6 +128,12 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
             </Field>
           </div>
         </div>
+        <div className="columns">
+          <div className="column">
+            <b>Frete do equipamento, valor por KM</b>
+            <input type="text" name="freight" className="input" placeholder="Adicione o frete do equipamento"/>
+          </div>
+        </div>
         <div className="columns margin-title-price column-address">
           <div className="column">
             <Label className="label-perfil" for={'price1'}>

@@ -701,6 +701,15 @@ body{
   width:44% !important;
 }
 
+.textarea2{
+  border: 1px solid #000 !important;
+}
+
+.obsclient{
+  padding: 10px;
+  background: rgb(109, 245, 255);
+}
+
 @media (max-width: 900px) {
   .born{
     display: none!important;

@@ -73,6 +73,7 @@ const Payment = ({history}) => {
   const [aditional, setAditional] = useState(false);
   const [cancel, setCancel] = useState(false);
   const [valueaditional, setValueaditional] = useState(10);
+  const [obs, setObs] = useState('');
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -374,7 +375,8 @@ const Payment = ({history}) => {
         coin: coin,
         typepayment: typepayment,
         periodhour: period,
-        accept: 'F'
+        accept: 'F',
+        obs: obs,
       }  
     } else {
       var rentupdate = {
@@ -385,7 +387,8 @@ const Payment = ({history}) => {
         finishprocess: 'y',
         coin: coin,
         typepayment: typepayment,
-        periodhour: period
+        periodhour: period,
+        obs: obs,
       }  
     }
 
@@ -735,12 +738,19 @@ const Payment = ({history}) => {
                         )
                     }
                     <br/>
+                    <p className="title-tl-input"> Observações: </p>
+                    <br/>
+                    <textarea className="textarea textarea2" value={obs} onChange={event => setObs(event.target.value)} placeholder="Tem algum horário exato que deseja receber ou outra pessoa vai receber por você no local? Nos diga aqui nas observações."></textarea>
+                    <br/>
                     <p className="know">Algumas coisas que você precisa saber:</p>
                     <br/>
                     <b>* Horário de devolução no mesmo horário da entrega.</b>
                     <br/>
                     <br/>
-                    <b>*Pagamento na maquininha e no dinheiro serão pagos diretamente ao entregador no ato da entrega do equipamento.*</b>
+                    {
+                      /* */
+                    }
+                    <b>*Pagamento na maquininha serão pagos diretamente ao entregador no ato da entrega do equipamento.*</b>
                   </>
                 )
                 :
@@ -914,7 +924,7 @@ const Payment = ({history}) => {
                   <>
                     <div className="columnss box-option-payment">
                       <div className="box-form-pay">
-                        ** O pagamento se for na maquininha ou no dinheiro, é feito diretamente ao entregador **
+                        ** Pagamentos na maquininha serão pagos ao entregador no ato da entrega do equipamento. **
                       </div>
                       <div className={`colunm line-option-payment`} onClick={event => Choosepayment('creditcard')}>
                         <img src={mastercard} className="icon-payment"/>
@@ -956,7 +966,10 @@ const Payment = ({history}) => {
                         }
                         <p>Crédito e Débito no recebimento do equipamento</p>
                       </div>
-                      <div className={`colunm line-option-payment ${typepayment === 'money' ? 'money-line' : ''}`} onClick={event => Choosepayment('money')}>
+                      {
+                        /*
+
+                                              <div className={`colunm line-option-payment ${typepayment === 'money' ? 'money-line' : ''}`} onClick={event => Choosepayment('money')}>
                         <img src={money} className="icon-payment"/>
                         <span>Dinheiro</span>
                         {
@@ -998,6 +1011,10 @@ const Payment = ({history}) => {
                           (<></>)
                         }
                       </div>
+
+                        */
+                      }
+
                       {
                         moment.preciseDiff( new Date(), moment(startam).format('YYYY-MM-DD'), true).days > 2 ? 
                         (

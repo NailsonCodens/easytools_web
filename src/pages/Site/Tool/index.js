@@ -9,6 +9,7 @@ import 'react-dates/initialize';
 import { DateRangePicker, toMomentObject } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import './calendar.css'
+import Email from '../../../utils/sendemail';
 import { Rentattempt } from '../../../store/actions/rentattempt.js';
 import moment from 'moment';
 import 'moment/locale/pt-br';
@@ -213,13 +214,13 @@ const Tool = ({history}) => {
         tool: tool.id
       }
 
-      window.location = 'https://api.whatsapp.com/send?phone=41984381802&text=Ol%C3%A1,%20tem%20gente%20no%20site%20tentando%20fazer%20um%20aluguel%20hehe.';
+      Email(tool.user_id, `Alguém tentou alugar um equipamento, corra e veja quem é!`, 
+      `Tentativa de aluguel no site, corre!`, "Ver", 'Veja qual cliente tentou alugar');
 
       localStorage.setItem('@lkst', JSON.stringify(obj));
       next(rentData)  
     }
   })
-
   
   const setLsItem = (url) => {
     localStorage.setItem('@lkt', url);
@@ -471,13 +472,14 @@ const Tool = ({history}) => {
     var startdate = moment(dates.startDate).format('YYYY-MM-DD');
     var enddate = moment(dates.endDate).format('YYYY-MM-DD');
 
-    if (dates.endDate === null && moment(dates.startDate).format('dddd') === 'Sábado') {
+    console.log(moment(dates.startDate).format('dddd'))
+
+    if (dates.endDate === null && moment(dates.startDate).format('dddd') === 'sábado' || dates.endDate === null && moment(dates.startDate).format('dddd') === 'Sábado') {
       console.log('preço promocinal aberto')
       setStartdt(dates.startDate);
       setModal3(true);
-
     }else{
-
+      console.log('erro de comparação')
     }
 
     /*console.log(startdate).day();
@@ -659,14 +661,18 @@ const Tool = ({history}) => {
   }
 
   const blockDays = (day) => {
+
+    console.log(day)
     const dayString = day.format('YYYY-MM-DD');
     //    var arr = ["Sunday"];
     //console.log(moment.weekdays(moment(new Date()).weekday()) === 'Sábado')
 
     if (moment.weekdays(moment(new Date()).weekday()) === 'Sábado' && moment(new Date()).format('H:mm') === '12:00') {
-      return moment.weekdays(day.weekday()) === 'Sábado' || moment.weekdays(day.weekday()) === 'Domingo'
+      return moment.weekdays(day.weekday()) === 'Sábado' || moment.weekdays(day.weekday()) === 'sábado' || moment.weekdays(day.weekday()) === 'domingo' || moment.weekdays(day.weekday()) === 'Domingo'
+     }else if (moment.weekdays(moment(new Date()).weekday()) === 'sábado' && moment(new Date()).format('H:mm') === '12:00') {
+      return moment.weekdays(day.weekday()) === 'Sábado' || moment.weekdays(day.weekday()) === 'sábado' || moment.weekdays(day.weekday()) === 'domingo' || moment.weekdays(day.weekday()) === 'Domingo'
     } else {
-      return moment.weekdays(day.weekday()) === 'Domingo'
+      return moment.weekdays(day.weekday()) === 'Domingo' || moment.weekdays(day.weekday()) === 'domingo'
     }
 
     //var arr = ["2020-06-12", "2020-06-13", "2020-06-23", "2020-06-24", "2020-06-26", "2020-06-27", "2020-06-29", "2020-06-30"];
@@ -999,7 +1005,7 @@ return (
                 </span>
                 <div className="rental-box sticky-inner">
                   <p className={ isMobile === false ? `hd-mobile-tool` : rent === true ? `title-rent is-pulled-left` : `show-mobile`}>
-                    Selecione as datas de aluguel e devolução
+                    Selecione datas de aluguel e devolução
                   </p>
                   <Form
                     onSubmit={ (e, values) => {

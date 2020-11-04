@@ -270,6 +270,17 @@ const Detail = ({history}) => {
           <div className="columns is-desktop ">
             <div className="column is-three-fifths box-inter">
               <div className="container">
+                <b>Frete do equipamento:</b>
+                <div className="columns">
+                  <div className="column">
+                    <input type="text" name="freight" className="input" placeholder="Atualize o frete do seu equipamento"/>
+                    <br/>
+                    <Button
+                      className={'button is-info is-small color-logo-lessor is-pulled-right'}
+                      text={'Salvar Freight'}
+                    />
+                  </div>
+                </div>
                 <p className="tool-datas">
                   <b>Título</b>
                   <br/>
@@ -303,7 +314,6 @@ const Detail = ({history}) => {
                   <b>Preços:</b>
                   <br/>
                   <b> Diária: </b> <span className="money">R$ { prices[0] } </span> <b> Semanal: </b> <span className="money">R$ { prices[1] } </span> <b> Quinzenal: </b> <span className="money">R$ { prices[2] } </span> <b> Mensal: </b> <span className="money">R$ { prices[3] } </span>
-
                 </p>
                 <p className="tool-datas"> 
                   <b> Contrato: </b> { tool.contract === 'Y' ? 'SIM' : 'NÃO' }

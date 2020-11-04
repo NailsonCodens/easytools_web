@@ -278,7 +278,7 @@
 }
 
 .no-top-total{
-  margin-top: -30px !important;
+  margin-top: -50px !important;
 }
 
 .no-padding-tt{
@@ -300,6 +300,11 @@
 
 .DateInput_input{
   font-weight: 500 !important;
+  background: #eeeeee !important;
+}
+
+.DateRangePickerInput{
+  background: #eeeeee !important;  
 }
 
 .DateRangePickerInput__withBorder{
@@ -448,7 +453,7 @@
   }
 
   .page-full-date .mg-button-rt{
-    margin-top: 25px;
+    margin-top: 0px;
   }
 
   .page-full-date .rental-box{
@@ -526,7 +531,7 @@
     margin-top: -5px;
     margin-bottom: 15px;
     color: #60A8F1;
-    font-size: 23px;
+    font-size:19px;
     font-weight: 400;
   }
 
@@ -717,7 +722,7 @@
   }
 
   .tension-dv{
-    background: red !important;
+
   }
   
 }

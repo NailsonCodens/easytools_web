@@ -27,6 +27,7 @@ import logo from '../../../assets/images/logo.png'
 library.add(faUserCircle, faIdCard, faCalendarWeek, faCreditCard, faTruck);
 
 const Newrent = ({history}) => {
+  Scrool(0,0);
 
   const goUsed = (prod) => {
     console.log(prod)
@@ -36,7 +37,6 @@ const Newrent = ({history}) => {
 
   return (
     <> 
-
     {
       <Helmet>
         <title>Alugar não precisa ser burocrático e chato | EasyTools</title>
@@ -55,92 +55,57 @@ const Newrent = ({history}) => {
       <div className="container">
         <div className="container">
           <br/><br/>
-          <h3 className="title-about-us has-text-centered">Precisou de ferramenta? Aluga na EasyTools!</h3>
-          <br/>
-          <p className="has-text-centered sub-title-about-us">Sem papél, sem burocracia, tudo digital.</p>
+          <div className="columns">
+            <div className="column">
+              <h3 className="title-about-us">Use ferramentas e só pague pelo tempo que usar!</h3>
+              <br/>
+              <p className="sub-title-about-us">Contrato online e o equipamento em seu estabelecimento em até 2 horas, enquanto você toma seu cafézinho.</p>
+              <br/>
+              <p className="">
+                Se você pode pedir comida online, por que não equipamentos e ferramentas?
+              </p>
+             </div>
+            <div className="column">
+              Imagem aqui bem legal da empresa.
+            </div>
+          </div>
+          <br/><br/>
         </div>
       <br/><br/>
-      <div className="text-intro">
-        <div className="columns">
-          <div className="column ">
-            <p className="message-about">
-              Se você pode pedir comida online, por que não equipamentos e ferramentas?
-              <br/>
-              Não temos loja física e por isso somos inovadores, atendemos somente online e entregamos em sua casa o produto alugado.
-            </p>
-          </div>
-          {
-            /*
-              <div className="column cl-image">
-                <div className="has-text-centered">
-                  <img src={logo} alt="EasyTools Logo" className="logo-about"/>
-                </div>
-              </div> 
-            */
-          }
-        </div>
-      </div>
       <div className="how-work-it">
-        <p className="how-work-it-text">Como funciona? </p>
+        <p className="title-about-us has-text-centered">Como funciona? </p>
         <br/><br/>
         <div className="columns">
           <div className="column has-text-centered">
-            <FontAwesomeIcon icon={['fas', 'user-circle']} className={'icons-about'} size="3x"/> 
-            <p className="text-how-work">Faça uma conta na EasyTools e adicione seus documentos.</p>
-          </div>
-          <div className="column has-text-centered">
-            <FontAwesomeIcon icon={['fas', 'calendar-week']} className={'icons-about'} size="3x"/>
+            <p className="title-how-work">1° Escolha sua ferramenta. </p>
             <p className="text-how-work">Escolha o equipamento e selecione o período que deseja usar.</p>
           </div>
           <div className="column has-text-centered">
-            <FontAwesomeIcon icon={['fas', 'credit-card']} className={'icons-about'} size="3x"/>
-            <p className="text-how-work">Dentro de alguns minutos, seu aluguel será confirmado e você receberá a opção de pagamento.</p>
+            <p className="title-how-work">2° Data e forma de pagamento. </p>
+            <p className="text-how-work">Escolha a data de aluguel e devolução e a opção de pagamento.</p>
           </div>
           <div className="column has-text-centered">
-            <FontAwesomeIcon icon={['fas', 'truck']} className={'icons-about'} size="3x"/>
-            <p className="text-how-work">Pagamento feito, é só esperar que entregaremos o equipamento em sua casa, em até 2horas. Ah, nós buscamos também.</p>
+            <p className="title-how-work">3° Receba em até 2 horas. </p>
+            <p className="text-how-work">Agora é só esperar que entregaremos o equipamento em seu estabelecimento, em até duas horas.</p>
+          </div>
+          <div className="column has-text-centered">
+            <p className="title-how-work">4° Devolução do alugado. </p>
+            <p className="text-how-work">Logo depois do seu período de uso, nossos entregadores de aplicativo, vão até você retirar o alugado.</p>
           </div>
         </div>
       </div>
+      {
+
+        /*
+        
+        
+        */
+      }
+
       <div className="why-easytools ">
         <div className="columns">
           <div className="column">
           <p className="how-work-it-text">Por que EasyTools? </p>
-        <br/>
-        <ul>
-          <li>
-            <p className="title-name">
-             Menos burocracia (zero papela).
-            </p>
-            <p className="text-h">
-              Chega de demora para alugar um equipamento, online é o futuro e o presente.
-            </p>
-          </li>
-          <li>
-            <p className="title-name">
-              Facilidade.
-            </p>
-            <p className="text-h">
-              Facilidade e agilidade para você e seu negócio.
-            </p>
-          </li>
-          <li>
-            <p className="title-name">
-              Confiamos em você.
-            </p>
-            <p className="text-h">
-              Na EasyTools o foco é em você, e nós confiamos que cuidará do nosso equipamento como se fosse seu.
-            </p>
-          </li>
-          <li>
-            <p className="title-name">
-              Liberdade digital.
-            </p>
-            <p className="text-h">
-              Chega de papelada, seu contrato agora é digital.
-            </p>
-          </li>
-        </ul>
           <br/><br/>
           <div className="container has-text-centered">
           <ScrollableAnchor id={'atuation'}>
@@ -152,8 +117,12 @@ const Newrent = ({history}) => {
           <br/><br/>
           <div className="container">
           <p className="title-index has-text-centered"> Escolha e alugue </p>
+          <div className="has-text-centered">
+            <a className={`button is-info`} href="https://easytoolsapp.com/s/search/all/equipaments/region">
+              Ver todas ferramentas e equipamentos
+            </a>
+          </div>
           <div className={isMobile === true ? 'table-container' : ''}>
-
           <div className={ isMobile === true ? "columns is-desktop is-mobile": "columns is-desktop is-mobile is-multiline"}>
             <div className="column column-cs-mobile is-7-mobile is-one-fifth-desktop has-text-centered line-tools prodused" onClick={event => goUsed('equipaments')}>
               <img src={all}  alt="EasyTools Logo" className=""/>
@@ -196,7 +165,11 @@ const Newrent = ({history}) => {
                 <p>aspirador de pó</p>
             </div>
           </div>
-
+          <div className="has-text-centered">
+            <a className={`button is-info`} href="https://easytoolsapp.com/s/search/all/equipaments/region">
+              Ver todas ferramentas e equipamentos
+            </a>
+          </div>
             {
               /*
             <div className="columns is-multiple is-mobile is-desktop">

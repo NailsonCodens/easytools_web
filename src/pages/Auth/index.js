@@ -218,7 +218,7 @@ const Signin = ({ hs, url, closeModal }) => {
         last_name: '-',
         email: fb.email,
         password: fb.accessToken,
-        terms: 'Y',
+        terms: null,
         marketing: 'Y',
         type: 'Renter',
         fbuserid: fb.id,

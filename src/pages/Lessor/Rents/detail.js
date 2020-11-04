@@ -610,6 +610,15 @@ export default function Rents({history}) {
                               </>
                             )
                           }
+                          <br/><br/>
+                          <div className="obsclient">
+                            <b>OBSERVAÇÕES DO CLIENTE: </b>
+                            <p>
+                              {
+                                rent.obs !== '' ? rent.obs : 'Sem observações'
+                              }
+                            </p>
+                          </div>
                         </div>
                         <div className="column">
                           {

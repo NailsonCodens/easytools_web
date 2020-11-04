@@ -1,8 +1,9 @@
 .title-about-us{
-  font-size: 45px;
+  font-size: 50px;
   font-weight: 600;
   font-family: 'Poppins', sans-serif !important; 
   margin-bottom: -20px;
+  color: #000 !important;
 }
 
 .cl-text p {
@@ -85,10 +86,20 @@
   color: #60a8f1;
 }
 
-.text-how-work{
-  font-size: 16px;
+
+.title-how-work{
+  font-weight: bold;
   font-family: 'Poppins', sans-serif !important; 
   margin-top: 20px;
+  font-size: 22px;
+  color: #000;
+}
+
+.text-how-work{
+  font-size: 17px;
+  font-family: 'Poppins', sans-serif !important; 
+  margin-top: 20px;
+  color: rgb(67, 67, 67);
 }
 
 

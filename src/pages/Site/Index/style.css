@@ -781,11 +781,10 @@ border: 1px solid rgb(230, 230, 230);
 }
 
 .explanation_box{
-  background:#FFD237;
-  padding: 25px 0px;
+  background:#FAFAF8;
   width: 100%;
-  margin-top: 0px;
-  text-align: center !important;
+  margin-top: -30px;
+  text-align: left !important;
 }
 
 .toolcity{

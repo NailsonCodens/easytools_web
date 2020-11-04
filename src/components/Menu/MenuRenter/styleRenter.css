@@ -207,6 +207,9 @@
   color: #fff !important;
 }
 
+.link-how-work{
+}
+
 @media (max-width: 900px) {
   .navbar-menu.is-active{
     display: inline !important;
