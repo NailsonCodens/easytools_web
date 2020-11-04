@@ -19,6 +19,7 @@ import cashback from '../../../assets/images/cashback.jpg';
 import {Viewsearch} from '../../../store/actions/viewsearch';
 import logo from '../../../assets/images/easytools_yellow.png'
 import lixadeira from '../../../assets/images/lixadeira.jpg'; 
+import logo_front from '../../../assets/images/image_front.png';
 import Modal from '../../../components/Modal';
 import furadeira from '../../../assets/images/furadeira.jpg'; 
 import martelete from '../../../assets/images/martelete.jpg'; 
@@ -449,7 +450,7 @@ const Dashboard = ({history, location}) => {
                       <br/>
                     </div>
                     <div className="column">
-                      imagem da easy
+                      <img src={logo_front}  alt="EasyTools Logo" className="image_easy_index"/>
                     </div>
                   </div>
                   {

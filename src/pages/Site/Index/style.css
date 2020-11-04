@@ -787,6 +787,14 @@ border: 1px solid rgb(230, 230, 230);
   text-align: left !important;
 }
 
+.image_easy_index{
+  margin-top: -50px;
+}
+
+.image_easy_index_aboutus{
+  margin-top: -100px;
+}
+
 .toolcity{
   margin-top: 20px;
   margin-bottom: -15px;
@@ -831,6 +839,15 @@ border: 1px solid rgb(230, 230, 230);
     width: 100%;
     margin-top: -110px;
     text-align: center !important;
+  }
+
+
+  .image_easy_index{
+    margin-top: -10px;
+  }
+  
+  .image_easy_index_aboutus{
+    margin-top: -40px;
   }
   
   .minutesrent{

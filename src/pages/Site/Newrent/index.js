@@ -14,6 +14,7 @@ import esmerilhadeira from '../../../assets/images/esmerilhadeira.jpg';
 import plaina from '../../../assets/images/plaina.jpg';
 import ticotico from '../../../assets/images/ticotico.jpg';
 import aspirador from '../../../assets/images/aspirador.jpg';
+import logo_front_aboutus from '../../../assets/images/imagem_front_aboutus.png';
 import wap from '../../../assets/images/wap.jpg';
 import extratora from '../../../assets/images/extratora.jpg'; 
 import gardening from '../../../assets/images/gardening.jpg';
@@ -66,7 +67,7 @@ const Newrent = ({history}) => {
               </p>
              </div>
             <div className="column">
-              Imagem aqui bem legal da empresa.
+              <img src={logo_front_aboutus}  alt="EasyTools Logo" className="image_easy_index_aboutus"/>
             </div>
           </div>
           <br/><br/>
