@@ -70,7 +70,6 @@ const Newrent = ({history}) => {
               <img src={logo_front_aboutus}  alt="EasyTools Logo" className="image_easy_index_aboutus"/>
             </div>
           </div>
-          <br/><br/>
         </div>
       <br/><br/>
       <div className="how-work-it">
@@ -94,20 +93,20 @@ const Newrent = ({history}) => {
             <p className="text-how-work">Logo depois do seu período de uso, nossos entregadores de aplicativo, vão até você retirar o alugado.</p>
           </div>
         </div>
+        <br/><br/>
+        <div className="has-text-centered">
+          <a className={`button is-info`} href="https://easytoolsapp.com/s/search/all/equipaments/region">
+            Ver todas ferramentas e equipamentos
+          </a>
+        </div>
       </div>
-      {
-
-        /*
-        
-        
-        */
-      }
-
       <div className="why-easytools ">
         <div className="columns">
           <div className="column">
-          <p className="how-work-it-text">Por que EasyTools? </p>
-          <br/><br/>
+          <br/>
+          <div className="bk-why">
+            <p class="has-text-centered text-why-easytools">Poder usar qualquer ferramenta sem precisar comprar é a melhor coisa. <br/> Use seu dinheiro com sabedoria!</p>
+          </div>
           <div className="container has-text-centered">
           <ScrollableAnchor id={'atuation'}>
             <div></div>

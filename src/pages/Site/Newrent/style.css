@@ -10,6 +10,34 @@
   text-align: left;
 }
 
+.bk-why{
+  margin-top: 40px;
+  color: #60a8f1;
+  padding: 40px 20px; 
+  font-family: 'Poppins', sans-serif !important; 
+  margin-bottom: 50px;
+  font-weight: bold;
+}
+
+.text-why-easytools{
+
+  font-size: 35px;
+  margin-bottom: 30px;
+  font-family: 'Poppins', sans-serif !important; 
+}
+
+.easy-title-a{
+  color: #fff !important;
+}
+
+.txt-why-easy-child{
+  font-size: 24px;
+  text-align: center;
+  font-weight: bold !important;
+  font-family: 'Poppins', sans-serif !important; 
+
+}
+
 .sub-title-about-us{
   font-size: 20px;
   font-weight: 300;
