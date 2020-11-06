@@ -71,6 +71,12 @@ const Newrent = ({history}) => {
             </div>
           </div>
         </div>
+        <div className="has-text-centered">
+          <a className={`button is-info`} href="https://easytoolsapp.com/s/search/all/equipaments/region">
+            Ver todas ferramentas e equipamentos
+          </a>
+        </div>
+
       <br/><br/>
       <div className="how-work-it">
         <p className="title-about-us has-text-centered">Como funciona? </p>
@@ -94,11 +100,6 @@ const Newrent = ({history}) => {
           </div>
         </div>
         <br/><br/>
-        <div className="has-text-centered">
-          <a className={`button is-info`} href="https://easytoolsapp.com/s/search/all/equipaments/region">
-            Ver todas ferramentas e equipamentos
-          </a>
-        </div>
       </div>
       <div className="why-easytools ">
         <div className="columns">

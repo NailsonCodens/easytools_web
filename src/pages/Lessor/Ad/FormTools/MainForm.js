@@ -74,6 +74,8 @@ const Main = ({history, tool}) => {
   const [follow, setFollow] = useState('');
   // eslint-disable-next-line
   const [accessory, setAccessory] = useState('');
+
+  const [freight, setFreight] = useState('');
   // eslint-disable-next-line
   const [edit, setEdit] = useState(false);
 
@@ -114,6 +116,7 @@ const Main = ({history, tool}) => {
       lng: 0,
       availability: 'Y',
       situation: 'Y',
+      freight: '',
     },
     onSubmit: value => {
     }
@@ -189,6 +192,7 @@ const Main = ({history, tool}) => {
           formik.values.neighboor = tool.neighboor
           formik.values.lat = tool.lat
           formik.values.lng = tool.lng
+          formik.values.freight = tool.freight
           setEdit(true)
           return ''
         })
@@ -361,6 +365,11 @@ const Main = ({history, tool}) => {
     formik.values.accessory = accessory
   }
 
+  const handleFreightChange = (freight) => {
+    setFreight(freight)
+    formik.values.freight = freight
+  }
+
   const handleChange = (input, event) => {
     switch(input){
       case 'title': 
@@ -450,6 +459,9 @@ const Main = ({history, tool}) => {
           break;
       case 'accessory':
           handleAccessoryChange(event)
+          break;
+      case 'freight':
+        handleFreightChange(event)
           break;
       default: 
         return ''

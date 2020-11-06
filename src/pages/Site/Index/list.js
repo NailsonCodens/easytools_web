@@ -311,64 +311,88 @@ const List = ({history}) => {
 		})
   }
 
-  const renderDelivery = (km) => {
+  const renderDelivery = (km, freighttool, city) => {
+    var frtool = freighttool === null ? '2,00' : freighttool
 
-    
-    var kmregional = 7
+    var kmregional = 5
 
-    var minfreight = userconfig.min !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 14;
+    var minfreight = userconfig.min !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 20;
 
-    var perkm = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1.40;
+    var perkm = frtool !== undefined ? parseFloat(frtool.replace(/\./gi,'').replace(/,/gi,'.')) : 1.40;
     var kmdelivery = parseFloat(km).toFixed(2);
+    perkm = parseFloat(perkm).toFixed(2);
 
     var delivery = 0;
+    var increase = 0;
 
-
-      if (kmdelivery >= 0 && kmdelivery < 7) {
+      if (kmdelivery >= 0 && kmdelivery < 4) {
         delivery = minfreight;
       }else{
-        if (kmdelivery > 7.0 && kmdelivery < 8) {
-          perkm = 2.20
+        if (kmdelivery > 4.0 &&  kmdelivery < 5) {
+          increase = 120; //%
+          perkm = parseFloat(perkm) + parseFloat(perkm) * increase / 100
+        }
+
+        if (kmdelivery > 5.0 &&  kmdelivery < 6) {
+          increase = 94; //%
+          perkm = parseFloat(perkm) + parseFloat(perkm) * increase / 100
+        }
+
+        if (kmdelivery > 6.0 && kmdelivery < 8) {
+          increase = 60; //%
+          perkm = parseFloat(perkm) + parseFloat(perkm) * increase / 100
         }
 
         if (kmdelivery > 8.0 && kmdelivery < 10) {
-          perkm = 2.00
+          increase = 37; //%
+          perkm = parseFloat(perkm) + parseFloat(perkm) * increase / 100
         }
-    
-        if (kmdelivery > 10 && kmdelivery < 15) {
-          perkm = 2.00
+
+        if (kmdelivery > 10.0 && kmdelivery < 13) {
+          increase = 18; //%
+          perkm = parseFloat(perkm) + parseFloat(perkm) * increase / 100
+        } 
+
+        if (kmdelivery > 13.0 && kmdelivery < 15.0) {
+          increase = 4; //%
+          perkm = parseFloat(perkm) + parseFloat(perkm) * increase / 100
         }
         
         if (kmdelivery > 15) {
-          perkm = 1.56
+          increase = 4; //%
+          perkm = parseFloat(perkm) + parseFloat(perkm) * increase / 100
         }
     
         if (kmdelivery > 20.0) {
-          perkm = 1.48     
+          increase = 0; //%
+          perkm = parseFloat(perkm) + parseFloat(perkm) * increase / 100
         }
 
         delivery = kmdelivery * perkm;
-
       }
 
       var lat = localStorage.getItem('@lt')
       var lng = localStorage.getItem('@lg')
-
          
       var deliveryteste = delivery.toFixed(2).replace(/\./gi,',').replace(/,/gi,',')
     
       if (localStorage.getItem('@mtp') === 'true') {
-        var aditional = 10.0;
-        delivery = delivery + aditional;
+        var citym = localStorage.getItem('@cmtp');
+
+        let found = citym.toLowerCase()
+        .includes(city.toLowerCase());
+        console.log(found)
+
+        if (!found) {
+          var aditional = 10.0;
+          delivery = delivery + aditional;  
+        }
       }else {
         delivery = delivery;
       }
 
-      console.log(deliveryteste)
       var deliveryfinal = delivery.toFixed(2).replace(/\./gi,',').replace(/,/gi,',')
 
-      console.log(deliveryfinal)
-    
     return 'R$ ' + deliveryfinal
   }
 
@@ -397,7 +421,6 @@ const List = ({history}) => {
     find(category, titlest)
 
 
-
     if (citymetropolitan === 'São José dos Pinhais' || 
     citymetropolitan === 'Colombo' 
     || citymetropolitan === 'Piraquara' || citymetropolitan === 'Araucária' || citymetropolitan === 'Quatro Barras'
@@ -405,6 +428,7 @@ const List = ({history}) => {
     || citymetropolitan === 'Fazenda Rio Grande' || citymetropolitan === 'Campo Largo') {
       setModalmetropolitan(true)
       localStorage.setItem('@mtp', true);
+      localStorage.setItem('@cmtp', citymetropolitan);
     }else{
       localStorage.setItem('@mtp', false);
       setModalmetropolitan(false)
@@ -440,6 +464,7 @@ const List = ({history}) => {
           || getCity.text == 'Campina Grande Do Sul' || getCity.text == 'Almirante Tamandaré' || getCity.text == 'Campo Magro'
           || getCity.text == 'Fazenda Rio Grande' || getCity.text == 'Campo Largo') {
             localStorage.setItem('@mtp', true);
+            localStorage.setItem('@cmtp', getCity.text);
             setMetropolitan(true)
           }else{
             localStorage.setItem('@mtp', false);
@@ -759,7 +784,8 @@ const List = ({history}) => {
                           <span>A</span> { tool.distance.toFixed(2) < 4 ? '4.0' : tool.distance.toFixed(2) }<span> km </span> 
                         </span>
                         <span className="freight-tl ">
-                          { renderDelivery(tool.distance.toFixed(2)) }
+                          { console.log(tool) }
+                          { renderDelivery(tool.distance.toFixed(2), tool.freight, tool.city) }
                             <span> Entrega & Coleta</span>
                         </span>
                         <span className="freight-tl tl-hour">

@@ -46,7 +46,6 @@ const Finish = ({handleChange, prevStep, values}) => {
   })
 
   async function saveTools (values) {
-    console.log(values.category)
     if (Array.isArray(values.category)) {
       var cat = [];
       values.category.map(function(categorie){

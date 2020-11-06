@@ -27,6 +27,7 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
       delivery: '',
       contract: '',
       devolution: '',
+      freight: '',
     },
     validationSchema: Yup.object({
       price1: Yup.string().required('Adicione o valor da diária por favor.')
@@ -54,6 +55,8 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
     } else if (type === 'checkbox') {
       ev = event.target
     } else if (type === 'price') {
+      ev = event
+    }else if (type === 'freight') {
       ev = event
     } else {
       ev = event.target.value
@@ -89,6 +92,9 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
         break;
       case 'devolution': 
         formik.values.devolution = ev
+        break;
+      case 'freight': 
+        formik.values.freight = ev
         break;
       default:
         return '';
@@ -130,8 +136,25 @@ const Additionals = ({nextStep, handleChange, prevStep, values}) => {
         </div>
         <div className="columns">
           <div className="column">
-            <b>Frete do equipamento, valor por KM</b>
-            <input type="text" name="freight" className="input" placeholder="Adicione o frete do equipamento"/>
+            <b>Fte do equipamento, valor por KM</b>
+            <CurrencyInput
+              name="price1"
+              type="text"
+              decimalSeparator="," thousandSeparator="."
+              placeholder="R$ 3,00"
+              className={formik.touched.freight && formik.errors.freight ? 'input border-warning' : 'input'}
+              onChange={event => handleChangeAdditionals('freight', event, 'freight')}
+              value={values.freight}
+            />
+            <Span className={'validation-warning'}>
+              {
+              formik.touched.freight && formik.errors.freight
+              ? 
+                (<div>Por favor adicione o valor do frete.</div>) 
+              : 
+                null
+              }
+            </Span>      
           </div>
         </div>
         <div className="columns margin-title-price column-address">

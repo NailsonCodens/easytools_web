@@ -6,18 +6,23 @@ import { Form } from '@rocketseat/unform';
 import Notification from '../../../utils/notification';
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import CurrencyInput from 'react-currency-input';
 import { Warningtext } from '../../../components/Warningtext';
 import api from '../../../services/api';
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import Title from '../../../utils/title';
 import { getAddress } from '../../../services/mapbox';
 import Availability from './btAvailability';
+import Scroll from '../../../utils/scroll';
 import Resizer from 'react-image-file-resizer';
 import {Photo1} from '../../../store/actions/photo1';
 import {Photo2} from '../../../store/actions/photo2';
 import {Photo3} from '../../../store/actions/photo3';
+import { Span } from '../../../components/Span';
 
 const Detail = ({history}) => {
+
+
   let { id } = useParams();
 
   const pt1 = useSelector(state => state.photo1);
@@ -40,6 +45,7 @@ const Detail = ({history}) => {
   const [photo1, setPhoto1] = useState('');
   const [photo2, setPhoto2] = useState('');
   const [photo3, setPhoto3] = useState('');
+  const [freight, setFreight]  = useState(0);
 
   const success = () => Notification(
     'success',
@@ -58,9 +64,9 @@ const Detail = ({history}) => {
     }
   )
 
-  const success2 = () => Notification(
+  const success2 = ($text = 'Imagens atualizadas com sucesso!') => Notification(
     'success',
-    'Imagens atualizadas com sucesso!', 
+    $text, 
     {
       autoClose: 1500,
       draggable: false,
@@ -82,7 +88,7 @@ const Detail = ({history}) => {
       document.title = Title(response.data.tool[0].title);
       setTool(response.data.tool[0])
       console.log(response.data.tool[0].category);
-
+      setFreight(response.data.tool[0].freight)
       setPrices(response.data.tool[0].prices.split(';'))
     }
 
@@ -188,7 +194,7 @@ const Detail = ({history}) => {
     })
     savedb(data)  
   }
-
+  
   async function savedb (pictures) {
     if (imgtool.length > 0) {
       await api.put(`tools/images/update/`, pictures, {
@@ -215,6 +221,28 @@ const Detail = ({history}) => {
         console.log(err.response)
       }) 
     }
+  }
+
+  const handleSubmit = (values) => {
+    Scroll(400, 400);    
+    if (freight === 0 || freight === '0,00' || freight === '0' || freight === '') {
+      setFreight(false);
+    }
+    UpdateTool();
+  }
+
+  async function UpdateTool () {
+    var values = {
+      freight: freight,      
+    }
+
+    await api.put(`tools/update/freight/${id}`, values, {})
+    .then((res) => {
+        console.log(res)
+        success2('Frete alterado com sucesso')
+    }).catch((err) => {
+      console.log(err.data)
+    })
   }
 
   const showAddress = () => {
@@ -270,15 +298,40 @@ const Detail = ({history}) => {
           <div className="columns is-desktop ">
             <div className="column is-three-fifths box-inter">
               <div className="container">
-                <b>Frete do equipamento:</b>
+                <b>Frete do equipamento por KM:</b>
+                <p>Exemplo: R$ 2,00 por KM</p>
                 <div className="columns">
                   <div className="column">
-                    <input type="text" name="freight" className="input" placeholder="Atualize o frete do seu equipamento"/>
-                    <br/>
-                    <Button
-                      className={'button is-info is-small color-logo-lessor is-pulled-right'}
-                      text={'Salvar Freight'}
-                    />
+                    <Form
+                      onSubmit={ (e, values) => {
+                        handleSubmit(values)
+                      }} 
+                      noValidate
+                    >
+                      <CurrencyInput
+                        name="price1"
+                        type="text"
+                        decimalSeparator="," thousandSeparator="."
+                        placeholder="R$ 3,00"
+                        className={freight === false ? 'input border-warning' : 'input'}
+                        onChange={event => setFreight(event)}
+                        value={freight}
+                      />
+                      <Span className={'validation-warning'}>
+                        {
+                          freight === false
+                        ? 
+                          (<div>Por favor adicione o valor do frete.</div>) 
+                        : 
+                          null
+                        }
+                      </Span>      
+                      <br/>
+                      <Button
+                        className={'button is-info is-small color-logo-lessor is-pulled-right'}
+                        text={'Salvar frete'}
+                      />
+                    </Form>
                   </div>
                 </div>
                 <p className="tool-datas">
