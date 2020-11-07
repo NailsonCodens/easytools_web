@@ -130,9 +130,11 @@ const List = ({history}) => {
         getAddress(lng, lat).then(res => {
           var city = ''
           const getCity = res.data.features.find(city => city.id.includes('place'));
-  
-          city = getCity.text.replace(/\s+/g, '-').toLowerCase();
-          history.push(`/s/search/${category}/${titlest}/${city}`)
+
+          if (localStorage.getItem('@mtp') === true) {
+            city = getCity.text.replace(/\s+/g, '-').toLowerCase();
+            history.push(`/s/search/${category}/${titlest}/${city}`)  
+          }
         })
         setModal(false)
         setMyaddress('')
@@ -190,17 +192,18 @@ const List = ({history}) => {
         getAddress(lng, lat).then(res => {
           var city = ''
           const getCity = res.data.features.find(city => city.id.includes('place'));  
-
-          if (getCity.text == 'São José dos Pinhais' || 
-          getCity.text == 'Colombo' 
-          || getCity.text == 'Piraquara' || getCity.text == 'Araucária' || getCity.text === 'Quatro Barras'
-          || getCity.text == 'Campina Grande Do Sul' || getCity.text == 'Almirante Tamandaré' || getCity.text == 'Campo Magro'
-          || getCity.text == 'Fazenda Rio Grande' || getCity.text == 'Campo Largo') {
-            localStorage.setItem('@mtp', true);
-            setMetropolitan(true)
-          }else{
-            localStorage.setItem('@mtp', false);
-            setMetropolitan(false)
+          if (localStorage.getItem('@mtp') === true) {
+            if (getCity.text == 'São José dos Pinhais' || 
+            getCity.text == 'Colombo' 
+            || getCity.text == 'Piraquara' || getCity.text == 'Araucária' || getCity.text === 'Quatro Barras'
+            || getCity.text == 'Campina Grande Do Sul' || getCity.text == 'Almirante Tamandaré' || getCity.text == 'Campo Magro'
+            || getCity.text == 'Fazenda Rio Grande' || getCity.text == 'Campo Largo') {
+              localStorage.setItem('@mtp', true);
+              setMetropolitan(true)
+            }else{
+              localStorage.setItem('@mtp', false);
+              setMetropolitan(false)
+            }
           }
         })
       }
@@ -379,13 +382,15 @@ const List = ({history}) => {
       if (localStorage.getItem('@mtp') === 'true') {
         var citym = localStorage.getItem('@cmtp');
 
-        let found = citym.toLowerCase()
-        .includes(city.toLowerCase());
-        console.log(found)
-
-        if (!found) {
-          var aditional = 10.0;
-          delivery = delivery + aditional;  
+        if (citym !== null) {
+          let found = citym.toLowerCase()
+          .includes(city.toLowerCase());
+          console.log(found)
+  
+          if (!found) {
+            var aditional = 10.0;
+            delivery = delivery + aditional;  
+          }  
         }
       }else {
         delivery = delivery;
@@ -854,9 +859,9 @@ const List = ({history}) => {
       <Modal 
         show={modal} 
         onCloseModal={hideRedirect}
-        closeEscAllowed={localStorage.getItem('@lt') !== null ? true : false} 
-        closeOnAllowed={localStorage.getItem('@lt') !== null ? true : false}
-        showCloseIcon={localStorage.getItem('@lt') !== null ? true : false}
+        closeEscAllowed={localStorage.getItem('@lt') !== '' ? true : false} 
+        closeOnAllowed={localStorage.getItem('@lt') !== '' ? true : false}
+        showCloseIcon={localStorage.getItem('@lt') !== '' ? true : false}
       >
         <h3 className="has-text-centered title is-4">Onde você está?</h3>
         <br/>

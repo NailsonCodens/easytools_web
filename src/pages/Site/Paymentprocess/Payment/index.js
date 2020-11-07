@@ -155,7 +155,6 @@ const Payment = ({history}) => {
     }
 
     async function loadWorkadduser (rentid, lat, lng) {
-
       const responseworkadd = await api.get(`/workadd/${rentid}?lat=${lat}&lng=${lng}`, {
       });
       setWorkaddshow(responseworkadd.data.workadd[0].distance.toFixed(2))
@@ -507,15 +506,20 @@ const Payment = ({history}) => {
 
   const renderCalc = () => {
 
+    var frtool = tool.freight === null ? '2,00' : tool.freight
+
+    
     var kmregional = 5
 
     var freight = '';
     var minfreight = ''; 
+    var increase = 0;
+    var fr = 0;
 
 
     if (userconfig !== undefined) {
-      freight = userconfig.freight !== undefined ? parseFloat(userconfig.freight.replace(/\./gi,'').replace(/,/gi,'.')) : 1.40;
-      minfreight = userconfig.freight !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 14;
+      fr = frtool !== undefined ? parseFloat(frtool.replace(/\./gi,'').replace(/,/gi,'.')) : 1.40;
+      minfreight = userconfig.min !== undefined ? parseFloat(userconfig.min.replace(/\./gi,'').replace(/,/gi,'.')) : 14;
     } else {
       freight = 1;
       minfreight = 5;
@@ -523,52 +527,75 @@ const Payment = ({history}) => {
 
     var kmcurrent = workadd.distance;
 
-    console.log(workadd.distance)
 
-
-    var fr = 0;
     var costfreight = 0;
 
-    if (kmcurrent >= 0 && kmcurrent < 7) {
-      console.log('não t')
+    
+    if (kmcurrent >= 0 && kmcurrent < 4) {
       costfreight = minfreight;
     }else{
-      if (kmcurrent > 7.0 && kmcurrent < 8) {
-        fr = 2.20
+      if (kmcurrent > 4.0 &&  kmcurrent < 5) {
+        increase = 120; //%
+        fr = parseFloat(fr) + parseFloat(fr) * increase / 100
+      }
+
+      if (kmcurrent > 5.0 &&  kmcurrent < 6) {
+        increase = 94; //%
+        fr = parseFloat(fr) + parseFloat(fr) * increase / 100
+      }
+
+      if (kmcurrent > 6.0 && kmcurrent < 8) {
+        increase = 60; //%
+        fr = parseFloat(fr) + parseFloat(fr) * increase / 100
       }
 
       if (kmcurrent > 8.0 && kmcurrent < 10) {
-        fr = 2.00
+        increase = 37; //%
+        fr = parseFloat(fr) + parseFloat(fr) * increase / 100
       }
-  
-      if (kmcurrent > 10 && kmcurrent < 15) {
-        fr = 1.60
+
+      if (kmcurrent > 10.0 && kmcurrent < 13) {
+        increase = 18; //%
+        fr = parseFloat(fr) + parseFloat(fr) * increase / 100
+      } 
+
+      if (kmcurrent > 13.0 && kmcurrent < 15.0) {
+        increase = 4; //%
+        fr = parseFloat(fr) + parseFloat(fr) * increase / 100
       }
       
       if (kmcurrent > 15) {
-        fr = 1.56
+        increase = 4; //%
+        fr = parseFloat(fr) + parseFloat(fr) * increase / 100
       }
   
       if (kmcurrent > 20.0) {
-        fr = 1.46      
+        increase = 0; //%
+        fr = parseFloat(fr) + parseFloat(fr) * increase / 100
       }
+
       costfreight = fr * kmcurrent;
-
-
     }
-
 
     /* Promoção de entrega a 15 reais */
     //    costfreight = 15;
-    
-
+  
     if (aditional === true) {
       costfreight = costfreight + valueaditional
     }
 
     if (localStorage.getItem('@mtp') === 'true') {
-      var aditional = 10.0;
-      costfreight = costfreight + aditional;
+      var citym = localStorage.getItem('@cmtp');
+      if (tool.city !== undefined) {
+        let found = citym.toLowerCase()
+        .includes(tool.city.toLowerCase());
+        console.log(found)
+  
+        if (!found) {
+          var aditional = 10.0;
+          costfreight = costfreight + aditional;  
+        }
+      }
     }else {
       costfreight = costfreight;
     }

@@ -93,6 +93,11 @@ const Dashboard = ({history, location}) => {
 
   useEffect(() => {
     Scrool()
+    localStorage.removeItem('@mtp')
+    localStorage.removeItem('@cmtp')
+    localStorage.removeItem('@lg')
+    localStorage.removeItem('@lt')
+
     /*
     async function loadCoords () {
       navigator.geolocation.getCurrentPosition(
