@@ -780,6 +780,15 @@ border: 1px solid rgb(230, 230, 230);
   font-size: 17px;
 }
 
+
+.without2{
+  font-family: 'Poppins', sans-serif !important;
+  color: #000;
+  font-size: 17px;
+  margin-top: -45px !important;
+  margin-bottom: 30px;
+}
+
 .explanation_box{
   background:#FAFAF8;
   width: 100%;
@@ -831,6 +840,33 @@ border: 1px solid rgb(230, 230, 230);
   font-size: 14px !important;
   margin-right: 0px;
 }
+
+.cl-blog .column{
+  cursor: pointer;
+  border:1px solid rgb(230, 230, 230);
+  margin: 5px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+
+.box-img-blog{
+  height: 460px;
+}
+
+.text-boxs-blog{
+  padding-left: 10px;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 23px;
+  font-weight: bold;
+  color: #000;
+}
+
+
+.boxs-blog{
+
+}
+
 
 @media (max-width: 900px) {
   .explanation_box{

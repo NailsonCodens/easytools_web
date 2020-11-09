@@ -2,7 +2,7 @@ import React from 'react'
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Scrool from '../../utils/scroll';
-
+import Blog from '../../pages/Site/Index/Blog';
 import { Ul } from '../../components/List/index';
 import { Hr } from '../../components/Hr';
 
@@ -29,6 +29,7 @@ const Footer = () => {
 				'' 
 				: 
 				<footer className="footer">
+					<Blog/>
 					<div className="whatsapp-help">
 						{
 							location === '/' ? 
