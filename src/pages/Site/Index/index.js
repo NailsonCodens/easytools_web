@@ -535,7 +535,7 @@ const Dashboard = ({history, location}) => {
           {
             viewsearch === ''? 
             (
-              <h3 className="title-index">O que você precisa alugar?</h3>
+              <h3 className="title-index">O que você precisa?</h3>
             )
             :
             (

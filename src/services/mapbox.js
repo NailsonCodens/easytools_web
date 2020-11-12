@@ -2,7 +2,7 @@ import api from '../services/api';
 const token = process.env.REACT_APP_TOKEN_MAPBOX;
 
 export const getCordinates = (query) => {
-  const response = api.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${token}`, {
+  const response = api.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?country=br&routing=true&access_token=${token}`, {
   });
   return response
 }

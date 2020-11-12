@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faMapMarkedAlt, faStopwatch, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from "react-redux";
+import { isMobile } from 'react-device-detect';
 import Modal from '../../../components/Modal';
 import {Latitude} from '../../../store/actions/latitude';
 import {Longitude} from '../../../store/actions/longitude';
@@ -854,6 +855,33 @@ const List = ({history}) => {
               </div> 
             ))
           }            
+        </div>
+        <div className="has-text-centered">
+          <div className="columns">
+            <div className="column">
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfRH_Gi5cIoSdaaUxdT8KN0t9eQ3kOcRloiIJJkrnkkweOQmA/viewform" 
+                target="_blank"
+                rel="noreferrer"
+                className={'button is-black'}
+              >
+                {
+                  isMobile ? 
+                  (
+                    <>
+                      Não encontrou? Nos avise.
+                    </>
+                  )
+                  :
+                  (
+                    <>
+                      Não achou o que precisava? Nos avise.
+                    </>
+                  )
+                }
+              </a>
+            </div>
+          </div>
         </div>
       </div>
       <Modal 

@@ -40,7 +40,7 @@ const Newrent = ({history}) => {
     <> 
     {
       <Helmet>
-        <title>Alugar não precisa ser burocrático e chato | EasyTools</title>
+        <title>Sua caixa de ferramentas na nuvem | EasyTools</title>
         <meta
           name="description"
           content="Conheça por que e para que nós existimos. Conheça nossa história"
@@ -58,7 +58,7 @@ const Newrent = ({history}) => {
           <br/><br/>
           <div className="columns">
             <div className="column">
-              <h3 className="title-about-us">Use ferramentas e só pague pelo tempo que usar!</h3>
+              <h3 className="title-about-us">Sua caixa de ferramentas na nuvem.</h3>
               <br/>
               <p className="sub-title-about-us">Contrato online e o equipamento em seu estabelecimento em até 2 horas, enquanto você toma seu cafézinho.</p>
               <br/>
