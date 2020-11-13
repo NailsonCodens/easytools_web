@@ -11,7 +11,15 @@ export const TextArea = props => (
 export const Select = props => (
   <div className="select">
     <select className={props.class} name={props.name} onChange={console.log(props.onChange)}>
-      { props.options.map(option => <option key={option.value} value={option.value}>{ option.label }</option>) }
+      { props.options.map(option => <option key={option.value} value={option.value} >{ option.label }</option>) }
+    </select>
+  </div>
+);
+
+export const Selectdisabled = props => (
+  <div className="select">
+    <select className={props.class} name={props.name} onChange={console.log(props.onChange)}>
+      { props.options.map(option => <option key={option.value} value={option.value} disalbed>{ option.label }</option>) }
     </select>
   </div>
 );

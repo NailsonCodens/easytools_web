@@ -5,7 +5,7 @@ import mundo from '../../../assets/images/mundo.jpg';
 const Blog = () => {
   return (
     <div className="container">
-      <p className="title-index has-text-centered">Dicas do nosso blog</p>
+      <p className="title-index-blog has-text-centered">Dicas do nosso blog</p>
       <p className="without2">Em nosso blog você vai encontrar muitas dicas e conteúdos úteis para sua vida.</p>
       <div className="columns cl-blog">
         <div className="column">

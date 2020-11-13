@@ -74,6 +74,7 @@ const Payment = ({history}) => {
   const [cancel, setCancel] = useState(false);
   const [valueaditional, setValueaditional] = useState(10);
   const [obs, setObs] = useState('');
+  const [hourdevolution, setHourdevolution] = useState('Manhã - 08:00 às 10:00');
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -334,6 +335,10 @@ const Payment = ({history}) => {
 
   const handleChangePeriod = (option) => {
     setPeriod(option.value);
+
+    var d = moment(startam).format('YYYY-MM-DD') === moment(endam).format('YYYY-MM-DD') ? '' : setHourdevolution(option.value)
+
+    
   }
 
   const Openpayment = () => {
@@ -747,7 +752,7 @@ const Payment = ({history}) => {
                               className={''}
                               options={renderOption()}
                               isSearchable={true}
-                              placeholder={'Começo da manhã - 08:00 às 10:00'}
+                              placeholder={'Ex: Começo da manhã - 08:00 às 10:00'}
                               onChange={selectedOption => {
                                 handleChangePeriod(selectedOption);
                               }}
@@ -765,14 +770,46 @@ const Payment = ({history}) => {
                         )
                     }
                     <br/>
-                    <p className="title-tl-input"> Observações: </p>
+                    {
+                      moment(startam).format('YYYY-MM-DD') === moment(endam).format('YYYY-MM-DD') ?
+                      (
+                        <>
+                          <p className="warning-dates-equals">
+                            *Para entrega e coleta no mesmo dia, o horário de devolução só pode ser a noite das 17:00 às 18:00*
+                          </p>
+                          <br/>
+                          <p className="title-tl-input"> Devolução do equipamento </p>
+                          <br/>
+                          <Select
+                            className={''}
+                            options={[
+                              {label: 'Noite - 17:00 às 18:00', value: 'Noite - 17:00 às 18:00'}, 
+                            ]}
+                            defaultValue={{label: 'Noite - 17:00 às 18:00', value: 'Noite - 17:00 às 18:00'}}
+                            isSearchable={true}
+                            placeholder={'Ex: Noite - 17:00 às 18:00'}
+                          />
+                        </>
+                      )
+                      :
+                      (
+                        <>
+                          <p className="title-tl-input"> Devolução do equipamento </p>
+                          <br/>
+                            <p className="notation-devolution">{ hourdevolution } da data da devolução</p>
+                        </>
+                      )
+                    }
+                    <br/>
+                    <p className="title-tl-input"> Observações </p>
                     <br/>
                     <textarea className="textarea textarea2" value={obs} onChange={event => setObs(event.target.value)} placeholder="Tem algum horário exato que deseja receber ou outra pessoa vai receber por você no local? Nos diga aqui nas observações."></textarea>
                     <br/>
                     <p className="know">Algumas coisas que você precisa saber:</p>
                     <br/>
-                    <b>* Horário de devolução no mesmo horário da entrega.</b>
+                    <b>* Horário de devolução no mesmo horário da entrega, exceto para devoluções o no mesmo dia.</b>
                     <br/>
+                    <p>* Para devoluções no mesmo dia o horário de devolução deve ser às 18:00 horas.</p>
                     <br/>
                     {
                       /* */
@@ -1183,7 +1220,7 @@ const Payment = ({history}) => {
                         closeOnAllowed={false}
                       >
                         <h3 className="has-text-centered title is-4">Seu aluguel é para uma região na qual não atuamos :(</h3>
-                        <p>Para que possamos entregar o equipamento neste local, será necessário acrescentar R$ 10,00 no valor da entrega & coleta.</p>
+                        <p>Para que possamos entregar o equipamento neste local, será necessário acrescentar R$ 10,00 no valor da entrega & devolução.</p>
                         <br/>
                         <div className="has-text-centered">
                         <span className="text-adiciontal">

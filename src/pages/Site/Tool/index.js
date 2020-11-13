@@ -109,6 +109,7 @@ const Tool = ({history}) => {
   const [modal, setModal] = useState(false);
   const [modal2, setModal2] = useState(false);
   const [modal3, setModal3] = useState(false);
+  const [modal4, setModal4] = useState(false);
   //const [url, setUrl] = useState('');
   const [isSticky, setSticky] = useState(false);
   const [dataLessor, setDatalessor] = useState([]);
@@ -696,6 +697,11 @@ const Tool = ({history}) => {
     return modal3
   }
 
+  const hideModal4 = () => {
+    setModal4(false)
+    return modal4
+  }
+
   const activeDiscorcert = () => {
     setModal3(false)    
     setPromotional(true)
@@ -727,6 +733,7 @@ const Tool = ({history}) => {
     })
 
     setModal3(false);
+    setModal4(true);
   }
 
   const desactiveDisconcert = () => {
@@ -1477,6 +1484,20 @@ return (
         <div className={isMobile === false ? "hd-mobile" : "div-button-rent"}>
           <a className="button is-fullwidth color-logo" onClick={event => (setRent(true), Scrool(0,0))}>Reservar</a>
         </div>
+        <Modal
+          show={modal4}
+          onCloseModal={hideModal4} 
+          closeOnEsc={true} 
+          closeOnOverlayClick={true}
+        > 
+          <p class="title-disconcert">Você escolheu a devolução do equipamento no mesmo dia.</p>
+          <br/>
+          <p class="has-text-centered">O horário para devolução do equipamento no mesmo dia é <b className="hourmodalfor">18:00 horas</b></p>
+          <br/>
+          <p className="has-text-centered">Após confirmar clicando em <b>"ok, estou ciente"</b>, clique em <b>"prosseguir"</b> para concluir sua reserva.</p>
+          <br/>
+          <Button className="button is-info is-fullwidth" onClick={event => setModal4(false)} text={'Ok, estou ciente.'}/>
+        </Modal>
         <Modal
           show={modal3} 
           onCloseModal={hideModal3} 

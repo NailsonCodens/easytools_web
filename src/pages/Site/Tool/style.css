@@ -307,6 +307,18 @@
   background: #eeeeee !important;  
 }
 
+.hourmodalfor{
+  font-size: 20px;
+}
+
+.notation-devolution{
+  color: #ff7518;
+}
+
+.warning-dates-equals{
+  color: #ff7518;
+}
+
 .DateRangePickerInput__withBorder{
   border: 1px solid rgb(70, 70, 70);
 }
