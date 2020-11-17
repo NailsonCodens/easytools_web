@@ -27,8 +27,8 @@ const Ticotico = ({history}) => {
   return (
     <>
       <Helmet>
-        <title>Aluguel tico tico em Curitiba | EasyTools locadora online</title>
-        <meta name="title" content="Aluguel tico tico em Curitiba | EasyTools locadora online"/>
+        <title>Peça tico tico em Curitiba | Caixa de ferramenta online</title>
+        <meta name="title" content="Peça tico tico em Curitiba | Caixa de ferramenta online"/>
         <meta name="description" content="Em Curitiba a variedade de serras tico tico na EasyTools para você locar e usar, Cortar tudo. Muito usado para DIY, dá para fazer muitas coisas com uma serra tico tico. Em Curitiba"/>
         <meta name="keywords" content="aluguel serra tico tico,aluguel tico tico em curitiba,cortar, cortar madeira tico tico em curitiba,cortar metal tico tico em curitiba, aluguel,cortar serra tico tico em curitiba, serra em curitiba"/>
         <meta name="robots" content="index,follow"/>

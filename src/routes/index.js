@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom';
-
 import Startpoint from '../pages/Startpoint/index';
 import Site from '../pages/Site/Start/index';
 import SingUp from '../pages/Signup/index';

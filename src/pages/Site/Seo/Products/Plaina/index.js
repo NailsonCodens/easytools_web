@@ -26,9 +26,9 @@ const Plaina = ({history}) => {
   return (
     <>
       <Helmet>
-        <title>Aluguel plaina | EasyTools locadora online</title>
-        <meta name="title" content="Aluguel plaina | EasyTools locadora online"/>
-        <meta name="description" content="Em Curitiba a variedade de plaina na EasyTools para você locar e usar, A plaina é uma ótima ferramenta para retirar sobras de madeiras, de portas e etc, com a plaina você consegue alinhar sua porta ou madeira. Em Curitiba"/>
+        <title>Peça plaina | Caixa de ferramenta online</title>
+        <meta name="title" content="Peça plaina | Caixa de ferramenta online"/>
+        <meta name="description" content="Caixa de ferramenta online Em Curitiba a variedade de plaina na EasyTools para você locar e usar, A plaina é uma ótima ferramenta para retirar sobras de madeiras, de portas e etc, com a plaina você consegue alinhar sua porta ou madeira. Em Curitiba"/>
         <meta name="keywords" content="aluguel plaina,aluguel plaina em curitiba,alinhar, tirar ondulação da porta em curitiba, plaina elétrica em curitiba, aluguel, desgastar porta com plaina em curitiba, desbasta em curitiba,plaina alinhar madeira buchuda em curitiba"/>
         <meta name="robots" content="index,follow"/>
       </Helmet>

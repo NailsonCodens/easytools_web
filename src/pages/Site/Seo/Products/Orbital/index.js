@@ -26,8 +26,8 @@ const Orbital = ({history}) => {
   return (
     <>
       <Helmet>
-        <title>Aluguel lixadeira Orbital | EasyTools locadora online</title>
-        <meta name="title" content="Aluguel lixadeira Orbital em Curitiba | EasyTools locadora online"/>
+        <title>Peça lixadeira Orbital | Caixa de ferramenta online</title>
+        <meta name="title" content="Peça lixadeira Orbital em Curitiba | Caixa de ferramenta online"/>
         <meta name="description" content="Em Curitiba lixadeira orbital disponiveis para locação. Alugue lixadeira orbital para lixar paredes, massa corrida, drywall e muito mais. Em Curitiba"/>
         <meta name="keywords" content="aluguel lixadeira orbital,aluguel lixadeira,aluguel orbital,aluguel lixadeira orbital em curitiba,orbital,lixar parede em curitiba,lixa de parede em curitiba, aluguel,lixa em curitiba"/>
         <meta name="robots" content="index,follow"/>

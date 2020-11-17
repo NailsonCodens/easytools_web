@@ -334,8 +334,8 @@ const Dashboard = ({history, location}) => {
     { 
       <Helmet>
         <title>Aluguel delivery de equipamentos e ferramentas! | EasyTools</title>
-        <meta name="description" content="EasyTools, Alugue com facilidade, ferramentas e equipamentos que voc&ecirc; e seu neg&oacute;cio precisam! Precisou furar uma parede, consertar o guarda-roupa e não tem a ferramenta necessária? Alugue na EasyTools."/> 
-        <meta name="keywords" content="Ferramenta fácil, Aluguel, Roçadeira, Aluguel Roçadeira, Aluguel de equipamentos em Curitiba, ALuguel de lixadeira, aluguel de extratora, limpa sofá curitiba, alugar furadeira, alugar aspirador, alugar martelete, Aluguel equipamento curitiba, Aluguel motossera, Aluguel extratora, aluguel limpadora de sofá, aluguel de ferramentas, furadeira, app d ealuguel, aplicativo de aluguel de ferramentas,  Aluguel Online, Aluguel On-line, Aluguel furdeira, aluguel aspirador de pó, aluguel ferramenta, equipamento, betoneira, aluguel de equipamento online, locação, construção civil, extratora de sujeira, limpeza de sofá, locação curitiba, locacao curitiba, aluguel de ferramentas, aluguel de equipamentos, aluguel, alugar objetos, alugar produtos, allugator, olx, locação, classificados, alugar, grátis, anuncie, anúncios, alugue, equipamentos, construção, como ganhar uma renda extra,  aluguel compartilhado,  o que alugar para ganhar dinheiro,  aluguel de objetos,  aluguel de produtos,  olx aluguel, olx, alooga, allugator, easyrental."/> 
+        <meta name="description" content="EasyTools, sua caixa de ferramenta na nuvem! Precisou de ferramentas e equipamentos? Peça na EasyTools."/> 
+        <meta name="keywords" content="Caixa de ferramenta, caixa de ferramentas, Ferramenta fácil, Aluguel, Roçadeira, Aluguel Roçadeira, Aluguel de equipamentos em Curitiba, ALuguel de lixadeira, aluguel de extratora, limpa sofá curitiba, alugar furadeira, alugar aspirador, alugar martelete, Aluguel equipamento curitiba, Aluguel motossera, Aluguel extratora, aluguel limpadora de sofá, aluguel de ferramentas, furadeira, app d ealuguel, aplicativo de aluguel de ferramentas,  Aluguel Online, Aluguel On-line, Aluguel furdeira, aluguel aspirador de pó, aluguel ferramenta, equipamento, betoneira, aluguel de equipamento online, locação, construção civil, extratora de sujeira, limpeza de sofá, locação curitiba, locacao curitiba, aluguel de ferramentas, aluguel de equipamentos, aluguel, alugar objetos, alugar produtos, allugator, olx, locação, classificados, alugar, grátis, anuncie, anúncios, alugue, equipamentos, construção, como ganhar uma renda extra,  aluguel compartilhado,  o que alugar para ganhar dinheiro,  aluguel de objetos,  aluguel de produtos,  olx aluguel, olx, alooga, allugator, easyrental, caixa de ferramenta na nuvem."/> 
         <meta name="robots" content=""/> 
         <meta name="revisit-after" content="1 day"/> <meta name="language" content="Portuguese"/>
       </Helmet>
@@ -346,7 +346,7 @@ const Dashboard = ({history, location}) => {
           <div className="warning-unavailable">
             <div className="columns">
               <div className="column is-10">
-                A ferramenta que você deseja está indisponível no momento, tente alugar de outro vizinho logo a baixo.
+                A ferramenta que você deseja está indisponível no momento, tente reservar de outro vizinho logo a baixo.
               </div>
               <div className="column">
                 <div className="is-pulled-right close-unavailable" onClick={event => goIndex()}></div>
@@ -367,7 +367,7 @@ const Dashboard = ({history, location}) => {
               <h3 className="title-index">
                 <Typewriter
                   options={{
-                    strings: ['Precisou? Alugue online e sem burocracia.', 'Alugar ferramentas e equipamentos nunca foi tão fácil.'],
+                    strings: ['Sua caixa de ferramentas na nuvem.', 'Usar ferramentas nunca foi tão fácil.'],
                     autoStart: true,
                     loop: true,
                     delay: 60,
@@ -451,7 +451,7 @@ const Dashboard = ({history, location}) => {
                   <div className="columns">
                     <div className="column">
                       <h2 className="minutesrent">Use ferramentas e só pague pelo tempo que usar!</h2>
-                      <p className="without">Sem burocracias, alugue em 5 minutos e receba em até 2 horas.</p>
+                      <p className="without">Sem burocracias, peça em 5 minutos e receba em até 2 horas.</p>
                       <br/>
                     </div>
                     <div className="column">
@@ -571,14 +571,14 @@ const Dashboard = ({history, location}) => {
           viewsearch === ''? 
           (
             <div className="container howwork">
-              <p className="title-index has-text-centered">Como alugar na EasyTools?</p>
+              <p className="title-index has-text-centered">Como funciona a EasyTools?</p>
               <div className="columns has-text-centered">
                 <div className="column">
                   <ul className="ul-howwork">
-                    <li className="title-ul-how"> <FontAwesomeIcon icon={['fas', 'mouse-pointer']} className="icon-index" size="2x"/> Escolha o que deseja alugar.</li>
+                    <li className="title-ul-how"> <FontAwesomeIcon icon={['fas', 'mouse-pointer']} className="icon-index" size="2x"/> Escolha o qual ferramenta precisa usar.</li>
                     <li>
-                      Escolha o que deseja alugar.
-                      Acesse sua conta e escolha o equipamento desejado: furadeira, extratora, Wap... Temos tudo que você precisa. Aluguel na hora, sem demora e sem burocracia. Adeus orçamento!
+                      Escolha o que deseja usar.
+                      Acesse sua conta e escolha o equipamento desejado: furadeira, extratora, Wap... Temos tudo que você precisa. Peça uma ferramenta sem demora e sem burocracia no seu conforto. 
                     </li>
                   </ul>
                 </div>
@@ -587,7 +587,7 @@ const Dashboard = ({history, location}) => {
                     <li className="title-ul-how"><FontAwesomeIcon icon={['fas', 'calendar-alt']} className="icon-index" size="2x"/> Selecione o período de uso.</li>
                     <li>
                       Selecione o período de uso.
-                      Escolha o período que deseja usar o item alugado. Os períodos são: diária, semanal, quinzenal e mensal. Finalize o seu pedido e espere pelo retorno da EasyTools sobre o aluguel (em média 5 min).
+                      Escolha o período que deseja usar a ferramenta reservada. Os períodos são: diária, semanal, quinzenal e mensal. Finalize o seu pedido e espere pelo retorno da EasyTools sobre o pedido de uso (em média 5 min).
                     </li>
                   </ul>
                 </div>
@@ -595,7 +595,7 @@ const Dashboard = ({history, location}) => {
                   <ul className="ul-howwork">
                     <li className="title-ul-how"><FontAwesomeIcon icon={['fas', 'truck-loading']} className="icon-index" size="2x"/> Receba em casa.</li>
                     <li>
-                      Depois do pedido aceito, acesse "Meus alugados" e pague o aluguel. Pagamento confirmado, preparamos o equipamento e levamos até você. Também buscamos!
+                      Depois do pedido aceito, acesse "Minhas ferramentas" e pague o aluguel. Pagamento confirmado, preparamos o equipamento e levamos até você. Também buscamos!
                     </li>
                   </ul>
                 </div>
@@ -657,7 +657,7 @@ const Dashboard = ({history, location}) => {
       </div>
       <br/><br/>
       <div className="container">
-      <p className="title-index has-text-centered"> Os mais alugados do mês </p>
+      <p className="title-index has-text-centered"> Os mais usados do mês </p>
         <div className={isMobile === true ? 'table-container' : ''}>
           <div className={ isMobile === true ? "columns is-desktop is-mobile": "columns is-desktop is-mobile is-multiline"}>
           <div className="column column-cs-mobile is-7-mobile is-one-fifth-desktop has-text-centered line-tools prodused" onClick={event => goUsed('roçadeira')}>

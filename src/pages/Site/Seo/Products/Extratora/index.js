@@ -25,8 +25,8 @@ const Extratora = ({history}) => {
   return (
     <>
       <Helmet>
-        <title>Aluguel extratora de estofado se carpet | EasyTools locadora online</title>
-        <meta name="title" content="Aluguel extratora de estofados | EasyTools locadora online"/>
+        <title>Peça extratora de estofado se carpet | EasyTools Caixa de ferramenta online</title>
+        <meta name="title" content="Peça extratora de estofados | EasyTools Caixa de ferramenta online"/>
         <meta name="description" content="Em Curitiba a EasyTools tem uma variedade de extratoras para você locar e limpar o banco do seu carro, o seu sofá e muito mais, . Em Curitiba"/>
         <meta name="keywords" content="aluguel extratora,aluguel de extratora,extratora para estofados,limpa sofá,máquina de limpar sofá,extratora para limpar banco de carro,extratora para limpar tapete,aluguel extratora curitiba, extratora wap curitiba"/>
         <meta name="robots" content="index,follow"/>

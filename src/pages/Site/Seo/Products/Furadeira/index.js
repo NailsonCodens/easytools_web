@@ -27,9 +27,9 @@ const Furadeira = ({history}) => {
   return (
     <>
       <Helmet>
-        <title>Aluguel furadeira | EasyTools</title>
-        <meta name="title" content="Aluguel furadeira | EasyTools locadora online"/>
-        <meta name="description" content="Em Curitiba a variedade de furadeiras na EasyTools para você locar e usar, permite furos em diversos diâmetros e profundidas. As furadeiras podem ser utilizados para furar metal, furar madeira, furar concreto e furar pedra. Em Curitiba"/>
+        <title>Peça furadeira | EasyTools Caixa de ferramenta online</title>
+        <meta name="title" content="Peça furadeira | EasyTools Caixa de ferramenta online"/>
+        <meta name="description" content="Caixa de ferramenta online Em Curitiba a variedade de furadeiras na EasyTools para você locar e usar, permite furos em diversos diâmetros e profundidas. As furadeiras podem ser utilizados para furar metal, furar madeira, furar concreto e furar pedra. Em Curitiba"/>
         <meta name="keywords" content="aluguel furadeira,aluguel furadeira em curitiba,furar, furar madeira em curitiba,furar metal em curitiba, aluguel,furar parede em curitiba, furar mármore em curitiba, furadeira bosh em curitiba"/>
         <meta name="robots" content="index,follow"/>
       </Helmet>

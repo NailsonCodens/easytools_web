@@ -5,6 +5,29 @@ body{
   background: #FAFAF8 !important;
 }
 
+.alert {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 3px;
+  z-index: 999;
+  position: fixed;
+  top:70px;
+  left: 0%;
+  margin: 10px;
+  border: 1px solid #c0c0c0;
+}
+
+.span-sw{
+  font-size: 13px;
+  margin-right: 10px;
+}
+
+.divupdat{
+  background: red;
+  height: 300px;
+  width: 100%;
+}
+
 .container-bottom{
   padding: 20px;
 }
@@ -12,7 +35,6 @@ body{
 .invert{
   flex-direction: row-reverse !important;
 }
-
 
 *:focus {
   border-color: inherit !important;
@@ -711,6 +733,24 @@ body{
 }
 
 @media (max-width: 900px) {
+
+  .alert {
+    width: 100%;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 3px;
+    z-index: 999;
+    position: fixed;
+    left: 0%;
+    top: 60px;
+    margin: 10px;
+  }
+
+  .span-sw{
+    font-size: 12px;
+    margin-right: 10px;
+  }
+
   .born{
     display: none!important;
   }

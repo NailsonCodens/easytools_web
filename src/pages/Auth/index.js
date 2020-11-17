@@ -355,7 +355,7 @@ const Signin = ({ hs, url, closeModal }) => {
           </div>
           <br/>
           <div className="has-text-centered">
-            <Span>Ainda não tem uma conta na EasyTools? </Span>
+            <Span>Ainda não tem uma conta na EasyTools?</Span>
             <p onClick={event => goRegister()} className="button is-fullwidth is-info"><Span className="button-enter">Cadastre-se</Span></p>
           </div>
           <div className="has-text-centered mwd-opacity-low">

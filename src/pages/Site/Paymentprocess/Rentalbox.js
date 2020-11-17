@@ -343,7 +343,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
             <p className="title-tool-rules">{ tool.title }</p>
             <div className="columns is-mobile">
               <div className="column">
-                <b> Aluguel </b> <p className="dt-sd">{ moment(startDate).format('DD/MM/YYYY') }</p>
+                <b> Uso </b> <p className="dt-sd">{ moment(startDate).format('DD/MM/YYYY') }</p>
               </div>
               <div className="column">
                 <b> Devolução </b> <p className="dt-sd">{ moment(endDate).format('DD/MM/YYYY') }</p>                    

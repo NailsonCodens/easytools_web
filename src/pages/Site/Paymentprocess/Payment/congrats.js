@@ -58,17 +58,17 @@ const Congrats = () => {
   return (
     <div className="container">
         <Helmet>
-          <title>{ 'Parabéns, seu aluguel foi enviado' }</title>
+          <title>{ 'Parabéns, sua reserva foi enviado' }</title>
         </Helmet>
         <div className="container">
-          <h1 className="reserve">Sua reserva de aluguel foi enviada, aguarde. </h1>
+          <h1 className="reserve">Sua reserva foi enviada, aguarde. </h1>
         </div>
         <div className="columns invert">
           <div className="column is-4">
             <div className="column has-centered-text">
             <div className="column">
               <div className="rental-box">
-                Código do alugado: { attempt.codeattempt }
+                Código da reserva: { attempt.codeattempt }
                 <div className="columns is-desktop is-mobile">
                   <div className="column">
                     <img src={tool.picture1} alt={tool.picture1} className="" />
@@ -83,7 +83,7 @@ const Congrats = () => {
                 <p className="title-tool-rules">{ tool.title }</p>
                 <div className="columns is-mobile">
                   <div className="column">
-                    <b> Aluguel </b> <br/> { moment(attempt.startdate).format('DD/MM/YYYY') }
+                    <b> Uso </b> <br/> { moment(attempt.startdate).format('DD/MM/YYYY') }
                   </div>
                   <div className="column">
                     <b> Devolução </b> <br/> { moment(attempt.enddate).format('DD/MM/YYYY') }                    
@@ -177,24 +177,24 @@ const Congrats = () => {
           </div>
           <div className="column">
             <div className="explorer">
-              <b>Código do alugado: { attempt.codeattempt }</b>
-              <h1 className="rentandnow">Aguarde, estamos processando seu aluguel, você será notificado em até 10 minutos.</h1>
+              <b>Código da reserva: { attempt.codeattempt }</b>
+              <h1 className="rentandnow">Aguarde, estamos processando seu pedido, você será notificado em até 10 minutos.</h1>
               <p className="text-congrats">Fique ligado, você vai receber uma notificação aqui na plataforma e por e-mail quando o pedido for processado.</p>
               <br/>
-              <p className="rentandnow">Aluguei e agora, como eu pago? </p>
+              <p className="rentandnow">Pedi a ferramenta e agora, como eu pago? </p>
               <p className="text-rentandnow">
                 Fique tranquilo, seu pedido está sendo processado. 
                 <b> Para cartão de crédito e boleto direto na plataforma </b>
-                Você receberá uma notificação para pagamento quando seu aluguel for aprovado.
+                Você receberá uma notificação para pagamento quando seu pedido for aprovado.
                 <br/>
                 <b> Para maquininha ou dinheiro </b>
                 Neste caso seu, o seu pagamento só será processado quando entrar o valor ao entregador do equipamento ou passar seu cartão na maquininha.
                 <br/><br/>
-                Caso queira ver, ou <b>cancelar</b>, ou <b>pagar em caso de cartão de crédito ou boleto direto na plataforma </b> seu aluguel basta ir em <b>"Meus alugados" -> Detalhes e acessar o seu alugado</b>.
+                Caso queira ver, ou <b>cancelar</b>, ou <b>pagar em caso de cartão de crédito ou boleto direto na plataforma </b> sua reserva basta ir em <b>"Minhas ferramentas" -> Detalhes e acessar o seu pedido</b>.
               </p>
               <br/>
               <p className="rentandnow">Quanto tempo demora ? </p>
-              <p>Nosso prazo de retorno é de 10 minutos no primeiro aluguel. Nos próximos alugueis, será processado instântaneamente.</p>
+              <p>Nosso prazo de retorno é de 10 minutos na primeira reserva. Nas próximas reservas, será processado instântaneamente.</p>
               <br/><br/>
               {
                 /*

@@ -699,7 +699,7 @@ const Payment = ({history}) => {
                     <ScrollableAnchor id={'hour'}>
                       <div></div>
                     </ScrollableAnchor>
-                    <p className="title-tool-only-little"> Entrega e coleta do equipamento </p>
+                    <p className="title-tool-only-little"> Entrega e coleta da ferramenta </p>
                     <br/>
                     <span className=""></span>
                     <span className="valuefreight">{
@@ -713,7 +713,7 @@ const Payment = ({history}) => {
                       <b className="number-delivery"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
                     </IntlProvider>;
                     <hr/>
-                    <p className="title-tl-input">Recebimento do equipamento</p>
+                    <p className="title-tl-input">Recebimento do ferramenta</p>
                     <br/>
                     {
                          new Date(moment(startam).format('YYYY-MM-DD')) > new Date(moment().format('YYYY-MM-DD')) === true ?
@@ -778,7 +778,7 @@ const Payment = ({history}) => {
                             *Para entrega e coleta no mesmo dia, o horário de devolução só pode ser a noite das 17:00 às 18:00*
                           </p>
                           <br/>
-                          <p className="title-tl-input"> Devolução do equipamento </p>
+                          <p className="title-tl-input"> Devolução do ferramenta </p>
                           <br/>
                           <Select
                             className={''}
@@ -794,7 +794,7 @@ const Payment = ({history}) => {
                       :
                       (
                         <>
-                          <p className="title-tl-input"> Devolução do equipamento </p>
+                          <p className="title-tl-input"> Devolução do ferramenta </p>
                           <br/>
                             <p className="notation-devolution">{ hourdevolution } da data da devolução</p>
                         </>
@@ -814,7 +814,7 @@ const Payment = ({history}) => {
                     {
                       /* */
                     }
-                    <b>*Pagamento na maquininha serão pagos diretamente ao entregador no ato da entrega do equipamento.*</b>
+                    <b>*Pagamento na maquininha serão pagos diretamente ao entregador no ato da entrega da ferramenta.*</b>
                   </>
                 )
                 :
@@ -870,7 +870,7 @@ const Payment = ({history}) => {
                 <p className="title-tool-rules">{ tool.title }</p>
                 <div className="columns is-mobile">
                   <div className="column">
-                    <b> Aluguel </b> <br/> { start }
+                    <b> Uso </b> <br/> { start }
                   </div>
                   <div className="column">
                     <b> Devolução </b> <br/> { end }                    
@@ -988,7 +988,7 @@ const Payment = ({history}) => {
                   <>
                     <div className="columnss box-option-payment">
                       <div className="box-form-pay">
-                        ** Pagamentos na maquininha serão pagos ao entregador no ato da entrega do equipamento. **
+                        ** Pagamentos na maquininha serão pagos ao entregador no ato da entrega da ferramenta. **
                       </div>
                       <div className={`colunm line-option-payment`} onClick={event => Choosepayment('creditcard')}>
                         <img src={mastercard} className="icon-payment"/>
@@ -1028,7 +1028,7 @@ const Payment = ({history}) => {
                             </>
                           )
                         }
-                        <p>Crédito e Débito no recebimento do equipamento</p>
+                        <p>Crédito e Débito no recebimento da ferramenta</p>
                       </div>
                       {
                         /*
@@ -1177,7 +1177,7 @@ const Payment = ({history}) => {
                   (
                     <>
                       <div className="column biis-hidden-bottom">
-                        <p>Aluguel de <span className="titlerentbox">{ tool.title }</span></p>
+                        <p>Reserva de <span className="titlerentbox">{ tool.title }</span></p>
                       </div>
                     </>
                   ) 
@@ -1190,7 +1190,7 @@ const Payment = ({history}) => {
                           type={'button'}
                           className={'button is-pulled-right color-logo bt-app2 bt-confirm'}
                           disabled={rentattempt.finishprocess === "y" ? true : false}  
-                          text={rentattempt.finishprocess === "y" ? 'Sendo processado' : 'Confirmar e alugar'}
+                          text={rentattempt.finishprocess === "y" ? 'Sendo processado' : 'Confirmar e reservar'}
                           onClick={event => paymentRent()}
                         />
                         <p className={ isMobile ? "is-pulled-left price-bottom" : "is-pulled-right price-bottom" }>
@@ -1220,7 +1220,7 @@ const Payment = ({history}) => {
                         closeOnAllowed={false}
                       >
                         <h3 className="has-text-centered title is-4">Seu aluguel é para uma região na qual não atuamos :(</h3>
-                        <p>Para que possamos entregar o equipamento neste local, será necessário acrescentar R$ 10,00 no valor da entrega & devolução.</p>
+                        <p>Para que possamos entregar a ferramenta neste local, será necessário acrescentar R$ 10,00 no valor da entrega & devolução.</p>
                         <br/>
                         <div className="has-text-centered">
                         <span className="text-adiciontal">

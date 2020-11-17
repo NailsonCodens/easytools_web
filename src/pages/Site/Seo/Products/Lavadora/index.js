@@ -26,8 +26,8 @@ const Lavadora = ({history}) => {
   return (
     <>
       <Helmet>
-        <title>Aluguel lavadora de alta pressão wap  | EasyTools locadora online</title>
-        <meta name="title" content="Aluguel lavadora de alta pressão wap | EasyTools locadora online"/>
+        <title>Peça lavadora de alta pressão wap  | Caixa de ferramenta online</title>
+        <meta name="title" content="Peça lavadora de alta pressão wap | EasyTools locadora online"/>
         <meta name="description" content="Em Curitiba sempre tem muita poeira, se você está em construção, pior ainda. A EasyTools tem para locar lavadoras de alta pressão wap para que você possa limpar seu quintal, ou dar aquela geral depois da reforma. Lavadoras de alta pressão para casa e para obras Em Curitiba"/>
         <meta name="keywords" content="aluguel wap,aluguel vap em curitiba,vape,lavar quintal em curitiba,aluguel de lavadora de alta pressão em curitiba, aluguel,lavadora de alta pressão, lavadora de alta pressao,lavadora de pressao, alguel de wap em curitiba"/>
         <meta name="robots" content="index,follow"/>

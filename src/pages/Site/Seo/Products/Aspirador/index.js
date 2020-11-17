@@ -27,9 +27,9 @@ const Aspirador = ({history}) => {
   return (
     <>
       <Helmet>
-        <title>Aluguel aspirador de pó e água | EasyTools locadora online</title>
-        <meta name="title" content="Aluguel aspirador de pó e água | EasyTools locadora online"/>
-        <meta name="description" content="Em Curitiba tem aspirador de pó na EasyTools para você locar e usar, Aspirador de pó para construção civil, para uso doméstico e pequenas obras e etc. Em Curitiba"/>
+        <title>Peça aspirador de pó e água | EasyTools Caixa de ferramenta online</title>
+        <meta name="title" content="Peça aspirador de pó e água | EasyTools sua caixa de ferramenta online"/>
+        <meta name="description" content="Caixa de ferramenta na nuvem em Curitiba tem aspirador de pó na EasyTools para você locar e usar, Aspirador de pó para construção civil, para uso doméstico e pequenas obras e etc. Em Curitiba"/>
         <meta name="keywords" content="aspirador de pó aluguel,aluguel de aspirador de pó em curitiba,aspirar,aspirador de pó obras em curitiba, aspirador de pó limpeza em curitiba, aluguel, aspirador de água em curitiba,aspiração em curitiba,em curitiba"/>
         <meta name="robots" content="index,follow"/>
       </Helmet>

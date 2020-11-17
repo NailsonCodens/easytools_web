@@ -441,7 +441,7 @@ const MenuRenter = () => {
 																			<div className="box-icons-mobile">
 																				<FontAwesomeIcon icon={['fas', 'handshake']} className={history.location.pathname === '/s/renter/myrent' ? "menu-icons-active" : "menu-icons" }  size="1x"/>
 																				<div className="text-box">
-																					Meus alugados
+																					Minhas ferramentas
 																				</div>
 																			</div>
 																	</Link>
@@ -605,7 +605,7 @@ const MenuRenter = () => {
 														Início
 													</Link>
 													<Link to={'/s/renter/myrent'} onClick={event => Tracking('Menu site - meus alugado', 'Clique menu meus alugados', 'Menu site') } className="navbar-item">
-														Meus alugados
+														Minhas ferramentas
 													</Link>
 												</>
 											)

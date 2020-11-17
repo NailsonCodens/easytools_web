@@ -5,7 +5,7 @@ import Scrool from '../../utils/scroll';
 import Blog from '../../pages/Site/Index/Blog';
 import { Ul } from '../../components/List/index';
 import { Hr } from '../../components/Hr';
-
+import { useSelector } from "react-redux";
 import './style.css'
 
 import logo from '../../assets/images/logo_name.png';
@@ -19,6 +19,27 @@ import { faInstagram } from '@fortawesome/free-brands-svg-icons'
 library.add(faInstagram);
 
 const Footer = () => {
+
+  const refreshui = useSelector(state => state.refreshui);
+
+  const updateServiceWorker = () => {
+		const sw = refreshui.payload
+
+		const registrationWaiting = sw.waiting;
+
+
+    if (registrationWaiting) {
+      registrationWaiting.postMessage({ type: 'SKIP_WAITING' });
+			console.log('sdsad')
+      registrationWaiting.addEventListener('statechange', e => {
+				if (e.target.state === 'activated') {
+          window.location.reload();
+        }
+      });
+    }
+  }
+
+
 	let location = useLocation().pathname;
 
 	return (
@@ -40,11 +61,25 @@ const Footer = () => {
 							('')
 						}
 						{
-							/*
- 								
-							*/
+							console.log(refreshui)
 						}
-
+						{
+							Object.keys(refreshui).length !== 0 ? 
+							(
+								<>
+									<div className="container-alert">
+										<div className="alert">
+											<span className="span-sw">Há uma nova versão do site disponível para você.</span><button className="button is-rounded is-small is-dark" onClick={updateServiceWorker}>Atualizar</button>							
+										</div>
+									</div>
+								</>
+							)
+							:
+							(
+								<>
+								</>
+							)
+						}
 						<a
 						href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="_blank">
 							<br/>
@@ -104,7 +139,7 @@ const Footer = () => {
 											<li>
 												<a rel="noreferrer" href="https://docs.google.com/forms/d/e/1FAIpQLSflhvjqDhcyO9fFkKSaQOXVPAaT3ggMesc4VEnNk5Mh_oUNUg/viewform?usp=sf_link" target="_blank">Relatar um problema</a>
 											</li>
-										</Ul>					
+										</Ul>				
 									</div>
 								</div>
 							</div>

@@ -27,8 +27,8 @@ const Martelete = ({history}) => {
   return (
     <>
       <Helmet>
-        <title>Aluguel martelete 3k | EasyTools</title>
-        <meta name="title" content="Aluguel martelete 3k | EasyTools"/>
+        <title>Peça martelete 3k | Caixa de ferramenta online</title>
+        <meta name="title" content="Caixa de ferramenta online Peça martelete 3k | Caixa de ferramenta online"/>
         <meta name="description" content="Em Curitiba lixadeira orbital disponiveis para locação. Alugue lixadeira orbital para lixar paredes, massa corrida, drywall e muito mais. Em Curitiba"/>
         <meta name="keywords" content="aluguel lixadeira orbital,aluguel lixadeira,aluguel orbital,aluguel lixadeira orbital em curitiba,orbital,lixar parede em curitiba,lixa de parede em curitiba, aluguel,lixa em curitiba"/>
         <meta name="robots" content="index,follow"/>

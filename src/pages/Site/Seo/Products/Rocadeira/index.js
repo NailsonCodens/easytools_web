@@ -27,9 +27,9 @@ const Rocadeira = ({history}) => {
   return (
     <>
       <Helmet>
-        <title>Aluguel roçadeira | EasyTools locadora online</title>
-        <meta name="title" content="Roçadeira | EasyTools locadora online"/>
-        <meta name="description" content="Em Curitiba e região é preciso ter roçadeiras disponiveis para locação. Na EasyTools você pode locar e usar, permitindo assim uma grama pequena e gostosa para usar. Alugue roçadeiras com lâminas, e nylon para cortar mato e grama. Em Curitiba"/>
+        <title>Peça roçadeira | Caixa de ferramenta online</title>
+        <meta name="title" content="Peça Roçadeira | Caixa de ferramenta online"/>
+        <meta name="description" content="Caixa de ferramenta online Em Curitiba e região é preciso ter roçadeiras disponiveis para locação. Na EasyTools você pode locar e usar, permitindo assim uma grama pequena e gostosa para usar. Alugue roçadeiras com lâminas, e nylon para cortar mato e grama. Em Curitiba"/>
         <meta name="keywords" content="aluguel roçadeira à gasolina,roçadeira à gasolina,aluguel roçadeira à gasolina,aluguel roçadeira em curitiba,roçar,roçar mato em curitiba,roçar grama em curitiba, aluguel,roçadeira em curitiba, roçadeira lâmina em curitiba, roçadeira nylon em curitiba, roçadeira still em curitiba, roçadeira toyama em curitiba"/>
         <meta name="robots" content="index,follow"/>
       </Helmet>

@@ -42,15 +42,10 @@ const Newrent = ({history}) => {
       <Helmet>
         <title>Sua caixa de ferramentas na nuvem | EasyTools</title>
         <meta
-          name="description"
-          content="Conheça por que e para que nós existimos. Conheça nossa história"
+          description=""
+          content="Conheça por que e para que nós existimos. Conheça nossa história... Uma caixa de ferramenta dentro da internet."
         />
         <meta name="keywords" content="Sobre EasyTools, EasyTools Sobre EasyTools about, o que é a easytools, o que é easytools, onde alugar equipamentos e ferramentas"/>
-        <meta property="og:url" content="easytoolsapp.com/s/about-us"/>
-        <meta property="og:title" content="Sobre nós | EasyTools"/>
-        <meta property="og:site_name" content="EasyTools - Aluguel de ferramentas"></meta>
-        <meta property="og:description" content="Conheça por que e para que nós existimos. Conheça nossa história"/>
-        <meta property="og:type" content="website"/>
       </Helmet>
     }
       <div className="container">

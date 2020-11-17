@@ -20,6 +20,7 @@ import photo1 from './photo1';
 import photo2 from './photo2';
 import photo3 from './photo3';
 import rentclient from './rentclient';
+import refreshui from './refreshui';
 
 export default combineReducers({
   auth,
@@ -42,5 +43,6 @@ export default combineReducers({
   photo1,
   photo2,
   photo3,
-  rentclient
+  rentclient,
+  refreshui
 });

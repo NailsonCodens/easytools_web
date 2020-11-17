@@ -28,9 +28,9 @@ const Marmore = ({history}) => {
   return (
     <>
       <Helmet>
-        <title>Aluguel serra mármore (makitinha) | EasyTools locadora online</title>
-        <meta name="title" content="Aluguel serra mármore | EasyTools locadora online"/>
-        <meta name="description" content="Em Curitiba serra mármore makitinha disponiveis para locação. Alugue serra mármore para cortar peças de ferro na construção civil e muito mais. Em Curitiba"/>
+        <title>Peça serra mármore (makitinha) | Caixa de ferramenta online</title>
+        <meta name="title" content="Peça serra mármore | Caixa de ferramenta online"/>
+        <meta name="description" content="Caixa de ferramenta online Em Curitiba serra mármore makitinha disponiveis para locação. Alugue serra mármore para cortar peças de ferro na construção civil e muito mais. Em Curitiba"/>
         <meta name="keywords" content="aluguel serra mármore,aluguel serra mármore,aluguel serra mármore,aluguel serra mármore em curitiba,serra mármore,cortar aço em curitiba,maktinha em curitiba, aluguel,serra mármore makita em curitiba"/>
         <meta name="robots" content="index,follow"/>
       </Helmet>

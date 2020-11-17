@@ -561,10 +561,10 @@ const List = ({history}) => {
         <title> { titlest === 'equipaments' ? ' Ferramentas e equipamentos em ' : titlest + ' em ' } { region === 'region'  ? ' na sua região ' : region.charAt(0).toUpperCase() + region.slice(1) } | EasyTools</title>
         <meta
           name="description"
-          content={titlest === 'equipaments' ? 'Alugue ferramentas e equipamentos' : 'Alugue ' + titlest + ' em ' + region}
+          content={titlest === 'equipaments' ? 'Peça ferramentas e equipamentos' : 'Use ' + titlest + ' em ' + region}
         />
         <meta name="keywords" content={
-          titlest === 'equipaments' ? ' ferramentas e equipamentos ' : 'Aluguel, ' + titlest + ', ' + region
+          titlest === 'equipaments' ? ' ferramentas e equipamentos ' : 'Use, ' + titlest + ', ' + region
         }/>
       </Helmet>    
       <div className={setclass}>

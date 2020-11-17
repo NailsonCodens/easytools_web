@@ -146,7 +146,7 @@ const Tool = ({history}) => {
 
   const danger = () => Notification(
     'error',
-    'Ops! Insira as datas para alugar', 
+    'Ops! Insira as datas para reservar a ferramenta', 
     {
       autoClose: 4100,
       draggable: false,
@@ -971,10 +971,10 @@ const Tool = ({history}) => {
 return (
   <>
     <Helmet>
-      <title>{ 'Aluguel de ' + tool.title + ' | Easytools ' }</title>
+      <title>{ 'Reserva de ' + tool.title + ' | Easytools ' }</title>
       <meta
         name="description"
-        content={ 'Alugue de ' + tool.title + ' | Easytools ' }
+        content={ 'Reserva de ' + tool.title + ' | Easytools ' }
       />
       <meta name="keywords" content={'Aluguel, ' + tool.title + ', '}/>
     </Helmet>
@@ -1128,7 +1128,7 @@ return (
                           onDatesChange={({ startDate, endDate }) => setDates({ startDate, endDate })} // PropTypes.func.isRequired,
                           focusedInput={focus.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
                           onFocusChange={focusedInput => setFocus({ focusedInput })} // PropTypes.func.isRequired,
-                          startDatePlaceholderText="Data Aluguel"
+                          startDatePlaceholderText="Data de uso"
                           endDatePlaceholderText="Data Devolução"
                           readOnly
                           hideKeyboardShortcutsPanel

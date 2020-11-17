@@ -27,9 +27,9 @@ const Esmerilhadeira = ({history}) => {
   return (
     <>
       <Helmet>
-        <title>Aluguel esmerilhadeira em Curitiba | EasyTools locadora online</title>
-        <meta name="title" content="Aluguel esmerilhadeira em Curitiba | EasyTools locadora online"/>
-        <meta name="description" content="Em Curitiba esmerilhadeira disponiveis para locação. Alugue esmerilhadeira lixar ou cortar ferros, aços, metais, madeiras e plásticos. Em Curitiba"/>
+        <title>Peça esmerilhadeira em Curitiba | EasyTools Caixa de ferramenta online</title>
+        <meta name="title" content="Peça esmerilhadeira em Curitiba | EasyTools caixa de ferramenta online"/>
+        <meta name="description" content="Caixa de ferramenta online Em Curitiba esmerilhadeira disponiveis para locação. Alugue esmerilhadeira lixar ou cortar ferros, aços, metais, madeiras e plásticos. Em Curitiba"/>
         <meta name="keywords" content="aluguel esmerilhadeira,aluguel lixadeira esmerilhadeira,aluguel esmerilhadeira,aluguel esmerilhadeira em curitiba,esmerilhadeira,cortar ferro em curitiba,esmerilhar ferro em curitiba, aluguel,esmerilhadeira em curitiba"/>
         <meta name="robots" content="index,follow"/>
       </Helmet>

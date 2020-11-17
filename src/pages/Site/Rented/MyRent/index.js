@@ -157,7 +157,8 @@ const Rents = ({ history }) => {
     <div className="container container-page">
       <div className="columns">
         <div className="column has-text-left">
-          <Titlepage>Meus alugados</Titlepage>
+          <br/><br/>
+          <Titlepage>Minhas ferramentas</Titlepage>
           <div className="columns is-desktop">
             <div className="column box-inter">
               {placeholder}
@@ -203,7 +204,7 @@ const Rents = ({ history }) => {
                             { 
                               rent.accept === '0' && rent.paid === '0' && rent.finishprocess === 'y' ?
                               (
-                                <b className="new">Processando seu aluguel</b>
+                                <b className="new">Processando sua reserva</b>
                               )
                               :
                               (
@@ -213,7 +214,7 @@ const Rents = ({ history }) => {
                             { 
                               rent.accept === 'N' || rent.paid === 'N' ?
                               (
-                                <b className="notaccpet">Você negou este aluguel</b>
+                                <b className="notaccpet">Você negou esta reserva</b>
                               )
                               :
                               (
@@ -260,7 +261,7 @@ const Rents = ({ history }) => {
                                   <>
                                     <div className="column is-2">
                                       <a href={`/s/payment/resumebook?rent_attempt=${rent.idf}&init=${rent.startdate}&finish=${rent.enddate}&tool=${rent.tool_id}&am=${rent.amount}&tension=${rent.tension}&code_attempt=${rent.codeattempt}`} className="button is-warning is-small is-pulled-left">
-                                        Concluir aluguel</a>
+                                        Concluir reserva</a>
                                       <br/>
                                     </div>
                                   </>
@@ -359,7 +360,7 @@ const Rents = ({ history }) => {
 
                           <div className="column is-half">
                               <b>
-                                Informações do aluguél:
+                                Informações da reserva:
                               </b>
                               <p>
                                 Tensão: { rent.tension === 'Tri' ? 'Trifásico' : rent.tension }
@@ -370,7 +371,7 @@ const Rents = ({ history }) => {
                               
                           </div>
                           <div className="column is-half">
-                                <b>Valores do aluguel: </b>
+                                <b>Valores da reserva: </b>
                                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                   <FormattedNumber value={rent.cost} style="currency" currency="BRL" />
                                 </IntlProvider>  
@@ -381,7 +382,7 @@ const Rents = ({ history }) => {
                                 </IntlProvider>                                
                               <br></br>
                               
-                                <b>Valores do aluguel + Custo de entrega: </b>
+                                <b>Valores da reserva + Custo de entrega: </b>
                                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                   <FormattedNumber value={parseFloat(rent.cost) + parseFloat(rent.freight)} style="currency" currency="BRL" />
                                 </IntlProvider>                                
@@ -423,7 +424,7 @@ const Rents = ({ history }) => {
                       }
                       </div>
                       <div className="column">
-                        <b>Aluguel: </b>
+                        <b>Reserva: </b>
                         <br/>
                         <div className="box-date-rules-small is-pulled-left">
                           {moment(rentmodal.startdate).format('DD')}
