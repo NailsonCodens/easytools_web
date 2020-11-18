@@ -1,8 +1,6 @@
 import React from 'react'
-import { useDispatch, useSelector } from "react-redux";
-import { isAuthenticated } from "../../../services/auth";
-import { Link, useHistory } from 'react-router-dom';
-import Dropdown from '../../../components/Menu/Dropdown';
+import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 import Scrool from '../../../utils/scroll';
 import { logout } from '../../../services/auth';
 import './style.css';

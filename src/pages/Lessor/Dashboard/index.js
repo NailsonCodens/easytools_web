@@ -71,7 +71,7 @@ const Dashboard = ({history}) => {
             <SubTitlepages>Seus resultados até agora</SubTitlepages>
             <p className="values-dashboard">
             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-              <b><FormattedNumber value={results} style="currency" currency="BRL" /></b>
+                <b><FormattedNumber value={results} style={{currency: 'currency'}} currency="BRL" /></b>
             </IntlProvider>
             </p>
           </div>

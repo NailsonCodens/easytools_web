@@ -21,6 +21,7 @@ const Paymentme = () => {
     
     return () => {
     };
+    // eslint-disable-next-line
   }, [])
 
   const openNps = () => {

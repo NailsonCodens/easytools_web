@@ -3,20 +3,16 @@ import { useParams, useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import { useDispatch, useSelector } from "react-redux";
 import { Rentaltool } from '../../../store/actions/rentaltool';
-import { Rentclient } from '../../../store/actions/rentclient';
-import { Link } from '../../../store/actions/link';
 import 'react-dates/initialize';
-import { DateRangePicker, toMomentObject } from 'react-dates';
+import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import './calendar.css'
 import Email from '../../../utils/sendemail';
 import { Rentattempt } from '../../../store/actions/rentattempt.js';
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import brands from '../../../assets/images/brand.png';
   // eslint-disable-next-line
 import ScrollableAnchor from 'react-scrollable-anchor'
-import preciseDiff from 'moment-precise-range-plugin';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import { useFormik } from 'formik';
 import { Form, Input } from '@rocketseat/unform';
@@ -28,21 +24,14 @@ import api from '../../../services/api';
 import './style.css';
 import { Ul } from '../../../components/List';
 import { Hr } from '../../../components/Hr';
-import * as Yup from 'yup';
 import { Span } from '../../../components/Span';
 import { isAuthenticated } from "../../../services/auth";
 import Auth from '../../../pages/Auth/index';
 import Modal from '../../../components/Modal';
-import localForage from "localforage";
-import Mapbox from '../../../components/Map/Mapbox';
-import ReactGA, { set } from 'react-ga';
+import ReactGA from 'react-ga';
 import {Helmet} from 'react-helmet';
 import Adddocument from './adddocument';
 import Notification from '../../../utils/notification';
-import mastercard from '../../../assets/images/mastercard.png';
-import machine from '../../../assets/images/machine2.png';
-import boleto from '../../../assets/images/boleto-icon.png';
-import money from '../../../assets/images/money.png';
 
 import {
   isMobile
@@ -50,7 +39,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faStar, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
-import { storage } from 'firebase';
 library.add(faStar, faCalendarAlt);
 
 const Tracking = (category, action, label) => {
@@ -62,7 +50,7 @@ const Tracking = (category, action, label) => {
   });
 }
 
-
+/*
 const renderPromo = (title) => {
   if (title.indexOf('Lavadora')){
     return 70
@@ -80,17 +68,18 @@ const renderPromo = (title) => {
     return 70
   }
 }
-
+*/
 
 
 const Tool = ({history}) => {
   const dispatch = useDispatch();
 
-  const infochoose = useSelector(state => state.rentaltool);
+  /*const infochoose = useSelector(state => state.rentaltool);*/
 	const current_user = useSelector(state => state.auth);
 
   const [adddoc, setAdddoc] = useState(false);
   const [tool, setTool] = useState({});
+    // eslint-disable-next-line
   const [promo, setPromo] = useState(true);
   const [pictures, setPictures] = useState([]);
   const [prices, setPrices] = useState([]);
@@ -111,14 +100,19 @@ const Tool = ({history}) => {
   const [modal3, setModal3] = useState(false);
   const [modal4, setModal4] = useState(false);
   //const [url, setUrl] = useState('');
+  // eslint-disable-next-line
   const [isSticky, setSticky] = useState(false);
+  // eslint-disable-next-line
   const [dataLessor, setDatalessor] = useState([]);
   const [datefix] = useState(useSelector(state => state.rentaltool));
   const [amount, setAmount] = useState(useSelector(state => state.rentaltool.amount));
   const [perfil, setPerfil] = useState([]);
+  // eslint-disable-next-line
   const [namelessor, setNamelessor] = useState('')
+  // eslint-disable-next-line
   const [document, setDocument] = useState({})
   const [configlessor, setConfiglessor ] = useState('');
+  // eslint-disable-next-line
   const [disconcert, setDisconcert] = useState('');
   const [promotional, setPromotional] = useState('');
   const ref = useRef(null);

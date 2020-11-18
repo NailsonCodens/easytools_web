@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
 import {Helmet} from 'react-helmet';
-import Rentalbox from '../Rentalbox';
-import Scrool from '../../../../utils/scroll';
 import api from '../../../../services/api';
-import { Button } from '../../../../components/Form/Button';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams, useLocation } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import queryString from 'query-string';
 import { Rentinfo } from '../../../../store/actions/rentinfo';

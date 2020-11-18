@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Lessor from './Lessor';
 import { Ul } from '../../../components/List';
 import { Hr } from '../../../components/Hr';
 import { Button } from '../../../components/Form/Button';

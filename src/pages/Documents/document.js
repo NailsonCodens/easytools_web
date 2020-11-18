@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect,  } from 'react';
-import { Button } from '../../components/Form/Button';
+
 import {useDropzone} from 'react-dropzone';
-import rg from '../../assets/images/rg.png'
+
 import api from '../../services/api';
 import './style.css';
 import Notification from '../../utils/notification';
 import EllipsisText from "react-ellipsis-text";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {Document as Doc} from '../../store/actions/document';
 import { useLocation } from 'react-router-dom';
 import pdf from '../../assets/images/file.png';

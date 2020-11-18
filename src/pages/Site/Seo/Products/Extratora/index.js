@@ -1,10 +1,8 @@
 import React from 'react';
-import { Route, useRouteMatch } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import '../../style.css';
 import {Helmet} from 'react-helmet';
 import Scrool from '../../../../../utils/scroll';
-import ReactGA, { set } from 'react-ga';
+import ReactGA from 'react-ga';
 
 const Extratora = ({history}) => {
   const Tracking = (category, action, label) => {
@@ -39,13 +37,13 @@ const Extratora = ({history}) => {
           <div className="column">
             <div className="columns is-mobile is-desktop">
               <div className="column">
-                <img src="https://a.easytoolsapp.com/files/1595862521051_4a18fc93-e0ff-4bc4-9487-8da30105c1d5_9ecb91bc-d14d-42a3-8e54-4126bfacdcac.jpg" className="prodimg-seo"/>
+                <img alt="tool" src="https://a.easytoolsapp.com/files/1595862521051_4a18fc93-e0ff-4bc4-9487-8da30105c1d5_9ecb91bc-d14d-42a3-8e54-4126bfacdcac.jpg" className="prodimg-seo"/>
               </div>
               <div className="column">
-                <img src="https://a.easytoolsapp.com/files/1595862521614_4a18fc93-e0ff-4bc4-9487-8da30105c1d5_9ecb91bc-d14d-42a3-8e54-4126bfacdcac.jpg" className="prodimg-seo"/>
+                <img alt="tool" src="https://a.easytoolsapp.com/files/1595862521614_4a18fc93-e0ff-4bc4-9487-8da30105c1d5_9ecb91bc-d14d-42a3-8e54-4126bfacdcac.jpg" className="prodimg-seo"/>
               </div>
               <div className="column">
-                <img src="https://a.easytoolsapp.com/files/1595862521618_4a18fc93-e0ff-4bc4-9487-8da30105c1d5_9ecb91bc-d14d-42a3-8e54-4126bfacdcac.jpg" className="prodimg-seo"/>
+                <img alt="tool" src="https://a.easytoolsapp.com/files/1595862521618_4a18fc93-e0ff-4bc4-9487-8da30105c1d5_9ecb91bc-d14d-42a3-8e54-4126bfacdcac.jpg" className="prodimg-seo"/>
               </div>
             </div>
             <h3 className="title-index">

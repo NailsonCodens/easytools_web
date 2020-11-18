@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import { useParams, useLocation } from "react-router-dom";
-import queryString from 'query-string';
+import { useParams, } from "react-router-dom";
 import api from '../../../services/api';
-import desert2 from '../../../assets/images/desert2.svg'
 import Select from 'react-select';
 import Scroll from '../../../utils/scroll';
 
@@ -10,6 +8,7 @@ const Products = ({history, props}) => {
   let {category} = useParams();
 
   const [tools, setTools] = useState([]);
+  // eslint-disable-next-line
   const [categorys, setCategory] = useState(category);
 
   useEffect(() => {
@@ -26,8 +25,10 @@ const Products = ({history, props}) => {
     return () => {
       setTools('');
     }
+    // eslint-disable-next-line
   }, [])
 
+  /*
   async function loadTools2(category = '', lat = '', lng = '') {
     var search = category;
     const response = await api.get(`/tools_site?search=${category}&distance=${''}&lat=${''}&lng=${''}&type=1`, {
@@ -36,6 +37,7 @@ const Products = ({history, props}) => {
 
    setTools(response.data.tools)
   }
+  */
 
   const goList = (title) => {
     title = title.replace(/\s+/g, '-').toLowerCase();

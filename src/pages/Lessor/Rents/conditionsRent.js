@@ -2,6 +2,7 @@ import api from '../../../services/api';
 
 const ChangeAccept = (data, id) => {
   console.log(data)
+  /*eslint-disable no-unused-vars*/
   var type = '';
 
   if (data === 'accept') {

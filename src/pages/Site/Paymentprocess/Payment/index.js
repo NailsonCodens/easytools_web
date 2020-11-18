@@ -5,33 +5,24 @@ import api from '../../../../services/api';
 import socketio from '../../../../services/socketio';
 import queryString from 'query-string';
 import Rentruesblock from '../../../Warnings/Rentrulesblock';
-import NotAvailable from '../../../Warnings/NotAvailable';
-import { useParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Rentinfo } from '../../../../store/actions/rentinfo';
 import {IntlProvider, FormattedNumber} from 'react-intl';
-import { Warningtext } from '../../../../components/Warningtext';
-import { Field, Label } from '../../../../components/Form/Form';
-import Mapbox from '../../../../components/Map/Mapbox';
+import { Field } from '../../../../components/Form/Form';
 import Notification from '../../../../utils/notification';
-import Paymentme from './paymentme';
 import Adddocument from '../../Tool/adddocument';
 import { isAuthenticated } from "../../../../services/auth";
-import { Ul } from '../../../../components/List';
 import ReactGA from 'react-ga';
 import Modal from '../../../../components/Modal';
 import Scroll from '../../../../utils/scroll';
 import ScrollableAnchor from 'react-scrollable-anchor'
 import Select from 'react-select';
 import {Helmet} from 'react-helmet';
-import Rentalbottombox from '../Rentalbottombox';
 import moment from 'moment';
 import Email from '../../../../utils/sendemail';
-import brands from '../../../../assets/images/brand.png';
 import mastercard from '../../../../assets/images/mastercard.png';
 import machine from '../../../../assets/images/machine2.png';
 import boleto from '../../../../assets/images/boleto-icon.png';
-import money from '../../../../assets/images/money.png';
-import CurrencyInput from 'react-currency-input';
 import {
   isMobile
 } from "react-device-detect";
@@ -45,6 +36,7 @@ moment.locale('pt-BR');
 
 const Payment = ({history}) => {
   const [rentattempt, setRentattemp] = useState([]);
+  // eslint-disable-next-line
   const [ok, setOk] = useState(true);
   const [okattempt, setOkAttempt] = useState(true);
   const [tool, setTool] = useState([]);
@@ -710,7 +702,7 @@ const Payment = ({history}) => {
                     <br/>
                     <span className="distance">Taxa de entrega e coleta: </span>
                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                      <b className="number-delivery"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
+                      <b className="number-delivery"><FormattedNumber value={renderCalc()} style={{currency: "currency"}} currency="BRL" /></b>
                     </IntlProvider>;
                     <hr/>
                     <p className="title-tl-input">Recebimento do ferramenta</p>
@@ -858,13 +850,13 @@ const Payment = ({history}) => {
               <div className="rental-box">
                 <div className="columns is-desktop is-mobile">
                   <div className="column">
-                    <img src={tool.picture1} alt={tool.picture1} className="" />
+                    <img alt="tool" src={tool.picture1} alt={tool.picture1} className="" />
                   </div>
                   <div className="column">
-                    <img src={tool.picture2} alt={tool.picture2} className="" />
+                    <img alt="tool" src={tool.picture2} alt={tool.picture2} className="" />
                   </div>
                   <div className="column">
-                    <img src={tool.picture3} alt={tool.picture3} className="" />
+                    <img alt="tool" src={tool.picture3} alt={tool.picture3} className="" />
                   </div>
                 </div>
                 <p className="title-tool-rules">{ tool.title }</p>
@@ -912,7 +904,7 @@ const Payment = ({history}) => {
                 <div className="columns is-mobile no-margin-top-columns dates-payment">
                   <div className="column">
                   <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                    <FormattedNumber value={rentattempt.priceperiod} style="currency" currency="BRL" />
+                    <FormattedNumber value={rentattempt.priceperiod} style={{currency: "currency"}} currency="BRL" />
                     {
                       renderPrice()
                     }
@@ -921,7 +913,7 @@ const Payment = ({history}) => {
                   <div className="column is-6">
                     <p className="is-pulled-right">
                       <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                        <FormattedNumber value={rentattempt.price} style="currency" currency="BRL" />
+                        <FormattedNumber value={rentattempt.price} style={{currency: "currency"}} currency="BRL" />
                         { 
                           rentattempt.amount === undefined ? 'x 1 UN' : `x ${rentattempt.amount} UN` 
                         }
@@ -942,7 +934,7 @@ const Payment = ({history}) => {
                 <div className="column">
                   <p className="is-pulled-right">
                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                      <b><FormattedNumber value={rentattempt.cost} style="currency" currency="BRL" /></b>
+                      <b><FormattedNumber value={rentattempt.cost} style={{currency: "currency"}} currency="BRL" /></b>
                     </IntlProvider>            
                   </p>
                 </div>
@@ -957,7 +949,7 @@ const Payment = ({history}) => {
                     <div className="column">
                       <p className="is-pulled-right">
                         <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                          <b><FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
+                          <b><FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style={{currency: "currency"}} currency="BRL" /></b>
                         </IntlProvider>            
                       </p>
                     </div>
@@ -991,7 +983,7 @@ const Payment = ({history}) => {
                         ** Pagamentos na maquininha serão pagos ao entregador no ato da entrega da ferramenta. **
                       </div>
                       <div className={`colunm line-option-payment`} onClick={event => Choosepayment('creditcard')}>
-                        <img src={mastercard} className="icon-payment"/>
+                        <img alt="tool" src={mastercard} className="icon-payment"/>
                         <span>Cartão de crédito</span>
                         {
                           typepayment === 'creditcard' ? 
@@ -1011,7 +1003,7 @@ const Payment = ({history}) => {
                         <p>Na plataforma</p>
                       </div>
                       <div className="colunm line-option-payment" onClick={event => Choosepayment('machine')}>
-                        <img src={machine} className="icon-payment"/>
+                        <img alt="tool" src={machine} className="icon-payment"/>
                         <span>Maquininha</span>
                         {
                           typepayment === 'machine' ? 
@@ -1084,7 +1076,7 @@ const Payment = ({history}) => {
                         (
                           <>
                             <div className="colunm line-option-payment" onClick={event => Choosepayment('boleto')}>
-                              <img src={boleto} className="icon-payment"/>
+                              <img alt="tool" src={boleto} className="icon-payment"/>
                               <span>Boleto</span>
                               {
                                 typepayment === 'boleto' ? 
@@ -1110,7 +1102,7 @@ const Payment = ({history}) => {
                         (
                           <>
                             <div className="colunm line-option-payment">
-                              <img src={boleto} className="icon-payment"/>
+                              <img alt="tools" src={boleto} className="icon-payment"/>
                               <span>Boleto</span>
                               {
                                 typepayment === 'boleto' ? 
@@ -1195,7 +1187,7 @@ const Payment = ({history}) => {
                         />
                         <p className={ isMobile ? "is-pulled-left price-bottom" : "is-pulled-right price-bottom" }>
                           <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                            <b>Total: <FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
+                            <b>Total: <FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style={{currency: "currency"}} currency="BRL" /></b>
                           </IntlProvider>            
                         </p>
                       </div>
@@ -1236,15 +1228,15 @@ const Payment = ({history}) => {
                         </div>
                         <div className="has-text-centered">
                         <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                          <b className="number-delivery"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
+                          <b className="number-delivery"><FormattedNumber value={renderCalc()} style={{currency: "currency"}} currency="BRL" /></b>
                         </IntlProvider>
                           <span className="span-adiciontal">+</span>
                         <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                          <b className="number-delivery"><FormattedNumber value={10} style="currency" currency="BRL" /></b>
+                          <b className="number-delivery"><FormattedNumber value={10} style={{currency: "currency"}} currency="BRL" /></b>
                         </IntlProvider>     
                         <br/><span class="valueadtotal">
                           = <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                            <b className="number-delivery"><FormattedNumber value={renderCalc()+ 10} style="currency" currency="BRL" /></b>
+                            <b className="number-delivery"><FormattedNumber value={renderCalc()+ 10} style={{currency: "currency"}} currency="BRL" /></b>
                           </IntlProvider>.
                           </span> 
                         </div>

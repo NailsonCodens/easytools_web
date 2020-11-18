@@ -28,6 +28,7 @@ const MenuLessor = () => {
   const dispatch = useDispatch();
   const current_user = useSelector(state => state.auth);
   const [notification, setNotfication] = useState([]);
+  // eslint-disable-next-line
   const [countn, setCount] = useState(0);
   const notificationrd = useSelector(state => state.notification);
 	const [menu, setMenu] = useState(false);
@@ -37,6 +38,7 @@ const MenuLessor = () => {
 
 	useEffect(() => {
 		socketio.on('notify',function(data){
+    // eslint-disable-next-line      
 			var user = data.user;
 			var message = data.message;
 			var title = data.title;
@@ -71,7 +73,8 @@ const MenuLessor = () => {
     
 		return () => {
 
-		};
+    };
+  // eslint-disable-next-line
 	}, [])
 
   const renderNotify = () => {

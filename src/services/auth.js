@@ -1,7 +1,5 @@
 import store from '../store/index';
 import axios from 'axios';
-import socketio from '../services/socketio';
-
 import simpleCrypto from './crypto';
 
 export const TOKEN_KEY = process.env.REACT_APP_TOKEN_KEY;
@@ -44,6 +42,7 @@ if (localStorage.getItem(TOKEN_KEY) !== null) {
   api.get('/perfil/').then((res) => {
     res.data.user.map(function(user) {
       store.dispatch({type:"auth", id: user.id, email: user.email, name: user.name, type_user: user.type, token: getToken()})
+      return '';
     }) 
   })   
 }

@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import preciseDiff from 'moment-precise-range-plugin';
 import { Rentattempt } from '../../../store/actions/rentattempt.js';
   // eslint-disable-next-line
 
 import {IntlProvider, FormattedNumber} from 'react-intl';
-import { Warningtext } from '../../../components/Warningtext';
 import api from '../../../services/api';
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
@@ -26,11 +24,13 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
     async function loadInfochoose() {
       const response = await api.get(`/tools_site/tool/${values.tool}`, {
       });
+      /*eslint-disable no-unused-vars*/
       setTool(response.data.tool[0])
       formatPrice(response.data.tool[0].prices.split(';'))
+      /*eslint-disable no-unused-vars*/
     }
     loadInfochoose()
-
+  // eslint-disable-next-line
   }, [attempt]);
 
   const formatPrice = (pricef) => {
@@ -253,14 +253,14 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
         <div className="columns is-mobile">
           <div className="column">
             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-              <FormattedNumber value={price.price} style="currency" currency="BRL" />
+              <FormattedNumber value={price.price} style={{currency: "currency"}} currency="BRL" />
               { text }
             </IntlProvider>
           </div>
           <div className="column is-6">
             <p className="is-pulled-right">
               <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
+                <FormattedNumber value={price.priceNoamount} style={{currency: "currency"}} currency="BRL" />
                 { 
                   values.am === undefined ? ' x 1 UN ' : ` x ${values.am} UN` 
                 }
@@ -315,7 +315,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
           <div className="column">
             <p className="is-pulled-right">
               <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                <b><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
+                <b><FormattedNumber value={price.pricefull} style={{currency: "currency"}} currency="BRL" /></b>
               </IntlProvider>            
             </p>
           </div>

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Input } from '@rocketseat/unform';
+import { Form } from '@rocketseat/unform';
 import { Field, Label } from '../../../components/Form/Form';
 import { Button } from '../../../components/Form/Button';
-import Title from '../../../utils/title';
+
 import {Titlepage} from '../../../components/Titles/Titlepages';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { Span } from '../../../components/Span';
 import CurrencyInput from 'react-currency-input';
 import { Warningtext } from '../../../components/Warningtext';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import api from '../../../services/api';
 import Notification from '../../../utils/notification';
 

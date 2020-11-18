@@ -1,9 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Button } from '../../components/Form/Button';
 import {useDropzone} from 'react-dropzone';
 import Notification from '../../utils/notification';
 import EllipsisText from "react-ellipsis-text";
-import sociali from '../../assets/images/selfie.png'
 import api from '../../services/api';
 import './style.css';
 import queryString from 'query-string';

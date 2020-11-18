@@ -22,7 +22,6 @@ import { Hr } from '../../components/Hr';
 import Modal from '../../components/Modal';
 
 import Scrool from '../../utils/scroll';
-import localForage from "localforage";
 import api from '../../services/api';
 
 import years from '../../utils/years';

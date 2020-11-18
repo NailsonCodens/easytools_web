@@ -1,15 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Button } from '../../components/Form/Button';
 import {useDropzone} from 'react-dropzone';
 import Notification from '../../utils/notification';
 import EllipsisText from "react-ellipsis-text";
-import address from '../../assets/images/selfie.png'
 import api from '../../services/api';
 import './style.css';
 import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Scroll from '../../utils/scroll';
 import {Proof} from '../../store/actions/proof';
 import Resizer from 'react-image-file-resizer';

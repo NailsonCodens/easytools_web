@@ -1,7 +1,6 @@
 import api from '../../services/api';
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import preciseDiff from 'moment-precise-range-plugin';
 
 async function linkpayment (idattempt, rent) {
 

@@ -5,13 +5,9 @@ import api from '../../../../services/api';
 import socketio from '../../../../services/socketio';
 import queryString from 'query-string';
 import Rentruesblock from '../../../Warnings/Rentrulesblock';
-import NotAvailable from '../../../Warnings/NotAvailable';
-import { useParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Rentinfo } from '../../../../store/actions/rentinfo';
 import {IntlProvider, FormattedNumber} from 'react-intl';
-import { Warningtext } from '../../../../components/Warningtext';
-import { Field, Label } from '../../../../components/Form/Form';
-import Mapbox from '../../../../components/Map/Mapbox';
 import Email from '../../../../utils/sendemail';
 import ReactGA from 'react-ga';
 import Scrool from '../../../../utils/scroll';
@@ -25,6 +21,7 @@ moment.locale('pt-BR');
 
 const Paymentfinish = ({history}) => {
   const [rentattempt, setRentattemp] = useState([]);
+  // eslint-disable-next-line
   const [ok, setOk] = useState(true);
   const [okattempt, setOkAttempt] = useState(true);
   const [tool, setTool] = useState([]);
@@ -32,10 +29,12 @@ const Paymentfinish = ({history}) => {
   const [end, setEnd] = useState([]);
   const [freight, setFreight] = useState('');
   const [acquisition, setAcquisition] = useState('');
+  /*eslint-disable-next-line*/
   const [userconfig, setUserconfig] = useState([]);
   const [workadd, setWorkadd] = useState([]);
   const [valuewithfreigh, setValuewithfreigh] = useState(0);
   const [setclass, setClass] = useState('bottom-no-box');
+  /*eslint-disable-next-line*/
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();

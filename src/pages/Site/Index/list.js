@@ -6,12 +6,12 @@ import { faMapMarkedAlt, faStopwatch, faSearch } from '@fortawesome/free-solid-s
 import { useDispatch, useSelector } from "react-redux";
 import { isMobile } from 'react-device-detect';
 import Modal from '../../../components/Modal';
+import { Button } from '../../../components/Form/Button';
 import {Latitude} from '../../../store/actions/latitude';
 import {Longitude} from '../../../store/actions/longitude';
-import {Distance} from '../../../store/actions/distance';
 import Notificationtost from '../../../utils/notification';
-import { getCordinates, getAddress, getGeolocalization } from '../../../services/mapbox';
-import { useParams, useLocation } from "react-router-dom";
+import { getCordinates, getAddress } from '../../../services/mapbox';
+import { useParams } from "react-router-dom";
 import EllipsisText from "react-ellipsis-text";
 import 'bulma-slider/dist/css/bulma-slider.min.css';
 import Slider from 'react-input-slider';
@@ -25,7 +25,6 @@ import cashback from '../../../assets/images/cashback.jpg';
 import useOutsideClickCategory from "../../../utils/outsideclick";
 import useOutsideClickEquipament from "../../../utils/outsideclick";
 import useOutsideClickProd from "../../../utils/outsideclick";
-import distance from '../../../store/reducers/distance';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import { set } from 'react-ga';
 import {Helmet} from 'react-helmet'
@@ -826,9 +825,13 @@ const List = ({history}) => {
                             </IntlProvider>
                             <span>/Diária</span> 
                             <div className="container-mobile is-pulled-right box-rent">
-                              <button className="button color-logo is-fullwidth" title="Outros valores" onClick={event => setProd(!prod+tool.id)}>
-                                Ver mais
-                              </button>
+                              <Button
+                                disabled={tool.availability === "Y" ? false : true}
+                                type={'submit'}
+                                className={'button color-logo is-fullwidth'}
+                                text={tool.availability === "Y" ? 'Ver mais' : 'Não disponível'}
+                                onClick={event => setProd(!prod+tool.id)}
+                              />
                             </div>
                             {
                               prod+tool.id === true ? 

@@ -9,16 +9,13 @@ import Select from 'react-select';
 import documents from '../../../utils/documents';
 import { cpfMask, cnpjMask } from '../../../utils/maskdocument';
 import { Span } from '../../../components/Span';
-import rg from '../../../assets/images/rg.png'
 import InputMask from 'react-input-mask';
 import { Button } from '../../../components/Form/Button';
 import ScrollableAnchor from 'react-scrollable-anchor'
 import api from '../../../services/api';
 import Document from '../../Documents/document';
-import Proofaddress from '../../Documents/proofAddress';
 import { useSelector } from "react-redux";
 import Selfie from '../../Documents/selfie';
-import SocialContract from '../../Documents/socialContract';
 import Warninggeneral from '../../Warnings/Warninggeneral';
 import Scroll from '../../../utils/scroll';
 import Notification from '../../../utils/notification';

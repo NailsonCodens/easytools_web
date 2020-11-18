@@ -3,16 +3,13 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../../../components/Form/Form';
-import { Button, CheckboxIOS } from '../../../../../components/Form/Button';
+import { Button } from '../../../../../components/Form/Button';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import { Hr } from '../../../../../components/Hr';
 import Scroll from '../../../../../utils/scroll';
 import CurrencyInput from 'react-currency-input';
 import { Span } from '../../../../../components/Span';
 import 'bulma-slider/dist/css/bulma-slider.min.css';
-import Slider from 'react-input-slider';
-import ScrollableAnchor from 'react-scrollable-anchor'
-import {IntlProvider, FormattedNumber } from 'react-intl';
 const Additionals = ({nextStep, handleChange, prevStep, values}) => {
   const [state, setState] = useState({ x: 30});
 

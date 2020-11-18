@@ -1,9 +1,7 @@
 import React from 'react'
 import './style.css'
-import { Link} from 'react-router-dom';
 import Scrool from '../../../utils/scroll';
 import {Helmet} from 'react-helmet'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import ScrollableAnchor from 'react-scrollable-anchor'
 import lixadeira from '../../../assets/images/lixadeira.jpg'; 
@@ -17,14 +15,8 @@ import aspirador from '../../../assets/images/aspirador.jpg';
 import logo_front_aboutus from '../../../assets/images/imagem_front_aboutus.png';
 import wap from '../../../assets/images/wap.jpg';
 import extratora from '../../../assets/images/extratora.jpg'; 
-import gardening from '../../../assets/images/gardening.jpg';
-import bricolagem from '../../../assets/images/bricolagem.jpg'
-import construcao from '../../../assets/images/construcao.jpg'
-import limpeza from '../../../assets/images/limpeza.jpg'
-import estrutura from '../../../assets/images/estrutura.jpeg'
 import { isMobile } from 'react-device-detect';
 import { faUserCircle, faIdCard, faCalendarWeek, faCreditCard, faTruck } from '@fortawesome/free-solid-svg-icons'
-import logo from '../../../assets/images/logo.png'
 library.add(faUserCircle, faIdCard, faCalendarWeek, faCreditCard, faTruck);
 
 const Newrent = ({history}) => {

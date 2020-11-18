@@ -74,11 +74,11 @@ const Main = ({history, tool}) => {
   const [follow, setFollow] = useState('');
   // eslint-disable-next-line
   const [accessory, setAccessory] = useState('');
-
+// eslint-disable-next-line
   const [freight, setFreight] = useState('');
   // eslint-disable-next-line
   const [edit, setEdit] = useState(false);
-
+// eslint-disable-next-line
 	const current_user = useSelector(state => state.auth);
 
   const formik = useFormik({

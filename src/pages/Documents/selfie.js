@@ -1,20 +1,16 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Button } from '../../components/Form/Button';
 import {useDropzone} from 'react-dropzone';
 import Notification from '../../utils/notification';
 import EllipsisText from "react-ellipsis-text";
-import { useDispatch, useSelector } from "react-redux";
-import selfieu from '../../assets/images/selfie.png';
+import { useDispatch } from "react-redux";
 import api from '../../services/api';
 import './style.css';
 import {Selfie as Selfieus} from '../../store/actions/selfie';
-import { useLocation } from "react-router-dom";
 import pdf from '../../assets/images/file.png';
 import selfiedoc from '../../assets/images/selfiedoc.png'
 import Resizer from 'react-image-file-resizer';
 
 export default function Selfie({id}) {
-  let location = useLocation().pathname;
   const dispatch = useDispatch();
   const [selfie, setSelfie] = useState('Não adicionado.');
   const [nameselfie, setNameselfie] = useState('');
@@ -59,6 +55,7 @@ export default function Selfie({id}) {
     return () => {
 
     };
+  // eslint-disable-next-line
   }, [id])
 
 
@@ -91,10 +88,11 @@ export default function Selfie({id}) {
         },
         'blob'
       );
+      // eslint-disable-next-line
   }, [])
 
   const {getRootProps, getInputProps} = useDropzone({onDrop})
- 
+   // eslint-disable-next-line
   const updateSelfie = () => {
     const data = new FormData();
     data.append('selfie', image[0]);

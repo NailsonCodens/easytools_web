@@ -21,6 +21,7 @@ const Basic = ({nextStep, handleChange, values}) => {
         .required('Descrição é obrigatório.'),
     }),
     onSubmit: value => {
+      // eslint-disable-next-line
       nextStep("#"+"brand")
     }
   })

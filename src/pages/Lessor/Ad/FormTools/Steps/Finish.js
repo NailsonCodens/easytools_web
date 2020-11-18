@@ -46,18 +46,21 @@ const Finish = ({handleChange, prevStep, values}) => {
   })
 
   async function saveTools (values) {
+/*eslint-disable no-unused-vars*/
     if (Array.isArray(values.category)) {
       var cat = [];
       values.category.map(function(categorie){
         cat.push(categorie.value)
+        return 'a';
       })
       cat = cat.toString()
       console.log(cat)
+      // eslint-disable-next-line
       values.category = cat 
     }else{
+      // eslint-disable-next-line
       values.category = values.category
     }
-
     values.feed = values.feed.value
 
     if (id !== undefined) {

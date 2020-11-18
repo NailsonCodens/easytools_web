@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { logout } from '../../services/auth';
-import logo_yellow from '../../assets/images/logo.png';
 import { Ul } from '../../components/List/index';
 import api from '../../services/api';
 import { isAuthenticated } from "../../services/auth";

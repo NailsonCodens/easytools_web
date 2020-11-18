@@ -7,9 +7,6 @@ import 'moment/locale/pt-br';
 import Title from '../../../../utils/title';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import { Button } from '../../../../components/Form/Button';
-import { Link } from 'react-router-dom';
-import socketio from '../../../../services/socketio';
-import Email from '../../../../utils/sendemail';
 import Scroll from '../../../../utils/scroll';
 import Modal from '../../../../components/Modal';
 
@@ -45,13 +42,14 @@ const Rents = ({ history }) => {
     return modal
   } 
 
+  /*
   const goExtend = (id, rent) => {
     setRentmodal(rent)
     setRenttool(rent.tool)
     setRentpicture(rent.tool.picture)
     setModal(true)
 
-  }
+  }*/
 
   // const accept = (id, rent) => {
   //   sendNotification(id, 'accept', rent)

@@ -1,25 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../../../services/api';
 import { useParams } from "react-router-dom";
-import queryString from 'query-string';
-import { useLocation } from 'react-router-dom';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import Title from '../../../../utils/title';
 import {Titlepage} from '../../../../components/Titles/Titlepages';
 import './myrent.css';
-import { DateRangePicker, toMomentObject } from 'react-dates';
+import { DateRangePicker } from 'react-dates';
 import {
   isMobile
 } from "react-device-detect";
-import preciseDiff from 'moment-precise-range-plugin';
 import Modal from '../../../../components/Modal';
 import { Button } from '../../../../components/Form/Button';
 //import ChangeAccept from './conditionsRent';
 import socketio from '../../../../services/socketio';
 import Email from '../../../../utils/sendemail';
-import { Link } from 'react-router-dom';
 import { Warningtext } from '../../../../components/Warningtext';
 import ReactGA, { set } from 'react-ga';
 import Notification from '../../../../utils/notification';

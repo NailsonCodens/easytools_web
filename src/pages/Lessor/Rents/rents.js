@@ -7,7 +7,6 @@ import 'moment/locale/pt-br';
 import Title from '../../../utils/title';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import { Button } from '../../../components/Form/Button';
-import { Link } from 'react-router-dom';
 import socketio from '../../../services/socketio';
 import Email from '../../../utils/sendemail';
 import { Paymentlink }from '../../PaymentLink/index';
@@ -68,7 +67,9 @@ const Rents = ({ history }) => {
 
     if (response.data.tool[0].availability === 'Y') {
       var titletool = rent.tool.title
+      //eslint-disable-next-line
       var lessor = rent.userlessor.name
+      //eslint-disable-next-line
       var renter = rent.userrenter.name
       var tension = rent.tension
       var startdate = moment(rent.startdate).format('DD/MM/YYYY');
@@ -428,7 +429,7 @@ const Rents = ({ history }) => {
                               <div className="column padding-rents">
                                 <b>Valores do aluguel: </b>
                                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                                  <FormattedNumber value={rent.cost} style="currency" currency="BRL" />
+                                  <FormattedNumber value={rent.cost} style={{currency: 'currency'}} currency="BRL" />
                                 </IntlProvider>                                
                               </div>
                             </div>
@@ -440,7 +441,7 @@ const Rents = ({ history }) => {
                                    <>
                                     <b>Custo de entrega: </b>
                                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                                      <FormattedNumber value={parseFloat(rent.freight)} style="currency" currency="BRL" />
+                                      <FormattedNumber value={parseFloat(rent.freight)} style={{currency: 'currency'}} currency="BRL" />
                                     </IntlProvider>
                                    </> 
                                   )
@@ -456,7 +457,7 @@ const Rents = ({ history }) => {
                                   (<b>Valores final do aluguel: </b>)
                                 }
                                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                                  <FormattedNumber value={parseFloat(rent.cost) + parseFloat(rent.freight)} style="currency" currency="BRL" />
+                                  <FormattedNumber value={parseFloat(rent.cost) + parseFloat(rent.freight)} style={{currency: 'currency'}} currency="BRL" />
                                 </IntlProvider>                                
                               </div>
                               <br/><br/>

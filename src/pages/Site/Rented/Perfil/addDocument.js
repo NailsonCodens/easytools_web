@@ -1,18 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import Document from '../../../Documents/document';
-import Proofaddress from '../../../Documents/proofAddress';
 import SocialContract from '../../../Documents/socialContract';
 import Selfie from '../../../Documents/selfie';
 import api from '../../../../services/api';
-import { Warningtext } from '../../../../components/Warningtext';
 import Warninggeneral from '../../../Warnings/Warninggeneral';
 import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import Scroll from '../../../../utils/scroll';
 import { Button } from '../../../../components/Form/Button';
 import { useSelector } from "react-redux";
-import { Form, Input } from '@rocketseat/unform';
-import { Field, Label } from '../../../../components/Form/Form';
+import { Form } from '@rocketseat/unform';
 import { useFormik } from 'formik';
 import Notification from '../../../../utils/notification';
 

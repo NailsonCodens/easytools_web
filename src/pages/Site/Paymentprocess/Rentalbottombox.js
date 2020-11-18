@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from '../../../components/Form/Button';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import api from '../../../services/api';
-import { Rentattempt } from '../../../store/actions/rentattempt.js';
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import {
   isMobile

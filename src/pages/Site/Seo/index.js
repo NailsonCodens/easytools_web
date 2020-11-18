@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, useRouteMatch } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-
+/*eslint-disable no-unused-vars*/
 import PrivateRenter from '../../../routes/privaterouteRenter';
 import MenuRenter from '../../../components/Menu/MenuRenter/index';
 import MenuProcess from '../../../components/Menu/MenuProcess/index';
@@ -16,7 +16,7 @@ import Ticotico from './Products/Ticotico/index';
 import Marmore from './Products/Marmore/index';
 import Plaina from './Products/Plaina/index';
 import Aspirador from './Products/Aspirador/index';
-
+/*eslint-disable no-unused-vars*/
 export default function Start({history}) {
   let { path } = useRouteMatch();
 	let location = useLocation().pathname;

@@ -81,7 +81,7 @@ const Footer = () => {
 							)
 						}
 						<a
-						href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="_blank">
+						href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="blank">
 							<br/>
 							<img src={whats} alt="Whats App EasyTools Logo" className="logo-whats"/>
 						</a>	
@@ -112,32 +112,32 @@ const Footer = () => {
 										<Ul>
 											<li className="title-footer"><Link to={'/s/about-us'} onClick={event => Scrool(0,0) } >EasyTools</Link></li>
 											<li><Link to={'/signup?type=renter'} onClick={event => Scrool(0,0) } >Alugue o que precisa!</Link></li>
-											<li><a href={'https://docs.google.com/forms/u/1/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} rel="noreferrer" target="_blank" onClick={event => Scrool() } >Seja vizinho na EasyTools</a></li>
+											<li><a href={'https://docs.google.com/forms/u/1/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} target="blank" onClick={event => Scrool() } >Seja vizinho na EasyTools</a></li>
 											<li><Link to={'/s/about-us'} onClick={event => Scrool() } >Sobre a EasyTools</Link></li>
 											<li><Link to={'/s/help-me'} onClick={event => Scrool() } >Ajuda</Link></li>
-											<li><a href="/s/terms" target="_blank">Termos de uso</a></li>
-											<li><a href="/s/privacyterms" target="_blank">Política de privacidade</a></li>
-											<li><a href="/s/dealopen" target="_blank">Contrato Público</a></li>
+											<li><a href="/s/terms" target="blank">Termos de uso</a></li>
+											<li><a href="/s/privacyterms" target="blank">Política de privacidade</a></li>
+											<li><a href="/s/dealopen" target="blank">Contrato Público</a></li>
 										</Ul>
 									</div>
 									<div className="column">
 										<Ul>
 											<li className="title-footer">Quer falar com a gente?</li>
-											<li className="title-footer"><a rel="noreferrer" href={'https://www.instagram.com/alugueferramentas/?hl=pt-br'} target="blank" onClick={event => Scrool() } ><FontAwesomeIcon icon={['fab', 'instagram']} size="2x"/> Instagram</a></li>
+											<li className="title-footer"><a href={'https://www.instagram.com/alugueferramentas/?hl=pt-br'} target="blank" onClick={event => Scrool() } ><FontAwesomeIcon icon={['fab', 'instagram']} size="2x"/> Instagram</a></li>
 											<li>
-												<a rel="noreferrer"
-												href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="_blank">
+												<a
+												href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="blank">
 													WhatsApp
 												</a>
 											</li>
 											<li>easytools@gmail.com</li>
 											<li>
-												<a rel="noreferrer" href="https://blog.easytoolsapp.com/" target="_blank">
-													Nosso blog ❤️
+												<a href="https://blog.easytoolsapp.com/" target="blank">
+													Nosso blog <span role="img">❤️</span>
 												</a>
 											</li>
 											<li>
-												<a rel="noreferrer" href="https://docs.google.com/forms/d/e/1FAIpQLSflhvjqDhcyO9fFkKSaQOXVPAaT3ggMesc4VEnNk5Mh_oUNUg/viewform?usp=sf_link" target="_blank">Relatar um problema</a>
+												<a href="https://docs.google.com/forms/d/e/1FAIpQLSflhvjqDhcyO9fFkKSaQOXVPAaT3ggMesc4VEnNk5Mh_oUNUg/viewform?usp=sf_link" target="_blank">Relatar um problema</a>
 											</li>
 										</Ul>				
 									</div>

@@ -9,8 +9,6 @@ import moment from 'moment';
 import Rentalbox from './Rentalbox';
 import Rentruesblock from '../../Warnings/Rentrulesblock';
 import NotAvailable from '../../Warnings/NotAvailable';
-import localForage from "localforage";
-import { Button } from '../../../components/Form/Button';
 import Scrool from '../../../utils/scroll';
 import ReactGA from 'react-ga';
 import 'moment/locale/pt-br';

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Wootric = () => {
   const current_user = useSelector(state => state.auth);
@@ -36,6 +36,7 @@ const Wootric = () => {
 
     return () => {
     };
+    // eslint-disable-next-line
   }, [])
 
   return (

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../../services/api';
-import ReactDOM from "react-dom";
+
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import queryString from 'query-string';
 import Scroll from '../../../utils/scroll';
 import { logout } from '../../../services/auth';
-import Title from '../../../utils/title';
-import desert2 from '../../../assets/images/desert2.svg'
 import './style.css';
 import Scrool from '../../../utils/scroll';
 import * as Yup from 'yup';

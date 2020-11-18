@@ -42,8 +42,11 @@ const Detail = ({history}) => {
   const [neighboor, setNeighboor] = useState('');
   const [city, setCity] = useState('');
   const [uf, setUf] = useState('');
+  // eslint-disable-next-line
   const [photo1, setPhoto1] = useState('');
+  // eslint-disable-next-line
   const [photo2, setPhoto2] = useState('');
+  // eslint-disable-next-line
   const [photo3, setPhoto3] = useState('');
   const [freight, setFreight]  = useState(0);
 
@@ -109,6 +112,7 @@ const Detail = ({history}) => {
   }, [id]);
 
   const onDrop = useCallback(acceptedFiles => {
+    // eslint-disable-next-line
     var prod1 = ''; 
 
     if (acceptedFiles[0] !== undefined) {
@@ -126,7 +130,7 @@ const Detail = ({history}) => {
         'blob'
       );
     }  
-
+  // eslint-disable-next-line
     var prod2 = '';
 
     if (acceptedFiles[1] !== undefined) {

@@ -1,10 +1,8 @@
 import React from 'react';
-import { Route, useRouteMatch } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import '../../style.css';
 import {Helmet} from 'react-helmet';
 import Scrool from '../../../../../utils/scroll';
-import ReactGA, { set } from 'react-ga';
+import ReactGA from 'react-ga';
 
 const Aspirador = ({history}) => {
   const Tracking = (category, action, label) => {
@@ -42,13 +40,13 @@ const Aspirador = ({history}) => {
           <div className="column">
             <div className="columns is-mobile is-desktop">
               <div className="column">
-                <img src="https://a.easytoolsapp.com/files/1595864905233_4a18fc93-e0ff-4bc4-9487-8da30105c1d5_08c0c35c-6485-4dad-b835-3233a2d6cc21.jpg" className="prodimg-seo"/>
+                <img alt="tool" src="https://a.easytoolsapp.com/files/1595864905233_4a18fc93-e0ff-4bc4-9487-8da30105c1d5_08c0c35c-6485-4dad-b835-3233a2d6cc21.jpg" className="prodimg-seo"/>
               </div>
               <div className="column">
-                <img src="https://a.easytoolsapp.com/files/1595864905340_4a18fc93-e0ff-4bc4-9487-8da30105c1d5_08c0c35c-6485-4dad-b835-3233a2d6cc21.jpg" className="prodimg-seo"/>
+                <img alt="tool" src="https://a.easytoolsapp.com/files/1595864905340_4a18fc93-e0ff-4bc4-9487-8da30105c1d5_08c0c35c-6485-4dad-b835-3233a2d6cc21.jpg" className="prodimg-seo"/>
               </div>
               <div className="column">
-                <img src="https://a.easytoolsapp.com/files/1595864905511_4a18fc93-e0ff-4bc4-9487-8da30105c1d5_08c0c35c-6485-4dad-b835-3233a2d6cc21.jpg" className="prodimg-seo"/>
+                <img alt="tool" src="https://a.easytoolsapp.com/files/1595864905511_4a18fc93-e0ff-4bc4-9487-8da30105c1d5_08c0c35c-6485-4dad-b835-3233a2d6cc21.jpg" className="prodimg-seo"/>
               </div>
             </div>
             <h3 className="title-index">

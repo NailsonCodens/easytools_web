@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Notication from '../../components/Notification/index'
 import api from '../../services/api';
 import './style.css'
 import { Button } from '../../components/Form/Button';
@@ -42,6 +41,7 @@ const Allnotification = ({history}) => {
   }
 
   async function goUpdatenotifiy (id) {
+    // eslint-disable-next-line
     const response = await api.put(`/notifications/update/${id}`, {
     });
     updatecount()
@@ -53,6 +53,7 @@ const Allnotification = ({history}) => {
     dispatch(Notificationrd(response.data.notification))
   }
 
+  /*
   const goAllnotification = () => {
     if (current_user.type_user === 'Lessor') {
       history.push(`/lessor/notifications`);
@@ -60,7 +61,7 @@ const Allnotification = ({history}) => {
       history.push(`/s/renter/notifications`);
     }
 
-  }
+  }*/
 
   return (
     <div>

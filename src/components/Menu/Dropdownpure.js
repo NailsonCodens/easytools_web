@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Ul } from '../../components/List/index';
 import { isAuthenticated } from "../../services/auth";
-import Notification from '../../components/Notification/index';
 import { Notification as Notificationrd } from '../../store/actions/notification';
 import api from '../../services/api';
 import { useHistory } from 'react-router-dom';

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { Form, Input } from '@rocketseat/unform';
@@ -57,6 +56,7 @@ const Address = ({nextStep, handleChange, prevStep, values}) => {
 
   const [address, setAddress] = useState('');
   const [showad, setShowad] = useState(true);
+  // eslint-disable-next-line
   const [showsg, showMsg] = useState(false);
 
   useEffect(() => {
