@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
+import Cards from 'react-credit-cards';
 import { Button } from '../../../../components/Form/Button';
 import api from '../../../../services/api';
 import socketio from '../../../../services/socketio';
@@ -8,11 +9,13 @@ import Rentruesblock from '../../../Warnings/Rentrulesblock';
 import { useLocation } from "react-router-dom";
 import { Rentinfo } from '../../../../store/actions/rentinfo';
 import {IntlProvider, FormattedNumber} from 'react-intl';
+import 'react-credit-cards/es/styles-compiled.css';
 import { Field } from '../../../../components/Form/Form';
 import Notification from '../../../../utils/notification';
 import Adddocument from '../../Tool/adddocument';
 import { isAuthenticated } from "../../../../services/auth";
 import ReactGA from 'react-ga';
+import NumberFormat from 'react-number-format';
 import Modal from '../../../../components/Modal';
 import Scroll from '../../../../utils/scroll';
 import ScrollableAnchor from 'react-scrollable-anchor'
@@ -62,11 +65,18 @@ const Payment = ({history}) => {
   const [document, setDocument] = useState({})
   const [adddoc, addDoc] = useState(false)
   const [modal, setModal] = useState(false);
+  const [modal2, setModal2] = useState(false);
   const [aditional, setAditional] = useState(false);
   const [cancel, setCancel] = useState(false);
   const [valueaditional, setValueaditional] = useState(10);
   const [obs, setObs] = useState('');
   const [hourdevolution, setHourdevolution] = useState('Manhã - 08:00 às 10:00');
+
+  const [cvc, setcvc] = useState('');
+  const [expiry, setexpiry] = useState('');
+  const [focuss, setfocuss] = useState('');
+  const [number, setnumber] = useState('');
+  const [name, setname] = useState('');
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -170,6 +180,30 @@ const Payment = ({history}) => {
   }, [current_user])
 
 
+  const handleInputFocus = (e) => {
+    setfocuss(e.target.name);
+  }
+
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    switch(name){
+      case 'number': 
+        setnumber(value)
+        break;
+      case 'name': 
+        setname(value)
+        break;
+      case 'cvc': 
+        setcvc(value)
+        break;
+      case 'expiry': 
+        setexpiry(value)
+        break;
+    }
+  }
+
   const success = () => Notification(
     'success',
     'Oba! Sua reserva está feita.', 
@@ -235,6 +269,7 @@ const Payment = ({history}) => {
   const Choosepayment = (payment) => {
     if (payment === 'creditcard') {
       setTypepayment('creditcard')
+      setModal2(true);
     } else if (payment === 'money') {
       setTypepayment('money')
     } else if (payment === 'machine') {
@@ -604,6 +639,10 @@ const Payment = ({history}) => {
 
   const hideRedirect = () => {
     setModal(false)
+  }
+
+  const hideRedirect2 = () => {
+    setModal2(false)
   }
 
   const nextStep = () => {
@@ -1195,6 +1234,70 @@ const Payment = ({history}) => {
                   </div>
                 </>
               </div>
+              <Modal 
+                        show={modal2} 
+                        onCloseModal={hideRedirect2}
+                        closeEscAllowed={false} 
+                        closeOnAllowed={false}
+                      >
+                        <h3 className="has-text-centered title is-4">Pagamento</h3>
+                        <p>Adicione as informações do seu cartão. Não se preocupe, elas estão seguras. Nós não registramos estes dados em nossa base de dados.</p>
+                        <br/>
+                        <br/>
+                        <div className="columns">
+                          <div className="column">
+                            <form>
+                              <div className="columns">
+                                <div className="column">
+                                  <NumberFormat name="number" className="input" format="#### #### #### ####" mask="_"                                     onChange={event => handleInputChange(event)}
+                                  onChange={event => handleInputChange(event)}
+                                  onFocus={event => handleInputFocus(event)}
+                                  />
+                              </div>
+                              </div>
+                              <div className="columns">
+                                <div className="column">
+                                  <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="Nome(Igual no cartão)"
+                                    className="input"
+                                    onChange={event => handleInputChange(event)}
+                                    onFocus={event => handleInputFocus(event)}
+                                  />
+                                </div>
+                              </div>
+                              <div className="columns">
+                                  <div className="column">
+                                  <NumberFormat format="##/##" name="expiry" className="input" placeholder="MM/YY" mask={['M', 'M', 'Y', 'Y']}
+                                  onChange={event => handleInputChange(event)}
+                                  onFocus={event => handleInputFocus(event)}/>
+                                  </div>
+                                  <div className="column">
+                                    <input
+                                      type="tel"
+                                      name="cvc"
+                                      placeholder="CVC"
+                                      className="input"
+                                      onChange={event => handleInputChange(event)}
+                                      onFocus={event => handleInputFocus(event)}
+                                    />                                  
+                                  </div>
+                                </div>
+                            </form>
+                          </div>
+                          <div className="column"  id="PaymentForm">
+                            <Cards
+                              cvc={cvc}
+                              expiry={expiry}
+                              focused={focuss}
+                              name={name}
+                              number={number}
+                            />
+                          </div>
+                        </div>
+                </Modal>           
+
               <div className="modal-paymenrent">
                 {
                   rentattempt.finishprocess === "y" ? 
