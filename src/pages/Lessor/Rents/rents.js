@@ -429,7 +429,7 @@ const Rents = ({ history }) => {
                               <div className="column padding-rents">
                                 <b>Valores do aluguel: </b>
                                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                                  <FormattedNumber value={rent.cost} style={{currency: 'currency'}} currency="BRL" />
+                                  <FormattedNumber value={rent.cost} style='currency' currency="BRL" />
                                 </IntlProvider>                                
                               </div>
                             </div>
@@ -441,7 +441,7 @@ const Rents = ({ history }) => {
                                    <>
                                     <b>Custo de entrega: </b>
                                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                                      <FormattedNumber value={parseFloat(rent.freight)} style={{currency: 'currency'}} currency="BRL" />
+                                      <FormattedNumber value={parseFloat(rent.freight)} style='currency' currency="BRL" />
                                     </IntlProvider>
                                    </> 
                                   )
@@ -457,7 +457,7 @@ const Rents = ({ history }) => {
                                   (<b>Valores final do aluguel: </b>)
                                 }
                                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                                  <FormattedNumber value={parseFloat(rent.cost) + parseFloat(rent.freight)} style={{currency: 'currency'}} currency="BRL" />
+                                  <FormattedNumber value={parseFloat(rent.cost) + parseFloat(rent.freight)} style='currency' currency="BRL" />
                                 </IntlProvider>                                
                               </div>
                               <br/><br/>

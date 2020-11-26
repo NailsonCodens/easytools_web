@@ -331,13 +331,15 @@ const Dashboard = ({history, location}) => {
     <>
     { 
       <Helmet>
-        <title>Aluguel delivery de equipamentos e ferramentas! | EasyTools</title>
+        <title>Sua caixa de ferramentas na nuvem. Escolheu, usou. | EasyTools</title>
         <meta name="description" content="EasyTools, sua caixa de ferramenta na nuvem! Precisou de ferramentas e equipamentos? Peça na EasyTools."/> 
         <meta name="keywords" content="Caixa de ferramenta, caixa de ferramentas, Ferramenta fácil, Aluguel, Roçadeira, Aluguel Roçadeira, Aluguel de equipamentos em Curitiba, ALuguel de lixadeira, aluguel de extratora, limpa sofá curitiba, alugar furadeira, alugar aspirador, alugar martelete, Aluguel equipamento curitiba, Aluguel motossera, Aluguel extratora, aluguel limpadora de sofá, aluguel de ferramentas, furadeira, app d ealuguel, aplicativo de aluguel de ferramentas,  Aluguel Online, Aluguel On-line, Aluguel furdeira, aluguel aspirador de pó, aluguel ferramenta, equipamento, betoneira, aluguel de equipamento online, locação, construção civil, extratora de sujeira, limpeza de sofá, locação curitiba, locacao curitiba, aluguel de ferramentas, aluguel de equipamentos, aluguel, alugar objetos, alugar produtos, allugator, olx, locação, classificados, alugar, grátis, anuncie, anúncios, alugue, equipamentos, construção, como ganhar uma renda extra,  aluguel compartilhado,  o que alugar para ganhar dinheiro,  aluguel de objetos,  aluguel de produtos,  olx aluguel, olx, alooga, allugator, easyrental, caixa de ferramenta na nuvem."/> 
         <meta name="robots" content=""/> 
         <meta name="revisit-after" content="1 day"/> <meta name="language" content="Portuguese"/>
       </Helmet>
     }
+
+
       {
         values.t === 'unavailable' ? 
         (

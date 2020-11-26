@@ -702,7 +702,7 @@ const Payment = ({history}) => {
                     <br/>
                     <span className="distance">Taxa de entrega e coleta: </span>
                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                      <b className="number-delivery"><FormattedNumber value={renderCalc()} style={{currency: "currency"}} currency="BRL" /></b>
+                      <b className="number-delivery"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
                     </IntlProvider>;
                     <hr/>
                     <p className="title-tl-input">Recebimento do ferramenta</p>
@@ -775,11 +775,11 @@ const Payment = ({history}) => {
                           <Select
                             className={''}
                             options={[
-                              {label: 'Noite - 17:00 às 18:00', value: 'Noite - 17:00 às 18:00'}, 
+                              {label: 'Noite - 15:00 às 16:00', value: 'Noite - 15:00 às 16:00'}, 
                             ]}
-                            defaultValue={{label: 'Noite - 17:00 às 18:00', value: 'Noite - 17:00 às 18:00'}}
+                            defaultValue={{label: 'Noite - 15:00 às 16:00', value: 'Noite - 15:00 às 16:00'}}
                             isSearchable={true}
-                            placeholder={'Ex: Noite - 17:00 às 18:00'}
+                            placeholder={'Ex: Noite - 15:00 às 16:00'}
                           />
                         </>
                       )
@@ -904,7 +904,7 @@ const Payment = ({history}) => {
                 <div className="columns is-mobile no-margin-top-columns dates-payment">
                   <div className="column">
                   <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                    <FormattedNumber value={rentattempt.priceperiod} style={{currency: "currency"}} currency="BRL" />
+                    <FormattedNumber value={rentattempt.priceperiod} style="currency" currency="BRL" />
                     {
                       renderPrice()
                     }
@@ -913,7 +913,7 @@ const Payment = ({history}) => {
                   <div className="column is-6">
                     <p className="is-pulled-right">
                       <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                        <FormattedNumber value={rentattempt.price} style={{currency: "currency"}} currency="BRL" />
+                        <FormattedNumber value={rentattempt.price} style="currency"currency="BRL" />
                         { 
                           rentattempt.amount === undefined ? 'x 1 UN' : `x ${rentattempt.amount} UN` 
                         }
@@ -934,7 +934,7 @@ const Payment = ({history}) => {
                 <div className="column">
                   <p className="is-pulled-right">
                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                      <b><FormattedNumber value={rentattempt.cost} style={{currency: "currency"}} currency="BRL" /></b>
+                      <b><FormattedNumber value={rentattempt.cost} style="currency" currency="BRL" /></b>
                     </IntlProvider>            
                   </p>
                 </div>
@@ -949,7 +949,7 @@ const Payment = ({history}) => {
                     <div className="column">
                       <p className="is-pulled-right">
                         <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                          <b><FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style={{currency: "currency"}} currency="BRL" /></b>
+                          <b><FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
                         </IntlProvider>            
                       </p>
                     </div>
@@ -1187,7 +1187,7 @@ const Payment = ({history}) => {
                         />
                         <p className={ isMobile ? "is-pulled-left price-bottom" : "is-pulled-right price-bottom" }>
                           <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                            <b>Total: <FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style={{currency: "currency"}} currency="BRL" /></b>
+                            <b>Total: <FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
                           </IntlProvider>            
                         </p>
                       </div>
@@ -1228,15 +1228,15 @@ const Payment = ({history}) => {
                         </div>
                         <div className="has-text-centered">
                         <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                          <b className="number-delivery"><FormattedNumber value={renderCalc()} style={{currency: "currency"}} currency="BRL" /></b>
+                          <b className="number-delivery"><FormattedNumber value={renderCalc()} style='currency' currency="BRL" /></b>
                         </IntlProvider>
                           <span className="span-adiciontal">+</span>
                         <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                          <b className="number-delivery"><FormattedNumber value={10} style={{currency: "currency"}} currency="BRL" /></b>
+                          <b className="number-delivery"><FormattedNumber value={10} style='currency' currency="BRL" /></b>
                         </IntlProvider>     
                         <br/><span class="valueadtotal">
                           = <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                            <b className="number-delivery"><FormattedNumber value={renderCalc()+ 10} style={{currency: "currency"}} currency="BRL" /></b>
+                            <b className="number-delivery"><FormattedNumber value={renderCalc()+ 10} style='currency' currency="BRL" /></b>
                           </IntlProvider>.
                           </span> 
                         </div>

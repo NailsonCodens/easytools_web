@@ -253,14 +253,14 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
         <div className="columns is-mobile">
           <div className="column">
             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-              <FormattedNumber value={price.price} style={{currency: "currency"}} currency="BRL" />
+              <FormattedNumber value={price.price} style="currency" currency="BRL" />
               { text }
             </IntlProvider>
           </div>
           <div className="column is-6">
             <p className="is-pulled-right">
               <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                <FormattedNumber value={price.priceNoamount} style={{currency: "currency"}} currency="BRL" />
+                <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
                 { 
                   values.am === undefined ? ' x 1 UN ' : ` x ${values.am} UN` 
                 }
@@ -315,7 +315,7 @@ const Rentalbox = ({startDate, endDate, attempt}) => {
           <div className="column">
             <p className="is-pulled-right">
               <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                <b><FormattedNumber value={price.pricefull} style={{currency: "currency"}} currency="BRL" /></b>
+                <b><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
               </IntlProvider>            
             </p>
           </div>

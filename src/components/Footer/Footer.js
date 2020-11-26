@@ -20,7 +20,9 @@ library.add(faInstagram);
 
 const Footer = () => {
 
-  const refreshui = useSelector(state => state.refreshui);
+	const refreshui = useSelector(state => state.refreshui);
+	
+	console.log(refreshui + 'aaaaa')
 
   const updateServiceWorker = () => {
 		const sw = refreshui.payload

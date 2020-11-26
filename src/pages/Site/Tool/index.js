@@ -3,6 +3,8 @@ import { useParams, useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import { useDispatch, useSelector } from "react-redux";
 import { Rentaltool } from '../../../store/actions/rentaltool';
+  // eslint-disable-next-line
+import preciseDiff from 'moment-precise-range-plugin';
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
