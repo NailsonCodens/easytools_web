@@ -134,7 +134,7 @@ const Footer = () => {
 											</li>
 											<li>easytools@gmail.com</li>
 											<li>
-												<a href="https://blog.easytoolsapp.com/" target="blank">
+												<a href="https://caixadeferramenta.easytoolsapp.com/" target="blank">
 													Nosso blog <span role="img">❤️</span>
 												</a>
 											</li>
