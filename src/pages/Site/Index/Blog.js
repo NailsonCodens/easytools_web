@@ -9,7 +9,7 @@ const Blog = () => {
       <p className="without2">Em nosso blog você vai encontrar muitas dicas e conteúdos úteis para sua vida.</p>
       <div className="columns cl-blog">
         <div className="column">
-          <a href="https://caixadeferramenta.easytoolsapp.com/aluguel-de-ferramentas/" target="_blank">
+          <a href="https://caixadeferramenta.easytoolsapp.com/ferramentas/julius-na-easytools/" target="_blank">
             <div className="boxs-blog">
               <div className="box-img-blog">
                 <img src={julius}  alt="JuliusClean" className=""/>
