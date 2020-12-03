@@ -871,7 +871,7 @@ const Tool = ({history}) => {
           <Warningtext class="orange">{ text2 }</Warningtext>        
         */
       }
-      <div className="columns is-mobile no-top-total">
+      <div className="columns is-mobile no-top-total total-tools-values">
         <div className="column">
           <b>Total</b>
         </div>
@@ -1268,7 +1268,7 @@ return (
                         <Field>
                           <Label className="label" for={'amount'}>Quant. item</Label>
                           <Input
-                            className="input border-black"
+                            className="input is-small border-black"
                             name="amount"
                             type="number"
                             placeholder=""
@@ -1282,27 +1282,41 @@ return (
                     {
                       Object.entries(price).length > 0 ? 
                       (
+                        <>
+                          <div className="adons-container">
+                            <p className="optionals">Opcionais</p>
+                            <div className="columns adons">
+                              <div className="column adons-box">
+                                <FontAwesomeIcon icon={['fas', 'check-circle']} className="icon-checkadons" size="1x"/>
+                              </div>
+                              <div className="column adons-box">
+                                -
+                              </div>
+                              <div className="column adons-box">
+                                -
+                              </div>
+                              <div className="column adons-box">
+                                -
+                              </div>
+                            </div>                      
+                          </div>   
+                        </>
+                      )
+                      :
+                      (
+                        <>
+                        </>
+                      )
+                    }
+                    {
+                      Object.entries(price).length > 0 ? 
+                      (
                         <div className="">
                           {renderPrice()}
                         </div>
                       ) : 
                       ('')
                     }
-                    <div className="pricefinal">
-                      {
-                        isMobile === true ? 
-                        (
-                          <>
-                         
-                          </>
-                        )
-                        :
-                        (
-                          <>
-                          </>
-                        ) 
-                      }
-                    </div>
                     {
                       modal2 === true ? 
                       (

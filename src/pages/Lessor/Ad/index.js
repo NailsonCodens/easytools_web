@@ -5,6 +5,7 @@ import Ad from './ad';
 import Create from './create';
 import Edit from './edit';
 import Detail from './detail';
+import Adons from './adons';
 
 export default function Neighbor({history}) {
   let { path } = useRouteMatch();
@@ -16,6 +17,7 @@ export default function Neighbor({history}) {
         <Route path={`${path}/create`} component={Create}/>
         <Route path={`${path}/edit/:id`} component={Edit}/>
         <Route path={`${path}/detail/:id`} component={Detail}/>
+        <Route path={`${path}/adons`} component={Adons}/>
       </div> 
     </>
   )

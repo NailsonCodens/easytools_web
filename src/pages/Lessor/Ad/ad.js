@@ -34,6 +34,11 @@ export default function Index({history}) {
     history.push(`ad/detail/${id}`);
   }
 
+  const Adons = () => {
+    Scroll()
+    history.push(`ad/adons`);    
+  }
+
   return (
     <>
       <div className="container container-page">
@@ -42,6 +47,13 @@ export default function Index({history}) {
             <Titlepage>Meus Anúncios</Titlepage>
           </div>
           <div className="column has-text-right">
+            <br/><br/>
+            <Button
+              onClick={event => Adons()}
+              type={'button'}
+              className={'button color-logo'}
+              text={'Opcionais'}
+            />
           </div>
         </div>
         <div className="columns is-desktop">
