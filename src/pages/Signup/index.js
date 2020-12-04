@@ -223,7 +223,6 @@ const Singup = ({ history }) => {
     } else {
       setModal(true);
     }
-
     setUsernew(values);
   }
 

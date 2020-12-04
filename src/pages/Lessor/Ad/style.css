@@ -106,6 +106,12 @@
   object-fit:cover;
 }
 
+.image-list-acessorios{
+  width:150px;
+  height:150px;
+  object-fit:cover;
+}
+
 .warning-photo{
   color: rgb(29, 163, 240) !important;
   text-align: center !important;
