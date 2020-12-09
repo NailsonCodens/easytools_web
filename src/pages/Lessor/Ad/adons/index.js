@@ -23,6 +23,10 @@ export default function Adonsinit({history}) {
     history.push(`adons/create/`);
   }
 
+  const Edit = (id) => {
+    history.push(`adons/edit/${id}`);
+  }
+
   document.title = Title('Editar anúncio');  
 
   return (
@@ -41,18 +45,31 @@ export default function Adonsinit({history}) {
           />
         </div>
       </div>
-      <div className="box-inter">
+      <div className="">
         {
           adons.map(adons => (
             <div className="columns">
               <div className="column">
-                <div className="columns">
+                <div className="columns box-accessories">
                   <div className="column is-1">
                     <img src={ adons.url } alt="EasyTools adons" className="imageadons"/>
                   </div>
-                  <div className="column">
+                  <div className="column text-acessories">
                     <p>{ adons.name }</p>
                     <p> R$ { adons.price }</p>
+                  </div>
+                  <div className="column is-2">
+                    <Button
+                      type={'submit'}
+                      className={'button color-logo'} 
+                      text={'Editar'}
+                      onClick={event => Edit(adons.id)}
+                    />
+                    <Button
+                      type={'submit'}
+                      className={'button color-logo'} 
+                      text={'Deletar'}
+                    />
                   </div>
                 </div>
               </div>

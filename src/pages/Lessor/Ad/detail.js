@@ -21,8 +21,6 @@ import {Photo3} from '../../../store/actions/photo3';
 import { Span } from '../../../components/Span';
 
 const Detail = ({history}) => {
-
-
   let { id } = useParams();
 
   const pt1 = useSelector(state => state.photo1);

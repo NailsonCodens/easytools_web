@@ -229,7 +229,6 @@ const Perfil = ({history}) => {
         setAvatar(perfil.url)
         return ''
       })
-
     }
     loadPerfil();
   }, [formik.values]);

@@ -9,17 +9,22 @@ import { CheckboxIOS } from '../../../../components/Form/Button';
 import { Field, Label } from '../../../../components/Form/Form';
 import { Form, Input } from '@rocketseat/unform';
 import CurrencyInput from 'react-currency-input';
+import { useLocation, useHistory } from 'react-router-dom';
 import Scrool from '../../../../utils/scroll';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { Span } from '../../../../components/Span';
 import {useDropzone} from 'react-dropzone'
+import queryString from 'query-string';
 import Resizer from 'react-image-file-resizer';
 import {Photo1} from '../../../../store/actions/photo1';
 import Notification from '../../../../utils/notification';
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 export default function Adonsinit({history}) {
+  let { id } = useParams();
+  console.log(id)
   const [isactive, setActive] = useState([]);
   const [imgtool, setImgtool] = useState([]);
   const [listphoto, setListphoto] = useState([]);
@@ -28,6 +33,76 @@ export default function Adonsinit({history}) {
   const dispatch = useDispatch();
 
   const pt1 = useSelector(state => state.photo1);
+  const [adon, setAdon] = useState([]);
+  const [name, setName] = useState();
+  const [description, setDescription] = useState();
+  const [price, setPrice] = useState();
+  const [checkad, setCheck] = useState('');
+  const [url, setUrl] = useState();
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      description: '',
+      checkad: 'Y',
+      image: '',
+      price: '',
+    },
+    validationSchema: Yup.object({
+      name: Yup.string()
+        .required('Insira o nome por favor.'),
+      price: Yup.string()
+        .required('Insira o preço por favor.'),
+    }),
+
+    onSubmit: values => {
+      if (id != undefined) {
+        updateAdons(values)
+      } else {
+        saveAdons(values)
+      }
+    }
+  });
+
+
+  useEffect(() => {
+
+    async function loadAdon() { 
+      const response = await api.get(`/adons/adon/${id}`, {
+      });
+      setAdon(response.data.adon[0])
+
+      response.data.adon.map(function (adon) {
+        if (adon.name !== null) {
+          setName(adon.name)
+        }
+        formik.values.name = adon.name
+
+        if (adon.description !== null) {
+          setDescription(adon.description)
+        } 
+        formik.values.description = adon.description
+
+        if (adon.price !== null) {
+          setPrice(adon.price)
+        }
+        formik.values.price = adon.price
+
+          setCheck(adon.checkad);
+
+        formik.values.checkad = adon.checkad
+
+        if (adon.url !== null) {
+          setUrl(adon.url)
+        }
+      })
+    }
+    loadAdon();
+    // 
+    return () => {
+    }
+  }, [formik.values])
+
 
   const success = () => Notification(
     'success',
@@ -47,29 +122,19 @@ export default function Adonsinit({history}) {
   )
 
 
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      description: '',
-      checkad: 'Y',
-      image: '',
-      price: '',
-    },
-    validationSchema: Yup.object({
-      name: Yup.string()
-        .required('Insira o nome por favor.'),
-      price: Yup.string()
-        .required('Insira o preço por favor.'),
-    }),
-
-    onSubmit: values => {
-      saveAdons(values)
-    }
-  });
-
   const adons = () => {
     Scroll()
-    history.push(`lessor/ad/adons/`);
+    history.push(`/lessor/ad/adons/`);
+  }
+
+
+  async function updateAdons (values) {
+    await api.put(`adons/update/${id}`, values, {})
+    .then((res) => {
+      saveImages(id)
+    }).catch((err) => {
+      console.log(err)
+    })     
   }
 
 
@@ -83,7 +148,6 @@ export default function Adonsinit({history}) {
   }
 
   const handleChangeAdditionals = (input, event, type) => {
-
     formik.values.price = event
   }
 
@@ -93,7 +157,10 @@ export default function Adonsinit({history}) {
     const checkad = value ? 'Y' : 'N'
 
     formik.values.checkad = checkad
+    setCheck(checkad)
   };
+
+  console.log(checkad)
 
   const onDrop = useCallback(acceptedFiles => {
     // eslint-disable-next-line
@@ -150,6 +217,16 @@ export default function Adonsinit({history}) {
       }) 
   }
 
+  const handleNameChange = (name) => {
+    formik.values.name = name
+    setName(name);
+  }
+
+  const handleDescriptionChange = (description) => {
+    formik.values.description = description
+    setDescription(description);
+  }
+
   return (
     <div className="container container-page">
       <div className="columns">
@@ -183,8 +260,11 @@ export default function Adonsinit({history}) {
                 type="text" 
                 placeholder="" 
                 className={formik.touched.name && formik.errors.name ? 'input border-warning' : 'input'}
-                onChange={formik.handleChange}
-                value={formik.values.name}
+                onChange={event => {
+                  handleNameChange(event.target.value)
+                  formik.handleChange('name')
+                }}
+                value={name}
               />
               <Span className={'validation-warning'}>
                 {
@@ -205,8 +285,11 @@ export default function Adonsinit({history}) {
                 type="text" 
                 placeholder="" 
                 className={'input'}
-                onChange={formik.handleChange}
-                value={formik.values.description}
+                onChange={event => {
+                  handleDescriptionChange(event.target.value)
+                  formik.handleChange('description')
+                }}
+                value={description}
               />
             </Label>
           </Field>
@@ -219,8 +302,11 @@ export default function Adonsinit({history}) {
                 decimalSeparator="," thousandSeparator="."
                 placeholder="R$ 5,00"
                 className={formik.touched.price && formik.errors.price ? 'input border-warning' : 'input'}
-                onChange={event => handleChangeAdditionals('price', event, 'price')}
-                value={formik.values.price}
+                onChange={event => {
+                  handleChangeAdditionals('price', event, 'price');
+                  formik.handleChange('price');
+                }}
+                value={price}
               />              
               <Span className={'validation-warning'}>
                 {
@@ -234,6 +320,28 @@ export default function Adonsinit({history}) {
             </Label>
           </Field>
           <br/>
+          {
+            url !== '' ? 
+            (
+              <>
+                <Field>
+                  <Label>
+                    <b>Imagem atual do acessório</b>
+                    <br/>
+                    <img src={url} alt="EasyTools Logo" className="image-list-acessorios"/>
+                  </Label>
+                </Field>
+              </>
+            )
+            :
+            (<>
+            
+            
+            </>)
+          }
+
+
+
           <Field>
             <Label>
               <div {...getRootProps()} className="drag-photo">
@@ -322,17 +430,52 @@ export default function Adonsinit({history}) {
               <Warningtext>
                 Acessório selecionado
               </Warningtext>
-              <div className="offer">
-                <CheckboxIOS 
-                  onChange={handleCheckIOS}
-                  name="checkad"
-                  value={formik.values.checkad} 
-                  bind="checksignup"
-                  ch={true}
-                  off="" 
-                  on="Sim"
-                />
-              </div>
+              {
+                checkad.length > 0 ?
+                (
+                  <>
+                    <div className="offer">
+                      <CheckboxIOS 
+                        onChange={handleCheckIOS}
+                        name="checkad"
+                        value={checkad} 
+                        bind="check"
+                        ch={checkad === 'Y' ? true : false}
+                        off="não" 
+                        on="Sim"
+                       />
+                    </div>                      
+                  </>
+                )
+                :
+                (
+                  <>
+                  {
+                    id === undefined ? 
+                    (
+                      <>
+                        <div className="offer">
+                          <CheckboxIOS 
+                            onChange={handleCheckIOS}
+                            name="checkad"
+                            value={checkad} 
+                            bind="check"
+                            ch={'Y'}
+                            off="não" 
+                            on="Sim"
+                          />
+                        </div>
+                      </>
+                    )
+                    :
+                    (
+                      <>
+                      </>
+                    )
+                  }
+                  </>
+                )
+              }
             </Label>
           </Field>
           <Field className={'field'}>
@@ -340,7 +483,7 @@ export default function Adonsinit({history}) {
               <Button
                 type={'submit'}
                 className={'button color-logo'} 
-                text={'Cadastre-se'}
+                text={id === undefined ? 'Cadastre-se' : 'Atualizar'}
               />
             </Label>
           </Field>

@@ -122,6 +122,19 @@
   margin-left: 30px !important;
 }
 
+
+.box-accessories{
+  margin-bottom: 6px !important;
+  padding: 20px;
+  background: rgb(255, 255, 255);
+}
+
+.text-acessories{
+  font-size: 17px !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+
 .warning-cad{
   font-size: 25px !important;
   font-family: 'Poppins', sans-serif !important;

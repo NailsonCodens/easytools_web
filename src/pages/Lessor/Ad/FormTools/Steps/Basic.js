@@ -7,6 +7,7 @@ import { Button } from '../../../../../components/Form/Button';
 import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import { Span } from '../../../../../components/Span';
 import Scrool from '../../../../../utils/scroll';
+import Select from 'react-select';
 
 const Basic = ({nextStep, handleChange, values}) => {
   const formik = useFormik({
@@ -25,6 +26,21 @@ const Basic = ({nextStep, handleChange, values}) => {
       nextStep("#"+"brand")
     }
   })
+
+  const list = [
+    { value: "Bricolagem", label: "Bricolagem" },
+    { value: "Construcao", label: "Construção" },
+    { value: "Demolição", label: "Demolição" },
+    { value: "Limpeza", label: "Limpeza" },
+    { value: "Jardinagem", label: "Jardinagem" },
+    { value: "Estrutura", label: "Estrutura" },
+    { value: "Corte", label: "Corte" },
+    { value: "Perfuração", label: "Perfuração" },
+    { value: "Polimento", label: "Polimento" },
+    { value: "Kit Hibrido", label: "Kit Híbrido" },
+    { value: "Kit Limpeza", label: "Kit Limpeza" },
+  ];
+  
 
   if (values.title !== '' ) {
     formik.values.title = values.title
@@ -103,6 +119,21 @@ const Basic = ({nextStep, handleChange, values}) => {
               null
             }
           </Span>
+        </Field>
+        <Field className={'field'}>
+          <Label for={'category'}>
+            <b>Acessórios</b>
+          </Label>
+          <Select
+            className={''}
+            options={list}
+            isSearchable={true}
+            isMulti
+            placeholder={'Cortante'}
+//            onChange={selectedOption => {
+ //           }}
+  //          defaultValue={values.category}
+          />
         </Field>
         <Button
           type={'submit'}

@@ -13,6 +13,7 @@ export const Button = props => (
 );
 
 export const CheckboxIOS = (props) => {
+  console.log(props)
   return (
     <>
       <div id="toggles">
