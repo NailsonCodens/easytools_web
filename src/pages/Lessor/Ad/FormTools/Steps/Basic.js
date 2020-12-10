@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState }  from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Input } from '@rocketseat/unform';
@@ -8,8 +8,29 @@ import { SubTitlepages } from '../../../../../components/Titles/SubTitlepages';
 import { Span } from '../../../../../components/Span';
 import Scrool from '../../../../../utils/scroll';
 import Select from 'react-select';
+import api from '../../../../../services/api';
 
 const Basic = ({nextStep, handleChange, values}) => {
+  const [adons, setAdons] = useState([]);
+
+  useEffect(() => {
+    async function loadadons() { 
+      const response = await api.get(`/adons`, {
+      });
+
+      var adonslisst = [];
+
+      response.data.adons.map(function(adons){
+        adonslisst.push({value: adons.id, label: adons.name, url: adons.url})
+      })
+      console.log(adonslisst)
+
+      setAdons(adonslisst)
+    }
+    loadadons();
+  }, []);
+
+
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -64,6 +85,46 @@ const Basic = ({nextStep, handleChange, values}) => {
 
     handleChange(input, event.target.value)
   }
+
+  const CustomClearText = () => 'clear all';
+
+  const ClearIndicator = props => {
+    const {
+      children = <CustomClearText />,
+      getStyles,
+      innerProps: { ref, ...restInnerProps },
+    } = props;
+    return (
+      <div
+        {...restInnerProps}
+        ref={ref}
+        style={getStyles('clearIndicator', props)}
+      >
+        <div style={{ padding: '0px 5px' }}>{children}</div>
+      </div>
+    );
+  };
+
+  const CustomOption = ({ innerProps, isDisabled }) =>
+  !isDisabled ? (
+    <div {...innerProps}>{
+      adons.map(adons => (
+        <>
+          <div className="columns">
+            <div className="column is-1">
+              {
+                <img src={ adons.url } alt="EasyTools adons" className="easyadonsselect"/>                
+              }
+            </div>
+            <div className="column">
+              <p>{adons.label}</p>
+            </div>
+          </div>
+        </>
+      )  )
+    }</div>
+  ) : null;
+
 
   return (
     <>
@@ -126,10 +187,11 @@ const Basic = ({nextStep, handleChange, values}) => {
           </Label>
           <Select
             className={''}
-            options={list}
+            components={{ Option: CustomOption }}
+            options={adons}
             isSearchable={true}
             isMulti
-            placeholder={'Cortante'}
+            placeholder={'asdsad'}
 //            onChange={selectedOption => {
  //           }}
   //          defaultValue={values.category}
