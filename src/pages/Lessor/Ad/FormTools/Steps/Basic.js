@@ -105,23 +105,54 @@ const Basic = ({nextStep, handleChange, values}) => {
     );
   };
 
-  const CustomOption = ({ innerProps, isDisabled }) =>
+  const Menu = props => {
+    return (
+      <>
+        <div>
+          asdas
+        </div>
+        <div className="columns" {...props}>
+          <div className="column is-2">
+            <img src={ props.data.url } alt="EasyTools adons" className="easyadonsselect"/>                
+          </div>
+          <div className="column">
+            {props.children}
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  const CustomOption = ({ innerProps, isDisabled, options }) =>
   !isDisabled ? (
     <div {...innerProps}>{
-      adons.map(adons => (
+      <>
+      <div className="columns">
+        <div className="column is-2  box-img-select">
+          {/*
+            <img src={ adons.url } alt="EasyTools adons" className="easyadonsselect"/>                
+          */}
+        </div>
+        <div className="column">
+          <p>{console.log(options)}</p>
+        </div>
+      </div>
+    </>
+
+     /* adons.map(adons => (
         <>
           <div className="columns">
-            <div className="column is-1">
+            <div className="column is-2  box-img-select">
               {
                 <img src={ adons.url } alt="EasyTools adons" className="easyadonsselect"/>                
               }
-            </div>
+             </div>
             <div className="column">
               <p>{adons.label}</p>
             </div>
           </div>
         </>
-      )  )
+      )  )*/
     }</div>
   ) : null;
 
@@ -187,7 +218,7 @@ const Basic = ({nextStep, handleChange, values}) => {
           </Label>
           <Select
             className={''}
-            components={{ Option: CustomOption }}
+            components={{ Option: Menu }}
             options={adons}
             isSearchable={true}
             isMulti

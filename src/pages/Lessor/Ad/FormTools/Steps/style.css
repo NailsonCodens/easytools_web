@@ -28,5 +28,14 @@
 }
 
 .easyadonsselect{
-  width: 60px;
+  width: 55px !important;
+  height: 55px !important;
+  margin-left: 15px;
+  border: 1px solid #60A8F1;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+}
+
+.box-img-select{
 }

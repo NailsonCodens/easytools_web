@@ -51,7 +51,7 @@ export default function Adonsinit({history}) {
             <div className="columns">
               <div className="column">
                 <div className="columns box-accessories">
-                  <div className="column is-1">
+                  <div className="column is-2">
                     <img src={ adons.url } alt="EasyTools adons" className="imageadons"/>
                   </div>
                   <div className="column text-acessories">
