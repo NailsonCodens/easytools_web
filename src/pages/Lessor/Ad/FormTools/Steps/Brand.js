@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import api from '../../../../../services/api';
 import { useFormik } from 'formik';
 import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../../../components/Form/Form';
@@ -14,13 +15,34 @@ import feeds from '../../../../../utils/feeds';
 import ScrollableAnchor from 'react-scrollable-anchor'
 
 const Brand = ({nextStep, handleChange, prevStep, values}) => {
+  const [adons, setAdons] = useState([]);
+
+
+  useEffect(() => {
+    async function loadadons() { 
+      const response = await api.get(`/adons`, {
+      });
+
+      var adonslisst = [];
+
+      response.data.adons.map(function(adons){
+        adonslisst.push({value: adons.id, label: adons.name, url: adons.url})
+      })
+      console.log(adonslisst)
+
+      setAdons(adonslisst)
+    }
+    loadadons();
+  }, []);
+
+
   const current_user = useSelector(state => state.auth)
 
   const formik = useFormik({
     initialValues: {
       brand: '',
       category: '',
-      
+      adons: '',
       type_spec: '',
       feed: '',
       power: '',
@@ -41,7 +63,6 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
     prevStep();
   }
 
-
   const handleChangeBrand = (input, event, type) => {
     let ev = ''
 
@@ -54,7 +75,7 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
     } else if (type === 'radio') {
       ev = event.target.checked === true ? 'Tri' : ''
     }else {
-        if (input === 'category') {
+        if (input === 'category' || input === 'adons') {
           ev = event
         } else{
           type === 'select' ? ev = event.value : ev = event.target.value
@@ -81,6 +102,17 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
           }
           formik.values.category = ev
         break;
+        case 'adons':
+          var ad = [];
+          if (ev !== null) {
+            ev.map(function(adons){
+              var selectadons = adons.value + '=' + adons.label
+              ad.push(selectadons)
+            })
+            ev = ad.toString()  
+          }
+          formik.values.adons = ev
+          break;
       case 'power': 
         formik.values.power = ev
         break;
@@ -104,6 +136,22 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
     }
     handleChange(input, ev)
   }
+
+  const Menu = props => {
+    console.log(props)
+    return (
+      <div {...props.innerProps} className="line-select-adons">
+          <div className="columns" {...props}>
+            <div className="column is-2 box-img-select">
+              <img src={ props.data.url } alt="EasyTools adons" className="easyadonsselect"/>                
+            </div>
+            <div className="column">
+              <p className="text-select-adons">{props.children}</p>
+            </div>
+          </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -145,6 +193,23 @@ const Brand = ({nextStep, handleChange, prevStep, values}) => {
                 */
               }
             </Field>
+          </div>
+        </div>
+        <div className="columns">
+          <div className="column">
+            <Select
+              className={''}
+              components={{ Option: Menu }}
+              options={adons}
+              isSearchable={true}
+              isMulti
+              placeholder={''}
+              onChange={selectedOption => {
+                handleChangeBrand('adons', selectedOption, 'select');
+                formik.handleChange("adons");
+              }}
+              defaultValue={values.adons}
+            />
           </div>
         </div>
         <div className="columns">

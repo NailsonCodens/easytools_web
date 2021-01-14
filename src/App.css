@@ -762,7 +762,7 @@ body{
   }
 
   .bt-app{
-    height: 50px !important;
+    height: 50px;
   }
 
   .bt-app-2{

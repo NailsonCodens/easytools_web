@@ -211,6 +211,10 @@
 }
 
 @media (max-width: 900px) {
+  .back-nav{
+    padding-bottom: 65px;
+  }
+
   .navbar-menu.is-active{
     display: inline !important;
   }

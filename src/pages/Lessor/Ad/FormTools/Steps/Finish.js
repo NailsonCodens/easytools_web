@@ -57,10 +57,23 @@ const Finish = ({handleChange, prevStep, values}) => {
       console.log(cat)
       // eslint-disable-next-line
       values.category = cat 
-    }else{
+    } else{
       // eslint-disable-next-line
       values.category = values.category
     }
+
+    if (Array.isArray(values.adons)) {
+      var ad = [];
+      values.adons.map(function(adons){
+        ad.push(adons.value)
+        return 'a';
+      })
+      ad = ad.toString()
+      values.adons = ad
+    } else {
+      values.adons = values.adons
+    }
+
     values.feed = values.feed.value
 
     if (id !== undefined) {

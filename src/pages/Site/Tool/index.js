@@ -3,9 +3,12 @@ import { useParams, useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import { useDispatch, useSelector } from "react-redux";
 import { Rentaltool } from '../../../store/actions/rentaltool';
+import _ from "lodash";
+
   // eslint-disable-next-line
 import preciseDiff from 'moment-precise-range-plugin';
 import 'react-dates/initialize';
+import Select from 'react-select';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import './calendar.css'
@@ -14,6 +17,7 @@ import { Rentattempt } from '../../../store/actions/rentattempt.js';
 import moment from 'moment';
 import 'moment/locale/pt-br';
   // eslint-disable-next-line
+import {Adons} from '../../../store/actions/adons';
 import ScrollableAnchor from 'react-scrollable-anchor'
 import {IntlProvider, FormattedNumber} from 'react-intl';
 import { useFormik } from 'formik';
@@ -21,6 +25,7 @@ import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../components/Form/Form';
 import { Button } from '../../../components/Form/Button';
 import { Warningtext } from '../../../components/Warningtext';
+import Checkboximage from '../../../components/Form/Checkboximage';
 import Scrool from '../../../utils/scroll';
 import api from '../../../services/api';
 import './style.css';
@@ -51,7 +56,6 @@ const Tracking = (category, action, label) => {
     label: label
   });
 }
-
 /*
 const renderPromo = (title) => {
   if (title.indexOf('Lavadora')){
@@ -74,6 +78,8 @@ const renderPromo = (title) => {
 
 
 const Tool = ({history}) => {
+
+  const currentadons = useSelector(state => state.adons);
   const dispatch = useDispatch();
 
   /*const infochoose = useSelector(state => state.rentaltool);*/
@@ -87,6 +93,7 @@ const Tool = ({history}) => {
   const [prices, setPrices] = useState([]);
   const [focus, setFocus] = useState('');
   const [errodate, setErrodate] = useState('');
+  const [erroamount, setErramount] = useState('');
   const [rent, setRent] = useState(false);
   // eslint-disable-next-line
   const [startDate, setStartdate] = useState(null);
@@ -117,6 +124,10 @@ const Tool = ({history}) => {
   // eslint-disable-next-line
   const [disconcert, setDisconcert] = useState('');
   const [promotional, setPromotional] = useState('');
+  const [adons, setAdons] = useState('');
+  const [adonsid, setAdonsid] = useState('');
+  const [adonsProd, setAdonsprod] = useState([]);
+  const [priceadon, setPriceadon] = useState([]);
   const ref = useRef(null);
 
   let {id} = useParams();
@@ -140,6 +151,43 @@ const Tool = ({history}) => {
     }
   )
 
+  async function getImgadons (id) {
+    const response = await api.get(`/adons/adon/${id}`, {
+    });
+    
+    response.data.adon.map(function (adon) {
+      if (adon.checkad === 'Y') {
+        let alreadyOn = priceadon;
+        alreadyOn.push(adon.price)
+        //console.log(alreadyOn)
+        setPriceadon(alreadyOn)
+      }
+      setAdonsprod(response.data.adon)
+    })
+  }
+
+  const checkeredChange = (event, price) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+
+    let alreadyOn = priceadon;
+
+    if(value === true){
+      alreadyOn.push(price)
+    }else {
+      _.remove(alreadyOn, obj => {
+        return obj == price
+      });
+    }
+    //console.log(alreadyOn)
+    setPriceadon(alreadyOn)
+
+    let amount = parseInt(formik.values.amount)
+    setAmount(amount)
+    setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, amount)
+  }
+
+
   const danger = () => Notification(
     'error',
     'Ops! Insira as datas para reservar a ferramenta', 
@@ -157,7 +205,24 @@ const Tool = ({history}) => {
     }
   )
 
-  
+  const danger2 = () => Notification(
+    'error',
+    'Por favor, insira uma quantidade válida', 
+    {
+      autoClose: 4100,
+      draggable: false,
+    },
+    {
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+
+
   const formik = useFormik({
     initialValues: {
       startDate:null,
@@ -165,10 +230,18 @@ const Tool = ({history}) => {
       amount: amount !== undefined ? amount : 1,
     },
     onSubmit: value => {
+      console.log(value.amount)
+
       if (value.startDate === null || value.endDate === null) {
         setErrodate(true)
         danger()
         window.location.href = "#"+"dates";
+        return
+      }
+
+      if (isNaN(value.amount) || value.amount == 0) {
+        setErramount(true)
+        danger2()
         return
       }
 
@@ -295,11 +368,22 @@ const Tool = ({history}) => {
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
 
-
       if (response.data.tool.length > 0 || response.data.tool[0].situation === 'Y') {
         setTool(response.data.tool[0])
         setTensionshow(response.data.tool[0].tension)
         setPictures(response.data.tool[0].picture)
+        setAdonsid(response.data.tool[0].adons.split(','))
+        var teste = response.data.tool[0].adons.split(',')
+
+        let adonscorrect = []
+        response.data.tool[0].adons.split(',').map(function (adon) {
+          var id = adon.split('=')[0]
+          adonscorrect.push(id)
+        })
+
+        getImgadons(adonscorrect)
+
+
         setPrices(response.data.tool[0].prices.split(';'))
         loadLessor(response.data.tool[0].UserId) 
         loadConfiglessor(response.data.tool[0].UserId)
@@ -359,7 +443,7 @@ const Tool = ({history}) => {
     return () => {
       window.removeEventListener('scroll', () => handleScroll);
     };
-  }, [id, current_user]);
+  }, [id]);
 
   const setDatesback = (dates, tool) => {
     if (dates.startDate && dates.endDate) {
@@ -469,16 +553,18 @@ const Tool = ({history}) => {
     var startdate = moment(dates.startDate).format('YYYY-MM-DD');
     var enddate = moment(dates.endDate).format('YYYY-MM-DD');
 
-    console.log(moment(dates.startDate).format('dddd'))
+    let soma = 0;
+    priceadon.map(function (price, index) {
+      soma += parseFloat(price.replace(/\./gi,'').replace(/,/gi,'.'))
+    });
+
+  console.log(soma)
 
     if (dates.endDate === null && moment(dates.startDate).format('dddd') === 'sábado' || dates.endDate === null && moment(dates.startDate).format('dddd') === 'Sábado') {
       console.log('preço promocinal aberto')
       setStartdt(dates.startDate);
       setModal3(true);
-    }else{
-      console.log('erro de comparação')
     }
-
     /*console.log(startdate).day();
     console.log(enddate).day();*/
 
@@ -504,35 +590,35 @@ const Tool = ({history}) => {
               type: 'month', 
               amount: days, 
               amountmonth: months, 
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-              priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
-              pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+              pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
             })
 
             objrent = {
               type: 'month', 
               amount: days, 
               amountmonth: months, 
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-              priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
-              pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
             }
           } else {
           setPrice({
             type: 'month', 
             amount: days, 
             amountmonth: months, 
-            price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+            price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+            priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+            pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
           })
           objrent = {
             type: 'month', 
             amount: days, 
             amountmonth: months, 
-            price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+            price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+            priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+            pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
           }
 
         }
@@ -541,60 +627,60 @@ const Tool = ({history}) => {
           setPrice({
             type: 'days', 
             amount: days, 
-            price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+            price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+            priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+            pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
           })
           objrent = {
             type: 'days', 
             amount: days, 
-            price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+            price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+            priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+            pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
           }
         }else if (days === 7){
           setPrice({
             type: 'weekend', 
             amount: days, 
-            price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+            price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+            priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+            pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
           })
           objrent = {
             type: 'weekend', 
             amount: days, 
-            price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+            price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+            priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+            pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
           }
         }else if (days > 7 && days < 15){
           setPrice({
             type: 'biweekly', 
             amount: days, 
-            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+            pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
           })
           objrent = {
             type: 'biweekly', 
             amount: days, 
-            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')),
+            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
             pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
           }
         }else if (days === 15){
           setPrice({
             type: 'biweekly', 
             amount: days, 
-            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')),
+            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
             pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
           })
           objrent = {
             type: 'biweekly', 
             amount: days, 
-            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')), 
-            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')),
+            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
             pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
           }
         }else if (days > 15){
@@ -603,8 +689,8 @@ const Tool = ({history}) => {
               type: 'month', 
               amount: days, 
               amountmonth: 0, 
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
             })
 
@@ -612,8 +698,8 @@ const Tool = ({history}) => {
               type: 'month', 
               amount: days, 
               amountmonth: 0, 
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
             }
           } else {
@@ -621,16 +707,16 @@ const Tool = ({history}) => {
               type: 'month', 
               amount: days, 
               amountmonth: months, 
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
             })
             objrent = {
               type: 'month', 
               amount: days, 
               amountmonth: 0, 
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')),
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
             }
           }
@@ -659,7 +745,6 @@ const Tool = ({history}) => {
 
   const blockDays = (day) => {
 
-    console.log(day)
     const dayString = day.format('YYYY-MM-DD');
     //    var arr = ["Sunday"];
     //console.log(moment.weekdays(moment(new Date()).weekday()) === 'Sábado')
@@ -937,7 +1022,6 @@ const Tool = ({history}) => {
     setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, event.target.value)
   }
 
-
   async function loadPerfil() {
     if (isAuthenticated()) {
       const response = await api.get(`/perfil`, {
@@ -1133,7 +1217,16 @@ return (
                           {
                             errodate == true  
                           ? 
-                            (<div>Por favor insira as datas de aluguel e devolução.</div>) 
+                            (<div> - Por favor insira as datas de aluguel e devolução.</div>) 
+                          : 
+                            null
+                          }
+                        </Span>
+                        <Span className={'validation-warning'}>
+                          {
+                            erroamount == true  
+                          ? 
+                            (<div> - Por favor insira uma quantidade válida.</div>) 
                           : 
                             null
                           }
@@ -1285,21 +1378,21 @@ return (
                         <>
                           <div className="adons-container">
                             <p className="optionals">Opcionais</p>
-                            <div className="columns adons">
-                              <div className="column adons-box">
-                                <FontAwesomeIcon icon={['fas', 'check-circle']} className="icon-checkadons" size="1x"/>
-                              </div>
-                              <div className="column adons-box">
-                                -
-                              </div>
-                              <div className="column adons-box">
-                                -
-                              </div>
-                              <div className="column adons-box">
-                                -
-                              </div>
-                            </div>                      
-                          </div>   
+                            <div className="columns is-mobile">
+                              {
+                                adonsProd.map((adon, index) => (
+                                  <div className="adons-box" key={index} >
+                                    <Checkboximage check={adon.checkad} id={adon.id} price={adon.price} onChange={event => checkeredChange(event, adon.price)}></Checkboximage>
+                                    
+                                    <label class="labelchecked" for={'idck'+adon.id}>
+                                      <img src={adon.url} alt={adon.url} className="" title={adon.name}/>
+                                    </label>
+                                    <p className="ad-name">{ adon.name }</p>
+                                  </div>  
+                                ))
+                              }
+                            </div>  
+                          </div>
                         </>
                       )
                       :
@@ -1335,7 +1428,7 @@ return (
                           <Button
                             disabled={tool.availability === "Y" ? false : true}
                             type={'submit'}
-                            className={'button is-fullwidth color-logo bt-pr-t mg-button-rt bt-app'}
+                            className={ rent === false ? 'button is-fullwidth color-logo bt-pr-t mg-button-rt bt-app' : 'button is-fullwidth color-logo bt-pr-t mg-button-rt bt-app bt-suspend-tool'}
                             text={tool.availability === "Y" ? 'Prosseguir' : 'Não disponível para locação'}
                             onClick={event => showDanger(tool.title, tool.availability)}
                           />
@@ -1492,7 +1585,7 @@ return (
           }
         </div>
         <div className={isMobile === false ? "hd-mobile" : "div-button-rent"}>
-          <a className="button is-fullwidth color-logo" onClick={event => (setRent(true), Scrool(0,0))}>Reservar</a>
+          <a className={rent === false ? 'button is-fullwidth color-logo' : ''} onClick={event => (setRent(true), Scrool(0,0))}>Reservar</a>
         </div>
         <Modal
           show={modal4}

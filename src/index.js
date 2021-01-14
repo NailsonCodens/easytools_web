@@ -12,7 +12,19 @@ ReactDOM.render(<App />, document.getElementById('root'));
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.register({
   onSuccess: () => console.log('sucess'),
-  onUpdate: registration =>
-    store.dispatch({type:"refreshui", payload: registration})
+  onUpdate: registration => {
+    const sw = registration
+		const registrationWaiting = sw.waiting;
+    if (registrationWaiting) {
+      registrationWaiting.postMessage({ type: 'SKIP_WAITING' });
+			console.log('sdsad')
+      registrationWaiting.addEventListener('statechange', e => {
+				if (e.target.state === 'activated') {
+          window.location.reload();
+        }
+      });
+    }
+  }
+    //store.dispatch({type:"refreshui", payload: registration})
     /*new CustomEvent('swUpdated', { detail: registration })*/
 });

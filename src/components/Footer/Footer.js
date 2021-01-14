@@ -22,13 +22,11 @@ const Footer = () => {
 
 	const refreshui = useSelector(state => state.refreshui);
 	
-	console.log(refreshui + 'aaaaa')
+	console.log(refreshui + 'a')
 
   const updateServiceWorker = () => {
 		const sw = refreshui.payload
-
 		const registrationWaiting = sw.waiting;
-
 
     if (registrationWaiting) {
       registrationWaiting.postMessage({ type: 'SKIP_WAITING' });
@@ -61,9 +59,6 @@ const Footer = () => {
 							)
 							:
 							('')
-						}
-						{
-							console.log(refreshui)
 						}
 						{
 							Object.keys(refreshui).length !== 0 ? 

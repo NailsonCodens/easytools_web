@@ -21,6 +21,7 @@ import photo2 from './photo2';
 import photo3 from './photo3';
 import rentclient from './rentclient';
 import refreshui from './refreshui';
+import adons from './adons';
 
 export default combineReducers({
   auth,
@@ -44,5 +45,6 @@ export default combineReducers({
   photo2,
   photo3,
   rentclient,
-  refreshui
+  refreshui,
+  adons
 });

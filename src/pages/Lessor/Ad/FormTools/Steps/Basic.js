@@ -13,28 +13,12 @@ import api from '../../../../../services/api';
 const Basic = ({nextStep, handleChange, values}) => {
   const [adons, setAdons] = useState([]);
 
-  useEffect(() => {
-    async function loadadons() { 
-      const response = await api.get(`/adons`, {
-      });
-
-      var adonslisst = [];
-
-      response.data.adons.map(function(adons){
-        adonslisst.push({value: adons.id, label: adons.name, url: adons.url})
-      })
-      console.log(adonslisst)
-
-      setAdons(adonslisst)
-    }
-    loadadons();
-  }, []);
-
 
   const formik = useFormik({
     initialValues: {
       title: '',
       description: '',
+      adons: '',
     },
     validationSchema: Yup.object({
       title: Yup.string()
@@ -62,6 +46,7 @@ const Basic = ({nextStep, handleChange, values}) => {
     { value: "Kit Limpeza", label: "Kit Limpeza" },
   ];
   
+  var ev = '';
 
   if (values.title !== '' ) {
     formik.values.title = values.title
@@ -71,19 +56,45 @@ const Basic = ({nextStep, handleChange, values}) => {
     formik.values.description = values.description
   }
 
+  console.log(values.adons === '')
+
+  if (values.adons !== '') {
+    formik.values.adons = values.adons
+  }
+
+  
   const handleChangeBasic = (input, event) => {
+    let ev = ''
+    if (input == 'adons') {
+      ev = event
+    }else{
+      ev = event.target.value
+    }
+    
     switch(input){
       case 'title': 
-        formik.values.title = event.target.value
+        formik.values.title = ev
         break;
       case 'description':
-          formik.values.description = event.target.value
+          formik.values.description = ev
+        break;  
+      case 'adons':
+        var ad = [];
+        if (ev !== null) {
+          ev.map(function(adons){
+            var selectadons = adons.value + '=' + adons.label
+
+            ad.push(selectadons)
+          })
+          ev = ad.toString()  
+        }
+        formik.values.adons = ev
         break;
       default:
         return '';
     }
 
-    handleChange(input, event.target.value)
+    handleChange(input, ev)
   }
 
   const CustomClearText = () => 'clear all';
@@ -106,20 +117,18 @@ const Basic = ({nextStep, handleChange, values}) => {
   };
 
   const Menu = props => {
+    console.log(props)
     return (
-      <>
-        <div>
-          asdas
-        </div>
-        <div className="columns" {...props}>
-          <div className="column is-2">
-            <img src={ props.data.url } alt="EasyTools adons" className="easyadonsselect"/>                
+      <div {...props.innerProps} className="line-select-adons">
+          <div className="columns" {...props}>
+            <div className="column is-2 box-img-select">
+              <img src={ props.data.url } alt="EasyTools adons" className="easyadonsselect"/>                
+            </div>
+            <div className="column">
+              <p className="text-select-adons">{props.children}</p>
+            </div>
           </div>
-          <div className="column">
-            {props.children}
-          </div>
-        </div>
-      </>
+      </div>
     );
   };
 
@@ -211,22 +220,6 @@ const Basic = ({nextStep, handleChange, values}) => {
               null
             }
           </Span>
-        </Field>
-        <Field className={'field'}>
-          <Label for={'category'}>
-            <b>Acessórios</b>
-          </Label>
-          <Select
-            className={''}
-            components={{ Option: Menu }}
-            options={adons}
-            isSearchable={true}
-            isMulti
-            placeholder={'asdsad'}
-//            onChange={selectedOption => {
- //           }}
-  //          defaultValue={values.category}
-          />
         </Field>
         <Button
           type={'submit'}

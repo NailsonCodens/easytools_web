@@ -26,6 +26,7 @@ const Main = ({history, tool}) => {
   const [type_spec, setTypespec] = useState('');
   // eslint-disable-next-line
   const [category, setCategory] = useState('');
+  const [adons, setAdons] = useState('');
   // eslint-disable-next-line
   const [feed, setFeed] = useState('');
   // eslint-disable-next-line
@@ -86,6 +87,7 @@ const Main = ({history, tool}) => {
       title: "",
       description: "",
       category: "",
+      adons: "",
       type_spec: "",
       feed: "",
       accessory: "",
@@ -145,7 +147,22 @@ const Main = ({history, tool}) => {
           }else{
             formik.values.category = ''
           }
+
+          console.log(tool.adons)
           
+          if (tool.adons !== null) {
+            var arrayadons = tool.adons.split(',');
+            var arradons = []
+            arrayadons.map(adons => {
+              var adon = adons.split('=')
+              arradons.push({ value: adon[1], label: adon[1] });
+            })
+            formik.values.adons = arradons
+
+          } else {
+            formik.values.adons = ''
+          }
+
           formik.values.feed = { value: tool.feed, label: tool.feed }
           formik.values.power = tool.power
           tool.tension.split('/').map((tension, index) => {
@@ -236,6 +253,11 @@ const Main = ({history, tool}) => {
   const handleCategoryChange = (category) => {
     setCategory(category)
     formik.values.category = category
+  }
+
+  const handleAdonsChange = (adons) => {
+    setAdons(adons)
+    formik.values.adons = adons
   }
 
   const handleFeedChange = (feed) => {
@@ -371,6 +393,8 @@ const Main = ({history, tool}) => {
   }
 
   const handleChange = (input, event) => {
+    console.log(input)
+
     switch(input){
       case 'title': 
         handleTitleChange(event)
@@ -386,6 +410,9 @@ const Main = ({history, tool}) => {
         break;
       case 'category':
         handleCategoryChange(event)
+        break;
+      case 'adons':
+        handleAdonsChange(event)
         break;
       case 'feed':
         handleFeedChange(event)
