@@ -539,6 +539,10 @@
 
 
 @media (min-width: 321px) and (max-width: 900px) {
+  .divwarning{
+    margin-bottom: 50px !important;
+  }
+
   .bt-suspend-tool{
    z-index: 99999 !important;
    position: fixed !important;

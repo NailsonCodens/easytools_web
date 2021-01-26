@@ -46,6 +46,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faStar, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
+import rentattempt from '../../../store/reducers/rentattempt';
 library.add(faStar, faCalendarAlt);
 
 const Tracking = (category, action, label) => {
@@ -558,8 +559,6 @@ const Tool = ({history}) => {
       soma += parseFloat(price.replace(/\./gi,'').replace(/,/gi,'.'))
     });
 
-  console.log(soma)
-
     if (dates.endDate === null && moment(dates.startDate).format('dddd') === 'sábado' || dates.endDate === null && moment(dates.startDate).format('dddd') === 'Sábado') {
       console.log('preço promocinal aberto')
       setStartdt(dates.startDate);
@@ -569,10 +568,17 @@ const Tool = ({history}) => {
     console.log(enddate).day();*/
 
     if (dates.endDate !== null) {
-
       var period = moment.preciseDiff(startdate, enddate, true);
+
+
+      if (startdate === enddate) {
+        period.days = 1
+      }
+
+      
       var days = period.days;
       var months = period.months;
+
 
       var objrent = { 
         type: '',
@@ -585,6 +591,7 @@ const Tool = ({history}) => {
 
       if (period.months !== 0) {
         if (days > 0) {
+          console.log('asdd')
             setModal2(true)
             setPrice({
               type: 'month', 
@@ -623,7 +630,11 @@ const Tool = ({history}) => {
 
         }
       }else if (period.days !== 0) {
+        console.log('asdas')
         if (days < 7){
+          console.log('7 menor')
+          console.log(days)
+          console.log(soma)
           setPrice({
             type: 'days', 
             amount: days, 
@@ -631,6 +642,8 @@ const Tool = ({history}) => {
             priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
             pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
           })
+
+          console.log(price)
           objrent = {
             type: 'days', 
             amount: days, 
@@ -638,7 +651,10 @@ const Tool = ({history}) => {
             priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
             pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
           }
+
+          console.log(price)
         }else if (days === 7){
+          console.log('b')
           setPrice({
             type: 'weekend', 
             amount: days, 
@@ -654,6 +670,7 @@ const Tool = ({history}) => {
             pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
           }
         }else if (days > 7 && days < 15){
+          console.log('9')
           setPrice({
             type: 'biweekly', 
             amount: days, 
@@ -669,6 +686,7 @@ const Tool = ({history}) => {
             pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
           }
         }else if (days === 15){
+          console.log('f')
           setPrice({
             type: 'biweekly', 
             amount: days, 
@@ -684,7 +702,9 @@ const Tool = ({history}) => {
             pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
           }
         }else if (days > 15){
+          console.log('bc')
           if (months === 0) {
+            console.log('bn')
             setPrice({
               type: 'month', 
               amount: days, 
@@ -703,6 +723,7 @@ const Tool = ({history}) => {
               pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
             }
           } else {
+            console.log('0mm')
             setPrice({
               type: 'month', 
               amount: days, 
@@ -806,7 +827,7 @@ const Tool = ({history}) => {
     setEnddate(startDate);
     setPrice({
       type: 'days', 
-      amount: 1, 
+      amount: formik.values.amount, 
       amountmonth: 0, 
       price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')), 
       priceNoamount: 1 * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')),
@@ -815,6 +836,12 @@ const Tool = ({history}) => {
 
     setModal3(false);
     setModal4(true);
+
+    let amount = parseInt(formik.values.amount)
+    setAmount(amount)
+    setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, amount)
+
+
   }
 
   const desactiveDisconcert = () => {
@@ -858,7 +885,7 @@ const Tool = ({history}) => {
                 </IntlProvider>
               </p>
               <Button className="button is-warning choosedevolut" onClick={event => deliveryToday(false)} text={'Entregar no mesmo dia'}/>
-              <p className="has-text-center">Aluga e entrega o equipamento no mesmo dia até 18hrs.</p>
+              <p className="has-text-center">Aluga e entrega o equipamento no mesmo dia até 16hrs.</p>
             </div>
             <div className="column has-text-centered">
               <p className="discorcerttext">Sem desconto </p>
@@ -1435,7 +1462,7 @@ return (
                         </>
                       )
                     }
-                    <div>
+                    <div class="divwarning">
                       <Warningtext class="has-text-centered message-rent">Você ainda não será cobrado.</Warningtext>
                     </div>
                   </Form>
@@ -1595,7 +1622,7 @@ return (
         > 
           <p class="title-disconcert">Você escolheu a devolução do equipamento no mesmo dia.</p>
           <br/>
-          <p class="has-text-centered">O horário para devolução do equipamento no mesmo dia é <b className="hourmodalfor">18:00 horas</b></p>
+          <p class="has-text-centered">O horário para devolução do equipamento no mesmo dia é <b className="hourmodalfor">16:00 horas</b></p>
           <br/>
           <p className="has-text-centered">Após confirmar clicando em <b>"ok, estou ciente"</b>, clique em <b>"prosseguir"</b> para concluir sua reserva.</p>
           <br/>
