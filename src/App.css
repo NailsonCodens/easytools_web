@@ -732,8 +732,11 @@ body{
   background: rgb(109, 245, 255);
 }
 
-@media (max-width: 900px) {
+.DateRangePicker_picker {
+  z-index: 9999999;
+}
 
+@media (max-width: 900px) {
   .alert {
     width: 100%;
     background: #fff;
@@ -763,7 +766,7 @@ body{
 
   .bt-app{
     height: 50px;
-  }
+  
 
   .bt-app-2{
     height: 50px !important;
@@ -925,6 +928,8 @@ body{
 .text-adiciontal{
   font-weight: 100 !important;
   margin: 0px 25px;
+}
+
 }
 
 @media screen and (max-width: 1023px){

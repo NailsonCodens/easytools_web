@@ -88,6 +88,7 @@ const Tool = ({history}) => {
 
   const [adddoc, setAdddoc] = useState(false);
   const [tool, setTool] = useState({});
+  const [priceoriginal, setPriceoriginal] = useState(0)
     // eslint-disable-next-line
   const [promo, setPromo] = useState(true);
   const [pictures, setPictures] = useState([]);
@@ -542,7 +543,7 @@ const Tool = ({history}) => {
     }
   }
 
-  const setDates = (dates, amountreceive) => {
+  const setDates = (dates, amountreceive, promo) => {
     var amounttool = 1
     amounttool = amountreceive !== undefined ? amountreceive : formik.values.amount  
 
@@ -589,6 +590,13 @@ const Tool = ({history}) => {
         pricefull: '', 
       }
 
+      var soma2 = 0
+      if (amounttool > 1) {
+        soma2 = soma * amounttool 
+      }else{
+        soma2 = soma * amounttool
+      }
+
       if (period.months !== 0) {
         if (days > 0) {
           console.log('asdd')
@@ -630,119 +638,134 @@ const Tool = ({history}) => {
 
         }
       }else if (period.days !== 0) {
-        console.log('asdas')
-        if (days < 7){
-          console.log('7 menor')
-          console.log(days)
-          console.log(soma)
+        if (promo == 'activediscorcert' && startdate != enddate) {
           setPrice({
             type: 'days', 
-            amount: days, 
-            price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
-            priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-            pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
-          })
+            amount: 2,
+            amountmonth: 0, 
+            price: localStorage.getItem('@fv') / 2 + soma, 
+            priceNoamount: (parseFloat(localStorage.getItem('@fv')) / 2 + soma) * 2, 
+            pricefull: ((parseFloat(localStorage.getItem('@fv')) / 2 + soma) * 2) * formik.values.amount
+          }) 
+          
+          var precototal = (parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma) * 2 * formik.values.amount
+          setPriceoriginal(precototal)
+        }else{
 
-          console.log(price)
-          objrent = {
-            type: 'days', 
-            amount: days, 
-            price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
-            priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-            pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
-          }
-
-          console.log(price)
-        }else if (days === 7){
-          console.log('b')
-          setPrice({
-            type: 'weekend', 
-            amount: days, 
-            price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
-            priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-            pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
-          })
-          objrent = {
-            type: 'weekend', 
-            amount: days, 
-            price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
-            priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-            pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
-          }
-        }else if (days > 7 && days < 15){
-          console.log('9')
-          setPrice({
-            type: 'biweekly', 
-            amount: days, 
-            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
-            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-            pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
-          })
-          objrent = {
-            type: 'biweekly', 
-            amount: days, 
-            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
-            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-            pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
-          }
-        }else if (days === 15){
-          console.log('f')
-          setPrice({
-            type: 'biweekly', 
-            amount: days, 
-            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
-            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-            pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
-          })
-          objrent = {
-            type: 'biweekly', 
-            amount: days, 
-            price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
-            priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-            pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
-          }
-        }else if (days > 15){
-          console.log('bc')
-          if (months === 0) {
-            console.log('bn')
+          if (days < 7){
+            console.log('7 menor')
+            console.log(days)
+            console.log(soma)
             setPrice({
-              type: 'month', 
+              type: 'days', 
               amount: days, 
-              amountmonth: 0, 
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
-              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+              price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+              pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
             })
-
+  
+            console.log(price)
             objrent = {
-              type: 'month', 
+              type: 'days', 
               amount: days, 
-              amountmonth: 0, 
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
-              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+              price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+              pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
             }
-          } else {
-            console.log('0mm')
+  
+            console.log(price)
+          }else if (days === 7){
+            console.log('b')
             setPrice({
-              type: 'month', 
+              type: 'weekend', 
               amount: days, 
-              amountmonth: months, 
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
-              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+              price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+              pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
             })
             objrent = {
-              type: 'month', 
+              type: 'weekend', 
               amount: days, 
-              amountmonth: 0, 
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
-              priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool
+              price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+              pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+            }
+          }else if (days > 7 && days < 15){
+            console.log('9')
+            setPrice({
+              type: 'biweekly', 
+              amount: days, 
+              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+              pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+            })
+            objrent = {
+              type: 'biweekly', 
+              amount: days, 
+              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+              pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool  + soma2
+            }
+          }else if (days === 15){
+            console.log('f')
+            setPrice({
+              type: 'biweekly', 
+              amount: days, 
+              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+              pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool  + soma2
+            })
+            objrent = {
+              type: 'biweekly', 
+              amount: days, 
+              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+              pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool  + soma2
+            }
+          }else if (days > 15){
+            console.log('bc')
+            if (months === 0) {
+              console.log('bn')
+              setPrice({
+                type: 'month', 
+                amount: days, 
+                amountmonth: 0, 
+                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+                priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+                pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+              })
+  
+              objrent = {
+                type: 'month', 
+                amount: days, 
+                amountmonth: 0, 
+                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+                priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+                pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+              }
+            } else {
+              console.log('0mm')
+              setPrice({
+                type: 'month', 
+                amount: days, 
+                amountmonth: months, 
+                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+                priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+                pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+              })
+              objrent = {
+                type: 'month', 
+                amount: days, 
+                amountmonth: 0, 
+                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+                priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+                pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+              }
             }
           }
         }
       }
+
       dispatch(Rentattempt(objrent.priceNoamount, objrent.amount, objrent.pricefull, 
         amounttool, objrent.type, 0, objrent.price, objrent.amountmonth))
         localStorage.setItem('@obr', JSON.stringify(objrent));
@@ -811,15 +834,10 @@ const Tool = ({history}) => {
 
     var end = stdt.add(2, 'days')
     setEnddate(end)
-    setDates({ startDate: startDate, endDate: end })
 
-    setPrice({
-      type: 'days', 
-      amount: 2, 
-      price: localStorage.getItem('@fv') / 2,
-      priceNoamount: 2 * parseFloat(localStorage.getItem('@fv')) / 2, 
-      pricefull: 2 * parseFloat(localStorage.getItem('@fv') / 2) * formik.values.amount
-    })
+    //alterar aqui para passar um param dizendo que esta ativando o desconto e mudar este setPrice lá para setdates
+
+    setDates({ startDate: startDate, endDate: end}, formik.values.amount, 'activediscorcert')
   }
 
   const deliveryToday = () => {
@@ -1027,7 +1045,7 @@ const Tool = ({history}) => {
             <div className="column">
               <span class="pricefds">
                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                  <b><FormattedNumber value={parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) * 2} style="currency" currency="BRL" /></b>
+                  <b><FormattedNumber value={priceoriginal} style="currency" currency="BRL" /></b>
                 </IntlProvider>      
               </span>
               <p className="is-pulled-right color-promotional">
@@ -1046,7 +1064,7 @@ const Tool = ({history}) => {
   const handleAmount = (event) => {
     formik.values.amount = parseInt(event.target.value)
     setAmount(parseInt(event.target.value))
-    setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, event.target.value)
+    setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, event.target.value, 'activediscorcert')
   }
 
   async function loadPerfil() {
@@ -1411,9 +1429,16 @@ return (
                                   <div className="adons-box" key={index} >
                                     <Checkboximage check={adon.checkad} id={adon.id} price={adon.price} onChange={event => checkeredChange(event, adon.price)}></Checkboximage>
                                     
-                                    <label class="labelchecked" for={'idck'+adon.id}>
+                                    <label className="labelchecked" for={'idck'+adon.id}>
                                       <img src={adon.url} alt={adon.url} className="" title={adon.name}/>
                                     </label>
+                                    <div className="priceadon">
+                                      <span>
+                                        <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                                          <FormattedNumber value={parseFloat(adon.price.replace(/\./gi,'').replace(/,/gi,'.'))} style="currency" currency="BRL" />
+                                        </IntlProvider> 
+                                      </span>
+                                    </div>
                                     <p className="ad-name">{ adon.name }</p>
                                   </div>  
                                 ))

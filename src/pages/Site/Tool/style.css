@@ -465,7 +465,7 @@
 .icon-checkadons{
   color: #68dd5a;
   font-size: 20px;
-  z-index: 9999 !important;
+  z-index: 9 !important;
   position: absolute !important;
   margin-left: 51px;
   margin-top: -2px;
@@ -537,6 +537,20 @@
   border: 1px solid rgb(165, 165, 165);
 }
 
+.priceadon{
+  font-size: 12px;
+  text-align: center !important;
+  margin-top: -23px !important;
+  z-index: 999;
+  position: relative;
+}
+
+.priceadon span{
+  background: #ffd237;
+  padding: 3px 2px;
+  border-radius: 3px;
+  font-weight: bold;
+}
 
 @media (min-width: 321px) and (max-width: 900px) {
   .divwarning{
