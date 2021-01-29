@@ -168,6 +168,7 @@ const Payment = ({history}) => {
     return () => {
     };
   }, [current_user])
+  //a7cd78e0-d8f4-4dac-890c-f3580dbf8387
 
 
   const success = () => Notification(
@@ -584,13 +585,18 @@ const Payment = ({history}) => {
     if (localStorage.getItem('@mtp') === 'true') {
       var citym = localStorage.getItem('@cmtp');
       if (tool.city !== undefined) {
-        let found = citym.toLowerCase()
-        .includes(tool.city.toLowerCase());
-        console.log(found)
-  
-        if (!found) {
-          var aditional = 10.0;
-          costfreight = costfreight + aditional;  
+
+        if(citym === null){
+          citym = '';
+        }else{
+          let found = citym.toLowerCase()
+          .includes(tool.city.toLowerCase());
+          console.log(found)
+    
+          if (!found) {
+            var aditional = 10.0;
+            costfreight = costfreight + aditional;  
+          }  
         }
       }
     }else {

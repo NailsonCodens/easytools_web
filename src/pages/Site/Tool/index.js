@@ -186,7 +186,7 @@ const Tool = ({history}) => {
 
     let amount = parseInt(formik.values.amount)
     setAmount(amount)
-    setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, amount)
+    setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, amount, 'activediscorcert')
   }
 
 

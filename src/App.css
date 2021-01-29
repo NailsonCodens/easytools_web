@@ -40,8 +40,11 @@ body{
   border-color: inherit !important;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
+  border: 1px solid rgb(121, 121, 121) !important;
+}
+
+.DateInput_input:focus{
   border: none !important;
-  border: 1px solid #d8d8d8;
 }
 
 .input, .button .select{
