@@ -638,7 +638,7 @@ const Tool = ({history}) => {
 
         }
       }else if (period.days !== 0) {
-        if (promo == 'activediscorcert' && startdate != enddate) {
+        if (promo == 'activediscorcert' && startdate != enddate && promotional === true) {
           setPrice({
             type: 'days', 
             amount: 2,
@@ -863,8 +863,11 @@ const Tool = ({history}) => {
   }
 
   const desactiveDisconcert = () => {
+    setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, formik.values.amount, 'no')
+    setPromotional(false)
     setModal3(false)
     setFocus({focusedInput: "endDate"})
+
   }
 
   const renderDisconcert = () => {
@@ -1030,7 +1033,7 @@ const Tool = ({history}) => {
         }
 
         {
-          promotional === '' ? 
+          promotional === false ? 
           (
             <div className="column">
               <p className="is-pulled-right">
