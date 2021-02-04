@@ -125,11 +125,13 @@ const Tool = ({history}) => {
   const [configlessor, setConfiglessor ] = useState('');
   // eslint-disable-next-line
   const [disconcert, setDisconcert] = useState('');
-  const [promotional, setPromotional] = useState('');
+  const [promotional, setPromotional] = useState(false);
   const [adons, setAdons] = useState('');
   const [adonsid, setAdonsid] = useState('');
   const [adonsProd, setAdonsprod] = useState([]);
   const [priceadon, setPriceadon] = useState([]);
+  const [idsadon, setIdsadon] = useState([]);
+  
   const ref = useRef(null);
 
   let {id} = useParams();
@@ -154,34 +156,46 @@ const Tool = ({history}) => {
   )
 
   async function getImgadons (id) {
+    console.log(id)
     const response = await api.get(`/adons/adon/${id}`, {
     });
     
     response.data.adon.map(function (adon) {
       if (adon.checkad === 'Y') {
         let alreadyOn = priceadon;
+        let alreadyIds = idsadon;
+
         alreadyOn.push(adon.price)
+        alreadyIds.push(adon.id)
+        
         //console.log(alreadyOn)
+        setIdsadon(alreadyIds)
         setPriceadon(alreadyOn)
       }
       setAdonsprod(response.data.adon)
     })
   }
 
-  const checkeredChange = (event, price) => {
+  const checkeredChange = (event, price, ids) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
 
     let alreadyOn = priceadon;
+    let alreadyIds = idsadon;
 
     if(value === true){
       alreadyOn.push(price)
+      alreadyIds.push(ids)
     }else {
       _.remove(alreadyOn, obj => {
         return obj == price
       });
+      _.remove(alreadyIds, obj => {
+        return obj == ids
+      });
     }
-    //console.log(alreadyOn)
+
+    setIdsadon(alreadyIds)
     setPriceadon(alreadyOn)
 
     let amount = parseInt(formik.values.amount)
@@ -310,6 +324,7 @@ const Tool = ({history}) => {
         //history.push(`/s/adddocuments`);
 //        setAdddoc(true);
 
+      var idscomman = idsadon.join(',')
       var attempt = {
         user_lessor_id: tool.user_id,
         tool_id: tool.id,
@@ -325,10 +340,9 @@ const Tool = ({history}) => {
         priceperiod: price.price,
         freight: 0,
         accept: 0,
+        adons: idscomman,
       }
-
       saveRentattempt(attempt);
-
       }
     } else {
       Scrool()
@@ -338,6 +352,7 @@ const Tool = ({history}) => {
   }
 
   async function saveRentattempt (attempt) {
+
     if (attempt.month > 0 && attempt.days > 0) {
       setModal2(true)
       Tracking('Tentativa de aluguel maior com mêses e dias falha', `Tentativa de aluguel maior com mêses e dias`, 'Tentativa de aluguel maior com mêses e dias')
@@ -1430,7 +1445,7 @@ return (
                               {
                                 adonsProd.map((adon, index) => (
                                   <div className="adons-box" key={index} >
-                                    <Checkboximage check={adon.checkad} id={adon.id} price={adon.price} onChange={event => checkeredChange(event, adon.price)}></Checkboximage>
+                                    <Checkboximage check={adon.checkad} id={adon.id} price={adon.price} onChange={event => checkeredChange(event, adon.price, adon.id)}></Checkboximage>
                                     
                                     <label className="labelchecked" for={'idck'+adon.id}>
                                       <img src={adon.url} alt={adon.url} className="" title={adon.name}/>

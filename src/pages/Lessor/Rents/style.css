@@ -54,6 +54,11 @@
   padding-top: 20px !important;
 }
 
+.optionalschoosed{
+  margin-bottom: 0px;
+  font-size: 20px;
+}
+
 @media (max-width: 900px) {
   .box-date-rules{
     width:60px !important;

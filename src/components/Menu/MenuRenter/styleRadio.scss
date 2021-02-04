@@ -1,0 +1,36 @@
+$bg: #2670b6;
+$fg: lighten($bg,20%);
+$borderWidth: 3px;
+
+
+.radio-group input[type=radio] {
+  position: absolute;
+  visibility: hidden;
+  display: none;
+}
+
+.radio-group label {
+  color: lighten($bg,40%);
+  display: inline-block;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 5px 20px;
+}
+
+.radio-group input[type=radio]:checked + label{
+  color: lighten($bg,60%);
+  background: $fg;
+}
+
+.radio-group label + input[type=radio] + label {
+  border-left: solid $borderWidth $fg;
+}
+.radio-group {
+  border: solid $borderWidth $fg;
+  display: inline-block;
+  margin: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');

@@ -210,6 +210,38 @@
 .link-how-work{
 }
 
+.hey{
+  font-size: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  color:#3298dc;
+  border-bottom: 7px solid #FFD237;
+  width: 250px;
+  text-align: left;
+}
+
+.baby-cry-outmouse{
+  width: 80px !important;
+}
+
+
+.box-text-hey p{
+  font-family: 'Poppins', sans-serif;
+  text-align: left;
+  color: #000 !important;
+  font-size: 13px;
+}
+
+.box-text-hey{
+  text-align: center;
+}
+
+.columns-box-hey{
+  padding: 0px 30px;
+}
+
+
 @media (max-width: 900px) {
   .back-nav{
     padding-bottom: 65px;

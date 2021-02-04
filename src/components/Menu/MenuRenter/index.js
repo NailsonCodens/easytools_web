@@ -9,14 +9,17 @@ import Scrool from '../../../utils/scroll';
 import Auth from '../../../pages/Auth/index';
 import Modal from '../../../components/Modal';
 import queryString from 'query-string';
+import man from '../../../assets/images/man.svg';
 import { useLocation } from 'react-router-dom';
 import { Span } from '../../../components/Span';
 import * as Yup from 'yup';
 import Dropdown from '../Dropdown';
 import Dropdownpure from '../Dropdownpure';
+import { CheckboxIOS } from '../../../components/Form/Button';
 import InputMask from 'react-input-mask';
 import { Field } from '../../../components/Form/Form';
 import './styleRenter.css'
+import './styleRadio.scss'
 import { logout } from '../../../services/auth';
 import {Viewsearch} from '../../../store/actions/viewsearch';
 import logo from '../../../assets/images/logo.png'
@@ -69,10 +72,30 @@ const MenuRenter = () => {
 	const [terms, setTerms] = useState([]);
 	const [perfil, setPerfil] = useState([]);
 	const [phone, setPhone] = useState('');
-	
+	const [modalout, setModalout] = useState(false);
 	let values = queryString.parse(useLocation().search);
 	let locationhistory = useLocation().pathname;
 	
+
+	function addEvent(obj, evt, fn) {
+		if (obj.addEventListener) {
+				obj.addEventListener(evt, fn, false);
+		}
+		else if (obj.attachEvent) {
+				obj.attachEvent("on" + evt, fn);
+		}
+	}
+
+	document.addEventListener("DOMContentLoaded", () => {
+		document.addEventListener("mouseout", (event) => {
+			if (!event.toElement && !event.relatedTarget) {
+				setTimeout(() => {
+					setModalout(true)
+				}, 500);
+			}
+		});
+	});
+
 	const trackingId = "UA-160397692-1"; // Replace with your Google Analytics tracking ID
 	ReactGA.initialize(trackingId);
 	ReactGA.set({
@@ -247,6 +270,10 @@ const MenuRenter = () => {
     return modal
 	}
 
+	const hideModalout = () => {
+		setModalout(false)
+	}
+
   const error = () => Notificationtost(
     'error',
     'Não conseguimos pegar sua localização. habilite a geolocalização em seu navegador.', 
@@ -281,6 +308,10 @@ const MenuRenter = () => {
     }
 	)
 	
+  const handleCheckIOS = event => {
+
+  };
+
   const NoAcceptedTerms = () => {
 		logout()
 		Scrool(0,0);
@@ -804,6 +835,83 @@ const MenuRenter = () => {
 						}
 				</div>     
 			</nav>
+			<Modal
+				show={modalout} 
+				onCloseModal={hideModalout} 
+				closeOnEsc={true} 
+				closeOnOverlayClick={true}
+			> 
+					<div className="columns columns-box-hey">
+						<div className="column box-text-hey">
+							<img src={man} alt="Man Logo" className="baby-cry baby-cry-outmouse"/>
+							<h2 className="hey">Ei, espera ai!</h2>
+							<br/>
+							<p>Ficou com alguma dúvida?</p>
+							<p>Calma que a gente auqi da Easy <br/> pode te ajudar!</p>
+							<br/>
+							<p>Preencha ao lado e nós iremos entrar <br/> em contato para você poder usar sua <br/> caixa de ferramentas na nuvem.</p>
+						</div>
+						<div className="column">
+							<br/><br/><br/>
+						<Field className={'field'}>
+							<Label for={'nome'}>
+								<Input 
+									name="nome" 
+									type="nome" 
+									placeholder="Nome" 
+									className={formik.touched.name && formik.errors.name ? 'input border-warning' : 'input'}
+									onChange={formik.handleChange}
+									value={formik.values.name}
+								/>
+							</Label>
+						</Field>
+						<Field className={'field'}>
+							<Label for={'email'}>
+								<Input 
+									name="email" 
+									type="email" 
+									placeholder="E-mail" 
+									className={formik.touched.email && formik.errors.email ? 'input border-warning' : 'input'}
+									onChange={formik.handleChange}
+									value={formik.values.email}
+								/>
+							</Label>
+						</Field>
+						<Field className={'field'}>
+							<Label for={'phone'}>
+								<InputMask
+									name="phone"
+									type="text"
+									mask="(99) 9 9999-9999" 
+									maskChar=" "
+									placeholder="(41) 9 9999-9999" 
+									className={formik.touched.phone && formik.errors.phone ? 'input border-warning' : 'input'}
+									onChange={formik.handleChange}
+									value={phone}
+								/>
+								<Span className={'validation-warning'}>
+									{
+										formik.touched.phone && formik.errors.phone 
+									? 
+										(<div>{formik.errors.phone}</div>) 
+									: 
+										null
+									}
+								</Span>
+							</Label>
+						</Field>
+						<div className="columns">
+							<div className="column">
+								<p>Contato via Whatsapp ou E-mail?</p>
+								<div class="radio-group">
+									<input type="radio" id="option-one"  name="selector"/><label for="option-one">E-mail</label>
+									<input type="radio" id="option-three" name="selector"/><label for="option-three">WhatsApp</label>
+  							</div>
+							</div>
+						</div>
+						</div>
+					</div>
+			</Modal>
 		</div>
 	)
 }

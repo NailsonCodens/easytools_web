@@ -11,7 +11,10 @@ const Modal = ({ onCloseModal, show, className, closeEscAllowed, closeOnAllowed,
         showCloseIcon={showCloseIcon}
         closeOnOverlayClick={closeOnAllowed} 
         center 
-        className={ className !== 'superior' ? "modal-app" : "modal-app superior"}
+        classNames={{
+          overlay: '',
+          modal: className !== 'superior' ? "modal-app-large" : "modal-app superior",
+        }}
       >
         { children }
       </ModalApp>

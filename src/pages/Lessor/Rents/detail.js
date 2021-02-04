@@ -29,6 +29,7 @@ export default function Rents({history}) {
   const [modal1, setModal1] = useState(false);
   const [modal2, setModal2] = useState(false);
   const [modal3, setModalthree] = useState(false);
+  const [adons, setAdons] = useState([]);
 
   let { id } = useParams();
   //let values = queryString.parse(useLocation().search);
@@ -291,6 +292,26 @@ export default function Rents({history}) {
     }
   }
 
+  const renderAdons = (adons) => {
+    let adonscorrect = []
+    
+    if (adons !== null){
+      adons.split(',').map(function (adon) {
+        var id = adon.split('=')[0]
+        adonscorrect.push(id)
+      })
+  
+      getAdons(adonscorrect)  
+    }
+  }
+
+  async function getAdons(ids){
+    const response = await api.get(`/adons/adon/${ids}`, {
+    });
+
+    setAdons(response.data.adon)
+  }
+
   return (
     <div className="container container-page">
       <div className="columns is-desktop">
@@ -541,22 +562,12 @@ export default function Rents({history}) {
                   <div className="columns">
                     <div className="column">
                       <p>
-                        Tensão: { rent.tension === 'Tri' ? 'Trifásico' : rent.tension }
+                        <b>Tensão:</b> { rent.tension === 'Tri' ? 'Trifásico' : rent.tension }
                       </p>
                       <p>
-                        Período: { renderPeriod(rent.period, rent.days, rent.month) }
+                        <b>Período:</b> { renderPeriod(rent.period, rent.days, rent.month) }
                       </p>
-                      <div className="columns">
-                        <div className="column">
-                          <b>Valores do aluguel: </b>
-                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                            <FormattedNumber value={rent.cost} style="currency" currency="BRL" />
-                          </IntlProvider>                                
-                        </div>
-                      </div>
-                      <div className="columns">
-                        <div className="column">
-                        <b>Horário para entrega:</b>
+                      <b>Horário para entrega:</b>
                         <br/>
                         { 
                           rent.periodhour === '' ?
@@ -572,66 +583,99 @@ export default function Rents({history}) {
                             </>
                           )
                         }
+                        <br/><br/><br/><br/>
+                        <div className="">
+                          <b>OBSERVAÇÕES DO CLIENTE: </b>
+                          <p>
+                            {
+                              rent.obs !== '' ? rent.obs : 'Sem observações'
+                            }
+                          </p>
+                        </div>
+                    </div>
+                    <div className="column">
+                      <b>Forma de pagamento:</b>
+                      <span>{ rent.typepayment === 'money' ? ' Dinheiro' : '' }</span>
+                      <span>{ rent.typepayment === 'creditcard' ? ' Cartão de crédito' : '' }</span>
+                      <span>{ rent.typepayment === 'machine' ? ' Maquininha' : '' }</span>
+                      <span>{ rent.typepayment === 'boleto' ? ' Boleto' : '' }</span>
+                      <br/>
+                      <b>Dinheiro pra troco: </b>
+                      {
+                        rent.coin === '' ? 
+                        (
+                          <>
+                            Não precisa
+                          </>
+                        )
+                        :
+                        (
+                          <>
+                            <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                              <FormattedNumber value={parseFloat(rent.coin)} style="currency" currency="BRL" />
+                            </IntlProvider>
+                          </>
+                        )
+                      }
+                      <br/>
+                      <b>Valores do aluguel: </b>
+                      <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                        <FormattedNumber value={rent.cost} style="currency" currency="BRL" />
+                      </IntlProvider>  
+                      <br/>
+                      {
+                          rent.freight > 0 ? 
+                          (
+                            <>
+                            <b>Custo de entrega: </b>
+                            <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                              <FormattedNumber value={parseFloat(rent.freight)} style="currency" currency="BRL" />
+                            </IntlProvider>
+                            </> 
+                          )
+                          :
+                          ('')
+                        }
+                        <br/>
+                        {
+                          rent.freight > 0 ? 
+                          (<b>Valores do aluguel + Custo de entrega: </b>)
+                          :
+                          (<b>Valores final do aluguel: </b>)
+                        }
+                        <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                          <FormattedNumber value={parseFloat(rent.cost) + parseFloat(rent.freight)} style="currency" currency="BRL" />
+                        </IntlProvider>
                         <br/><br/>
-                          {
-                            rent.freight > 0 ? 
-                            (
-                              <>
-                              <b>Custo de entrega: </b>
-                              <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                                <FormattedNumber value={parseFloat(rent.freight)} style="currency" currency="BRL" />
-                              </IntlProvider>
-                              </> 
-                            )
-                            :
-                            ('')
-                          }
-                          <br/><br/>
-                          <b>Forma de pagamento:</b>
-                          <span>{ rent.typepayment === 'money' ? ' Dinheiro' : '' }</span>
-                          <span>{ rent.typepayment === 'creditcard' ? ' Cartão de crédito' : '' }</span>
-                          <span>{ rent.typepayment === 'machine' ? ' Maquininha' : '' }</span>
-                          <span>{ rent.typepayment === 'boleto' ? ' Boleto' : '' }</span>
+                        <p className="optionalschoosed">Opcionais escolhidos pelo cliente</p>
                           <br/>
-                          <b>Dinheiro pra troco: </b>
-                          {
-                            rent.coin === '' ? 
-                            (
-                              <>
-                                Não precisa
-                              </>
-                            )
-                            :
-                            (
-                              <>
-                                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                                  <FormattedNumber value={parseFloat(rent.coin)} style="currency" currency="BRL" />
-                                </IntlProvider>
-                              </>
-                            )
-                          }
-                          <br/><br/>
-                          <div className="obsclient">
-                            <b>OBSERVAÇÕES DO CLIENTE: </b>
-                            <p>
-                              {
-                                rent.obs !== '' ? rent.obs : 'Sem observações'
-                              }
-                            </p>
+                          <div className="columns">
+                            { 
+                              renderAdons(rent.adons)
+                            }
+                            {
+                                  adons.map((adon, index) => (
+                                    <div className="column adons-box" key={index} >
+                                      <label className="labelchecked" for={'idck'+adon.id}>
+                                        <img src={adon.url} alt={adon.url} className="" title={adon.name}/>
+                                      </label>
+                                      <div className="priceadon">
+                                        <span>
+                                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                                            <FormattedNumber value={parseFloat(adon.price.replace(/\./gi,'').replace(/,/gi,'.'))} style="currency" currency="BRL" />
+                                          </IntlProvider> 
+                                        </span>
+                                      </div>
+                                      <p className="ad-name">{ adon.name }</p>
+                                    </div>  
+                                  ))
+                            }
                           </div>
-                        </div>
-                        <div className="column">
-                          {
-                            rent.freight > 0 ? 
-                            (<b>Valores do aluguel + Custo de entrega: </b>)
-                            :
-                            (<b>Valores final do aluguel: </b>)
-                          }
-                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                            <FormattedNumber value={parseFloat(rent.cost) + parseFloat(rent.freight)} style="currency" currency="BRL" />
-                          </IntlProvider>                                
-                        </div>
-                      </div>
+
+                    </div>
+                  </div>
+                  <div className="columns">
+                    <div className="column">
                       <div className="columns">
                         <div className="column">
                           <b>Informações do locatário:</b>

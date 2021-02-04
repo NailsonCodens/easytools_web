@@ -707,6 +707,10 @@ body{
   z-index: 999999999 !important;
 }
 
+.modal-app-large{
+  width: 55% !important;
+}
+
 .box-form-pay{
 
 }
