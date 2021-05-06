@@ -64,7 +64,7 @@ const Congrats = () => {
           <div className="column is-4">
             <div className="column has-centered-text">
             <div className="column">
-              <div className="rental-box">
+              <div className="box-rent-payment">
                 Código da reserva: { attempt.codeattempt }
                 <div className="columns is-desktop is-mobile">
                   <div className="column">

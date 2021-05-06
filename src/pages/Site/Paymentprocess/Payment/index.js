@@ -967,10 +967,10 @@ const Payment = ({history}) => {
                 freight === 'with' ? 
                 (
                   <div className="columns is-mobile no-margin-top-columns">
-                    <div className="column">
-                      <b>+ Entrega&Coleta</b>
+                    <div className="column s">
+                      <b>Total + Entrega&Coleta</b>
                     </div>
-                    <div className="column">
+                    <div className="column is-4">
                       <p className="is-pulled-right">
                         <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                           <b><FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
