@@ -628,6 +628,10 @@ const Payment = ({history}) => {
           <title>{ 'Entrega e custo' }</title>
         </Helmet>
         <div className={adddoc === false ? "container" : ""}>
+          <div class="container">
+            <progress class="progress is-success progressbar" value="87.66" max="100"></progress>
+          </div>
+          <br/>
       {
         adddoc === true ? 
         (
@@ -697,122 +701,131 @@ const Payment = ({history}) => {
                     <ScrollableAnchor id={'hour'}>
                       <div></div>
                     </ScrollableAnchor>
-                    <p className="title-tool-only-little"> Entrega e coleta da ferramenta </p>
-                    <br/>
-                    <span className=""></span>
-                    <span className="valuefreight">{
-                      workaddshow < 5 ? '4.0 km ' : workaddshow + ' km'
 
-                    }</span>
-                    <span className="valuefreight"> de você.</span>
-                    <br/>
-                    <span className="distance">Taxa de entrega e coleta: </span>
-                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                      <b className="number-delivery"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
-                    </IntlProvider>;
+                    <div className="container box-rent-payment box-rent-pay-margin-top">
+                      <p className="title-tool-only-little"> Entrega e coleta da ferramenta </p>
+                      <br/>
+                      <span className=""></span>
+                      <span className="valuefreight">{
+                        workaddshow < 5 ? '4.0 km ' : workaddshow + ' km'
+
+                      }</span>
+                      <span className="valuefreight"> de você.</span>
+                      <br/>
+                      <span className="distance">Taxa de entrega e coleta: </span>
+                      <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                        <b className="number-delivery"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
+                      </IntlProvider>;
+
+                    </div>
                     <hr/>
-                    <p className="title-tl-input">Recebimento do ferramenta</p>
-                    <br/>
-                    {
-                         new Date(moment(startam).format('YYYY-MM-DD')) > new Date(moment().format('YYYY-MM-DD')) === true ?
+                    <div className="container box-rent-payment">
+                      <p className="title-tl-input">Recebimento do ferramenta</p>
+                      <br/>
+                      {
+                          new Date(moment(startam).format('YYYY-MM-DD')) > new Date(moment().format('YYYY-MM-DD')) === true ?
+                          (
+                            <>
+                              <Select
+                                className={''}
+                                options={[
+                                  {label: 'Manhã - 08:00 às 10:00', value: 'Manhã - 08:00 às 10:00'}, 
+                                  {label: 'Manhã - 10:00 às 12:00', value: 'Manhã - 10:00 às 12:00'},
+                                  {label: 'Tarde - 13:00 às 15:00', value: 'Tarde - 13:00 às 15:00'},
+                                  {label: 'Tarde - 15:00 às 17:00', value: 'Tarde - 15:00 às 17:00'},
+                                  {label: 'Noite - 17:00 às 19:00', value: 'Noite - 17:00 às 19:00'},
+                                ]}
+                                isSearchable={true}
+                                placeholder={'Começo da manhã - 08:00 às 10:00'}
+                                onChange={selectedOption => {
+                                  handleChangePeriod(selectedOption);
+                                }}
+                                value={values.category}
+                              />
+                              <p className="warning">
+                                {
+                                  periodwarning === true ? 
+                                  ('Por favor, escolha em qual período deseja receber o alugado')
+                                  :
+                                  ('')
+                                }
+                              </p>
+                            </>
+                          )
+                          :
+                          (
+                            <>
+                              <Select
+                                className={''}
+                                options={renderOption()}
+                                isSearchable={true}
+                                placeholder={'Ex: Começo da manhã - 08:00 às 10:00'}
+                                onChange={selectedOption => {
+                                  handleChangePeriod(selectedOption);
+                                }}
+                                value={values.category}
+                              />
+                              <p className="warning">
+                                {
+                                  periodwarning === true ? 
+                                  ('Por favor, escolha em qual período deseja receber o alugado')
+                                  :
+                                  ('')
+                                }
+                              </p>
+                            </>
+                          )
+                      }
+                      <br/>
+                      {
+                        moment(startam).format('YYYY-MM-DD') === moment(endam).format('YYYY-MM-DD') ?
                         (
                           <>
+                            <p className="warning-dates-equals">
+                              *Para entrega e coleta no mesmo dia, o horário de devolução só pode ser a noite das 17:00 às 18:00*
+                            </p>
+                            <br/>
+                            <p className="title-tl-input"> Devolução do ferramenta </p>
+                            <br/>
                             <Select
                               className={''}
                               options={[
-                                {label: 'Manhã - 08:00 às 10:00', value: 'Manhã - 08:00 às 10:00'}, 
-                                {label: 'Manhã - 10:00 às 12:00', value: 'Manhã - 10:00 às 12:00'},
-                                {label: 'Tarde - 13:00 às 15:00', value: 'Tarde - 13:00 às 15:00'},
-                                {label: 'Tarde - 15:00 às 17:00', value: 'Tarde - 15:00 às 17:00'},
-                                {label: 'Noite - 17:00 às 19:00', value: 'Noite - 17:00 às 19:00'},
+                                {label: 'Noite - 15:00 às 16:00', value: 'Noite - 15:00 às 16:00'}, 
                               ]}
+                              defaultValue={{label: 'Noite - 15:00 às 16:00', value: 'Noite - 15:00 às 16:00'}}
                               isSearchable={true}
-                              placeholder={'Começo da manhã - 08:00 às 10:00'}
-                              onChange={selectedOption => {
-                                handleChangePeriod(selectedOption);
-                              }}
-                              value={values.category}
+                              placeholder={'Ex: Noite - 15:00 às 16:00'}
                             />
-                            <p className="warning">
-                              {
-                                periodwarning === true ? 
-                                ('Por favor, escolha em qual período deseja receber o alugado')
-                                :
-                                ('')
-                              }
-                            </p>
                           </>
                         )
                         :
                         (
                           <>
-                            <Select
-                              className={''}
-                              options={renderOption()}
-                              isSearchable={true}
-                              placeholder={'Ex: Começo da manhã - 08:00 às 10:00'}
-                              onChange={selectedOption => {
-                                handleChangePeriod(selectedOption);
-                              }}
-                              value={values.category}
-                            />
-                            <p className="warning">
-                              {
-                                periodwarning === true ? 
-                                ('Por favor, escolha em qual período deseja receber o alugado')
-                                :
-                                ('')
-                              }
-                            </p>
+                            <p className="title-tl-input"> Devolução do ferramenta </p>
+                            <br/>
+                              <p className="notation-devolution">{ hourdevolution } da data da devolução</p>
                           </>
                         )
-                    }
-                    <br/>
-                    {
-                      moment(startam).format('YYYY-MM-DD') === moment(endam).format('YYYY-MM-DD') ?
-                      (
-                        <>
-                          <p className="warning-dates-equals">
-                            *Para entrega e coleta no mesmo dia, o horário de devolução só pode ser a noite das 17:00 às 18:00*
-                          </p>
-                          <br/>
-                          <p className="title-tl-input"> Devolução do ferramenta </p>
-                          <br/>
-                          <Select
-                            className={''}
-                            options={[
-                              {label: 'Noite - 15:00 às 16:00', value: 'Noite - 15:00 às 16:00'}, 
-                            ]}
-                            defaultValue={{label: 'Noite - 15:00 às 16:00', value: 'Noite - 15:00 às 16:00'}}
-                            isSearchable={true}
-                            placeholder={'Ex: Noite - 15:00 às 16:00'}
-                          />
-                        </>
-                      )
-                      :
-                      (
-                        <>
-                          <p className="title-tl-input"> Devolução do ferramenta </p>
-                          <br/>
-                            <p className="notation-devolution">{ hourdevolution } da data da devolução</p>
-                        </>
-                      )
-                    }
-                    <br/>
-                    <p className="title-tl-input"> Observações </p>
-                    <br/>
-                    <textarea className="textarea textarea2" value={obs} onChange={event => setObs(event.target.value)} placeholder="Tem algum horário exato que deseja receber ou outra pessoa vai receber por você no local? Nos diga aqui nas observações."></textarea>
-                    <br/>
-                    <p className="know">Algumas coisas que você precisa saber:</p>
-                    <br/>
-                    <b>* Horário de devolução no mesmo horário da entrega, exceto para devoluções o no mesmo dia.</b>
-                    <br/>
-                    <p>* Para devoluções no mesmo dia o horário de devolução deve ser às 18:00 horas.</p>
-                    <br/>
-                    {
-                      /* */
-                    }
-                    <b>*Pagamento na maquininha serão pagos diretamente ao entregador no ato da entrega da ferramenta.*</b>
+                      }
+                      <p className="title-tl-input"> Observações </p>
+                      <br/>
+                      <textarea className="textarea textarea2" value={obs} onChange={event => setObs(event.target.value)} placeholder="Tem algum horário exato que deseja receber ou outra pessoa vai receber por você no local? Nos diga aqui nas observações."></textarea>
+                      <br/>
+                    </div>
+                    <hr/>
+                    <div className="container box-rent-payment">
+                      <p className="know">Algumas coisas que você precisa saber:</p>
+                      <br/>
+                      <b>* Horário de devolução no mesmo horário da entrega, exceto para devoluções o no mesmo dia.</b>
+                      <br/>
+                      <p>* Para devoluções no mesmo dia o horário de devolução deve ser às 18:00 horas.</p>
+                      <br/>
+                      {
+                        /* */
+                      }
+                      <b>*Pagamento na maquininha serão pagos diretamente ao entregador no ato da entrega da ferramenta.*</b>
+                    </div>
+                    <br/><br/><br/><br/>
                   </>
                 )
                 :
@@ -933,18 +946,23 @@ const Payment = ({history}) => {
                 <ScrollableAnchor id={'choose'}>
                   <div></div>
                 </ScrollableAnchor>
-              <div className="columns is-mobile no-margin-top-columns">
-                <div className="column">
-                  <b>Total</b>
-                </div>
-                <div className="column">
-                  <p className="is-pulled-right">
-                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                      <b><FormattedNumber value={rentattempt.cost} style="currency" currency="BRL" /></b>
-                    </IntlProvider>            
-                  </p>
-                </div>
-              </div>
+                {
+                  /*
+                    <div className="columns is-mobile no-margin-top-columns">
+                      <div className="column">
+                        <b>Total</b>
+                      </div>
+                      <div className="column">
+                        <p className="is-pulled-right">
+                          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                            <b><FormattedNumber value={rentattempt.cost} style="currency" currency="BRL" /></b>
+                          </IntlProvider>            
+                        </p>
+                      </div>
+                    </div>
+                  
+                  */
+                }
               {
                 freight === 'with' ? 
                 (

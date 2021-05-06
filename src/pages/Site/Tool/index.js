@@ -389,17 +389,20 @@ const Tool = ({history}) => {
         setTool(response.data.tool[0])
         setTensionshow(response.data.tool[0].tension)
         setPictures(response.data.tool[0].picture)
-        setAdonsid(response.data.tool[0].adons.split(','))
-        var teste = response.data.tool[0].adons.split(',')
 
-        let adonscorrect = []
-        response.data.tool[0].adons.split(',').map(function (adon) {
-          var id = adon.split('=')[0]
-          adonscorrect.push(id)
-        })
-
-        getImgadons(adonscorrect)
-
+        if(response.data.tool[0].adons !== null){
+          setAdonsid(response.data.tool[0].adons.split(','))
+          var teste = response.data.tool[0].adons.split(',')
+  
+          let adonscorrect = []
+          response.data.tool[0].adons.split(',').map(function (adon) {
+            var id = adon.split('=')[0]
+            adonscorrect.push(id)
+          })
+  
+          getImgadons(adonscorrect)
+  
+        }
 
         setPrices(response.data.tool[0].prices.split(';'))
         loadLessor(response.data.tool[0].UserId) 
@@ -1440,7 +1443,17 @@ return (
                       (
                         <>
                           <div className="adons-container">
-                            <p className="optionals">Opcionais</p>
+                            {
+                              adonsProd.length > 0 ? (
+                                <>
+                                  <p className="optionals">Opcionais</p>
+                                </>
+                              ): (
+                                <>
+
+                                </>
+                              )
+                            }
                             <div className="columns is-mobile">
                               {
                                 adonsProd.map((adon, index) => (

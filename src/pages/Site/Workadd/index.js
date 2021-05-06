@@ -307,11 +307,10 @@ const Workadd = ({rent}) => {
     <div className="container workadd">
       
       <p className="title-infos-tool hack-padding-top">Falta só mais um pouquinho!</p>
+      <progress class="progress is-success progressbar" value="60.33" max="100"></progress>
       <p className="title-tool-only">
         Onde você deseja receber o equipamento?
       </p>
-
-      <b>Este endereço precisa ser verdadeiro, e ter relação com você ou seu trabalho. <br/> O endereço informado será verificado e em caso de não conformidade com a verdade, <br/> seu aluguel correrá o risco de ser rejeitado.</b>
       <div className="offer">
         <br/>
         {

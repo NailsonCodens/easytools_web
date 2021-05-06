@@ -743,6 +743,21 @@ body{
   z-index: 9999999;
 }
 
+.progressbar{
+  margin-bottom: 0px !important;
+}
+
+.box-rent-payment {
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  padding: 50px 20px 20px;
+  border-radius: 0;
+}
+
+.box-rent-pay-margin-top{
+  margin-top: -23px;
+}
+
 @media (max-width: 900px) {
   .alert {
     width: 100%;
