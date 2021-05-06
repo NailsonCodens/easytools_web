@@ -283,7 +283,7 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
           }
         }
 
-        if (selfiedata === '') {
+        /*if (selfiedata === '') {
           setWar('Adicione uma selfie.');
           return 
         } else {
@@ -293,7 +293,7 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
               return 
             }
           }
-        }
+        }*/
 
 /*       
         if (proofdata === '') {
@@ -741,10 +741,14 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                     <h3 className="title-box-inter">RG ou CNH</h3>
                     <Document id={us.id}/>
                   </div>
-                  <div className="column">
-                    <h3 className="title-box-inter">Foto do seu rosto (Selfie)</h3>
-                    <Selfie id={us.id}/>
-                  </div>
+                  {
+                    /*
+                    <div className="column">
+                      <h3 className="title-box-inter">Foto do seu rosto (Selfie)</h3>
+                      <Selfie id={us.id}/>
+                    </div>                    
+                    */
+                  }
                 </div>
                 {
                   /*

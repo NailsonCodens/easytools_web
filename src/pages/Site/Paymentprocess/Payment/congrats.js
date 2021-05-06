@@ -52,6 +52,8 @@ const Congrats = () => {
 
   return (
     <div className="container">
+        <progress class="progress is-success progressbar" value="100" max="100"></progress>
+        <br/>
         <Helmet>
           <title>{ 'Parabéns, sua reserva foi enviado' }</title>
         </Helmet>

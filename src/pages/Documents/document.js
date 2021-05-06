@@ -118,8 +118,12 @@ export default function Document({history, id}) {
       <div className="column has-text-centered">
         <div className="has-text-centered">
         <img src={documentcn} alt={'Documento'} className="selfiedoc"/>
-        <p class="has-text-centered">Tire uma selfie sua segurando seu documento aberto.
-        Por favor, retire o documento do plastico.</p>
+        {
+          /*
+          <p class="has-text-centered">Tire uma selfie sua segurando seu documento aberto.
+          Por favor, retire o documento do plastico.</p>          
+          */
+        }
 
           {
             document === 'Não adicionado.' ? 
