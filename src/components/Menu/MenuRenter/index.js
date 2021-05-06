@@ -835,6 +835,8 @@ const MenuRenter = () => {
 						}
 				</div>     
 			</nav>
+			{
+				/*
 			<Modal
 				show={modalout} 
 				onCloseModal={hideModalout} 
@@ -912,6 +914,8 @@ const MenuRenter = () => {
 						</div>
 					</div>
 			</Modal>
+				*/
+			}
 		</div>
 	)
 }

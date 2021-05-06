@@ -118,6 +118,7 @@ export default function Document({history, id}) {
       <div className="column has-text-centered">
         <div className="has-text-centered">
         <img src={documentcn} alt={'Documento'} className="selfiedoc"/>
+        <br/>
         {
           /*
           <p class="has-text-centered">Tire uma selfie sua segurando seu documento aberto.
