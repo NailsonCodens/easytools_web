@@ -758,6 +758,10 @@ body{
   margin-top: -23px;
 }
 
+.icon-pix{
+  width: 20px !important;
+}
+
 @media (max-width: 900px) {
   .alert {
     width: 100%;

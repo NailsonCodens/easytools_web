@@ -23,6 +23,7 @@ import Email from '../../../../utils/sendemail';
 import mastercard from '../../../../assets/images/mastercard.png';
 import machine from '../../../../assets/images/machine2.png';
 import boleto from '../../../../assets/images/boleto-icon.png';
+import pix from '../../../../assets/images/pix.png';
 import {
   isMobile
 } from "react-device-detect";
@@ -62,6 +63,7 @@ const Payment = ({ history }) => {
   const [document, setDocument] = useState({})
   const [adddoc, addDoc] = useState(false)
   const [modal, setModal] = useState(false);
+  const [modalpix, setModalpix] = useState(false);
   const [aditional, setAditional] = useState(false);
   const [cancel, setCancel] = useState(false);
   const [valueaditional, setValueaditional] = useState(10);
@@ -228,7 +230,7 @@ const Payment = ({ history }) => {
           Scroll()
           addDoc(true)
         }
-        //        
+        //
       }
     }
   }
@@ -242,6 +244,9 @@ const Payment = ({ history }) => {
       setTypepayment('machine')
     } else if (payment === 'boleto') {
       setTypepayment('boleto')
+    } else if (payment === 'pix') {
+      setTypepayment('pix')
+      setModalpix(true)
     }
     setColoractive('active-payment')
   }
@@ -397,7 +402,7 @@ const Payment = ({ history }) => {
         } else {
           verifyAvailabletool()
         }
-        //      history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      
+        //      history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)
       }).catch((err) => {
         console.log(err.response)
       })
@@ -608,6 +613,10 @@ const Payment = ({ history }) => {
     return costfreight
   }
 
+  const hideRedirectpix = () => {
+    setModalpix(false);
+  }
+
   const hideRedirect = () => {
     setModal(false)
   }
@@ -650,11 +659,11 @@ const Payment = ({ history }) => {
                               <Field>
                                 {
                                   /*
-                                    <input 
+                                    <input
                                       className="is-checkradio"
                                       type="radio"
                                       id={'without'}
-                                      name="freight" 
+                                      name="freight"
                                       value="without"
                                       onChange={event => handleFreight(event)}
                                     />
@@ -662,17 +671,17 @@ const Payment = ({ history }) => {
                                   */
                                 }
                                 {
-                                  //adicionar aqui clausula que verifica onde a ferramenta está, e o endereço passado na seção anterior para 
+                                  //adicionar aqui clausula que verifica onde a ferramenta está, e o endereço passado na seção anterior para
                                   //ver se abre o campo de receber o equipamento.
                                   tool.delivery === 'Y' ?
                                     (
                                       <>
                                         {
                                           /*
-                                          <input 
+                                          <input
                                             className="is-checkradio"
                                             id="with"
-                                            type="radio" 
+                                            type="radio"
                                             name="freight"
                                             value="with"
                                             defaultChecked={true}
@@ -840,7 +849,7 @@ const Payment = ({ history }) => {
                                       }
                                       {
                                         /*
-                                          <p className="title-infos-tool hack-padding-top">Localização do equipamento ({ tool.title })</p>                          
+                                          <p className="title-infos-tool hack-padding-top">Localização do equipamento ({ tool.title })</p>
                                         */
                                       }
                                       {
@@ -849,7 +858,7 @@ const Payment = ({ history }) => {
                                             <>
                                               {
                                                 /*
-                                                  <Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture1} title={tool.title}/>                                                 
+                                                  <Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture1} title={tool.title}/>
                                                 */
                                               }
                                             </>
@@ -956,11 +965,11 @@ const Payment = ({ history }) => {
                                     <p className="is-pulled-right">
                                       <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                         <b><FormattedNumber value={rentattempt.cost} style="currency" currency="BRL" /></b>
-                                      </IntlProvider>            
+                                      </IntlProvider>
                                     </p>
                                   </div>
                                 </div>
-                              
+
                               */
                             }
                             {
@@ -1004,8 +1013,7 @@ const Payment = ({ history }) => {
                                   <>
                                     <div className="columnss box-option-payment">
                                       <div className="box-form-pay">
-                                        ** Pagamentos na maquininha serão pagos ao entregador no ato da entrega da ferramenta. **
-                      </div>
+                                      </div>
                                       <div className={`colunm line-option-payment`} onClick={event => Choosepayment('creditcard')}>
                                         <img alt="tool" src={mastercard} className="icon-payment" />
                                         <span>Cartão de crédito</span>
@@ -1024,8 +1032,29 @@ const Payment = ({ history }) => {
                                               </>
                                             )
                                         }
-                                        <p>Na plataforma</p>
+                                        <p>Pague na plataforma</p>
                                       </div>
+                                      <div className="colunm line-option-payment" onClick={event => Choosepayment('pix')}>
+                                        <img alt="tool" src={pix} className="icon-payment icon-pix" />
+                                        <span>PIX</span>
+                                        {
+                                          typepayment === 'pix' ?
+                                            (
+                                              <>
+                                                <span className="is-pulled-right">
+                                                  <FontAwesomeIcon icon={['fas', 'check-circle']} size="1x" className="icon-payment-check" />
+                                                </span>
+                                              </>
+                                            )
+                                            :
+                                            (
+                                              <>
+                                              </>
+                                            )
+                                        }
+                                        <p>Pague na plataforma com o PIX</p>
+                                      </div>
+
                                       <div className="colunm line-option-payment" onClick={event => Choosepayment('machine')}>
                                         <img alt="tool" src={machine} className="icon-payment" />
                                         <span>Maquininha</span>
@@ -1048,12 +1077,12 @@ const Payment = ({ history }) => {
                                       </div>
                                       {
                                         /*
-                
+
                                                               <div className={`colunm line-option-payment ${typepayment === 'money' ? 'money-line' : ''}`} onClick={event => Choosepayment('money')}>
                                         <img src={money} className="icon-payment"/>
                                         <span>Dinheiro</span>
                                         {
-                                          typepayment === 'money' ? 
+                                          typepayment === 'money' ?
                                           (
                                             <>
                                               <span className="is-pulled-right">
@@ -1069,7 +1098,7 @@ const Payment = ({ history }) => {
                                         }
                                         <p>No recebimento do equipamento.</p>
                                         {
-                                          typepayment === 'money' ? 
+                                          typepayment === 'money' ?
                                           (
                                             <>
                                               <div className="coin">
@@ -1091,7 +1120,7 @@ const Payment = ({ history }) => {
                                           (<></>)
                                         }
                                       </div>
-                
+
                                         */
                                       }
 
@@ -1284,6 +1313,15 @@ const Payment = ({ history }) => {
                   }
                 </div>
               </div>
+              <Modal
+                show={modalpix}
+                onCloseModal={hideRedirectpix}
+                closeEscAllowed={false}
+                closeOnAllowed={false}
+              >
+
+                <img alt="tool" src={'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAAAAACMfPpKAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAfElEQVQYlU2QWwrEMAwDR0vuf+XZj8qJSyjIyNYjAkAMQNFhkBCKzoNiin70kxKBN41ENuf7+9AZWQOGRx/2m4TeKy2YO0GyDpwszW5EUCs/ur78NZtGvSa8azdPDGttsonot8LtDFNnrs4yLSbuJk0ajnV3vevhCxUj4Q+R11n764g4WgAAAABJRU5ErkJggg=='} className="icon-payment icon-pix" />
+              </Modal>
             </>
           )
       }
