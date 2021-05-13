@@ -815,8 +815,28 @@ width: 100px;
 }
 
 .icon-bt-pix{
-  font-size: 25px !important;
-  margin-top: -50px;
+  font-size: 18px !important;
+  margin-top: 0px;
+  cursor: pointer;
+}
+
+.intern-boxpix{
+
+}
+
+.input-qrcode{
+  width: 250px;
+}
+
+.copytext{
+  font-size: 12px;
+}
+
+.loading-pix{
+  font-size: 25px;
+  font-family: 'Poppins', sans-serif !important; 
+  font-weight: bold;
+  color: #2793DA;
 }
 
 @media (max-width: 900px) {

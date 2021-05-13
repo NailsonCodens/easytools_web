@@ -74,6 +74,7 @@ const Payment = ({ history }) => {
   const [hourdevolution, setHourdevolution] = useState('Manhã - 08:00 às 10:00');
   const [qrcode, setQrcode] = useState('-');
   const [qrpixcode, setQrpixcode] = useState('');
+  const [copied, setCopied] = useState(false);
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -179,6 +180,7 @@ const Payment = ({ history }) => {
 
 
   const copy = (e) => {
+    success2()
   }
 
 
@@ -192,6 +194,23 @@ const Payment = ({ history }) => {
     {
       position: "top-center",
       autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+
+  const success2 = () => Notification(
+    'success',
+    'LQrcode copiado!',
+    {
+      autoClose: 1000,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 1000,
       hideProgressBar: true,
       closeOnClick: false,
       pauseOnHover: true,
@@ -261,8 +280,6 @@ const Payment = ({ history }) => {
         "value": "1"
       }]
     };
-
-    console.log(pix)
 
     const response = await apiextern.post(`https://api.pagar.me/1/transactions`, pix, {}).then((res) => {
       console.log(res.data.pix_qr_code)
@@ -1361,8 +1378,6 @@ const Payment = ({ history }) => {
                 <div class="container">
                   <p className="title-paymentpix">Pague com o PIX</p>
                   <br />
-                  <br />
-                  <p className="after-title-paymentpix">Agora seu pagamento ficou mais fácil com o PIX.</p>
                   <div className="qrcode-paymentpix">
                     <p className="readqrcode">Leia este Qrcode com o app do seu banco</p>
                     <p>Aluguel de {tool.title}</p>
@@ -1375,7 +1390,7 @@ const Payment = ({ history }) => {
                         qrpixcode === '' ?
                           (
                             <>
-                              <p>Carregando...</p>
+                              <p className="loading-pix">Carregando...</p>
                             </>
                           )
                           :
@@ -1392,14 +1407,27 @@ const Payment = ({ history }) => {
                       </IntlProvider>
                     </div>
                     <div className="box-copypix">
-                      <div className="columns intern-boxpix">
-                        <div className="column is-7">
-                          <input type="text" className="input is-small" disabled={true} name="qrcode" value={qrpixcode} />
-                        </div>
-                        <div className="column is-1">
-                          <CopyToClipboard onCopy={copy} text={qrpixcode}>
-                            <div><FontAwesomeIcon icon={['fa', 'copy']} className="icon-bt-pix" size="2x" /></div>
-                          </CopyToClipboard>
+                      <div className="container intern-boxpix">
+                        <div className="columns">
+                          <div className="column">
+                          </div>
+                          <div className="column">
+                              <p className="copytext">Ou copie este código e cole no app do seu banco.</p>
+                              <div class="field has-addons">
+                                <div class="control">
+                                  <input type="text" className="input input-qrcode" disabled={true} name="qrcode" value={qrpixcode} />
+                                </div>
+                                <div class="control">
+                                  <CopyToClipboard onCopy={copy} text={qrpixcode}>
+                                    <a class="button is-info">
+                                      <FontAwesomeIcon icon={['fa', 'copy']} className="icon-bt-pix" size="2x" />
+                                    </a>                                    
+                                  </CopyToClipboard> 
+                                </div>
+                              </div>
+                          </div>
+                          <div className="column">
+                          </div>
                         </div>
                       </div>
                     </div>
