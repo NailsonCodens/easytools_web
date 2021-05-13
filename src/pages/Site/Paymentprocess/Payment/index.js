@@ -267,7 +267,7 @@ const Payment = ({ history }) => {
     var date = new Date();
     var limit = moment(date.setDate(date.getDate() + 1)).format('YYYY-MM-DD')
 
-    var final = parseFloat(amount) * 100;
+    var final = parseFloat(amount) * 100; /*a*/
     var amount = parseFloat(final.toFixed(2));
     console.log(amount)
     var pix = {
