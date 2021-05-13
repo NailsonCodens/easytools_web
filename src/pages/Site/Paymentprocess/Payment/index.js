@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from '../../../../components/Form/Button';
 import api from '../../../../services/api';
+import apiextern from '../../../../services/apiextern';
 import socketio from '../../../../services/socketio';
 import queryString from 'query-string';
+import QRCode from 'qrcode-react';
 import Rentruesblock from '../../../Warnings/Rentrulesblock';
 import { useLocation } from "react-router-dom";
 import { Rentinfo } from '../../../../store/actions/rentinfo';
 import { IntlProvider, FormattedNumber } from 'react-intl';
 import { Field } from '../../../../components/Form/Form';
 import Notification from '../../../../utils/notification';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Adddocument from '../../Tool/adddocument';
 import { isAuthenticated } from "../../../../services/auth";
 import ReactGA from 'react-ga';
@@ -30,8 +33,8 @@ import {
 import 'moment/locale/pt-br';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-library.add(faCheckCircle);
+import { faCheckCircle, faCopy } from '@fortawesome/free-solid-svg-icons'
+library.add(faCheckCircle, faCopy);
 
 moment.locale('pt-BR');
 
@@ -69,6 +72,8 @@ const Payment = ({ history }) => {
   const [valueaditional, setValueaditional] = useState(10);
   const [obs, setObs] = useState('');
   const [hourdevolution, setHourdevolution] = useState('Manhã - 08:00 às 10:00');
+  const [qrcode, setQrcode] = useState('-');
+  const [qrpixcode, setQrpixcode] = useState('');
 
   let values = queryString.parse(useLocation().search);
   const dispatch = useDispatch();
@@ -173,6 +178,10 @@ const Payment = ({ history }) => {
   //a7cd78e0-d8f4-4dac-890c-f3580dbf8387
 
 
+  const copy = (e) => {
+  }
+
+
   const success = () => Notification(
     'success',
     'Oba! Sua reserva está feita.',
@@ -235,7 +244,35 @@ const Payment = ({ history }) => {
     }
   }
 
-  const Choosepayment = (payment) => {
+  async function apipix(amount) {
+    var date = new Date();
+    var limit = moment(date.setDate(date.getDate() + 1)).format('YYYY-MM-DD')
+
+    var final = parseFloat(amount) * 100;
+    var amount = parseFloat(final.toFixed(2));
+    console.log(amount)
+    var pix = {
+      "api_key": "ak_test_IvoBZC3YcNhurk9N7ueuTOddd7VB69", /*ak_live_NB9Nh2HlZ0uNJ6ZAHpO3TqbhX8mflX */
+      "payment_method": "pix",
+      "amount": amount,
+      "pix_expiration_date": limit,
+      "pix_additional_fields": [{
+        "name": `Produto de teste ${tool.title}`,
+        "value": "1"
+      }]
+    };
+
+    console.log(pix)
+
+    const response = await apiextern.post(`https://api.pagar.me/1/transactions`, pix, {}).then((res) => {
+      console.log(res.data.pix_qr_code)
+      setQrpixcode(res.data.pix_qr_code)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
+  const Choosepayment = (payment, amount) => {
     if (payment === 'creditcard') {
       setTypepayment('creditcard')
     } else if (payment === 'money') {
@@ -245,8 +282,10 @@ const Payment = ({ history }) => {
     } else if (payment === 'boleto') {
       setTypepayment('boleto')
     } else if (payment === 'pix') {
+      apipix(amount)
       setTypepayment('pix')
       setModalpix(true)
+
     }
     setColoractive('active-payment')
   }
@@ -1034,7 +1073,7 @@ const Payment = ({ history }) => {
                                         }
                                         <p>Pague na plataforma</p>
                                       </div>
-                                      <div className="colunm line-option-payment" onClick={event => Choosepayment('pix')}>
+                                      <div className="colunm line-option-payment" onClick={event => Choosepayment('pix', parseFloat(rentattempt.cost) + renderCalc())}>
                                         <img alt="tool" src={pix} className="icon-payment icon-pix" />
                                         <span>PIX</span>
                                         {
@@ -1319,8 +1358,54 @@ const Payment = ({ history }) => {
                 closeEscAllowed={false}
                 closeOnAllowed={false}
               >
+                <div class="container">
+                  <p className="title-paymentpix">Pague com o PIX</p>
+                  <br />
+                  <br />
+                  <p className="after-title-paymentpix">Agora seu pagamento ficou mais fácil com o PIX.</p>
+                  <div className="qrcode-paymentpix">
+                    <p className="readqrcode">Leia este Qrcode com o app do seu banco</p>
+                    <p>Aluguel de {tool.title}</p>
+                    <div className="qrcodepay">
+                      {
+                        console.log(qrpixcode)
+                      }
 
-                <img alt="tool" src={'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAAAAACMfPpKAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAfElEQVQYlU2QWwrEMAwDR0vuf+XZj8qJSyjIyNYjAkAMQNFhkBCKzoNiin70kxKBN41ENuf7+9AZWQOGRx/2m4TeKy2YO0GyDpwszW5EUCs/ur78NZtGvSa8azdPDGttsonot8LtDFNnrs4yLSbuJk0ajnV3vevhCxUj4Q+R11n764g4WgAAAABJRU5ErkJggg=='} className="icon-payment icon-pix" />
+                      {
+                        qrpixcode === '' ?
+                          (
+                            <>
+                              <p>Carregando...</p>
+                            </>
+                          )
+                          :
+                          (
+                            <>
+                              <QRCode value={qrpixcode} size="160" logo="https://easytoolsapp.com/static/media/logo.c64dfad4.png" />,
+                          </>
+                          )
+                      }
+                    </div>
+                    <div className="cost-pix">
+                      <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                        <b><FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
+                      </IntlProvider>
+                    </div>
+                    <div className="box-copypix">
+                      <div className="columns intern-boxpix">
+                        <div className="column is-7">
+                          <input type="text" className="input is-small" disabled={true} name="qrcode" value={qrpixcode} />
+                        </div>
+                        <div className="column is-1">
+                          <CopyToClipboard onCopy={copy} text={qrpixcode}>
+                            <div><FontAwesomeIcon icon={['fa', 'copy']} className="icon-bt-pix" size="2x" /></div>
+                          </CopyToClipboard>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="dontworry-tiitle-paymentpix">Não se preocupe, em caso de cancelamento da reserva ou qualquer  <br /> outra situação, seu pagamento será devolvido dentro de instantes.</p>
+                </div>
               </Modal>
             </>
           )

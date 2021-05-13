@@ -201,7 +201,7 @@ body{
 }
 
 .box-inter{
-  margin: 20px; 
+  margin: 20px;
   background: #fff;
 }
 
@@ -246,7 +246,7 @@ body{
 
 .menus .dropdown-item li {
   font-family: 'Poppins', sans-serif;
-  font-weight: 500; 
+  font-weight: 500;
   padding: 6px 0px;
   font-size: 1.0em !important;
 }
@@ -280,7 +280,7 @@ body{
   color: #000;
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 14px; 
+  margin-bottom: 14px;
 }
 
 .text-tips{
@@ -288,7 +288,7 @@ body{
   color: rgb(144, 144, 144);
   font-size: 15px;
   font-weight: 500;
-  margin-bottom: 14px; 
+  margin-bottom: 14px;
 }
 
 .textarea-multiline{
@@ -433,7 +433,7 @@ body{
 .unffortunily{
   font-size: 37px;
   font-family: 'Poppins', sans-serif !important;
-  font-weight: 500 !important;  
+  font-weight: 500 !important;
 }
 
 .svgnotfound3{
@@ -444,7 +444,7 @@ body{
 .understand{
   font-size: 17px;
   font-family: 'Poppins', sans-serif !important;
-  font-weight: 500 !important;  
+  font-weight: 500 !important;
 }
 
 .title-notfound{
@@ -551,17 +551,17 @@ body{
 .rentandnow{
   font-size: 25px;
   font-family: 'Poppins', sans-serif !important;
-  color: #60a8f1;  
+  color: #60a8f1;
   margin-bottom: 30px;
 }
 
 .aftercontineos{
   font-size: 21px !important;
-  color: #60a8f1;  
+  color: #60a8f1;
 }
 
 .terms-complete{
-  font-family: 'Poppins', sans-serif !important; 
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .ol-privacy{
@@ -573,7 +573,7 @@ body{
 .topics-terms{
   font-size: 22px;
   font-weight: 600;
-  font-family: 'Poppins', sans-serif !important; 
+  font-family: 'Poppins', sans-serif !important;
   padding-bottom: 30px;
 }
 
@@ -762,6 +762,63 @@ body{
   width: 20px !important;
 }
 
+.qrcodepix{
+width: 100px;
+}
+
+.title-paymentpix{
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 27px;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.dontworry-tiitle-paymentpix{
+  text-align: center;
+  font-family: 'Poppins', sans-serif !important; 
+  font-size: 14px !important;
+}
+
+.qrcode-paymentpix{
+  text-align: center !important;
+}
+
+.after-title-paymentpix{
+  text-align: center !important;
+  margin-top: -20px;
+  margin-bottom: 10px;
+}
+
+.readqrcode{
+  font-weight: bold !important;
+}
+
+.qrcodepay{
+  margin: 20px 0px !important;
+}
+
+.cost-pix{
+  font-size: 25px;
+  font-family: 'Poppins', sans-serif !important;   
+  margin-top: -20px;
+  font-weight: bold;
+  color:rgb(30, 223, 126);
+}
+
+.box-copypix{
+
+}
+
+.intern-boxpix{
+
+}
+
+.icon-bt-pix{
+  font-size: 25px !important;
+  margin-top: -50px;
+}
+
 @media (max-width: 900px) {
   .alert {
     width: 100%;
@@ -792,7 +849,7 @@ body{
 
   .bt-app{
     height: 50px;
-  
+
 
   .bt-app-2{
     height: 50px !important;
@@ -808,7 +865,7 @@ body{
     bottom: 80px;
     right: 10px;
   }
-  
+
   .container-mobile-paymentme{
     padding: 0px !important;
   }
@@ -831,7 +888,7 @@ body{
     right: 10px;
     bottom: 80px;
   }
-  
+
   .warning-unavailable{
     z-index: 9999 !important;
     width: 100% !important;
@@ -860,10 +917,10 @@ body{
   .no-margin-top-columns{
     margin-top: -20px !important;
   }
-  
+
   .no-margin-top-columns2{
     margin-top: -15px !important;
-  }  
+  }
 
   .styles_modalCenter__L9F2w{
     width: 100% !important;
