@@ -49,7 +49,7 @@ library.add(faCoffee, faSearch, faUserCircle, faHandshake, faTags, faInfo);
 
 const MenuRenter = () => {
 
-  const dispatch = useDispatch();	
+  const dispatch = useDispatch();
 	const [modal, setModal] = useState(false);
 	const current_user = useSelector(state => state.auth);
 	const [search, setSearch] = useState('');
@@ -75,7 +75,7 @@ const MenuRenter = () => {
 	const [modalout, setModalout] = useState(false);
 	let values = queryString.parse(useLocation().search);
 	let locationhistory = useLocation().pathname;
-	
+
 
 	function addEvent(obj, evt, fn) {
 		if (obj.addEventListener) {
@@ -127,7 +127,7 @@ const MenuRenter = () => {
     },
 
     onSubmit: value => {
-   
+
     }
   })
 
@@ -145,7 +145,7 @@ const MenuRenter = () => {
 		document.addEventListener("mousedown", handleClickOutside);
 		return () => {
 			document.removeEventListener("mousedown", handleClickOutside);
-		};			
+		};
 	}
 
 	useEffect(() => {
@@ -158,7 +158,7 @@ const MenuRenter = () => {
 			console.log('estou passando notificação');
 		});
 
-    async function loadPerfil() { 
+    async function loadPerfil() {
       const response = await api.get(`/perfil`, {
 			});
 			setPerfil(response.data.user[0])
@@ -186,7 +186,7 @@ const MenuRenter = () => {
 			}
 		}
 		verifyDevice()
-		
+
 		async function loadRedirect () {
 			if (values.r === 'redirect') {
 				setModal(true)
@@ -264,7 +264,7 @@ const MenuRenter = () => {
 	const signLink = () => {
 		setModal(true)
 	}
-	
+
   const hideModal = () => {
     setModal(false)
     return modal
@@ -276,7 +276,7 @@ const MenuRenter = () => {
 
   const error = () => Notificationtost(
     'error',
-    'Não conseguimos pegar sua localização. habilite a geolocalização em seu navegador.', 
+    'Não conseguimos pegar sua localização. habilite a geolocalização em seu navegador.',
     {
       autoClose: 6000,
       draggable: false,
@@ -290,10 +290,10 @@ const MenuRenter = () => {
       draggable: true,
     }
 	)
-	
+
   const success = () => Notificationtost(
     'success',
-    'Estes são os equipamentos mais próximos de vocês.', 
+    'Estes são os equipamentos mais próximos de vocês.',
     {
       autoClose: 6000,
       draggable: false,
@@ -307,7 +307,7 @@ const MenuRenter = () => {
       draggable: true,
     }
 	)
-	
+
   const handleCheckIOS = event => {
 
   };
@@ -328,7 +328,7 @@ const MenuRenter = () => {
 				terms: 'Y',
 				phone: phone
 			}
-	
+
 			Scrool(0,0)
 			//info()
 			api.put(`perfil/update/${current_user.id}`, userupdate, {})
@@ -360,7 +360,7 @@ const MenuRenter = () => {
 			dispatch(Search(''))
 			setSearch('')
 			setBettersearch(false)
-			Scrool(0,0)	
+			Scrool(0,0)
 		} else {
 			dispatch(Search(search))
 			dispatch(Viewsearch(true))
@@ -368,17 +368,17 @@ const MenuRenter = () => {
 			Scrool(0,0)
 			var lat = localStorage.getItem('@lt')
       var lng = localStorage.getItem('@lg')
-      
+
       if (lat !== null) {
         getAddress(lng, lat).then(res => {
           var city = ''
 					const getCity = res.data.features.find(city => city.id.includes('place'));
-  
+
           city = getCity.text.replace(/\s+/g, '-').toLowerCase();
-					window.location.href = '/s/search/all/' + search + '/'+ city; 
+					window.location.href = '/s/search/all/' + search + '/'+ city;
         })
       }else {
-				window.location.href = '/s/search/all/' + search + '/region'; 
+				window.location.href = '/s/search/all/' + search + '/region';
 			}
 		}
 	}
@@ -411,7 +411,7 @@ const MenuRenter = () => {
 		setMyaddress(place.place_name)
 		setPlaces(false)
 	}
-	
+
 	const goOn = () => {
 		dispatch(Latitude(coordiantevalue[1]))
 		dispatch(Longitude(coordiantevalue[0]))
@@ -420,7 +420,7 @@ const MenuRenter = () => {
 
 		setBettersearch(false)
 		setPlaces(false)
-	}	
+	}
 
 	const renderEndmenu = () => {
 
@@ -428,14 +428,14 @@ const MenuRenter = () => {
 			return (
 				<>
 					{
-						locationhistory === '/' || locationhistory.indexOf('congrats') ? 
+						locationhistory === '/' || locationhistory.indexOf('congrats') ?
 						(
 							<>
 								<div className={"navbar-end-rent"}>
 									<div className={"navbar-item"}>
 										<div className="buttons">
 											<Link to={'/'}  onClick={event => Tracking('Menu site - Início', 'Clique menu Início', 'Menu site') } className="navbar-item">
-													<div className="box-icons-mobile">
+													<div className="box-icons-mobile start-mobile">
 														<FontAwesomeIcon icon={['fas', 'search']} className={history.location.pathname === '/' ? "menu-icons-active" : "menu-icons" } size="1x"/>
 														<div className="text-box">
 															Início
@@ -443,18 +443,18 @@ const MenuRenter = () => {
 													</div>
 											</Link>
 											{
-												isAuthenticated() === true ? 
+												isAuthenticated() === true ?
 												(
 													<>
 														<div onClick={event => Tracking('Menu site - Notificação', 'Clique menu notificação', 'Menu site') } className="navbar-item">
-															<div className="box-icons-mobile box-icons-mobile-cs ">
+															<div className="box-icons-mobile box-icons-mobile-cs notification-menu-con ">
 																<Dropdownpure text="Notificações" countn={notificationrd} classMenu="classNotless" classCuston=" notification">
 																	{ renderNotify() }
 																</Dropdownpure>
 															</div>
 														</div>
 														{
-															current_user.type_user === 'Lessor'? 
+															current_user.type_user === 'Lessor'?
 															(
 																<Link to={'/lessor/dashboard'} onClick={event => Tracking('Menu site - Aluguéis', 'Clique menu aluguéis', 'Menu site') } className="navbar-item">
 																		<div className="box-icons-mobile">
@@ -469,7 +469,7 @@ const MenuRenter = () => {
 															(
 																<>
 																	<Link to={'/s/renter/myrent'} onClick={event => Tracking('Menu site - meus alugados', 'Clique menu meus alugados', 'Menu site') } className="navbar-item">
-																			<div className="box-icons-mobile">
+																			<div className="box-icons-mobile my-tools">
 																				<FontAwesomeIcon icon={['fas', 'handshake']} className={history.location.pathname === '/s/renter/myrent' ? "menu-icons-active" : "menu-icons" }  size="1x"/>
 																				<div className="text-box">
 																					Minhas ferramentas
@@ -481,7 +481,7 @@ const MenuRenter = () => {
 														}
 														<div onClick={event => Scrool() } className="navbar-item">
 															{
-																current_user.type_user === 'Lessor'? 
+																current_user.type_user === 'Lessor'?
 																(
 																	<div className="box-icons-mobile box-icons-mobile-cs box-icons-mobile-cs-user">
 																		<Dropdown classCuston="menu-from-lessor menus">
@@ -506,7 +506,7 @@ const MenuRenter = () => {
 																						<Link to={'/'} onClick={event => Scrool() } className="navbar-item">
 																							Como ser um bom vizinho?
 																						</Link>
-																					</li>																
+																					</li>
 																				*/
 																			}
 																		</Dropdown>
@@ -527,7 +527,7 @@ const MenuRenter = () => {
 																				<Link to={'/s/renter/account'} onClick={event => Scrool() } className="navbar-item">
 																					Conta
 																				</Link>
-									
+
 																			</li>
 																				*/
 																			}
@@ -580,17 +580,17 @@ const MenuRenter = () => {
 												)
 											}
 											<Modal
-												show={modal} 
-												onCloseModal={hideModal} 
-												closeOnEsc={true} 
+												show={modal}
+												onCloseModal={hideModal}
+												closeOnEsc={true}
 												closeOnOverlayClick={true}
-											> 
+											>
 												<Auth hs={history} closeModal={event => setModal(false)}></Auth>
 											</Modal>
 										</div>
 									</div>
 
-								</div>							
+								</div>
 							</>
 						)
 						:
@@ -607,29 +607,29 @@ const MenuRenter = () => {
 					<div className="navbar-item">
 						<div className="buttons">
 						{
-								current_user.name === undefined || current_user.name === null ? 
+								current_user.name === undefined || current_user.name === null ?
 								(
 									<>
 										{
 											/*
 												<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
 													Seja um vizinho
-												</Link>											
-											*/	
+												</Link>
+											*/
 										}
 									</>
-								) : 
+								) :
 								(
 									<>
 										{
 											/*
 												<Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
 													Seja um vizinho
-												</Link>											
+												</Link>
 											*/
 										}
 										{
-											current_user.type_user === 'Renter' ? 
+											current_user.type_user === 'Renter' ?
 											(
 												<>
 													<Link to={'/'} onClick={event => Tracking('Menu site - Início', 'Clique menu Início', 'Menu site', 400, 400) } className="navbar-item">
@@ -657,7 +657,7 @@ const MenuRenter = () => {
 								)
 							}
 							{
-								current_user.name === undefined || current_user.name === null ? 
+								current_user.name === undefined || current_user.name === null ?
 								(
 									<>
 										<Link to={'/'} className="navbar-item">
@@ -670,13 +670,13 @@ const MenuRenter = () => {
 											Ser vizinho na EasyTools
 										</a>
 										<Link to={'/s/about-us'} onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site') } className="navbar-item link-how-work">
-											Como funciona? 
+											Como funciona?
 										</Link>
 										<Link to={'/s/help-me'} onClick={event => Tracking('Menu site - dúvidas', 'Clique menu dúvidas', 'Menu site') } className="navbar-item">
 											Dúvidas
 										</Link>
 									</>
-								) : 
+								) :
 								(
 									<>
 										<Link to={'/s/help-me'} onClick={event => Tracking('Menu site - dúvidas', 'Clique menu dúvidas', 'Menu site') } className="navbar-item">
@@ -686,18 +686,18 @@ const MenuRenter = () => {
 								)
 							}
 							{
-								current_user.name === undefined||current_user.name === null ? 
+								current_user.name === undefined||current_user.name === null ?
 								(
 									<p className="navbar-item signin" onClick={signLink}>
 										Entrar
 									</p>
-								) : 
+								) :
 								(
-									''					
+									''
 								)
 							}
 							{
-								current_user.type_user === 'Lessor'? 
+								current_user.type_user === 'Lessor'?
 								(
 									<Dropdown classCuston=" menu-from-lessor menus">
 										<li className="li-drop">
@@ -730,7 +730,7 @@ const MenuRenter = () => {
 											*/
 										}
 									</Dropdown>
-								) : 
+								) :
 								(
 									<Dropdown classCuston=" menu-from-renter menus">
 										<li className="li-drop">
@@ -753,15 +753,15 @@ const MenuRenter = () => {
 										</li>
 											*/
 										}
-									</Dropdown>				
+									</Dropdown>
 								)
 							}
 							<Modal
-								show={modal} 
-								onCloseModal={hideModal} 
-								closeOnEsc={true} 
+								show={modal}
+								onCloseModal={hideModal}
+								closeOnEsc={true}
 								closeOnOverlayClick={true}
-							> 
+							>
 								<Auth hs={history} closeModal={event => setModal(false)}></Auth>
 							</Modal>
 						</div>
@@ -777,31 +777,31 @@ const MenuRenter = () => {
 				<div className="navbar-brand">
 					<Link to={'/'} onClick={ event => findTools('close')}>
 						<img src={logo} alt="EasyTools Logo" className="logo"/>
-					</Link>	
+					</Link>
 					{
-						history.location.pathname === '/s/renter/perfil' || history.location.pathname === '/s/payment/resumebook' || history.location.pathname === '/s/payment/rent-rules' ? 
-						('') 
+						history.location.pathname === '/s/renter/perfil' || history.location.pathname === '/s/payment/resumebook' || history.location.pathname === '/s/payment/rent-rules' ?
+						('')
 						:
 						(
 							<>
 								<div className="input-right-mobile">
 									<div className="columns is-mobile">
 										<div className="column is-8-desktop is-10-mobile">
-												<input 
-												type="text" 
-												placeholder='Pesquisar' 
-												className="input input-search" 
+												<input
+												type="text"
+												placeholder='Pesquisar'
+												className="input input-search"
 												value={search}
 												onKeyPress={event => {
 													if (event.key === 'Enter') {
 														findTools()
 													}
 												}}
-												onChange={event => searchTools(event.target.value)} 
+												onChange={event => searchTools(event.target.value)}
 											/>
 										</div>
 										<div className="column">
-										<a 
+										<a
 										className={'button buttonsaddress is-info'}
 										onClick={event => findTools(search)}
 										>
@@ -813,12 +813,12 @@ const MenuRenter = () => {
 							</>
 						)
 					}
-					<span 
-						role="button" 
-						href="a" 
-						className={"navbar-burger burger"} 
-						aria-label="menu" 
-						aria-expanded="false" 
+					<span
+						role="button"
+						href="a"
+						className={"navbar-burger burger"}
+						aria-label="menu"
+						aria-expanded="false"
 						data-target="navbarBasicExample"
 						onClick={event => setMenu(!menu)}
 					>
@@ -833,16 +833,16 @@ const MenuRenter = () => {
 						{
 							renderEndmenu()
 						}
-				</div>     
+				</div>
 			</nav>
 			{
 				/*
 			<Modal
-				show={modalout} 
-				onCloseModal={hideModalout} 
-				closeOnEsc={true} 
+				show={modalout}
+				onCloseModal={hideModalout}
+				closeOnEsc={true}
 				closeOnOverlayClick={true}
-			> 
+			>
 					<div className="columns columns-box-hey">
 						<div className="column box-text-hey">
 							<img src={man} alt="Man Logo" className="baby-cry baby-cry-outmouse"/>
@@ -857,10 +857,10 @@ const MenuRenter = () => {
 							<br/><br/><br/>
 						<Field className={'field'}>
 							<Label for={'nome'}>
-								<Input 
-									name="nome" 
-									type="nome" 
-									placeholder="Nome" 
+								<Input
+									name="nome"
+									type="nome"
+									placeholder="Nome"
 									className={formik.touched.name && formik.errors.name ? 'input border-warning' : 'input'}
 									onChange={formik.handleChange}
 									value={formik.values.name}
@@ -869,10 +869,10 @@ const MenuRenter = () => {
 						</Field>
 						<Field className={'field'}>
 							<Label for={'email'}>
-								<Input 
-									name="email" 
-									type="email" 
-									placeholder="E-mail" 
+								<Input
+									name="email"
+									type="email"
+									placeholder="E-mail"
 									className={formik.touched.email && formik.errors.email ? 'input border-warning' : 'input'}
 									onChange={formik.handleChange}
 									value={formik.values.email}
@@ -884,19 +884,19 @@ const MenuRenter = () => {
 								<InputMask
 									name="phone"
 									type="text"
-									mask="(99) 9 9999-9999" 
+									mask="(99) 9 9999-9999"
 									maskChar=" "
-									placeholder="(41) 9 9999-9999" 
+									placeholder="(41) 9 9999-9999"
 									className={formik.touched.phone && formik.errors.phone ? 'input border-warning' : 'input'}
 									onChange={formik.handleChange}
 									value={phone}
 								/>
 								<Span className={'validation-warning'}>
 									{
-										formik.touched.phone && formik.errors.phone 
-									? 
-										(<div>{formik.errors.phone}</div>) 
-									: 
+										formik.touched.phone && formik.errors.phone
+									?
+										(<div>{formik.errors.phone}</div>)
+									:
 										null
 									}
 								</Span>

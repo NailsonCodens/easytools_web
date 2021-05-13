@@ -392,7 +392,7 @@ body{
   font-size: 1.6em;
   font-family: 'Poppins', sans-serif !important;
   font-weight: 500 !important;
-  margin-top: -30px;
+  margin-top: -20px;
 }
 
 .list-info-payment{
@@ -776,7 +776,7 @@ width: 100px;
 
 .dontworry-tiitle-paymentpix{
   text-align: center;
-  font-family: 'Poppins', sans-serif !important; 
+  font-family: 'Poppins', sans-serif !important;
   font-size: 14px !important;
 }
 
@@ -800,7 +800,7 @@ width: 100px;
 
 .cost-pix{
   font-size: 25px;
-  font-family: 'Poppins', sans-serif !important;   
+  font-family: 'Poppins', sans-serif !important;
   margin-top: -20px;
   font-weight: bold;
   color:rgb(30, 223, 126);
@@ -834,9 +834,15 @@ width: 100px;
 
 .loading-pix{
   font-size: 25px;
-  font-family: 'Poppins', sans-serif !important; 
+  font-family: 'Poppins', sans-serif !important;
   font-weight: bold;
   color: #2793DA;
+}
+
+.color-warning{
+  color: #f71169;
+  font-weight: bold !important;
+  font-size: 13px;
 }
 
 @media (max-width: 900px) {
@@ -869,7 +875,7 @@ width: 100px;
 
   .bt-app{
     height: 50px;
-
+  }
 
   .bt-app-2{
     height: 50px !important;
@@ -949,6 +955,7 @@ width: 100px;
 
   .title-tool-only{
     font-size: 1.6em;
+    margin-top: 10px;
   }
 
   .title-infos-tool{
@@ -1033,7 +1040,6 @@ width: 100px;
   margin: 0px 25px;
 }
 
-}
 
 @media screen and (max-width: 1023px){
   .navbar-menu {

@@ -309,7 +309,7 @@
 }
 
 .DateRangePickerInput{
-  background: #eeeeee !important;  
+  background: #eeeeee !important;
 }
 
 .hourmodalfor{
@@ -599,7 +599,7 @@
     z-index: 9999 !important;
     height: 100% !important;
     width: 100% !important;
-    top: -20px !important;
+    top: -25px !important;
     padding-top: 50px !important;
   }
 
@@ -614,14 +614,14 @@
   .page-full-date .rental-box{
     border: none !important;
   }
- 
+
   .clqt{
     margin-top: -20px !important;
   }
 
   .brands-tools{
     width: 340px;
-  }  
+  }
 
   .name-data-rules{
     padding: 21px 20px !important;
@@ -633,7 +633,7 @@
     background: rgb(233, 233, 233);
     text-align: left !important;
   }
-  
+
 
   .box-photos .column{
     margin-top:-23px;
@@ -643,7 +643,7 @@
     padding: 0 !important;
     height: 100px !important;
   }
-  
+
   .box-photos .column img{
     width:100%;
     height:100px;
@@ -760,14 +760,14 @@
   .page-full-date .rental-box{
     border: none !important;
   }
- 
+
   .clqt{
     margin-top: -20px !important;
   }
 
   .brands-tools{
     width: 340px;
-  }  
+  }
 
   .name-data-rules{
     padding: 21px 20px !important;
@@ -779,7 +779,7 @@
     background: rgb(233, 233, 233);
     text-align: left !important;
   }
-  
+
 
   .box-photos .column{
     margin-top:-23px;
@@ -789,7 +789,7 @@
     padding: 0 !important;
     height: 100px !important;
   }
-  
+
   .box-photos .column img{
     width:100%;
     height:100px;
@@ -881,7 +881,5 @@
   .tension-dv{
 
   }
-  
+
 }
-
-

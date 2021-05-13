@@ -271,8 +271,8 @@ const Payment = ({ history }) => {
     var amount = parseFloat(final.toFixed(2));
     console.log(amount)
     var pix = {
-      "api_key": "ak_test_IvoBZC3YcNhurk9N7ueuTOddd7VB69", /*ak_live_NB9Nh2HlZ0uNJ6ZAHpO3TqbhX8mflX */
-      "payment_method": "pix",
+      "api_key": process.env.REACT_APP_KEY_PIX, /*ak_live_NB9Nh2HlZ0uNJ6ZAHpO3TqbhX8mflX   "ak_test_IvoBZC3YcNhurk9N7ueuTOddd7VB69"*/
+      "payment_method": process.env.REACT_APP_PAYMENT_METHOD,
       "amount": amount,
       "pix_expiration_date": limit,
       "pix_additional_fields": [{
@@ -671,6 +671,7 @@ const Payment = ({ history }) => {
 
   const hideRedirectpix = () => {
     setModalpix(false);
+
   }
 
   const hideRedirect = () => {
@@ -890,7 +891,7 @@ const Payment = ({ history }) => {
                                     }
                                     <b>*Pagamento na maquininha serão pagos diretamente ao entregador no ato da entrega da ferramenta.*</b>
                                   </div>
-                                  <br /><br /><br /><br />
+                                  <br /><br />
                                 </>
                               )
                               :
@@ -1377,7 +1378,6 @@ const Payment = ({ history }) => {
               >
                 <div class="container">
                   <p className="title-paymentpix">Pague com o PIX</p>
-                  <br />
                   <div className="qrcode-paymentpix">
                     <p className="readqrcode">Leia este Qrcode com o app do seu banco</p>
                     <p>Aluguel de {tool.title}</p>
@@ -1396,7 +1396,7 @@ const Payment = ({ history }) => {
                           :
                           (
                             <>
-                              <QRCode value={qrpixcode} size="160" logo="https://easytoolsapp.com/static/media/logo.c64dfad4.png" />,
+                              <QRCode value={qrpixcode} size="130" logo="https://easytoolsapp.com/static/media/logo.c64dfad4.png" />,
                           </>
                           )
                       }
@@ -1412,19 +1412,19 @@ const Payment = ({ history }) => {
                           <div className="column">
                           </div>
                           <div className="column">
-                              <p className="copytext">Ou copie este código e cole no app do seu banco.</p>
-                              <div class="field has-addons">
-                                <div class="control">
-                                  <input type="text" className="input input-qrcode" disabled={true} name="qrcode" value={qrpixcode} />
-                                </div>
-                                <div class="control">
-                                  <CopyToClipboard onCopy={copy} text={qrpixcode}>
-                                    <a class="button is-info">
-                                      <FontAwesomeIcon icon={['fa', 'copy']} className="icon-bt-pix" size="2x" />
-                                    </a>                                    
-                                  </CopyToClipboard> 
-                                </div>
+                            <p className="copytext">Ou copie este código e cole no app do seu banco.</p>
+                            <div class="field has-addons">
+                              <div class="control">
+                                <input type="text" className="input input-qrcode" disabled={true} name="qrcode" value={qrpixcode} />
                               </div>
+                              <div class="control">
+                                <CopyToClipboard onCopy={copy} text={qrpixcode}>
+                                  <a class="button is-info">
+                                    <FontAwesomeIcon icon={['fa', 'copy']} className="icon-bt-pix" size="2x" />
+                                  </a>
+                                </CopyToClipboard>
+                              </div>
+                            </div>
                           </div>
                           <div className="column">
                           </div>
@@ -1432,7 +1432,15 @@ const Payment = ({ history }) => {
                       </div>
                     </div>
                   </div>
-                  <p className="dontworry-tiitle-paymentpix">Não se preocupe, em caso de cancelamento da reserva ou qualquer  <br /> outra situação, seu pagamento será devolvido dentro de instantes.</p>
+                  <p className="dontworry-tiitle-paymentpix">Não se preocupe, em caso de cancelamento seu pagamento será devolvido dentro de instantes.</p>
+                  {
+                    /*
+                      <p className="dontworry-tiitle-paymentpix color-warning">Você pode pagar o PIX agora ou até o horário de receber a ferramenta em mãos. <br/> Neste último caso o entregador irá solicitar o pagamento no ato da entrega.</p>
+                     */
+                  }
+                  <br />
+                  <button className="button is-success is-fullwidth" onClick={event => hideRedirectpix()}> OK </button>
+
                 </div>
               </Modal>
             </>

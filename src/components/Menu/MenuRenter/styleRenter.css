@@ -152,7 +152,7 @@
   font-size: 32px;
 }
 
-.menu-icons{ 
+.menu-icons{
   font-size: 32px;
   color: rgb(143, 143, 143);
 }
@@ -247,10 +247,28 @@
     padding-bottom: 65px;
   }
 
+  .notification-menu-con{
+    margin-left: -15px;
+
+  }
+
+  .start-mobile{
+    margin-left: -15px;
+  }
+
+  .text-boxe-cs-user{
+    margin-bottom: -3px;
+  }
+
+  .my-tools{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
   .navbar-menu.is-active{
     display: inline !important;
   }
-  
+
   .buttonsaddress{
     float: right !important;
     margin-top: -10px;
@@ -262,7 +280,7 @@
   .navbar{
     height: 25px !important;
   }
-  
+
   .navbar-brand{
     margin-top: -1px !important;
   }
@@ -297,13 +315,13 @@
 
   .navbar-burger{
     display: none !important;
-  }  
+  }
 
   .nav {
     display: block;
     grid-template-columns: none;
   }
-  
+
   .navbar-end-rent{
     background: #fff;
     height: 60px;
@@ -331,16 +349,19 @@
 
   .text-box{
     height: 20px;
-    margin-top: 1px;
     line-height: 0.9 !important;
     font-size: 0.6em;
     text-align: center !important;
   }
 
-  .text-box-cs{
-    margin-top: 0px !important;
+  .text-box-cs-notify{
+    margin-bottom: -3px;
   }
-  
+
+  .text-box-cs{
+    margin-top: -3px !important;
+  }
+
   .nav-fixed{
     padding-top: -3px;
     padding-bottom: 0px !important;
@@ -413,7 +434,7 @@
   }
 
   .box-icons-mobile-cs{
-    margin-top: 20px;    
+    margin-top: 20px;
   }
 
   .dropdown-user-mobile{
@@ -424,14 +445,14 @@
     margin-top: -420px !important;
   }
 
-  .menu-icons{ 
+  .menu-icons{
     font-size: 32px;
     color: rgb(143, 143, 143);
   }
 
   .box-icons-mobile-cs-user{
     margin-top: 20px !important;
-  }  
+  }
 
   .text-box-cs-notify{
     margin-left: 10px !important;
