@@ -1040,6 +1040,12 @@ width: 100px;
   margin: 0px 25px;
 }
 
+.text-your-number{
+  text-align: center;
+  font-family: 'Poppins', sans-serif !important;
+  margin-top: -30px;
+}
+
 
 @media screen and (max-width: 1023px){
   .navbar-menu {

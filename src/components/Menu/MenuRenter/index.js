@@ -51,6 +51,7 @@ const MenuRenter = () => {
 
   const dispatch = useDispatch();
 	const [modal, setModal] = useState(false);
+  const [modalphone, setModalphone] = useState(false);
 	const current_user = useSelector(state => state.auth);
 	const [search, setSearch] = useState('');
   const [notification, setNotfication] = useState([]);
@@ -131,6 +132,10 @@ const MenuRenter = () => {
     }
   })
 
+  const handleChangePhone = () => {
+
+  }
+
 
   const wrapperRef = useRef(null);
 	useOutsideAlerter(wrapperRef);
@@ -161,6 +166,10 @@ const MenuRenter = () => {
     async function loadPerfil() {
       const response = await api.get(`/perfil`, {
 			});
+      if(response.data.user[0].phone === ''){
+        setModalphone(true);
+      }
+
 			setPerfil(response.data.user[0])
 		}
     loadPerfil();
@@ -264,6 +273,11 @@ const MenuRenter = () => {
 	const signLink = () => {
 		setModal(true)
 	}
+
+  const hideModalphone = () => {
+    setModalphone(false)
+    return modalphone
+  }
 
   const hideModal = () => {
     setModal(false)
@@ -916,6 +930,59 @@ const MenuRenter = () => {
 			</Modal>
 				*/
 			}
+
+      {
+        perfil.phone === '' ?
+        (
+          <>
+              <Modal
+                show={modalphone}
+                onCloseModal={hideModalphone}
+                closeOnEsc={true}
+                closeOnOverlayClick={true}
+              >
+                <div className="container">
+                  <h2 className="has-text-centered title-index">Atualize seu número de celular</h2>
+                  <p className="text-your-number">Seu número de telefone é importante para que nossos entregadores e atendentes possam lhe passar informações sobre sua locação.</p>
+                  <div className="columns">
+                    <div className="column">
+                      <Field className={'field'}>
+                        <Label for={'phone'}>
+                          Seu Celular
+                      <InputMask
+                            name="phone"
+                            type="text"
+                            mask="(99) 9 9999-9999"
+                            maskChar=" "
+                            placeholder="(41) 9 9999-9999"
+                            className={erroPhone === true ? 'input border-warning' : 'input'}
+                            onChange={event => handleChangePhone('phone', event)}
+                            value={phone}
+                          />
+                          <Span className={'validation-warning'}>
+                            {
+                              erroPhone === true
+                                ?
+                                (<div>Por favor, insira seu número.</div>)
+                                :
+                                null
+                            }
+                          </Span>
+                        </Label>
+                      </Field>
+                      <button className={`button is-fullwidth is-success`}>Atualizar</button>
+                    </div>
+                  </div>
+                </div>
+              </Modal>
+          </>
+        )
+        :
+        (
+          <>
+          </>
+        )
+      }
 		</div>
 	)
 }
