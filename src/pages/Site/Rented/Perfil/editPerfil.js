@@ -558,11 +558,15 @@ const Edit = ({history}) => {
                         }
                       </Span>
                     </Field>
-                    <Warningtext>
-                      No caso de CNPJ, selecione acima esta opção e salve.
-                      <br/>
-                      Em seguida, vá em "Meus documentos" para enviar uma cópia do contrato social.
-                    </Warningtext>
+                      {
+                        /*
+                        <Warningtext>
+                          No caso de CNPJ, selecione acima esta opção e salve.
+                          <br/>
+                          Em seguida, vá em "Meus documentos" para enviar uma cópia do contrato social.
+                        </Warningtext>                        
+                        */
+                      }
                   </div>
                 </div>
                 <Field className="is-pulled-right space-bt">

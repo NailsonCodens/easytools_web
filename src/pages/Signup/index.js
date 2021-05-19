@@ -38,12 +38,12 @@ import './style.css';
 const Singup = ({ history }) => {
   const infochoose = useSelector(state => state.rentaltool);
   const rentattempt = useSelector(state => state.rentattempt);
-  const [rentattemptuse, setRentattemp] = useState({}); 
-  const [infouse, setInfo] = useState({}); 
+  const [rentattemptuse, setRentattemp] = useState({});
+  const [infouse, setInfo] = useState({});
 
   const info = () => Notification(
     'info',
-    'Só um momento...', 
+    'Só um momento...',
     {
       autoClose: 3000,
       draggable: false,
@@ -60,7 +60,7 @@ const Singup = ({ history }) => {
 
   const success = () => Notification(
     'success',
-    'Tudo pronto, vamos prosseguir?', 
+    'Tudo pronto, vamos prosseguir?',
     {
       autoClose: 3000,
       draggable: false,
@@ -89,8 +89,8 @@ const Singup = ({ history }) => {
   }, [infochoose, rentattempt])
 
   let paramns = queryString.parse(useLocation().search);
-  
-  let type = paramns.type 
+
+  let type = paramns.type
   let red = paramns.redirect
 
   let logo = logo_yellow;
@@ -98,7 +98,7 @@ const Singup = ({ history }) => {
 
   logo = type === 'lessor' ? logo_blue : logo;
   typeuser = type === 'lessor' ? 'Lessor' : 'Renter';
-  
+
   // eslint-disable-next-line
   const [month, setSelectedMonth] = useState("");
   // eslint-disable-next-line
@@ -194,7 +194,7 @@ const Singup = ({ history }) => {
     setTerms(false)
     return terms
   }
-  
+
   const hideRedirectlogin = () => {
     setRedirect(false)
     return redirect
@@ -208,14 +208,14 @@ const Singup = ({ history }) => {
   }
 
 
-  function handSubmit(values) { 
+  function handSubmit(values) {
     let { year, month, day } = values
     let birth_date = year + "-" + month + "-" + day;
     values['birth_date'] = birth_date;
 
     let morethan18 = new Date(year + 18, month - 1, day);
     let now = new Date();
-    
+
     if (morethan18 <=now) {
       setModify('morethan18')
       setModal(false);
@@ -235,7 +235,7 @@ const Singup = ({ history }) => {
         email: usernew.email,
         password: usernew.password,
       }
-      
+
       setTimeout(() => {
         ReactGA.event({
           category: 'Usuário se cadastrou',
@@ -244,7 +244,7 @@ const Singup = ({ history }) => {
         });
         Scrool(0,0);
         Authregister(user);
-      }, 1000);      
+      }, 1000);
       console.log(res)
     })
     .catch((err) => {
@@ -309,7 +309,7 @@ const Singup = ({ history }) => {
       })
     }
   }
-  
+
   async function Authregister (user) {
     await api.post('auth/token/', user, {})
     .then((res) => {
@@ -329,7 +329,7 @@ const Singup = ({ history }) => {
       } else{
         window.location.href = '/'
       }
-  
+
    })
     .catch((error) => {
     })
@@ -352,36 +352,36 @@ const Singup = ({ history }) => {
         <div className="sign-up">
           <Link to={'/'}>
             <img src={logo} alt="EasyTools Logo" className="logo-sing-up"/>
-          </Link>     
+          </Link>
           <h3 className="title-singup">
             Cadastre-se no Easytools!
           </h3>
           <div>
             <div className="container">
               <div className="column">
-                <Form 
+                <Form
                   onSubmit={ values => {
                     Scrool();
                     formik.handleSubmit(values);
-                  }} 
+                  }}
                   noValidate
                 >
                   <Field className={'field'}>
                     <Label for={'email'}>
-                      <Input 
-                        name="email" 
-                        type="email" 
-                        placeholder="E-mail" 
+                      <Input
+                        name="email"
+                        type="email"
+                        placeholder="E-mail"
                         className={formik.touched.email && formik.errors.email ? 'input border-warning' : 'input'}
                         onChange={formik.handleChange}
                         value={formik.values.email}
                       />
                       <Span className={'validation-warning'}>
                         {
-                          formik.touched.email && formik.errors.email 
-                        ? 
-                          (<div>{formik.errors.email}</div>) 
-                        : 
+                          formik.touched.email && formik.errors.email
+                        ?
+                          (<div>{formik.errors.email}</div>)
+                        :
                           null
                         }
                       </Span>
@@ -389,20 +389,20 @@ const Singup = ({ history }) => {
                   </Field>
                   <Field className={'field'}>
                     <Label for={'name'}>
-                      <Input 
-                        name="name" 
-                        type="text" 
-                        placeholder="Nome" 
+                      <Input
+                        name="name"
+                        type="text"
+                        placeholder="Nome"
                         className={formik.touched.name && formik.errors.name ? 'input border-warning' : 'input'}
                         onChange={formik.handleChange}
                         value={formik.values.name}
                       />
                       <Span className={'validation-warning'}>
                         {
-                          formik.touched.name && formik.errors.name 
-                        ? 
-                          (<div>{formik.errors.name}</div>) 
-                        : 
+                          formik.touched.name && formik.errors.name
+                        ?
+                          (<div>{formik.errors.name}</div>)
+                        :
                           null
                         }
                       </Span>
@@ -410,20 +410,20 @@ const Singup = ({ history }) => {
                   </Field>
                   <Field className={'field'}>
                     <Label for={'last_name'}>
-                      <Input 
-                        name="last_name" 
-                        type="text" 
-                        placeholder="Sobrenome" 
+                      <Input
+                        name="last_name"
+                        type="text"
+                        placeholder="Sobrenome"
                         className={formik.touched.last_name && formik.errors.last_name ? 'input border-warning' : 'input'}
                         onChange={formik.handleChange}
                         value={formik.values.last_name}
                       />
                       <Span className={'validation-warning'}>
                         {
-                          formik.touched.last_name && formik.errors.last_name 
-                        ? 
-                          (<div>{formik.errors.last_name}</div>) 
-                        : 
+                          formik.touched.last_name && formik.errors.last_name
+                        ?
+                          (<div>{formik.errors.last_name}</div>)
+                        :
                           null
                         }
                       </Span>
@@ -434,19 +434,19 @@ const Singup = ({ history }) => {
                       <InputMask
                         name="phone"
                         type="text"
-                        mask="(99) 9 9999-9999" 
+                        mask="(99) 9 9999-9999"
                         maskChar=" "
-                        placeholder="(41) 9 9999-9999" 
+                        placeholder="(41) 9 9999-9999"
                         className={formik.touched.phone && formik.errors.phone ? 'input border-warning' : 'input'}
                         onChange={event => handleChangePhone('phone', event)}
                         value={phone}
                       />
                       <Span className={'validation-warning'}>
                         {
-                          formik.touched.phone && formik.errors.phone 
-                        ? 
-                          (<div>{formik.errors.phone}</div>) 
-                        : 
+                          formik.touched.phone && formik.errors.phone
+                        ?
+                          (<div>{formik.errors.phone}</div>)
+                        :
                           null
                         }
                       </Span>
@@ -454,20 +454,20 @@ const Singup = ({ history }) => {
                   </Field>
                   <Field className={'field'}>
                     <Label for={'password'}>
-                      <Input 
-                        name="password" 
-                        type="password" 
-                        placeholder="Crie sua senha" 
+                      <Input
+                        name="password"
+                        type="password"
+                        placeholder="Crie sua senha"
                         className={formik.touched.password && formik.errors.password ? 'input border-warning' : 'input'}
                         onChange={formik.handleChange}
                         value={formik.values.password}
                       />
                       <Span className={'validation-warning'}>
                         {
-                          formik.touched.password && formik.errors.password 
-                        ? 
-                          (<div>{formik.errors.password}</div>) 
-                        : 
+                          formik.touched.password && formik.errors.password
+                        ?
+                          (<div>{formik.errors.password}</div>)
+                        :
                           null
                         }
                       </Span>
@@ -499,7 +499,7 @@ const Singup = ({ history }) => {
                             />
                           </Label>
                         </Field>
-                      </div> 
+                      </div>
                       <div className="column">
                         <Field className={'field'}>
                           <Label for={'month'}>
@@ -516,7 +516,7 @@ const Singup = ({ history }) => {
                             />
                           </Label>
                         </Field>
-                      </div>                     
+                      </div>
                       <div className="column">
                         <Field className={'field'}>
                           <Label for={'year'}>
@@ -541,9 +541,9 @@ const Singup = ({ history }) => {
                         {
                         // eslint-disable-next-line
                         formik.touched.month && formik.errors.month || formik.touched.day && formik.errors.day || formik.touched.year && formik.errors.year
-                        ? 
-                          (<div>Por favor, adicione sua data de nascimento para prosseguirmos</div>) 
-                        : 
+                        ?
+                          (<div>Por favor, adicione sua data de nascimento para prosseguirmos</div>)
+                        :
                           null
                         }
                       </Span>
@@ -554,13 +554,13 @@ const Singup = ({ history }) => {
                         Aceito receber emails, ofertas e marketing da EasyTools. Você pode desabilitar esta opção quando quiser, basta acessar nas configurações de sua conta.
                       </Warningtext>
                       <div className="offer">
-                        <CheckboxIOS 
+                        <CheckboxIOS
                           onChange={handleCheckIOS}
                           name="marketing"
-                          value={formik.values.marketing} 
+                          value={formik.values.marketing}
                           bind="checksignup"
                           ch={true}
-                          off="" 
+                          off=""
                           on="Sim"
                         />
                       </div>
@@ -570,7 +570,7 @@ const Singup = ({ history }) => {
                     <Label for={'save'}>
                       <Button
                         type={'submit'}
-                        className={'button is-fullwidth color-logo'} 
+                        className={'button is-fullwidth color-logo'}
                         text={'Cadastre-se'}
                       />
                     </Label>
@@ -583,10 +583,10 @@ const Singup = ({ history }) => {
                 <Link to="/?redirect"><Span className="button-enter-2">Entrar</Span></Link>
               </div>
             </div>
-            <Modal 
-              show={redirect} 
+            <Modal
+              show={redirect}
               onCloseModal={hideRedirectlogin}
-              closeOnEsc={true} 
+              closeOnEsc={true}
               closeOnOverlayClick={true}
             >
               <h2 className="title has-text-centered">Parece que você já tem uma conta com este usuário</h2>
@@ -597,10 +597,10 @@ const Singup = ({ history }) => {
                 </div>
               </div>
             </Modal>
-            <Modal 
-              show={terms} 
+            <Modal
+              show={terms}
               onCloseModal={hideTerms}
-              closeOnEsc={true} 
+              closeOnEsc={true}
               closeOnOverlayClick={true}
             >
               <h2 className="title">Termos e condições de uso</h2>
@@ -626,7 +626,7 @@ const Singup = ({ history }) => {
                 <br/><br/>
                 <b>Facilitar o aluguel de equipamentos e ferramentas necessárias para realizar qualquer empreendimento:</b>
                 <br/>
-                O mercado de aluguel de equipamentos e ferramentas existem a muito tempo, mas por ser tão antigo, também é muito arcaico e burocrático. Pensando nisso, a Easytools vem para facilitar o acesso a estes equipamentos para que de forma fácil, você possa consegui-los e usá-los de forma mais acessível e rápida. 
+                O mercado de aluguel de equipamentos e ferramentas existem a muito tempo, mas por ser tão antigo, também é muito arcaico e burocrático. Pensando nisso, a Easytools vem para facilitar o acesso a estes equipamentos para que de forma fácil, você possa consegui-los e usá-los de forma mais acessível e rápida.
                 Este serviço serve também para quem não tem a prática de alugar equipamentos e ferramentas, mas que em algum momento precisa realizar algo que dependa do mesmo, assim fornecendo a você a possibilidade de uso deste equipamento, através da economia colaborativa (“Aluguel”).
                 <br/><br/>
                 <b>Desburocratizar o aluguel de ferramentas e equipamentos:</b>
@@ -657,15 +657,15 @@ const Singup = ({ history }) => {
                 <br/><br/>
                 Para utilizar grande parte dos Serviços, você deve registrar-se e manter uma conta pessoal de usuário de Serviços (“Conta”). Você deve ter pelo menos 18 anos para registrar uma Conta. O registro de Conta exige que a Easytools colete determinados dados pessoais, que podem incluir seu nome, endereço, número de telefone celular e data de nascimento, assim como pelo menos um método de pagamento válido (cartão de crédito ou parceiro de pagamento aceito pela Easytools). Você concorda em manter informações corretas, completas e atualizadas em sua Conta. Se você não mantiver informações corretas, completas e atualizadas em sua Conta, inclusive se o método de pagamento informado for inválido ou expirado, você poderá ficar impossibilitado(a) de acessar e usar os Serviços ou da Easytools poderá resolver estes Termos. Você é responsável por todas as atividades realizadas na sua Conta e concorda em manter sempre a segurança e confidencialidade do nome de usuário e senha da sua Conta. A menos que diversamente permitido pela Easytools por escrito, você poderá manter apenas uma Conta.
                 <br/><br/>
-                
-                <b><i>Uso da plataforma</i></b> 
+
+                <b><i>Uso da plataforma</i></b>
                 <br/><br/>
                 A plataforma é uma ambiente para anúncio e aluguel de equipamentos de ferramentas online. O intuito é facilitar e desburocratizar o setor de locação de equipamentos e ferramentas. Você como cliente poderá ser locatário(Parte que aluga o equipamento de outro), ou locador (Parte que disponibilizar seus equipamentos para outros). O aluguel de equipamentos é feito de forma online, e nós fazemos o delivery deste equipamento no local desejado por você, para que a entrega seja realizada, nós cobramos uma taxa de entrega com base na localidade e no km. Não temos lojas físicas por isso fica inviável ir buscar os equipamentos.
                 Você pode locar quanto equipamentos e desejar, não temos limite. Após escolher e seguir os procedimentos de locação, você receberá a opção de pagamento para que possamos finalizar o processo de locação e entregar o equipamento escolhido no endereço desejado.
                 <br/><br/>
                 Pagamento feito, nós entregamos o equipamento e só buscaremos na data de devolução.
                 <br/><br/>
-                
+
                 <b><i>Equipamentos e ferramentas</i></b>
                 <br/><br/>
                 Os equipamentos dos anúncios podem ser ou não de pfropriedade da Easytools. Alguns equipamentos são de empresas, e pessoas parceiras que queiram disponibilizar seus equipamentos e ferramentas. Consequentemente a entrega também fica a cargo do proprietário do equipamento, todos os parceiros são devidamente orientados e ensinados a realizar a entrega e a devolução da melhor maneira possível, tendo como foco a sua satisfação em nossos serviços.
@@ -676,19 +676,19 @@ const Singup = ({ history }) => {
                 <b><i>Entrega</i></b>
                 <br/><br/>
                 Após todo o processo de aluguel, nós nos comprometemos a entregar o equipamento alugado, em no máximo 2 horas, salvo em casos de problemas regionais e de trânsito e ou qualquer outra anormalidade no fluxo de entregas;
-                Quando o equipamento for entre a você, teste o equipamento na frente do entregador. 
+                Quando o equipamento for entre a você, teste o equipamento na frente do entregador.
                 Será feito também pela Easytools, um checkin do equipamento, garantindo que o equipamento foi entregue com a melhor qualidade possível e em pleno funcionamento.
                 <br/><br/>
                 <b><i>Devolução</i></b>
                 <br/><br/>
-                Você deve se programar para entregar o equipamento na data previamente acertada na locação do equipamento. A Easytools notificará a você por e-mail, telefone e notificações em nossa plataforma, 3 dias antes do dia da devolução. Cabe a você limpar e organizar o equipamento para ser devolvido. 
+                Você deve se programar para entregar o equipamento na data previamente acertada na locação do equipamento. A Easytools notificará a você por e-mail, telefone e notificações em nossa plataforma, 3 dias antes do dia da devolução. Cabe a você limpar e organizar o equipamento para ser devolvido.
                 No dia previamente acertado para devolução, A Easytools passará no endereço de entrega para buscar o equipamento.
                 A Easytools fará um checkout do equipamento na sua frente para garantir que nada foi avariado. Em caso de avaria, você será notificado e o produto passará por uma análise profissional, em caso de diagnóstico positivo para mal uso, você deverá arcar com o conserto do equipamento ou em casos de perda total, você deverá arcar com o valor total do equipamento.
                 <br/><br/>
-                <b><i>Pagamento</i></b> 
+                <b><i>Pagamento</i></b>
                 <br/><br/>
-                Você entende que os serviços ou bens que você receber de um Parceiro Independente ou da Easytools, contratados por meio dos Serviços, poderão ser cobrados (“Preço”). Após você ter recebido serviços ou bens obtidos por meio do uso do Serviço, a Easytools facilitará o seu pagamento do respectivo Preço ao Parceiro Independente ou a Easytools, agindo na qualidade de agente limitado de cobrança do Parceiro Independente ou da Easytools. O pagamento do Preço feito dessa maneira será considerado pagamento feito diretamente por você ao Parceiro Independente ou para Easytools. O preço incluirá todos os tributos exigidos por lei. 
-                O preço pago por você é final e não reembolsável, a menos que diversamente determinado pela Easytools. 
+                Você entende que os serviços ou bens que você receber de um Parceiro Independente ou da Easytools, contratados por meio dos Serviços, poderão ser cobrados (“Preço”). Após você ter recebido serviços ou bens obtidos por meio do uso do Serviço, a Easytools facilitará o seu pagamento do respectivo Preço ao Parceiro Independente ou a Easytools, agindo na qualidade de agente limitado de cobrança do Parceiro Independente ou da Easytools. O pagamento do Preço feito dessa maneira será considerado pagamento feito diretamente por você ao Parceiro Independente ou para Easytools. O preço incluirá todos os tributos exigidos por lei.
+                O preço pago por você é final e não reembolsável, a menos que diversamente determinado pela Easytools.
                 O preço total é devido e deve ser pago imediatamente após a prestação do serviço ou entrega do bem pelo Parceiro Independente ou pela Easytools e o pagamento será facilitado pela Easytools mediante o método de pagamento indicado na sua Conta, após o que a Easytools enviará um recibo por e-mail. Se for verificado que o método de pagamento indicado na Conta expirou, é inválido ou não pode ser cobrado, você concorda que a Easytools poderá, na qualidade de agente limitado de cobrança do Parceiro Independente ou da Easytools, usar um método secundário de cobrança na Conta, se houver.
                 <br/><br/>
                 <b><i>Acesso à Rede e Equipamentos</i></b>
@@ -706,8 +706,8 @@ const Singup = ({ history }) => {
                 A EASYTOOLS GARANTE A QUALIDADE DE , ATENDIMENTO, ENTREGA E DEVOLUÇÃO DOS EQUIPAMENTOS PERTINENTES A EASYTOOLS. NÃO GARANTIMOS A QUALIDADE DO EQUIPAMENTO DE PARCEIROS INDEPENDENTES QUE TENHAM SEUS EQUIPAMENTOS ANUNCIADOS NA EASYTOOLS. OS SERVIÇOS DA EASYTOOLS PODERÁ SER USADO POR VOCÊ PARA FACILITAR E PROGRAMAR SERVIÇOS DE LOCAÇÃO DE BENS MÓVEIS ATRAVÉS DA ECONOMIA COLABORATIVA COM ATIVOS DE EQUIPAMENTOS E FERRAMENTAS. VOCÊ CONCORDA QUE NÃO EASYTOOLS NÃO TEM RESPONSABILIDADE A VOCÊ EM RELAÇÃO A EQUIPAMENTOS E FERRAMENTAS DE PARCEIROS INDEPENDENTES, E QUE SÓ PODEMOS GARANTIR ESSA RESPONSABILIDADE COM EQUIPAMENTOS QUE SÃO PRÓPRIOS DA EASYTOOLS. TODOS OS PARCEIROS INDEPENDENTES SÃO ENSINADOS E INSTRUIDOS A ATENDER, CONVERSAR E A SERVIR OS CLIENTES DA MELHOR MANEIRA POSSÍVEL.
                 <br/><br/>
                 <p className="topics-terms">Avisos.</p>
-              
-                A Easytools poderá enviar avisos por meio de notificações gerais nos Serviços, correio eletrônico para seu endereço de e-mail em sua Conta, ou por comunicação escrita enviada ao endereço indicado em sua Conta. 
+
+                A Easytools poderá enviar avisos por meio de notificações gerais nos Serviços, correio eletrônico para seu endereço de e-mail em sua Conta, ou por comunicação escrita enviada ao endereço indicado em sua Conta.
                 <br/><br/>
                 <p className="topics-terms">Disposições Gerais</p>
                 Você não poderá ceder, nem tampouco transferir estes Termos, total ou parcialmente, sem prévia aprovação por escrito da Easytools. Você concorda que a Easytools ceda e transfira estes Termos, total ou parcialmente, inclusive: (i) para uma subsidiária ou afiliada; (ii) um adquirente das participações acionárias, negócios ou bens da Easytools; ou (iii) para um sucessor em razão de qualquer operação societária. Não existe joint-venture, sociedade, emprego ou relação de representação entre você, a Easytools ou quaisquer Parceiros Independentes como resultado do contrato entre você e a Easytools ou pelo uso dos Serviços.
@@ -718,25 +718,25 @@ const Singup = ({ history }) => {
               <div className="has-text-centered">
                 <Button
                   type={'input'}
-                  className={'button is-success accepted-bt'} 
+                  className={'button is-success accepted-bt'}
                   text={'Aceitar'}
                   onClick={AcceptedTerms}
                 />
                 <Button
                   type={'input'}
-                  className={'button is-default'} 
+                  className={'button is-default'}
                   text={'Não aceitar'}
                   onClick={NoAcceptedTerms}
                 />
               </div>
             </Modal>
-            <Modal 
-              show={modal} 
-              onCloseModal={hideModal} 
-              closeOnEsc={true} 
+            <Modal
+              show={modal}
+              onCloseModal={hideModal}
+              closeOnEsc={true}
               closeOnOverlayClick={true}
             >
-              { 
+              {
               modify === 'morethan18' ? (
                 <>
                   <h2 className="title has-text-centered title-modal">Ops! Lamentamos muito.</h2>
@@ -746,7 +746,7 @@ const Singup = ({ history }) => {
                   </div>
                   <br/><br/>
                   <p className="has-text-centered text-modal">Para se cadastrar você precisa ter 18 anos ou mais.</p>
-                </>                  
+                </>
 
               ) : (
               ''
@@ -763,11 +763,11 @@ const Singup = ({ history }) => {
                   </div>
                   <br/><br/>
                   <p className="has-text-centered text-modal">Para se cadastrar, você precisa aceitar os termos.</p>
-                </>                  
+                </>
 
               ) : (
               ''
-              )              
+              )
             }
             </Modal>
           </div>
