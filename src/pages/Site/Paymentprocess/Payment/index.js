@@ -63,6 +63,8 @@ const Payment = ({ history }) => {
   const [startam, setStartAm] = useState('');
   const [endam, setEndAm] = useState('');
   const [perfil, setPerfil] = useState([]);
+  const [descount, setDescount] = useState('');
+  const [valuedescount, setValuedescount] = useState(0);
   const [document, setDocument] = useState({})
   const [adddoc, addDoc] = useState(false)
   const [modal, setModal] = useState(false);
@@ -183,6 +185,23 @@ const Payment = ({ history }) => {
     success2()
   }
 
+  const warning = () => Notification(
+    'warning',
+    'Este cupom está indisponível.',
+    {
+      autoClose: 4100,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+
 
   const success = () => Notification(
     'success',
@@ -200,6 +219,24 @@ const Payment = ({ history }) => {
       draggable: true,
     }
   )
+
+  const successdescount = () => Notification(
+    'success',
+    'Desconto ativado com sucesso.',
+    {
+      autoClose: 4100,
+      draggable: false,
+    },
+    {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+    }
+  )
+
 
   const success2 = () => Notification(
     'success',
@@ -420,7 +457,7 @@ const Payment = ({ history }) => {
     if (freight === '' || freight === 'without') {
       freightnew = 0
     } else {
-      freightnew = renderCalc()
+      freightnew = renderCalc() - valuedescount
     }
 
     if (operation === 'cancel') {
@@ -556,14 +593,31 @@ const Payment = ({ history }) => {
     }
 
     return opt;
+  }
 
+  const descontRender = () => {
+    if (descount === 'easytools15%') {
+      var desc = renderCalc() / 100 * 15
+      setValuedescount(desc)
+      successdescount()
+    } else if (descount === 'ferramentafacil20%') {
+      var desc = renderCalc() / 100 * 20
+      setValuedescount(desc)
+      successdescount()
+    } else if (descount === 'aluga30%') {
+      var desc = renderCalc() / 100 * 30
+      setValuedescount(desc)
+      successdescount()
+    } else {
+      warning()
+    }
   }
 
   const handleChangeCoin = (coin) => {
     setCoin(coin)
   }
 
-  const renderCalc = () => {
+  const renderCalc = (descount) => {
 
     var frtool = tool.freight === null ? '2,00' : tool.freight
 
@@ -634,6 +688,7 @@ const Payment = ({ history }) => {
       }
 
       costfreight = fr * kmcurrent;
+
     }
 
     /* Promoção de entrega a 15 reais */
@@ -642,6 +697,7 @@ const Payment = ({ history }) => {
     if (aditional === true) {
       costfreight = costfreight + valueaditional
     }
+
 
     if (localStorage.getItem('@mtp') === 'true') {
       var citym = localStorage.getItem('@cmtp');
@@ -664,14 +720,11 @@ const Payment = ({ history }) => {
       costfreight = costfreight;
     }
 
-
-
     return costfreight
   }
 
   const hideRedirectpix = () => {
     setModalpix(false);
-
   }
 
   const hideRedirect = () => {
@@ -779,11 +832,40 @@ const Payment = ({ history }) => {
                                     <span className="valuefreight"> de você.</span>
                                     <br />
                                     <span className="distance">Taxa de entrega e coleta: </span>
-                                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                                      <b className="number-delivery"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
-                                    </IntlProvider>;
-
-                    </div>
+                                    {
+                                      valuedescount > 0 ?
+                                        (
+                                          <>
+                                            <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                                              <b className="number-delivery"><FormattedNumber value={renderCalc() - valuedescount} style="currency" currency="BRL" /></b>
+                                            </IntlProvider>;
+                                            <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                                              <b className="number-delivery oldvaluedescount"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
+                                            </IntlProvider>
+                                          </>
+                                        )
+                                        :
+                                        (
+                                          <>
+                                            <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                                              <b className="number-delivery"><FormattedNumber value={renderCalc()} style="currency" currency="BRL" /></b>
+                                            </IntlProvider>;
+                                        </>
+                                        )
+                                    }
+                                    <br />
+                                    <b>Cupom de desconto para entrega&coleta</b>
+                                    <div className="columns">
+                                      <div className="column is-5">
+                                        <input type="text" name="descont" className="input input-descont" value={descount} onChange={event => setDescount(event.target.value)} />
+                                      </div>
+                                      <div className="column is-2">
+                                        <button className={`button is-fullwidth is-primary is-outlined`} onClick={event => descontRender()}>
+                                          Utilizar
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
                                   <hr />
                                   <div className="container box-rent-payment">
                                     <p className="title-tl-input">Recebimento do ferramenta</p>
@@ -1039,7 +1121,7 @@ const Payment = ({ history }) => {
                                     <div className="column is-4">
                                       <p className="is-pulled-right">
                                         <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                                          <b><FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
+                                          <b><FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc() - valuedescount} style="currency" currency="BRL" /></b>
                                         </IntlProvider>
                                       </p>
                                     </div>
@@ -1297,7 +1379,7 @@ const Payment = ({ history }) => {
                           />
                           <p className={isMobile ? "is-pulled-left price-bottom" : "is-pulled-right price-bottom"}>
                             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                              <b>Total: <FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
+                              <b>Total: <FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc() - valuedescount} style="currency" currency="BRL" /></b>
                             </IntlProvider>
                           </p>
                         </div>

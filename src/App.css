@@ -1046,6 +1046,19 @@ width: 100px;
   margin-top: -30px;
 }
 
+.input-descont{
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+  text-transform: uppercase !important;  
+}
+
+.oldvaluedescount{
+  color: red;
+  font-size: 13px !important;
+  text-decoration: line-through;
+  margin-left: 5px;
+}
+
 
 @media screen and (max-width: 1023px){
   .navbar-menu {
