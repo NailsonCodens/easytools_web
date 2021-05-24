@@ -278,7 +278,7 @@ const Payment = ({ history }) => {
         }
       } else {
         if (document !== undefined) {
-          if (document.document !== null && document.selfie !== null) {
+          if (document.document !== null) {
             if (perfil.cpfcnpj === "" || perfil.cpfcnpj === null) {
               Scroll()
               addDoc(true)
@@ -461,6 +461,7 @@ const Payment = ({ history }) => {
     }
 
     if (operation === 'cancel') {
+
       var rentupdate = {
         freight: parseFloat(freightnew.toFixed(2)),
         startdate: rentattempt.startdate,
@@ -474,6 +475,7 @@ const Payment = ({ history }) => {
         obs: obs,
       }
     } else {
+
       var rentupdate = {
         freight: parseFloat(freightnew.toFixed(2)),
         startdate: rentattempt.startdate,
@@ -549,6 +551,9 @@ const Payment = ({ history }) => {
     ]
 
     var time = moment(new Date()).format('HH:mm')
+
+console.log(time)
+
     if (time >= '08:00' && time <= '10:00') {
       opt.push({ label: 'Manhã - 08:00 às 10:00', value: 'Manhã - 08:00 às 10:00' })
       opt.push({ label: 'Manhã - 10:00 às 12:00', value: 'Manhã - 10:00 às 12:00' })
@@ -1485,7 +1490,7 @@ const Payment = ({ history }) => {
                     </div>
                     <div className="cost-pix">
                       <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                        <b><FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc()} style="currency" currency="BRL" /></b>
+                        <b><FormattedNumber value={parseFloat(rentattempt.cost) + renderCalc() - valuedescount} style="currency" currency="BRL" /></b>
                       </IntlProvider>
                     </div>
                     <div className="box-copypix">

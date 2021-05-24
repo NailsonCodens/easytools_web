@@ -22,7 +22,7 @@ import Notification from '../../../utils/notification';
 import { set } from 'react-ga';
 
 const Adddocument = ({ onClose, confirmRent, rent, history }) => {
-  
+
   var link = localStorage.getItem('@lkt');
 
   const documentdata = useSelector(state => state.document);
@@ -51,10 +51,10 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
   const [showcheck, setShowcheck] = useState(false);
   const [user, setUser] = useState('');
   const [newaddress, setNewaddress] = useState('');
-  
+
   const info = () => Notification(
     'info',
-    'Salvando seus documentos, só um momento.', 
+    'Salvando seus documentos, só um momento.',
     {
       autoClose: 3000,
       draggable: false,
@@ -68,8 +68,8 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
       draggable: true,
     }
   )
-  
-  const onDrop = useCallback(acceptedFiles => {    
+
+  const onDrop = useCallback(acceptedFiles => {
     const preview = URL.createObjectURL(acceptedFiles[0])
     setImage(acceptedFiles);
     setDocument(preview)
@@ -79,58 +79,58 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
   useEffect(() => {
     Scroll()
 
-    async function loadPerfil() { 
+    async function loadPerfil() {
       const response = await api.get(`/perfil`, {
       });
       if (response.data.user.length > 0) {
         response.data.user.map(function (perfil) {
           if (perfil.cpfcnpj === null) {
             setCpfcnpj('')
-            formik.values.cpfcnpj = ''            
+            formik.values.cpfcnpj = ''
           } else {
             setCpfcnpj(perfil.cpfcnpj)
-            formik.values.cpfcnpj = perfil.cpfcnpj 
+            formik.values.cpfcnpj = perfil.cpfcnpj
             perfil.cpfcnpj.length > 14 ? setSelectedDocument({value: 'cnpj', label: 'CNPJ' }) : setSelectedDocument({value: 'cpf', label: 'CPF' })
           }
-  
+
           setAddress(perfil.address)
-          formik.values.address = perfil.address !== null ? perfil.address : '' 
+          formik.values.address = perfil.address !== null ? perfil.address : ''
 
           setPhone(perfil.phone)
-          formik.values.phone = perfil.phone !== null ? perfil.phone : '' 
+          formik.values.phone = perfil.phone !== null ? perfil.phone : ''
 
           setBirthdate(perfil.address)
-          formik.values.birht_date = perfil.birht_date !== null ? perfil.birht_date : '' 
+          formik.values.birht_date = perfil.birht_date !== null ? perfil.birht_date : ''
 
           setLocation(perfil.location)
           formik.values.location = perfil.location !== null ? perfil.location : ''
 
           if (perfil.neighboor === null) {
             setNeighboor('')
-            formik.values.neighboor = ''  
+            formik.values.neighboor = ''
           } else {
             setNeighboor(perfil.neighboor)
-            formik.values.neighboor = perfil.neighboor  
+            formik.values.neighboor = perfil.neighboor
           }
           if (perfil.number === null) {
             setNumber('')
             formik.values.number = ''
           } else {
             setNumber(perfil.number)
-            formik.values.number = perfil.number  
+            formik.values.number = perfil.number
           }
           if (perfil.complement === null) {
             setComplement('')
-            formik.values.complement = ''  
+            formik.values.complement = ''
           } else {
             setComplement(perfil.complement)
-            formik.values.complement = perfil.complement  
+            formik.values.complement = perfil.complement
           }
           setUf(perfil.uf)
           formik.values.uf = perfil.uf !== null ? perfil.uf : ''
           setCity(perfil.city)
           formik.values.city = perfil.city !== null ? perfil.city : ''
-  
+
           return ''
         })
       }
@@ -273,7 +273,7 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
       } else {
         if (documentdata === '') {
           setWar('Adicione seu documento.');
-          return 
+          return
         } else {
           if (documentdata !== 'ok') {
             if (documentdata.type !== 'application/pdf' && documentdata.type !== 'image/jpeg' && documentdata.type !== 'image/png') {
@@ -285,17 +285,17 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
 
         /*if (selfiedata === '') {
           setWar('Adicione uma selfie.');
-          return 
+          return
         } else {
           if (selfiedata !== 'ok') {
             if (selfiedata.type !== 'application/pdf' && selfiedata.type !== 'image/jpeg' && selfiedata.type !== 'image/png') {
               setWar('Só são permitidos images jpg para selfie.');
-              return 
+              return
             }
           }
         }*/
 
-/*       
+/*
         if (proofdata === '') {
           setWar('Adicione o comprovante de endereço.');
           return
@@ -303,7 +303,7 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
           if (proofdata !== 'ok') {
             if (proofdata.type !== 'application/pdf' && proofdata.type !== 'image/jpeg'  && proofdata.type !== 'image/png') {
               setWar('Só são permitidos pdf e images jpg para comprovante de endereço.');
-              return 
+              return
             }
           }
         }
@@ -313,8 +313,8 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
           if (documentdata !== 'ok') {
             if (socialdata.type !== 'application/pdf' && socialdata.type !== 'image/jpeg') {
               setWar('Só são permitidos pdf e images jpg para contrato social.');
-              return 
-            }  
+              return
+            }
           }
         }
         setWar('')
@@ -330,13 +330,13 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
       if(documentdata !== 'ok') {
         saveDocument(datadoc)
       }
-      
+
         setTimeout(function(){
           if (selfiedata !== 'ok') {
-            saveSelfie(dataselfie)
+           // saveSelfie(dataselfie)
           }
           if (proofdata !== 'ok') {
-            saveProf(dataproof)              
+            //saveProf(dataproof)
           }
         }, 1500);
 
@@ -351,7 +351,7 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
           onClose()
 
           confirmRent()
-              
+
       }, 6000);
     })
     .catch((err) => {
@@ -400,11 +400,11 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
   return (
     <>
       {
-        war !== '' ? 
+        war !== '' ?
         (
         <Warninggeneral>{ war }</Warninggeneral>
         )
-        : 
+        :
         (
           ''
         )
@@ -423,7 +423,7 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
         onSubmit={ (e, values) => {
           formik.handleSubmit(values)
         }}
-        noValidate          
+        noValidate
       >
         <div className="columns">
           <div className="column">
@@ -446,7 +446,7 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                           handleDocumentChange(selectedOption)
                           formik.handleChange("document");
                         }}
-                      />                    
+                      />
                     </Field>
                   </div>
                   <div className="column">
@@ -464,10 +464,10 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                       />
                       <Span className={'validation-warning'}>
                         {
-                          formik.touched.cpfcnpj && formik.errors.cpfcnpj 
-                        ? 
-                          (<div>{formik.errors.cpfcnpj}</div>) 
-                        : 
+                          formik.touched.cpfcnpj && formik.errors.cpfcnpj
+                        ?
+                          (<div>{formik.errors.cpfcnpj}</div>)
+                        :
                           null
                         }
                       </Span>
@@ -486,9 +486,9 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                         <InputMask
                           name="location"
                           type="text"
-                          mask="(99) 9 9999-9999" 
+                          mask="(99) 9 9999-9999"
                           maskChar=" "
-                          placeholder="(41) 9 9999-9999" 
+                          placeholder="(41) 9 9999-9999"
                           className={formik.touched.phone && formik.errors.phone ? 'input border-warning' : 'input'}
                           onChange={event => {
                             handlePhonehange(event.target.value)
@@ -498,14 +498,14 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                         />
                         <Span className={'validation-warning'}>
                           {
-                            formik.touched.phone && formik.errors.phone 
-                          ? 
-                            (<div>{formik.errors.phone}</div>) 
-                          : 
+                            formik.touched.phone && formik.errors.phone
+                          ?
+                            (<div>{formik.errors.phone}</div>)
+                          :
                             null
                           }
                         </Span>
-                      </Label>   
+                      </Label>
                     </Field>
                   </div>
                 </div>
@@ -514,11 +514,11 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                   Seu endereço será verificado.
                 </Warningtext>
                 <p className={'button color-logo-lessor'} onClick={event => setNewaddress(!newaddress)}>
-                  { newaddress === true ? 'Adicionar outro endereço': 'Manter mesmo endereço' } 
+                  { newaddress === true ? 'Adicionar outro endereço': 'Manter mesmo endereço' }
                 </p>
                 <br/><br/>
                 {
-                  newaddress === true? 
+                  newaddress === true?
                   (
                     <>
                       <h3 className="warning-address"> Você tem um endereço cadastrado recentemente </h3>
@@ -542,7 +542,7 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                                 name="location"
                                 type="text"
                                 placeholder="00.000-000"
-                                mask="99.999-999" 
+                                mask="99.999-999"
                                 maskChar=" "
                                 className={formik.touched.location && formik.errors.location ? 'input border-warning' : 'input'}
                                 onChange={event => {
@@ -553,10 +553,10 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                               />
                               <Span className={'validation-warning'}>
                                 {
-                                  formik.touched.location && formik.errors.location 
-                                ? 
-                                  (<div>{formik.errors.location}</div>) 
-                                : 
+                                  formik.touched.location && formik.errors.location
+                                ?
+                                  (<div>{formik.errors.location}</div>)
+                                :
                                   null
                                 }
                               </Span>
@@ -580,10 +580,10 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                             />
                             <Span className={'validation-warning'}>
                               {
-                                formik.touched.neighboor && formik.errors.neighboor 
-                              ? 
-                                (<div>{formik.errors.neighboor}</div>) 
-                              : 
+                                formik.touched.neighboor && formik.errors.neighboor
+                              ?
+                                (<div>{formik.errors.neighboor}</div>)
+                              :
                                 null
                               }
                             </Span>
@@ -609,10 +609,10 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                               />
                               <Span className={'validation-warning'}>
                                 {
-                                  formik.touched.address && formik.errors.address 
-                                ? 
-                                  (<div>{formik.errors.address}</div>) 
-                                : 
+                                  formik.touched.address && formik.errors.address
+                                ?
+                                  (<div>{formik.errors.address}</div>)
+                                :
                                   null
                                 }
                               </Span>
@@ -638,10 +638,10 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                               />
                               <Span className={'validation-warning'}>
                                 {
-                                  formik.touched.number && formik.errors.number 
-                                ? 
-                                  (<div>{formik.errors.number}</div>) 
-                                : 
+                                  formik.touched.number && formik.errors.number
+                                ?
+                                  (<div>{formik.errors.number}</div>)
+                                :
                                   null
                                 }
                               </Span>
@@ -665,15 +665,15 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                             />
                             <Span className={'validation-warning'}>
                               {
-                                formik.touched.complement && formik.errors.complement 
-                              ? 
-                                (<div>{formik.errors.complement}</div>) 
-                              : 
+                                formik.touched.complement && formik.errors.complement
+                              ?
+                                (<div>{formik.errors.complement}</div>)
+                              :
                                 null
                               }
                             </Span>
                           </Field>
-                        </div>                 
+                        </div>
                       </div>
                       <div className="columns">
                         <div className="column">
@@ -694,10 +694,10 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                                 />
                               <Span className={'validation-warning'}>
                                 {
-                                  formik.touched.uf && formik.errors.uf 
-                                ? 
-                                  (<div>{formik.errors.uf}</div>) 
-                                : 
+                                  formik.touched.uf && formik.errors.uf
+                                ?
+                                  (<div>{formik.errors.uf}</div>)
+                                :
                                   null
                                 }
                               </Span>
@@ -721,10 +721,10 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                             />
                             <Span className={'validation-warning'}>
                               {
-                                formik.touched.city && formik.errors.city 
-                              ? 
-                                (<div>{formik.errors.city}</div>) 
-                              : 
+                                formik.touched.city && formik.errors.city
+                              ?
+                                (<div>{formik.errors.city}</div>)
+                              :
                                 null
                               }
                             </Span>
@@ -746,7 +746,7 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                     <div className="column">
                       <h3 className="title-box-inter">Foto do seu rosto (Selfie)</h3>
                       <Selfie id={us.id}/>
-                    </div>                    
+                    </div>
                     */
                   }
                 </div>
@@ -759,7 +759,7 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                       </div>
                       <div className="column">
                         {
-                          documenttype.value === 'cnpj' ? 
+                          documenttype.value === 'cnpj' ?
                           (
                             <>
                               <h3 className="title-box-inter">Contrato social</h3>
@@ -768,10 +768,10 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                           )
                           :
                           ('')
-                        } 
+                        }
                       </div>
-                    </div>                  
-                  
+                    </div>
+
                   */
                 }
               </div>
@@ -781,7 +781,7 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
         <Field className="">
           <Button
             type={'submit'}
-            className={'button is-fullwidth color-logo-lessor'} 
+            className={'button is-fullwidth color-logo-lessor'}
             text={'Salvar e Prosseguir'}
             onClick={event => Scroll(600, 600)}
           />
