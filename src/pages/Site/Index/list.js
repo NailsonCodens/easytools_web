@@ -63,7 +63,7 @@ const List = ({history}) => {
   const nextStep = () => {
     setModalmetropolitan(false)
   }
-  
+
   const hideRedirect = () => {
     setModal(false)
   }
@@ -85,7 +85,7 @@ const List = ({history}) => {
   });
 
   useOutsideClickProd(refprod, () => {
-   if (prod) setProd(false);  
+   if (prod) setProd(false);
   });
 
   useEffect(() => {
@@ -95,10 +95,10 @@ const List = ({history}) => {
           if (localStorage.getItem('@lt') !== null) {
             dispatch(Latitude(position.coords.latitude))
             dispatch(Longitude(position.coords.longitude))
-    
+
             localStorage.setItem('@lt', position.coords.latitude);
             localStorage.setItem('@lg', position.coords.longitude);
-    
+
             getAddress(position.coords.longitude, position.coords.latitude).then(res => {
               var city = ''
               const getCity = res.data.features.find(city => city.id.includes('place'));
@@ -109,10 +109,10 @@ const List = ({history}) => {
             getAddress(position.coords.longitude, position.coords.latitude).then(res => {
               var city = ''
               const getCity = res.data.features.find(city => city.id.includes('place'));
-              city = getCity.text.replace(/\s+/g, '-').toLowerCase();  
+              city = getCity.text.replace(/\s+/g, '-').toLowerCase();
               history.push(`/s/search/${category}/${titlest}/${city}`)
               find(category, titlest)
-            })  
+            })
           }
         },
         erroget => {
@@ -125,7 +125,7 @@ const List = ({history}) => {
     async function loadModal() {
       var lat = localStorage.getItem('@lt')
       var lng = localStorage.getItem('@lg')
-      
+
       if (lat !== null) {
         getAddress(lng, lat).then(res => {
           var city = ''
@@ -133,7 +133,7 @@ const List = ({history}) => {
 
           if (localStorage.getItem('@mtp') === true) {
             city = getCity.text.replace(/\s+/g, '-').toLowerCase();
-            history.push(`/s/search/${category}/${titlest}/${city}`)  
+            history.push(`/s/search/${category}/${titlest}/${city}`)
           }
         })
         setModal(false)
@@ -147,9 +147,9 @@ const List = ({history}) => {
     async function loadFreight (id) {
       const response = await apiextern.get(`/userconfigsite/${id}`, {
       });
-      setUserconfig(response.data.userconfig[0]) 
+      setUserconfig(response.data.userconfig[0])
     }
- 
+
     async function showBottom () {
       //verificar mobile
       if (document.documentElement.scrollTop > 100) {
@@ -191,10 +191,10 @@ const List = ({history}) => {
       if (lat !== null) {
         getAddress(lng, lat).then(res => {
           var city = ''
-          const getCity = res.data.features.find(city => city.id.includes('place'));  
+          const getCity = res.data.features.find(city => city.id.includes('place'));
           if (localStorage.getItem('@mtp') === true) {
-            if (getCity.text == 'São José dos Pinhais' || 
-            getCity.text == 'Colombo' 
+            if (getCity.text == 'São José dos Pinhais' ||
+            getCity.text == 'Colombo'
             || getCity.text == 'Piraquara' || getCity.text == 'Araucária' || getCity.text === 'Quatro Barras'
             || getCity.text == 'Campina Grande Do Sul' || getCity.text == 'Almirante Tamandaré' || getCity.text == 'Campo Magro'
             || getCity.text == 'Fazenda Rio Grande' || getCity.text == 'Campo Largo') {
@@ -213,7 +213,7 @@ const List = ({history}) => {
         loadFreight(response.data.tools[0].UserId)
       }
     }
-    loadTools()    
+    loadTools()
 
   }, [user]);
 
@@ -229,14 +229,14 @@ const List = ({history}) => {
   const searchEquipaments = (event) => {
     var lat = localStorage.getItem('@lt')
     var lng = localStorage.getItem('@lg')
-    
+
     if (lat !== null) {
       getAddress(lng, lat).then(res => {
         var city = ''
         const getCity = res.data.features.find(city => city.id.includes('place'));
 
         city = getCity.text.replace(/\s+/g, '-').toLowerCase();
-        
+
         if (search === '') {
           setTitlest('Pesquisar')
           find(category, 'equipaments')
@@ -246,7 +246,7 @@ const List = ({history}) => {
           find(category, search)
           history.push(`/s/search/${category}/${search}/${city}`)
         }
-        
+
       })
       setModal(false)
       setMyaddress('')
@@ -254,7 +254,7 @@ const List = ({history}) => {
     setEquipament(false)
   }
 
-  const handleChangeCategory = (category) => { 
+  const handleChangeCategory = (category) => {
     Scroll(0,0)
     setTitlest('Pesquisar')
     if (category.value === 'all') {
@@ -274,7 +274,7 @@ const List = ({history}) => {
       history.push(`/s/search/${category.value}/${'equipaments'}/${city}`)
     })
   }
-    
+
   async function find(ctg = category, srch = search) {
 
 
@@ -282,7 +282,7 @@ const List = ({history}) => {
     var lng = localStorage.getItem('@lg')
 
     var sh  = srch
- 
+
     if (sh === 'equipaments') {
       sh = ''
     }
@@ -292,7 +292,7 @@ const List = ({history}) => {
     } else {
       ctg = ctg
     }
-    
+
     var sh = sh.replace('-', ' ').toLowerCase();
     var sh = sh.replace('-', ' ').toLowerCase();
 
@@ -308,7 +308,7 @@ const List = ({history}) => {
 	const handleMyaddress = (event) => {
     let query = event.target.value
     setMyaddress(event.target.value)
-    
+
     getCordinates(query).then(res => {
       setPlaces(res.data.features)
 		})
@@ -354,18 +354,18 @@ const List = ({history}) => {
         if (kmdelivery > 10.0 && kmdelivery < 13) {
           increase = 18; //%
           perkm = parseFloat(perkm) + parseFloat(perkm) * increase / 100
-        } 
+        }
 
         if (kmdelivery > 13.0 && kmdelivery < 15.0) {
           increase = 4; //%
           perkm = parseFloat(perkm) + parseFloat(perkm) * increase / 100
         }
-        
+
         if (kmdelivery > 15) {
           increase = 4; //%
           perkm = parseFloat(perkm) + parseFloat(perkm) * increase / 100
         }
-    
+
         if (kmdelivery > 20.0) {
           increase = 0; //%
           perkm = parseFloat(perkm) + parseFloat(perkm) * increase / 100
@@ -376,9 +376,9 @@ const List = ({history}) => {
 
       var lat = localStorage.getItem('@lt')
       var lng = localStorage.getItem('@lg')
-         
+
       var deliveryteste = delivery.toFixed(2).replace(/\./gi,',').replace(/,/gi,',')
-    
+
       if (localStorage.getItem('@mtp') === 'true') {
         var citym = localStorage.getItem('@cmtp');
 
@@ -386,11 +386,11 @@ const List = ({history}) => {
           let found = citym.toLowerCase()
           .includes(city.toLowerCase());
           console.log(found)
-  
+
           if (!found) {
             var aditional = 10.0;
-            delivery = delivery + aditional;  
-          }  
+            delivery = delivery + aditional;
+          }
         }
       }else {
         delivery = delivery;
@@ -426,8 +426,8 @@ const List = ({history}) => {
     find(category, titlest)
 
 
-    if (citymetropolitan === 'São José dos Pinhais' || 
-    citymetropolitan === 'Colombo' 
+    if (citymetropolitan === 'São José dos Pinhais' ||
+    citymetropolitan === 'Colombo'
     || citymetropolitan === 'Piraquara' || citymetropolitan === 'Araucária' || citymetropolitan === 'Quatro Barras'
     || citymetropolitan === 'Campina Grande Do Sul' || citymetropolitan === 'Almirante Tamandaré' || citymetropolitan === 'Campo Magro'
     || citymetropolitan === 'Fazenda Rio Grande' || citymetropolitan === 'Campo Largo') {
@@ -463,8 +463,8 @@ const List = ({history}) => {
           const getCity = res.data.features.find(city => city.id.includes('place'));
           city = getCity.text.replace(/\s+/g, '-').toLowerCase();
 
-          if (getCity.text == 'São José dos Pinhais' || 
-          getCity.text == 'Colombo' 
+          if (getCity.text == 'São José dos Pinhais' ||
+          getCity.text == 'Colombo'
           || getCity.text == 'Piraquara' || getCity.text == 'Araucária' || getCity.text === 'Quatro Barras'
           || getCity.text == 'Campina Grande Do Sul' || getCity.text == 'Almirante Tamandaré' || getCity.text == 'Campo Magro'
           || getCity.text == 'Fazenda Rio Grande' || getCity.text == 'Campo Largo') {
@@ -482,10 +482,10 @@ const List = ({history}) => {
           getAddress(position.coords.longitude, position.coords.latitude).then(res => {
             var city = ''
             const getCity = res.data.features.find(city => city.id.includes('place'));
-            city = getCity.text.replace(/\s+/g, '-').toLowerCase();  
+            city = getCity.text.replace(/\s+/g, '-').toLowerCase();
 
-            if (getCity.text == 'São José dos Pinhais' || 
-            getCity.text == 'Colombo' 
+            if (getCity.text == 'São José dos Pinhais' ||
+            getCity.text == 'Colombo'
             || getCity.text == 'Piraquara' || getCity.text == 'Araucária' || getCity.text === 'Quatro Barras'
             || getCity.text == 'Campina Grande Do Sul' || getCity.text == 'Almirante Tamandaré' || getCity.text == 'Campo Magro'
             || getCity.text == 'Fazenda Rio Grande' || getCity.text == 'Campo Largo') {
@@ -535,7 +535,7 @@ const List = ({history}) => {
 
   const error = () => Notificationtost(
     'error',
-    'Não conseguimos pegar sua localização. habilite a geolocalização em seu navegador.', 
+    'Não conseguimos pegar sua localização. habilite a geolocalização em seu navegador.',
     {
       autoClose: 3000,
       draggable: false,
@@ -565,12 +565,12 @@ const List = ({history}) => {
         <meta name="keywords" content={
           titlest === 'equipaments' ? ' ferramentas e equipamentos ' : 'Use, ' + titlest + ', ' + region
         }/>
-      </Helmet>    
+      </Helmet>
       <div className={setclass}>
         <div className="div-filters">
           <button className="button is-small is-outlined bt-filter cptalizze c" onClick={event => {setCategory(!categorys); setEquipament(false); setKm(false)}}>
-            { 
-              category === 'all' ? 
+            {
+              category === 'all' ?
               (
                 'Todos'
               )
@@ -583,7 +583,7 @@ const List = ({history}) => {
             }
           </button>
           {
-            categorys === true ? 
+            categorys === true ?
             (
               <div className="box-km" ref={refcategory}>
                 <p className="title-box-options">Selecione a categoria</p>
@@ -603,7 +603,7 @@ const List = ({history}) => {
                   onChange={selectedOption => handleChangeCategory(selectedOption)}
                   defaultValue={category}
                 />
-              </div>  
+              </div>
             )
             :
             (
@@ -612,7 +612,7 @@ const List = ({history}) => {
           }
           <button className="button is-outlined is-small bt-filter div-filters" onClick={event => {setKm(!km); setEquipament(false)}}>{ state.x } km</button>
           {
-            km === true ? 
+            km === true ?
             (
               <div className="box-km" ref={ref}>
                 <p className="title-box-options">Km a distância de você.</p>
@@ -627,9 +627,9 @@ const List = ({history}) => {
                 <div className="is-pulled-right div-bt-box">
                   <button className="button color-logo" onClick={event => searchDistance(event)}>
                     Pesquisar
-                  </button>                  
+                  </button>
                 </div>
-              </div>  
+              </div>
             )
             :
             (
@@ -638,7 +638,7 @@ const List = ({history}) => {
           }
 
           <button className="button is-outlined is-small bt-filter cptalizze div-filters" onClick={event => setEquipament(!equipament)}>
-            { 
+            {
               titlest.replace('-', ' ').toLowerCase() === 'equipaments' ?
               (
                 'Pesquisar'
@@ -652,15 +652,15 @@ const List = ({history}) => {
             }
           </button>
           {
-            equipament === true ? 
+            equipament === true ?
             (
               <div className="box-km" ref={refequipament}>
                 <p className="title-box-options">Experimente furadeira</p>
                 <br/>
-                <input 
-                  type="text" 
-                  placeholder='Pesquise aqui.' 
-                  className="input input-geolocalization" 
+                <input
+                  type="text"
+                  placeholder='Pesquise aqui.'
+                  className="input input-geolocalization"
                   onChange={event => searchTool(event)}
                   autoFocus={true}
                   value={search}
@@ -669,9 +669,9 @@ const List = ({history}) => {
                 <div className="is-pulled-right div-bt-box">
                   <button className="button color-logo" onClick={event => searchEquipaments(event)}>
                     Pesquisar
-                  </button>                  
+                  </button>
                 </div>
-              </div>  
+              </div>
             )
             :
             (
@@ -680,7 +680,7 @@ const List = ({history}) => {
           }
           <button className="button is-info youareregion is-outlined is-small bt-filter cptalizze div-filters" onClick={event => openModal()}>
             {
-              region === 'region' ? 
+              region === 'region' ?
               (
                 <>
                   Onde você está?
@@ -706,7 +706,7 @@ const List = ({history}) => {
               <div className="container">
                 <img src={cashback}  alt="Promo20 Logo" className="promoeasy"/>
               </div>
-              <br/>        
+              <br/>
 
             </>
           )
@@ -718,7 +718,7 @@ const List = ({history}) => {
         }
         <div>
           {
-            region !== 'region' ? 
+            region !== 'region' ?
             (
               <>
                 <p className="title-tl-page">Ferramentas em { ' ' + region.replace('-', ' ')}
@@ -733,11 +733,11 @@ const List = ({history}) => {
             )
           }
         </div>
-        <p className="findyou"> <span>{ tools.length }</span> encontrados na categoria <span>{ 
-        category === 'all' ? 
+        <p className="findyou"> <span>{ tools.length }</span> encontrados na categoria <span>{
+        category === 'all' ?
         ('Todos')
         :
-        (<>{category}</>) 
+        (<>{category}</>)
         }</span> </p>
         <div className="columns is-desktop is-multiline">
           {
@@ -749,7 +749,7 @@ const List = ({history}) => {
                       tool.picture.map((pic, index) => (
                         <>
                           {
-                            index === 0 ? 
+                            index === 0 ?
                             (
                               <>
                                 <img src={pic.url} alt={pic.url} className=""/>
@@ -759,11 +759,11 @@ const List = ({history}) => {
                             (
                               <>
                               </>
-                            ) 
+                            )
                           }
                         </>
                       ))
-                    }  
+                    }
                   </div>
                   <div className="column is-9 box-text">
                     <div className="has-text-left text-list">
@@ -772,21 +772,21 @@ const List = ({history}) => {
                         <span>
                           {}
                           <img src={tool.user.url} alt="logo-easy" className="logo-tl"/>
-                        </span> 
+                        </span>
                         <span className="name-logo-tl">
                           {tool.user.name}
                         </span>
                       </p>
                       {
                         /*
-                          <p className="rentper">Alugado por: { tool.user.name }, entrega e devolução: EasyTools </p>                        
+                          <p className="rentper">Alugado por: { tool.user.name }, entrega e devolução: EasyTools </p>
                         */
                       }
                       <p className="approximately">Valor aproximado da Entrega e coleta</p>
                       <p className="toolcity">Esta ferramenta está em <span>{ tool.city }</span></p>
                       <div className="text-infos-tl">
                         <span className="freight-tl tl-km">
-                          <span>A</span> { tool.distance.toFixed(2) < 4 ? '4.0' : tool.distance.toFixed(2) }<span> km </span> 
+                          <span>A</span> { tool.distance.toFixed(2) < 4 ? '4.0' : tool.distance.toFixed(2) }<span> km </span>
                         </span>
                         <span className="freight-tl ">
                           { console.log(tool) }
@@ -798,19 +798,19 @@ const List = ({history}) => {
                           <span>1 hora</span>
                         </span>
                       </div>
-                      <div className="columns box-values">
+                      <div className="columns is-mobile box-price-button-list">
                         <div className="column">
-                          <p className="money-tl is-pulled-left">
+                          <p className="money-tl">
                             {
-                              promo === 'true' && tool.title.indexOf('Lâmina') > -1 || promo === 'true' && tool.title.indexOf('Nylon') > -1 || promo === 'true' && tool.title.indexOf('Extratora') > -1  || promo === 'true' && tool.title.indexOf('Lavadora') > -1 ? 
+                              promo === 'true' && tool.title.indexOf('Lâmina') > -1 || promo === 'true' && tool.title.indexOf('Nylon') > -1 || promo === 'true' && tool.title.indexOf('Extratora') > -1  || promo === 'true' && tool.title.indexOf('Lavadora') > -1 ?
                               (
                                 <>
                                   <span className="money-promo">
                                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                       <b><FormattedNumber value={renderPromo(tool.title)} style="currency" currency="BRL" /></b>
                                     </IntlProvider>
-                                    <span>/Diária</span>                            
-                                  </span> 
+                                    <span>/Diária</span>
+                                  </span>
                                 </>
                               )
                               :
@@ -823,23 +823,14 @@ const List = ({history}) => {
                             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                               <b><FormattedNumber value={parseFloat(tool.prices.split(';')[0])} style="currency" currency="BRL" /></b>
                             </IntlProvider>
-                            <span>/Diária</span> 
-                            <div className="container-mobile is-pulled-right box-rent">
-                              <Button
-                                disabled={tool.availability === "Y" ? false : true}
-                                type={'submit'}
-                                className={'button color-logo is-fullwidth'}
-                                text={tool.availability === "Y" ? 'Ver mais' : 'Não disponível'}
-                                onClick={event => setProd(!prod+tool.id)}
-                              />
-                            </div>
+                            <span>/Diária</span>
                             {
-                              prod+tool.id === true ? 
+                              prod+tool.id === true ?
                               (
                                 <>
                                   <div className="box-vl-prod" ref={refprod}>
-                                    sdasdas
-                                  </div>                             
+
+                                  </div>
                                 </>
                               )
                               :
@@ -850,26 +841,37 @@ const List = ({history}) => {
                             }
                           </p>
                         </div>
+                        <div className="column">
+                            <div className="container-mobile is-pulled-right box-rent">
+                              <Button
+                                disabled={tool.availability === "Y" ? false : true}
+                                type={'submit'}
+                                className={'button color-logo is-fullwidth'}
+                                text={tool.availability === "Y" ? 'Ver mais' : 'Não disponível'}
+                                onClick={event => setProd(!prod+tool.id)}
+                              />
+                            </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <hr className="borderline"></hr>
-              </div> 
+              </div>
             ))
-          }            
+          }
         </div>
         <div className="has-text-centered">
           <div className="columns">
             <div className="column">
               <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSfRH_Gi5cIoSdaaUxdT8KN0t9eQ3kOcRloiIJJkrnkkweOQmA/viewform" 
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfRH_Gi5cIoSdaaUxdT8KN0t9eQ3kOcRloiIJJkrnkkweOQmA/viewform"
                 target="_blank"
                 rel="noreferrer"
                 className={'button is-black'}
               >
                 {
-                  isMobile ? 
+                  isMobile ?
                   (
                     <>
                       Não encontrou? Nos avise.
@@ -887,10 +889,10 @@ const List = ({history}) => {
           </div>
         </div>
       </div>
-      <Modal 
-        show={modal} 
+      <Modal
+        show={modal}
         onCloseModal={hideRedirect}
-        closeEscAllowed={localStorage.getItem('@lt') !== '' ? true : false} 
+        closeEscAllowed={localStorage.getItem('@lt') !== '' ? true : false}
         closeOnAllowed={localStorage.getItem('@lt') !== '' ? true : false}
         showCloseIcon={localStorage.getItem('@lt') !== '' ? true : false}
       >
@@ -906,7 +908,7 @@ const List = ({history}) => {
               :
               (
                 <>
-                  Você está em <span className="region-choose">{ region.replace('-', ' ') }</span>. Gostaría de mudar? 
+                  Você está em <span className="region-choose">{ region.replace('-', ' ') }</span>. Gostaría de mudar?
                 </>
               )
             }
@@ -914,10 +916,10 @@ const List = ({history}) => {
         </div>
         <div className="field">
           <p className="control has-icons-left has-icons-right">
-            <input 
-              className="input" 
-              type="text" 
-              placeholder="Digite o nome da sua rua, número e cidade..." 
+            <input
+              className="input"
+              type="text"
+              placeholder="Digite o nome da sua rua, número e cidade..."
               onChange={event => handleMyaddress(event)}
               value={myaddress}
             />
@@ -931,7 +933,7 @@ const List = ({history}) => {
           <div className="father-address address-list">
             <ul className="">
             {
-              places.length > 0 ? 
+              places.length > 0 ?
               (
                 <>
                   <div className="background-address bkad-tl">
@@ -957,16 +959,16 @@ const List = ({history}) => {
         <div className="field">
           <button className="button is-outlined is-fullwidth color-logo" onClick={event => getGeolocalization()}>
             <div className="is-pull-left">
-              <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="2x"/> 
+              <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="2x"/>
               Minha localização
             </div>
             </button>
         </div>
       </Modal>
-      <Modal 
-        show={modalmetropolitan} 
+      <Modal
+        show={modalmetropolitan}
         onCloseModal={hideRedirectmetropolian}
-        closeEscAllowed={false} 
+        closeEscAllowed={false}
         closeOnAllowed={false}
       >
         <h3 className="has-text-centered title is-4">Oi, tudo bem?</h3>
@@ -982,7 +984,7 @@ const List = ({history}) => {
             Entendi
           </button>
         </div>
-      </Modal>     
+      </Modal>
     </>
   )
 }

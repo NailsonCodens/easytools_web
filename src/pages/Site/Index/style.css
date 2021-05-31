@@ -519,6 +519,10 @@
   font-size: 12px;
 }
 
+.money-tl b{
+  margin-left: -10px;
+}
+
 .bt-filter{
   -webkit-border-radius: 100px !important;
   -moz-border-radius: 100px !important;
@@ -886,6 +890,11 @@ border: 1px solid rgb(230, 230, 230);
     text-align: center !important;
   }
 
+.box-price-button-list{
+  padding-top: 5px !important;
+
+}
+
 
   .image_easy_index{
     margin-top: -10px;
@@ -921,7 +930,7 @@ border: 1px solid rgb(230, 230, 230);
   }
 
   .money-tl{
-    margin-top: 30px;
+    margin-top: 0px;
   }
 
   .tool-list{
@@ -940,7 +949,7 @@ border: 1px solid rgb(230, 230, 230);
     background: #fff;
     margin: 1px !important;
     padding: 0px;
-    padding-bottom: 95px !important;
+    padding-bottom: 5px !important;
     border: 1px solid rgb(209, 209, 209);
   }
 

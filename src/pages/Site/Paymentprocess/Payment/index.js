@@ -889,7 +889,7 @@ console.log(time)
                                                 { label: 'Noite - 17:00 às 19:00', value: 'Noite - 17:00 às 19:00' },
                                               ]}
                                               isSearchable={true}
-                                              placeholder={'Começo da manhã - 08:00 às 10:00'}
+                                              placeholder={'Manhã - 08:00 às 10:00'}
                                               onChange={selectedOption => {
                                                 handleChangePeriod(selectedOption);
                                               }}
@@ -912,7 +912,7 @@ console.log(time)
                                               className={''}
                                               options={renderOption()}
                                               isSearchable={true}
-                                              placeholder={'Ex: Começo da manhã - 08:00 às 10:00'}
+                                              placeholder={'Ex: Manhã - 08:00 às 10:00'}
                                               onChange={selectedOption => {
                                                 handleChangePeriod(selectedOption);
                                               }}
