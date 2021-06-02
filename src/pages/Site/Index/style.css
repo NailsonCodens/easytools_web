@@ -703,8 +703,11 @@ border: 1px solid rgb(230, 230, 230);
   box-shadow: 0 0 3px 0 #cacaca !important;
 }
 
+.adjustment-box-rent{
+}
+
 .box-rent{
-  margin-left:60px;
+  margin-left:60px !important;
   margin-top: -5px;
 }
 

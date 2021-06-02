@@ -842,11 +842,11 @@ const List = ({history}) => {
                           </p>
                         </div>
                         <div className="column">
-                            <div className="container-mobile is-pulled-right box-rent">
+                            <div className="container-mobile box-rent">
                               <Button
                                 disabled={tool.availability === "Y" ? false : true}
                                 type={'submit'}
-                                className={'button color-logo is-fullwidth'}
+                                className={'button color-logo'}
                                 text={tool.availability === "Y" ? 'Ver mais' : 'Não disponível'}
                                 onClick={event => setProd(!prod+tool.id)}
                               />
