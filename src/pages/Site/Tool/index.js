@@ -131,7 +131,8 @@ const Tool = ({history}) => {
   const [adonsProd, setAdonsprod] = useState([]);
   const [priceadon, setPriceadon] = useState([]);
   const [idsadon, setIdsadon] = useState([]);
-  
+  const [activepromo, setActivepromo] = useState(false);
+
   const ref = useRef(null);
 
   let {id} = useParams();
@@ -140,7 +141,7 @@ const Tool = ({history}) => {
 
   const success = () => Notification(
     'success',
-    'Tudo pronto, vamos seguir?!', 
+    'Tudo pronto, vamos seguir?!',
     {
       autoClose: 4100,
       draggable: false,
@@ -157,9 +158,9 @@ const Tool = ({history}) => {
 
   async function getImgadons (id) {
     console.log(id)
-    const response = await api.get(`/adons/adon/${id}`, {
+    const response = await api.get(`/adons_site/adon/${id}`, {
     });
-    
+
     response.data.adon.map(function (adon) {
       if (adon.checkad === 'Y') {
         let alreadyOn = priceadon;
@@ -167,7 +168,7 @@ const Tool = ({history}) => {
 
         alreadyOn.push(adon.price)
         alreadyIds.push(adon.id)
-        
+
         //console.log(alreadyOn)
         setIdsadon(alreadyIds)
         setPriceadon(alreadyOn)
@@ -200,13 +201,18 @@ const Tool = ({history}) => {
 
     let amount = parseInt(formik.values.amount)
     setAmount(amount)
-    setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, amount, 'activediscorcert')
+
+    if (activepromo === false) {
+      setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, amount, '')
+    }else{
+      setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, amount, 'activediscorcert')
+    }
   }
 
 
   const danger = () => Notification(
     'error',
-    'Ops! Insira as datas para reservar a ferramenta', 
+    'Ops! Insira as datas para reservar a ferramenta',
     {
       autoClose: 4100,
       draggable: false,
@@ -223,7 +229,7 @@ const Tool = ({history}) => {
 
   const danger2 = () => Notification(
     'error',
-    'Por favor, insira uma quantidade válida', 
+    'Por favor, insira uma quantidade válida',
     {
       autoClose: 4100,
       draggable: false,
@@ -246,7 +252,6 @@ const Tool = ({history}) => {
       amount: amount !== undefined ? amount : 1,
     },
     onSubmit: value => {
-      console.log(value.amount)
 
       if (value.startDate === null || value.endDate === null) {
         setErrodate(true)
@@ -270,7 +275,7 @@ const Tool = ({history}) => {
         if (tool.tension.split('/')[0] === '') {
           tensionChoose = tool.tension.split('/')[1]
         } else {
-          tensionChoose = tool.tension.split('/')[0]          
+          tensionChoose = tool.tension.split('/')[0]
         }
       }
 
@@ -283,7 +288,7 @@ const Tool = ({history}) => {
 
       dispatch(
         Rentaltool(
-          moment(value.startDate).format('YYYY-MM-DD'), 
+          moment(value.startDate).format('YYYY-MM-DD'),
           moment(value.endDate).format('YYYY-MM-DD'),
           tool.prices.split(';'),
           tensionChoose,
@@ -292,22 +297,24 @@ const Tool = ({history}) => {
         )
       );
 
-      var obj = { 
-        start: moment(value.startDate).format('YYYY-MM-DD'), 
+      var obj = {
+        start: moment(value.startDate).format('YYYY-MM-DD'),
         end: moment(value.endDate).format('YYYY-MM-DD'),
         price: tool.prices.split(';'),
         am: formik.values.amount,
         tool: tool.id
       }
 
-      Email(tool.user_id, `Alguém tentou alugar um equipamento, corra e veja quem é!`, 
-      `Tentativa de aluguel no site, corre!`, "Ver", 'Veja qual cliente tentou alugar');
+      if (isAuthenticated()) {
+        Email(tool.user_id, `Alguém tentou alugar um equipamento, corra e veja quem é!`,
+        `Tentativa de aluguel no site, corre!`, "Ver", 'Veja qual cliente tentou alugar');
+      }
 
       localStorage.setItem('@lkst', JSON.stringify(obj));
-      next(rentData)  
+      next(rentData)
     }
   })
-  
+
   const setLsItem = (url) => {
     localStorage.setItem('@lkt', url);
   }
@@ -381,7 +388,7 @@ const Tool = ({history}) => {
   };
 
   useEffect(() => {
-    async function loadTool() { 
+    async function loadTool() {
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
 
@@ -390,22 +397,26 @@ const Tool = ({history}) => {
         setTensionshow(response.data.tool[0].tension)
         setPictures(response.data.tool[0].picture)
 
-        if(response.data.tool[0].adons !== null){
+        if (response.data.tool[0].adons != undefined) {
+
           setAdonsid(response.data.tool[0].adons.split(','))
           var teste = response.data.tool[0].adons.split(',')
-  
+
           let adonscorrect = []
+
+
           response.data.tool[0].adons.split(',').map(function (adon) {
             var id = adon.split('=')[0]
             adonscorrect.push(id)
           })
-  
+
           getImgadons(adonscorrect)
-  
+
+
         }
 
         setPrices(response.data.tool[0].prices.split(';'))
-        loadLessor(response.data.tool[0].UserId) 
+        loadLessor(response.data.tool[0].UserId)
         loadConfiglessor(response.data.tool[0].UserId)
       } else {
         history.push('/ops?notfound=notools');
@@ -413,7 +424,7 @@ const Tool = ({history}) => {
     }
     loadTool();
 
-    async function loadLessor(iduser) {      
+    async function loadLessor(iduser) {
       const response = await api.get(`/lessordata/${iduser}`, {
       });
       setDatalessor(response.data.user)
@@ -421,7 +432,7 @@ const Tool = ({history}) => {
     }
 
     async function loadValues(){
-      
+
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
 
@@ -433,13 +444,13 @@ const Tool = ({history}) => {
       if (isAuthenticated()) {
         const response = await api.get(`/perfil`, {
         });
-        setPerfil(response.data.user[0])  
+        setPerfil(response.data.user[0])
       }
     }
     loadPerfil();
 
     async function loadConfiglessor (iduser) {
-      if (isAuthenticated()) {      
+      if (isAuthenticated()) {
         const response = await api.get(`/userconfig/${iduser}`, {
         });
         setConfiglessor(response.data.userconfig[0])
@@ -451,9 +462,9 @@ const Tool = ({history}) => {
         if (current_user.length !== 0) {
           /*const response = await api.get(`/documents/${current_user.id}`, {
           });
-          setDocument(response.data.documentUser[0]) 
-          */ 
-        }  
+          setDocument(response.data.documentUser[0])
+          */
+        }
       }
     }
     verifyDocumentrent();
@@ -468,7 +479,7 @@ const Tool = ({history}) => {
   const setDatesback = (dates, tool) => {
     if (dates.startDate && dates.endDate) {
       formik.values.startDate = moment(datefix.startDate)
-      formik.values.endDate = moment(datefix.endDate)  
+      formik.values.endDate = moment(datefix.endDate)
     }
 
     var priceback = ''
@@ -491,62 +502,62 @@ const Tool = ({history}) => {
       if (period.months !== 0) {
 
         setPrice({
-          type: 'month', 
-          amount: days, 
-          amountmonth: months, 
-          priceNoamount: months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
-          price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+          type: 'month',
+          amount: days,
+          amountmonth: months,
+          priceNoamount: months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
+          price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
           pricefull: (months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
         })
       } else if (period.days !== 0) {
         if (days < 7)
           setPrice({
-            type: 'days', 
-            amount: days, 
+            type: 'days',
+            amount: days,
             price: parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.')),
-            priceNoamount: days * parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.')), 
+            priceNoamount: days * parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.')),
             pricefull: (days * parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
           })
         else if (days === 7)
           setPrice({
-            type: 'weekend', 
-            amount: days, 
-            price: parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.')), 
+            type: 'weekend',
+            amount: days,
+            price: parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.')),
             priceNoamount: 1 * parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.')),
             pricefull: (1 * parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
           })
         else if (days > 7 && days < 15)
           setPrice({
-            type: 'biweekly', 
-            amount: days, 
-            price: parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')), 
+            type: 'biweekly',
+            amount: days,
+            price: parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')),
             priceNoamount: 1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')),
             pricefull: (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
           })
         else if (days === 15)
         setPrice({
-          type: 'biweekly', 
-          amount: days, 
-          price: parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')), 
+          type: 'biweekly',
+          amount: days,
+          price: parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')),
           priceNoamount: 1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')),
           pricefull: (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
         })
         else if (days > 15)
           if (months === 0) {
             setPrice({
-              type: 'month', 
-              amount: days, 
-              amountmonth: 0, 
-              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+              type: 'month',
+              amount: days,
+              amountmonth: 0,
+              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
               priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
               pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
             })
           } else {
             setPrice({
-              type: 'month', 
-              amount: days, 
-              amountmonth: months, 
-              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')), 
+              type: 'month',
+              amount: days,
+              amountmonth: months,
+              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
               priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
               pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
             })
@@ -563,7 +574,7 @@ const Tool = ({history}) => {
 
   const setDates = (dates, amountreceive, promo) => {
     var amounttool = 1
-    amounttool = amountreceive !== undefined ? amountreceive : formik.values.amount  
+    amounttool = amountreceive !== undefined ? amountreceive : formik.values.amount
 
     formik.values.startDate = dates.startDate
     formik.values.endDate = dates.endDate
@@ -594,188 +605,202 @@ const Tool = ({history}) => {
         period.days = 1
       }
 
-      
+
       var days = period.days;
       var months = period.months;
 
 
-      var objrent = { 
+      var objrent = {
         type: '',
         amount: '',
         amountmonth: 0,
         price: '',
         priceNoamount: '',
-        pricefull: '', 
+        pricefull: '',
       }
+
+
+      console.log(days)
 
       var soma2 = 0
       if (amounttool > 1) {
-        soma2 = soma * amounttool 
+        soma2 = soma * amounttool
       }else{
         soma2 = soma * amounttool
       }
 
       if (period.months !== 0) {
         if (days > 0) {
-          console.log('asdd')
+
             setModal2(true)
             setPrice({
-              type: 'month', 
-              amount: days, 
-              amountmonth: months, 
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              type: 'month',
+              amount: days,
+              amountmonth: months,
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
             })
 
             objrent = {
-              type: 'month', 
-              amount: days, 
-              amountmonth: months, 
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
-              priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              type: 'month',
+              amount: days,
+              amountmonth: months,
+              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
+              priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
             }
           } else {
           setPrice({
-            type: 'month', 
-            amount: days, 
-            amountmonth: months, 
-            price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+            type: 'month',
+            amount: days,
+            amountmonth: months,
+            price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
             priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
             pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
           })
           objrent = {
-            type: 'month', 
-            amount: days, 
-            amountmonth: months, 
-            price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+            type: 'month',
+            amount: days,
+            amountmonth: months,
+            price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
             priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
             pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
           }
 
         }
       }else if (period.days !== 0) {
-        if (promo == 'activediscorcert' && startdate != enddate && promotional === true) {
+
+
+
+        if (promo == 'activediscorcert' && startdate != enddate && activepromo === true) {
+          console.log('454')
           setPrice({
-            type: 'days', 
+            type: 'days',
             amount: 2,
-            amountmonth: 0, 
-            price: localStorage.getItem('@fv') / 2 + soma, 
-            priceNoamount: (parseFloat(localStorage.getItem('@fv')) / 2 + soma) * 2, 
+            amountmonth: 0,
+            price: localStorage.getItem('@fv') / 2 + soma,
+            priceNoamount: (parseFloat(localStorage.getItem('@fv')) / 2 + soma) * 2,
             pricefull: ((parseFloat(localStorage.getItem('@fv')) / 2 + soma) * 2) * formik.values.amount
-          }) 
-          
+          })
+
+          var precototal = (parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma) * 2 * formik.values.amount
+          setPriceoriginal(precototal)
+        }else if (promo == 'activediscorcert' && startdate != enddate && activepromo === false) {
+          setPrice({
+            type: 'days',
+            amount: 2,
+            amountmonth: 0,
+            price: localStorage.getItem('@fv') / 2 + soma,
+            priceNoamount: (parseFloat(localStorage.getItem('@fv')) / 2 + soma) * 2,
+            pricefull: ((parseFloat(localStorage.getItem('@fv')) / 2 + soma) * 2) * formik.values.amount
+          })
+
           var precototal = (parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma) * 2 * formik.values.amount
           setPriceoriginal(precototal)
         }else{
-
           if (days < 7){
-            console.log('7 menor')
-            console.log(days)
             console.log(soma)
+            console.log(soma2)
             setPrice({
-              type: 'days', 
-              amount: days, 
-              price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              type: 'days',
+              amount: days,
+              price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
             })
-  
-            console.log(price)
+
             objrent = {
-              type: 'days', 
-              amount: days, 
-              price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              type: 'days',
+              amount: days,
+              price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
             }
-  
-            console.log(price)
+
           }else if (days === 7){
-            console.log('b')
+
             setPrice({
-              type: 'weekend', 
-              amount: days, 
-              price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              type: 'weekend',
+              amount: days,
+              price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
             })
             objrent = {
-              type: 'weekend', 
-              amount: days, 
-              price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              type: 'weekend',
+              amount: days,
+              price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
             }
           }else if (days > 7 && days < 15){
-            console.log('9')
             setPrice({
-              type: 'biweekly', 
-              amount: days, 
-              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              type: 'biweekly',
+              amount: days,
+              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
             })
             objrent = {
-              type: 'biweekly', 
-              amount: days, 
-              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              type: 'biweekly',
+              amount: days,
+              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool  + soma2
             }
           }else if (days === 15){
-            console.log('f')
+
             setPrice({
-              type: 'biweekly', 
-              amount: days, 
-              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              type: 'biweekly',
+              amount: days,
+              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool  + soma2
             })
             objrent = {
-              type: 'biweekly', 
-              amount: days, 
-              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+              type: 'biweekly',
+              amount: days,
+              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
               pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool  + soma2
             }
           }else if (days > 15){
-            console.log('bc')
+
             if (months === 0) {
-              console.log('bn')
+
               setPrice({
-                type: 'month', 
-                amount: days, 
-                amountmonth: 0, 
-                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+                type: 'month',
+                amount: days,
+                amountmonth: 0,
+                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
                 priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
                 pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
               })
-  
+
               objrent = {
-                type: 'month', 
-                amount: days, 
-                amountmonth: 0, 
-                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+                type: 'month',
+                amount: days,
+                amountmonth: 0,
+                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
                 priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
                 pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
               }
             } else {
-              console.log('0mm')
+
               setPrice({
-                type: 'month', 
-                amount: days, 
-                amountmonth: months, 
-                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+                type: 'month',
+                amount: days,
+                amountmonth: months,
+                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
                 priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
                 pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
               })
               objrent = {
-                type: 'month', 
-                amount: days, 
-                amountmonth: 0, 
-                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma, 
+                type: 'month',
+                amount: days,
+                amountmonth: 0,
+                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
                 priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
                 pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
               }
@@ -784,7 +809,7 @@ const Tool = ({history}) => {
         }
       }
 
-      dispatch(Rentattempt(objrent.priceNoamount, objrent.amount, objrent.pricefull, 
+      dispatch(Rentattempt(objrent.priceNoamount, objrent.amount, objrent.pricefull,
         amounttool, objrent.type, 0, objrent.price, objrent.amountmonth))
         localStorage.setItem('@obr', JSON.stringify(objrent));
     }
@@ -820,7 +845,7 @@ const Tool = ({history}) => {
     }
 
     //var arr = ["2020-06-12", "2020-06-13", "2020-06-23", "2020-06-24", "2020-06-26", "2020-06-27", "2020-06-29", "2020-06-30"];
-   // return arr.some(date => dayString === date)   
+   // return arr.some(date => dayString === date)
 
 //    return dayString === '2020-06-26' || dayString ==='2020-06-27'
   }
@@ -846,8 +871,10 @@ const Tool = ({history}) => {
   }
 
   const activeDiscorcert = () => {
-    setModal3(false)    
+    setModal3(false)
     setPromotional(true)
+    setActivepromo(true)
+
     var stdt = moment(startdt)
 
     var end = stdt.add(2, 'days')
@@ -862,10 +889,10 @@ const Tool = ({history}) => {
     formik.values.endDate = startDate;
     setEnddate(startDate);
     setPrice({
-      type: 'days', 
-      amount: formik.values.amount, 
-      amountmonth: 0, 
-      price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')), 
+      type: 'days',
+      amount: formik.values.amount,
+      amountmonth: 0,
+      price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')),
       priceNoamount: 1 * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')),
       pricefull: (1 * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * formik.values.amount
     })
@@ -948,7 +975,7 @@ const Tool = ({history}) => {
           </div>
         </>
       )
-      console.log(valuedisconcert)
+
     }
   }
 
@@ -968,7 +995,7 @@ const Tool = ({history}) => {
       text = ` por ${weekend} Semana`
       text2 = `* Custo semanal`
     }
-    
+
     if (price.type === 'biweekly') {
       text = ` por ${days} Dias`
 
@@ -995,11 +1022,11 @@ const Tool = ({history}) => {
         text2 = '* Custo mensal, com este valor você pode alugar por mais dias para fechar o mês!'
       }
     }
-    
+
     return (
     <>
       <div className="columns is-mobile no-margin-top-columns2">
-        <div className="column no-padding-tt">
+        <div className="column no-padding-tt is-6">
           <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
             <FormattedNumber value={price.price} style="currency" currency="BRL" />
             { text }
@@ -1009,17 +1036,17 @@ const Tool = ({history}) => {
           <p className="is-pulled-right">
             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
               <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
-              { 
-                amount === undefined ? 'x 1 UN' : `x ${amount} UN` 
+              {
+                amount === undefined ? 'x 1 UN' : `x ${amount} UN`
               }
-            </IntlProvider>           
+            </IntlProvider>
           </p>
           <br/><br/>
         </div>
       </div>
       {
         /*
-          <Warningtext class="orange">{ text2 }</Warningtext>        
+          <Warningtext class="orange">{ text2 }</Warningtext>
         */
       }
       <div className="columns is-mobile no-top-total total-tools-values">
@@ -1027,7 +1054,7 @@ const Tool = ({history}) => {
           <b>Total</b>
         </div>
         {
-          promo === true && tool.title.indexOf('Lâmina') > -1 || promo === true && tool.title.indexOf('Nylon') > -1 || promo === true && tool.title.indexOf('Extratora') > -1  || promo === true && tool.title.indexOf('Lavadora') > -1 ? 
+          promo === true && tool.title.indexOf('Lâmina') > -1 || promo === true && tool.title.indexOf('Nylon') > -1 || promo === true && tool.title.indexOf('Extratora') > -1  || promo === true && tool.title.indexOf('Lavadora') > -1 ?
           (
             <>
             {
@@ -1036,8 +1063,8 @@ const Tool = ({history}) => {
                   <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                     <b><FormattedNumber value={renderPromo(tool.title)} style="currency" currency="BRL" /></b>
                   </IntlProvider>
-                  <span>/Diária</span>                            
-                </span>   
+                  <span>/Diária</span>
+                </span>
               */
             }
 
@@ -1051,15 +1078,15 @@ const Tool = ({history}) => {
         }
 
         {
-          promotional === false ? 
+          promotional === false ?
           (
             <div className="column">
               <p className="is-pulled-right">
                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                   <b><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
-                </IntlProvider>            
+                </IntlProvider>
               </p>
-            </div>  
+            </div>
           )
           :
           (
@@ -1067,14 +1094,14 @@ const Tool = ({history}) => {
               <span class="pricefds">
                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                   <b><FormattedNumber value={priceoriginal} style="currency" currency="BRL" /></b>
-                </IntlProvider>      
+                </IntlProvider>
               </span>
               <p className="is-pulled-right color-promotional">
                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                   <b><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
-                </IntlProvider>            
+                </IntlProvider>
               </p>
-            </div>  
+            </div>
           )
         }
       </div>
@@ -1092,7 +1119,7 @@ const Tool = ({history}) => {
     if (isAuthenticated()) {
       const response = await api.get(`/perfil`, {
       });
-      setPerfil(response.data.user[0])  
+      setPerfil(response.data.user[0])
     }
   }
 
@@ -1102,8 +1129,8 @@ const Tool = ({history}) => {
         const response = await api.get(`/documents/${current_user.id}`, {
         });
         loadPerfil()
-        setDocument(response.data.documentUser[0])  
-      }  
+        setDocument(response.data.documentUser[0])
+      }
     }
   }
 
@@ -1125,7 +1152,7 @@ return (
       <meta name="keywords" content={'Aluguel, ' + tool.title + ', '}/>
     </Helmet>
     {
-      adddoc === true ? 
+      adddoc === true ?
       (
         <Adddocument onClose={closeAdd}/>
 
@@ -1140,7 +1167,7 @@ return (
               pictures.map((picture, index) => (
                 <div className="column" key={index}>
                   <img src={picture.url} alt={picture.url} className="" />
-                </div>  
+                </div>
               ))
             }
           </div>
@@ -1163,42 +1190,42 @@ return (
                   <Form
                     onSubmit={ (e, values) => {
                       formik.handleSubmit(values)
-                    }} 
+                    }}
                     noValidate
                   >
                     {
                       prices.map((price, index) => (
                         <div key={index}>
                           {
-                            index === 0 ? 
+                            index === 0 ?
                             (
                               <>
                                 <span className="price-rent">
                                   {`R$ ${price.trim()} `}
                                 </span>
                                 <span >Diária </span>
-                                { 
+                                {
                                   index === 0 ? (
                                     <>
-                                      <Button 
+                                      <Button
                                           type={'button'}
                                           className={'button is-link is-light is-small is-pulled-right'}
-                                          text={'Valores por períodos'}                                    
+                                          text={'Valores por períodos'}
                                         onClick={event => setShowprices(!showprices)}
                                       />
                                     </>
-                                  ) : 
+                                  ) :
                                   (
                                     ''
                                   )
                                 }
                               </>
-                            ) : 
+                            ) :
                             (
                               <div className={showprices === true ? 'is-block' : 'is-hidden'}>
                                 <div>
                                   {
-                                    price.trim() !== 0 && index === 1 ? 
+                                    price.trim() !== 0 && index === 1 ?
                                     (
                                       <>
                                         <span className="price-rent price-others">
@@ -1208,14 +1235,14 @@ return (
                                           Semanal
                                         </span>
                                       </>
-                                    ) 
+                                    )
                                     :
                                     (
                                       ''
                                     )
                                     }
                                     {
-                                    price.trim() !== 0 && index === 2 ? 
+                                    price.trim() !== 0 && index === 2 ?
                                     (
                                       <>
                                         <span className="price-rent price-others">
@@ -1225,14 +1252,14 @@ return (
                                           Quinzenal
                                         </span>
                                       </>
-                                    ) 
+                                    )
                                     :
                                     (
                                       ''
                                     )
                                     }
                                     {
-                                    price.trim() !== '0' && index === 3 ? 
+                                    price.trim() !== '0' && index === 3 ?
                                     (
                                       <>
                                         <span className="price-rent price-others">
@@ -1242,12 +1269,12 @@ return (
                                           Mensal
                                         </span>
                                       </>
-                                    ) 
+                                    )
                                     :
                                     (
                                       ''
                                     )
-                                  }                       
+                                  }
                                 </div>
                               </div>
                             )
@@ -1258,7 +1285,7 @@ return (
                     <Field>
                       <Label className="label label-period" for={'title'}>
                         Período de uso <FontAwesomeIcon icon={['fas', 'calendar-alt']} className="" size="1x"/>
-                      </Label> 
+                      </Label>
                       <br/>
                       <div className="dt-range-picker-tool no-margin-top-columns2">
                         <DateRangePicker
@@ -1281,19 +1308,19 @@ return (
                         />
                         <Span className={'validation-warning'}>
                           {
-                            errodate == true  
-                          ? 
-                            (<div> - Por favor insira as datas de aluguel e devolução.</div>) 
-                          : 
+                            errodate == true
+                          ?
+                            (<div> - Por favor insira as datas de aluguel e devolução.</div>)
+                          :
                             null
                           }
                         </Span>
                         <Span className={'validation-warning'}>
                           {
-                            erroamount == true  
-                          ? 
-                            (<div> - Por favor insira uma quantidade válida.</div>) 
-                          : 
+                            erroamount == true
+                          ?
+                            (<div> - Por favor insira uma quantidade válida.</div>)
+                          :
                             null
                           }
                         </Span>
@@ -1302,7 +1329,7 @@ return (
                     <div className="columns">
                       <div className="column">
                         {
-                          tensionshow === '127V/220V' ? 
+                          tensionshow === '127V/220V' ?
                           (
                             <>
                               <Field>
@@ -1310,20 +1337,20 @@ return (
                                 <div className="columns tension-dv">
                                   <div className="column has-text-centered">
                                     <Field>
-                                      <input 
+                                      <input
                                         className="is-checkradio"
                                         type="radio"
                                         id={'127v'}
-                                        name="tension" 
+                                        name="tension"
                                         value="127V"
                                         defaultChecked={true}
                                         onChange={event => handleTension(event)}
                                     />
                                       <Label for={'127v'}>127V</Label>
-                                      <input 
+                                      <input
                                         className="is-checkradio"
                                         id="220v"
-                                        type="radio" 
+                                        type="radio"
                                         name="tension"
                                         value="220V"
                                         onChange={event => handleTension(event)}
@@ -1332,14 +1359,14 @@ return (
                                     </Field>
                                   </div>
                                 </div>
-                              </Field>                    
+                              </Field>
                             </>
-                          ) 
+                          )
                           :
                           ('')
                         }
                         {
-                          tensionshow === '/Tri' ? 
+                          tensionshow === '/Tri' ?
                           (
                             <>
                               <Field>
@@ -1347,11 +1374,11 @@ return (
                                 <div className="columns">
                                   <div className="column has-text-centered">
                                     <Field>
-                                      <input 
+                                      <input
                                         className="is-checkradio"
                                         type="radio"
                                         id={'Tri'}
-                                        name="tension" 
+                                        name="tension"
                                         value="Tri"
                                         defaultChecked={true}
                                         onChange={event => handleTension(event)}
@@ -1360,14 +1387,14 @@ return (
                                     </Field>
                                   </div>
                                 </div>
-                              </Field>                    
+                              </Field>
                             </>
-                          ) 
+                          )
                           :
                           ('')
                         }
                         {
-                          tensionshow === '/220V' ? 
+                          tensionshow === '/220V' ?
                           (
                             <>
                               <Field>
@@ -1375,11 +1402,11 @@ return (
                                 <div className="columns">
                                   <div className="column has-text-centered">
                                     <Field>
-                                      <input 
+                                      <input
                                         className="is-checkradio"
                                         type="radio"
                                         id={'220v'}
-                                        name="tension" 
+                                        name="tension"
                                         value="220V"
                                         defaultChecked={true}
                                         onChange={event => handleTension(event)}
@@ -1388,14 +1415,14 @@ return (
                                     </Field>
                                   </div>
                                 </div>
-                              </Field>                    
+                              </Field>
                             </>
-                          ) 
+                          )
                           :
                           ('')
                         }
                         {
-                          tensionshow === '127V/' ? 
+                          tensionshow === '127V/' ?
                           (
                             <>
                               <Field>
@@ -1403,11 +1430,11 @@ return (
                                 <div className="columns">
                                   <div className="column has-text-centered tension-dvv">
                                     <Field>
-                                      <input 
+                                      <input
                                         className="is-checkradio"
                                         type="radio"
                                         id={'127v'}
-                                        name="tension" 
+                                        name="tension"
                                         value="127V"
                                         defaultChecked={true}
                                         onChange={event => handleTension(event)}
@@ -1416,9 +1443,9 @@ return (
                                     </Field>
                                   </div>
                                 </div>
-                              </Field>                    
+                              </Field>
                             </>
-                          ) 
+                          )
                           :
                           ('')
                         }
@@ -1439,27 +1466,23 @@ return (
                       </div>
                     </div>
                     {
-                      Object.entries(price).length > 0 ? 
+                      Object.entries(price).length > 0 ?
                       (
                         <>
                           <div className="adons-container">
                             {
-                              adonsProd.length > 0 ? (
-                                <>
-                                  <p className="optionals">Opcionais</p>
-                                </>
-                              ): (
-                                <>
-
-                                </>
-                              )
+                              adonsid != '' ?
+                              (<><p className="optionals">Opcionais</p>
+                              </>)
+                              :
+                              (<></>)
                             }
                             <div className="columns is-mobile">
                               {
                                 adonsProd.map((adon, index) => (
                                   <div className="adons-box" key={index} >
                                     <Checkboximage check={adon.checkad} id={adon.id} price={adon.price} onChange={event => checkeredChange(event, adon.price, adon.id)}></Checkboximage>
-                                    
+
                                     <label className="labelchecked" for={'idck'+adon.id}>
                                       <img src={adon.url} alt={adon.url} className="" title={adon.name}/>
                                     </label>
@@ -1467,14 +1490,14 @@ return (
                                       <span>
                                         <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                                           <FormattedNumber value={parseFloat(adon.price.replace(/\./gi,'').replace(/,/gi,'.'))} style="currency" currency="BRL" />
-                                        </IntlProvider> 
+                                        </IntlProvider>
                                       </span>
                                     </div>
                                     <p className="ad-name">{ adon.name }</p>
-                                  </div>  
+                                  </div>
                                 ))
                               }
-                            </div>  
+                            </div>
                           </div>
                         </>
                       )
@@ -1485,16 +1508,16 @@ return (
                       )
                     }
                     {
-                      Object.entries(price).length > 0 ? 
+                      Object.entries(price).length > 0 ?
                       (
                         <div className="">
                           {renderPrice()}
                         </div>
-                      ) : 
+                      ) :
                       ('')
                     }
                     {
-                      modal2 === true ? 
+                      modal2 === true ?
                       (
                         <>
                           <Button
@@ -1522,7 +1545,7 @@ return (
                       <Warningtext class="has-text-centered message-rent">Você ainda não será cobrado.</Warningtext>
                     </div>
                   </Form>
-                </div>     
+                </div>
               </div>
             </div>
             <div className="column is-two-thirds">
@@ -1534,7 +1557,7 @@ return (
                     pictures.map((picture, index) => (
                       <div className="column" key={index}>
                         <img src={picture.url} alt={picture.url} className="" />
-                      </div>  
+                      </div>
                     ))
                   }
                 </div>
@@ -1572,7 +1595,7 @@ return (
                   <div className="column">
                     <Ul>
                       {
-                        tool.tension !== '-' && tool.tension !== '/' ? 
+                        tool.tension !== '-' && tool.tension !== '/' ?
                         (
                           <>
                             <li><b>Tensão</b></li>
@@ -1590,7 +1613,7 @@ return (
                 <div className="columns">
                   <div className="column">
                     <p className="title-infos-tool hack-padding-top">Acessórios e Acompanhamentos <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
-                    </p>   
+                    </p>
                     <div className="columns is-desktop is-mobile">
                       <div className="column">
                         <Ul>
@@ -1615,15 +1638,15 @@ return (
                     /*<p className="title-infos-tool hack-padding-top">Onde nós temos este equipamento ({ tool.title })</p>*/
                   }
                   {
-                   tool.lat !== undefined && tool.lng !== undefined ? 
+                   tool.lat !== undefined && tool.lng !== undefined ?
                    (
                      <>
                       {
-                        /*<Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture[0].url} title={tool.title}/> */                                   
+                        /*<Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture[0].url} title={tool.title}/> */
                       }
                      </>
                    )
-                   : 
+                   :
                    (
                      ''
                    )
@@ -1654,11 +1677,11 @@ return (
                         </div>
                       </div>
                       <div className="content">
-                        Os equipamentos estão sempre impecavéis. Alugo sempre com eles, pois sei da procedência. 
+                        Os equipamentos estão sempre impecavéis. Alugo sempre com eles, pois sei da procedência.
                         Tem um atendimento impecável, presencialmente e aqui na Easyools.
                       </div>
                     </div>
-                  </div>  
+                  </div>
                 </li>
               </Ul>
             </div>
@@ -1672,10 +1695,10 @@ return (
         </div>
         <Modal
           show={modal4}
-          onCloseModal={hideModal4} 
-          closeOnEsc={true} 
+          onCloseModal={hideModal4}
+          closeOnEsc={true}
           closeOnOverlayClick={true}
-        > 
+        >
           <p class="title-disconcert">Você escolheu a devolução do equipamento no mesmo dia.</p>
           <br/>
           <p class="has-text-centered">O horário para devolução do equipamento no mesmo dia é <b className="hourmodalfor">16:00 horas</b></p>
@@ -1685,20 +1708,20 @@ return (
           <Button className="button is-info is-fullwidth" onClick={event => setModal4(false)} text={'Ok, estou ciente.'}/>
         </Modal>
         <Modal
-          show={modal3} 
-          onCloseModal={hideModal3} 
-          closeOnEsc={true} 
+          show={modal3}
+          onCloseModal={hideModal3}
+          closeOnEsc={true}
           closeOnOverlayClick={true}
-        > 
+        >
           <p class="title-disconcert">Preço de fim de semana.</p>
           { renderDisconcert() }
         </Modal>
         <Modal
-          show={modal2} 
-          onCloseModal={hideModal2} 
-          closeOnEsc={true} 
+          show={modal2}
+          onCloseModal={hideModal2}
+          closeOnEsc={true}
           closeOnOverlayClick={true}
-        > 
+        >
           <p className="periods-mistakes">Ops!</p>
           <br/>
           <p className="periods-mistakes">Períodos superiores a 30 dias, só podem ser contados mês a mês.</p>
@@ -1706,15 +1729,15 @@ return (
           <Button className="button color-logo" onClick={event => setModal2(false)} text={'Mudar data'}/>
         </Modal>
         <Modal
-          show={modal} 
-          onCloseModal={hideModal} 
-          closeOnEsc={true} 
+          show={modal}
+          onCloseModal={hideModal}
+          closeOnEsc={true}
           closeOnOverlayClick={true}
-        > 
+        >
           <Auth hs={history} url={'authproduct'} className={'superior'} closeModal={event => setModal(false)}></Auth>
         </Modal>
       </div>
-  
+
       )
     }
   </>

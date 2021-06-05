@@ -893,6 +893,11 @@ border: 1px solid rgb(230, 230, 230);
     text-align: center !important;
   }
 
+.box-rent{
+  margin-left:20px !important;
+  margin-top: -5px;
+}  
+
 .box-price-button-list{
   padding-top: 5px !important;
 

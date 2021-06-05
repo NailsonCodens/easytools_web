@@ -120,7 +120,7 @@ const Congrats = () => {
                     )
                 }
                 <div className="columns is-mobile no-margin-top-columns dates-payment">
-                  <div className="column">
+                  <div className="column is-4">
                     <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                       <FormattedNumber value={attempt.priceperiod} style="currency" currency="BRL" />
                       {
@@ -128,7 +128,7 @@ const Congrats = () => {
                       }
                     </IntlProvider>
                   </div>
-                  <div className="column is-6">
+                  <div className="column is-8">
                     <p className="is-pulled-right">
                       <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
                         <FormattedNumber value={attempt.price} style="currency" currency="BRL" />

@@ -799,7 +799,7 @@ const List = ({history}) => {
                         </span>
                       </div>
                       <div className="columns is-mobile box-price-button-list">
-                        <div className="column">
+                        <div className="column is-5">
                           <p className="money-tl">
                             {
                               promo === 'true' && tool.title.indexOf('Lâmina') > -1 || promo === 'true' && tool.title.indexOf('Nylon') > -1 || promo === 'true' && tool.title.indexOf('Extratora') > -1  || promo === 'true' && tool.title.indexOf('Lavadora') > -1 ?
@@ -847,7 +847,7 @@ const List = ({history}) => {
                                 disabled={tool.availability === "Y" ? false : true}
                                 type={'submit'}
                                 className={'button color-logo'}
-                                text={tool.availability === "Y" ? 'Ver mais' : 'Não disponível'}
+                                text={tool.availability === "Y" ? 'Iniciar reserva' : 'Não disponível'}
                                 onClick={event => setProd(!prod+tool.id)}
                               />
                             </div>

@@ -858,6 +858,13 @@ width: 100px;
     margin: 10px;
   }
 
+.box-rent-payment {
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  padding: 10px 5px 5px;
+  border-radius: 0;
+}  
+
   .span-sw{
     font-size: 12px;
     margin-right: 10px;

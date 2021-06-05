@@ -601,6 +601,9 @@ console.log(time)
   }
 
   const descontRender = () => {
+    console.log(descount)
+
+
     if (descount === 'easytools15%') {
       var desc = renderCalc() / 100 * 15
       setValuedescount(desc)
@@ -825,8 +828,8 @@ console.log(time)
                                   <ScrollableAnchor id={'hour'}>
                                     <div></div>
                                   </ScrollableAnchor>
-
                                   <div className="container box-rent-payment box-rent-pay-margin-top">
+                                    <br/>
                                     <p className="title-tool-only-little"> Entrega e coleta da ferramenta </p>
                                     <br />
                                     <span className=""></span>
@@ -837,7 +840,7 @@ console.log(time)
                                     <span className="valuefreight"> de você.</span>
                                     <br />
                                     <span className="distance">Taxa de entrega e coleta: </span>
-                                    {
+                                   {
                                       valuedescount > 0 ?
                                         (
                                           <>
