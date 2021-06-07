@@ -552,7 +552,24 @@
   font-weight: bold;
 }
 
+.totalBig{
+  padding-top:-20px;
+  font-size: 27px;
+}
+
+.renderline{
+  border-bottom: 1px solid #cccccc;
+}
+
+.textmintotal{
+  font-size: 17px;
+}
+
 @media (min-width: 321px) and (max-width: 900px) {
+.textmintotal{
+  font-size: 15px;
+}
+
   .divwarning{
     margin-bottom: 50px !important;
   }
@@ -613,6 +630,10 @@
 
   .page-full-date .rental-box{
     border: none !important;
+  }
+
+  .rental-box{
+    padding-bottom: 30px;
   }
 
   .clqt{

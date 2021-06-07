@@ -1028,12 +1028,14 @@ const Tool = ({history}) => {
       <div className="columns is-mobile no-margin-top-columns2">
         <div className="column no-padding-tt is-6">
           <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-            <FormattedNumber value={price.price} style="currency" currency="BRL" />
-            { text }
+            <p className="textmintotal">
+              <FormattedNumber value={price.price} style="currency" currency="BRL" />
+              { text }
+            </p>
           </IntlProvider>
         </div>
         <div className="column no-padding-tt">
-          <p className="is-pulled-right">
+          <p className="is-pulled-right textmintotal">
             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
               <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
               {
@@ -1083,7 +1085,7 @@ const Tool = ({history}) => {
             <div className="column">
               <p className="is-pulled-right">
                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                  <b><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
+                  <b className="totalBig"><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
                 </IntlProvider>
               </p>
             </div>
@@ -1301,8 +1303,8 @@ return (
                           onDatesChange={({ startDate, endDate }) => setDates({ startDate, endDate })} // PropTypes.func.isRequired,
                           focusedInput={focus.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
                           onFocusChange={focusedInput => setFocus({ focusedInput })} // PropTypes.func.isRequired,
-                          startDatePlaceholderText="Data de uso"
-                          endDatePlaceholderText="Data Devolução"
+                          startDatePlaceholderText="Início do uso"
+                          endDatePlaceholderText="Fim do uso"
                           readOnly
                           hideKeyboardShortcutsPanel
                         />
@@ -1326,6 +1328,16 @@ return (
                         </Span>
                       </div>
                     </Field>
+                    <br/>
+                    {
+                      Object.entries(price).length > 0 ?
+                      (
+                        <div className="renderline">
+                          {renderPrice()}
+                        </div>
+                      ) :
+                      ('')
+                    }
                     <div className="columns">
                       <div className="column">
                         {
@@ -1452,7 +1464,7 @@ return (
                       </div>
                       <div className="column is-4 clqt">
                         <Field>
-                          <Label className="label" for={'amount'}>Quant. item</Label>
+                          <Label className="label" for={'amount'}>Qtde item</Label>
                           <Input
                             className="input is-small border-black"
                             name="amount"
@@ -1464,6 +1476,7 @@ return (
                           />
                         </Field>
                       </div>
+
                     </div>
                     {
                       Object.entries(price).length > 0 ?
@@ -1506,15 +1519,6 @@ return (
                         <>
                         </>
                       )
-                    }
-                    {
-                      Object.entries(price).length > 0 ?
-                      (
-                        <div className="">
-                          {renderPrice()}
-                        </div>
-                      ) :
-                      ('')
                     }
                     {
                       modal2 === true ?
