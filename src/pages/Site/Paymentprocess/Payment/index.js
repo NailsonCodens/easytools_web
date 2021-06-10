@@ -240,7 +240,7 @@ const Payment = ({ history }) => {
 
   const success2 = () => Notification(
     'success',
-    'LQrcode copiado!',
+    'Qrcode copiado!',
     {
       autoClose: 1000,
       draggable: false,
@@ -313,16 +313,16 @@ const Payment = ({ history }) => {
       "amount": amount,
       "pix_expiration_date": limit,
       "pix_additional_fields": [{
-        "name": `Produto de teste ${tool.title}`,
+        "name": `${tool.title}`,
         "value": "1"
       }]
     };
 
     const response = await apiextern.post(`https://api.pagar.me/1/transactions`, pix, {}).then((res) => {
-      console.log(res.data.pix_qr_code)
+
       setQrpixcode(res.data.pix_qr_code)
     }).catch((err) => {
-      console.log(err)
+      console.log(err.data)
     })
   }
 
@@ -552,7 +552,7 @@ const Payment = ({ history }) => {
 
     var time = moment(new Date()).format('HH:mm')
 
-console.log(time)
+    console.log(time)
 
     if (time >= '08:00' && time <= '10:00') {
       opt.push({ label: 'Manhã - 08:00 às 10:00', value: 'Manhã - 08:00 às 10:00' })
@@ -829,7 +829,7 @@ console.log(time)
                                     <div></div>
                                   </ScrollableAnchor>
                                   <div className="container box-rent-payment box-rent-pay-margin-top">
-                                    <br/>
+                                    <br />
                                     <p className="title-tool-only-little"> Entrega e coleta da ferramenta </p>
                                     <br />
                                     <span className=""></span>
@@ -840,7 +840,7 @@ console.log(time)
                                     <span className="valuefreight"> de você.</span>
                                     <br />
                                     <span className="distance">Taxa de entrega e coleta: </span>
-                                   {
+                                    {
                                       valuedescount > 0 ?
                                         (
                                           <>
@@ -1469,13 +1469,7 @@ console.log(time)
                 <div class="container">
                   <p className="title-paymentpix">Pague com o PIX</p>
                   <div className="qrcode-paymentpix">
-                    <p className="readqrcode">Leia este Qrcode com o app do seu banco</p>
-                    <p>Aluguel de {tool.title}</p>
                     <div className="qrcodepay">
-                      {
-                        console.log(qrpixcode)
-                      }
-
                       {
                         qrpixcode === '' ?
                           (
@@ -1522,15 +1516,28 @@ console.log(time)
                       </div>
                     </div>
                   </div>
-                  <p className="dontworry-tiitle-paymentpix">Não se preocupe, em caso de cancelamento seu pagamento será devolvido dentro de instantes.</p>
+                    {
+                      isMobile ?
+                      (
+                        <>
+                        </>
+                      )
+                      :
+                      (
+                        <>
+                          <p className="dontworry-tiitle-paymentpix">Não se preocupe, em caso de cancelamento seu pagamento será devolvido dentro de instantes.</p>
+                        </>
+                      )
+                    }
+
                   {
                     /*
                       <p className="dontworry-tiitle-paymentpix color-warning">Você pode pagar o PIX agora ou até o horário de receber a ferramenta em mãos. <br/> Neste último caso o entregador irá solicitar o pagamento no ato da entrega.</p>
                      */
                   }
+                  <b className="text-payment-qrcode">Pronto, Leia o que qrcode, pague, clique no botão abaixo e depois em "confirmar e prosseguir</b>
                   <br />
-                  <button className="button is-success is-fullwidth" onClick={event => hideRedirectpix()}> OK </button>
-
+                  <button className="button is-success is-fullwidth" disabled={!qrpixcode} onClick={event => hideRedirectpix()}> {!qrpixcode ? 'Só um momento...' : 'Prosseguir para finalizar."'} </button>
                 </div>
               </Modal>
             </>

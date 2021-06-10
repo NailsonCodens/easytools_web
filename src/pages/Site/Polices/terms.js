@@ -7,7 +7,7 @@ const Terms = () => {
       <br/><br/>
       Bem-vindo a Easytools!
       <br/><br/>
-      Estes Termos de Uso regem seu uso na Easytools inscrita no Cadastro Nacional de Pessoas Jurídicas do Ministério da Fazenda (CNPJ) 40.307.918/0001-00,  com sede na rua Pedro Baggio, n° 601, em Campina Grande do Sul, Araçatuba, Paraná, e fornecem informações sobre o Serviço da Easytools, descritos abaixo. Quando você cria uma conta em nosso website, aplicativo ou qualquer plataforma que seja de nossa autoria, você concorda com estes termos.
+      Estes Termos de Uso regem seu uso na Easytools inscrita no Cadastro Nacional de Pessoas Jurídicas do Ministério da Fazenda (CNPJ) 40.307.918/0001-00,  com sede na rua Alvares de azevedo, n° 298, em Curitiba, Cic, Paraná, e fornecem informações sobre o Serviço da Easytools, descritos abaixo. Quando você cria uma conta em nosso website, aplicativo ou qualquer plataforma que seja de nossa autoria, você concorda com estes termos.
       <br/><br/>
       O Serviço Easytools Aluguel de equipamentos e ferramentas online, é um dos produtos da Easytools, fornecido a você. Estes Termos de Uso, por conseguinte, constituem um acordo entre você e a Easytools.
       <br/><br/>

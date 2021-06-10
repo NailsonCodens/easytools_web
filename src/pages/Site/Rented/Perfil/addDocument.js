@@ -343,7 +343,7 @@ const Doc = ({history}) => {
           <div className="column">
             <br/><br/>
             <h3 className="title-tool-only">
-              Nos envie seus documentos para completar seu cadastro, é bem rapido.
+              Nos envie seu documento para completar seu cadastro, é bem rapido.
               <br/><br/>
               Você só precisa fazer isso uma vez.
             </h3>

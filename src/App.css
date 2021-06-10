@@ -807,11 +807,18 @@ width: 100px;
 }
 
 .box-copypix{
-
+  margin-top: -35px;
+  margin-bottom: -20px;
 }
 
 .intern-boxpix{
+  font-size: 25px;
+  font-family: 'Poppins', sans-serif !important;
+}
 
+.title-tool-2{
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .icon-bt-pix{

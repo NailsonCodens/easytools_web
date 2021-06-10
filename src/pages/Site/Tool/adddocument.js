@@ -413,10 +413,14 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
       <div className="columns">
         <div className="column">
           <h3 className="title-tool-only">
-            Envie seus documentos para completar seu cadastro, é bem rapido.
+            Envie seu documento para completar seu cadastro, é bem rapido.
             <br/>
           </h3>
           <p>Você só precisa fazer isso uma vez.</p>
+          <br/>
+            <b className="title-tool-2">
+              Seus dados estão protegidos pela LEI DE PROTEÇÃO DE DADOS. Sómos uma empresa séria e que cuida de nossos clientes.
+            </b>            
         </div>
       </div>
       <Form
@@ -739,6 +743,10 @@ const Adddocument = ({ onClose, confirmRent, rent, history }) => {
                 <div className="columns">
                   <div className="column">
                     <h3 className="title-box-inter">RG ou CNH</h3>
+                    <br/>
+                    <b className="title-tool-2">
+                      Seus dados estão protegidos pela LEI DE PROTEÇÃO DE DADOS. Sómos uma empresa séria e que cuida de nossos clientes.
+                    </b> 
                     <Document id={us.id}/>
                   </div>
                   {

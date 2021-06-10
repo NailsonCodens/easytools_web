@@ -883,6 +883,10 @@ border: 1px solid rgb(230, 230, 230);
 
 }
 
+.text-payment-qrcode{
+  margin-top: -60px !important;
+}
+
 
 @media (max-width: 900px) {
   .explanation_box{
