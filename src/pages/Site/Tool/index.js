@@ -1568,7 +1568,7 @@ return (
               </div>
               <div className="description">
                 <p className="title-infos-tool">
-                  Descrição
+                  LEIA A DESCRIÇÃO COM ATENÇÃO:
                 </p>
                 <p className="text-simple-info-tool">
                   { tool.description }
@@ -1576,7 +1576,7 @@ return (
               </div>
               <div className="description">
                 <p className="title-infos-tool">
-                  Uso indicado <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
+                  USO INDICADO <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
                 </p>
                 <p className="text-simple-info-tool">
                   { tool.use_indication }
@@ -1586,13 +1586,13 @@ return (
               <div className="specification">
                 <div className="columns">
                   <div className="column">
-                    <p className="title-infos-tool hack-padding-top">Especificações</p>
+                    <p className="title-infos-tool hack-padding-top">ESPECIFICAÇÕES</p>
                   </div>
                 </div>
                 <div className="columns is-desktop is-mobile">
                   <div className="column">
                     <Ul>
-                      <li><b>Potência</b></li>
+                      <li><b>POTÊNCIA</b></li>
                       <li>{ tool.power }</li>
                     </Ul>
                   </div>
@@ -1602,32 +1602,32 @@ return (
                         tool.tension !== '-' && tool.tension !== '/' ?
                         (
                           <>
-                            <li><b>Tensão</b></li>
+                            <li><b>TENSÃO</b></li>
                             <li>{ tool.tension === '/Tri' ? 'Trifásico' : tool.tension }</li>
                           </>
                         )
                         :
                         ('')
                       }
-                      <li><b>Alimentação</b></li>
+                      <li><b>ALIMENTAÇÃO</b></li>
                       <li>{ tool.feed }</li>
                     </Ul>
                   </div>
                 </div>
                 <div className="columns">
                   <div className="column">
-                    <p className="title-infos-tool hack-padding-top">Acessórios e Acompanhamentos <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
+                    <p className="title-infos-tool hack-padding-top">ACESSÓRIOS E ACOMPANHAMENTOS <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
                     </p>
                     <div className="columns is-desktop is-mobile">
                       <div className="column">
                         <Ul>
-                          <li><b>Acessórios</b></li>
+                          <li><b>ACESSÓRIOS</b></li>
                           <li>{ tool.accessory !== '' ? tool.accessory : 'Nenhum acessório disponível.'  }</li>
                         </Ul>
                       </div>
                       <div className="column">
                         <Ul>
-                          <li><b>Acompanha</b></li>
+                          <li><b>ACOMPANHA</b></li>
                         <li>{ tool.follow !== '' ? tool.follow : 'Não disponível' }</li>
                         </Ul>
                       </div>

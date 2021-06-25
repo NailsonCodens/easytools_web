@@ -11,10 +11,6 @@
 <url>
   <loc>https://easytoolsapp.com/s/about-us</loc>
   <lastmod>2020-08-06T21:41:51+00:00</lastmod>
-</url>
-<url>
-  <loc>https://easytoolsapp.com/s/about-us</loc>
-  <lastmod>2020-08-06T21:41:51+00:00</lastmod>
   <priority>0.9</priority>
 </url>
 <url>
@@ -24,6 +20,11 @@
 </url>
 <url>
   <loc>https://easytoolsapp.com/s/search/all/equipaments/region</loc>
+  <lastmod>2020-08-06T21:41:51+00:00</lastmod>
+  <priority>0.9</priority>
+</url>
+<url>
+  <loc>https://caixadeferramenta.easytoolsapp.com/</loc>
   <lastmod>2020-08-06T21:41:51+00:00</lastmod>
   <priority>0.9</priority>
 </url>
