@@ -74,6 +74,8 @@ const MenuRenter = () => {
   const [perfil, setPerfil] = useState([]);
   const [phone, setPhone] = useState('');
   const [modalout, setModalout] = useState(false);
+  const [searchauto, setSearchauto] = useState();
+  const [openauto, setOpenauto] = useState(false);
   let values = queryString.parse(useLocation().search);
   let locationhistory = useLocation().pathname;
 
@@ -105,7 +107,6 @@ const MenuRenter = () => {
     // that you would like to track with google analytics
   })
 
-  console.log(current_user.id)
 
   const Tracking = (category, action, label) => {
     Scrool()
@@ -133,7 +134,6 @@ const MenuRenter = () => {
     }),
 
     onSubmit: value => {
-      console.log(phone)
       updatePhone(value.phone)
     }
   })
@@ -144,9 +144,8 @@ const MenuRenter = () => {
   }
 
   async function updatePhone(phone) {
-    console.log(phone)
     if (phone === '') {
-      console.log('olá')
+
       seterroPhone(true);
     } else {
       var userupdate = {
@@ -408,12 +407,26 @@ const MenuRenter = () => {
   }
 
   const searchTools = (event) => {
+    var searchletter = event;
+    console.log(searchletter)
+
+    seachauto(searchletter);
+
     Scrool(0, 0)
     if (event === '') {
-      findTools('')
+      // findTools('')
     }
     setSearch(event)
     setBettersearch(true)
+  }
+
+  async function seachauto(search) {
+    const response = await api.get(`/autocomplete?search=${search}`, {
+      headers: { search }
+    });
+    setSearchauto(response.data.tools)
+    setOpenauto(true);
+    console.log(response.data)
   }
 
   const findTools = (op = '') => {
@@ -436,10 +449,20 @@ const MenuRenter = () => {
           const getCity = res.data.features.find(city => city.id.includes('place'));
 
           city = getCity.text.replace(/\s+/g, '-').toLowerCase();
-          window.location.href = '/s/search/all/' + search + '/' + city;
+          if (search === '') {
+            window.location.href = '/s/search/all/' + 'equipaments' + '/' + city;
+          } else {
+            window.location.href = '/s/search/all/' + search + '/' + city;
+          }
+
         })
       } else {
-        window.location.href = '/s/search/all/' + search + '/region';
+
+        if (search === '') {
+          window.location.href = '/s/search/all/' + 'equipaments' + '/region';
+        } else {
+          window.location.href = '/s/search/all/' + search + '/region';
+        }
       }
     }
   }
@@ -500,7 +523,7 @@ const MenuRenter = () => {
                             <FontAwesomeIcon icon={['fas', 'search']} className={history.location.pathname === '/' ? "menu-icons-active" : "menu-icons"} size="1x" />
                             <div className="text-box">
                               Início
-														</div>
+                            </div>
                           </div>
                         </Link>
                         {
@@ -522,7 +545,7 @@ const MenuRenter = () => {
                                           <FontAwesomeIcon icon={['fas', 'tags']} className="menu-icons" size="1x" />
                                           <div className="text-box">
                                             Aluguéis
-																			</div>
+                                          </div>
                                         </div>
                                       </Link>
                                     )
@@ -534,7 +557,7 @@ const MenuRenter = () => {
                                             <FontAwesomeIcon icon={['fas', 'handshake']} className={history.location.pathname === '/s/renter/myrent' ? "menu-icons-active" : "menu-icons"} size="1x" />
                                             <div className="text-box">
                                               Minhas ferramentas
-																				</div>
+                                            </div>
                                           </div>
                                         </Link>
                                       </>
@@ -549,17 +572,17 @@ const MenuRenter = () => {
                                             <li className="li-drop">
                                               <Link to={'/lessor/perfil'} onClick={event => Tracking('Menu site - perfil', 'Clique menu perfil', 'Menu site')} className="navbar-item">
                                                 Perfil
-																				</Link>
+                                              </Link>
                                             </li>
                                             <li className="li-drop">
                                               <Link to={'/lessor/account'} onClick={event => Tracking('Menu site - conta', 'Clique menu conta', 'Menu site')} className="navbar-item">
                                                 Conta
-																				</Link>
+                                              </Link>
                                             </li>
                                             <li className="li-drop">
                                               <Link to={'/lessor/dashboard'} onClick={event => Tracking('Menu site - meus aluguéis dropdown', 'Clique menu meus aluguéis dropdown', 'Menu site')} className="navbar-item">
                                                 Meus alugueis
-																				</Link>
+                                              </Link>
                                             </li>
                                             {
                                               /*
@@ -580,7 +603,7 @@ const MenuRenter = () => {
                                             <li className="li-drop">
                                               <Link to={'/s/renter/perfil'} onClick={event => Tracking('Menu site - perfil', 'Clique menu meus perfil dropdown', 'Menu site')} className="navbar-item">
                                                 Perfil
-																				</Link>
+                                              </Link>
                                             </li>
                                             {
                                               /*
@@ -588,7 +611,7 @@ const MenuRenter = () => {
                                                 <Link to={'/s/renter/account'} onClick={event => Scrool() } className="navbar-item">
                                                   Conta
                                                 </Link>
-        
+
                                               </li>
                                                 */
                                             }
@@ -618,7 +641,7 @@ const MenuRenter = () => {
                                     <FontAwesomeIcon icon={['fas', 'handshake']} className="menu-icons" size="1x" />
                                     <div className="text-box">
                                       Cadastre-se!
-																	</div>
+                                    </div>
                                   </div>
                                 </Link>
                                 <div onClick={event => Tracking('Menu site - Modal entrar', 'Clique menu modal entrar', 'Menu site')} className="navbar-item" onClick={signLink}>
@@ -626,7 +649,7 @@ const MenuRenter = () => {
                                     <FontAwesomeIcon icon={['fas', 'user-circle']} className="menu-icons" size="1x" />
                                     <div className="text-box">
                                       Entrar
-																	</div>
+                                    </div>
                                   </div>
                                 </div>
                                 <Link to={'/s/help-me'} onClick={event => Tracking('Menu site - alugar', 'Clique menu alugar', 'Menu site')} className="navbar-item">
@@ -634,7 +657,7 @@ const MenuRenter = () => {
                                     <FontAwesomeIcon icon={['fas', 'info']} className="menu-icons" size="1x" />
                                     <div className="text-box">
                                       Dúvidas
-																		</div>
+                                    </div>
                                   </div>
                                 </Link>
                               </>
@@ -695,10 +718,10 @@ const MenuRenter = () => {
                             <>
                               <Link to={'/'} onClick={event => Tracking('Menu site - Início', 'Clique menu Início', 'Menu site', 400, 400)} className="navbar-item">
                                 Início
-													</Link>
+                              </Link>
                               <Link to={'/s/renter/myrent'} onClick={event => Tracking('Menu site - meus alugado', 'Clique menu meus alugados', 'Menu site')} className="navbar-item">
                                 Minhas ferramentas
-													</Link>
+                              </Link>
                             </>
                           )
                           :
@@ -723,26 +746,26 @@ const MenuRenter = () => {
                     <>
                       <Link to={'/'} className="navbar-item">
                         Início
-										</Link>
+                      </Link>
                       <Link to={'/signup?type=renter'} onClick={event => Tracking('Menu site - Alugue o que precisa', 'Clique menu alugue o que precisa', 'Menu site')} className="navbar-item">
                         Cadastre-se
-										</Link>
+                      </Link>
                       <a href={'https://docs.google.com/forms/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} rel="noreferrer" onClick={event => Tracking('Menu site - Seja um locador', 'Clique seja um locador', 'Menu site')} className="navbar-item neighboor-nav" rel="noreferrer" target="_blank">
                         Ser vizinho na EasyTools
-										</a>
+                      </a>
                       <Link to={'/s/about-us'} onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site')} className="navbar-item link-how-work">
                         Como funciona?
-										</Link>
+                      </Link>
                       <Link to={'/s/help-me'} onClick={event => Tracking('Menu site - dúvidas', 'Clique menu dúvidas', 'Menu site')} className="navbar-item">
                         Dúvidas
-										</Link>
+                      </Link>
                     </>
                   ) :
                   (
                     <>
                       <Link to={'/s/help-me'} onClick={event => Tracking('Menu site - dúvidas', 'Clique menu dúvidas', 'Menu site')} className="navbar-item">
                         Dúvidas
-										</Link>
+                      </Link>
                     </>
                   )
               }
@@ -764,22 +787,22 @@ const MenuRenter = () => {
                       <li className="li-drop">
                         <Link to={'/lessor/perfil'} onClick={event => Tracking('Menu site - perfil lessor', 'Clique menu perfil lessor', 'Menu site')} className="navbar-item">
                           Perfil
-											</Link>
+                        </Link>
                       </li>
                       <li className="li-drop">
                         <Link to={'/lessor/account'} onClick={event => Tracking('Menu site - conta', 'Clique menu conta', 'Menu site')} className="navbar-item">
                           Conta
-											</Link>
+                        </Link>
                       </li>
                       <li className="li-drop">
                         <Link to={'/lessor/dashboard'} onClick={event => Tracking('Menu site - meus resultados', 'Clique menu meus resultados', 'Menu site')} className="navbar-item">
                           Meus resultados
-											</Link>
+                        </Link>
                       </li>
                       <li className="li-drop">
                         <Link to={'/lessor/rents'} onClick={event => Tracking('Menu site - ver meus alugueis', 'Clique menu ver meus alugueis', 'Menu site')} className="navbar-item">
                           Ver meus alugueis
-											</Link>
+                        </Link>
                       </li>
                       {
                         /*
@@ -797,12 +820,12 @@ const MenuRenter = () => {
                       <li className="li-drop">
                         <Link to={'/s/renter/perfil'} onClick={event => Tracking('Menu site - perfil renter', 'Clique menu perfil renter', 'Menu site')} className="navbar-item">
                           Perfil
-											</Link>
+                        </Link>
                       </li>
                       <li className="li-drop">
                         <Link to={'/s/renter/perfil/documents'} onClick={event => Tracking('Menu site - documentos', 'Clique menu documentos', 'Menu site')} className="navbar-item">
                           Documento
-											</Link>
+                        </Link>
                       </li>
                       {
                         /*
@@ -810,7 +833,7 @@ const MenuRenter = () => {
                           <Link to={'/s/renter/account'} onClick={event => Scrool() } className="navbar-item">
                             Conta
                           </Link>
-    
+
                         </li>
                           */
                       }
@@ -861,6 +884,18 @@ const MenuRenter = () => {
                           onChange={event => searchTools(event.target.value)}
                         />
                       </div>
+                      {
+                        openauto === true ?
+                        (
+                          <>
+                            <div>
+                              busca
+                            </div>
+                          </>
+                        )
+                        :
+                        null
+                      }
                       <div className="column">
                         <a
                           className={'button buttonsaddress is-info'}
@@ -978,7 +1013,7 @@ const MenuRenter = () => {
         */
       }
 
-{ console.log(erroPhone) }
+      {console.log(erroPhone)}
 
       {
         perfil.phone === '' ?
@@ -1005,7 +1040,7 @@ const MenuRenter = () => {
                         <Field className={'field'}>
                           <Label for={'phone'}>
                             Seu Celular
-                      <InputMask
+                            <InputMask
                               name="phone"
                               type="text"
                               mask="(99) 9 9999-9999"
