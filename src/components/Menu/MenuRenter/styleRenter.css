@@ -23,6 +23,7 @@
   z-index:9;
   top: 8px;
   position: relative;
+  z-index:99;
 }
 
 .menu-small .logo{
@@ -242,12 +243,17 @@
 }
 
 .searchauto{
-  background: red;
-  z-index: 99;
+  background: #fff;
+  border-bottom: 1px solid #000;
+  border-right: 1px solid #000;
+  border-left: 1px solid #000;
+  z-index: 9;
   position: absolute;
   width: 265px;
   height: 100px;
-  margin-left: -20px;
+  margin-top: -10px;
+  margin-left: -22px;
+  padding: 5px;
 }
 
 
