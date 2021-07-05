@@ -883,19 +883,19 @@ const MenuRenter = () => {
                           }}
                           onChange={event => searchTools(event.target.value)}
                         />
+                        {
+                          search.length > 0 ?
+                            (
+                              <>
+                                <div className="searchauto">
+                                  busca
+                                </div>
+                              </>
+                            )
+                            :
+                            null
+                        }
                       </div>
-                      {
-                        openauto === true ?
-                        (
-                          <>
-                            <div>
-                              busca
-                            </div>
-                          </>
-                        )
-                        :
-                        null
-                      }
                       <div className="column">
                         <a
                           className={'button buttonsaddress is-info'}

@@ -241,6 +241,15 @@
   padding: 0px 30px;
 }
 
+.searchauto{
+  background: red;
+  z-index: 99;
+  position: absolute;
+  width: 265px;
+  height: 100px;
+  margin-left: -20px;
+}
+
 
 @media (max-width: 900px) {
   .back-nav{
