@@ -74,7 +74,7 @@ const MenuRenter = () => {
   const [perfil, setPerfil] = useState([]);
   const [phone, setPhone] = useState('');
   const [modalout, setModalout] = useState(false);
-  const [searchauto, setSearchauto] = useState();
+  const [searchauto, setSearchauto] = useState([]);
   const [openauto, setOpenauto] = useState(false);
   let values = queryString.parse(useLocation().search);
   let locationhistory = useLocation().pathname;
@@ -884,11 +884,17 @@ const MenuRenter = () => {
                           onChange={event => searchTools(event.target.value)}
                         />
                         {
-                          search.length > 0 ?
+                          search.length > 3 ?
                             (
                               <>
                                 <div className="searchauto">
-                                  busca
+                                  <ul>
+                                    {
+                                      searchauto.map((tool, index) => (
+                                        <li>{ tool.name }</li>
+                                      ))
+                                    }
+                                  </ul>
                                 </div>
                               </>
                             )

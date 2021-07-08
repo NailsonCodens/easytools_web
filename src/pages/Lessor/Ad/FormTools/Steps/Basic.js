@@ -23,6 +23,8 @@ const Basic = ({nextStep, handleChange, values}) => {
     validationSchema: Yup.object({
       title: Yup.string()
         .required('Título é obrigatório.'),
+      name: Yup.string()
+        .required('O nome é obrigatório'),
       description: Yup.string()
         .required('Descrição é obrigatório.'),
     }),
@@ -45,11 +47,16 @@ const Basic = ({nextStep, handleChange, values}) => {
     { value: "Kit Hibrido", label: "Kit Híbrido" },
     { value: "Kit Limpeza", label: "Kit Limpeza" },
   ];
-  
+
   var ev = '';
 
   if (values.title !== '' ) {
     formik.values.title = values.title
+  }
+
+
+  if (values.name !== '') {
+    formik.values.name = values.name
   }
 
   if (values.description !== '') {
@@ -62,7 +69,7 @@ const Basic = ({nextStep, handleChange, values}) => {
     formik.values.adons = values.adons
   }
 
-  
+
   const handleChangeBasic = (input, event) => {
     let ev = ''
     if (input == 'adons') {
@@ -70,14 +77,17 @@ const Basic = ({nextStep, handleChange, values}) => {
     }else{
       ev = event.target.value
     }
-    
+
     switch(input){
-      case 'title': 
+      case 'title':
         formik.values.title = ev
+        break;
+      case 'name':
+        formik.values.name = ev
         break;
       case 'description':
           formik.values.description = ev
-        break;  
+        break;
       case 'adons':
         var ad = [];
         if (ev !== null) {
@@ -86,7 +96,7 @@ const Basic = ({nextStep, handleChange, values}) => {
 
             ad.push(selectadons)
           })
-          ev = ad.toString()  
+          ev = ad.toString()
         }
         formik.values.adons = ev
         break;
@@ -122,7 +132,7 @@ const Basic = ({nextStep, handleChange, values}) => {
       <div {...props.innerProps} className="line-select-adons">
           <div className="columns" {...props}>
             <div className="column is-2 box-img-select">
-              <img src={ props.data.url } alt="EasyTools adons" className="easyadonsselect"/>                
+              <img src={ props.data.url } alt="EasyTools adons" className="easyadonsselect"/>
             </div>
             <div className="column">
               <p className="text-select-adons">{props.children}</p>
@@ -139,7 +149,7 @@ const Basic = ({nextStep, handleChange, values}) => {
       <div className="columns">
         <div className="column is-2  box-img-select">
           {/*
-            <img src={ adons.url } alt="EasyTools adons" className="easyadonsselect"/>                
+            <img src={ adons.url } alt="EasyTools adons" className="easyadonsselect"/>
           */}
         </div>
         <div className="column">
@@ -153,7 +163,7 @@ const Basic = ({nextStep, handleChange, values}) => {
           <div className="columns">
             <div className="column is-2  box-img-select">
               {
-                <img src={ adons.url } alt="EasyTools adons" className="easyadonsselect"/>                
+                <img src={ adons.url } alt="EasyTools adons" className="easyadonsselect"/>
               }
              </div>
             <div className="column">
@@ -170,11 +180,11 @@ const Basic = ({nextStep, handleChange, values}) => {
     <>
       <SubTitlepages>Você está preste a anunciar um equipamento, vamos lá?</SubTitlepages>
       <br></br>
-      <Form 
+      <Form
         onSubmit={ (e, values) => {
           Scrool(100, 100);
           formik.handleSubmit(values)
-        }} 
+        }}
         noValidate
       >
         <Field>
@@ -191,11 +201,33 @@ const Basic = ({nextStep, handleChange, values}) => {
           />
           <Span className={'validation-warning'}>
             {
-              formik.touched.title && formik.errors.title 
-            ? 
-              (<div>{formik.errors.title}</div>) 
-            : 
+              formik.touched.title && formik.errors.title
+            ?
+              (<div>{formik.errors.title}</div>)
+            :
               null
+            }
+          </Span>
+        </Field>
+        <Field>
+          <Label className="label-perfil" for={'name'}>
+            <b>Nome</b>
+          </Label>
+          <Input
+            name="title"
+            type="text"
+            placeholder="Furadeira de parede"
+            className={formik.touched.name && formik.errors.name ? 'input border-warning' : 'input'}
+            onChange={event => handleChangeBasic('name', event)}
+            value={values.name}
+          />
+          <Span className={'validation-warning'}>
+            {
+              formik.touched.name && formik.errors.name
+                ?
+                (<div>{formik.errors.name}</div>)
+                :
+                null
             }
           </Span>
         </Field>
@@ -213,10 +245,10 @@ const Basic = ({nextStep, handleChange, values}) => {
           />
           <Span className={'validation-warning'}>
             {
-              formik.touched.description && formik.errors.description 
-            ? 
-              (<div>{formik.errors.description}</div>) 
-            : 
+              formik.touched.description && formik.errors.description
+            ?
+              (<div>{formik.errors.description}</div>)
+            :
               null
             }
           </Span>

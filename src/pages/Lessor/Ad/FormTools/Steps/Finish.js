@@ -22,14 +22,14 @@ const Finish = ({handleChange, prevStep, values}) => {
 
   values.tension = `${values.tension1}/${values.tension2}${values.tension3}`
 
-  if (values.tension === '-/') { 
+  if (values.tension === '-/') {
     values.tension  = '-'
   }else if (values.tension === '/'){
     values.tension  = '-'
   }else if (values.tension === '-') {
     values.tension  = '-'
   }
-  
+
   let contract = values.contract === 'Y' ? 'SIM' : 'NÃO'
   let insurance = values.insurance === 'Y' ? 'SIM' : 'NÃO'
   let delivery = values.delivery === 'Y' ? 'SIM' : 'NÃO'
@@ -41,7 +41,7 @@ const Finish = ({handleChange, prevStep, values}) => {
     },
 
     onSubmit: value => {
-      saveTools(values)      
+      saveTools(values)
     }
   })
 
@@ -56,7 +56,7 @@ const Finish = ({handleChange, prevStep, values}) => {
       cat = cat.toString()
       console.log(cat)
       // eslint-disable-next-line
-      values.category = cat 
+      values.category = cat
     } else{
       // eslint-disable-next-line
       values.category = values.category
@@ -82,14 +82,14 @@ const Finish = ({handleChange, prevStep, values}) => {
         success2()
         history.push(`/lessor/ad`);
       }).catch((err) => {      })
-  
+
     } else {
       await api.post('tools/add/', values, {})
       .then((res) => {
         success()
         history.push(`detail/${res.data.tool.id}`);
       }).catch((err) => {
-      })  
+      })
     }
   }
 
@@ -101,7 +101,7 @@ const Finish = ({handleChange, prevStep, values}) => {
 
   const success2 = () => Notification(
     'success',
-    'Anúncio editado com sucesso.', 
+    'Anúncio editado com sucesso.',
     {
       autoClose: 1500,
       draggable: false,
@@ -118,7 +118,7 @@ const Finish = ({handleChange, prevStep, values}) => {
 
   const success = () => Notification(
     'success',
-    'Anúncio criado com sucesso.', 
+    'Anúncio criado com sucesso.',
     {
       autoClose: 1500,
       draggable: false,
@@ -141,13 +141,14 @@ const Finish = ({handleChange, prevStep, values}) => {
         onSubmit={ (e, values) => {
           Scroll(100, 100);
           formik.handleSubmit(values)
-        }} 
+        }}
         noValidate
       >
         <div>
           <div className="columns">
             <div className="column">
               <p><b>Título: </b>{ values.title !== '' ? values.title : 'Não informado' }</p>
+              <p><b>Nome: </b>{values.name !== '' ? values.name : 'Não informado'}</p>
               <p><b>Descrição: </b>{ values.description !== '' ? values.description : 'Não informado' }</p>
             </div>
             <div className="column">
@@ -158,14 +159,14 @@ const Finish = ({handleChange, prevStep, values}) => {
             <div className="column">
               <p><b>Marca: </b>{ values.brand !== '' ? values.brand : 'Não informado' }</p>
               <p><b>Tipo: </b>{ values.type_spec !== '' ? values.type_spec : 'Não informado' }</p>
-              <p><b>Categorias: </b>{ 
+              <p><b>Categorias: </b>{
                 values.category !== '' ? (
                   <>
                     {
-        
+
                     }
-                  </>  
-                ) : ('Não informado') 
+                  </>
+                ) : ('Não informado')
               }</p>
               <p><b>Alimentação: </b>{ values.feed.value !== '' ? values.feed.value : 'Não informado' }</p>
               <p><b>Potência: </b>{ values.power !== '' ? values.power : 'Não informado' }</p>
@@ -184,15 +185,15 @@ const Finish = ({handleChange, prevStep, values}) => {
               <p><b>Vai junto: </b>{ values.follow !== '' ? values.follow : 'Não informado' }</p>
               <br/><br/>
               <div>
-                <p><b>CEP: </b>{ values.location !== '' ? values.location : 'Não informado' }</p>                
-                <p><b>Bairro: </b>{ values.neighboor !== '' ? values.neighboor : 'Não informado' }</p>                
+                <p><b>CEP: </b>{ values.location !== '' ? values.location : 'Não informado' }</p>
+                <p><b>Bairro: </b>{ values.neighboor !== '' ? values.neighboor : 'Não informado' }</p>
                 <p><b>Endereço: </b>
-                  { values.address !== '' ? values.address : 'Não informado' } 
+                  { values.address !== '' ? values.address : 'Não informado' }
                   { values.number !== '' ? values.number : 'Não informado' }
                   { values.complement !== '' ? values.complement : 'Não informado' }
-                </p>                
-                <p><b>Estado: </b>{ values.uf !== '' ? values.uf : 'Não informado' }</p>                
-                <p><b>Cidade e Região: </b>{ values.city !== '' ? values.city : 'Não informado' }</p>                
+                </p>
+                <p><b>Estado: </b>{ values.uf !== '' ? values.uf : 'Não informado' }</p>
+                <p><b>Cidade e Região: </b>{ values.city !== '' ? values.city : 'Não informado' }</p>
               </div>
             </div>
             <div className="column">

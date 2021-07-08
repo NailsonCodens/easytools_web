@@ -19,6 +19,8 @@ const Main = ({history, tool}) => {
   // eslint-disable-next-line
   const [title, setTitle] = useState('');
   // eslint-disable-next-line
+  const [name, setName] = useState('');
+  // eslint-disable-next-line
   const [description, setDescription] = useState('');
   // eslint-disable-next-line
   const [brand, setBrand] = useState('');
@@ -85,6 +87,7 @@ const Main = ({history, tool}) => {
   const formik = useFormik({
     initialValues: {
       title: "",
+      name: "",
       description: "",
       category: "",
       adons: "",
@@ -126,11 +129,12 @@ const Main = ({history, tool}) => {
 
   useEffect(() => {
     if (id !== undefined) {
-      async function loadTool() { 
+      async function loadTool() {
         const response = await api.get(`/tools/tool/${id}`, {
         });
         response.data.tool.map(function (tool) {
           formik.values.title = tool.title
+          formik.values.name= tool.name
           formik.values.description = tool.description
           formik.values.brand = tool.brand
           formik.values.type_spec = tool.type_spec
@@ -138,18 +142,18 @@ const Main = ({history, tool}) => {
           if (tool.category !== null) {
             var array = tool.category.split(',');
             var arr = []
-  
+
             array.map(category => {
               arr.push({ value: category, label: category });
             })
-  
+
             formik.values.category = arr
           }else{
             formik.values.category = ''
           }
 
           console.log(tool.adons)
-          
+
           if (tool.adons !== null) {
             var arrayadons = tool.adons.split(',');
             var arradons = []
@@ -233,6 +237,11 @@ const Main = ({history, tool}) => {
   const handleTitleChange = (title) => {
     setTitle(title)
     formik.values.title = title
+  }
+
+  const handleNameChange = (name) => {
+    setName(name)
+    formik.values.name = name
   }
 
   const handleDescriptionChange = (description) => {
@@ -340,8 +349,8 @@ const Main = ({history, tool}) => {
     const dvnew = value ? 'Y' : 'N'
     setDelivery(dvnew)
     formik.values.devolution = dvnew
-  } 
-  
+  }
+
   const handleLocationChange = (location) => {
     setLocation(location)
     formik.values.location = location
@@ -396,8 +405,11 @@ const Main = ({history, tool}) => {
     console.log(input)
 
     switch(input){
-      case 'title': 
+      case 'title':
         handleTitleChange(event)
+        break;
+      case 'name':
+        handleNameChange(event)
         break;
       case 'description':
         handleDescriptionChange(event)
@@ -490,42 +502,42 @@ const Main = ({history, tool}) => {
       case 'freight':
         handleFreightChange(event)
           break;
-      default: 
+      default:
         return ''
     }
   }
 
-  const renderSteps = () => { 
+  const renderSteps = () => {
     if (edit === true) {
       switch(step) {
         //update
         case 1:
-          return <Basic nextStep={nextStep} handleChange={handleChange} values={formik.values}/> 
-        case 2: 
+          return <Basic nextStep={nextStep} handleChange={handleChange} values={formik.values}/>
+        case 2:
           return <Brand nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
-        case 3: 
+        case 3:
           return <Additionals nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
-        case 4: 
+        case 4:
           return <Address nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
-        case 5: 
+        case 5:
           return <Finish handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
-        default: 
+        default:
           return <Basic nextStep={nextStep} values={formik.values}/>
       }
     } else {
       //create
       switch(step) {
         case 1:
-          return <Basic nextStep={nextStep} handleChange={handleChange} values={formik.values}/> 
-        case 2: 
+          return <Basic nextStep={nextStep} handleChange={handleChange} values={formik.values}/>
+        case 2:
           return <Brand nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
-        case 3: 
+        case 3:
           return <Additionals nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
-        case 4: 
+        case 4:
           return <Address nextStep={nextStep} handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
-        case 5: 
+        case 5:
           return <Finish handleChange={handleChange} prevStep={prevStep} values={formik.values}/>
-        default: 
+        default:
           return <Basic nextStep={nextStep} values={formik.values}/>
       }
     }
@@ -544,21 +556,21 @@ const Main = ({history, tool}) => {
             <Warning/>
           </>
         )
-      case 2: 
+      case 2:
         return (
           <>
             <h3 className="title-tips">Inseira a marca, a categoria e para que serve.</h3>
             <p className="text-tips">
-              Exemplo: 
+              Exemplo:
               <br/>
               <b>Marca:</b>
-              Makita, 
+              Makita,
               <br/>
-              <b>Tipo:</b> 
+              <b>Tipo:</b>
               Corte,
               <br/>
-              <b>Categoria:</b> 
-              Cortante, 
+              <b>Categoria:</b>
+              Cortante,
               <br/>
               <b>Potência:</b> 150W
               <br/>
@@ -570,7 +582,7 @@ const Main = ({history, tool}) => {
             </p>
           </>
         )
-        case 3: 
+        case 3:
           return (
             <>
               <h3 className="title-tips">Adicione mais informações para facilitar a vida dos seus clientes!</h3>
@@ -579,8 +591,8 @@ const Main = ({history, tool}) => {
                 <br/><br/>
                 <b>Preços - </b> Adicione os preços que você utiliza para este equipamento
                 <br/><br/>
-                E por fim, informe se sua ferramenta tem contrato, seguro, entrega e devolução. 
-                Estas informações são importantes para proteger seus equipamentos. 
+                E por fim, informe se sua ferramenta tem contrato, seguro, entrega e devolução.
+                Estas informações são importantes para proteger seus equipamentos.
                 <br/>
                 <br/>
                 <b>Contrato:</b> Seu equipamento só pode ser alugado mediante contrato no ato da entrega;
@@ -593,17 +605,17 @@ const Main = ({history, tool}) => {
               </p>
             </>
           )
-        case 4: 
+        case 4:
           return (
             <>
               <h3 className="title-tips">Adicione o endereço de onde sua ferramenta está. Isso vai ajudar na pesquisa dos locatários. </h3>
               <p className="text-tips">
-                Você pode usar seu endereço padrão para tudo que você deseja alugar. 
+                Você pode usar seu endereço padrão para tudo que você deseja alugar.
                 Caso não queira usar outro, não tem problema. Destive o botão de endereço padrão e use o endereço que desejar.
               </p>
             </>
           )
-        case 5: 
+        case 5:
           return (
             <>
               <h3 className="title-tips">Pronto, basta confirmar as informações. </h3>
@@ -613,7 +625,7 @@ const Main = ({history, tool}) => {
               <Warning/>
             </>
           )
-        default: 
+        default:
       return (
         <>
           <h3 className="title-tips">Dicas para chamar atenção!</h3>
@@ -635,7 +647,7 @@ const Main = ({history, tool}) => {
           <div className="container">
             {
               renderSteps()
-            }            
+            }
           </div>
         </div>
         <div className="column box-inter">
