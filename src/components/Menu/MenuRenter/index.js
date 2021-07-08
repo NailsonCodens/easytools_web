@@ -424,6 +424,7 @@ const MenuRenter = () => {
     const response = await api.get(`/autocomplete?search=${search}`, {
       headers: { search }
     });
+
     setSearchauto(response.data.tools)
     setOpenauto(true);
     console.log(response.data)
@@ -884,14 +885,14 @@ const MenuRenter = () => {
                           onChange={event => searchTools(event.target.value)}
                         />
                         {
-                          search.length > 3 ?
+                          search.length > 2 ?
                             (
                               <>
                                 <div className="searchauto">
                                   <ul>
                                     {
                                       searchauto.map((tool, index) => (
-                                        <li>{ tool.name }</li>
+                                        <li className="nametools">{ tool.name }</li>
                                       ))
                                     }
                                   </ul>
