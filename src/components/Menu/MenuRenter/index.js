@@ -107,6 +107,9 @@ const MenuRenter = () => {
     // that you would like to track with google analytics
   })
 
+  const clickfind = (tool) => {
+    findTools('', tool)
+  }
 
   const Tracking = (category, action, label) => {
     Scrool()
@@ -430,14 +433,22 @@ const MenuRenter = () => {
     console.log(response.data)
   }
 
-  const findTools = (op = '') => {
+  const findTools = (op = '', tool = '') => {
     if (op === 'close') {
       dispatch(Search(''))
       setSearch('')
       setBettersearch(false)
       Scrool(0, 0)
     } else {
-      dispatch(Search(search))
+      var searchs = '';
+
+      if(tool !== ''){
+        searchs = tool
+      }else{
+        searchs = search
+      }
+
+      dispatch(Search(searchs))
       dispatch(Viewsearch(true))
       setBettersearch(false)
       Scrool(0, 0)
@@ -450,19 +461,18 @@ const MenuRenter = () => {
           const getCity = res.data.features.find(city => city.id.includes('place'));
 
           city = getCity.text.replace(/\s+/g, '-').toLowerCase();
-          if (search === '') {
+          if (searchs === '') {
             window.location.href = '/s/search/all/' + 'equipaments' + '/' + city;
           } else {
-            window.location.href = '/s/search/all/' + search + '/' + city;
+            window.location.href = '/s/search/all/' + searchs + '/' + city;
           }
-
         })
       } else {
 
         if (search === '') {
           window.location.href = '/s/search/all/' + 'equipaments' + '/region';
         } else {
-          window.location.href = '/s/search/all/' + search + '/region';
+          window.location.href = '/s/search/all/' + searchs + '/region';
         }
       }
     }
@@ -892,7 +902,7 @@ const MenuRenter = () => {
                                   <ul>
                                     {
                                       searchauto.map((tool, index) => (
-                                        <li className="nametools">{ tool.name }</li>
+                                        <li className="nametools" onClick={event => clickfind(tool.name)}>{ tool.name }</li>
                                       ))
                                     }
                                   </ul>
