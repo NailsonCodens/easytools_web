@@ -764,32 +764,42 @@ const List = ({ history }) => {
                     <div className="has-text-left text-list">
                       <p className="title-tl"> {tool.title} </p>
                       <p>
-                        <span>
-                          { }
-                          <img src={tool.user.url} alt="logo-easy" className="logo-tl" />
-                        </span>
-                        <span className="name-logo-tl">
-                          {tool.user.name}
-                        </span>
+                        {
+                          /*
+                          <span>
+                            { }
+                            <img src={tool.user.url} alt="logo-easy" className="logo-tl" />
+                          </span>
+                          <span className="name-logo-tl">
+                            {tool.user.name}
+                          </span>                          
+                          */
+                        }
                       </p>
                       {
                         /*
                           <p className="rentper">Alugado por: { tool.user.name }, entrega e devolução: EasyTools </p>
                         */
                       }
+                      {
+                        /*
                       <p className="approximately">Valor aproximado da Entrega e coleta</p>
-                      <p className="toolcity">Esta ferramenta está em <span>{tool.city}</span></p>
+                      <p className="toolcity">Esta ferramenta está em <span>{tool.city}</span></p>                        
+                         */
+                      }
                       <div className="text-infos-tl">
                         <span className="freight-tl tl-km">
-                          <span>A</span> {tool.distance.toFixed(2) < 4 ? '4.0' : tool.distance.toFixed(2)}<span> km </span>
+                          <span>À</span> {tool.distance.toFixed(2) < 4 ? '4.0' : tool.distance.toFixed(2)}<span> km de distância de você.</span>
                         </span>
+                        <br />
                         <span className="freight-tl ">
                           {renderDelivery(tool.distance.toFixed(2), tool.freight, tool.city)}
                           <span> Entrega & Coleta</span>
                         </span>
-                        <span className="freight-tl tl-hour">
+                        <br />
+                        <span className="freight-tl">
                           <FontAwesomeIcon icon={['fas', 'stopwatch']} className="icon-tl" size="2x" />
-                          <span>1 hora</span>
+                          1 hora <span>para entrega</span>
                         </span>
                       </div>
                       <div className="columns is-mobile box-price-button-list">
