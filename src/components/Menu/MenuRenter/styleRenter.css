@@ -263,6 +263,17 @@
 
 
 @media (max-width: 900px) {
+  .logouser-menu{
+    margin-top: 3px;
+    width: 26px !important;
+    margin-bottom: -2px;
+  }
+
+
+
+  .menu-small img{
+    width: 26px !important;
+  }
   .back-nav{
     padding-bottom: 65px;
   }
@@ -429,8 +440,10 @@
   }
 
   .logouser-menu{
-    width: 40px;
-    margin-bottom: -5px;
+    background: red !important;
+    margin-top: 3px;
+    width: 26px;
+    margin-bottom: -2px;
   }
 
   .title-font{
@@ -466,7 +479,7 @@
   }
 
   .menu-icons{
-    font-size: 22px;
+    font-size: 25px;
     color: rgb(143, 143, 143);
   }
 

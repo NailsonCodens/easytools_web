@@ -141,7 +141,7 @@ const MenuLessor = () => {
                   <div className="box-icons-mobile">
                     <FontAwesomeIcon icon={['fas', 'handshake']} className={history.location.pathname === '/lessor/rents' ? "menu-icons menu-icons-lessor" : "menu-icons"} size="1x"/>
                     <div className="text-box">
-                      Aluguéis
+                      Alugueis
                     </div>
                   </div>
                   </Link>

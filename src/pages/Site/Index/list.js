@@ -772,7 +772,7 @@ const List = ({ history }) => {
                           </span>
                           <span className="name-logo-tl">
                             {tool.user.name}
-                          </span>                          
+                          </span>
                           */
                         }
                       </p>
@@ -784,7 +784,7 @@ const List = ({ history }) => {
                       {
                         /*
                       <p className="approximately">Valor aproximado da Entrega e coleta</p>
-                      <p className="toolcity">Esta ferramenta está em <span>{tool.city}</span></p>                        
+                      <p className="toolcity">Esta ferramenta está em <span>{tool.city}</span></p>
                          */
                       }
                       <div className="text-infos-tl">

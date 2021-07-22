@@ -213,7 +213,7 @@ const MenuRenter = () => {
     async function showBottom() {
       //verificar mobile
       if (document.documentElement.scrollTop > 100) {
-        setClass('menu-small')
+        setClass('menu-small2')
       } else {
         setClass('normal')
       }
@@ -555,7 +555,7 @@ const MenuRenter = () => {
                                         <div className="box-icons-mobile">
                                           <FontAwesomeIcon icon={['fas', 'tags']} className="menu-icons" size="1x" />
                                           <div className="text-box">
-                                            Aluguéis
+                                            Alugueis
                                           </div>
                                         </div>
                                       </Link>
@@ -809,7 +809,7 @@ const MenuRenter = () => {
                         <Link to={'/lessor/dashboard'} onClick={event => Tracking('Menu site - meus resultados', 'Clique menu meus resultados', 'Menu site')} className="navbar-item">
                           Meus resultados
                         </Link>
-                      </li>
+                      </li>e
                       <li className="li-drop">
                         <Link to={'/lessor/rents'} onClick={event => Tracking('Menu site - ver meus alugueis', 'Clique menu ver meus alugueis', 'Menu site')} className="navbar-item">
                           Ver meus alugueis

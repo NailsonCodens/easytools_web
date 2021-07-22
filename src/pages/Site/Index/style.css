@@ -890,6 +890,15 @@ border: 1px solid rgb(230, 230, 230);
 
 
 @media (max-width: 900px) {
+.title-tl-page{
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif !important;
+  color: #000;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
   .explanation_box{
     background: transparent;
     padding: 25px 0px;
@@ -899,7 +908,7 @@ border: 1px solid rgb(230, 230, 230);
   }
 
 .box-rent{
-  margin-left:50px !important;
+  margin-left:6px !important;
   margin-top: -5px;
 }
 
