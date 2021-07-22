@@ -899,9 +899,9 @@ border: 1px solid rgb(230, 230, 230);
   }
 
 .box-rent{
-  margin-left:20px !important;
+  margin-left:50px !important;
   margin-top: -5px;
-}  
+}
 
 .box-price-button-list{
   padding-top: 5px !important;
@@ -942,9 +942,13 @@ border: 1px solid rgb(230, 230, 230);
     padding-top: 0px !important;
   }
 
-  .money-tl{
-    margin-top: 0px;
-  }
+.money-tl{
+  color: #000000;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600;
+  font-size: 18px;
+  margin-left: 0px;
+}
 
   .tool-list{
     height: 220px;
