@@ -809,7 +809,7 @@ const MenuRenter = () => {
                         <Link to={'/lessor/dashboard'} onClick={event => Tracking('Menu site - meus resultados', 'Clique menu meus resultados', 'Menu site')} className="navbar-item">
                           Meus resultados
                         </Link>
-                      </li>e
+                      </li>
                       <li className="li-drop">
                         <Link to={'/lessor/rents'} onClick={event => Tracking('Menu site - ver meus alugueis', 'Clique menu ver meus alugueis', 'Menu site')} className="navbar-item">
                           Ver meus alugueis
