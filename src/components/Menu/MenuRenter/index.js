@@ -442,9 +442,9 @@ const MenuRenter = () => {
     } else {
       var searchs = '';
 
-      if(tool !== ''){
+      if (tool !== '') {
         searchs = tool
-      }else{
+      } else {
         searchs = search
       }
 
@@ -902,7 +902,7 @@ const MenuRenter = () => {
                                   <ul>
                                     {
                                       searchauto.map((tool, index) => (
-                                        <li className="nametools" onClick={event => clickfind(tool.name)}>{ tool.name }</li>
+                                        <li className="nametools" onClick={event => clickfind(tool.name)}>{tool.name}</li>
                                       ))
                                     }
                                   </ul>

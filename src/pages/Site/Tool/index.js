@@ -1566,6 +1566,22 @@ return (
                   }
                 </div>
               </div>
+              <div className="">
+                <p className="title-infos-tool">
+                  Dúvidas que talvez você possa ter:
+                </p>
+                <b className="">Como funciona o perído de diária?</b>
+                <p className="text-simple-info-tool">
+                  A diária é o período de 24 horas, exemplo: se você recebe o equipamento;
+                </p>
+                    <b className="">Como funciona os outros periodos?</b>
+                    <p className="text-simple-info-tool">
+                      Mesma coisa, período de 24 horas para 1 dia.<br/> 
+                      semanal (7 diárias) <br/>
+                      quinzenal(15 diárias) <br/>
+                      mensal(30 diárias).
+                    </p>
+              </div>
               <div className="description">
                 <p className="title-infos-tool">
                   LEIA A DESCRIÇÃO COM ATENÇÃO:

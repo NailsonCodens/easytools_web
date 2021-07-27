@@ -93,7 +93,7 @@ const Congrats = () => {
                         <div className="columns is-mobile no-margin-top-columns">
                           <div className="column">
                             Tensão
-                        </div>
+                          </div>
                           <div className="column">
                             <div className="is-pulled-right">
                               {attempt.tension === 'Tri' ? 'Trifásico' : attempt.tension}
@@ -108,7 +108,7 @@ const Congrats = () => {
                         <div className="columns is-mobile no-margin-top-columns">
                           <div className="column">
                             Potência
-                        </div>
+                          </div>
                           <div className="column">
                             <div className="is-pulled-right">
                               <b>{tool.power}</b>
@@ -181,17 +181,23 @@ const Congrats = () => {
             <p className="rentandnow">Pedi a ferramenta e agora, como eu pago? </p>
             <p className="text-rentandnow">
               Fique tranquilo, seu pedido está sendo processado.
-                <b> Para cartão de crédito e boleto direto na plataforma </b>
-                Você receberá uma notificação para pagamento quando seu pedido for aprovado.
-                <br />
+              <b> Para cartão de crédito e boleto direto na plataforma </b>
+              Você receberá uma notificação para pagamento quando seu pedido for aprovado.
+              <br />
               <b> Para maquininha ou dinheiro </b>
-                Neste caso seu, o seu pagamento só será processado quando entrar o valor ao entregador do equipamento ou passar seu cartão na maquininha.
-                <br /><br />
-                Caso queira ver, ou <b>cancelar</b>, ou <b>pagar em caso de cartão de crédito ou boleto direto na plataforma </b> sua reserva basta ir em <b>"Minhas ferramentas" -> Detalhes e acessar o seu pedido</b>.
-              </p>
+              Neste caso, o seu pagamento só será processado no ato da entrega do equipamento em suas mãos pelo entregador passando o seu cartão na maquininha.
+              <br /><br />
+              Caso queira ver, ou <b>cancelar</b>, ou <b>pagar em caso de cartão de crédito ou boleto direto na plataforma </b> sua reserva basta ir em <b>"Minhas ferramentas" -> Detalhes e acessar o seu pedido</b>.
+            </p>
             <br />
             <p className="rentandnow">Quanto tempo demora ? </p>
             <p>Nosso prazo de retorno é de 10 minutos na primeira reserva. Nas próximas reservas, será processado instântaneamente.</p>
+            <br /><br />
+            <p className="rentandnow">Posso mudar a data da reserva ? </p>
+            <p>Pode sim sem problemas, desde que seja feito ao menos com 3 minutos antes do início do horário que você escolheu para receber a ferramenta.</p>
+            <br /><br />  
+            <p className="rentandnow">Se a ferramenta estragar ? </p>
+            <p>Você deve nos informar em nossos canal de atendimento para que possamos fazer a troca da ferramenta para você. </p>
             <br /><br />
             {
               /*
