@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Rentaltool } from '../../../store/actions/rentaltool';
 import _ from "lodash";
 
-  // eslint-disable-next-line
+// eslint-disable-next-line
 import preciseDiff from 'moment-precise-range-plugin';
 import 'react-dates/initialize';
 import Select from 'react-select';
@@ -16,10 +16,10 @@ import Email from '../../../utils/sendemail';
 import { Rentattempt } from '../../../store/actions/rentattempt.js';
 import moment from 'moment';
 import 'moment/locale/pt-br';
-  // eslint-disable-next-line
-import {Adons} from '../../../store/actions/adons';
+// eslint-disable-next-line
+import { Adons } from '../../../store/actions/adons';
 import ScrollableAnchor from 'react-scrollable-anchor'
-import {IntlProvider, FormattedNumber} from 'react-intl';
+import { IntlProvider, FormattedNumber } from 'react-intl';
 import { useFormik } from 'formik';
 import { Form, Input } from '@rocketseat/unform';
 import { Field, Label } from '../../../components/Form/Form';
@@ -36,7 +36,7 @@ import { isAuthenticated } from "../../../services/auth";
 import Auth from '../../../pages/Auth/index';
 import Modal from '../../../components/Modal';
 import ReactGA from 'react-ga';
-import {Helmet} from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import Adddocument from './adddocument';
 import Notification from '../../../utils/notification';
 
@@ -78,18 +78,18 @@ const renderPromo = (title) => {
 */
 
 
-const Tool = ({history}) => {
+const Tool = ({ history }) => {
 
   const currentadons = useSelector(state => state.adons);
   const dispatch = useDispatch();
 
   /*const infochoose = useSelector(state => state.rentaltool);*/
-	const current_user = useSelector(state => state.auth);
+  const current_user = useSelector(state => state.auth);
 
   const [adddoc, setAdddoc] = useState(false);
   const [tool, setTool] = useState({});
   const [priceoriginal, setPriceoriginal] = useState(0)
-    // eslint-disable-next-line
+  // eslint-disable-next-line
   const [promo, setPromo] = useState(true);
   const [pictures, setPictures] = useState([]);
   const [prices, setPrices] = useState([]);
@@ -122,7 +122,7 @@ const Tool = ({history}) => {
   const [namelessor, setNamelessor] = useState('')
   // eslint-disable-next-line
   const [document, setDocument] = useState({})
-  const [configlessor, setConfiglessor ] = useState('');
+  const [configlessor, setConfiglessor] = useState('');
   // eslint-disable-next-line
   const [disconcert, setDisconcert] = useState('');
   const [promotional, setPromotional] = useState(false);
@@ -135,7 +135,7 @@ const Tool = ({history}) => {
 
   const ref = useRef(null);
 
-  let {id} = useParams();
+  let { id } = useParams();
 
   let values = queryString.parse(useLocation().search);
 
@@ -156,7 +156,7 @@ const Tool = ({history}) => {
     }
   )
 
-  async function getImgadons (id) {
+  async function getImgadons(id) {
     console.log(id)
     const response = await api.get(`/adons_site/adon/${id}`, {
     });
@@ -184,10 +184,10 @@ const Tool = ({history}) => {
     let alreadyOn = priceadon;
     let alreadyIds = idsadon;
 
-    if(value === true){
+    if (value === true) {
       alreadyOn.push(price)
       alreadyIds.push(ids)
-    }else {
+    } else {
       _.remove(alreadyOn, obj => {
         return obj == price
       });
@@ -203,9 +203,9 @@ const Tool = ({history}) => {
     setAmount(amount)
 
     if (activepromo === false) {
-      setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, amount, '')
-    }else{
-      setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, amount, 'activediscorcert')
+      setDates({ startDate: formik.values.startDate, endDate: formik.values.endDate }, amount, '')
+    } else {
+      setDates({ startDate: formik.values.startDate, endDate: formik.values.endDate }, amount, 'activediscorcert')
     }
   }
 
@@ -247,7 +247,7 @@ const Tool = ({history}) => {
 
   const formik = useFormik({
     initialValues: {
-      startDate:null,
+      startDate: null,
       endDate: null,
       amount: amount !== undefined ? amount : 1,
     },
@@ -256,7 +256,7 @@ const Tool = ({history}) => {
       if (value.startDate === null || value.endDate === null) {
         setErrodate(true)
         danger()
-        window.location.href = "#"+"dates";
+        window.location.href = "#" + "dates";
         return
       }
 
@@ -307,7 +307,7 @@ const Tool = ({history}) => {
 
       if (isAuthenticated()) {
         Email(tool.user_id, `Alguém tentou alugar um equipamento, corra e veja quem é!`,
-        `Tentativa de aluguel no site, corre!`, "Ver", 'Veja qual cliente tentou alugar');
+          `Tentativa de aluguel no site, corre!`, "Ver", 'Veja qual cliente tentou alugar');
       }
 
       localStorage.setItem('@lkst', JSON.stringify(obj));
@@ -323,33 +323,33 @@ const Tool = ({history}) => {
     if (isAuthenticated()) {
       if (perfil.type === 'Lessor') {
         Scrool()
-//          setAdddoc(true);
+        //          setAdddoc(true);
         history.push(`/lessor/perfil?e=cc`);
       } else {
         Scrool()
         setLsItem(`/s/tool/${id}?ctg=${values.ctg}`)
         //history.push(`/s/adddocuments`);
-//        setAdddoc(true);
+        //        setAdddoc(true);
 
-      var idscomman = idsadon.join(',')
-      var attempt = {
-        user_lessor_id: tool.user_id,
-        tool_id: tool.id,
-        startdate: moment(rentData.start).format('YYYY-MM-DD'),
-        enddate: moment(rentData.end).format('YYYY-MM-DD'),
-        tension: rentData.tension || '-',
-        days: price.amount,
-        month: price.amountmonth,
-        amount: formik.values.amount,
-        period: price.type,
-        price: price.priceNoamount.toFixed(2),
-        cost: price.pricefull.toFixed(2),
-        priceperiod: price.price,
-        freight: 0,
-        accept: 0,
-        adons: idscomman,
-      }
-      saveRentattempt(attempt);
+        var idscomman = idsadon.join(',')
+        var attempt = {
+          user_lessor_id: tool.user_id,
+          tool_id: tool.id,
+          startdate: moment(rentData.start).format('YYYY-MM-DD'),
+          enddate: moment(rentData.end).format('YYYY-MM-DD'),
+          tension: rentData.tension || '-',
+          days: price.amount,
+          month: price.amountmonth,
+          amount: formik.values.amount,
+          period: price.type,
+          price: price.priceNoamount.toFixed(2),
+          cost: price.pricefull.toFixed(2),
+          priceperiod: price.price,
+          freight: 0,
+          accept: 0,
+          adons: idscomman,
+        }
+        saveRentattempt(attempt);
       }
     } else {
       Scrool()
@@ -358,22 +358,22 @@ const Tool = ({history}) => {
     }
   }
 
-  async function saveRentattempt (attempt) {
+  async function saveRentattempt(attempt) {
 
     if (attempt.month > 0 && attempt.days > 0) {
       setModal2(true)
       Tracking('Tentativa de aluguel maior com mêses e dias falha', `Tentativa de aluguel maior com mêses e dias`, 'Tentativa de aluguel maior com mêses e dias')
     } else {
       await api.post('rent/attempt/add/', attempt, {})
-      .then((res) => {
-        var idbooking = res.data.rentattempt.idf
-        var codeattempt = res.data.rentattempt.codeattempt
-        Scrool()
-        Tracking('Tentativa de aluguel', ` Tentativa de aluguel criada idbooking: ${idbooking} codeattempt: ${codeattempt}`, 'Tentativa de aluguel')
-        history.push(`/s/payment/rent-rules?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${formik.values.amount}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
-      }).catch((err) => {
-        console.log(err.response)
-      })
+        .then((res) => {
+          var idbooking = res.data.rentattempt.idf
+          var codeattempt = res.data.rentattempt.codeattempt
+          Scrool()
+          Tracking('Tentativa de aluguel', ` Tentativa de aluguel criada idbooking: ${idbooking} codeattempt: ${codeattempt}`, 'Tentativa de aluguel')
+          history.push(`/s/payment/rent-rules?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${formik.values.amount}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
+        }).catch((err) => {
+          console.log(err.response)
+        })
     }
   }
 
@@ -382,7 +382,7 @@ const Tool = ({history}) => {
   }
 
   const handleScroll = () => {
-    if (ref.current !== null ) {
+    if (ref.current !== null) {
       setSticky(ref.current.getBoundingClientRect().top <= 50);
     }
   };
@@ -431,7 +431,7 @@ const Tool = ({history}) => {
       setNamelessor(response.data.user[0])
     }
 
-    async function loadValues(){
+    async function loadValues() {
 
       const response = await api.get(`/tools_site/tool/${id}`, {
       });
@@ -449,7 +449,7 @@ const Tool = ({history}) => {
     }
     loadPerfil();
 
-    async function loadConfiglessor (iduser) {
+    async function loadConfiglessor(iduser) {
       if (isAuthenticated()) {
         const response = await api.get(`/userconfig/${iduser}`, {
         });
@@ -457,7 +457,7 @@ const Tool = ({history}) => {
       }
     }
 
-    async function verifyDocumentrent(){
+    async function verifyDocumentrent() {
       if (isAuthenticated() === true) {
         if (current_user.length !== 0) {
           /*const response = await api.get(`/documents/${current_user.id}`, {
@@ -505,61 +505,61 @@ const Tool = ({history}) => {
           type: 'month',
           amount: days,
           amountmonth: months,
-          priceNoamount: months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
-          price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
-          pricefull: (months * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+          priceNoamount: months * parseFloat(priceback[3].replace(/\./gi, '').replace(/,/gi, '.')),
+          price: parseFloat(priceback[3].replace(/\./gi, '').replace(/,/gi, '.')),
+          pricefull: (months * parseFloat(priceback[3].replace(/\./gi, '').replace(/,/gi, '.'))) * amount
         })
       } else if (period.days !== 0) {
         if (days < 7)
           setPrice({
             type: 'days',
             amount: days,
-            price: parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.')),
-            priceNoamount: days * parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (days * parseFloat(priceback[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+            price: parseFloat(priceback[0].replace(/\./gi, '').replace(/,/gi, '.')),
+            priceNoamount: days * parseFloat(priceback[0].replace(/\./gi, '').replace(/,/gi, '.')),
+            pricefull: (days * parseFloat(priceback[0].replace(/\./gi, '').replace(/,/gi, '.'))) * amount
           })
         else if (days === 7)
           setPrice({
             type: 'weekend',
             amount: days,
-            price: parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.')),
-            priceNoamount: 1 * parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (1 * parseFloat(priceback[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+            price: parseFloat(priceback[1].replace(/\./gi, '').replace(/,/gi, '.')),
+            priceNoamount: 1 * parseFloat(priceback[1].replace(/\./gi, '').replace(/,/gi, '.')),
+            pricefull: (1 * parseFloat(priceback[1].replace(/\./gi, '').replace(/,/gi, '.'))) * amount
           })
         else if (days > 7 && days < 15)
           setPrice({
             type: 'biweekly',
             amount: days,
-            price: parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')),
-            priceNoamount: 1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')),
-            pricefull: (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+            price: parseFloat(priceback[2].replace(/\./gi, '').replace(/,/gi, '.')),
+            priceNoamount: 1 * parseFloat(priceback[2].replace(/\./gi, '').replace(/,/gi, '.')),
+            pricefull: (1 * parseFloat(priceback[2].replace(/\./gi, '').replace(/,/gi, '.'))) * amount
           })
         else if (days === 15)
-        setPrice({
-          type: 'biweekly',
-          amount: days,
-          price: parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')),
-          priceNoamount: 1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.')),
-          pricefull: (1 * parseFloat(priceback[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
-        })
+          setPrice({
+            type: 'biweekly',
+            amount: days,
+            price: parseFloat(priceback[2].replace(/\./gi, '').replace(/,/gi, '.')),
+            priceNoamount: 1 * parseFloat(priceback[2].replace(/\./gi, '').replace(/,/gi, '.')),
+            pricefull: (1 * parseFloat(priceback[2].replace(/\./gi, '').replace(/,/gi, '.'))) * amount
+          })
         else if (days > 15)
           if (months === 0) {
             setPrice({
               type: 'month',
               amount: days,
               amountmonth: 0,
-              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
-              priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
-              pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+              price: parseFloat(priceback[3].replace(/\./gi, '').replace(/,/gi, '.')),
+              priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi, '').replace(/,/gi, '.')),
+              pricefull: (1 * parseFloat(priceback[3].replace(/\./gi, '').replace(/,/gi, '.'))) * amount
             })
           } else {
             setPrice({
               type: 'month',
               amount: days,
               amountmonth: months,
-              price: parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
-              priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.')),
-              pricefull: (1 * parseFloat(priceback[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amount
+              price: parseFloat(priceback[3].replace(/\./gi, '').replace(/,/gi, '.')),
+              priceNoamount: 1 * parseFloat(priceback[3].replace(/\./gi, '').replace(/,/gi, '.')),
+              pricefull: (1 * parseFloat(priceback[3].replace(/\./gi, '').replace(/,/gi, '.'))) * amount
             })
           }
       }
@@ -576,6 +576,8 @@ const Tool = ({history}) => {
     var amounttool = 1
     amounttool = amountreceive !== undefined ? amountreceive : formik.values.amount
 
+    console.log(amounttool + 'asdasd')
+
     formik.values.startDate = dates.startDate
     formik.values.endDate = dates.endDate
     setStartdate(dates.startDate)
@@ -586,7 +588,7 @@ const Tool = ({history}) => {
 
     let soma = 0;
     priceadon.map(function (price, index) {
-      soma += parseFloat(price.replace(/\./gi,'').replace(/,/gi,'.'))
+      soma += parseFloat(price.replace(/\./gi, '').replace(/,/gi, '.'))
     });
 
     if (dates.endDate === null && moment(dates.startDate).format('dddd') === 'sábado' || dates.endDate === null && moment(dates.startDate).format('dddd') === 'Sábado') {
@@ -605,6 +607,8 @@ const Tool = ({history}) => {
         period.days = 1
       }
 
+
+      console.log(days)
 
       var days = period.days;
       var months = period.months;
@@ -625,51 +629,51 @@ const Tool = ({history}) => {
       var soma2 = 0
       if (amounttool > 1) {
         soma2 = soma * amounttool
-      }else{
+      } else {
         soma2 = soma * amounttool
       }
 
       if (period.months !== 0) {
         if (days > 0) {
 
-            setModal2(true)
-            setPrice({
-              type: 'month',
-              amount: days,
-              amountmonth: months,
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
-            })
-
-            objrent = {
-              type: 'month',
-              amount: days,
-              amountmonth: months,
-              price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
-            }
-          } else {
+          setModal2(true)
           setPrice({
             type: 'month',
             amount: days,
             amountmonth: months,
-            price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-            priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-            pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
+            price: parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+            priceNoamount: months * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+            pricefull: (months * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma
+          })
+
+          objrent = {
+            type: 'month',
+            amount: days,
+            amountmonth: months,
+            price: parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+            priceNoamount: months * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+            pricefull: (months * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma
+          }
+        } else {
+          setPrice({
+            type: 'month',
+            amount: days,
+            amountmonth: months,
+            price: parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+            priceNoamount: months * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+            pricefull: (months * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma
           })
           objrent = {
             type: 'month',
             amount: days,
             amountmonth: months,
-            price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-            priceNoamount: months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-            pricefull: (months * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma
+            price: parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+            priceNoamount: months * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+            pricefull: (months * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma
           }
 
         }
-      }else if (period.days !== 0) {
+      } else if (period.days !== 0) {
 
 
 
@@ -684,9 +688,9 @@ const Tool = ({history}) => {
             pricefull: ((parseFloat(localStorage.getItem('@fv')) / 2 + soma) * 2) * formik.values.amount
           })
 
-          var precototal = (parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma) * 2 * formik.values.amount
+          var precototal = (parseFloat(prices[0].replace(/\./gi, '').replace(/,/gi, '.')) + soma) * 2 * formik.values.amount
           setPriceoriginal(precototal)
-        }else if (promo == 'activediscorcert' && startdate != enddate && activepromo === false) {
+        } else if (promo == 'activediscorcert' && startdate != enddate && activepromo === false) {
           setPrice({
             type: 'days',
             amount: 2,
@@ -696,76 +700,76 @@ const Tool = ({history}) => {
             pricefull: ((parseFloat(localStorage.getItem('@fv')) / 2 + soma) * 2) * formik.values.amount
           })
 
-          var precototal = (parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma) * 2 * formik.values.amount
+          var precototal = (parseFloat(prices[0].replace(/\./gi, '').replace(/,/gi, '.')) + soma) * 2 * formik.values.amount
           setPriceoriginal(precototal)
-        }else{
-          if (days < 7){
+        } else {
+          if (days < 7) {
             console.log(soma)
             console.log(soma2)
             setPrice({
               type: 'days',
               amount: days,
-              price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+              price: parseFloat(prices[0].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              priceNoamount: days * parseFloat(prices[0].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              pricefull: (days * parseFloat(prices[0].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma2
             })
 
             objrent = {
               type: 'days',
               amount: days,
-              price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              priceNoamount: days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (days * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+              price: parseFloat(prices[0].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              priceNoamount: days * parseFloat(prices[0].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              pricefull: (days * parseFloat(prices[0].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma2
             }
 
-          }else if (days === 7){
+          } else if (days === 7) {
 
             setPrice({
               type: 'weekend',
               amount: days,
-              price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+              price: parseFloat(prices[1].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              pricefull: (1 * parseFloat(prices[1].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma2
             })
             objrent = {
               type: 'weekend',
               amount: days,
-              price: parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (1 * parseFloat(prices[1].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+              price: parseFloat(prices[1].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              priceNoamount: 1 * parseFloat(prices[1].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              pricefull: (1 * parseFloat(prices[1].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma2
             }
-          }else if (days > 7 && days < 15){
+          } else if (days > 7 && days < 15) {
             setPrice({
               type: 'biweekly',
               amount: days,
-              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+              price: parseFloat(prices[2].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              pricefull: (1 * parseFloat(prices[2].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma2
             })
             objrent = {
               type: 'biweekly',
               amount: days,
-              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool  + soma2
+              price: parseFloat(prices[2].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              pricefull: (1 * parseFloat(prices[2].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma2
             }
-          }else if (days === 15){
+          } else if (days === 15) {
 
             setPrice({
               type: 'biweekly',
               amount: days,
-              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool  + soma2
+              price: parseFloat(prices[2].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              pricefull: (1 * parseFloat(prices[2].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma2
             })
             objrent = {
               type: 'biweekly',
               amount: days,
-              price: parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-              pricefull: (1 * parseFloat(prices[2].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool  + soma2
+              price: parseFloat(prices[2].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              priceNoamount: 1 * parseFloat(prices[2].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+              pricefull: (1 * parseFloat(prices[2].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma2
             }
-          }else if (days > 15){
+          } else if (days > 15) {
 
             if (months === 0) {
 
@@ -773,18 +777,18 @@ const Tool = ({history}) => {
                 type: 'month',
                 amount: days,
                 amountmonth: 0,
-                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-                priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-                pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+                price: parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+                priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+                pricefull: (1 * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma2
               })
 
               objrent = {
                 type: 'month',
                 amount: days,
                 amountmonth: 0,
-                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-                priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-                pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+                price: parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+                priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+                pricefull: (1 * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma2
               }
             } else {
 
@@ -792,26 +796,28 @@ const Tool = ({history}) => {
                 type: 'month',
                 amount: days,
                 amountmonth: months,
-                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-                priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-                pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+                price: parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+                priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+                pricefull: (1 * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma2
               })
               objrent = {
                 type: 'month',
                 amount: days,
                 amountmonth: 0,
-                price: parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-                priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.')) + soma,
-                pricefull: (1 * parseFloat(prices[3].replace(/\./gi,'').replace(/,/gi,'.'))) * amounttool + soma2
+                price: parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+                priceNoamount: 1 * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.')) + soma,
+                pricefull: (1 * parseFloat(prices[3].replace(/\./gi, '').replace(/,/gi, '.'))) * amounttool + soma2
               }
             }
           }
         }
       }
 
+      console.log(objrent)
+
       dispatch(Rentattempt(objrent.priceNoamount, objrent.amount, objrent.pricefull,
         amounttool, objrent.type, 0, objrent.price, objrent.amountmonth))
-        localStorage.setItem('@obr', JSON.stringify(objrent));
+      localStorage.setItem('@obr', JSON.stringify(objrent));
     }
   }
 
@@ -826,7 +832,7 @@ const Tool = ({history}) => {
     }
 
     return (
-      <p className="configlessor">{ configles }</p>
+      <p className="configlessor">{configles}</p>
     )
   }
 
@@ -838,16 +844,16 @@ const Tool = ({history}) => {
 
     if (moment.weekdays(moment(new Date()).weekday()) === 'Sábado' && moment(new Date()).format('H:mm') === '12:00') {
       return moment.weekdays(day.weekday()) === 'Sábado' || moment.weekdays(day.weekday()) === 'sábado' || moment.weekdays(day.weekday()) === 'domingo' || moment.weekdays(day.weekday()) === 'Domingo'
-     }else if (moment.weekdays(moment(new Date()).weekday()) === 'sábado' && moment(new Date()).format('H:mm') === '12:00') {
+    } else if (moment.weekdays(moment(new Date()).weekday()) === 'sábado' && moment(new Date()).format('H:mm') === '12:00') {
       return moment.weekdays(day.weekday()) === 'Sábado' || moment.weekdays(day.weekday()) === 'sábado' || moment.weekdays(day.weekday()) === 'domingo' || moment.weekdays(day.weekday()) === 'Domingo'
     } else {
       return moment.weekdays(day.weekday()) === 'Domingo' || moment.weekdays(day.weekday()) === 'domingo'
     }
 
     //var arr = ["2020-06-12", "2020-06-13", "2020-06-23", "2020-06-24", "2020-06-26", "2020-06-27", "2020-06-29", "2020-06-30"];
-   // return arr.some(date => dayString === date)
+    // return arr.some(date => dayString === date)
 
-//    return dayString === '2020-06-26' || dayString ==='2020-06-27'
+    //    return dayString === '2020-06-26' || dayString ==='2020-06-27'
   }
 
   const hideModal = () => {
@@ -882,7 +888,7 @@ const Tool = ({history}) => {
 
     //alterar aqui para passar um param dizendo que esta ativando o desconto e mudar este setPrice lá para setdates
 
-    setDates({ startDate: startDate, endDate: end}, formik.values.amount, 'activediscorcert')
+    setDates({ startDate: startDate, endDate: end }, formik.values.amount, 'activediscorcert')
   }
 
   const deliveryToday = () => {
@@ -892,9 +898,9 @@ const Tool = ({history}) => {
       type: 'days',
       amount: formik.values.amount,
       amountmonth: 0,
-      price: parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')),
-      priceNoamount: 1 * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.')),
-      pricefull: (1 * parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'))) * formik.values.amount
+      price: parseFloat(prices[0].replace(/\./gi, '').replace(/,/gi, '.')),
+      priceNoamount: 1 * parseFloat(prices[0].replace(/\./gi, '').replace(/,/gi, '.')),
+      pricefull: (1 * parseFloat(prices[0].replace(/\./gi, '').replace(/,/gi, '.'))) * formik.values.amount
     })
 
     setModal3(false);
@@ -902,22 +908,22 @@ const Tool = ({history}) => {
 
     let amount = parseInt(formik.values.amount)
     setAmount(amount)
-    setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, amount)
+    setDates({ startDate: formik.values.startDate, endDate: formik.values.endDate }, amount)
 
 
   }
 
   const desactiveDisconcert = () => {
-    setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, formik.values.amount, 'no')
+    setDates({ startDate: formik.values.startDate, endDate: formik.values.endDate }, formik.values.amount, 'no')
     setPromotional(false)
     setModal3(false)
-    setFocus({focusedInput: "endDate"})
+    setFocus({ focusedInput: "endDate" })
 
   }
 
   const renderDisconcert = () => {
     if (prices[0] !== undefined) {
-      var priceone = parseFloat(prices[0].replace(/\./gi,'').replace(/,/gi,'.'));
+      var priceone = parseFloat(prices[0].replace(/\./gi, '').replace(/,/gi, '.'));
       var valuedefaultprimary = priceone * 1
       var valuedefault = priceone * 2
       var percent = 25
@@ -936,10 +942,10 @@ const Tool = ({history}) => {
               Para diárias
               <p className="valuefinal">
                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                <FormattedNumber value={valuefinaldisconcert} style="currency" currency="BRL" />
+                  <FormattedNumber value={valuefinaldisconcert} style="currency" currency="BRL" />
                 </IntlProvider>
               </p>
-              <Button className="button is-info" onClick={event => activeDiscorcert(false)} text={'Ativar desconto'}/>
+              <Button className="button is-info" onClick={event => activeDiscorcert(false)} text={'Ativar desconto'} />
               <p className="has-text-center">Aluga no sábado ganha desconto e usa até segunda.</p>
             </div>
             <div className="column has-text-centered">
@@ -947,10 +953,10 @@ const Tool = ({history}) => {
               Para diárias
               <p className="valuedefaultpromo-day ">
                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                <FormattedNumber value={valuedefaultprimary} style="currency" currency="BRL" />
+                  <FormattedNumber value={valuedefaultprimary} style="currency" currency="BRL" />
                 </IntlProvider>
               </p>
-              <Button className="button is-warning choosedevolut" onClick={event => deliveryToday(false)} text={'Entregar no mesmo dia'}/>
+              <Button className="button is-warning choosedevolut" onClick={event => deliveryToday(false)} text={'Entregar no mesmo dia'} />
               <p className="has-text-center">Aluga e entrega o equipamento no mesmo dia até 16hrs.</p>
             </div>
             <div className="column has-text-centered">
@@ -958,18 +964,18 @@ const Tool = ({history}) => {
               Para diárias
               <p className="valuedefaultpromo">
                 <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                <FormattedNumber value={valuedefaultprimary} style="currency" currency="BRL" />
+                  <FormattedNumber value={valuedefaultprimary} style="currency" currency="BRL" />
                 </IntlProvider>
               </p>
-              <Button className="button is-danger choosedevolut" onClick={event => desactiveDisconcert(false)} text={'Escolher devolução.'}/>
+              <Button className="button is-danger choosedevolut" onClick={event => desactiveDisconcert(false)} text={'Escolher devolução.'} />
               <p className="has-text-center">Aluga no sábado e escolhe quando quer devolver, exceto domingo.</p>
             </div>
           </div>
-          <br/><br/>
+          <br /><br />
           <div className="columns has-text-centered">
             <div className="column warning-devolut">
               <b>Fim de semana: </b> Aluguel começa no <b>sábado</b>, devolve na <b>segunda</b>
-              <br/>
+              <br />
               <b>* horário de entrega escolhido no final do processo*</b>
             </div>
           </div>
@@ -1000,13 +1006,13 @@ const Tool = ({history}) => {
       text = ` por ${days} Dias`
 
       if (days !== 15) {
-        text2 = `* Custo quinzenal, com este valor você pode alugar por mais ${ 15 - days } dias!`
+        text2 = `* Custo quinzenal, com este valor você pode alugar por mais ${15 - days} dias!`
       }
     }
 
     if (price.type === 'month') {
       if (months === 1) {
-        if (days > 0 ) {
+        if (days > 0) {
           text = ` por ${months} Mês e ${days} Dia(s)`
           text2 = `* Custo mensal`
         } else {
@@ -1014,9 +1020,9 @@ const Tool = ({history}) => {
           text2 = `* Custo mensal`
         }
 
-      }else if (days > 15 && days <= 31) {
+      } else if (days > 15 && days <= 31) {
         text = ` por 1 Mês`
-        text2 = `* Você está alugando por ${days} dias, mas o custo é mensal. Com este valor você pode alugar por mais ${ 30 - days } dias!`
+        text2 = `* Você está alugando por ${days} dias, mas o custo é mensal. Com este valor você pode alugar por mais ${30 - days} dias!`
       } else {
         text = ` x ${months} Mêses`
         text2 = '* Custo mensal, com este valor você pode alugar por mais dias para fechar o mês!'
@@ -1024,97 +1030,102 @@ const Tool = ({history}) => {
     }
 
     return (
-    <>
-      <div className="columns is-mobile no-margin-top-columns2">
-        <div className="column no-padding-tt is-6">
-          <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-            <p className="textmintotal">
-              <FormattedNumber value={price.price} style="currency" currency="BRL" />
-              { text }
-            </p>
-          </IntlProvider>
-        </div>
-        <div className="column no-padding-tt">
-          <p className="is-pulled-right textmintotal">
+      <>
+        <div className="columns is-mobile no-margin-top-columns2">
+          <div className="column no-padding-tt is-6">
             <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-              <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
-              {
-                amount === undefined ? 'x 1 UN' : `x ${amount} UN`
-              }
+              <p className="textmintotal">
+                <FormattedNumber value={price.price} style="currency" currency="BRL" />
+                {text}
+              </p>
             </IntlProvider>
-          </p>
-          <br/><br/>
-        </div>
-      </div>
-      {
-        /*
-          <Warningtext class="orange">{ text2 }</Warningtext>
-        */
-      }
-      <div className="columns is-mobile no-top-total total-tools-values">
-        <div className="column">
-          <b>Total</b>
+          </div>
+          <div className="column no-padding-tt">
+            <p className="is-pulled-right textmintotal">
+              <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                <FormattedNumber value={price.priceNoamount} style="currency" currency="BRL" />
+                {
+                  amount === undefined ? 'x 1 UN' : `x ${amount} UN`
+                }
+              </IntlProvider>
+            </p>
+            <br /><br />
+          </div>
         </div>
         {
-          promo === true && tool.title.indexOf('Lâmina') > -1 || promo === true && tool.title.indexOf('Nylon') > -1 || promo === true && tool.title.indexOf('Extratora') > -1  || promo === true && tool.title.indexOf('Lavadora') > -1 ?
-          (
-            <>
-            {
-              /*
-                <span className="money-promo2">
-                  <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                    <b><FormattedNumber value={renderPromo(tool.title)} style="currency" currency="BRL" /></b>
-                  </IntlProvider>
-                  <span>/Diária</span>
-                </span>
-              */
-            }
-
-            </>
-          )
-          :
-          (
-            <>
-            </>
-          )
+          /*
+            <Warningtext class="orange">{ text2 }</Warningtext>
+          */
         }
+        <div className="columns is-mobile no-top-total total-tools-values">
+          <div className="column">
+            <b>Total</b>
+          </div>
+          {
+            promo === true && tool.title.indexOf('Lâmina') > -1 || promo === true && tool.title.indexOf('Nylon') > -1 || promo === true && tool.title.indexOf('Extratora') > -1 || promo === true && tool.title.indexOf('Lavadora') > -1 ?
+              (
+                <>
+                  {
+                    /*
+                      <span className="money-promo2">
+                        <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                          <b><FormattedNumber value={renderPromo(tool.title)} style="currency" currency="BRL" /></b>
+                        </IntlProvider>
+                        <span>/Diária</span>
+                      </span>
+                    */
+                  }
 
-        {
-          promotional === false ?
-          (
-            <div className="column">
-              <p className="is-pulled-right">
-                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                  <b className="totalBig"><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
-                </IntlProvider>
-              </p>
-            </div>
-          )
-          :
-          (
-            <div className="column">
-              <span class="pricefds">
-                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                  <b><FormattedNumber value={priceoriginal} style="currency" currency="BRL" /></b>
-                </IntlProvider>
-              </span>
-              <p className="is-pulled-right color-promotional">
-                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                  <b><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
-                </IntlProvider>
-              </p>
-            </div>
-          )
-        }
-      </div>
-    </>
-  )
+                </>
+              )
+              :
+              (
+                <>
+                </>
+              )
+          }
+
+          {
+            promotional === false ?
+              (
+                <div className="column">
+                  <p className="is-pulled-right">
+                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                      <b className="totalBig"><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
+                    </IntlProvider>
+                  </p>
+                </div>
+              )
+              :
+              (
+                <div className="column">
+                  <span class="pricefds">
+                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                      <b><FormattedNumber value={priceoriginal} style="currency" currency="BRL" /></b>
+                    </IntlProvider>
+                  </span>
+                  <p className="is-pulled-right color-promotional">
+                    <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                      <b><FormattedNumber value={price.pricefull} style="currency" currency="BRL" /></b>
+                    </IntlProvider>
+                  </p>
+                </div>
+              )
+          }
+        </div>
+      </>
+    )
   }
 
   const handleAmount = (event) => {
     formik.values.amount = parseInt(event.target.value)
     setAmount(parseInt(event.target.value))
-    setDates({startDate: formik.values.startDate, endDate: formik.values.endDate}, event.target.value, 'activediscorcert')
+
+    if (promotional == true) {
+      setDates({ startDate: formik.values.startDate, endDate: formik.values.endDate }, event.target.value, 'activediscorcert')
+    }else{
+      setDates({ startDate: formik.values.startDate, endDate: formik.values.endDate }, event.target.value)
+    }
   }
 
   async function loadPerfil() {
@@ -1125,7 +1136,7 @@ const Tool = ({history}) => {
     }
   }
 
-  async function loaddocumenttwo () {
+  async function loaddocumenttwo() {
     if (isAuthenticated() === true) {
       if (current_user.length !== 0) {
         const response = await api.get(`/documents/${current_user.id}`, {
@@ -1143,419 +1154,27 @@ const Tool = ({history}) => {
     success()
   }
 
-return (
-  <>
-    <Helmet>
-      <title>{ 'Reserva de ' + tool.title + ' | Easytools ' }</title>
-      <meta
-        name="description"
-        content={ 'Reserva de ' + tool.title + ' | Easytools ' }
-      />
-      <meta name="keywords" content={'Aluguel, ' + tool.title + ', '}/>
-    </Helmet>
-    {
-      adddoc === true ?
-      (
-        <Adddocument onClose={closeAdd}/>
+  return (
+    <>
+      <Helmet>
+        <title>{'Reserva de ' + tool.title + ' | Easytools '}</title>
+        <meta
+          name="description"
+          content={'Reserva de ' + tool.title + ' | Easytools '}
+        />
+        <meta name="keywords" content={'Aluguel, ' + tool.title + ', '} />
+      </Helmet>
+      {
+        adddoc === true ?
+          (
+            <Adddocument onClose={closeAdd} />
 
-      )
-      :
-      (
-        <div className="container-fluid">
-        {
-          /*
-          <div className="columns box-photos is-mobile is-desktop">
-            {
-              pictures.map((picture, index) => (
-                <div className="column" key={index}>
-                  <img src={picture.url} alt={picture.url} className="" />
-                </div>
-              ))
-            }
-          </div>
-          */
-        }
-        <div className="container container-bottom">
-          <div className="columns invert">
-            <ScrollableAnchor id={'dates'}>
-              <div></div>
-            </ScrollableAnchor>
-            <div className={ isMobile === false ? `column has-centered-text` : rent === true ? `page-full-date` : `page-dates`}>
-              <div  className={isMobile === false ? `pai has-centered-text sticky` : `pai has-centered-text`}>
-                <span className={ isMobile === false ? `hd-mobile-tool` : rent === true ? `close-rent` : ``} onClick={event =>(setRent(false), Scrool(0,0))}>
-                  Voltar
-                </span>
-                <div className="rental-box sticky-inner">
-                  <p className={ isMobile === false ? `hd-mobile-tool` : rent === true ? `title-rent is-pulled-left` : `show-mobile`}>
-                    Selecione datas de aluguel e devolução
-                  </p>
-                  <Form
-                    onSubmit={ (e, values) => {
-                      formik.handleSubmit(values)
-                    }}
-                    noValidate
-                  >
-                    {
-                      prices.map((price, index) => (
-                        <div key={index}>
-                          {
-                            index === 0 ?
-                            (
-                              <>
-                                <span className="price-rent">
-                                  {`R$ ${price.trim()} `}
-                                </span>
-                                <span >Diária </span>
-                                {
-                                  index === 0 ? (
-                                    <>
-                                      <Button
-                                          type={'button'}
-                                          className={'button is-link is-light is-small is-pulled-right'}
-                                          text={'Valores por períodos'}
-                                        onClick={event => setShowprices(!showprices)}
-                                      />
-                                    </>
-                                  ) :
-                                  (
-                                    ''
-                                  )
-                                }
-                              </>
-                            ) :
-                            (
-                              <div className={showprices === true ? 'is-block' : 'is-hidden'}>
-                                <div>
-                                  {
-                                    price.trim() !== 0 && index === 1 ?
-                                    (
-                                      <>
-                                        <span className="price-rent price-others">
-                                          {`R$ ${price.trim()} `}
-                                        </span>
-                                        <span className="price-others-legend">
-                                          Semanal
-                                        </span>
-                                      </>
-                                    )
-                                    :
-                                    (
-                                      ''
-                                    )
-                                    }
-                                    {
-                                    price.trim() !== 0 && index === 2 ?
-                                    (
-                                      <>
-                                        <span className="price-rent price-others">
-                                          {`R$ ${price.trim()} `}
-                                        </span>
-                                        <span className="price-others-legend">
-                                          Quinzenal
-                                        </span>
-                                      </>
-                                    )
-                                    :
-                                    (
-                                      ''
-                                    )
-                                    }
-                                    {
-                                    price.trim() !== '0' && index === 3 ?
-                                    (
-                                      <>
-                                        <span className="price-rent price-others">
-                                          {`R$ ${price.trim()} `}
-                                        </span>
-                                        <span className="price-others-legend">
-                                          Mensal
-                                        </span>
-                                      </>
-                                    )
-                                    :
-                                    (
-                                      ''
-                                    )
-                                  }
-                                </div>
-                              </div>
-                            )
-                          }
-                        </div>
-                      ))
-                    }
-                    <Field>
-                      <Label className="label label-period" for={'title'}>
-                        Período de uso <FontAwesomeIcon icon={['fas', 'calendar-alt']} className="" size="1x"/>
-                      </Label>
-                      <br/>
-                      <div className="dt-range-picker-tool no-margin-top-columns2">
-                        <DateRangePicker
-                          anchorDirection="left"
-                          displayFormat={'DD/MM/YYYY'}
-                          minimumNights={1}
-                          isDayBlocked={(day) => blockDays(day)}
-                          numberOfMonths={isMobile === true ? 1 : 2}
-                          startDate={formik.values.startDate} // momentPropTypes.momentObj or null,
-                          startDateId={'start'} // PropTypes.string.isRequired,
-                          endDate={formik.values.endDate} // momentPropTypes.momentObj or null,
-                          endDateId={'end'} // PropTypes.string.isRequired,
-                          onDatesChange={({ startDate, endDate }) => setDates({ startDate, endDate })} // PropTypes.func.isRequired,
-                          focusedInput={focus.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-                          onFocusChange={focusedInput => setFocus({ focusedInput })} // PropTypes.func.isRequired,
-                          startDatePlaceholderText="Início do uso"
-                          endDatePlaceholderText="Fim do uso"
-                          readOnly
-                          hideKeyboardShortcutsPanel
-                        />
-                        <Span className={'validation-warning'}>
-                          {
-                            errodate == true
-                          ?
-                            (<div> - Por favor insira as datas de aluguel e devolução.</div>)
-                          :
-                            null
-                          }
-                        </Span>
-                        <Span className={'validation-warning'}>
-                          {
-                            erroamount == true
-                          ?
-                            (<div> - Por favor insira uma quantidade válida.</div>)
-                          :
-                            null
-                          }
-                        </Span>
-                      </div>
-                    </Field>
-                    <br/>
-                    {
-                      Object.entries(price).length > 0 ?
-                      (
-                        <div className="renderline">
-                          {renderPrice()}
-                        </div>
-                      ) :
-                      ('')
-                    }
-                    <div className="columns">
-                      <div className="column">
-                        {
-                          tensionshow === '127V/220V' ?
-                          (
-                            <>
-                              <Field>
-                                <Label  className="label" for={'tension'}>Tensão</Label>
-                                <div className="columns tension-dv">
-                                  <div className="column has-text-centered">
-                                    <Field>
-                                      <input
-                                        className="is-checkradio"
-                                        type="radio"
-                                        id={'127v'}
-                                        name="tension"
-                                        value="127V"
-                                        defaultChecked={true}
-                                        onChange={event => handleTension(event)}
-                                    />
-                                      <Label for={'127v'}>127V</Label>
-                                      <input
-                                        className="is-checkradio"
-                                        id="220v"
-                                        type="radio"
-                                        name="tension"
-                                        value="220V"
-                                        onChange={event => handleTension(event)}
-                                      />
-                                      <Label for={'220v'}>220V</Label>
-                                    </Field>
-                                  </div>
-                                </div>
-                              </Field>
-                            </>
-                          )
-                          :
-                          ('')
-                        }
-                        {
-                          tensionshow === '/Tri' ?
-                          (
-                            <>
-                              <Field>
-                                <Label  className="label" for={'tension'}>Tensão</Label>
-                                <div className="columns">
-                                  <div className="column has-text-centered">
-                                    <Field>
-                                      <input
-                                        className="is-checkradio"
-                                        type="radio"
-                                        id={'Tri'}
-                                        name="tension"
-                                        value="Tri"
-                                        defaultChecked={true}
-                                        onChange={event => handleTension(event)}
-                                    />
-                                      <Label for={'Tri'}>Trifásico</Label>
-                                    </Field>
-                                  </div>
-                                </div>
-                              </Field>
-                            </>
-                          )
-                          :
-                          ('')
-                        }
-                        {
-                          tensionshow === '/220V' ?
-                          (
-                            <>
-                              <Field>
-                                <Label  className="label" for={'tension'}>Tensão</Label>
-                                <div className="columns">
-                                  <div className="column has-text-centered">
-                                    <Field>
-                                      <input
-                                        className="is-checkradio"
-                                        type="radio"
-                                        id={'220v'}
-                                        name="tension"
-                                        value="220V"
-                                        defaultChecked={true}
-                                        onChange={event => handleTension(event)}
-                                    />
-                                      <Label for={'220v'}>220V</Label>
-                                    </Field>
-                                  </div>
-                                </div>
-                              </Field>
-                            </>
-                          )
-                          :
-                          ('')
-                        }
-                        {
-                          tensionshow === '127V/' ?
-                          (
-                            <>
-                              <Field>
-                                <Label  className="label" for={'tension'}>Tensão</Label>
-                                <div className="columns">
-                                  <div className="column has-text-centered tension-dvv">
-                                    <Field>
-                                      <input
-                                        className="is-checkradio"
-                                        type="radio"
-                                        id={'127v'}
-                                        name="tension"
-                                        value="127V"
-                                        defaultChecked={true}
-                                        onChange={event => handleTension(event)}
-                                    />
-                                      <Label for={'127v'}>127V</Label>
-                                    </Field>
-                                  </div>
-                                </div>
-                              </Field>
-                            </>
-                          )
-                          :
-                          ('')
-                        }
-                      </div>
-                      <div className="column is-4 clqt">
-                        <Field>
-                          <Label className="label" for={'amount'}>Qtde item</Label>
-                          <Input
-                            className="input is-small border-black"
-                            name="amount"
-                            type="number"
-                            placeholder=""
-                            min="1"
-                            onChange={event => handleAmount(event)}
-                            value={formik.values.amount}
-                          />
-                        </Field>
-                      </div>
-
-                    </div>
-                    {
-                      Object.entries(price).length > 0 ?
-                      (
-                        <>
-                          <div className="adons-container">
-                            {
-                              adonsid != '' ?
-                              (<><p className="optionals">Opcionais</p>
-                              </>)
-                              :
-                              (<></>)
-                            }
-                            <div className="columns is-mobile">
-                              {
-                                adonsProd.map((adon, index) => (
-                                  <div className="adons-box" key={index} >
-                                    <Checkboximage check={adon.checkad} id={adon.id} price={adon.price} onChange={event => checkeredChange(event, adon.price, adon.id)}></Checkboximage>
-
-                                    <label className="labelchecked" for={'idck'+adon.id}>
-                                      <img src={adon.url} alt={adon.url} className="" title={adon.name}/>
-                                    </label>
-                                    <div className="priceadon">
-                                      <span>
-                                        <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
-                                          <FormattedNumber value={parseFloat(adon.price.replace(/\./gi,'').replace(/,/gi,'.'))} style="currency" currency="BRL" />
-                                        </IntlProvider>
-                                      </span>
-                                    </div>
-                                    <p className="ad-name">{ adon.name }</p>
-                                  </div>
-                                ))
-                              }
-                            </div>
-                          </div>
-                        </>
-                      )
-                      :
-                      (
-                        <>
-                        </>
-                      )
-                    }
-                    {
-                      modal2 === true ?
-                      (
-                        <>
-                          <Button
-                            disabled={true}
-                            type={'submit'}
-                            className={'button is-fullwidth color-logo mg-button-rt'}
-                            text={'Altere a data para prosseguir'}
-                          />
-                        </>
-                      )
-                      :
-                      (
-                        <>
-                          <Button
-                            disabled={tool.availability === "Y" ? false : true}
-                            type={'submit'}
-                            className={ rent === false ? 'button is-fullwidth color-logo bt-pr-t mg-button-rt bt-app' : 'button is-fullwidth color-logo bt-pr-t mg-button-rt bt-app bt-suspend-tool'}
-                            text={tool.availability === "Y" ? 'Prosseguir' : 'Não disponível para locação'}
-                            onClick={event => showDanger(tool.title, tool.availability)}
-                          />
-                        </>
-                      )
-                    }
-                    <div class="divwarning">
-                      <Warningtext class="has-text-centered message-rent">Você ainda não será cobrado.</Warningtext>
-                    </div>
-                  </Form>
-                </div>
-              </div>
-            </div>
-            <div className="column is-two-thirds">
-              <div>
-                <h3 className="title-tool-only">{tool.title}</h3>
-                <br/>
+          )
+          :
+          (
+            <div className="container-fluid">
+              {
+                /*
                 <div className="columns box-photos is-mobile is-desktop">
                   {
                     pictures.map((picture, index) => (
@@ -1565,203 +1184,595 @@ return (
                     ))
                   }
                 </div>
-              </div>
-              <div className="">
-                <p className="title-infos-tool">
-                  Dúvidas que talvez você possa ter:
-                </p>
-                <b className="">Como funciona o perído de diária?</b>
-                <p className="text-simple-info-tool">
-                  A diária é o período de 24 horas, exemplo: se você recebe o equipamento;
-                </p>
-                    <b className="">Como funciona os outros periodos?</b>
-                    <p className="text-simple-info-tool">
-                      Mesma coisa, período de 24 horas para 1 dia.<br/> 
-                      semanal (7 diárias) <br/>
-                      quinzenal(15 diárias) <br/>
-                      mensal(30 diárias).
-                    </p>
-              </div>
-              <div className="description">
-                <p className="title-infos-tool">
-                  LEIA A DESCRIÇÃO COM ATENÇÃO:
-                </p>
-                <p className="text-simple-info-tool">
-                  { tool.description }
-                </p>
-              </div>
-              <div className="description">
-                <p className="title-infos-tool">
-                  USO INDICADO <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
-                </p>
-                <p className="text-simple-info-tool">
-                  { tool.use_indication }
-                </p>
-              </div>
-              <Hr/>
-              <div className="specification">
-                <div className="columns">
-                  <div className="column">
-                    <p className="title-infos-tool hack-padding-top">ESPECIFICAÇÕES</p>
-                  </div>
-                </div>
-                <div className="columns is-desktop is-mobile">
-                  <div className="column">
-                    <Ul>
-                      <li><b>POTÊNCIA</b></li>
-                      <li>{ tool.power }</li>
-                    </Ul>
-                  </div>
-                  <div className="column">
-                    <Ul>
-                      {
-                        tool.tension !== '-' && tool.tension !== '/' ?
-                        (
-                          <>
-                            <li><b>TENSÃO</b></li>
-                            <li>{ tool.tension === '/Tri' ? 'Trifásico' : tool.tension }</li>
-                          </>
-                        )
-                        :
-                        ('')
-                      }
-                      <li><b>ALIMENTAÇÃO</b></li>
-                      <li>{ tool.feed }</li>
-                    </Ul>
-                  </div>
-                </div>
-                <div className="columns">
-                  <div className="column">
-                    <p className="title-infos-tool hack-padding-top">ACESSÓRIOS E ACOMPANHAMENTOS <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x"/>
-                    </p>
-                    <div className="columns is-desktop is-mobile">
-                      <div className="column">
-                        <Ul>
-                          <li><b>ACESSÓRIOS</b></li>
-                          <li>{ tool.accessory !== '' ? tool.accessory : 'Nenhum acessório disponível.'  }</li>
-                        </Ul>
-                      </div>
-                      <div className="column">
-                        <Ul>
-                          <li><b>ACOMPANHA</b></li>
-                        <li>{ tool.follow !== '' ? tool.follow : 'Não disponível' }</li>
-                        </Ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <Hr/>
-              <div className="columns">
-                <div className="column">
-                  {
-                    /*<p className="title-infos-tool hack-padding-top">Onde nós temos este equipamento ({ tool.title })</p>*/
-                  }
-                  {
-                   tool.lat !== undefined && tool.lng !== undefined ?
-                   (
-                     <>
-                      {
-                        /*<Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture[0].url} title={tool.title}/> */
-                      }
-                     </>
-                   )
-                   :
-                   (
-                     ''
-                   )
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-          {
-            /*<div className="columns comments">
-            <div className="column">
-              <p className="title-infos-tool hack-padding-top">Comentários e Avaliações</p>
-              <Ul>
-                <li>
-                  <div className="card">
-                    <div className="card-content">
-                      <div className="media">
-                        <div className="media-left">
-                          <img src="https://bulma.io/images/placeholders/96x96.png" alt="asdsad g"/>
-                        </div>
-                        <div className="media-content">
-                          <p className="title is-4">
-                            Maria José
-                          </p>
-                          <p className="subtitle is-6">
-                            @mariajosé
-                          </p>
-                        </div>
-                      </div>
-                      <div className="content">
-                        Os equipamentos estão sempre impecavéis. Alugo sempre com eles, pois sei da procedência.
-                        Tem um atendimento impecável, presencialmente e aqui na Easyools.
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </Ul>
-            </div>
-            <div className="column">
-            </div>
-          </div>*/
-          }
-        </div>
-        <div className={isMobile === false ? "hd-mobile" : "div-button-rent"}>
-          <a className={rent === false ? 'button is-fullwidth color-logo' : ''} onClick={event => (setRent(true), Scrool(0,0))}>Reservar</a>
-        </div>
-        <Modal
-          show={modal4}
-          onCloseModal={hideModal4}
-          closeOnEsc={true}
-          closeOnOverlayClick={true}
-        >
-          <p class="title-disconcert">Você escolheu a devolução do equipamento no mesmo dia.</p>
-          <br/>
-          <p class="has-text-centered">O horário para devolução do equipamento no mesmo dia é <b className="hourmodalfor">16:00 horas</b></p>
-          <br/>
-          <p className="has-text-centered">Após confirmar clicando em <b>"ok, estou ciente"</b>, clique em <b>"prosseguir"</b> para concluir sua reserva.</p>
-          <br/>
-          <Button className="button is-info is-fullwidth" onClick={event => setModal4(false)} text={'Ok, estou ciente.'}/>
-        </Modal>
-        <Modal
-          show={modal3}
-          onCloseModal={hideModal3}
-          closeOnEsc={true}
-          closeOnOverlayClick={true}
-        >
-          <p class="title-disconcert">Preço de fim de semana.</p>
-          { renderDisconcert() }
-        </Modal>
-        <Modal
-          show={modal2}
-          onCloseModal={hideModal2}
-          closeOnEsc={true}
-          closeOnOverlayClick={true}
-        >
-          <p className="periods-mistakes">Ops!</p>
-          <br/>
-          <p className="periods-mistakes">Períodos superiores a 30 dias, só podem ser contados mês a mês.</p>
-          <br/>
-          <Button className="button color-logo" onClick={event => setModal2(false)} text={'Mudar data'}/>
-        </Modal>
-        <Modal
-          show={modal}
-          onCloseModal={hideModal}
-          closeOnEsc={true}
-          closeOnOverlayClick={true}
-        >
-          <Auth hs={history} url={'authproduct'} className={'superior'} closeModal={event => setModal(false)}></Auth>
-        </Modal>
-      </div>
+                */
+              }
+              <div className="container container-bottom">
+                <div className="columns invert">
+                  <ScrollableAnchor id={'dates'}>
+                    <div></div>
+                  </ScrollableAnchor>
+                  <div className={isMobile === false ? `column has-centered-text` : rent === true ? `page-full-date` : `page-dates`}>
+                    <div className={isMobile === false ? `pai has-centered-text sticky` : `pai has-centered-text`}>
+                      <span className={isMobile === false ? `hd-mobile-tool` : rent === true ? `close-rent` : ``} onClick={event => (setRent(false), Scrool(0, 0))}>
+                        Voltar
+                      </span>
+                      <div className="rental-box sticky-inner">
+                        <p className={isMobile === false ? `hd-mobile-tool` : rent === true ? `title-rent is-pulled-left` : `show-mobile`}>
+                          Selecione datas de aluguel e devolução
+                        </p>
+                        <Form
+                          onSubmit={(e, values) => {
+                            formik.handleSubmit(values)
+                          }}
+                          noValidate
+                        >
+                          {
+                            prices.map((price, index) => (
+                              <div key={index}>
+                                {
+                                  index === 0 ?
+                                    (
+                                      <>
+                                        <span className="price-rent">
+                                          {`R$ ${price.trim()} `}
+                                        </span>
+                                        <span >Diária </span>
+                                        {
+                                          index === 0 ? (
+                                            <>
+                                              <Button
+                                                type={'button'}
+                                                className={'button is-link is-light is-small is-pulled-right'}
+                                                text={'Valores por períodos'}
+                                                onClick={event => setShowprices(!showprices)}
+                                              />
+                                            </>
+                                          ) :
+                                            (
+                                              ''
+                                            )
+                                        }
+                                      </>
+                                    ) :
+                                    (
+                                      <div className={showprices === true ? 'is-block' : 'is-hidden'}>
+                                        <div>
+                                          {
+                                            price.trim() !== 0 && index === 1 ?
+                                              (
+                                                <>
+                                                  <span className="price-rent price-others">
+                                                    {`R$ ${price.trim()} `}
+                                                  </span>
+                                                  <span className="price-others-legend">
+                                                    Semanal
+                                                  </span>
+                                                </>
+                                              )
+                                              :
+                                              (
+                                                ''
+                                              )
+                                          }
+                                          {
+                                            price.trim() !== 0 && index === 2 ?
+                                              (
+                                                <>
+                                                  <span className="price-rent price-others">
+                                                    {`R$ ${price.trim()} `}
+                                                  </span>
+                                                  <span className="price-others-legend">
+                                                    Quinzenal
+                                                  </span>
+                                                </>
+                                              )
+                                              :
+                                              (
+                                                ''
+                                              )
+                                          }
+                                          {
+                                            price.trim() !== '0' && index === 3 ?
+                                              (
+                                                <>
+                                                  <span className="price-rent price-others">
+                                                    {`R$ ${price.trim()} `}
+                                                  </span>
+                                                  <span className="price-others-legend">
+                                                    Mensal
+                                                  </span>
+                                                </>
+                                              )
+                                              :
+                                              (
+                                                ''
+                                              )
+                                          }
+                                        </div>
+                                      </div>
+                                    )
+                                }
+                              </div>
+                            ))
+                          }
+                          <Field>
+                            <Label className="label label-period" for={'title'}>
+                              Período de uso <FontAwesomeIcon icon={['fas', 'calendar-alt']} className="" size="1x" />
+                            </Label>
+                            <br />
+                            <div className="dt-range-picker-tool no-margin-top-columns2">
+                              <DateRangePicker
+                                anchorDirection="left"
+                                displayFormat={'DD/MM/YYYY'}
+                                minimumNights={1}
+                                isDayBlocked={(day) => blockDays(day)}
+                                numberOfMonths={isMobile === true ? 1 : 2}
+                                startDate={formik.values.startDate} // momentPropTypes.momentObj or null,
+                                startDateId={'start'} // PropTypes.string.isRequired,
+                                endDate={formik.values.endDate} // momentPropTypes.momentObj or null,
+                                endDateId={'end'} // PropTypes.string.isRequired,
+                                onDatesChange={({ startDate, endDate }) => setDates({ startDate, endDate })} // PropTypes.func.isRequired,
+                                focusedInput={focus.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
+                                onFocusChange={focusedInput => setFocus({ focusedInput })} // PropTypes.func.isRequired,
+                                startDatePlaceholderText="Início do uso"
+                                endDatePlaceholderText="Fim do uso"
+                                readOnly
+                                hideKeyboardShortcutsPanel
+                              />
+                              <Span className={'validation-warning'}>
+                                {
+                                  errodate == true
+                                    ?
+                                    (<div> - Por favor insira as datas de aluguel e devolução.</div>)
+                                    :
+                                    null
+                                }
+                              </Span>
+                              <Span className={'validation-warning'}>
+                                {
+                                  erroamount == true
+                                    ?
+                                    (<div> - Por favor insira uma quantidade válida.</div>)
+                                    :
+                                    null
+                                }
+                              </Span>
+                            </div>
+                          </Field>
+                          <br />
+                          {
+                            Object.entries(price).length > 0 ?
+                              (
+                                <div className="renderline">
+                                  {renderPrice()}
+                                </div>
+                              ) :
+                              ('')
+                          }
+                          <div className="columns">
+                            <div className="column">
+                              {
+                                tensionshow === '127V/220V' ?
+                                  (
+                                    <>
+                                      <Field>
+                                        <Label className="label" for={'tension'}>Tensão</Label>
+                                        <div className="columns tension-dv">
+                                          <div className="column has-text-centered">
+                                            <Field>
+                                              <input
+                                                className="is-checkradio"
+                                                type="radio"
+                                                id={'127v'}
+                                                name="tension"
+                                                value="127V"
+                                                defaultChecked={true}
+                                                onChange={event => handleTension(event)}
+                                              />
+                                              <Label for={'127v'}>127V</Label>
+                                              <input
+                                                className="is-checkradio"
+                                                id="220v"
+                                                type="radio"
+                                                name="tension"
+                                                value="220V"
+                                                onChange={event => handleTension(event)}
+                                              />
+                                              <Label for={'220v'}>220V</Label>
+                                            </Field>
+                                          </div>
+                                        </div>
+                                      </Field>
+                                    </>
+                                  )
+                                  :
+                                  ('')
+                              }
+                              {
+                                tensionshow === '/Tri' ?
+                                  (
+                                    <>
+                                      <Field>
+                                        <Label className="label" for={'tension'}>Tensão</Label>
+                                        <div className="columns">
+                                          <div className="column has-text-centered">
+                                            <Field>
+                                              <input
+                                                className="is-checkradio"
+                                                type="radio"
+                                                id={'Tri'}
+                                                name="tension"
+                                                value="Tri"
+                                                defaultChecked={true}
+                                                onChange={event => handleTension(event)}
+                                              />
+                                              <Label for={'Tri'}>Trifásico</Label>
+                                            </Field>
+                                          </div>
+                                        </div>
+                                      </Field>
+                                    </>
+                                  )
+                                  :
+                                  ('')
+                              }
+                              {
+                                tensionshow === '/220V' ?
+                                  (
+                                    <>
+                                      <Field>
+                                        <Label className="label" for={'tension'}>Tensão</Label>
+                                        <div className="columns">
+                                          <div className="column has-text-centered">
+                                            <Field>
+                                              <input
+                                                className="is-checkradio"
+                                                type="radio"
+                                                id={'220v'}
+                                                name="tension"
+                                                value="220V"
+                                                defaultChecked={true}
+                                                onChange={event => handleTension(event)}
+                                              />
+                                              <Label for={'220v'}>220V</Label>
+                                            </Field>
+                                          </div>
+                                        </div>
+                                      </Field>
+                                    </>
+                                  )
+                                  :
+                                  ('')
+                              }
+                              {
+                                tensionshow === '127V/' ?
+                                  (
+                                    <>
+                                      <Field>
+                                        <Label className="label" for={'tension'}>Tensão</Label>
+                                        <div className="columns">
+                                          <div className="column has-text-centered tension-dvv">
+                                            <Field>
+                                              <input
+                                                className="is-checkradio"
+                                                type="radio"
+                                                id={'127v'}
+                                                name="tension"
+                                                value="127V"
+                                                defaultChecked={true}
+                                                onChange={event => handleTension(event)}
+                                              />
+                                              <Label for={'127v'}>127V</Label>
+                                            </Field>
+                                          </div>
+                                        </div>
+                                      </Field>
+                                    </>
+                                  )
+                                  :
+                                  ('')
+                              }
+                            </div>
+                            <div className="column is-4 clqt">
+                              <Field>
+                                <Label className="label" for={'amount'}>Qtde item</Label>
+                                <Input
+                                  className="input is-small border-black"
+                                  name="amount"
+                                  type="number"
+                                  placeholder=""
+                                  min="1"
+                                  onChange={event => handleAmount(event)}
+                                  value={formik.values.amount}
+                                />
+                              </Field>
+                            </div>
 
-      )
-    }
-  </>
-)
+                          </div>
+                          {
+                            Object.entries(price).length > 0 ?
+                              (
+                                <>
+                                  <div className="adons-container">
+                                    {
+                                      adonsid != '' ?
+                                        (<><p className="optionals">Opcionais</p>
+                                        </>)
+                                        :
+                                        (<></>)
+                                    }
+                                    <div className="columns is-mobile">
+                                      {
+                                        adonsProd.map((adon, index) => (
+                                          <div className="adons-box" key={index} >
+                                            <Checkboximage check={adon.checkad} id={adon.id} price={adon.price} onChange={event => checkeredChange(event, adon.price, adon.id)}></Checkboximage>
+
+                                            <label className="labelchecked" for={'idck' + adon.id}>
+                                              <img src={adon.url} alt={adon.url} className="" title={adon.name} />
+                                            </label>
+                                            <div className="priceadon">
+                                              <span>
+                                                <IntlProvider locale="pt-br" timeZone="Brasil/São Paulo">
+                                                  <FormattedNumber value={parseFloat(adon.price.replace(/\./gi, '').replace(/,/gi, '.'))} style="currency" currency="BRL" />
+                                                </IntlProvider>
+                                              </span>
+                                            </div>
+                                            <p className="ad-name">{adon.name}</p>
+                                          </div>
+                                        ))
+                                      }
+                                    </div>
+                                  </div>
+                                </>
+                              )
+                              :
+                              (
+                                <>
+                                </>
+                              )
+                          }
+                          {
+                            modal2 === true ?
+                              (
+                                <>
+                                  <Button
+                                    disabled={true}
+                                    type={'submit'}
+                                    className={'button is-fullwidth color-logo mg-button-rt'}
+                                    text={'Altere a data para prosseguir'}
+                                  />
+                                </>
+                              )
+                              :
+                              (
+                                <>
+                                  <Button
+                                    disabled={tool.availability === "Y" ? false : true}
+                                    type={'submit'}
+                                    className={rent === false ? 'button is-fullwidth color-logo bt-pr-t mg-button-rt bt-app' : 'button is-fullwidth color-logo bt-pr-t mg-button-rt bt-app bt-suspend-tool'}
+                                    text={tool.availability === "Y" ? 'Prosseguir' : 'Não disponível para locação'}
+                                    onClick={event => showDanger(tool.title, tool.availability)}
+                                  />
+                                </>
+                              )
+                          }
+                          <div class="divwarning">
+                            <Warningtext class="has-text-centered message-rent">Você ainda não será cobrado.</Warningtext>
+                          </div>
+                        </Form>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="column is-two-thirds">
+                    <div>
+                      <h3 className="title-tool-only">{tool.title}</h3>
+                      <br />
+                      <div className="columns box-photos is-mobile is-desktop">
+                        {
+                          pictures.map((picture, index) => (
+                            <div className="column" key={index}>
+                              <img src={picture.url} alt={picture.url} className="" />
+                            </div>
+                          ))
+                        }
+                      </div>
+                    </div>
+                    <div className="">
+                      <p className="title-infos-tool">
+                        Dúvidas que talvez você possa ter:
+                      </p>
+                      <b className="">Como funciona o perído de diária?</b>
+                      <p className="text-simple-info-tool">
+                        A diária é o período de 24 horas, exemplo: se você recebe o equipamento;
+                      </p>
+                      <b className="">Como funciona os outros periodos?</b>
+                      <p className="text-simple-info-tool">
+                        Mesma coisa, período de 24 horas para 1 dia.<br />
+                        semanal (7 diárias) <br />
+                        quinzenal(15 diárias) <br />
+                        mensal(30 diárias).
+                      </p>
+                    </div>
+                    <div className="description">
+                      <p className="title-infos-tool">
+                        LEIA A DESCRIÇÃO COM ATENÇÃO:
+                      </p>
+                      <p className="text-simple-info-tool">
+                        {tool.description}
+                      </p>
+                    </div>
+                    <div className="description">
+                      <p className="title-infos-tool">
+                        USO INDICADO <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x" />
+                      </p>
+                      <p className="text-simple-info-tool">
+                        {tool.use_indication}
+                      </p>
+                    </div>
+                    <Hr />
+                    <div className="specification">
+                      <div className="columns">
+                        <div className="column">
+                          <p className="title-infos-tool hack-padding-top">ESPECIFICAÇÕES</p>
+                        </div>
+                      </div>
+                      <div className="columns is-desktop is-mobile">
+                        <div className="column">
+                          <Ul>
+                            <li><b>POTÊNCIA</b></li>
+                            <li>{tool.power}</li>
+                          </Ul>
+                        </div>
+                        <div className="column">
+                          <Ul>
+                            {
+                              tool.tension !== '-' && tool.tension !== '/' ?
+                                (
+                                  <>
+                                    <li><b>TENSÃO</b></li>
+                                    <li>{tool.tension === '/Tri' ? 'Trifásico' : tool.tension}</li>
+                                  </>
+                                )
+                                :
+                                ('')
+                            }
+                            <li><b>ALIMENTAÇÃO</b></li>
+                            <li>{tool.feed}</li>
+                          </Ul>
+                        </div>
+                      </div>
+                      <div className="columns">
+                        <div className="column">
+                          <p className="title-infos-tool hack-padding-top">ACESSÓRIOS E ACOMPANHAMENTOS <FontAwesomeIcon icon={['fas', 'star']} className="" size="1x" />
+                          </p>
+                          <div className="columns is-desktop is-mobile">
+                            <div className="column">
+                              <Ul>
+                                <li><b>ACESSÓRIOS</b></li>
+                                <li>{tool.accessory !== '' ? tool.accessory : 'Nenhum acessório disponível.'}</li>
+                              </Ul>
+                            </div>
+                            <div className="column">
+                              <Ul>
+                                <li><b>ACOMPANHA</b></li>
+                                <li>{tool.follow !== '' ? tool.follow : 'Não disponível'}</li>
+                              </Ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <Hr />
+                    <div className="columns">
+                      <div className="column">
+                        {
+                          /*<p className="title-infos-tool hack-padding-top">Onde nós temos este equipamento ({ tool.title })</p>*/
+                        }
+                        {
+                          tool.lat !== undefined && tool.lng !== undefined ?
+                            (
+                              <>
+                                {
+                                  /*<Mapbox lat={tool.lat} lng={tool.lng} url={tool.picture[0].url} title={tool.title}/> */
+                                }
+                              </>
+                            )
+                            :
+                            (
+                              ''
+                            )
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {
+                  /*<div className="columns comments">
+                  <div className="column">
+                    <p className="title-infos-tool hack-padding-top">Comentários e Avaliações</p>
+                    <Ul>
+                      <li>
+                        <div className="card">
+                          <div className="card-content">
+                            <div className="media">
+                              <div className="media-left">
+                                <img src="https://bulma.io/images/placeholders/96x96.png" alt="asdsad g"/>
+                              </div>
+                              <div className="media-content">
+                                <p className="title is-4">
+                                  Maria José
+                                </p>
+                                <p className="subtitle is-6">
+                                  @mariajosé
+                                </p>
+                              </div>
+                            </div>
+                            <div className="content">
+                              Os equipamentos estão sempre impecavéis. Alugo sempre com eles, pois sei da procedência.
+                              Tem um atendimento impecável, presencialmente e aqui na Easyools.
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </Ul>
+                  </div>
+                  <div className="column">
+                  </div>
+                </div>*/
+                }
+              </div>
+              <div className={isMobile === false ? "hd-mobile" : "div-button-rent"}>
+                <a className={rent === false ? 'button is-fullwidth color-logo' : ''} onClick={event => (setRent(true), Scrool(0, 0))}>Reservar</a>
+              </div>
+              <Modal
+                show={modal4}
+                onCloseModal={hideModal4}
+                closeOnEsc={true}
+                closeOnOverlayClick={true}
+              >
+                <p class="title-disconcert">Você escolheu a devolução do equipamento no mesmo dia.</p>
+                <br />
+                <p class="has-text-centered">O horário para devolução do equipamento no mesmo dia é <b className="hourmodalfor">16:00 horas</b></p>
+                <br />
+                <p className="has-text-centered">Após confirmar clicando em <b>"ok, estou ciente"</b>, clique em <b>"prosseguir"</b> para concluir sua reserva.</p>
+                <br />
+                <Button className="button is-info is-fullwidth" onClick={event => setModal4(false)} text={'Ok, estou ciente.'} />
+              </Modal>
+              <Modal
+                show={modal3}
+                onCloseModal={hideModal3}
+                closeOnEsc={true}
+                closeOnOverlayClick={true}
+              >
+                <p class="title-disconcert">Preço de fim de semana.</p>
+                {renderDisconcert()}
+              </Modal>
+              <Modal
+                show={modal2}
+                onCloseModal={hideModal2}
+                closeOnEsc={true}
+                closeOnOverlayClick={true}
+              >
+                <p className="periods-mistakes">Ops!</p>
+                <br />
+                <p className="periods-mistakes">Períodos superiores a 30 dias, só podem ser contados mês a mês.</p>
+                <br />
+                <Button className="button color-logo" onClick={event => setModal2(false)} text={'Mudar data'} />
+              </Modal>
+              <Modal
+                show={modal}
+                onCloseModal={hideModal}
+                closeOnEsc={true}
+                closeOnOverlayClick={true}
+              >
+                <Auth hs={history} url={'authproduct'} className={'superior'} closeModal={event => setModal(false)}></Auth>
+              </Modal>
+            </div>
+
+          )
+      }
+    </>
+  )
 }
 
 export default Tool;
