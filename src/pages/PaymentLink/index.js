@@ -2,7 +2,7 @@ import api from '../../services/api';
 import moment from 'moment';
 import 'moment/locale/pt-br';
 
-async function linkpayment (idattempt, rent) {
+async function linkpayment(idattempt, rent) {
 
   var title = "Aluguel de " + rent.tool.title;
 
@@ -18,7 +18,7 @@ async function linkpayment (idattempt, rent) {
     } else {
       if (rent.month === '1') {
         title += " Por " + rent.month + ' Mês ';
-      }else {
+      } else {
         title += " Por " + rent.month + ' Mêses ';
       }
     }
@@ -31,7 +31,7 @@ async function linkpayment (idattempt, rent) {
   var enable = false;
   var expires_in = 1;
 
-  var period = moment.preciseDiff( new Date(), rent.startdate, true);
+  var period = moment.preciseDiff(new Date(), rent.startdate, true);
   console.log(period);
 
   if (period.days > 2) {
@@ -62,12 +62,12 @@ async function linkpayment (idattempt, rent) {
 
   const renderCpfcnpj = () => {
     //validar aqui que se não tiver cpf, ele poe vários um -
-    return rent.userrenter.cpfcnpj.replace(/[^\d]+/g,'')
+    return rent.userrenter.cpfcnpj.replace(/[^\d]+/g, '')
   }
 
   const renderZipcode = () => {
     if (rent.userrenter.location !== null) {
-      return rent.userrenter.location.replace(/[^\d]+/g,'')
+      return rent.userrenter.location.replace(/[^\d]+/g, '')
     } else {
       return '00000000'
     }
@@ -82,10 +82,10 @@ async function linkpayment (idattempt, rent) {
     }
   }
 
-  const objectpayment = { 
+  const objectpayment = {
     id_rent_attempt: idattempt,
     name: "Link pagamento de teste da api",
-    amount: renderValuefinal() * rent.amount,
+    amount: renderValuefinal(),
     items: [
       {
         id: rent.tool.id,
@@ -115,18 +115,18 @@ async function linkpayment (idattempt, rent) {
         type: "individual",
         country: "br",
         email: rent.userrenter.email,
-        documents:[
+        documents: [
           {
             type: renderTypedocument(),
             number: renderCpfcnpj()
           }
         ],
-        phone_numbers:[
+        phone_numbers: [
           renderPhone()
         ],
         birthday: rent.userrenter.birth_date
       },
-      billing:{
+      billing: {
         name: rent.userrenter.name + ' ' + rent.userrenter.last_name,
         address: {
           country: "br",
