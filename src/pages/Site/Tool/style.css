@@ -486,7 +486,7 @@
 .labelchecked::before {
   background-color: white;
   color: white;
-  content: " ";
+  content: "";
   display: block;
   border-radius: 50%;
   border: 1px solid #68dd5a;
@@ -514,7 +514,7 @@
 }
 
 :checked+.labelchecked::before {
-  content: "✓";
+  content: "";
   background-color: #68dd5a;
   transform: scale(1);
 }

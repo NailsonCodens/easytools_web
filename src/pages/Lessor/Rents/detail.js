@@ -597,6 +597,7 @@ export default function Rents({ history }) {
                         </div>
                         <div className="column">
                           <b>Forma de pagamento:</b>
+                          <span>{rent.typepayment === 'pix' ? ' PIX' : ''}</span>
                           <span>{rent.typepayment === 'money' ? ' Dinheiro' : ''}</span>
                           <span>{rent.typepayment === 'creditcard' ? ' Cartão de crédito' : ''}</span>
                           <span>{rent.typepayment === 'machine' ? ' Maquininha' : ''}</span>

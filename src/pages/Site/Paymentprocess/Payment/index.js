@@ -552,9 +552,7 @@ const Payment = ({ history }) => {
 
     var time = moment(new Date()).format('HH:mm')
 
-    console.log(time)
-
-    if (time >= '08:00' && time <= '10:00') {
+    if (time >= '05:00' && time <= '10:00') {
       opt.push({ label: 'Manhã - 08:00 às 10:00', value: 'Manhã - 08:00 às 10:00' })
       opt.push({ label: 'Manhã - 10:00 às 12:00', value: 'Manhã - 10:00 às 12:00' })
       opt.push({ label: 'Meio dia - 12:00 às 13:00', value: 'Meio dia - 12:00 às 13:00' })
@@ -594,7 +592,12 @@ const Payment = ({ history }) => {
     }
 
     if (time >= '19:00' && time <= '23:59') {
-      opt.push({ label: 'Sua entrega será feita amanhã no primeiro horário', value: 'Sua entrega será feita amanhã no primeiro horário' })
+      opt.push({ label: 'Amanhã pela manhã - 08:00 às 10:00', value: 'Manhã - 08:00 às 10:00' })
+      opt.push({ label: 'Amanhã pela manhã - 10:00 às 12:00', value: 'Manhã - 10:00 às 12:00' })
+      opt.push({ label: 'Amanhã ao meio dia - 12:00 às 13:00', value: 'Meio dia - 12:00 às 13:00' })
+      opt.push({ label: 'Amanhã a tarde - 13:00 às 15:00', value: 'Tarde - 13:00 às 15:00' })
+      opt.push({ label: 'Amanhã a tarde - 15:00 às 17:00', value: 'Tarde - 15:00 às 17:00' })
+      opt.push({ label: 'Amanhã pela a noite - 17:00 às 19:00', value: 'Noite - 17:00 às 19:00' })
     }
 
     return opt;
@@ -878,7 +881,8 @@ const Payment = ({ history }) => {
                                   <div className="container box-rent-payment">
                                     <p className="title-tl-input">Recebimento do ferramenta</p>
                                     <br />
-                                    {
+                                      {
+
                                       new Date(moment(startam).format('YYYY-MM-DD')) > new Date(moment().format('YYYY-MM-DD')) === true ?
                                         (
                                           <>
