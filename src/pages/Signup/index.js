@@ -660,7 +660,8 @@ const Singup = ({ history }) => {
                   <Field>
                     <Label>
                       <Warningtext>
-                        Aceito receber emails, ofertas e marketing da EasyTools. Você pode desabilitar esta opção quando quiser, basta acessar nas configurações de sua conta.
+                        Ao usar este formulário, você concorda com o armazenamento e manipulação dos seus dados por este site.
+                        Afim de uso para propaganda, e anúncios e receber ofertas promocioanis.
                       </Warningtext>
                       <div className="offer">
                         <CheckboxIOS
