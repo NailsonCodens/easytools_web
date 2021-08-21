@@ -448,8 +448,9 @@ const Dashboard = ({ history, location }) => {
                 <div className="explanation_box">
                   <div className="columns">
                     <div className="column">
-                      <h2 className="minutesrent">Use ferramentas e só pague pelo tempo que usar!</h2>
-                      <p className="without">Sem burocracias, peça em 5 minutos e receba em até 2 horas.</p>
+                      <h2 className="minutesrent">Chegou o iFood das ferramentas.</h2>
+                      <p className="without">Peça ferramentas por assinatura ou aluguel em minutos.</p>
+                      <p className="without">Nunca mais compre ferramentas para usar poucas vezes!</p>
                       <br />
                     </div>
                     <div className="column">

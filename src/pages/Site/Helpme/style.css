@@ -8,3 +8,40 @@
   color: rgb(116, 116, 116) !important;
   font-weight: 600;
 }
+
+
+.btn-whats-help{
+  background-color: #b4f3d4 !important;
+    color: #47B57D !important;
+    margin-top: 60px;
+}
+
+.btn-whats-help:active{
+  background-color: #b4f3d4 !important;
+    color: #47B57D !important;
+    margin-top: 60px;
+}
+
+a.btn-whats-help:hover{
+  background-color: #b4f3d4 !important;
+  color: #47B57D !important;
+  margin-top: 60px;
+}
+
+.cnt-whtas-help{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.or{
+  margin: 0px 100px;
+  margin-bottom: 60px;
+}
+
+.menu-icons-whats-help{
+    color: #47B57D !important;
+    font-size: 30px;
+    margin-right: 10px;
+}

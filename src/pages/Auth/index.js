@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import {Auth} from '../../store/actions/auth';
+import { Auth } from '../../store/actions/auth';
 import FacebookLogin from 'react-facebook-login';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
@@ -20,7 +20,7 @@ import { useFormik } from 'formik';
 import scrollTop from '../../utils/scroll';
 
 import './style.css';
- 
+
 const Signin = ({ hs, url, closeModal }) => {
   const dispatch = useDispatch();
   const currentuser = useSelector(state => state.auth);
@@ -32,7 +32,7 @@ const Signin = ({ hs, url, closeModal }) => {
 
   const success = () => Notification(
     'success',
-    'Tudo pronto, vamos prosseguir?', 
+    'Tudo pronto, vamos prosseguir?',
     {
       autoClose: 3000,
       draggable: false,
@@ -63,7 +63,7 @@ const Signin = ({ hs, url, closeModal }) => {
       email: Yup.string()
         .email('Insira um e-mail válido.')
         .required('E-mail é obrigatório.'),
-      
+
       password: Yup.string()
         .required('Insira sua senha.'),
     }),
@@ -75,60 +75,60 @@ const Signin = ({ hs, url, closeModal }) => {
 
   async function handSubmit(values) {
     await api.post('auth/token/', values, {})
-    .then((res) => {
-      let { id, email, name, type } = res.data.user;
-      let { token } = res.data;
-      setNologin(false)
-      dispatch(Auth(email, name, type, token, id));
+      .then((res) => {
+        let { id, email, name, type } = res.data.user;
+        let { token } = res.data;
+        setNologin(false)
+        dispatch(Auth(email, name, type, token, id));
 
-      login(token, type);
+        login(token, type);
 
-      if (url !== undefined) {
+        if (url !== undefined) {
+          scrollTop()
+        } else {
+          scrollTop()
+          window.location.href = '/'
+          //hs.push("/");
+        }
         scrollTop()
-      } else {
-        scrollTop()
-        window.location.href = '/'
-        //hs.push("/");
-      }
-      scrollTop()
-      closeModal();
-    })
-    .catch((error) => {
-      setNologin(true)
-    })
-  } 
-
-  async function authFacebookNew(response, fb, newuserfb) {
-    await api.post('auth/token/', { email: fb.email, password: fb.accessToken}, {})
-    .then((res) => {
-      let { id, email, name, type } = res.data.user;
-      let { token } = res.data;
-      setNologin(false)
-      dispatch(Auth(email, name, type, token, id));
-
-      login(token, type);
-
-      if (url === 'authproduct') {
-        saveAttempt(id)  
-      } else {
-        window.location.href = '/'
-      }
-
-      scrollTop()
-      closeModal();
-    })
-    .catch((error) => {
-    })
+        closeModal();
+      })
+      .catch((error) => {
+        setNologin(true)
+      })
   }
 
-  async function saveAttempt(id){
+  async function authFacebookNew(response, fb, newuserfb) {
+    await api.post('auth/token/', { email: fb.email, password: fb.accessToken }, {})
+      .then((res) => {
+        let { id, email, name, type } = res.data.user;
+        let { token } = res.data;
+        setNologin(false)
+        dispatch(Auth(email, name, type, token, id));
+
+        login(token, type);
+
+        if (url === 'authproduct') {
+          saveAttempt(id)
+        } else {
+          window.location.href = '/'
+        }
+
+        scrollTop()
+        closeModal();
+      })
+      .catch((error) => {
+      })
+  }
+
+  async function saveAttempt(id) {
     var info = JSON.parse(localStorage.getItem('@lkst'));
     var rentattempt = JSON.parse(localStorage.getItem('@obr'));
 
     const response = await api.get(`/tools_site/tool/${info.tool}`, {
     });
 
-    var useridt =  response.data.tool[0].user_id
+    var useridt = response.data.tool[0].user_id
 
     var attempt = {
       user_lessor_id: useridt,
@@ -147,68 +147,68 @@ const Signin = ({ hs, url, closeModal }) => {
       accept: 0,
     }
 
-    if (attempt.month > 0 && attempt.days > 0){
+    if (attempt.month > 0 && attempt.days > 0) {
       window.location.href = '/'
       console.log('sem mes e sem data')
       //Tracking('Tentativa de aluguel maior com mêses e dias falha', `Tentativa de aluguel maior com mêses e dias`, 'Tentativa de aluguel maior com mêses e dias')
     } else {
 
       await api.post('rent/attempt/add/', attempt, {})
-      .then((res) => {
-        var idbooking = res.data.rentattempt.idf
-        var codeattempt = res.data.rentattempt.codeattempt
-        scrollTop()
-        //Tracking('Tentativa de aluguel', ` Tentativa de aluguel criada idbooking: ${idbooking} codeattempt: ${codeattempt}`, 'Tentativa de aluguel')
-        success()
-        hs.push(`/s/payment/rent-rules?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${attempt.amount}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
-      }).catch((err) => {
-        window.location.href = '/'
-        console.log(err.response)
-      })
+        .then((res) => {
+          var idbooking = res.data.rentattempt.idf
+          var codeattempt = res.data.rentattempt.codeattempt
+          scrollTop()
+          //Tracking('Tentativa de aluguel', ` Tentativa de aluguel criada idbooking: ${idbooking} codeattempt: ${codeattempt}`, 'Tentativa de aluguel')
+          success()
+          hs.push(`/s/payment/rent-rules?rent_attempt=${idbooking}&init=${attempt.startdate}&finish=${attempt.enddate}&tool=${attempt.tool_id}&am=${attempt.amount}&tension=${attempt.tension}&code_attempt=${codeattempt}`)
+        }).catch((err) => {
+          window.location.href = '/'
+          console.log(err.response)
+        })
     }
   }
 
   async function authFacebook(response, fb, newuserfb) {
-    await api.post('auth/token/', { email: fb.email, passwordfb: process.env.REACT_APP_LGFACEBOOK}, {})
-    .then((res) => {
-      let { id, email, name, type } = res.data.user;
-      let { token } = res.data;
-      setNologin(false)
-      dispatch(Auth(email, name, type, token, id));
+    await api.post('auth/token/', { email: fb.email, passwordfb: process.env.REACT_APP_LGFACEBOOK }, {})
+      .then((res) => {
+        let { id, email, name, type } = res.data.user;
+        let { token } = res.data;
+        setNologin(false)
+        dispatch(Auth(email, name, type, token, id));
 
-      login(token, type); 
+        login(token, type);
 
-      if (url === 'authproduct') {
-        saveAttempt(id)      
-      } else {
-        window.location.href = '/'
-      }
+        if (url === 'authproduct') {
+          saveAttempt(id)
+        } else {
+          window.location.href = '/'
+        }
 
-/*
-      if (url !== undefined) {
+        /*
+              if (url !== undefined) {
+                scrollTop()
+              } else {
+                scrollTop()
+                hs.push("/");
+              }*/
         scrollTop()
-      } else {
-        scrollTop()
-        hs.push("/");
-      }*/
-      scrollTop()
-      closeModal();
-      if (newuserfb !== 'yes') {
-        api.put(`perfil/update/${response.data.user[0].id}`, {
-          fbuserid: fb.userId
-        }, {})
-        .then((res) => {
-        })
-        .catch((err) => {
-          console.log(err.response.data)
-        })        
-      }
-    })
-    .catch((error) => {
-    })
+        closeModal();
+        if (newuserfb !== 'yes') {
+          api.put(`perfil/update/${response.data.user[0].id}`, {
+            fbuserid: fb.userId
+          }, {})
+            .then((res) => {
+            })
+            .catch((err) => {
+              console.log(err.response.data)
+            })
+        }
+      })
+      .catch((error) => {
+      })
   }
 
-  async function getUser (fb) {
+  async function getUser(fb) {
     const response = await api.get(`user/user/${fb.email}`, {});
     if (response.data.user.length > 0) {
       authFacebook(response, fb)
@@ -228,17 +228,17 @@ const Signin = ({ hs, url, closeModal }) => {
       }
 
       await api.post('user/create/', usernew, {})
-      .then((res) => {
-        console.log(res)
-        setTimeout(() => {
-          authFacebookNew(response, fb, 'yes')
-        }, 100);  
-      }).catch((err) => {
-        console.log(err.response)
-      })
+        .then((res) => {
+          console.log(res)
+          setTimeout(() => {
+            authFacebookNew(response, fb, 'yes')
+          }, 100);
+        }).catch((err) => {
+          console.log(err.response)
+        })
     }
   }
-  
+
   /*
       let { id, email, name, type } = res.data.user;
     let { token } = res.data;
@@ -258,13 +258,13 @@ const Signin = ({ hs, url, closeModal }) => {
   const goRegister = () => {
     scrollTop()
     localStorage.setItem('@link', document.URL)
-    if (url === 'authproduct'){
+    if (url === 'authproduct') {
       hs.push('/signup?redirect=backp')
-    }else{
-      hs.push('/signup')      
+    } else {
+      hs.push('/signup')
     }
   }
-  
+
   return (
     <>
       <div className="container-singin">
@@ -274,53 +274,53 @@ const Signin = ({ hs, url, closeModal }) => {
               <div className="has-text-centered">
                 <h2 className="welcome-easytools">Bem-vindo à EasyTools!</h2>
               </div>
-              <br/>
-              <Form 
-                onSubmit={ values => {
+              <br />
+              <Form
+                onSubmit={values => {
                   scrollTop();
                   formik.handleSubmit(values);
-                }} 
+                }}
                 noValidate
                 className={''}
               >
                 <Field className={'field'}>
                   <Label for={'Email'}>
-                    <Input 
-                      type="text" 
-                      name="email" 
-                      className={formik.touched.email && formik.errors.email ? 'input border-warning' : 'input input-singin'} 
+                    <Input
+                      type="text"
+                      name="email"
+                      className={formik.touched.email && formik.errors.email ? 'input border-warning' : 'input input-singin'}
                       placeholder="E-mail"
                       onChange={formik.handleChange}
                       value={formik.values.email}
                     />
                     <Span className={'validation-warning'}>
                       {
-                        formik.touched.email && formik.errors.email 
-                      ? 
-                        (<div>{formik.errors.email}</div>) 
-                      : 
-                        null
+                        formik.touched.email && formik.errors.email
+                          ?
+                          (<div>{formik.errors.email}</div>)
+                          :
+                          null
                       }
                     </Span>
                   </Label>
                 </Field>
                 <Field className={'field'}>
                   <Label for={'password'}>
-                    <Input 
-                      type="password" 
-                      name="password" 
-                      className={formik.touched.password && formik.errors.password ? 'input border-warning' : 'input input-singin'} 
+                    <Input
+                      type="password"
+                      name="password"
+                      className={formik.touched.password && formik.errors.password ? 'input border-warning' : 'input input-singin'}
                       placeholder="Senha"
                       onChange={formik.handleChange}
                       value={formik.values.password}
                     />
                     <Span className={'validation-warning'}>
                       {
-                        formik.touched.password && formik.errors.password 
-                      ? 
-                        (<div>{formik.errors.password}</div>) 
-                      : 
-                        null
+                        formik.touched.password && formik.errors.password
+                          ?
+                          (<div>{formik.errors.password}</div>)
+                          :
+                          null
                       }
                     </Span>
                   </Label>
@@ -329,14 +329,14 @@ const Signin = ({ hs, url, closeModal }) => {
                   <Label for={'save'}>
                     <Button
                       type={'submit'}
-                      className={'button is-fullwidth color-logo'} 
-                      text={'Acessar'}
+                      className={'button is-fullwidth color-logo'}
+                      text={'Entrar'}
                     />
                   </Label>
                 </Field>
                 {
                   <FacebookLogin
-                    appId={process.env.NODE_ENV === 'production' ? process.env.REACT_APP_IDFACEBOOK_BUILD : process.env.REACT_APP_IDFACEBOOK_DEV }
+                    appId={process.env.NODE_ENV === 'production' ? process.env.REACT_APP_IDFACEBOOK_BUILD : process.env.REACT_APP_IDFACEBOOK_DEV}
                     autoLoad={false}
                     disableMobileRedirect={true}
                     isMobile={false}
@@ -348,12 +348,12 @@ const Signin = ({ hs, url, closeModal }) => {
                     render={renderProps => (
                       <button onClick={renderProps.onClick}>Logar com Facebook</button>
                     )}
-                  />                    
+                  />
                 }
               </Form>
             </div>
           </div>
-          <br/>
+          <br />
           <div className="has-text-centered">
             <Span>Ainda não tem uma conta na EasyTools?</Span>
             <p onClick={event => goRegister()} className="button is-fullwidth is-info"><Span className="button-enter">Cadastre-se</Span></p>
@@ -361,12 +361,12 @@ const Signin = ({ hs, url, closeModal }) => {
           <div className="has-text-centered mwd-opacity-low">
             <Span>Esqueci minha senha! </Span>
             <a onClick={event => scrollTop()} href="/password-recover"><Span className="button-enter2">Recuperar Senha.</Span></a>
-          </div>               
+          </div>
         </div>
-        <Modal 
-          show={nologin} 
+        <Modal
+          show={nologin}
           onCloseModal={hideNologin}
-          closeOnEsc={true} 
+          closeOnEsc={true}
           closeOnOverlayClick={true}
         >
           <h2 className="title has-text-centered">Desculpe, algo está errado.</h2>

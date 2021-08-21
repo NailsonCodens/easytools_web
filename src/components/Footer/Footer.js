@@ -81,12 +81,17 @@ const Footer = () => {
                 )
                 */
               }
+              {
+                /*
               <a
                 href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="blank">
                 <br />
                 <img src={whats} alt="Whats App EasyTools Logo" className="logo-whats" />
               </a>
-            </div>
+
+                */
+              }
+              </div>
             <div className="container">
               <div className="columns is-desktop">
                 <div className="column">

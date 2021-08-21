@@ -23,6 +23,7 @@ import './styleRadio.scss'
 import { logout } from '../../../services/auth';
 import { Viewsearch } from '../../../store/actions/viewsearch';
 import logo from '../../../assets/images/logo.png'
+import all from '../../../assets/images/all.png'
 import socketio from '../../../services/socketio';
 import Notifier from "react-desktop-notification";
 import { Button } from '../../Form/Button';
@@ -45,19 +46,24 @@ import {
 } from "react-device-detect";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCoffee, faSearch, faUserCircle, faHandshake, faTags, faInfo } from '@fortawesome/free-solid-svg-icons'
-library.add(faCoffee, faSearch, faUserCircle, faHandshake, faTags, faInfo);
+import { faCoffee, faSearch, faUserCircle, faHandshake, faTags, faInfo, faUser, faHome, faWrench, faToolbox } from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons';
+library.add(fab, faCoffee, faSearch, faUserCircle, faHandshake, faTags, faInfo, faUser, faHome, faWrench, faToolbox);
 
 const MenuRenter = () => {
   const dispatch = useDispatch();
+  const inputRef = useRef(null);
   const [modal, setModal] = useState(false);
+  const [menu, setMenu] = useState();
   const [modalphone, setModalphone] = useState(false);
   const current_user = useSelector(state => state.auth);
   const [search, setSearch] = useState('');
   const [notification, setNotfication] = useState([]);
   const [countn, setCount] = useState(0);
   const notificationrd = useSelector(state => state.notification);
-  const [menu, setMenu] = useState(false);
+  const [menuside, setMenuside] = useState('menusidehidde');
+  const [containerside, setContainerside] = useState('containermenusidehidden');
+  const [menusidemobile, setMenusidemobile] = useState(false);
   const [location, setLocation] = useState(false);
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
@@ -120,6 +126,45 @@ const MenuRenter = () => {
     });
   }
 
+  function useOutsideAlerter2(ref) {
+    console.log(ref)
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setMenuside('menusidehidde');
+        setContainerside('containermenusidehidden');
+        return
+      }
+    }
+
+    useEffect(() => {
+      document.addEventListener("mousedown", handleClickOutside);
+
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+
+    });
+  }
+
+  function useOutsideAlerter3(ref) {
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setMenusidemobile(false);
+      }
+    }
+
+    useEffect(() => {
+      document.addEventListener("mousedown", handleClickOutside);
+
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+
+    });
+  }
+
+
+
   socketio.emit('register', current_user.id);
 
   let history = useHistory();
@@ -168,13 +213,16 @@ const MenuRenter = () => {
     }
   }
 
-  const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef);
+  const wrapperRef2 = useRef(null);
+  useOutsideAlerter2(wrapperRef2);
+
+  const wrapperRef3 = useRef(null);
+  useOutsideAlerter3(wrapperRef3);
 
   function useOutsideAlerter(ref) {
     function handleClickOutside(event) {
       if (ref.current && !ref.current.contains(event.target)) {
-        setBettersearch(false);
+        setBettersearch('');
       }
     }
 
@@ -303,6 +351,23 @@ const MenuRenter = () => {
 
   const signLink = () => {
     setModal(true)
+  }
+
+  const openMenu = () => {
+    if (menuside === 'menuside') {
+      setMenuside('menusidehidde')
+      setContainerside('containermenusidehidden');
+
+    } else {
+      setMenuside('menuside')
+      setContainerside('containermenuside');
+    }
+    //setMenuside(true)
+  }
+
+  const openMenuMobile = () => {
+    console.log('sadsd')
+    setMenusidemobile(!menusidemobile)
   }
 
   const hideModalphone = () => {
@@ -530,8 +595,10 @@ const MenuRenter = () => {
                     <div className={"navbar-item"}>
                       <div className="buttons">
                         <Link to={'/'} onClick={event => Tracking('Menu site - Início', 'Clique menu Início', 'Menu site')} className="navbar-item">
-                          <div className="box-icons-mobile start-mobile">
-                            <FontAwesomeIcon icon={['fas', 'search']} className={history.location.pathname === '/' ? "menu-icons-active" : "menu-icons"} size="1x" />
+                          <div className="box-icons-mobile">
+                            <div class="start-mobile">
+                              <FontAwesomeIcon icon={['fas', 'home']} className={history.location.pathname === '/' ? "menu-icons-active" : "menu-icons"} size="1x" />
+                            </div>
                             <div className="text-box">
                               Início
                             </div>
@@ -564,16 +631,41 @@ const MenuRenter = () => {
                                     (
                                       <>
                                         <Link to={'/s/renter/myrent'} onClick={event => Tracking('Menu site - meus alugados', 'Clique menu meus alugados', 'Menu site')} className="navbar-item">
-                                          <div className="box-icons-mobile my-tools">
-                                            <FontAwesomeIcon icon={['fas', 'handshake']} className={history.location.pathname === '/s/renter/myrent' ? "menu-icons-active" : "menu-icons"} size="1x" />
+                                          <div className="box-icons-mobile mytools-mobile">
+                                            <div class="box-mobile">
+                                              <FontAwesomeIcon icon={['fas', 'toolbox']} className={history.location.pathname === '/s/renter/myrent' ? "menu-icons-active" : "menu-icons"} size="1x" />
+                                            </div>
                                             <div className="text-box">
-                                              Minhas ferramentas
+                                              Assinaturas
                                             </div>
                                           </div>
                                         </Link>
                                       </>
                                     )
                                 }
+                                <div className="box-icons-mobile margin-box-menu" ref={wrapperRef3} onClick={openMenuMobile}>
+                                  <FontAwesomeIcon icon={['fas', 'bars']} className="menu-icons" size="1x" />
+                                  <div className="text-box text-box2">
+                                    Menu
+                                  </div>
+                                  <div className={menusidemobile === true ? 'menusidemobile' : 'menusidehiddemobile'}>
+                                    <div className={menusidemobile === true ? 'containermenusidemobile' : 'containermenusidehiddenmobile'}>
+                                      <img src={all} alt="EasyTools Logo" className="" />
+
+                                      <a href={'/s/about-us'} onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site')} target="_blanck" className="navbar-item link-how-work">
+                                        Como funciona?
+                                      </a>
+                                      <a href={'https://docs.google.com/forms/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} rel="noreferrer" onClick={event => Tracking('Menu site - Seja um locador', 'Clique seja um locador', 'Menu site')} className="navbar-item neighboor-nav" rel="noreferrer" target="_blank">
+                                        Ganhe dinheiro investindo em ferramentas!
+                                      </a>
+                                      <a href={'https://caixadeferramenta.easytoolsapp.com/'} target="_blanck" onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site')} className="navbar-item link-how-work">
+                                        Blog da easy
+                                      </a>
+                                    </div>
+                                  </div>
+                                </div>
+
+
                                 <div onClick={event => Scrool()} className="navbar-item">
                                   {
                                     current_user.type_user === 'Lessor' ?
@@ -636,28 +728,21 @@ const MenuRenter = () => {
                             :
                             (
                               <>
-                                {
-                                  /*
-                                    <Link to={'/signup?type=lessor'} onClick={event => Scrool() } className="navbar-item">
-                                        <div className="box-icons-mobile">
-                                          <div className="text-box">
-                                          Seja um vizinho
-                                          </div>
-                                        </div>
-                                    </Link>
-                                  */
-                                }
-                                <Link to={'/signup?type=renter'} onClick={event => Tracking('Menu site - alugar', 'Clique menu alugar', 'Menu site')} className="navbar-item">
+                                <div onClick={event => inputRef.current.focus()} className="navbar-item">
                                   <div className="box-icons-mobile">
-                                    <FontAwesomeIcon icon={['fas', 'handshake']} className="menu-icons" size="1x" />
+                                    <div class="box-mobile">
+                                      <FontAwesomeIcon icon={['fas', 'search']} className="menu-icons" size="1x" />
+                                    </div>
                                     <div className="text-box">
-                                      Cadastre-se!
+                                      Pesquisar
                                     </div>
                                   </div>
-                                </Link>
+                                </div>
                                 <div onClick={event => Tracking('Menu site - Modal entrar', 'Clique menu modal entrar', 'Menu site')} className="navbar-item" onClick={signLink}>
                                   <div className="box-icons-mobile">
-                                    <FontAwesomeIcon icon={['fas', 'user-circle']} className="menu-icons" size="1x" />
+                                    <div class="box-mobile">
+                                      <FontAwesomeIcon icon={['fas', 'user']} className="menu-icons" size="1x" />
+                                    </div>
                                     <div className="text-box">
                                       Entrar
                                     </div>
@@ -665,12 +750,35 @@ const MenuRenter = () => {
                                 </div>
                                 <Link to={'/s/help-me'} onClick={event => Tracking('Menu site - alugar', 'Clique menu alugar', 'Menu site')} className="navbar-item">
                                   <div className="box-icons-mobile">
-                                    <FontAwesomeIcon icon={['fas', 'info']} className="menu-icons" size="1x" />
+                                    <div class="box-icons-mobile-wp">
+                                      <FontAwesomeIcon icon={['fab', 'whatsapp']} className="menu-icons menu-icons-wp-mobile" size="1x" />
+                                    </div>
                                     <div className="text-box">
                                       Dúvidas
                                     </div>
                                   </div>
                                 </Link>
+                                <div className="box-icons-mobile margin-box-menu" ref={wrapperRef3} onClick={openMenuMobile}>
+                                  <FontAwesomeIcon icon={['fas', 'bars']} className="menu-icons" size="1x" />
+                                  <div className="text-box text-box2">
+                                    Menu
+                                  </div>
+                                  <div className={menusidemobile === true ? 'menusidemobile' : 'menusidehiddemobile'}>
+                                    <div className={menusidemobile === true ? 'containermenusidemobile' : 'containermenusidehiddenmobile'}>
+                                      <img src={all} alt="EasyTools Logo" className="" />
+
+                                      <a href={'/s/about-us'} onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site')} target="_blanck" className="navbar-item link-how-work">
+                                        Como funciona?
+                                      </a>
+                                      <a href={'https://docs.google.com/forms/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} rel="noreferrer" onClick={event => Tracking('Menu site - Seja um locador', 'Clique seja um locador', 'Menu site')} className="navbar-item neighboor-nav" rel="noreferrer" target="_blank">
+                                        Ganhe dinheiro investindo em ferramentas!
+                                      </a>
+                                      <a href={'https://caixadeferramenta.easytoolsapp.com/'} target="_blanck" onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site')} className="navbar-item link-how-work">
+                                        Blog da easy
+                                      </a>
+                                    </div>
+                                  </div>
+                                </div>
                               </>
                             )
                         }
@@ -731,7 +839,7 @@ const MenuRenter = () => {
                                 Início
                               </Link>
                               <Link to={'/s/renter/myrent'} onClick={event => Tracking('Menu site - meus alugado', 'Clique menu meus alugados', 'Menu site')} className="navbar-item">
-                                Minhas ferramentas
+                                Assinaturas
                               </Link>
                             </>
                           )
@@ -755,42 +863,64 @@ const MenuRenter = () => {
                 current_user.name === undefined || current_user.name === null ?
                   (
                     <>
-                      <Link to={'/'} className="navbar-item">
-                        Início
-                      </Link>
-                      <Link to={'/signup?type=renter'} onClick={event => Tracking('Menu site - Alugue o que precisa', 'Clique menu alugue o que precisa', 'Menu site')} className="navbar-item">
-                        Cadastre-se
-                      </Link>
                       <a href={'https://docs.google.com/forms/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} rel="noreferrer" onClick={event => Tracking('Menu site - Seja um locador', 'Clique seja um locador', 'Menu site')} className="navbar-item neighboor-nav" rel="noreferrer" target="_blank">
-                        Ser vizinho na EasyTools
+                        Ganhe dinheiro!
                       </a>
-                      <Link to={'/s/about-us'} onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site')} className="navbar-item link-how-work">
-                        Como funciona?
-                      </Link>
-                      <Link to={'/s/help-me'} onClick={event => Tracking('Menu site - dúvidas', 'Clique menu dúvidas', 'Menu site')} className="navbar-item">
+                      {
+                        current_user.name === undefined || current_user.name === null ?
+                          (
+                            <p className="navbar-item signin" onClick={signLink}>
+                              <FontAwesomeIcon icon={['fa', 'user']} className="menu-icons3" size="1x" />
+                              Entrar
+                            </p>
+                          ) :
+                          null
+                      }
+                      <Link to={'/s/help-me'} onClick={event => Tracking('Menu site - dúvidas', 'Clique menu dúvidas', 'Menu site')} className="navbar-item whatsmenu">
+                        <FontAwesomeIcon icon={['fab', 'whatsapp']} className="menu-icons2" size="1x" />
                         Dúvidas
                       </Link>
                     </>
                   ) :
                   (
                     <>
-                      <Link to={'/s/help-me'} onClick={event => Tracking('Menu site - dúvidas', 'Clique menu dúvidas', 'Menu site')} className="navbar-item">
+                      {
+                        current_user.name === undefined || current_user.name === null ?
+                          (
+                            <p className="navbar-item signin" onClick={signLink}>
+                              <FontAwesomeIcon icon={['fa', 'user-circle']} className="menu-icons3" size="1x" />
+                              Entrar
+                            </p>
+                          ) :
+                          null
+                      }
+                      <Link to={'/s/help-me'} onClick={event => Tracking('Menu site - dúvidas', 'Clique menu dúvidas', 'Menu site')} className="navbar-item whatsmenu">
+                        <FontAwesomeIcon icon={['fab', 'whatsapp']} className="menu-icons2" size="1x" />
                         Dúvidas
                       </Link>
                     </>
                   )
               }
-              {
-                current_user.name === undefined || current_user.name === null ?
-                  (
-                    <p className="navbar-item signin" onClick={signLink}>
-                      Entrar
-                    </p>
-                  ) :
-                  (
-                    ''
-                  )
-              }
+              <div ref={wrapperRef2}>
+                <p className="navbar-item signin" onClick={openMenu}>
+                  <FontAwesomeIcon icon={['fa', 'bars']} className="menu-icons3" size="1x" />
+                  Menu
+                  <div className={menuside}>
+                    <div className={containerside}>
+                      <a href={'/s/about-us'} onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site')} target="_blanck" className="navbar-item link-how-work">
+                        Como funciona?
+                      </a>
+                      <a href={'https://docs.google.com/forms/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} rel="noreferrer" onClick={event => Tracking('Menu site - Seja um locador', 'Clique seja um locador', 'Menu site')} className="navbar-item neighboor-nav" rel="noreferrer" target="_blank">
+                        Ganhe dinheiro investindo em ferramentas!
+                      </a>
+                      <a href={'https://caixadeferramenta.easytoolsapp.com/'} target="_blanck" onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site')} className="navbar-item link-how-work">
+                        Blog da easy
+                      </a>
+                    </div>
+                  </div>
+                </p>
+
+              </div>
               {
                 current_user.type_user === 'Lessor' ?
                   (
@@ -827,7 +957,7 @@ const MenuRenter = () => {
                     </Dropdown>
                   ) :
                   (
-                    <Dropdown classCuston=" menu-from-renter menus">
+                    <Dropdown classCuston=" menu-from-renter menus dropusermenu">
                       <li className="li-drop">
                         <Link to={'/s/renter/perfil'} onClick={event => Tracking('Menu site - perfil renter', 'Clique menu perfil renter', 'Menu site')} className="navbar-item">
                           Perfil
@@ -883,8 +1013,9 @@ const MenuRenter = () => {
                     <div className="columns is-mobile">
                       <div className="column is-8-desktop is-10-mobile">
                         <input
+                          ref={inputRef}
                           type="text"
-                          placeholder='Pesquisar'
+                          placeholder='Qual ferramenta para hoje?'
                           className="input input-search"
                           value={search}
                           onKeyPress={event => {
@@ -915,7 +1046,7 @@ const MenuRenter = () => {
                       </div>
                       <div className="column">
                         <a
-                          className={'button buttonsaddress is-info'}
+                          className={'button buttonsaddress button-search is-info'}
                           onClick={event => findTools(search)}
                         >
                           <FontAwesomeIcon icon={['fas', 'search']} size="1x" />
@@ -1091,6 +1222,11 @@ const MenuRenter = () => {
             <>
             </>
           )
+      }
+      {
+        /*
+
+        */
       }
     </div>
   )
