@@ -31,13 +31,13 @@ const Helpme = () => {
         <br /><br />
         <p className="title-about-us has-text-centered">Tem alguma dúvida?</p>
         <br /><br />
-        <div className="container cnt-whtas-help">
+        <div className="container cnt-whtas-help ">
           <a href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="_blank"
             className={'button is-large btn-whats-help'}
           >
             <FontAwesomeIcon icon={['fab', 'whatsapp']} className={"menu-icons-whats-help"} size="1x" />
-            Quero falar com algum atendente da EasyTools</a>
-          <br /><br />
+            Quero falar com um atendente</a>
+          <br />
           <p className="or">ou</p>
         </div>
         <section className="accordions">

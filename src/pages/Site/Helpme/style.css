@@ -14,7 +14,8 @@
   background-color: #b4f3d4 !important;
     color: #47B57D !important;
     margin-top: 60px;
-}
+  margin: 20px !important;
+  }
 
 .btn-whats-help:active{
   background-color: #b4f3d4 !important;
@@ -44,4 +45,16 @@ a.btn-whats-help:hover{
     color: #47B57D !important;
     font-size: 30px;
     margin-right: 10px;
+}
+
+@media (max-width: 900px) {
+.btn-whats-help{
+  background-color: #b4f3d4 !important;
+    color: #47B57D !important;
+    margin-top: 60px;
+  width: 90% !important;
+  margin: 20px !important;
+  font-size: 20px !important;
+  }
+
 }
