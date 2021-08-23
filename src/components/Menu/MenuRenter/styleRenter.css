@@ -369,8 +369,10 @@
   z-index: 9;
   position: absolute;
   width: 100%;
+  left: 0;
+  right: 0;
+  margin-left:0px;
   margin-top: 3px;
-  margin-left: -67px;
   padding: 5px;
 }
 

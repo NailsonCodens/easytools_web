@@ -902,7 +902,11 @@ const List = ({ history }) => {
       >
         <h3 className="has-text-centered title is-4">Onde você está?</h3>
         <br />
+        {
+          /*
         <p class="has-text-centered sub-title-modal-address">Digite seu endereço para encontrar a ferramenta mais próxima de você.</p>
+          */
+        }
         <div className="showneighboor">
           {
             region === 'region' ?
@@ -919,19 +923,14 @@ const List = ({ history }) => {
 
         </div>
         <div className="field">
-          <p className="control has-icons-left has-icons-right">
-            <input
-              className="input"
-              type="text"
-              placeholder="Digite o nome da sua rua, número e cidade..."
-              onChange={event => handleMyaddress(event)}
-              value={myaddress}
-            />
-            <p class="or"> Ou clique em </p>
-            <span className="icon is-small is-left">
-              <FontAwesomeIcon icon={['fas', 'search']} className="icon-tl" size="2x" />
-            </span>
-          </p>
+        <div className="field">
+          <button className="button is-outlined is-fullwidth color-logo" onClick={event => getGeolocalization()}>
+            <div className="is-pull-left">
+              <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="2x" />
+              Minha localização
+            </div>
+          </button>
+        </div>          
         </div>
         {
           <div className="father-address address-list">
@@ -960,14 +959,21 @@ const List = ({ history }) => {
             </ul>
           </div>
         }
-        <div className="field">
-          <button className="button is-outlined is-fullwidth color-logo" onClick={event => getGeolocalization()}>
-            <div className="is-pull-left">
-              <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="2x" />
-              Minha localização
-            </div>
-          </button>
-        </div>
+        <p class="ordois"> Ou escreva seu endereço em </p>
+
+        <p className="control has-icons-left has-icons-right">
+          <input
+            className="input"
+            type="text"
+            placeholder="Digite o nome da sua rua, número, bairro e cidade..."
+            onChange={event => handleMyaddress(event)}
+            value={myaddress}
+          />
+          <span className="icon is-small is-left">
+            <FontAwesomeIcon icon={['fas', 'search']} className="icon-tl" size="2x" />
+          </span>
+        </p>
+
       </Modal>
       <Modal
         show={modalmetropolitan}
