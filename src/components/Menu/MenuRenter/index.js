@@ -658,9 +658,12 @@ const MenuRenter = () => {
                                       <a href={'https://docs.google.com/forms/d/e/1FAIpQLSc73i4iPSCEIlLe5BD83eL1ZL89AoBCdZgcr4tCd8iJaH2nzQ/viewform'} rel="noreferrer" onClick={event => Tracking('Menu site - Seja um locador', 'Clique seja um locador', 'Menu site')} className="navbar-item neighboor-nav" rel="noreferrer" target="_blank">
                                         Ganhe dinheiro investindo em ferramentas!
                                       </a>
-                                      <a href={'https://caixadeferramenta.easytoolsapp.com/'} target="_blanck" onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site')} className="navbar-item link-how-work">
+                                      <a href={'https://caixadeferramenta.easytoolsapp.com/'} target="_blank" onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site')} className="navbar-item link-how-work">
                                         Blog da easy
                                       </a>
+                                      <a href={'href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas."'} target="_blanck" onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site')} className="navbar-item link-how-work">
+                                        Dúvidas - Whatsapp
+                                      </a>                                      
                                     </div>
                                   </div>
                                 </div>
@@ -916,6 +919,10 @@ const MenuRenter = () => {
                       <a href={'https://caixadeferramenta.easytoolsapp.com/'} target="_blanck" onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site')} className="navbar-item link-how-work">
                         Blog da easy
                       </a>
+                      <a href={'href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas."'} target="_blank" onClick={event => Tracking('Menu site - um novo jeito de alugar', 'Clique menu um novo jeito de alugar', 'Menu site')} className="navbar-item link-how-work">
+                        Dúvidas - Whatsapp
+                      </a>                                      
+
                     </div>
                   </div>
                 </p>

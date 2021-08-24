@@ -7,7 +7,9 @@ import { Ul } from '../../components/List/index';
 import { Hr } from '../../components/Hr';
 import { useSelector } from "react-redux";
 import './style.css'
-
+import {
+  isMobile
+} from "react-device-detect";
 import logo from '../../assets/images/logo_name.png';
 import logo_y from '../../assets/images/logo.png';
 import whats from '../../assets/images/whats.png';
@@ -42,6 +44,10 @@ const Footer = () => {
 
   let location = useLocation().pathname;
 
+  var routes = location.split('/')
+
+  var path = '/' + routes[1] + '/' + routes[2];
+  console.log(path)
   return (
     <>
       {
@@ -82,16 +88,25 @@ const Footer = () => {
                 */
               }
               {
-                /*
-              <a
-                href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="blank">
-                <br />
-                <img src={whats} alt="Whats App EasyTools Logo" className="logo-whats" />
-              </a>
-
-                */
+                console.log(location)
               }
-              </div>
+              {
+                isMobile && path === '/s/tool' || path === '/s/payment'
+                  ?
+                  (
+                    <a class={path === '/s/payment' ? 'btwtsfooot2' : 'btwtsfooot'}
+                      href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="blank">
+                      <div className="navbar-item whatsmenu">
+                        <FontAwesomeIcon icon={['fab', 'whatsapp']} className="menu-icons2" size="1x" />
+                        Dúvidas
+                      </div>
+                    </a>
+
+                  )
+                  :
+                  null
+              }
+            </div>
             <div className="container">
               <div className="columns is-desktop">
                 <div className="column">
@@ -99,15 +114,15 @@ const Footer = () => {
                     <li>
                       <img src={logo} alt="EasyTools Logo" className="logo-footer" />
                       <p className="born">Ferramenta Fácil. <br /><br /> Um dia precisei de uma chave, que não tinha, para tirar o óleo do meu carro. Eu não queria comprar, então pensei: Eu poderia alugar em um app ou site! Mas esse app/site não existia, até então."
-											<br />
-											E assim nasce a EasyTools ❤️
-										</p>
+                        <br />
+                        E assim nasce a EasyTools ❤️
+                      </p>
                       <br />
                       <p class="makeit">
                         Em Curitiba - PR
-											<br />
-											Escritório - Rua alvares de azevedo, 298
-										</p>
+                        <br />
+                        Escritório - Rua alvares de azevedo, 298
+                      </p>
                     </li>
                   </Ul>
                 </div>
@@ -133,7 +148,7 @@ const Footer = () => {
                       <a
                         href="https://api.whatsapp.com/send?phone=5541991695587&text=Ol%C3%A1,%20tenho%20d%C3%BAvidas." target="blank">
                         WhatsApp
-												</a>
+                      </a>
                     </li>
                     <li>equipe@gmail.com</li>
                     <li>

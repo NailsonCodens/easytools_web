@@ -911,7 +911,7 @@ const List = ({ history }) => {
           {
             region === 'region' ?
               (
-                'Adicione seu endereço ou clique em minha localização.'
+                ''
               )
               :
               (
@@ -923,14 +923,14 @@ const List = ({ history }) => {
 
         </div>
         <div className="field">
-        <div className="field">
-          <button className="button is-outlined is-fullwidth color-logo" onClick={event => getGeolocalization()}>
-            <div className="is-pull-left">
-              <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="2x" />
-              Minha localização
-            </div>
-          </button>
-        </div>          
+          <div className="field">
+            <button className="button is-outlined is-fullwidth color-logo" onClick={event => getGeolocalization()}>
+              <div className="is-pull-left">
+                <FontAwesomeIcon icon={['fas', 'map-marker-alt']} className="icon-tl" size="2x" />
+                Minha localização
+              </div>
+            </button>
+          </div>
         </div>
         {
           <div className="father-address address-list">
@@ -959,7 +959,7 @@ const List = ({ history }) => {
             </ul>
           </div>
         }
-        <p class="ordois"> Ou escreva seu endereço em </p>
+        <p class="ordois"> Ou escreva seu endereço </p>
 
         <p className="control has-icons-left has-icons-right">
           <input
