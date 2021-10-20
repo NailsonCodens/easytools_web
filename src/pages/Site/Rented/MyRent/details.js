@@ -91,7 +91,7 @@ export default function Rents({ history }) {
     await api.put(`rent/attempt/updaterent/${id}`, rentupdate, {})
       .then((res) => {
         Tracking('Alterou a data do alugado', 'Alterou a data do alugado', 'Cliente alterou a data do alugado')
-        //console.log() 
+        //console.log()
         console.log(rent[0].user_lessor_id)
         Email(rent[0].user_lessor_id, `O cliente ${rent[0].userrenter.name} alterou a data do seu alugado.`,
           `O cliente ${rent[0].userrenter.name} alterou a data do seu alugado para uma data futura. Que tinha início em ${moment(oldstart).format('DD/MM/YYYY')} e fim em ${moment(oldend).format('DD/MM/YYYY')} Para início: ${moment(startDate).format('DD/MM/YYYY')} e fim em: ${moment(endDate).format('DD/MM/YYYY')}`, "Ver", ' Veja a alteração em sua conta.');
@@ -163,7 +163,7 @@ export default function Rents({ history }) {
     }
 
     //var arr = ["2020-06-12", "2020-06-13", "2020-06-23", "2020-06-24", "2020-06-26", "2020-06-27", "2020-06-29", "2020-06-30"];
-    // return arr.some(date => dayString === date)   
+    // return arr.some(date => dayString === date)
 
     //    return dayString === '2020-06-26' || dayString ==='2020-06-27'
   }
@@ -408,7 +408,7 @@ export default function Rents({ history }) {
         setShow(false)
         success()
         reloadRents(id)
-        //history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)      
+        //history.push(`/s/payment/rent-paymentfinish?rent_attempt=${values.rent_attempt}&tool=${values.tool}&code_attempt=${values.code_attempt}`)
       }).catch((err) => {
         console.log(err.response)
       })
@@ -449,7 +449,7 @@ export default function Rents({ history }) {
                     </div>
                     <div className="column">
                       <b>
-                        Informações do aluguél:
+                        Informações do aluguel:
                       </b>
                       <br /><br />
                       {
@@ -542,6 +542,7 @@ export default function Rents({ history }) {
                                   onClick={event => cancelRent(rent.id)}
                                 />
                               }
+                              <br />
                             </>
                           )
                           :
@@ -575,7 +576,7 @@ export default function Rents({ history }) {
                                   (
                                     <>
                                       <span><a href={'/s/payment/payment-view/' + rent.id} className="button is-success payment-rent" target="_blank">Pagar meu alugado</a></span>
-                                      <br /><br/>
+                                      <br /><br />
                                       <Warningtext>Você tem 15 minutos para realizar o pagamento, caso isto não aconteça, seu pedido será cancelado.</Warningtext>
                                     </>
                                   )
@@ -593,7 +594,7 @@ export default function Rents({ history }) {
                       <div className="columns">
 
                         {/* <div className="column is-2">
-                              { 
+                              {
                                 rent.accept !== '0' || rent.accept === 'N' ?
                                 (
                                   ''
@@ -610,7 +611,7 @@ export default function Rents({ history }) {
                               }
                             </div> */}
                         {/* <div className="column is-2">
-                                { 
+                                {
                                   rent.accept === 'N' || rent.accept === '1' ?
                                   (
                                     ''
